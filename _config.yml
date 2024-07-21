@@ -1,5 +1,8 @@
-title: YOUR TITLE
-description: YOUR DESCRIPTION
+title: OnlyWorlds
+description: Documentation for the OnlyWorlds world building framework
 theme: just-the-docs
 
 url: https://onlyworlds.github.io
+
+logo: "/assets/images/OWLogo.png"
+favicon_ico: "/assets/images/favicon.ico"
