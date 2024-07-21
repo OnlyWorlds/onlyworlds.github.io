@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Typings
-parent: Framework
+title: Explorer
+parent: Tools
 nav_order: 3
 ---
 

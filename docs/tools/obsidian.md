@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Categories
-parent: Framework
+title: Obisdian Plugin
+parent: Tools
 nav_order: 2
 ---
 
