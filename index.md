@@ -12,16 +12,25 @@ An open-source platform that enables world building beyond individual tools or e
 ## Key Features
 - Establishes a uniform structure for world data
 - So that worlds can be sent across any applications 
-- For creation, collaboration, simulation and gamification of your worlds
+- For world creation, collaboration, simulation and gamification
 
-## Philosophy
-- The format is flexible in representing any world and content
-- Is open source and refined by a wider community
-- Can be supported by any developer with no commercial restrictions
- 
+## Key Features 2
+OnlyWorlds establishes a uniform structure for world data, facilitating seamless integration across applications. This architecture supports not only world creation and collaboration but also enhances simulation and gamification capabilities.
+
+## Philosophy 1
+- Flexible in supporting the widest possible range of worlds and content
+- Open source and continually refined through community input and feedback
+- Encourage developers to build tools and applications, with no commercial restrictions 
+
+
+## Philosophy  2
+- Designed for flexibility to support an expansive range of worlds and content.
+- Dedicated to open source principles, continually refined with community input and feedback.
+- Encourages developers to innovate freely, with no commercial restrictions impacting tool and application development.
 
 ## Getting Started
-1. **Explore the Docs:** Read about the [Framework](/docs/framework/) and how you might [Contribute](/docs/contribute/) to its development
-2. **Build:** Try one or more of the free [Tools](/docs/tools) that are currently available
+1. **Explore:** Read about the [Framework](/docs/framework/)'s operation, structure and origins
+2. **Try:** Try one or more of the free [Tools](/docs/tools) that are currently available
+3. **Contribute:** Join the community and help shape the platform's [Development](/docs/development/)
 
  
