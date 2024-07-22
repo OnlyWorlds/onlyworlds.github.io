@@ -1,0 +1,7 @@
+---
+layout: default
+title: Trait
+parent: Categories
+grand_parent: Framework 
+---
+

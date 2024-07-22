@@ -7,7 +7,7 @@ description: "Welcome to OnlyWorlds, an open-source platform for world building 
 
 # Welcome to OnlyWorlds
 
-OnlyWorlds is an open-source platform that enables world building beyond individual tools or environments.
+OnlyWorlds is an open-source platform that enables world creation and execution beyond individual tools or closed environments.
 
 ## Key Features
 - Establishes a uniform structure for world data
