@@ -1,6 +1,6 @@
 import os
 import requests
-import yaml  # Make sure to have pyyaml installed
+import yaml  # Ensure pyyaml is installed
 
 def fetch_yaml_files():
     repo_api_url = "https://api.github.com/repos/OnlyWorlds/OnlyWorlds/contents/schema"
@@ -12,6 +12,9 @@ def fetch_yaml_content(file_name):
     url = f"https://raw.githubusercontent.com/OnlyWorlds/OnlyWorlds/main/schema/{file_name}"
     response = requests.get(url)
     return response.text
+
+def format_attribute_name(name):
+    return name.capitalize()
 
 def convert_yaml_to_markdown(yaml_content):
     data = yaml.safe_load(yaml_content)
@@ -25,7 +28,13 @@ def convert_yaml_to_markdown(yaml_content):
         if 'properties' in value:
             for sub_key, sub_value in value['properties'].items():
                 description = sub_value.get('description', 'No description available.')
-                markdown_output.append(f"- **{sub_key}**: {description}\n")
+                type_info = sub_value.get('type', 'N/A')
+                link_info = ""
+                if 'items' in sub_value and 'type' in sub_value['items']:
+                    link_info = f" ({sub_value['items']['type']})"
+                if 'category' in sub_value:
+                    link_info += f" links to {sub_value['category']} entities"
+                markdown_output.append(f"- **{format_attribute_name(sub_key)}** ({type_info}{link_info}): {description}\n")
         markdown_output.append("\n")  # Add a newline for spacing
 
     return "".join(markdown_output)
