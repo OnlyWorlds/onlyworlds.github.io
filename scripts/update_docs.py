@@ -17,22 +17,42 @@ def update_docs():
     script_directory = os.path.dirname(__file__)
     docs_directory = os.path.join(script_directory, '..', 'docs', 'framework', 'categories')
 
-    # Ensure the docs directory exists
-    os.makedirs(docs_directory, exist_ok=True)
-
     for file_name in yaml_files:
         category = file_name[:-5]  # Strip off '.yaml'
         yaml_content = fetch_yaml_content(file_name)
         md_file_path = os.path.join(docs_directory, f'{category}.md')
 
-        with open(md_file_path, 'w') as md_file:
-            md_file.write("---\n")
-            md_file.write(f"title: {category.capitalize()}\n")
-            md_file.write("layout: default\n")
-            md_file.write("---\n")
-            md_file.write("```yaml\n")
-            md_file.write(yaml_content)
-            md_file.write("\n```\n")
+        # Read existing content and update only the YAML section
+        if os.path.exists(md_file_path):
+            with open(md_file_path, 'r') as file:
+                lines = file.readlines()
+            
+            # Find the separator and preserve content before it
+            try:
+                index = lines.index("---\n", 2)  # Find the second occurrence of '---\n'
+                pre_yaml_content = lines[:index + 1]
+            except ValueError:
+                pre_yaml_content = lines  # If not found, preserve all as is
+
+            # Write updated content
+            with open(md_file_path, 'w') as file:
+                file.writelines(pre_yaml_content)
+                file.write("```yaml\n")
+                file.write(yaml_content)
+                file.write("\n```\n")
+        else:
+            # File doesn't exist, create new with full headers
+            with open(md_file_path, 'w') as file:
+                file.write("---\n")
+                file.write(f"layout: default\n")
+                file.write(f"title: {category.capitalize()}\n")
+                file.write(f"parent: Categories\n")
+                file.write(f"grand_parent: Framework\n")
+                file.write("---\n\n")
+                file.write("---\n")
+                file.write("```yaml\n")
+                file.write(yaml_content)
+                file.write("\n```\n")
 
         print(f"Updated documentation for {category}")
 

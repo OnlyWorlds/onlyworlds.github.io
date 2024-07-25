@@ -5,9 +5,8 @@ parent: Categories
 grand_parent: Framework 
 ---
 
-
-text 1
+Base Text 
 
 ---
 
-text 2
+Yaml-to-replace
