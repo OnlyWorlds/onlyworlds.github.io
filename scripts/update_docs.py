@@ -1,5 +1,6 @@
 import os
 import requests
+import yaml  # Make sure to have pyyaml installed
 
 def fetch_yaml_files():
     repo_api_url = "https://api.github.com/repos/OnlyWorlds/OnlyWorlds/contents/schema"
@@ -12,6 +13,23 @@ def fetch_yaml_content(file_name):
     response = requests.get(url)
     return response.text
 
+def convert_yaml_to_markdown(yaml_content):
+    data = yaml.safe_load(yaml_content)
+    markdown_output = []
+    
+    # Iterate through each main group in properties to create sections
+    for key, value in data.get('properties', {}).items():
+        markdown_output.append(f"## {key.capitalize()}\n")
+        
+        # Iterate through each sub-property
+        if 'properties' in value:
+            for sub_key, sub_value in value['properties'].items():
+                description = sub_value.get('description', 'No description available.')
+                markdown_output.append(f"- **{sub_key}**: {description}\n")
+        markdown_output.append("\n")  # Add a newline for spacing
+
+    return "".join(markdown_output)
+
 def update_docs():
     yaml_files = fetch_yaml_files()
     script_directory = os.path.dirname(__file__)
@@ -20,6 +38,7 @@ def update_docs():
     for file_name in yaml_files:
         category = file_name[:-5]  # Strip off '.yaml'
         yaml_content = fetch_yaml_content(file_name)
+        markdown_content = convert_yaml_to_markdown(yaml_content)
         md_file_path = os.path.join(docs_directory, f'{category}.md')
 
         # Read existing content and update only the YAML section
@@ -27,7 +46,7 @@ def update_docs():
             with open(md_file_path, 'r') as file:
                 content = file.read()
             
-            # Find the third occurrence of '---' and preserve everything before it
+            # Find the third occurrence of '---'
             parts = content.split("---", 3)
             if len(parts) > 3:
                 pre_yaml_content = "---".join(parts[:3]) + "---\n"
@@ -37,9 +56,7 @@ def update_docs():
             # Write updated content
             with open(md_file_path, 'w') as file:
                 file.write(pre_yaml_content)
-                file.write("```yaml\n")
-                file.write(yaml_content)
-                file.write("\n```\n")
+                file.write(markdown_content)
         else:
             # File doesn't exist, create new with full headers and base text
             with open(md_file_path, 'w') as file:
@@ -51,9 +68,7 @@ def update_docs():
                 file.write("---\n")
                 file.write("Base Text\n")
                 file.write("---\n")
-                file.write("```yaml\n")
-                file.write(yaml_content)
-                file.write("\n```\n")
+                file.write(markdown_content)
 
         print(f"Updated documentation for {category}")
 
