@@ -25,30 +25,31 @@ def update_docs():
         # Read existing content and update only the YAML section
         if os.path.exists(md_file_path):
             with open(md_file_path, 'r') as file:
-                lines = file.readlines()
+                content = file.read()
             
-            # Find the separator and preserve content before it
-            try:
-                index = lines.index("---\n", 2)  # Find the second occurrence of '---\n'
-                pre_yaml_content = lines[:index + 1]
-            except ValueError:
-                pre_yaml_content = lines  # If not found, preserve all as is
+            # Find the third occurrence of '---' and preserve everything before it
+            parts = content.split("---", 3)
+            if len(parts) > 3:
+                pre_yaml_content = "---".join(parts[:3]) + "---\n"
+            else:
+                pre_yaml_content = content  # If not found, preserve all as is
 
             # Write updated content
             with open(md_file_path, 'w') as file:
-                file.writelines(pre_yaml_content)
+                file.write(pre_yaml_content)
                 file.write("```yaml\n")
                 file.write(yaml_content)
                 file.write("\n```\n")
         else:
-            # File doesn't exist, create new with full headers
+            # File doesn't exist, create new with full headers and base text
             with open(md_file_path, 'w') as file:
                 file.write("---\n")
-                file.write(f"layout: default\n")
+                file.write("layout: default\n")
                 file.write(f"title: {category.capitalize()}\n")
-                file.write(f"parent: Categories\n")
-                file.write(f"grand_parent: Framework\n")
-                file.write("---\n\n")
+                file.write("parent: Categories\n")
+                file.write("grand_parent: Framework\n")
+                file.write("---\n")
+                file.write("Base Text\n")
                 file.write("---\n")
                 file.write("```yaml\n")
                 file.write(yaml_content)
