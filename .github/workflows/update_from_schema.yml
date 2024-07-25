@@ -1,17 +1,29 @@
-name: Update Documentation
+name: Update Documentation Periodically
 
 on:
-  repository_dispatch:
-    types: [update-docs]
+  schedule:
+    - cron: '0 */4 * * *'  # Runs every 4 hours
 
 jobs:
   update-docs:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout repo
         uses: actions/checkout@v2
 
-      - name: Fetch and Update Documentation
-        run: |
-          # Add commands to fetch YAML and update Markdown files
-          echo "Update documentation based on new YAML files"
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      - name: Install PyYAML
+        run: pip install pyyaml requests
+
+      - name: Update Documentation
+        run: python ./scripts/update_docs.py
+
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Automatically update documentation from YAML"
+          branch: main  # Ensure this matches your branch name
