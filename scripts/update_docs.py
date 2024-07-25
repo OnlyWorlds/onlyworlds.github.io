@@ -1,6 +1,6 @@
 import os
 import requests
-import yaml  # Ensure pyyaml is installed
+import yaml
 
 def fetch_yaml_files():
     repo_api_url = "https://api.github.com/repos/OnlyWorlds/OnlyWorlds/contents/schema"
@@ -16,6 +16,25 @@ def fetch_yaml_content(file_name):
 def format_attribute_name(name):
     return name.capitalize()
 
+def type_formatter(type_info, sub_value):
+    formatted_type = ""
+    if type_info == "string":
+        formatted_type = ""
+    elif type_info == "integer":
+        max_val = sub_value.get('maximum')
+        if max_val is not None and max_val != 0:
+            formatted_type = f" (# max:{max_val})"
+        else:
+            formatted_type = " (#)"
+    elif type_info == "multi-link":
+        category = sub_value.get('category', 'unknown')
+        formatted_type = f" (multi-link: {category})"
+    elif type_info == "single-link":
+        category = sub_value.get('category', 'unknown')
+        formatted_type = f" (single-link: {category})"
+    return formatted_type
+
+
 def convert_yaml_to_markdown(yaml_content):
     data = yaml.safe_load(yaml_content)
     markdown_output = []
@@ -29,12 +48,8 @@ def convert_yaml_to_markdown(yaml_content):
             for sub_key, sub_value in value['properties'].items():
                 description = sub_value.get('description', 'No description available.')
                 type_info = sub_value.get('type', 'N/A')
-                link_info = ""
-                if 'items' in sub_value and 'type' in sub_value['items']:
-                    link_info = f" ({sub_value['items']['type']})"
-                if 'category' in sub_value:
-                    link_info += f" links to {sub_value['category']} entities"
-                markdown_output.append(f"- **{format_attribute_name(sub_key)}** ({type_info}{link_info}): {description}\n")
+                formatted_type = type_formatter(type_info, sub_value)
+                markdown_output.append(f"- **{format_attribute_name(sub_key)}**{formatted_type}: {description}\n")
         markdown_output.append("\n")  # Add a newline for spacing
 
     return "".join(markdown_output)

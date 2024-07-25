@@ -8,5 +8,3 @@ grand_parent: Framework
 Base Text 
 
 ---
-
-Yaml-to-replace
