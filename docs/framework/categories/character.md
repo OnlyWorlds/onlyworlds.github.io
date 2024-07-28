@@ -9,7 +9,7 @@ Base Text
 
 ---
 ## Constitution
-- **Physicality**: Physical traits and appearance descriptions..
+- **Physicality**: Physical traits and appearance descriptions...
 - **Psychology**: Psychological traits and mindset descriptions..
 - **Height** (#): Height of the character in appropriate units.
 - **Weight** (#): Weight of the character in appropriate units..
