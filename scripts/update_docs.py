@@ -41,7 +41,7 @@ def convert_yaml_to_markdown(yaml_content):
     
     # Iterate through each main group in properties to create sections
     for key, value in data.get('properties', {}).items():
-        markdown_output.append(f"## {key.capitalize()}\n")
+        markdown_output.append(f"### {key.capitalize()}\n")
         
         # Iterate through each sub-property
         if 'properties' in value:

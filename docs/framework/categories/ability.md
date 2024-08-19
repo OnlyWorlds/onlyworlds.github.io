@@ -4,10 +4,15 @@ title: Ability
 parent: Categories
 grand_parent: Framework 
 ---
+
+# Ability
+
 **Definition**
+
 *Any special action that an element, especially Character or Creature, is able to execute with some consistency*
 
 **Alternate Names**
+
 Skill, 
 
 **Examples**
@@ -16,6 +21,7 @@ Skill,
 - Advanced Calculus
 
 **Discussion**
+
 Navigate to the [discussion page](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/ability) for this category
 
 ---

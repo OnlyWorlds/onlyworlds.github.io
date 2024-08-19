@@ -5,12 +5,23 @@ parent: Categories
 grand_parent: Framework 
 ---
 
-# Character
+# Character 
 
-~ Agent, Person, Individual, Actor
+**Definition**
 
 
-Base Text 
+
+**Alternate Names**
+
+Agent, Person, Individual, Actor
+
+**Examples**
+
+
+
+**Discussion**
+
+Navigate to the [discussion page](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/character) for this category
 
 ---
 ## Constitution
