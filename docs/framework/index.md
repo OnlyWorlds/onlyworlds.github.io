@@ -8,19 +8,19 @@ has_toc: false
 
 # Framework Overview
 
-OnlyWorlds represents world data primarily through a world's **elements**, the parts that together make a whole. 
+Worlds are contained in single text files, structured using JSON format. These single-text world definitions can easily be imported into or exported out of tools, by manual copy/paste or through a web server. 
 
-It currently defines 18 [categories](/docs/framework/categories/) of elements: from the more obvious **Character** to the less familiar **Construct** or **Title**.
+The bulk of this world data consists of world **elements**: your characters, locations, creatures, and more.
 
-Each of these categories has its own constellation of [fields](/docs/framework/fields/): a series of named attributes that can hold a value of text, number, or other element(s). Finding the right collections and definitions of these fields is critical to the operation and intuitiveness of the platform.
+OnlyWorlds currently defines 18 [categories](/docs/framework/categories/) of elements: from the more obvious **Character** to the less familiar **Construct** or **Title**.
 
-Finally, for every category there is a set of [typings](/docs/framework/typings/): a system of (sub)categorizations that help organize and operate a world. This is a system that requires robust customization solutions, as its definitions can vary widely across different world settings.
+Each of these categories has its own configuration of [fields](/docs/framework/fields/): named attributes that can hold text values, number values, or link to other elements. 
 
-All a world's elements, each with their typings and field values, are compiled into a (currently JSON-formatted) text file, together with a table on [world metadata](/docs/framework/world-metadata/).
+Every category also has a series of [typings](/docs/framework/typings/): (sub)categorizations that help structure and operate a world. 
 
-These files can be imported to and exported from the OnlyWorlds web server by any software that supports it. The data remains easy to access to users and in their full creative control. See [operation](/docs/framework/operation/) for more details on this system.
+These elements define a world together with a set of [world metadata](/docs/framework/world-metadata/).
 
-Take a look at the [origins](/docs/framework/origins/) page for some history on the creation of this platform so far. 
+Although far from finished, these current ideas are the result of several years of development on world creation tools and definitions. Take a look at the [origins](/docs/framework/origins/) page for more details on this process.
 
 
 

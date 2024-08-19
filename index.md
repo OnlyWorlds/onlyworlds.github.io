@@ -11,13 +11,13 @@ OnlyWorlds is a world building framework that enables world creation, sharing, a
 
 By proposing and maintaining one uniform data structure, your worlds become 'files' that are no longer contained within single applications or websites.
 
-Use your preferred writing application to create a world's content; palce its elements on your maps with a specialized mapping tool; share and collaborate using dedicated websites; integrate your worlds in games, simulation, or exploration software to bring them to life.
+Use your preferred writing application to create a world's content; place those elements on maps with specialized mapping tools; share and collaborate using dedicated websites; integrate your worlds in games, simulation, or exploration software to bring them to life.
 
  
 ## Philosophy
 - Designed for flexibility to support the most expansive range of worlds and content
 - Free and open source, continually refined and enhanced with community input and feedback
-- Encourage developers to contribute and incorporate, with no commercial restrictions on tool and application development
+- Foster an ecosystem of open development and integration, with no commercial restrictions
 
 
 ## Getting Started
