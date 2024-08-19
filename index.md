@@ -7,30 +7,22 @@ description: "Welcome to OnlyWorlds, an open-source platform for world building 
 
 # Welcome to OnlyWorlds
 
-OnlyWorlds is an open-source platform that enables world creation and execution beyond individual tools or closed environments.
+OnlyWorlds is a world building framework that enables world creation, sharing, and simulation across an endless range of tools and applications.
 
-## Key Features
-- Establishes a uniform structure for world data
-- So that worlds can be sent across any applications 
-- For creation, collaboration, simulation and gamification
+By proposing and maintaining one uniform data structure, your worlds become 'files' that are no longer contained within single applications or websites.
 
-## Key Features 2
-OnlyWorlds establishes a uniform structure for world data, facilitating seamless integration across applications. This architecture supports not only world creation and collaboration but also enhances simulation and gamification capabilities.
+Use your preferred writing application to create a world's content; palce its elements on your maps with a specialized mapping tool; share and collaborate using dedicated websites; integrate your worlds in games, simulation, or exploration software to bring them to life.
 
-## Philosophy 1
-- Flexible in supporting the widest possible range of worlds and content
-- Open source and continually refined through community input and feedback
-- Encourage developers to build tools and applications, with no commercial restrictions 
+ 
+## Philosophy
+- Designed for flexibility to support the most expansive range of worlds and content
+- Free and open source, continually refined and enhanced with community input and feedback
+- Encourage developers to contribute and incorporate, with no commercial restrictions on tool and application development
 
-
-## Philosophy  2
-- Designed for flexibility to support an expansive range of worlds and content.
-- Dedicated to open source principles, continually refined with community input and feedback.
-- Encourages developers to innovate freely, with no commercial restrictions impacting tool and application development.
 
 ## Getting Started
-1. **Explore:** Get your head around the [concept](/docs/concept/), then read about the [framework](/docs/framework/)'s operation, structure and origins
-2. **Try:** Start building with the free [tools](/docs/tools) that are currently available
-3. **Contribute:** Join the community and help shape the platform's [development](/docs/development/)
+1. **Explore:** Read more about the [framework](/docs/framework/) and the element [categories](/docs/framework/categories) that define it
+2. **Try:** Take a look at current [state and updates](/docs/updates), and start building with the free [tools](/docs/tools) that are currently available
+3. **Contribute:** Join [discussions](https://github.com/OnlyWorlds/OnlyWorlds/discussions) for changes that you would like to make, or join active work on [development](/docs/development/)
 
  

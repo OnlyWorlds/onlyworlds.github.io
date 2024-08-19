@@ -5,6 +5,11 @@ parent: Categories
 grand_parent: Framework 
 ---
 
+# Character
+
+~ Agent, Person, Individual, Actor
+
+
 Base Text 
 
 ---
