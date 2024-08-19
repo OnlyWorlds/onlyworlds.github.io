@@ -8,7 +8,7 @@ grand_parent: Framework
 Base Text 
 
 ---
-## Nature
+### Nature
 - **History**: Historical background of the relationship, outlining its origins and development.
 - **Impact**: The overall effect or influence the relationship has had on the entities involved.
 - **Start_date** (#): The date on which the relationship officially began.
@@ -16,7 +16,7 @@ Base Text
 - **Debt** (#): Any obligations or debts incurred due to the relationship.
 - **Events** (multi-link: Event): Significant events that have occurred within the context of this relationship.
 
-## Involves
+### Involves
 - **Primary_character** (single-link: Character): The main character involved in the relationship.
 - **Primary_creature** (single-link: Creature): The main creature involved in the relationship.
 - **Primary_institution** (single-link: Institution): The main institution involved in the relationship.

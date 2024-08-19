@@ -8,7 +8,7 @@ grand_parent: Framework
 Base Text 
 
 ---
-## Nature
+### Nature
 - **Privileges**: Specific rights or benefits associated with the title.
 - **Conditions**: Conditions or requirements for obtaining and holding the title.
 - **Create_date** (#): Date when the title was first created.
@@ -16,11 +16,11 @@ Base Text
 - **Revoke_date** (#): Date when the title was revoked or nullified, if applicable.
 - **Hierarchy** (#): Numerical value indicating the rank or level of the title within a hierarchical system.
 
-## Issue
+### Issue
 - **Rights**: Legal or customary rights conferred by the title.
 - **Author** (single-link: Institution): The institution or authority that issued the title.
 
-## World
+### World
 - **Character** (single-link: Character): Character who currently holds or is associated with the title.
 - **Location** (single-link: Location): Location that is governed by or significantly associated with the title.
 - **Object** (single-link: Object): Object that symbolizes or is tied to the title.

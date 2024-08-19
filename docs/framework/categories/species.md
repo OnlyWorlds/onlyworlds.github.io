@@ -8,19 +8,19 @@ grand_parent: Framework
 Base Text 
 
 ---
-## Biology
+### Biology
 - **Appearance**: Physical description of the species, including notable features.
 - **Life_span** (#): Average life expectancy of the species under natural conditions.
 - **Average_weight** (#): Typical weight range for mature individuals of the species.
 - **Nourishment** (multi-link: Species): Primary sources of food and nutrition for the species.
 
-## Psychology
+### Psychology
 - **Instincts**: Innate behaviors and survival instincts of the species.
 - **Aggression** (# max:100): Typical level of aggressiveness exhibited by the species.
 - **Agency**: Capacity for self-directed behavior and decision-making in the species.
 - **Languages** (multi-link: Language): Languages known or used by the species, if any.
 
-## World
+### World
 - **Impact**: Overall effect or influence the species has on its environment.
 - **Habitat** (multi-link: Location): Primary natural habitats where the species is typically found.
 - **Interaction** (multi-link: Phenomenon): Typical interactions of the species with other species or environmental elements.

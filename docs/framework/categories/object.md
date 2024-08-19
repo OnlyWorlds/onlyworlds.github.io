@@ -8,24 +8,24 @@ grand_parent: Framework
 Base Text 
 
 ---
-## Form
+### Form
 - **Aesthetics**: Visual and design characteristics of the object.
 - **Weight** (#): Physical weight of the object, usually in kilograms or pounds.
 - **Amount** (#): Quantity or count of the object, particularly if it is part of a set or collection.
 - **Parent_object** (single-link: Object): Directly related or parent object from which this one is derived or part of.
 - **Technology** (multi-link: Construct): Technological aspects or mechanisms incorporated within the object.
 
-## Function
+### Function
 - **Utility**: Primary function or use of the object.
 - **Effects** (multi-link: Phenomenon): Effects or outcomes produced by the object when used.
 - **Enables** (multi-link: Ability): Abilities or actions enabled by using the object.
 - **Consumes** (multi-link: Construct): Resources or materials consumed by the object during use.
 
-## World
+### World
 - **Origins**: Origins or historical background of the object.
 - **Location** (single-link: Location): Current location or usual storage place of the object.
 
-## Games
+### Games
 - **Craftsmanship**: Quality of workmanship or level of craftsmanship of the object.
 - **Requirements**: Conditions or prerequisites required to use the object effectively.
 - **Durability**: Measure of the object's resistance to wear and damage.

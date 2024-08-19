@@ -8,25 +8,25 @@ grand_parent: Framework
 Base Text 
 
 ---
-## Physiology
+### Physiology
 - **Appearance**: Visual description of the creature's physical appearance.
 - **Weight** (#): Weight of the creature, typically in kilograms or pounds.
 - **Height** (#): Height of the creature, usually measured in centimeters or feet.
 - **Species** (multi-link: Species): Species classification of the creature.
 
-## Lifestyle
+### Lifestyle
 - **Behaviour**: Typical behaviors or habits of the creature.
 - **Demeanour**: General demeanor or attitude of the creature.
 - **Traits** (multi-link: Trait): Distinctive traits or characteristics of the creature.
 - **Abilities** (multi-link: Ability): Special abilities or powers possessed by the creature.
 - **Languages** (multi-link: Language): Languages known or used by the creature.
 
-## World
+### World
 - **Birth_date** (#): Birth date of the creature, often recorded as an integer.
 - **Location** (single-link: Location): Current primary habitat or residence of the creature.
 - **Territory** (single-link: Territory): Territorial range or area commonly occupied by the creature.
 
-## Games
+### Games
 - **Lore**: Background story or mythology associated with the creature.
 - **Senses**: Description of the sensory capabilities of the creature.
 - **Hit_points** (#): Total hit points of the creature, indicating its health.

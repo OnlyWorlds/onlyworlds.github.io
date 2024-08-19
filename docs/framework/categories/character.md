@@ -24,7 +24,7 @@ Agent, Person, Individual, Actor
 Navigate to the [discussion page](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/character) for this category
 
 ---
-## Constitution
+### Constitution
 - **Physicality**: Physical traits and appearance descriptions..
 - **Psychology**: Psychological traits and mindset descriptions
 - **Height** (#): Height of the character in appropriate units
@@ -33,34 +33,34 @@ Navigate to the [discussion page](https://github.com/OnlyWorlds/OnlyWorlds/discu
 - **Traits** (multi-link: Trait): Traits of the character
 - **Abilities** (multi-link: Ability): Abilities of the character
 
-## Origins
+### Origins
 - **Background**: The character's background story.
 - **Motivations**: Driving motivations behind the character's actions.
 - **Birth_date** (#): Birth date of the character.
 - **Birthplace** (single-link: Location): Birthplace of the character
 - **Languages** (multi-link: Language): Languages the character can speak
 
-## World
+### World
 - **Situation**: Current situation or predicament of the character.
 - **Location** (single-link: Location): The character's current location
 - **Titles** (multi-link: Title): Titles held by the character
 - **Objects** (multi-link: Object): Objects owned or associated with the character
 - **Institutions** (multi-link: Institution): Institutions associated with the character
 
-## Personality
-- **Charisma** (# max:100): Charisma score of the character.
+### Personality
+- **Charisma** (# max:100): Charisma score of the character..
 - **Coercion** (# max:100): Coercion score of the character.
 - **Capability** (# max:100): Capability score of the character.
 - **Compassion** (# max:100): Compassion score of the character.
 - **Creativity** (# max:100): Creativity score of the character.
 - **Courage** (# max:100): Courage score of the character.
 
-## Social
+### Social
 - **Family** (multi-link: Family): Family members of the character
 - **Friends** (multi-link: Character): Friends of the character
 - **Rivals** (multi-link: Character): Rivals of the character
 
-## Games
+### Games
 - **Backstory**: The backstory of the character.
 - **Level** (#): Level of the character.
 - **Power** (#): Power level of the character.

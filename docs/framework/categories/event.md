@@ -8,14 +8,14 @@ grand_parent: Framework
 Base Text 
 
 ---
-## Nature
+### Nature
 - **History**: Historical context and background of the event.
 - **Consequences**: Outcomes and impacts resulting from the event.
 - **Start_date** (#): Date on which the event began.
 - **End_date** (#): Date on which the event concluded.
 - **Adversity**: Challenges or difficulties faced during the event.
 
-## Involves
+### Involves
 - **Characters** (multi-link: Character): Key characters involved in the event.
 - **Objects** (multi-link: Object): Objects significant to the unfolding of the event.
 - **Locations** (multi-link: Location): Locations where the event took place.

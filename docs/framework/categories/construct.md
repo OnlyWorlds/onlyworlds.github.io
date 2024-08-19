@@ -8,7 +8,7 @@ grand_parent: Framework
 Base Text 
 
 ---
-## Nature
+### Nature
 - **History**: Historical background of the construct.
 - **Understanding**: Level of understanding or knowledge about the construct.
 - **State**: Current state or condition of the construct.
@@ -17,7 +17,7 @@ Base Text
 - **Founder** (single-link: Character): Character who founded or initiated the construct
 - **Organiser** (single-link: Institution): Institution responsible for organising or managing the construct
 
-## Involves
+### Involves
 - **Characters** (multi-link: Character): Characters involved in or associated with the construct
 - **Objects** (multi-link: Object): Objects integral to the construct
 - **Locations** (multi-link: Location): Locations where the construct is relevant or operational
