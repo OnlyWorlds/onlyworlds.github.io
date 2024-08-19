@@ -15,26 +15,26 @@ Base Text
 ---
 ## Constitution
 - **Physicality**: Physical traits and appearance descriptions..
-- **Psychology**: Psychological traits and mindset descriptions..
-- **Height** (#): Height of the character in appropriate units.
-- **Weight** (#): Weight of the character in appropriate units..
-- **Species** (multi-link: Species): Species of the character, links to Species entities.
-- **Traits** (multi-link: Trait): Traits of the character, links to Trait entities.
-- **Abilities** (multi-link: Ability): Abilities of the character, links to Ability entities.
+- **Psychology**: Psychological traits and mindset descriptions
+- **Height** (#): Height of the character in appropriate units
+- **Weight** (#): Weight of the character in appropriate units
+- **Species** (multi-link: Species): Species of the character
+- **Traits** (multi-link: Trait): Traits of the character
+- **Abilities** (multi-link: Ability): Abilities of the character
 
 ## Origins
 - **Background**: The character's background story.
 - **Motivations**: Driving motivations behind the character's actions.
 - **Birth_date** (#): Birth date of the character.
-- **Birthplace** (single-link: Location): Birthplace of the character, link to a Location entity.
-- **Languages** (multi-link: Language): Languages the character can speak, links to Language entities.
+- **Birthplace** (single-link: Location): Birthplace of the character
+- **Languages** (multi-link: Language): Languages the character can speak
 
 ## World
 - **Situation**: Current situation or predicament of the character.
-- **Location** (single-link: Location): The character's current location, link to a Location entity.
-- **Titles** (multi-link: Title): Titles held by the character, links to Title entities.
-- **Objects** (multi-link: Object): Objects owned or associated with the character, links to Object entities.
-- **Institutions** (multi-link: Institution): Institutions associated with the character, links to Institution entities.
+- **Location** (single-link: Location): The character's current location
+- **Titles** (multi-link: Title): Titles held by the character
+- **Objects** (multi-link: Object): Objects owned or associated with the character
+- **Institutions** (multi-link: Institution): Institutions associated with the character
 
 ## Personality
 - **Charisma** (# max:100): Charisma score of the character.
@@ -45,12 +45,12 @@ Base Text
 - **Courage** (# max:100): Courage score of the character.
 
 ## Social
-- **Family** (multi-link: Family): Family members of the character, links to Family entities.
-- **Friends** (multi-link: Character): Friends of the character, links to Character entities.
-- **Rivals** (multi-link: Character): Rivals of the character, links to Character entities.
+- **Family** (multi-link: Family): Family members of the character
+- **Friends** (multi-link: Character): Friends of the character
+- **Rivals** (multi-link: Character): Rivals of the character
 
 ## Games
-- **Backstory**: The backstory of the character..
+- **Backstory**: The backstory of the character.
 - **Level** (#): Level of the character.
 - **Power** (#): Power level of the character.
 - **Price** (# max:9999): Price or value associated with the character.
@@ -64,10 +64,10 @@ Base Text
 - **Tt_cha** (# max:20): Charisma attribute of the character.
 - **Class**: Class of the character.
 - **Alignment**: Alignment of the character.
-- **Equipment** (multi-link: Object): Equipment carried by the character, links to Object entities.
-- **Backpack** (multi-link: Object): Items in the character's backpack, links to Object entities.
-- **Proficiencies** (multi-link: Construct): Proficiencies of the character, links to Construct entities.
-- **Features** (multi-link: Trait): Features of the character, links to Trait entities.
-- **Spells** (multi-link: Ability): Spells known by the character, links to Ability entities.
-- **Inspirations** (multi-link: Construct): Inspirations of the character, links to Construct entities.
+- **Equipment** (multi-link: Object): Equipment carried by the character
+- **Backpack** (multi-link: Object): Items in the character's backpack
+- **Proficiencies** (multi-link: Construct): Proficiencies of the character
+- **Features** (multi-link: Trait): Features of the character
+- **Spells** (multi-link: Ability): Spells known by the character
+- **Inspirations** (multi-link: Construct): Inspirations of the character
 
