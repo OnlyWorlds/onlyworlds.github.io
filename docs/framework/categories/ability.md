@@ -4,8 +4,19 @@ title: Ability
 parent: Categories
 grand_parent: Framework 
 ---
+**Definition**
+*Any special action that an element, especially Character or Creature, is able to execute with some consistency*
 
+**Alternate Names**
+Skill, 
 
+**Examples**
+- DnD Spells
+- Bunny Hop
+- Advanced Calculus
+
+**Discussion**
+Navigate to the [discussion page](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/ability) for this category
 
 ---
 ## Mechanics
