@@ -9,17 +9,22 @@ grand_parent: Framework
 
 **Definition**
 
-*short*
+*A special type of institution defined through some combination of bloodline, marriage, or shared heritage*
 
-long
+A Family represents a social unit bound by genetic ties, marriage, or long-standing alliances. Can range from small, close-knit units to large, powerful dynasties.
+
 
 **Examples**
-- 
+- Sengir
+- Lannisters
+- The Masteen
 
 
 **[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Family)**
 
-Potential alternate names: *..*
+Potential alternate names: *House, Lineage, Kinship, ..*
+
+Should Family be a separate category if Institution technically always covers it? There are plenty of special properties and dynamics, including family-tree-tooling, that make it seem beneficial to have a separate category for. 
 
 ---
 ### Community

@@ -9,17 +9,19 @@ grand_parent: Framework
 
 **Definition**
 
-*short*
+*A physical group of individuals that can be regarded as a whole by some common identifier*
 
-long
+Collective represents the physical reality of a group that has some capacity for action. It embodies only this physical capacity, and not how or why this capacity is directed: so that it can describe a herd of cattle as well as a pitch fork mob, but does not extend to the political or social processes that direct the mob's formation and behaviour. Their organization as such is typically the domain of other elements such as Institutions or Characters. 
 
 **Examples**
-- 
+- Farming commune
+- Merchant caravan
+- Mercenary band
 
 
 **[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Collective)**
 
-Potential alternate names: *..*
+Potential alternate names: *Assembly,Group, ..*
 
 ---
 ### Formation

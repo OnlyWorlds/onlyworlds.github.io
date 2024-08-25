@@ -9,12 +9,14 @@ grand_parent: Framework
 
 **Definition**
 
-*short*
+*An organized body with a specific purpose or function within society*
 
-long
+An Institution is a structured entity established to fulfill a particular role or mission within the world. These organizations can be political, religious, educational, or economic in nature, among others. 
 
 **Examples**
-- 
+- The English Monarchy
+- The Roman Empire
+- Your local book club
 
 
 **[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Institution)**

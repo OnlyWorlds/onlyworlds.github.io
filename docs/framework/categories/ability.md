@@ -9,19 +9,19 @@ grand_parent: Framework
 
 **Definition**
 
-*Any specifically defined action that an element, especially Character or Creature, is able to execute with some consistency*
+*A specific action or skill that a Character, Creature, or other element can perform*
 
-Abilities can be linked to by other elements. They can be general or universal, shared by many other elements, or specific to a single element.
+An Ability represents a defined capability that can be utilized by various elements within the world. Abilities may be common across multiple entities or unique to a specific individual or situation.
 
 **Examples**
-- DnD Spells
+- DnD 5e Fireball Spell
 - Bunny Hop
-- Advanced Calculus
+- Lockpicking
 
 
 **[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/NAME)**
 
-Potential alternate names: *Skill, Activity..*
+Potential alternate names: *Skill, Activity, ..*
 
 ---
 ### Mechanics

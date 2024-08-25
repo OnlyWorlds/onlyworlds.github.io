@@ -9,20 +9,21 @@ grand_parent: Framework
 
 **Definition**
 
-*Any specifically defined action that an element, especially Character or Creature, is able to execute with some consistency*
+*Any individual actor with agency and/or autonomy*
 
-Abilities can be linked to by other elements. They can be general or universal, shared by many other elements, or specific to a single element.
+A Character embodies any being with agency, capable of making choices and influencing the world around them. Can range from human individuals to mythical creatures or intelligent beings of any species.
 
 **Examples**
-- DnD Spells
-- Bunny Hop
-- Advanced Calculus
+- The Consul 
+- Smaug the dragon
+- You
 
 
 **[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Character)**
 
-Potential alternate names: *Agent, Person, Individual, Actor..*
+Potential alternate names: *Agent, Person, Individual, Actor, ..*
  
+When does a clever Creature become a Character? This line might be ultimately too subjective to provide specific rules for, so it is up to the builder to define what constitutes a Character in their worlds.
 
 ---
 ### Constitution

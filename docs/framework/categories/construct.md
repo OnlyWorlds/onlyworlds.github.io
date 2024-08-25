@@ -9,17 +9,26 @@ grand_parent: Framework
 
 **Definition**
 
-*short*
+*A concept or idea that exists in thought, created to expand, explain or organize reality*
 
-long
+A Construct represents an abstract framework or idea that shapes understanding and behavior within a given context. Constructs are not physical entities but serve as the foundational principles or systems by which a society, culture, or group interprets and interacts with the world.
 
 **Examples**
-- 
+- Rachmaninov’s Prelude in C-sharp Minor
+- Stealth Technology
+- Transmission Coordinates
 
 
 **[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Construct)**
 
-Potential alternate names: *..*
+Potential alternate names: *Concept,Framework,System, ..*
+
+The name 'Construct' might confuse as it represents a non-physical 'construction'.
+
+But I prefer it over 'concept', as it always reflects an invented thing, not something that already exists.
+
+Relating Construct to Object is a challenge. How do you classify an airplane in your world? The word can reflect both an existing entity and a technology that describes such an object. OnlyWorlds currently employs Object for anything that exists physically in the world, and Constructs for their theoretical definition: so that you would create a specific Object element for any existing Airplane, and a 'template' Construct element that defines or describes it.
+
 
 ---
 ### Nature

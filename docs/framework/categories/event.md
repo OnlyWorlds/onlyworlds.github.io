@@ -9,17 +9,19 @@ grand_parent: Framework
 
 **Definition**
 
-*short*
+*A significant occurrence or happening within the world at a given time*
 
-long
+An Event refers to any notable incident, whether historical, natural, or supernatural, that has any kind of significant for the world or any of its inhabitants. They are meta-level elements that can involve any other kind of elements
 
 **Examples**
-- 
+- The Fire Nation Attacks
+- Nancy drops an antique plate
+- Meteor impact
 
 
 **[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Event)**
 
-Potential alternate names: *..*
+Potential alternate names: *Occurrence, Incident, ..*
 
 ---
 ### Nature

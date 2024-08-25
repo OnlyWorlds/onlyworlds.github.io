@@ -9,17 +9,23 @@ grand_parent: Framework
 
 **Definition**
 
-*short*
+*A living entity, often non-sentient or with limited agency, existing within the world*
 
-long
+A Creature refers to any living being that does not possess the kind of autonomy or complex decision-making capabilities that would have it become a Character in their world. 
 
 **Examples**
-- 
+- Dire Wolf
+- Phoenix
+- Vampire Nighthawk
 
 
 **[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Creature)**
 
-Potential alternate names: *..*
+Potential alternate names: *Lifeform, ..*
+
+What is the dividing line between a Creature and Character? This might ultimately be down to a builder's subjective taste over hardcoded rules.
+
+Creature vs Species: similar to the Object vs Construct challenge of physical vs descriptive; Creature is any physical entity that is present in the world at a given time, while a Species element can describe some or all of its qualities and origins. 
 
 ---
 ### Physiology
