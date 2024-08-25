@@ -9,20 +9,19 @@ grand_parent: Framework
 
 **Definition**
 
-*Any special action that an element, especially Character or Creature, is able to execute with some consistency*
+*Any specifically defined action that an element, especially Character or Creature, is able to execute with some consistency*
 
-**Alternate Names**
-
-Skill, 
+Abilities can be linked to by other elements. They can be general or universal, shared by many other elements, or specific to a single element.
 
 **Examples**
 - DnD Spells
 - Bunny Hop
 - Advanced Calculus
 
-**Discussion**
 
-Navigate to the [discussion page](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/ability) for this category
+**[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/NAME)**
+
+Potential alternate names: *Skill, Activity..*
 
 ---
 ### Mechanics

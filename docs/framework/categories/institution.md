@@ -5,7 +5,21 @@ parent: Categories
 grand_parent: Framework 
 ---
 
-Base Text 
+# Institution
+
+**Definition**
+
+*short*
+
+long
+
+**Examples**
+- 
+
+
+**[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Institution)**
+
+Potential alternate names: *..*
 
 ---
 ### Foundation

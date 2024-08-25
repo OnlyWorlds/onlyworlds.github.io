@@ -5,23 +5,24 @@ parent: Categories
 grand_parent: Framework 
 ---
 
-# Character 
+# Character
 
 **Definition**
 
+*Any specifically defined action that an element, especially Character or Creature, is able to execute with some consistency*
 
-
-**Alternate Names**
-
-Agent, Person, Individual, Actor
+Abilities can be linked to by other elements. They can be general or universal, shared by many other elements, or specific to a single element.
 
 **Examples**
+- DnD Spells
+- Bunny Hop
+- Advanced Calculus
 
 
+**[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Character)**
 
-**Discussion**
-
-Navigate to the [discussion page](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/character) for this category
+Potential alternate names: *Agent, Person, Individual, Actor..*
+ 
 
 ---
 ### Constitution

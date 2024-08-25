@@ -5,7 +5,21 @@ parent: Categories
 grand_parent: Framework 
 ---
 
-Base Text 
+# Location
+
+**Definition**
+
+*short*
+
+long
+
+**Examples**
+- 
+
+
+**[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Location)**
+
+Potential alternate names: *..*
 
 ---
 ### Locality

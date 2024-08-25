@@ -5,7 +5,21 @@ parent: Categories
 grand_parent: Framework 
 ---
 
-Base Text 
+# Collective
+
+**Definition**
+
+*short*
+
+long
+
+**Examples**
+- 
+
+
+**[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Collective)**
+
+Potential alternate names: *..*
 
 ---
 ### Formation

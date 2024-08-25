@@ -5,7 +5,21 @@ parent: Categories
 grand_parent: Framework 
 ---
 
-Base Text 
+# Territory
+
+**Definition**
+
+*short*
+
+long
+
+**Examples**
+- 
+
+
+**[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Territory)**
+
+Potential alternate names: *..*
 
 ---
 ### Situation

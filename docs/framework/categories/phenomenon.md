@@ -5,7 +5,21 @@ parent: Categories
 grand_parent: Framework 
 ---
 
-Base Text 
+# Phenomenon
+
+**Definition**
+
+*short*
+
+long
+
+**Examples**
+- 
+
+
+**[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Phenomenon)**
+
+Potential alternate names: *..*
 
 ---
 ### Manifest
