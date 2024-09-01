@@ -25,7 +25,7 @@ Over many iterations of world creation with game development consideration, with
 
 ### Getting Started
 1. **Explore:** Read more about the [framework](/docs/framework/) and the element [categories](/docs/framework/categories) that define it
-2. **Try:** Take a look at current [state and updates](/docs/updates), and start building with the free [tools](/docs/tools) that are currently available
-3. **Contribute:** Join [discussions](https://github.com/OnlyWorlds/OnlyWorlds/discussions) or participate in active [development](/docs/development/)
+2. **Try:** Take a look at current [state and updates](/docs/updates), and try your worlds with the free [tools](/docs/tools) that are available
+3. **Contribute:** Join [Discord](https://discord.gg/twCjqvVBwb) and [GitHub discussions](https://github.com/OnlyWorlds/OnlyWorlds/discussions), or participate in active [development](/docs/development/)
 
  
