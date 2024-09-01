@@ -9,17 +9,19 @@ grand_parent: Framework
 
 **Definition**
 
-*short*
+*A connection or interaction between two or more entities within the world*
 
-long
+Relation is a functional element that details a shared state of information between Characters, Creatures, and Institutions
 
 **Examples**
-- 
-
+- A man and their dog
+- A rivalry between two scholars
+- A debt owed between a merchant and a noble
 
 **[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Relation)**
 
-Potential alternate names: *..*
+Potential alternate names: *Connection, Association, ..*
+
 
 ---
 ### Nature

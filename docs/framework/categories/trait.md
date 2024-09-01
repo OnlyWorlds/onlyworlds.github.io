@@ -9,17 +9,19 @@ grand_parent: Framework
 
 **Definition**
 
-*short*
+*A distinguishing quality or characteristic inherent in an individual or entity*
 
-long
+A Trait represents an intrinsic feature or attribute that influences an individual's behavior, abilities, or interactions within the world
 
 **Examples**
-- 
-
+- Fearless
+- Ambitious
+- Sharp-minded
 
 **[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Trait)**
 
-Potential alternate names: *..*
+Potential alternate names: *Characteristic, Quality, ..*
+
 
 ---
 ### Qualitative

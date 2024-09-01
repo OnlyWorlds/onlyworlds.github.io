@@ -9,17 +9,19 @@ grand_parent: Framework
 
 **Definition**
 
-*short*
+*An area that is claimed, occupied, or otherwise defined*
 
-long
+A Territory represents a specific geographic region within the world, usually associated with a particular authority or community
 
 **Examples**
-- 
-
+- The Kingdom of Gondor
+- The Sahara Desert
+- The Forbidden City
 
 **[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Territory)**
 
-Potential alternate names: *..*
+Potential alternate names: *Domain, ..*
+
 
 ---
 ### Situation

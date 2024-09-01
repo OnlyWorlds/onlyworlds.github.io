@@ -9,17 +9,20 @@ grand_parent: Framework
 
 **Definition**
 
-*short*
+*A classification of organisms sharing common characteristics*
 
-long
+Species is in OnlyWorlds a broad concept that represents any type or level of biological identifier
 
 **Examples**
-- 
-
+- Homo sapiens
+- Dragons
+- Ents
 
 **[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Species)**
 
-Potential alternate names: *..*
+Potential alternate names: *Kind, Variety, ..*
+
+
 
 ---
 ### Biology

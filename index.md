@@ -20,18 +20,12 @@ By defining worlds in a uniform data format, OnlyWorlds enables world transfer a
 
 The leading challenge that OnlyWorlds faces is to define data models that represents various parts of the world. These parts (elements) with specific definitions (attributes) need to support all the abstractions that we like to create: societies, stories, war, economies, power dynamics.  
 
-By viewing world content through the lenses of: 
-
-1. how it would data-fit into various types of games and simulation 
-
-2. how its formatting best supports creative processes
-
-OnlyWorlds now provides a complete draft proposal, ready for your scrutiny, that will require indefinite refinement and improvement.
-
+Over many iterations of world creation with game development consideration, with a special interest in history and simulation, OnlyWorlds now provides a complete draft proposal that will require indefinite refinement and improvement.
+ 
 
 ### Getting Started
 1. **Explore:** Read more about the [framework](/docs/framework/) and the element [categories](/docs/framework/categories) that define it
 2. **Try:** Take a look at current [state and updates](/docs/updates), and start building with the free [tools](/docs/tools) that are currently available
-3. **Contribute:** Join [discussions](https://github.com/OnlyWorlds/OnlyWorlds/discussions) for participate in active [development](/docs/development/)
+3. **Contribute:** Join [discussions](https://github.com/OnlyWorlds/OnlyWorlds/discussions) or participate in active [development](/docs/development/)
 
  

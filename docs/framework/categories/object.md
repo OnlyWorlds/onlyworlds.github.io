@@ -9,17 +9,18 @@ grand_parent: Framework
 
 **Definition**
 
-*short*
+*A physical entity that exists in some place in the world*
 
-long
+An Object refers to any tangible item or physical composition. Objects can range from everyday items to powerful artifacts or machines. 
 
 **Examples**
-- 
-
-
+- The One Ring
+- The leaky spaceship
+- A wrench
 **[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Object)**
 
-Potential alternate names: *..*
+Potential alternate names: *Item, Material, ..*
+
 
 ---
 ### Form

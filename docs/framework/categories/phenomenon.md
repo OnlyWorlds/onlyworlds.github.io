@@ -9,17 +9,18 @@ grand_parent: Framework
 
 **Definition**
 
-*short*
+*A natural or supernatural occurrence with some impact or meaning*
 
-long
+A Phenomenon represents any event or process, possibly with extraordinary or unexplained origins, that can affect the environment, inhabitants, or fabric of reality within the world.  
 
 **Examples**
-- 
-
+- A slight breeze
+- Phosphorescent damp
+- Rippling lightning
 
 **[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Phenomenon)**
 
-Potential alternate names: *..*
+Potential alternate names: *Occurrence, Anomaly*
 
 ---
 ### Manifest

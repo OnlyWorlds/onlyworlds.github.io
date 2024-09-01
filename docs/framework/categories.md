@@ -16,30 +16,30 @@ They can be loosely divided into three types of world content:
 
 *Relating to agents that act on your world*
 
-- [**Character**](/docs/framework/categories/character/) 
-- [**Family**](/docs/framework/categories/family/) 
-- [**Trait**](/docs/framework/categories/trait/) 
-- [**Ability**](/docs/framework/categories/ability/) 
-- [**Language**](/docs/framework/categories/language/) 
-- [**Relation**](/docs/framework/categories/relation/) 
+- [**Character**](/docs/framework/categories/character.html/) 
+- [**Family**](/docs/framework/categories/family.html/) 
+- [**Trait**](/docs/framework/categories/trait.html/) 
+- [**Ability**](/docs/framework/categories/ability.html/) 
+- [**Language**](/docs/framework/categories/language.html/) 
+- [**Relation**](/docs/framework/categories/relation.html/) 
 
 ### What 
 *Relating to material and metaphysical presences*
 
-- [**Object**](/docs/framework/categories/object/) 
-- [**Creature**](/docs/framework/categories/creature/)
-- [**Species**](/docs/framework/categories/species/)
-- [**Collective**](/docs/framework/categories/collective/)
-- [**Phenomenon**](/docs/framework/categories/phenomenon/)
-- [**Event**](/docs/framework/categories/event/)
+- [**Object**](/docs/framework/categories/object.html/) 
+- [**Creature**](/docs/framework/categories/creature.html/) 
+- [**Species**](/docs/framework/categories/species.html/) 
+- [**Collective**](/docs/framework/categories/collective.html/) 
+- [**Phenomenon**](/docs/framework/categories/phenomenon.html/) 
+- [**Event**](/docs/framework/categories/event.html/) 
 
 ### How
 
 *Relates to how a world is organized and divided*
 
-- [**Location**](/docs/framework/categories/location/) 
-- [**Institution**](/docs/framework/categories/institution/)
-- [**Territory**](/docs/framework/categories/territory/)
-- [**Title**](/docs/framework/categories/title/)
-- [**Law**](/docs/framework/categories/law/)
-- [**Construct**](/docs/framework/categories/construct/)
+- [**Location**](/docs/framework/categories/location.html.html/)  
+- [**Institution**](/docs/framework/categories/institution.html/) 
+- [**Territory**](/docs/framework/categories/territory.html/) 
+- [**Title**](/docs/framework/categories/title.html/) 
+- [**Law**](/docs/framework/categories/law.html/) 
+- [**Construct**](/docs/framework/categories/construct.html/) 

@@ -9,17 +9,18 @@ grand_parent: Framework
 
 **Definition**
 
-*short*
+*A designation of rank, role, or status conferred upon an individual or entity*
 
-long
+A Title represents a formal recognition of authority, responsibility, or distinction within an Institution, which functions as its author.  
 
 **Examples**
-- 
-
+- King of Rohan
+- Fleet Admiral
+- Assistant sweeper
 
 **[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Title)**
 
-Potential alternate names: *..*
+Potential alternate names: *Rank, Designation, Office, ..*
 
 ---
 ### Nature
