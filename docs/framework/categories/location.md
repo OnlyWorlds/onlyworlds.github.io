@@ -9,17 +9,19 @@ grand_parent: Framework
 
 **Definition**
 
-*short*
+*A specific point in space, categorized under a single purpose or function within the world*
 
-long
+A Location is a defined geographical area within the world, typically associated with a particular purpose, such as a settlement, natural feature, or cultural site. Locations are foundational elements that provide context and setting for other elements like Institutions, Characters, and Events, and often serve as the physical backdrop for narratives and interactions.
 
 **Examples**
-- 
-
+- The City of Atlantis
+- The Forbidden Forest
+- Mount Doom
 
 **[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Location)**
 
-Potential alternate names: *..*
+Potential alternate names: *Place, Site, Area*
+
 
 ---
 ### Locality

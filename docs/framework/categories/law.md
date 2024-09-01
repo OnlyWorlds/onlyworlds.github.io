@@ -9,17 +9,19 @@ grand_parent: Framework
 
 **Definition**
 
-*short*
+*A system of rules and penalties built on claims to authority*
 
-long
+A Law is a formalized set of guidelines or commands that govern the actions of individuals or groups within a specific jurisdiction.  
 
 **Examples**
-- 
-
+- The Code of Hammurabi
+- The U.S. Constitution
+- First rule of Fight Club
 
 **[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Law)**
 
-Potential alternate names: *..*
+Potential alternate names: *Ordinance, Statute, Regulation*
+
 
 ---
 ### Code

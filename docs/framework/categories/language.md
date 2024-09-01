@@ -6,20 +6,18 @@ grand_parent: Framework
 ---
 
 # Language
+ 
+*A structured system of communication*
 
-**Definition**
+A Language is a set of symbols, sounds, and rules that enable communication within a society  
 
-*short*
-
-long
-
-**Examples**
-- 
-
+- High Elvish
+- Galactic Basic
+- Old Norse
 
 **[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Language)**
 
-Potential alternate names: *..*
+Potential alternate names: *Tongue, ..*
 
 ---
 ### Syntax

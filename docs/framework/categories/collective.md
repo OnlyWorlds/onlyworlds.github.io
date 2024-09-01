@@ -11,7 +11,7 @@ grand_parent: Framework
 
 *A physical group of individuals that can be regarded as a whole by some common identifier*
 
-Collective represents the physical reality of a group that has some capacity for action. It embodies only this physical capacity, and not how or why this capacity is directed: so that it can describe a herd of cattle as well as a pitch fork mob, but does not extend to the political or social processes that direct the mob's formation and behaviour. Their organization as such is typically the domain of other elements such as Institutions or Characters. 
+Collective represents the physical reality of a group that has some capacity for action. This element embodies only any physical capacity, and might be driven to action by other elements
 
 **Examples**
 - Farming commune
