@@ -8,22 +8,14 @@ has_toc: false
 
 # Framework Overview
 
+OnlyWorlds are defined through a single JSON file that encapsulates [world metadata](/docs/framework/world-metadata/) and the world elements that make up the structure of your world.
 
-Worlds are contained in single text files, structured in JSON format
+These elements are divided into 18 distinct [categories](/docs/framework/categories/), designed to represent all aspects of world building.
 
-These single-text world definitions can easily be imported into or exported out of tools, by manual copy/paste or through the web
+Each category is configured with its own set of [fields](/docs/framework/fields/), which are named attributes capable of holding text, numeric values, or links to other elements.
 
-The bulk of this world data consists of world **elements**: your characters, locations, creatures, and more.
-
-OnlyWorlds currently defines 18 [categories](/docs/framework/categories/) of elements: from the more obvious **Character** to the less familiar **Construct** or **Title**.
-
-Each of these categories has its own configuration of [fields](/docs/framework/fields/): named attributes that can hold text values, number values, or link to other elements. 
-
-Every category also has a series of [typings](/docs/framework/typings/): (sub)categorizations that help structure and operate a world. 
-
-These elements define a world together with a set of [world metadata](/docs/framework/world-metadata/).
-
-Take a look at the [origins](/docs/framework/origins/) page for more details on this process.
+Additionally, each category includes a system of [typings](/docs/framework/typings/), which are sub-categorizations that further refine and organize the elements within the world.
+ 
 
 
 

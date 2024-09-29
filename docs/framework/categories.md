@@ -7,14 +7,11 @@ has_children: true
 has_toc: false
 ---
 
-These 18 categories define the elements that together make up your world. 
- 
-They can be loosely divided into three types of world content:
-
+These 18 categories define the elements that make up your world. They can be broadly grouped into three types:
 
 ### Who 
 
-*Relating to agents that act on your world*
+*Relating to agents that act within a world*
 
 - [**Character**](/docs/framework/categories/character.html/) 
 - [**Family**](/docs/framework/categories/family.html/) 
@@ -35,7 +32,7 @@ They can be loosely divided into three types of world content:
 
 ### How
 
-*Relates to how a world is organized and divided*
+*Relating to how a world is organized and divided*
 
 - [**Location**](/docs/framework/categories/location.html.html/)  
 - [**Institution**](/docs/framework/categories/institution.html/) 
