@@ -9,18 +9,28 @@ description: "Welcome to OnlyWorlds, an open-source platform for world building 
 
 OnlyWorlds is a world-building framework that enables the creation, sharing, and simulation of worlds across wide ranges of tools and applications. 
 
-By defining worlds in a uniform data format, OnlyWorlds enables world transfer across different platforms, without being confined to specific applications or websites.
+### Overview
+
+Consider how a game developer might integrate your world into game logic for games of various types: narrative, exploration, strategy, simulation 
+
+Locations and characters woudl be usable data points. But is it item or object, and country or state or nation or organization? And how might a farm's output be measured? 
+
+OnlyWorlds provides a game-ready fit for your worlds, for game logic and simulation capabilities
+
+Any world broken down into elements that are categorized, fielded, linked, typed, and comprehensive
+
+To find an imperfect but optimum balance between ease-of-building-into and data-usefulness
+
+Worlds are now files that can be loaded into any types of digital applications
+
+Any existing world from popular media or your own archives can be disected and reconfigured into all kinds of wonders
+  
 
 ### Philosophy
-- **Design for Flexibility**: Support the widest range of worlds and content
-- **Free and Open Source**: Continuously refine and enhance through community input and feedback
+- **Design for Flexibility**: Support the widest range of worlds and operations
+- **Free and Open Source**: Refine and enhance through community input and feedback
 - **Ecosystem of Integration**: Foster open development with no commercial restrictions
 
-### Approach
-
-The leading challenge that OnlyWorlds faces is to define data models that represents various parts of the world. These parts (elements) with specific definitions (attributes) need to support all the abstractions that we like to create: societies, stories, war, economies, power dynamics.  
-
-Over many iterations of world creation with game development consideration, with a special interest in history and simulation, OnlyWorlds now provides a complete draft proposal that will require indefinite refinement and improvement.
  
 
 ### Getting Started
