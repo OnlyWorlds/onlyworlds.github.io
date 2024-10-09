@@ -12,7 +12,7 @@ Each category in OnlyWorlds is defined by a set of fields that describe its qual
 
 For instance, all characters have a **Background** field where any amount of text can relate their origin stories.
 
-They also each have a **Location** field that links them to Location elements, allowing you to specify where a character is at any point in time.
+They also each have a **Location** field that links them to Location elements, allowing you to specify where a character is at any point in time. 
 
 ## Field Types
 
