@@ -17,10 +17,14 @@ At its core, an OnlyWorlds world utilizes a **structured data format**.
 This means:
 * Your world has defined metadata (name, owner, description, etc.).
 * Elements are organized into logical categories (Character, Location, Object, Event, etc.).
-* These elements have specific fields. All elements share a set of common **base fields** (like `Name`, `Id`, `Description`), and each category adds its own specific fields.
-* Relationships between elements can be clearly defined (character X is located at place Y).
+* These elements have specific fields. All elements share a set of common **base fields** and each category adds its **own specific fields**.
+* Relationships between elements are defined through these fields (e.g. Ccharacter X is at Location Y).
 
-While this structure can be effectively  represented as JSON, the standard is flexible. Tools might store or interact with this data in various ways, but the underlying principle is organized, text-based information that enables interoperability.
+This structure is primarily designed to be represented as human-readable, text-based data (like YAML or JSON), making it easy for different tools and developers to work with.
+
+**For Developers:** OnlyWorlds also functions as an **open-source developer framework**. The core schema, defined in YAML, is automatically converted into various programming language formats (like Python, C#, JavaScript) to simplify integration. These conversions are available in the main [OnlyWorlds GitHub repository](https://github.com/OnlyWorlds/OnlyWorlds), with more readily available upon request.
+
+The standard itself is flexible regarding specific storage formats. Tools might store or interact with this data in various ways (e.g., databases, specific file types), but the underlying principle is this shared, organized structure that enables interoperability. 
 
 ## Creating Your First World
 
@@ -55,16 +59,6 @@ To make the most of OnlyWorlds, understand these key concepts:
 * **Typings**: Sub-classifications within categories. These consist of 'Supertypes', each of which has a list of 'Subtypes'. This system is customizable, optional, and a work in progress. 
 
 For more detail, see the [Core Concepts](../core-concepts/) section and the [Specification](../specification/).
-
-## Recommended Workflow
-
-A typical OnlyWorlds workflow might look like:
-
-1. **Plan your world structure**: Decide on main characters, locations, and key elements
-2. **Create your base elements**: Add the foundational pieces of your world
-3. **Establish relationships**: Connect elements to each other (who knows whom, what belongs where)
-4. **Refine and expand**: Gradually add detail and new elements
-5. **Share or export**: Use your world in a game, story, or share with collaborators
 
 ## Getting Help
 
