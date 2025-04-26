@@ -1,43 +1,39 @@
 ---
 layout: default
 title: Categories
-parent: Framework
-nav_order: 2
+parent: Specification
+av_order: 2
 has_children: true
 has_toc: false
 ---
 
-These 18 categories define the elements that make up your world. They can be broadly grouped into three types:
+# Categories
 
-### Who 
+Elements are the fundamental building blocks of an OnlyWorlds world. Each element belongs to one of the following categories, which defines its core purpose and available fields.
 
-*Relating to agents that act within a world* 
+*   [Ability](/docs/specification/categories/ability)
+*   [Character](/docs/specification/categories/character)
+*   [Collective](/docs/specification/categories/collective)
+*   [Construct](/docs/specification/categories/construct)
+*   [Creature](/docs/specification/categories/creature)
+*   [Event](/docs/specification/categories/event)
+*   [Family](/docs/specification/categories/family)
+*   [Institution](/docs/specification/categories/institution)
+*   [Language](/docs/specification/categories/language)
+*   [Law](/docs/specification/categories/law)
+*   [Location](/docs/specification/categories/location)
+*   [Map](/docs/specification/categories/map)
+*   [Marker](/docs/specification/categories/marker)
+*   [Narrative](/docs/specification/categories/narrative)
+*   [Object](/docs/specification/categories/object)
+*   [Phenomenon](/docs/specification/categories/phenomenon)
+*   [Pin](/docs/specification/categories/pin)
+*   [Relation](/docs/specification/categories/relation)
+*   [Species](/docs/specification/categories/species)
+*   [Territory](/docs/specification/categories/territory)
+*   [Title](/docs/specification/categories/title)
+*   [Trait](/docs/specification/categories/trait)
 
-- [Character](/docs/framework/categories/character) 
-- [Family](/docs/framework/categories/family) 
-- [Trait](/docs/framework/categories/trait) 
-- [Ability](/docs/framework/categories/ability) 
-- [Language](/docs/framework/categories/language) 
-- [Relation](/docs/framework/categories/relation) 
+Click on a category name to see its specific fields and description.
 
-### What 
-
-*Relating to material and metaphysical presences*
-
-- [Object](/docs/framework/categories/object) 
-- [Creature](/docs/framework/categories/creature) 
-- [Species](/docs/framework/categories/species) 
-- [Collective](/docs/framework/categories/collective) 
-- [Phenomenon](/docs/framework/categories/phenomenon) 
-- [Event](/docs/framework/categories/event) 
-
-### How
-
-*Relating to how a world is organized and divided*
-
-- [Location](/docs/framework/categories/location.html)  
-- [Institution](/docs/framework/categories/institution) 
-- [Territory](/docs/framework/categories/territory) 
-- [Title](/docs/framework/categories/title) 
-- [Law](/docs/framework/categories/law) 
-- [Construct](/docs/framework/categories/construct) 
+(Note: The `World` properties are described under [World Metadata](/docs/specification/world-metadata), and common `Base Properties` shared by all elements are detailed under [Fields](/docs/specification/fields).)

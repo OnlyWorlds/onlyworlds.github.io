@@ -2,7 +2,8 @@
 layout: default
 title: Location
 parent: Categories
-grand_parent: Framework 
+grand_parent: Specification
+nav_order: 11
 ---
 
 # Location
@@ -85,7 +86,7 @@ Potential alternate names: *Place, Site, Area, ..*
 - **Hard_influence_on** (multi-link: Location): Locations under the hard control or influence of this location.
 
 ### Strategics
-- **Defensibility**: Assessment of the location’s defensibility against threats.
+- **Defensibility**: Assessment of the location's defensibility against threats.
 - **Height** (#): Elevation or strategic height of the location.
 - **Primary_fighter** (single-link: Institution): Primary defensive institution or military presence.
 - **Secondary_fighters** (multi-link: Institution): Supportive or auxiliary defensive forces.

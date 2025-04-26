@@ -1,32 +1,40 @@
 ---
 layout: default
 title: Typings
-parent: Framework
-nav_order: 4
+parent: Specification
+av_order: 4
+has_toc: false
 ---
 
-## Supertypes and Subtypes
+# Typings (Supertype/Subtype System)
 
-The **Typings System** in OnlyWorlds is a classification structure designed to further organize elements within each category. 
+The Typings system provides an optional, additional layer of classification for elements within their main [Category](./categories.md). It uses two fields present in the [Base Fields](./fields.md) of every element:
 
-It uses **supertypes** and **subtypes** to add additional layers of specificity, both for organizational purposes and to enable functional relationships between elements. 
+*   `Supertype`
+*   `Subtype`
 
-Each element in a category is first classified into a **supertype**, which is a broad classification that defines the general nature of the element. Supertypes serve as an additional layer of categorization within a category, helping to group similar elements.
+## Purpose
 
-Within each supertype, there are **subtypes**, which provide a more granular classification of the element. Subtypes allow for a greater level of detail and distinction between elements.
+Typings serve multiple purposes:
 
-For example, within the **Location** category:
-- There is currently a **supertype** called **Settlement**
-- Subtypes under this supertype include **City**, **Town**, **Village**, and **Hamlet**
+1.  **Organization:** Allows for finer-grained grouping and filtering of elements beyond their main category. For example, within the `Location` category, you could have a `Settlement` Supertype with Subtypes like `City`, `Town`, `Village`.
+2.  **Functional Relationships:** Enables more specific linking between elements. Some fields might be restricted to only link to elements with a particular Supertype or Subtype. For instance:
+    *   A `Location`'s `Buildings` field might only accept links to other `Location` elements that have the `Building` Supertype.
+    *   A `Character`'s `Profession` field might link to an `Institution` element with the `Guild` Subtype.
+3.  **Contextual Behavior:** Tools implementing the standard could potentially use Typings to alter behavior or display based on an element's specific type (e.g., displaying different icons for a `City` vs. a `Village`).
 
-Beyond classification and filtering, types can also pdefine functional relationships between elements: some fields in an element can only link to other elements that have a specific **supertype** or **subtype**. 
+## Implementation Details
 
-For instance:
-- **Location** elements have a **Buildings** field that links to other **Location** elements, but only those that have a **Building** supertype
-- **Location** elements also have a **Primary Industry** field that links to any **Construct** element that has both a **Solution** supertype and **Industrial** subtype
+*   Both `Supertype` and `Subtype` fields accept simple string values.
+*   The specific valid Supertypes and Subtypes available may depend on the element's Category.
+*   Currently, the definition and enforcement of valid Typings are primarily handled by the tools using the standard, rather than being rigidly defined in the core schema itself.
+*   This system is considered optional and is still evolving. Not all categories may have defined Typings yet.
 
-The current supertypes and subtypes system is still under active development. While it provides structure and functionality, not all categories have supertypes and/or subtypes implemented yet, and the current technical implementation is rudimentary.
+## Future Directions
 
-One potential long term approach is to introduce **custom templates**, allowing supertypes and subtypes to be adapted based on the theme or genre of a world. These templates would enable flexibility while maintaining the underlying structure and functionality. For example, a **Fantasy** setting might use subtypes like **City**, **Village**, and **Fortress** under the **Location** supertype, while a **Sci-Fi** world might use **Megalopolis**, **Outpost**, and **Colony**. 
+Potential future developments include:
+
+*   More formalized definition of valid Typings per category within the schema.
+*   The concept of **custom templates** where users could define their own Typings relevant to their specific world's genre or theme (e.g., `Megalopolis`, `Outpost` for sci-fi Locations vs. `City`, `Fortress` for fantasy).
 
 

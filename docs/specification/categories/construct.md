@@ -2,7 +2,8 @@
 layout: default
 title: Construct
 parent: Categories
-grand_parent: Framework 
+grand_parent: Specification
+nav_order: 4
 ---
 
 # Construct
@@ -14,7 +15,7 @@ grand_parent: Framework
 A Construct represents an abstract framework or idea that shapes understanding and behavior within a given context. Constructs are not physical entities but serve as the foundational principles or systems by which a society, culture, or group interprets and interacts with the world.
 
 **Examples**
-- Rachmaninov’s Prelude in C-sharp Minor
+- Rachmaninov's Prelude in C-sharp Minor
 - Stealth Technology
 - Transmission Coordinates
 

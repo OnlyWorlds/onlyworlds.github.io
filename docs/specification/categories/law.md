@@ -2,7 +2,8 @@
 layout: default
 title: Law
 parent: Categories
-grand_parent: Framework 
+grand_parent: Specification
+nav_order: 10
 ---
 
 # Law

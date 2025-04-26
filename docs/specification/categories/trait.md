@@ -2,7 +2,8 @@
 layout: default
 title: Trait
 parent: Categories
-grand_parent: Framework 
+grand_parent: Specification
+nav_order: 18
 ---
 
 # Trait

@@ -2,7 +2,8 @@
 layout: default
 title: Event
 parent: Categories
-grand_parent: Framework 
+grand_parent: Specification
+nav_order: 6
 ---
 
 # Event
