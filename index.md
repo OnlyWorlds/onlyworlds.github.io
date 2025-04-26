@@ -19,11 +19,10 @@ OnlyWorlds offers a path to integration: a **structured, text-based standard** d
 
 Its goal is to provide this standard with maximum **flexibility** for diverse worlds, to ensure it remains **free and open-source** and continually refined by the community, and to foster an **ecosystem of integrated tools** without commercial restrictions. The specification is designed with game development needs in mind, but must serve  storytellers, tabletop creators, and hobbyists as well.
 
-## Getting Started
+## Explore the Documentation
 
-1. **Explore:** Dive into the [Core Concepts](./core-concepts/) and the detailed [Specification](./specification/) that defines the standard.
-2. **See What's New:** Check the [Changelog](./changelog/) for the latest updates.
-3. **Find Tools:** Browse the [Tool Directory](./tool-directory/) for compatible software.
-4. **Contribute:** Get involved! Chat on [Discord](https://discord.gg/twCjqvVBwb), discuss features on [GitHub Discussions](https://github.com/OnlyWorlds/OnlyWorlds/discussions), or start developing with the help of our [Contributing Guide](./contributing/).
-
+1. **Discover:** Dive into the [Core Concepts](./core-concepts/) and the detailed [Specification](./specification/) that defines the standard.
+2. **Find Tools:** Browse the [Tool Directory](./tool-directory/) for compatible software.
+3. **Contribute:** Chat on [Discord](https://discord.gg/twCjqvVBwb), discuss features on [GitHub Discussions](https://github.com/OnlyWorlds/OnlyWorlds/discussions), or start developing with the help of our [Contributing Guide](./contributing/).
+4. **See What's New:** Check the [Changelog](./changelog/) for the latest updates.
 
