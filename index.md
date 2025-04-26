@@ -11,38 +11,19 @@ OnlyWorlds provides an open-source standard and community-driven ecosystem for d
 
 This enables creators to collaboratively craft detailed worlds, and to explore and simulate them using game engines and other software.
 
-## Introduction
+## Why OnlyWorlds?
 
-Creators have a wide range of tools at their disposal, from pen-and-paper to note-taking apps and specialized software, whether they're building worlds for storytelling, game design, tabletop campaigns or just for fun.
+World building is done with all kinds of tools: from notebooks and wikis to many types of dedicated software. But the data that represents your worlds often gets trapped in one place. Moving your content between writing apps, map makers, and tools to organize and view your worlds can mean tedious re-entry or complex (if not impossible) conversions.
 
-Some tools allow total flexibility in defining elements, while others impose more structured templates (**character** or **person**? **place** or **location**? **item** or **object**?). Custom templates can be a middle ground, where users can apply their own organizational rules and potentially share them with others.
- 
-OnlyWorlds pushes the concept of a pre-defined-schema to the very extreme of the spectrum: it proposes a breakdown of every conceivable part of your world into a **one-size-fits-all**, uniform data format.
+OnlyWorlds offers a path to integration: a **structured, text-based standard** designed from the ground up for **interoperability**. By defining a common language for characters, locations, items, and (ideally) all other facets of any worlds, OnlyWorlds lets your data flow between compatible tools. Write your history in one app, visualize locations in another, and simulate dynamics in a game engine, all using the same lightweight, text-based core world data.
 
-OnlyWorlds takes the structured approach to the extreme, offering a unified data format that breaks down every aspect of a world in a consistent way. This format is designed to be flexible enough for a wide range of ideas while maintaining the structure needed for digital tools to interpret and interact with the data.
-
-You can create stories in your preferred writing app, place elements using a map tool, and then easily upload and display your world on a website. OnlyWorlds ensures that these processes integrate smoothly, allowing content to move between tools and supporting developers in building compatible tools where possible.
-
-The underlying data structures are built with a game development mindset, ensuring that worlds created in OnlyWorlds can be integrated into games and simulations. After years of refinement, the framework is now in a stage where community feedback will help drive its evolution.
- 
-
-## Philosophy
-
-- **Design for Flexibility**: Support the widest range of worlds and functionality
-- **Free and Open Source**: Refine and enhance through community input and feedback
-- **Ecosystem of Integration**: Foster open development with no commercial restrictions
- 
+Our goal is to provide this standard with maximum **flexibility** for diverse worlds, to ensure it remains **free and open-source** and continually refined by the community, and to foster an **ecosystem of integrated tools** without commercial restrictions. The specification is designed with game development needs in mind, but must serve  storytellers, tabletop creators, and hobbyists as well.
 
 ## Getting Started
 
- _Note: OnlyWorlds is currently in closed alpha. This website is under construction, and not all content is openly available yet._
-
-_To gain access to all current tooling, please request a keycode through [Discord](https://discord.gg/twCjqvVBwb) or [this form](https://www.onlyworlds.com/about/)._
-
-_A public release is planned in late 2024._
-
-1. **Explore:** Read more about the [framework](/docs/framework/) and the element [categories](/docs/framework/categories) that define it
-2. **Try:** Take a look at current [state and updates](/docs/updates), and try your worlds with the free [tools](/docs/tools) that are available
-3. **Contribute:** Join [Discord](https://discord.gg/twCjqvVBwb) and [GitHub discussions](https://github.com/OnlyWorlds/OnlyWorlds/discussions), or participate in active [development](/docs/development/)
+1. **Explore:** Dive into the [Core Concepts](./core-concepts/) and the detailed [Specification](./specification/) that defines the standard.
+2. **See What's New:** Check the [Changelog](./changelog/) for the latest updates.
+3. **Find Tools:** Browse the [Tool Directory](./tool-directory/) for compatible software.
+4. **Contribute:** Get involved! Chat on [Discord](https://discord.gg/twCjqvVBwb), discuss features on [GitHub Discussions](https://github.com/OnlyWorlds/OnlyWorlds/discussions), or start developing with the help of our [Contributing Guide](./contributing/).
 
 
