@@ -21,8 +21,8 @@ Its goal is to provide this standard with maximum **flexibility** for diverse wo
 
 ## Explore the Documentation
 
-1. **Discover:** Dive into the [Core Concepts](./core-concepts/) and the detailed [Specification](./specification/) that defines the standard.
-2. **Find Tools:** Browse the [Tool Directory](./tool-directory/) for compatible software.
-3. **Contribute:** Chat on [Discord](https://discord.gg/twCjqvVBwb), discuss features on [GitHub Discussions](https://github.com/OnlyWorlds/OnlyWorlds/discussions), or start developing with the help of our [Contributing Guide](./contributing/).
-4. **See What's New:** Check the [Changelog](./changelog/) for the latest updates.
+1. Learn about the [Core Concepts](./core-concepts/) and the detailed [Specification](./specification/) that defines the standard.
+2. Browse the [Tool Directory](./tool-directory/) for compatible software.
+3. Chat on [Discord](https://discord.gg/twCjqvVBwb), discuss features on [GitHub Discussions](https://github.com/OnlyWorlds/OnlyWorlds/discussions), or start developing with the help of the [Contributing Guide](./contributing/).
+4. Check the [Changelog](./changelog/) for the latest updates.
 
