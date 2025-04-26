@@ -1,11 +1,12 @@
-<!-- ---
+---
 layout: default
-title: Concept
-nav_order: 2 
+title: Core Concepts
+nav_order: 3
+has_children: true
 has_toc: false
 ---
 
-# Concept
+# Core Concepts
 
 The heart of OnlyWorlds is a **data structure:** an agreement on how we format our worlds and their characters, maps, stories, dynamics and everything else. 
 
@@ -19,14 +20,4 @@ The reward for using a common standard is that **tools and applications** know h
 
 Create your stories and elements in a **writing tool** of choice; then send over your world to a **mapping application** so you can physically locate them. Use other tools for **easy collaboration and displaying**, or ship it to any **games** that supports the format, from first-person exploring to economy simulators.  
 
-Go to [framework](/docs/framework/) to see what this structure actually looks like. 
-
-
-
-
-
-
-
-
-
- -->
+Go to [Specification](../specification/) to see what this structure actually looks like.
