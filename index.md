@@ -17,7 +17,7 @@ World building is done with all kinds of tools: from notebooks and wikis to many
 
 OnlyWorlds offers a path to integration: a **structured, text-based standard** designed from the ground up for **interoperability**. By defining a common language for characters, locations, items, and (ideally) all other facets of any worlds, OnlyWorlds lets your data flow between compatible tools. Write your history in one app, visualize locations in another, and simulate dynamics in a game engine, all using the same lightweight, text-based core world data.
 
-Our goal is to provide this standard with maximum **flexibility** for diverse worlds, to ensure it remains **free and open-source** and continually refined by the community, and to foster an **ecosystem of integrated tools** without commercial restrictions. The specification is designed with game development needs in mind, but must serve  storytellers, tabletop creators, and hobbyists as well.
+Its goal is to provide this standard with maximum **flexibility** for diverse worlds, to ensure it remains **free and open-source** and continually refined by the community, and to foster an **ecosystem of integrated tools** without commercial restrictions. The specification is designed with game development needs in mind, but must serve  storytellers, tabletop creators, and hobbyists as well.
 
 ## Getting Started
 
