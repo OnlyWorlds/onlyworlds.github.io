@@ -5,24 +5,34 @@ nav_order: 1
 description: "Welcome to OnlyWorlds, an open-source platform for world building and simulation"
 ---
 
-# Welcome to OnlyWorlds
+# OnlyWorlds
 
-OnlyWorlds provides an open-source standard and community-driven ecosystem for defining digital worlds as lightweight, text-based data.
+OnlyWorlds is a lightweight, text-based standard for defining digital worlds that enables data portability across applications. 
+Worlds defined this way can be collaboratively developed and brought to life through writing tools, mapping software, game engines, and any other compatible applications.
 
-This enables creators to collaboratively craft detailed worlds, and to explore and simulate them using game engines and other software.
+## The Problem
 
-## Why OnlyWorlds?
+World-building spans everything from notebooks and wikis to specialized software, but the underlying data often gets locked in limited ecosystems.
+There are many ways you might want to digitally engage with your world data, but no common pathways between them. 
 
-World building is done with all kinds of tools: from notebooks and wikis to many types of dedicated software. But the data that represents your worlds often gets trapped in one place. Moving your content between writing apps, map makers, and tools to organize and view your worlds can mean tedious re-entry or complex (if not impossible) conversions.
 
-OnlyWorlds offers a path to integration: a **structured, text-based standard** designed from the ground up for **interoperability**. By defining a common language for characters, locations, items, and (ideally) all other facets of any worlds, OnlyWorlds lets your data flow between compatible tools. Write your history in one app, visualize locations in another, and simulate dynamics in a game engine, all using the same lightweight, text-based core world data.
+## The Solution
 
-Its goal is to provide this standard with maximum **flexibility** for diverse worlds, to ensure it remains **free and open-source** and continually refined by the community, and to foster an **ecosystem of integrated tools** without commercial restrictions. The specification is designed with game development needs in mind, but must serve  storytellers, tabletop creators, and hobbyists as well.
+OnlyWorlds provides a structured, text-based standard that enables interoperability between world-building tools.
+By defining a common language for characters, locations, items, and other world elements, world data becomes freely transferable. 
+Write your history in one app, visualize locations in another, and simulate its economy in a third, all working on the same consistent world definition.
+The standard prioritizes flexibility, open-source development, and unrestricted tool integration: for storytellers, tabletop gamers, game developers, and anyone that wants to build worlds and help develop the framework. 
 
-## Explore the Documentation
+## Origins
 
-1. Learn about the [Core Concepts](./core-concepts/) and the detailed [Specification](./specification/) that defines the standard.
-2. Browse the [Tool Directory](./tool-directory/) for compatible software.
-3. Chat on [Discord](https://discord.gg/twCjqvVBwb), discuss features on [GitHub Discussions](https://github.com/OnlyWorlds/OnlyWorlds/discussions), or start developing with the help of the [Contributing Guide](./contributing/).
-4. Check the [Changelog](./changelog/) for the latest updates.
+OnlyWorlds is developed as a free and open-source standard, rooted in years of research and experimentation. Its data design draws from work that includes exploring political power modeling (see ["Power Scheming" Thesis](link-to-thesis-if-available)) and practical applications like this [reconstruction and simulation of ancient Sicily](https://www.onlyworlds.com/static/webgl/index.html) that was hosted on an [earlier iteration](https://github.com/worldsmithdev/Worldsmith) of an open source world building platform.
+
+## Intent
+
+Its current data definitions follow from such earlier work, and should be seen as starting points intended to evolve based on community feedback and collaboration. Suggestions for improving categories, fields, relationships, or the overall structure are actively encouraged through channels like [Discord](https://discord.gg/twCjqvVBwb) and [GitHub Discussions](https://github.com/OnlyWorlds/OnlyWorlds/discussions). 
+
+## Infrastructure
+
+Developers of all kinds and levels are encouraged to integrate its definitions into their new or existing tools. Language conversions and contribution support are available on the [OnlyWorlds GitHub repository](https://github.com/OnlyWorlds/OnlyWorlds), and the [API specification](https://onlyworlds.com/api/docs) offers easy interfacing with people's worlds through an open server. 
+
 
