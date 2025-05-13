@@ -15,10 +15,10 @@ Write down your world's API key for tool access, and find your PIN number in you
 
 ### Learn more
 
-* Go to [Specification](../specification/) for in depth information on data structures and strategies. 
-* Go to [FAQ](../faq/) for common questions. 
-* Go to [Changelog](./changelog/) for latest updates.
+* Go to [Specification](../specification/) for technical and [element specifics](../specification/element_categories/) 
+* Go to [FAQ](../faq/) for common questions
+* Go to [Changelog](./changelog/) for latest updates
 
 ### Participate
-* Get started developing for OnlyWorlds (or learning how to) through the [github repo](https://github.com/OnlyWorlds/OnlyWorlds).
-* Contribute your feedback of all kinds: on the framework definitions, platform infrastructure, tool specifics. Channels include the [Discord server](https://discord.gg/twCjqvVBwb), [GitHub discussion topics](https://github.com/OnlyWorlds/OnlyWorlds/discussions), and feedback generation in the [parse tool](TODO).
+* Get started developing for OnlyWorlds (or learning how to) through the [github repo](https://github.com/OnlyWorlds/OnlyWorlds)
+* Contribute your feedback of all kinds: on the framework definitions, platform infrastructure, tool specifics. Channels include the [Discord server](https://discord.gg/twCjqvVBwb), [GitHub discussion topics](https://github.com/OnlyWorlds/OnlyWorlds/discussions), and feedback generation in the [parse tool](TODO)

@@ -10,16 +10,16 @@ has_toc: false
  
 ### 1
 
-See the child.<span class="material-symbols-outlined">person_4</span>
-He is pale and thin,<span class="material-symbols-outlined">flaky</span> he wears a thin and ragged linen shirt.<span class="material-symbols-outlined">webhook</span> He stokes the scullery fire.<span class="material-symbols-outlined">thunderstorm</span> Outside lie dark turned fields with rags of snow and darker woods beyond <span class="material-symbols-outlined">castle</span> that harbor yet a few last wolves.<span class="material-symbols-outlined">bug_report</span> His folk<span class="material-symbols-outlined">supervisor_account</span> are known for hewers of wood and drawers of water <span class="material-symbols-outlined">auto_fix_normal</span> but in truth his father <span class="material-symbols-outlined">link</span> has been a schoolmaster.<span class="material-symbols-outlined">military_tech</span> He lies in drink, he quotes from poets <span class="material-symbols-outlined">api</span> whose names are now lost.
+See the child.<a href="/docs/specification/element_categories/Character"><span class="material-symbols-outlined">person_4</span></a>
+He is pale and thin,<a href="/docs/specification/element_categories/Trait"><span class="material-symbols-outlined">flaky</span></a> he wears a thin and ragged linen shirt.<a href="/docs/specification/element_categories/Object"><span class="material-symbols-outlined">webhook</span></a> He stokes the scullery fire.<a href="/docs/specification/element_categories/Phenomenon"><span class="material-symbols-outlined">thunderstorm</span></a> Outside lie dark turned fields with rags of snow and darker woods beyond <a href="/docs/specification/element_categories/Location"><span class="material-symbols-outlined">castle</span></a> that harbor yet a few last wolves.<a href="/docs/specification/element_categories/Creature"><span class="material-symbols-outlined">bug_report</span></a> His folk<a href="/docs/specification/element_categories/Family"><span class="material-symbols-outlined">supervisor_account</span></a> are known for hewers of wood and drawers of water <a href="/docs/specification/element_categories/Ability"><span class="material-symbols-outlined">auto_fix_normal</span></a> but in truth his father <a href="/docs/specification/element_categories/Relation"><span class="material-symbols-outlined">link</span></a> has been a schoolmaster.<a href="/docs/specification/element_categories/Title"><span class="material-symbols-outlined">military_tech</span></a> He lies in drink, he quotes from poets <a href="/docs/specification/element_categories/Construct"><span class="material-symbols-outlined">api</span></a> whose names are now lost.
 
-He rides up <span class="material-symbols-outlined">saved_search</span> through the latterday republic of Fredonia <span class="material-symbols-outlined">business</span> into the town of
-Nacogdoches. The Reverend Green had been playing to a full house <span class="material-symbols-outlined">groups_3</span> daily as long as the rain had
-been falling and the rain had been falling for two weeks.<span class="material-symbols-outlined">book</span>
+He rides up <a href="/docs/specification/element_categories/Event"><span class="material-symbols-outlined">saved_search</span></a> through the latterday republic of Fredonia <a href="/docs/specification/element_categories/Institution"><span class="material-symbols-outlined">business</span></a> into the town of
+Nacogdoches. The Reverend Green had been playing to a full house <a href="/docs/specification/element_categories/Collective"><span class="material-symbols-outlined">groups_3</span></a> daily as long as the rain had
+been falling and the rain had been falling for two weeks.<a href="/docs/specification/element_categories/Narrative"><span class="material-symbols-outlined">book</span></a>
 
-He stood with others of his kind <span class="material-symbols-outlined">crib</span> along the back wall. The only thing that might have
+He stood with others of his kind <a href="/docs/specification/element_categories/Species"><span class="material-symbols-outlined">crib</span></a> along the back wall. The only thing that might have
 distinguished him in that crowd was that he was not armed. Neighbors, said the reverend, he couldnt stay out of these here hell,
-hell, hellholes <span class="material-symbols-outlined">edit_road</span> right here in Nacogdoches.
+hell, hellholes <a href="/docs/specification/element_categories/Language"><span class="material-symbols-outlined">edit_road</span></a> right here in Nacogdoches.
 
 
 
@@ -27,22 +27,22 @@ hell, hellholes <span class="material-symbols-outlined">edit_road</span> right h
 
  
 
-An enormous man <span class="material-symbols-outlined">person_4</span> dressed in an oilcloth slicker <span class="material-symbols-outlined">webhook</span> had entered the tent <span class="material-symbols-outlined">castle</span>
+An enormous man <a href="/docs/specification/element_categories/Character"><span class="material-symbols-outlined">person_4</span></a> dressed in an oilcloth slicker <a href="/docs/specification/element_categories/Object"><span class="material-symbols-outlined">webhook</span></a> had entered the tent <a href="/docs/specification/element_categories/Location"><span class="material-symbols-outlined">castle</span></a>
 and removed his hat. He was bald as a stone and he had no trace of beard and he had
-no brows to his eyes nor lashes to them <span class="material-symbols-outlined">flaky</span>.
+no brows to his eyes nor lashes to them <a href="/docs/specification/element_categories/Trait"><span class="material-symbols-outlined">flaky</span></a>.
 
-The reverend had stopped his sermon <span class="material-symbols-outlined">api</span> altogether. There was no sound in the tent.
-All watched the man. He adjusted the hat and then pushed his way forward <span class="material-symbols-outlined">saved_search</span> as far as the
+The reverend had stopped his sermon <a href="/docs/specification/element_categories/Construct"><span class="material-symbols-outlined">api</span></a> altogether. There was no sound in the tent.
+All watched the man. He adjusted the hat and then pushed his way forward <a href="/docs/specification/element_categories/Event"><span class="material-symbols-outlined">saved_search</span></a> as far as the
 crateboard pulpit where the reverend stood and there he turned to address the
-reverend's congregation.<span class="material-symbols-outlined">groups_3</span>
+reverend's congregation.<a href="/docs/specification/element_categories/Collective"><span class="material-symbols-outlined">groups_3</span></a>
 
 His face was serene and strangely childlike. His hands were small. He held them out.
-Ladies and gentlemen I feel it my duty to inform you that the man <span class="material-symbols-outlined">crib</span> holding this revival
-is an imposter. He holds no papers of divinity <span class="material-symbols-outlined">edit_road</span> from any institution <span class="material-symbols-outlined">business</span> recognized or
+Ladies and gentlemen I feel it my duty to inform you that the man <a href="/docs/specification/element_categories/Species"><span class="material-symbols-outlined">crib</span></a> holding this revival
+is an imposter. He holds no papers of divinity <a href="/docs/specification/element_categories/Language"><span class="material-symbols-outlined">edit_road</span></a> from any institution <a href="/docs/specification/element_categories/Institution"><span class="material-symbols-outlined">business</span></a> recognized or
 improvised. He is altogether devoid of the least qualification to the office he has
 usurped and has only committed to memory a few passages from the good book for the
-purpose of lending to his fraudulent sermons some faint flavor of the piety he despises.<span class="material-symbols-outlined">book</span>
-In truth, the gentleman standing here before you posing as a minister of the Lord <span class="material-symbols-outlined">military_tech</span> is not
-only totally illiterate <span class="material-symbols-outlined">auto_fix_normal</span> but is also wanted by the law <span class="material-symbols-outlined">gpp_bad</span> in the states of Tennessee, Kentucky,
-Mississippi, and Arkansas.<span class="material-symbols-outlined">architecture</span>
+purpose of lending to his fraudulent sermons some faint flavor of the piety he despises.<a href="/docs/specification/element_categories/Narrative"><span class="material-symbols-outlined">book</span></a>
+In truth, the gentleman standing here before you posing as a minister of the Lord <a href="/docs/specification/element_categories/Title"><span class="material-symbols-outlined">military_tech</span></a> is not
+only totally illiterate <a href="/docs/specification/element_categories/Ability"><span class="material-symbols-outlined">auto_fix_normal</span></a> but is also wanted by the law <a href="/docs/specification/element_categories/Law"><span class="material-symbols-outlined">gpp_bad</span></a> in the states of Tennessee, Kentucky,
+Mississippi, and Arkansas.<a href="/docs/specification/element_categories/Territory"><span class="material-symbols-outlined">architecture</span></a>
  
