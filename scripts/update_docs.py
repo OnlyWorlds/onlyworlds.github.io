@@ -57,7 +57,7 @@ def convert_yaml_to_markdown(yaml_content):
 def update_docs():
     yaml_files = fetch_yaml_files()
     script_directory = os.path.dirname(__file__)
-    docs_directory = os.path.join(script_directory, '..', 'docs', 'framework', 'element_categories')
+    docs_directory = os.path.join(script_directory, '..', 'docs', 'specification', 'element_categories')
 
     for file_name in yaml_files:
         category = file_name[:-5]  # Strip off '.yaml'
@@ -88,7 +88,7 @@ def update_docs():
                 file.write("layout: default\n")
                 file.write(f"title: {category.capitalize()}\n")
                 file.write("parent: Element Categories\n")
-                file.write("grand_parent: Framework\n")
+                file.write("grand_parent: Specification\n")
                 file.write("---\n")
                 file.write("Base Text\n")
                 file.write("---\n")
