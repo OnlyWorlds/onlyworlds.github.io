@@ -1,11 +1,11 @@
 ---
 layout: default
-title: Contributing
+title: Contribution
 nav_order: 8
 has_children: true
 has_toc: false
 ---
 
-# Contributing
+# Contribution
 
 Content coming soon.

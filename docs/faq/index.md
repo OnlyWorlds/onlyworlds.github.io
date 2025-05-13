@@ -9,3 +9,6 @@ has_toc: false
 # FAQ
 
 Content coming soon.
+
+
+how to give shape : map tool, future 3d and terrain integration 

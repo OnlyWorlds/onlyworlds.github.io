@@ -5,25 +5,21 @@ nav_order: 2
 has_children: false
 ---
 
-# Getting Started
+  
  
-## Create your first world
- 
-1. Go to [OnlyWorlds.com](https://www.onlyworlds.com)
-2. Create an account (or sign in)
-3. Click "New World" 
-4. Edit the world and its elements directly in the UI there, or note down its API key for tool access
- 
-## Ship it to another tool 
+Go to [onlyworlds.com](https://www.onlyworlds.com) and create a free account. 
 
-1. Check the [Tool Directory](../tool-directory/) for compatible applications.  
-2. Try build out your world across any of the free tools available there. 
- 
-## Learn more and participate
+Click the 'Worlds' tab, then 'New World' button. You can further edit the world and its elements through this interface, or handle this entirely through other tools. 
 
-* Read the [Specification](../specification/) for more information on data standards and strategies.
-* Check the [FAQ](../faq/) for common questions.
-* Browse the [Tool Directory](./tool-directory/) for free compatible software.
-* Chat on [Discord](https://discord.gg/twCjqvVBwb), discuss features on [GitHub Discussions](https://github.com/OnlyWorlds/OnlyWorlds/discussions), or start developing [Contributing Guide](./contributing/).
-* Check the [Changelog](./changelog/) for the latest updates.
+Write down your world's API key for tool access, and find your PIN number in your profile: these are all you need to get started with the [Tool Directory](../tool-directory/).  
 
+### Learn more
+
+* Go to [Specification](../specification/) for in depth information on data structures and strategies.
+* Go to [Guides](../guides/) for different ways to engage with the framework. 
+* Go to [FAQ](../faq/) for common questions. 
+* Go to [Changelog](./changelog/) for latest updates.
+
+### Participate
+* Get started developing for OnlyWorlds (or learning how to) through the [github repo](https://github.com/OnlyWorlds/OnlyWorlds).
+* Contribute your feedback of all kinds: on the framework definitions, platform infrastructure, tool specifics. Channels include the [Discord server](https://discord.gg/twCjqvVBwb), [GitHub discussion topics](https://github.com/OnlyWorlds/OnlyWorlds/discussions), and feedback generation in the [parse tool](TODO).
