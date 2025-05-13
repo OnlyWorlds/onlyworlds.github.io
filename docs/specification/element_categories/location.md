@@ -6,22 +6,22 @@ grand_parent: Specification
 nav_order: 11
 ---
 
-# Location
+<span class="material-symbols-outlined">castle</span>
 
-**Definition**
+A Location represents any defined physical space within your world that holds significance, whether by name, function, or the events that transpire there. It provides the vital context and setting for Characters, Institutions, and Events. Examples range from vast planets like *Arrakis*, to specific establishments such as *The Krusty Krab*, or even a familiar *local winery*.
 
-*A defined physical space that has a name or function*
+---
+### World Integration
+ 
+Locations are the shape of your world, and are itself drivers of action: they have a range of dynamic properties for economic and political integration with other elements. 
 
-A Location is a defined geographical area within the world, typically associated with a particular purpose, such as a settlement, natural feature, or cultural site. Locations are foundational elements that provide context and setting for other elements like Institutions, Characters, and Events.
+Locations can be nested using `parent_location`: a shop within a city , which is within a region. The `buildings` field can link to other Locations that are considered structures within the main Location.
 
-**Examples**
-- Arrakis
-- The Krusty Krab
-- Your local winery
 
-**[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Location)**
 
-Potential alternate names: *Place, Site, Area, ..*
+[Location Discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Location).
+
+ 
 
 
 ---
