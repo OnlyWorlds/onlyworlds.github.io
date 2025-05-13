@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Event
-parent: Categories
+parent: Element Categories
 grand_parent: Specification
 nav_order: 6
 ---

@@ -18,7 +18,7 @@ The standard focuses on representing the textual and semantic data of a world ra
 
 * **Worlds**: Top-level entity that encapsulates and contextualizes a set of interlinked elements.
 * **Elements**:  The discrete, identifiable components that populate a World.  
-* [**Categories**](categories/): The various types (currently 22) of elements (e.g., Character, Location, Object, Event).  
+* [**Element Categories**](element_categories/): The various types (currently 22) of elements (e.g., Character, Location, Object, Event).  
 * [**Fields**](fields/): Properties that describe an element. These include a set of common **base fields** shared by all elements, plus **custom fields** specific to each category. 
 * [**Typings**](typings/): An optional, customizable system for finer-grained classification within Categories, using 'Supertypes' and 'Subtypes'. This system is a work in progress.  
 

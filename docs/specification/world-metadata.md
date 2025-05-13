@@ -5,7 +5,6 @@ parent: Specification
 nav_order: 1
 ---
 
-# World Metadata
 
 Each OnlyWorld has a 'world' table that contains essential information about the world: ownership properties and some time settings (that are likely to be extricated from this table into a dedicated system later).
 

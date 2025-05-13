@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Collective
-parent: Categories
+parent: Element Categories
 grand_parent: Framework 
 ---
 
