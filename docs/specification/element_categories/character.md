@@ -6,25 +6,19 @@ grand_parent: Specification
 nav_order: 2
 ---
 
-# Character
+<span class="material-symbols-outlined">person_4</span>
 
-**Definition**
+A Character embodies any individual actor defined by their agency and capacity to make choices that influence the world around them. Characters are the conscious entities within your world, whether they are a human protagonist like *the Consul* from Hyperion, a formidable mythical creature such as *Smaug the dragon*, or even *the player themself* if the world is interactive.
 
-*Any individual actor with agency and/or autonomy*
+---
+### Key Concepts
 
-A Character embodies any being with agency, capable of making choices and influencing the world around them. Can range from human individuals to mythical creatures or intelligent beings of any species.
+The 'Character' category is fundamental for representing sentient beings capable of independent action and decision-making. The key distinction for a Character often lies in their demonstrated agency, differentiating them from instinct-driven Creatures. 
+   
+*   **Agency vs. Instinct:** The line between a highly intelligent `Creature` and a `Character` can be subjective. Generally, if an entity makes reasoned choices, has complex motivations, and plays a distinct role beyond simple behavior patterns, it qualifies as a Character.
+*   **Relationships:** Characters are richly defined by their links to other elements: their `Species` and `Traits` (like "Hunger for Fame and Fortune" or "Fear of Death"), the `Abilities` they possess, their `Location`, owned `Objects`, and associated `Institutions`. `Relation` elements can further define relations between `Character`s.
 
-**Examples**
-- The Consul 
-- Smaug the dragon
-- You
-
-
-**[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Character)**
-
-Potential alternate names: *Agent, Person, Individual, Actor, ..*
- 
-When does a clever Creature become a Character? This line might be ultimately too subjective to provide specific rules for, so it is up to the builder to define what constitutes a Character in their worlds.
+[Character Discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Character).
 
 ---
 ### Constitution
