@@ -15,8 +15,7 @@ Write down your world's API key for tool access, and find your PIN number in you
 
 ### Learn more
 
-* Go to [Specification](../specification/) for in depth information on data structures and strategies.
-* Go to [Guides](../guides/) for different ways to engage with the framework. 
+* Go to [Specification](../specification/) for in depth information on data structures and strategies. 
 * Go to [FAQ](../faq/) for common questions. 
 * Go to [Changelog](./changelog/) for latest updates.
 

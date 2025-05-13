@@ -20,7 +20,7 @@ An Ability represents a defined capability that can be utilized by various eleme
 - Lockpicking
 
 
-**[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/NAME)**
+**[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Ability)**
 
 Potential alternate names: *Skill, Activity, ..*
 
