@@ -6,8 +6,6 @@ has_children: true
 has_toc: false
 ---
 
-This document provides the definitive technical specification for the OnlyWorlds data standard, outlining the core structures and conventions that ensure interoperability.
-
 OnlyWorlds is a standard for representing worlds as a **structured data format**. 
 A world is defined by its overall metadata, collections of core elements, the specific fields describing these elements, and the defined relationships between them.
 
