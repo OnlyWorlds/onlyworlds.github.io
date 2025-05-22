@@ -6,7 +6,9 @@ description: "Welcome to OnlyWorlds, an open-source platform for world building 
 ---
  
 
+ 
 OnlyWorlds is a lightweight, text based, open source standard for defining digital worlds. It enables data portability across applications for writing, organizing, mapping, showcasing, simulating and gamifying worlds.
+ 
 
 OnlyWorlds comes with a set of free tools that are listed in the [Tool Directory](../docs/tool-directory/). Free web services offered on [onlyworlds.com](https://www.onlyworlds.com) help you host, manage, and share your worlds.  
 

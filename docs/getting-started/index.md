@@ -12,6 +12,7 @@ The representation of worlds in text-based data means that worlds are easy to st
 
 ### Learn more
 
+
 * [Specification](../specification/) has in depth information on data structures and strategies.
 * [Guides](../guides/) has examples on how to translate your existing worlds into the OnlyWorlds format. 
 * [FAQs](../faq/) might answer your most immediate questions. 

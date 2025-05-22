@@ -4,13 +4,13 @@ title: Specification
 nav_order: 4
 has_children: true
 has_toc: false
----
- 
+---  
+  
 
 OnlyWorlds is a standard for representing worlds as a **structured data format**. 
 A world is defined by its overall metadata, collections of core elements, the specific fields describing these elements, and the defined relationships between them.
 
-The standard focuses on representing the textual and semantic data of a world rather than raw graphical assets (like 3D models or complex terrain geometry). It is structured in [human-readable YAML](https://github.com/OnlyWorlds/OnlyWorlds/tree/main/schema) that are automatically converted into other language formats for easy integration into other software and services.
+The standard focuses on representing the textual and semantic data of a world rather than raw graphical assets (like 3D models or complex terrain geometry). It is structured in human-readable [YAML files](https://github.com/OnlyWorlds/OnlyWorlds/tree/main/schema) that are auto-converted to other languages for integration with other software and services.
  
 
 ### Key Concepts

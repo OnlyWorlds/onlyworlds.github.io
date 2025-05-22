@@ -6,22 +6,21 @@ grand_parent: Specification
 nav_order: 12
 ---
 
-# Object
+<span class="material-symbols-outlined">webhook</span>
 
-**Definition**
+An Object is any distinct, physical entity that exists within your world – the tangible *stuff of the physical realm*. This category encompasses a vast array of items, from mundane tools like a *wrench* or a *Sea Chest* found in "The Wager", to unique and powerful artifacts such as *The One Ring*, or complex machinery like a *leaky spaceship* or the *Ebony Spaceship* from "Hyperion".
 
-*A physical entity that exists in some place in the world*
+---
+### Key Concepts
 
-An Object refers to any tangible item or physical composition. Objects can range from everyday items to powerful artifacts or machines. 
+The 'Object' category is crucial for populating your world with interactive items, resources, and equipment. Objects can be simple or complex, common or unique, and their definition often hinges on their physical nature and potential for interaction.
 
-**Examples**
-- The One Ring
-- The leaky spaceship
-- A wrench
-**[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Object)**
+*   **Tangibility:** The primary characteristic of an Object is its physical existence. Unlike abstract `Constructs` or ephemeral `Phenomena`, Objects can typically be touched, moved, or owned.
+*   **Supertypes and Subtypes:** `Supertype` helps define the broad nature of an object (e.g., "Item", "Vehicle", "Component", "Apparel", "Weapon"), while `Subtype` provides more specific classification (e.g., "Tool", "Ship", "Engine", "Armor", "Sword"). For example, the *Centurion* in "The Wager" is an Object of `Supertype: Vehicle` and `Subtype: Ship`.
+*   **Functionality and Interaction:** Objects are often defined by their utility. Fields like `Effects`, `Enables`, and `Consumes` (linking to `Phenomenon`, `Ability`, and `Construct` respectively) describe what an object does. Game-specific fields like `Damage` or `Armor` further detail their interactive properties.
+*   **Composition:** Objects can be part of larger assemblies. The `Parent_object` field allows for linking an object as a component of another (e.g., a `Spyglass` might be an object, but an *Engine* object could have a `Parent_object` link to the *Spaceship* object it belongs to).
 
-Potential alternate names: *Item, Material, ..*
-
+[Object Discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Object).
 
 ---
 ### Form
