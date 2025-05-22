@@ -4,7 +4,8 @@ title: Specification
 nav_order: 4
 has_children: true
 has_toc: false
----
+---  
+  
 
 OnlyWorlds is a standard for representing worlds as a **structured data format**. 
 A world is defined by its overall metadata, collections of core elements, the specific fields describing these elements, and the defined relationships between them.
