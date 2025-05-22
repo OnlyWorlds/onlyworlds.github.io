@@ -6,20 +6,25 @@ grand_parent: Specification
 nav_order: 2
 ---
 
-<h3><span class="material-symbols-outlined">person_4</span><br>Character</h3>
+<h2><span class="material-symbols-outlined">person_4</span><br>Character</h2>
 <br>
-Embodies any individual actor defined by their agency and capacity to make choices that influence the world around them.  
+Embodies any individual actor defined by their agency and capacity to make choices that influence the world around them. Characters tend to have complex motivations, personal history, and the ability to form meaningful relationships.
 
 ---
-### Key Concepts
+### Key Points
+ 
+* **Agency vs. Instinct** <br>
+The line between a highly intelligent `Creature` and a `Character` can be subjective. If an entity makes reasoned choices, has self awareness, and plays a distinct role beyond simple behavior patterns, it will probably qualify as a Character.
+* **Character Relations** <br>
+Some fields (Family, Friends, Relations) provide direct or indirect relational settings between Characters. These can be further augmented through the Relation(LINK) element.
+* **Personality** <br>
+coercion etc
 
-The 'Character' category is fundamental for representing sentient beings capable of independent action and decision-making. The key distinction for a Character often lies in their demonstrated agency, differentiating them from instinct-driven Creatures. 
-   
-*   **Agency vs. Instinct:** The line between a highly intelligent `Creature` and a `Character` can be subjective. Generally, if an entity makes reasoned choices, has complex motivations, and plays a distinct role beyond simple behavior patterns, it qualifies as a Character.
-*   **Relationships:** Characters are richly defined by their links to other elements: their `Species` and `Traits` (like "Hunger for Fame and Fortune" or "Fear of Death"), the `Abilities` they possess, their `Location`, owned `Objects`, and associated `Institutions`. `Relation` elements can further define relations between `Character`s.
+
 
 [Character Discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Character).
 
+ 
 ---
 ### Constitution
 - **Physicality**: Physical traits and appearance descriptions..

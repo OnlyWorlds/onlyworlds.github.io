@@ -7,10 +7,8 @@ has_children: true
 has_toc: false
 ---
 
-Elements form the building blocks of OnlyWorlds. Everything that constitutes or inhabits your world should find representation between the different categories and their fields.
-
-Establishing the correct categories, and the fields to define them, is the core challenge of the OnlyWorlds project. There is no perfect solution to work towards, only the balancing of intuitive building, breadth of supported content, and utility for simulation and games.
-
+Elements form the building blocks of OnlyWorlds. Everything that constitutes or inhabits your world should find representation between the 20 types of element categories and their fields. 
+ 
 The two vignettes below, from the opening of Cormac McCarthy's **Blood Meridian**, provide a sense of how these elements can be parsed from stories. Each element category has a separate page for more detailed information and discussion.
 
  
