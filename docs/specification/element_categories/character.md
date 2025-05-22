@@ -6,9 +6,9 @@ grand_parent: Specification
 nav_order: 2
 ---
 
-<span class="material-symbols-outlined">person_4</span>
-
-A Character embodies any individual actor defined by their agency and capacity to make choices that influence the world around them. Characters are the conscious entities within your world, whether they are a human protagonist like *the Consul* from Hyperion, a formidable mythical creature such as *Smaug the dragon*, or even *the player themself* if the world is interactive.
+<h3><span class="material-symbols-outlined">person_4</span><br>Character</h3>
+<br>
+Embodies any individual actor defined by their agency and capacity to make choices that influence the world around them.  
 
 ---
 ### Key Concepts
