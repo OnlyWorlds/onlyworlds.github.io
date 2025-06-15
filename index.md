@@ -2,16 +2,35 @@
 title: Home
 layout: default
 nav_order: 1
-description: "Welcome to OnlyWorlds, an open-source platform for world building and simulation"
+description: "Welcome to OnlyWorlds"
 ---
  
-
- 
 OnlyWorlds is a lightweight, text based, open source standard for defining digital worlds. It enables data portability across applications for writing, organizing, mapping, showcasing, simulating and gamifying worlds.
- 
 
-OnlyWorlds comes with a set of free tools that are listed in the [Tool Directory](../docs/tool-directory/). Free web services offered on [onlyworlds.com](https://www.onlyworlds.com) help you host, manage, and share your worlds.  
+This schema comes bundled with free infrastructure and tools for creatives and developers. The project is open source and community-driven: aiming to work together towards an effectively usable format and broad tool support.
 
-The framework is [open source](https://github.com/OnlyWorlds/OnlyWorlds), with developer support for integrating into new or existing applications. A [public API specification](https://onlyworlds.com/api/docs) offers clear and secure methods to read from, and write to, users' worlds. 
+[Not all links are live yet - under construction]
 
-This documentation offers complete information on the project. Head to [Getting Started](../docs/getting-started/) to get acquainted with the project. The [Specification](../docs/specification/) section contains detailed technical information on how the framework is constructed.  
+- [**OnlyWorlds.com**](https://onlyworlds.com)
+  - [Account & World Management](https://onlywords.pythonanywhere.com/worlds/)
+  - [World API & Authentication](https://onlyworlds.com/api/docs)
+
+- [**GitHub**](https://github.com/onlyworlds/onlyworlds)
+  - [Base Schema](https://github.com/OnlyWorlds/OnlyWorlds/tree/main/schema)
+  - [Language Conversions](https://github.com/OnlyWorlds/OnlyWorlds/tree/main/languages)
+  - [Discussions](https://github.com/OnlyWorlds/OnlyWorlds/discussions)
+
+- [**Tool Directory**](../docs/tool-directory/)
+  - [Map Tool](https://onlyworlds.com/map_tool/)
+  - [Parse Tool](https://onlyworlds.com/parse_tool/)
+  - [Browse Tool](https://onlyworlds.github.com/browse_tool/)
+  - [Obsidian Plugin](https://github.com/OnlyWorlds/obsidian-plugin)
+  - [Mobile Companion]()
+
+- [**Support**](../docs/support/)   
+  - [Framework Specification](../docs/specification/)
+  - [Guides](../docs/guides/)
+  - [Custom GPT](https://onlyworlds.com/custom_gpt/)
+  - [Discord](https://discord.gg/twCjqvVBwb)
+
+
