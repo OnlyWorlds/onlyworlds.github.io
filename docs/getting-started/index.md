@@ -5,19 +5,16 @@ nav_order: 2
 has_children: false
 ---
 
-  
-The representation of worlds in text-based data means that worlds are easy to store and move around: they can be exported and imported as a single (large) text string.
 
-[Onlyworlds.com](https://www.onlyworlds.com) offers free world creation and management. Write down your first world's API Key to ship it around the [Tool Directory](../tool-directory/)
+There are several [prototype tools](../tool-directory/) available that get you started creating new world content, or parsing your existing worlds into the OnlyWorlds format.
 
-### Learn more 
+You'll need an OnlyWorlds account to make use of the World API that these tools run on.
 
-* [Specification](../specification/) for technical framework information
-* [FAQs](../faq/) for common or unexpected questions
-* [Changelog](./changelog/)  for recent activity
-
-### Participate
-
-* [GiThub repository](https://github.com/OnlyWorlds/OnlyWorlds) to start developing for OnlyWorlds
-* [Discord server](https://discord.gg/twCjqvVBwb) for free discussion or [GitHub discussion topics](https://github.com/OnlyWorlds/OnlyWorlds/discussions) for organized discussion
-* [Parse tool](TODO) for automated support of all kinds
+1. Make a free account at [onlyworlds.com](https://onlyworlds.com)
+2. Read (or change) your PIN in your profile
+2. Create a world (and possibly elements)
+3. Copy a world API key for tool use
+4. Get [writing](https://onlyworlds.com/write_tool/), [parsing](https://onlyworlds.com/parse_tool/), [mapping](https://onlyworlds.com/map_tool/), [browsing](https://onlyworlds.github.com/browse_tool/)
+5. Submit feedback through various channels ([Discord](https://discord.gg/twCjqvVBwb), [Discussions](https://github.com/OnlyWorlds/OnlyWorlds/discussions))
+6. (Learn how to) develop for OnlyWorlds at the [GitHub repo](https://github.com/OnlyWorlds/OnlyWorlds) 
+7. Read the [FAQs](../faq/) for immediate questions, [Changelog](./changelog/) for latest updates.
