@@ -5,6 +5,7 @@ nav_order: 1
 description: "Welcome to OnlyWorlds"
 ---
  
+
 OnlyWorlds is a lightweight, text based, open source standard for defining digital worlds. It enables data portability across applications for writing, organizing, mapping, showcasing, simulating and gamifying worlds.
 
 This schema comes bundled with free infrastructure and tools for creatives and developers. The project is open source and community-driven: aiming to work together towards an effectively usable format and broad tool support.

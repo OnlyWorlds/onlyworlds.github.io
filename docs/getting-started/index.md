@@ -18,5 +18,3 @@ You'll need an OnlyWorlds account to make use of the World API that these tools 
 5. Submit feedback through various channels ([Discord](https://discord.gg/twCjqvVBwb), [Discussions](https://github.com/OnlyWorlds/OnlyWorlds/discussions))
 6. (Learn how to) develop for OnlyWorlds at the [GitHub repo](https://github.com/OnlyWorlds/OnlyWorlds) 
 7. Read the [FAQs](../faq/) for immediate questions, [Changelog](./changelog/) for latest updates.
-
-
