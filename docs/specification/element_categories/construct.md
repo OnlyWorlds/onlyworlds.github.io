@@ -32,7 +32,7 @@ They are distinct from:
 
     Narratives (which explain or contain constructs)
 
-[Construct Discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/construct)
+[Construct discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/construct)
 
 ---
  
