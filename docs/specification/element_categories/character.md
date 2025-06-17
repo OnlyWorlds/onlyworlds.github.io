@@ -24,25 +24,7 @@ They are distinct from:
 
 - **Creatures** (which lack reasoned choices or structured goals)  
 - **Collectives** (which model group entities without individual agency)  
+ 
+[Character discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Character)
 
 ---
-
-### Constitution
-
-- **Physicality**: Physical traits and appearance descriptions  
-- **Psychology**: Psychological traits and mindset descriptions  
-- **Height** (#): Height of the character in appropriate units  
-- **Weight** (#): Weight of the character in appropriate units  
-- **Species** (multi-link: Species): Species of the character  
-- **Traits** (multi-link: Trait): Traits of the character  
-- **Abilities** (multi-link: Ability): Abilities of the character
-
-### Origins
-
-- **Background**: The character's background story  
-- **Motivations**: Driving motivations behind the character's actions  
-- **Birth_date** (#): Birth date of the character  
-- **Birthplace** (single-link: Location): Birthplace of the character  
-- **Languages** (multi-link: Language): Languages the character can speak
-
-[Character Discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Character)

@@ -22,19 +22,8 @@ An Ability is a performable effect or power. They interact with:
 They are distinct from:
 
 - **Traits** (which describe qualities, not actions)   
-- **Events** (which describe outcomes or occurrences, not repeatable powers)  
+- **Events** (which describe outcomes or occurrences, not repeatable powers)   
+
+[Ability discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Ability)
 
 ---
-
-### Discussion Topics
-
-* **Representing Cost**  
-  Should Abilities include detailed cost mechanics? The current schema supports `prerequisites`, but resource consumption or cooldown-like patterns may need clearer support.
-
-* **Active vs. Passive**  
-  Should there be a distinction between always-on abilities and deliberate actions? Current modeling treats all abilities as "capabilities," but tone and usage might vary.
-
-* **Conditional Access**  
-  How should dependency on objects, traits, or world states be modeled — should Abilities support dynamic access logic?
-
-[Ability Discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Ability)
