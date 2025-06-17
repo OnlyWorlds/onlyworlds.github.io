@@ -38,17 +38,16 @@ In addition to the base fields, each element category has its own set of fields 
 *   A `Character` might have fields like `Age`, `Occupation`, or links to `Ability` elements.
 *   A `Location` might have fields for `Size`, `Climate`, or links to contained `Object` or `Character` elements.
 
-To see the specific fields for each category, please navigate to the individual category pages listed in the [Categories](./categories.md) section.
+Category details are listed in the [Categories](./categories.md) section.
 
 ## Field Data Types
 
 The underlying schema definition specifies the expected data type for each field, such as:
 
 *   `string` (including specific formats like `uuid` or `url`)
-*   `integer`
+*   `integer` (currently locked in at positives only)
 *   `number` (can include decimals)
 *   `boolean` (true/false)
 *   `array` (a list of values, often strings or links)
 *   Links (represented as strings containing the `Id` of the target element)
 
-Tooling that implements the standard should respect these data types for validation and proper functioning.

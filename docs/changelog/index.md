@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Changelog
-nav_order: 9
+nav_order: 8
 has_children: false
 has_toc: false
 ---
