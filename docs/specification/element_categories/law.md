@@ -6,35 +6,48 @@ grand_parent: Specification
 nav_order: 10
 ---
 
-# Law
-
-**Definition**
+ 
 
 *A system of rules and penalties built on claims to authority*
 
 A Law is a formalized set of guidelines or commands that govern the actions of individuals or groups within a specific jurisdiction.  
 
-**Examples**
-- The Code of Hammurabi
-- The U.S. Constitution
-- First rule of Fight Club
+<span class="material-symbols-outlined">gpp_bad</span>
 
-**[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Law)**
 
-Potential alternate names: *Ordinance, Statute, Regulation*
-
+Laws are formal rules issued by an authority to guide behavior, establish boundaries, or enforce order within a world. They define what is permitted or prohibited, outline consequences for violations, and specify who interprets and enforces them. Laws can be administrative, punitive, or symbolic, and may carry legal, cultural, or spiritual significance. 
 
 ---
-### Code
-- **Decree**: Formal statement or decision of the law.
-- **Date** (#): Date the law was enacted or officially recorded.
-- **Purpose**: The underlying purpose or rationale behind the law.
-- **Author** (single-link: Institution): The institution or authority that authored the law.
 
-### Compulsion
-- **Jurisdictions** (multi-link: Location): Geographical or administrative areas where the law applies.
-- **Prohibitions** (multi-link: Construct): Specific actions or activities that the law forbids.
-- **Penalties** (multi-link: Construct): Consequences or punishments assigned for breaking the law.
-- **Adjudicators** (multi-link: Title): Titles or roles of officials responsible for judging law cases.
-- **Enforcers** (multi-link: Title): Titles or roles of officials responsible for enforcing the law.
+Laws are formalized rules that govern behavior within a jurisdiction. They interact with:
 
+    Institutions, which often issue them
+
+    Locations and Territories, which define where they apply
+
+    Titles, which define who upholds them or judges them
+
+    Constructs, which describe the abstract concepts they prohibit or rely on
+
+They are distinct from:
+
+    Institutions, which often issue them
+
+    Locations and Territories, which define where they apply
+
+    Titles, which define who upholds them or judges them
+
+    Constructs, which describe the abstract concepts they prohibit or rely on
+
+They are distinct from:
+
+    Constructs (which model ideas or principles, but not rules)
+
+    Events (which are things that happen, not rules that shape behavior)
+
+    Relations (which describe functional or emotional ties, not imposed obligations)
+
+[Law discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/law)
+
+---
+ 
