@@ -3,7 +3,7 @@ layout: default
 title: Trait
 parent: Element Categories
 grand_parent: Specification
-nav_order: 18
+nav_order: 20
 ---
 
 # Trait

@@ -3,7 +3,7 @@ layout: default
 title: Territory
 parent: Element Categories
 grand_parent: Specification
-nav_order: 16
+nav_order: 21
 ---
 
 # Territory

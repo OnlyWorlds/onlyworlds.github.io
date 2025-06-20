@@ -3,7 +3,7 @@ layout: default
 title: Relation
 parent: Element Categories
 grand_parent: Specification
-nav_order: 14
+nav_order: 17
 ---
 
 # Relation

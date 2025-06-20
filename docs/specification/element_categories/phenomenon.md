@@ -3,7 +3,7 @@ layout: default
 title: Phenomenon
 parent: Element Categories
 grand_parent: Specification
-nav_order: 13
+nav_order: 15
 ---
 
 # Phenomenon
