@@ -18,7 +18,7 @@ Titles define structured identity and power. They interact with:
 
     Characters (holding titles)
 
-    Territories, Locations, Objects (governing or representing)
+    Zones, Locations, Objects (governing or representing)
 
     Constructs, Laws, and Collectives (giving them shape or purpose) 
 

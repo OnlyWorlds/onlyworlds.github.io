@@ -18,7 +18,7 @@ Relations are special definitions between world elements. They interact with:
 
     Events (arising from or recognizing a relationship)
 
-    Objects, Territories, Traits, and Abilities (as things exchanged, contested, or shared)
+    Objects, Zones, Traits, and Abilities (as things exchanged, contested, or shared)
 
 They are distinct from:
 

@@ -17,7 +17,7 @@ A Character is an individual with agency. They interact with:
 - **Species** (defining their biological or cultural blueprints)  
 - **Traits and Abilities** (defining their nature and powers)  
 - **Objects and Constructs** (defining what they own, carry, or believe)  
-- **Institutions, Territories, and Events** (contexts they affect or are affected by)  
+- **Institutions, Zones, and Events** (contexts they affect or are affected by)  
 - **Families, Collectives, and Relations** (their networks and bonds)
 
 They are distinct from:

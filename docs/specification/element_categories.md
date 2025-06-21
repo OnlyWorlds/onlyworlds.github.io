@@ -48,5 +48,5 @@ usurped and has only committed to memory a few passages from the good book for t
 purpose of lending to his fraudulent sermons some faint flavor of the piety he despises.<a href="/docs/specification/element_categories/Narrative" title="Narrative"><span class="material-symbols-outlined">book</span></a>
 In truth, the gentleman standing here before you posing as a minister of the Lord <a href="/docs/specification/element_categories/Title" title="Title"><span class="material-symbols-outlined">military_tech</span></a> is not
 only totally illiterate <a href="/docs/specification/element_categories/Ability" title="Ability"><span class="material-symbols-outlined">auto_fix_normal</span></a> but is also wanted by the law <a href="/docs/specification/element_categories/Law" title="Law"><span class="material-symbols-outlined">gpp_bad</span></a> in the states of Tennessee, Kentucky,
-Mississippi, and Arkansas.<a href="/docs/specification/element_categories/Territory" title="Territory"><span class="material-symbols-outlined">architecture</span></a>
+Mississippi, and Arkansas.<a href="/docs/specification/element_categories/Zone" title="Zone"><span class="material-symbols-outlined">architecture</span></a>
  

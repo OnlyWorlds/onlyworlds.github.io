@@ -23,7 +23,7 @@ Laws are formalized rules that govern behavior within a jurisdiction. They inter
 
     Institutions, which often issue them
 
-    Locations and Territories, which define where they apply
+    Locations and Zones, which define where they apply
 
     Titles, which define who upholds them or judges them
 
@@ -33,19 +33,9 @@ They are distinct from:
 
     Institutions, which often issue them
 
-    Locations and Territories, which define where they apply
+    Locations and Zones, which define where they apply
 
-    Titles, which define who upholds them or judges them
-
-    Constructs, which describe the abstract concepts they prohibit or rely on
-
-They are distinct from:
-
-    Constructs (which model ideas or principles, but not rules)
-
-    Events (which are things that happen, not rules that shape behavior)
-
-    Relations (which describe functional or emotional ties, not imposed obligations)
+    Constructs, which describe the abstract concepts they prohibit or rely on ions)
 
 [Law discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/law)
 
