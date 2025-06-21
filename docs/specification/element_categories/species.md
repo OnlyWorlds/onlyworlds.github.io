@@ -6,41 +6,29 @@ grand_parent: Specification
 nav_order: 18
 ---
 
-# Species
+<span class="material-symbols-outlined">crib</span>
 
-**Definition**
+Species defines a distinct biological or cultural form of life. They help define how life functions or diverges across environments and histories.
 
-*A classification of organisms sharing common characteristics*
+--- 
+  
+ Species shape physical and behavioral defaults of a world. They interact with:
 
-Species is in OnlyWorlds a broad concept that represents any type or level of biological identifier
+    Characters and Creatures (defined as members of species)
 
-**Examples**
-- Homo sapiens
-- Dragons
-- Ents
+    Locations and Zones (determining habitat and environmental interaction)
 
-**[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Species)**
+    Traits and Constructs (expressing shared abilities or mythic significance)
 
-Potential alternate names: *Kind, Variety, ..*
+They are distinct from:
 
+    Characters (individual agents with goals and identity)
 
+    Creatures (instinct-driven individuals)
+
+    Collectives (behavioral groups of individuals)
+
+[Species discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/species)
 
 ---
-### Biology
-- **Appearance**: Physical description of the species, including notable features.
-- **Life_span** (#): Average life expectancy of the species under natural conditions.
-- **Average_weight** (#): Typical weight range for mature individuals of the species.
-- **Nourishment** (multi-link: Species): Primary sources of food and nutrition for the species.
-
-### Psychology
-- **Instincts**: Innate behaviors and survival instincts of the species.
-- **Aggression** (# max:100): Typical level of aggressiveness exhibited by the species.
-- **Agency**: Capacity for self-directed behavior and decision-making in the species.
-- **Languages** (multi-link: Language): Languages known or used by the species, if any.
-
-### World
-- **Impact**: Overall effect or influence the species has on its environment.
-- **Habitat** (multi-link: Location): Primary natural habitats where the species is typically found.
-- **Interaction** (multi-link: Phenomenon): Typical interactions of the species with other species or environmental elements.
-- **Consumables** (multi-link: Construct): Items that the species commonly consumes or utilizes.
-
+ 
