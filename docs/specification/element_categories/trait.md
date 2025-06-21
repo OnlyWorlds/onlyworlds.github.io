@@ -14,17 +14,14 @@ Traits describe qualities that shape how a character or creature acts, responds,
   
 Traits enrich the make up of actors. They interact with:
 
-    Characters (holding traits and being shaped by them)
-
-    Abilities (requiring, unlocking, or enhancing traits)
-
-    Species (establishing cultural or biological expressions)
+- **Characters** (holding traits and being shaped by them)
+- **Abilities** (requiring, unlocking, or enhancing traits)
+- **Species** (establishing cultural or biological expressions)
 
 They are distinct from: 
 
-    Constructs (which are not directly linked to actors)
-
-    Titles (which are formally constructed, not potentially natural) 
+- **Constructs** (which are not directly linked to actors)
+- **Titles** (which are formally constructed, not potentially natural)
 
 [Trait discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/trait)
 

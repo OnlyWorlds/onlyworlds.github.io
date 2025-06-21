@@ -9,6 +9,7 @@ nav_order: 1
 <span class="material-symbols-outlined">auto_fix_normal</span>
 
 An Ability represents something an entity in the world can do: a defined action, power, skill, or effect that can change the world or its perception. Abilities are performable and traceable: they have causes, consequences, and conditions. They can be passive traits, active powers, or conditional techniques. 
+
 ---
 
 An Ability is a performable effect or power. They interact with:

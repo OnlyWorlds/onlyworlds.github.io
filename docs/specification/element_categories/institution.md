@@ -14,17 +14,14 @@ Institutions are organized bodies with purpose and structure. They shape the wor
 
 Institutions are executive structures of meaning in a world. They interact with:
 
-    Zones, Objects, and Creatures what they define or control)
-
-    Laws and Constructs ( what they enforce, create or utilize) 
-
-    Characters and Titles (placing people in institutions)
+- **Characters and Titles** (placing people in institutions)
+- **Zones, Objects, and Creatures** (what they define or control)
+- **Laws and Constructs** (what they enforce, create or utilize)
 
 They are distinct from:
 
-    Collectives (which model informal or non-agentic groups)
-
-    Families (which have implications of kinship and ancestry) 
+- **Collectives** (which model informal or non-agentic groups)
+- **Families** (which have implications of kinship and ancestry)
 
 [Institution discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/institution)
 

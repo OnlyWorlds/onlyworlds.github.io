@@ -14,23 +14,17 @@ Events are time-bound happenings in the world. An Event refers to any notable in
   
 Events are defined occurrences. They pull in and affect:
 
-    Characters, Collectives, and Institutions (as agents or sufferers)
-
-    Zones and Locations (as settings or battlegrounds)
-
-    Constructs and Laws (as outcomes or contested forces)
-
-    Traits, Titles, and Abilities (as qualities or catalysts)
-
-    Phenomena, Creatures, and Objects (as elements in motion)
+- **Characters, Collectives, and Institutions** (as agents or sufferers)
+- **Zones and Locations** (as settings or battlegrounds)
+- **Constructs and Laws** (as outcomes or contested forces)
+- **Traits, Titles, and Abilities** (as qualities or catalysts)
+- **Phenomena, Creatures, and Objects** (as elements in motion)
 
 They are distinct from:
 
-    Narratives, which reinterpret potential collections of Events
-
-    Constructs, which represent ideas or systems that persist over time
-
-    Relations, which define ongoing bonds or tensions between actors
+- **Narratives** (which reinterpret potential collections of Events)
+- **Constructs** (which represent ideas or systems that persist over time)
+- **Relations** (which define ongoing bonds or tensions between actors)
 
 Events are about what happens. The rest of the schema gives it meaning, context, and consequence.
 
