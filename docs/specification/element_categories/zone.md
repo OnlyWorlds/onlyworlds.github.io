@@ -1,44 +1,36 @@
 ---
 layout: default
-title: Territory
+title: Zone
 parent: Element Categories
 grand_parent: Specification
 nav_order: 21
 ---
 
-# Territory
+<span class="material-symbols-outlined">architecture</span>
 
-**Definition**
+Zones represent abstract or meaningful areas within the world that hold significance due to cultural, political, environmental, or narrative reasons. They are not defined by geometry themselves but gain spatial presence through linked map markers. Zones can be used to track boundaries, effects, or jurisdictions that extend beyond a single location.
 
-*An area that is claimed, occupied, or otherwise defined*
+--- 
+  
+Zones are spatial definitions within a world. They interact with:
 
-A Territory represents a specific geographic region within the world, usually associated with a particular authority or community
+    Maps (that a zone exists on)
 
-**Examples**
-- The Kingdom of Gondor
-- The Sahara Desert
-- The Forbidden City
+    Institutions (which define or claim zones)
 
-**[Discussion](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Territory)**
+    Creatures (that dominate or traverse them)
 
-Potential alternate names: *Domain, ..*
+    Phenomena (that enrich or transform the area)
 
+    Titles (for roles tied to management or protection)
+
+They are distinct from:
+
+    Locations (which are specific places of interest or activity) 
+
+    Markers (which define the geometry of a zone on a map)
+
+[Zone discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/zone)
 
 ---
-### Situation
-- **Terrain**: Description of the land features and geographical characteristics of the territory.
-- **Size** (#): Total area of the territory, typically measured in square kilometers or miles.
-- **Parent_territory** (single-link: Territory): The larger territory of which this one is a part.
-
-### Yield
-- **Maintenance**: Resources and effort required to maintain and manage the territory.
-- **Primary_output** (#): Main product or resource produced by the territory.
-- **Secondary_output** (#): Additional products or resources produced by the territory.
-- **Primary_resource** (single-link: Construct): Primary natural or economic resource available in the territory.
-- **Secondary_resources** (multi-link: Construct): Other significant resources found within the territory.
-
-### World
-- **History**: Historical background and major events that have shaped the territory.
-- **Occupants** (multi-link: Species): Species that inhabit or are native to the territory.
-- **Occurrences** (multi-link: Phenomenon): Significant events or natural phenomena occurring within the territory.
-
+ 
