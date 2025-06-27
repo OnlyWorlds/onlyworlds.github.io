@@ -9,7 +9,7 @@ has_toc: false
 # Changelog
 
 
-
+27-07-2025 - Schema rework completed: website and API updated, mobile + parse + map tools updated
 
 04-06-2025 - Schema rework and tool updates WIP
 

@@ -14,7 +14,7 @@ The main website offers free account and world management.
 
 - [**OnlyWorlds.com**](https://onlyworlds.com)
   - [Account & World Management](https://onlywords.pythonanywhere.com/worlds/)
-  - [World API & Authentication](https://onlyworlds.com/api/docs)
+  - [OW OpenAPI & Authentication](https://onlyworlds.com/api/docs)
 
 Infrastructure enables you to (learn to) develop with OnlyWorlds.
 
@@ -22,7 +22,7 @@ Infrastructure enables you to (learn to) develop with OnlyWorlds.
   - [Base Schema](https://github.com/OnlyWorlds/OnlyWorlds/tree/main/schema)
   - [Language Conversions](https://github.com/OnlyWorlds/OnlyWorlds/tree/main/languages)
 
-Tools for building or converting your worlds.
+A free set of tools for building or converting your worlds.
 
 - [**Tool Directory**](../docs/tool-directory/)
   - [Map Tool](https://onlyworlds.com/map_tool/)
