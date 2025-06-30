@@ -2,9 +2,9 @@
 layout: default
 title: Obisdian Plugin
 parent: Tool Directory
-nav_order: 2
+nav_order: 4
 ---
 
 
 
-https://github.com/OnlyWorlds/obsidian-plugin
+[Obsidian Plugin](https://github.com/OnlyWorlds/obsidian-plugin)
