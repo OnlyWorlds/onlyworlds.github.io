@@ -6,7 +6,7 @@ nav_order: 1
 ---
 
 
-Works on new website: https://onlywords.pythonanywhere.com/
+ 
 
 Apple Testflight: https://testflight.apple.com/join/XWTuaack
 
