@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Explorer
-parent: Tools
+parent: Tool Directory
 nav_order: 3
 ---
 
