@@ -7,12 +7,13 @@ has_children: true
 has_toc: false
 ---
 
-Elements form the building blocks of OnlyWorlds. Everything that constitutes or inhabits your world should find representation between the 20 types of element categories and their fields. 
- 
-The two vignettes below, from the opening of Cormac McCarthy's **Blood Meridian**, provide a sense of how these elements can be parsed from stories. Each element category has a separate page for more detailed information and discussion.
+Everything that exists, occurs, or has a name in your world should fit into one of the 20 element categories.
+
+Click on each of the element categories on the left for more details on what it represents and how it compares to other categories.
 
  
-### Opening
+ 
+## Opening
 
 See the child.<a href="/docs/specification/element_categories/Character" title="Character"><span class="material-symbols-outlined">person_4</span></a>
 He is pale and thin,<a href="/docs/specification/element_categories/Trait" title="Trait"><span class="material-symbols-outlined">flaky</span></a> he wears a thin and ragged linen shirt.<a href="/docs/specification/element_categories/Object" title="Object"><span class="material-symbols-outlined">webhook</span></a> He stokes the scullery fire.<a href="/docs/specification/element_categories/Phenomenon" title="Phenomenon"><span class="material-symbols-outlined">thunderstorm</span></a> Outside lie dark turned fields with rags of snow and darker woods beyond <a href="/docs/specification/element_categories/Location" title="Location"><span class="material-symbols-outlined">castle</span></a> that harbor yet a few last wolves.<a href="/docs/specification/element_categories/Creature" title="Creature"><span class="material-symbols-outlined">bug_report</span></a> His folk <a href="/docs/specification/element_categories/Family" title="Family"><span class="material-symbols-outlined">supervisor_account</span></a> are known for hewers of wood and drawers of water <a href="/docs/specification/element_categories/Ability" title="Ability"><span class="material-symbols-outlined">auto_fix_normal</span></a> but in truth his father <a href="/docs/specification/element_categories/Relation" title="Relation"><span class="material-symbols-outlined">link</span></a> has been a schoolmaster.<a href="/docs/specification/element_categories/Title" title="Title"><span class="material-symbols-outlined">military_tech</span></a> He lies in drink, he quotes from poets <a href="/docs/specification/element_categories/Construct" title="Construct"><span class="material-symbols-outlined">api</span></a> whose names are now lost.
@@ -27,7 +28,7 @@ hell, hellholes <a href="/docs/specification/element_categories/Language" title=
 
 
 
-### The Judge
+## The Judge
 
  
 

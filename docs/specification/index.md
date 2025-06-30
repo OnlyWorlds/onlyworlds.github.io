@@ -7,10 +7,13 @@ has_toc: false
 ---  
   
 
-OnlyWorlds is a standard for representing worlds as a **structured data format**. 
-A world is defined by its overall metadata, collections of core elements, the specific fields describing these elements, and the defined relationships between them.
+OnlyWorlds is a standard for representing worlds in a **structured data format**. 
 
-The standard focuses on representing the textual and semantic data of a world rather than raw graphical assets (like 3D models or complex terrain geometry). It is structured in human-readable [YAML files](https://github.com/OnlyWorlds/OnlyWorlds/tree/main/schema) that are auto-converted to other languages for integration with other software and services.
+Worlds are primarily defined by their **elements**: these represent everything that exists in your world, as physical entities or  abstract concepts. There are 20 categories of elements, each with a set of fields that describe them and the relationships between them.
+
+These textual definitions are structured in human-readable [YAML files](https://github.com/OnlyWorlds/OnlyWorlds/tree/main/schema) that are auto-converted to other programming languages for integration with other software and services.
+
+This means that worlds consist of textual and semantic data rather than raw graphical assets (like 3D models or terrain geometry). Each world, however, can host any number of 2D or 3D maps that elements can be placed into.
  
 
 ### Key Concepts
@@ -19,7 +22,7 @@ The standard focuses on representing the textual and semantic data of a world ra
 * **Elements**:  The discrete, identifiable components that populate a World.  
 * [**Element Categories**](element_categories/): The various types (currently 22) of elements (e.g., Character, Location, Object, Event).  
 * [**Fields**](fields/): Properties that describe an element. These include a set of common **base fields** shared by all elements, plus **custom fields** specific to each category. 
-* [**Typings**](typings/): An optional, customizable system for finer-grained classification within Categories, using 'Supertypes' and 'Subtypes'. This system is a work in progress.  
+* [**Typings**](typings/): An optional, customizable system for finer-grained classification within Categories, using 'Supertypes' and 'Subtypes'.  
 
 
 

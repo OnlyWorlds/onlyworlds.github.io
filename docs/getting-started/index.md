@@ -6,6 +6,8 @@ has_children: false
 ---
 
 
+Head to the [specification section](../specification/) for more details on how OnlyWorlds is structured.
+
 There are several [prototype tools](../tool-directory/) available that get you started creating new world content, or parsing your existing worlds into the OnlyWorlds format.
 
 You'll need an OnlyWorlds account to make use of the World API that these tools run on.

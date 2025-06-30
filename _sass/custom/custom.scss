@@ -1,0 +1,117 @@
+/* Icons for Element Category pages only */
+
+/* Base styling for element category icons - targeting the exact structure */
+a.nav-list-link[href*="/docs/specification/element_categories/"]::before {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  margin-right: 8px;
+  vertical-align: text-bottom;
+}
+
+/* Specific Element Category Icons - using your provided icons */
+a.nav-list-link[href*="/docs/specification/element_categories/character.html"]::before {
+  content: "person_4";
+}
+
+a.nav-list-link[href*="/docs/specification/element_categories/object.html"]::before {
+  content: "webhook";
+}
+
+a.nav-list-link[href*="/docs/specification/element_categories/location.html"]::before {
+  content: "castle";
+}
+
+a.nav-list-link[href*="/docs/specification/element_categories/family.html"]::before {
+  content: "supervisor_account";
+}
+
+a.nav-list-link[href*="/docs/specification/element_categories/creature.html"]::before {
+  content: "bug_report";
+}
+
+a.nav-list-link[href*="/docs/specification/element_categories/institution.html"]::before {
+  content: "business";
+}
+
+a.nav-list-link[href*="/docs/specification/element_categories/trait.html"]::before {
+  content: "flaky";
+}
+
+a.nav-list-link[href*="/docs/specification/element_categories/species.html"]::before {
+  content: "crib";
+}
+
+a.nav-list-link[href*="/docs/specification/element_categories/zone.html"]::before {
+  content: "architecture";
+}
+
+a.nav-list-link[href*="/docs/specification/element_categories/ability.html"]::before {
+  content: "auto_fix_normal";
+}
+
+a.nav-list-link[href*="/docs/specification/element_categories/collective.html"]::before {
+  content: "groups_3";
+}
+
+a.nav-list-link[href*="/docs/specification/element_categories/title.html"]::before {
+  content: "military_tech";
+}
+
+a.nav-list-link[href*="/docs/specification/element_categories/language.html"]::before {
+  content: "edit_road";
+}
+
+a.nav-list-link[href*="/docs/specification/element_categories/phenomenon.html"]::before {
+  content: "thunderstorm";
+}
+
+a.nav-list-link[href*="/docs/specification/element_categories/law.html"]::before {
+  content: "gpp_bad";
+}
+
+a.nav-list-link[href*="/docs/specification/element_categories/relation.html"]::before {
+  content: "link";
+}
+
+a.nav-list-link[href*="/docs/specification/element_categories/event.html"]::before {
+  content: "saved_search";
+}
+
+a.nav-list-link[href*="/docs/specification/element_categories/construct.html"]::before {
+  content: "api";
+}
+
+/* Icons for categories not in your list - keeping existing ones */
+a.nav-list-link[href*="/docs/specification/element_categories/marker.html"]::before {
+  content: "location_on";
+}
+
+a.nav-list-link[href*="/docs/specification/element_categories/narrative.html"]::before {
+  content: "auto_stories";
+}
+
+a.nav-list-link[href*="/docs/specification/element_categories/pin.html"]::before {
+  content: "push_pin";
+}
+
+/* Fields, typings, and other specification pages */
+.navigation-list-item > .navigation-list-link[href*="fields"]::before {
+  content: "data_object";
+}
+
+.navigation-list-item > .navigation-list-link[href*="typings"]::before {
+  content: "label";
+}
+
+.navigation-list-item > .navigation-list-link[href*="world-metadata"]::before {
+  content: "public";
+} 

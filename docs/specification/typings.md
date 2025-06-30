@@ -8,10 +8,8 @@ has_toc: false
 
 # Typings (Supertype/Subtype System)
 
-The Typings system provides an optional, additional layer of classification for elements within their main [Category](./categories.md). It uses two fields present in the [Base Fields](./fields.md) of every element:
 
-*   `Supertype`
-*   `Subtype`
+The Typings system provides an optional, additional layer of classification for elements within their main category, using the `Supertype` and `Subtype` base fields.
 
 ## Purpose
 
