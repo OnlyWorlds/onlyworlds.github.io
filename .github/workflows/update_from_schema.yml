@@ -26,4 +26,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "Automatically update documentation from YAML"
-          branch: main  # Ensure this matches your branch name
+          branch: main   
