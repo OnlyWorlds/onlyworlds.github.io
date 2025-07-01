@@ -2,7 +2,7 @@ name: Update Documentation Periodically
 
 on:
   schedule:
-    - cron: '0 */4 * * *'  # Runs every 4 hours
+    - cron: '0 */4 * * *'  # Runs every 4 hours - reactivated July 2025
 
 jobs:
   update-docs:
