@@ -65,22 +65,31 @@ def update_docs():
         markdown_content = convert_yaml_to_markdown(yaml_content)
         md_file_path = os.path.join(docs_directory, f'{category}.md')
 
-        # Read existing content and update only the YAML section
+        # Read existing content and update only the schema section
         if os.path.exists(md_file_path):
             with open(md_file_path, 'r') as file:
                 content = file.read()
             
-            # Find the third occurrence of '---'
-            parts = content.split("---", 3)
-            if len(parts) > 3:
-                pre_yaml_content = "---".join(parts[:3]) + "---\n"
+            # Split on all occurrences of '---'
+            parts = content.split("---")
+            
+            if len(parts) >= 5:  # Has at least 4 separators (5 parts)
+                # Keep everything up to and including the fourth separator
+                result = "---".join(parts[:4]) + "---\n"
+                # Add schema content after the fourth separator
+                result += markdown_content
             else:
-                pre_yaml_content = content  # If not found, preserve all as is
+                # If we don't have enough separators, add them
+                result = content
+                while content.count("---") < 4:
+                    if not result.endswith("\n"):
+                        result += "\n"
+                    result += "---\n"
+                result += markdown_content
 
             # Write updated content
             with open(md_file_path, 'w') as file:
-                file.write(pre_yaml_content)
-                file.write(markdown_content)
+                file.write(result)
         else:
             # File doesn't exist, create new with full headers and base text
             with open(md_file_path, 'w') as file:
@@ -91,6 +100,8 @@ def update_docs():
                 file.write("grand_parent: Specification\n")
                 file.write("---\n")
                 file.write("Base Text\n")
+                file.write("---\n")
+                file.write("Description\n")
                 file.write("---\n")
                 file.write(markdown_content)
 
