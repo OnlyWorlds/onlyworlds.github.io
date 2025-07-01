@@ -8,7 +8,8 @@ nav_order: 4
 <span class="material-symbols-outlined">api</span>
 
 
-A Construct is an idea or system that operates within a world as a formalized concept: something concepted, shared, and acted upon. It might be a magical law, an ideology, a belief, or a philosophical model. Constructs shape cultures, behaviors, and institutions by providing internal logic or justification for how things work. They are not universal truths, but frameworks that are made, sustained and lost over time.
+Constructs are abstract or conceptual structures that exist within a world and can have causal, symbolic, or systemic roles.
+They are non-physical, non-character entities that help explain or organize how the world works. Constructs shape cultures, behaviors, and institutions by providing internal logic or justification for how things work. They are not universal truths, but frameworks that are made, sustained and lost over time.
 
 --- 
   
