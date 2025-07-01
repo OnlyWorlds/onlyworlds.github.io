@@ -23,7 +23,20 @@ jobs:
         run: python ./scripts/update_docs.py
 
       - name: Commit and push changes
+        id: auto-commit
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "Automatically update documentation from YAML"
           branch: main   
+
+      - name: Trigger Pages rebuild
+        if: steps.auto-commit.outputs.changes_detected == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'pages.yml',
+              ref: 'main'
+            })   
