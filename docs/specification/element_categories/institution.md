@@ -26,4 +26,19 @@ They are distinct from:
 [Institution discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/institution)
 
 ---
- 
+### Foundation
+- **Doctrine**: Core belief, mission, or purpose that drives the institution
+- **Founding_date** (#): Date when the institution was established, in the world's TIME format
+- **Parent_institution** (single-link: Institution): Institution that governs, embodies, or originated this one
+
+### Claims
+- **Zones** (multi-link: Zone): Areas the institution controls or claims authority over
+- **Objects** (multi-link: Object): Significant objects owned or tied to the institution's operations, holdings, or identity
+- **Creatures** (multi-link: Creature): Creatures under the institution's protection, use, or symbolic control
+
+### World
+- **Status**: Current political, cultural, or functional standing of the institution in the world
+- **Allies** (multi-link: Institution): Institutions this one actively cooperates or aligns with
+- **Adversaries** (multi-link: Institution): Institutions this one opposes, competes with, or is in conflict with
+- **Constructs** (multi-link: Construct): Conceptual, procedural, or structural systems created or maintained by the institution
+

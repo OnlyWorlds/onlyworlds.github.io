@@ -26,4 +26,23 @@ They are distinct from:
 [Trait discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/trait)
 
 ---
- 
+### Qualitative
+- **Social_effects**: Relating to social relationships, reputation, or interaction dynamics
+- **Physical_effects**: Relating to physical changes, limitations, or enhancements
+- **Functional_effects**: Relating to practical or learned performance or aptitude
+- **Personality_effects**: Relating to temperament, mental state, or personality expression
+- **Behaviour_effects**: Relating to visible aspects and patterns of behavior
+
+### Quantitative
+- **Charisma** (# max:100): Affecting a character's charisma score
+- **Coercion** (# max:100): Affecting a character's coercion score
+- **Competence** (# max:100): Affecting a character's competence score
+- **Compassion** (# max:100): Affecting a character's compassion score
+- **Creativity** (# max:100): Affecting a character's creativity score
+- **Courage** (# max:100): Affecting a character's courage score
+
+### World
+- **Significance**: Describes the trait's societal, symbolic, or systemic presence
+- **Anti_trait** (single-link: Trait): Opposing trait that contradicts or nullifies the trait
+- **Empowered_abilities** (multi-link: Ability): Abilities strengthened or enabled by the trait
+

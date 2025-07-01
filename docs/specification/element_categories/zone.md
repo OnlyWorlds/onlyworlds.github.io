@@ -28,4 +28,16 @@ They are distinct from:
 [Zone discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/zone)
 
 ---
- 
+### Scope
+- **Role**: The operational function or intent of the zone
+- **Start_date** (#): Date when the zone becomes extant or relevant, defined in world TIME units
+- **End_date** (#): Date when the zone ceases to be meaningful or enforced, defined in world TIME units
+- **Phenomena** (multi-link: Phenomenon): Phenomena that affect, define, or occur within the zone
+- **Linked_zones** (multi-link: Zone): Other zones that are associated with the zone
+
+### World
+- **Context**: Historical and key knowledge about the zone
+- **Populations** (multi-link: Collective): Distinct collective groups or communities residing within the zone
+- **Titles** (multi-link: Title): Titles assigned to represent, manage, or protect the zone
+- **Principles** (multi-link: Construct): Influential mechanics acted within, upon, or by the zone
+

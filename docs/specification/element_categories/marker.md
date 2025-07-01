@@ -23,8 +23,11 @@ They are distinct from:
 
 [Marker discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/marker)
 
---- 
+---
+### Details
+- **Map** (single-link: Map): Map this marker is placed on
+- **Zone** (single-link: Zone): Zone that is defined by this marker
+- **X** (#): x coordinate, from bottom left of the map
+- **Y** (#): y coordinate, from bottom left of the map
+- **Z** (#): z coordinate, in case of depth
 
-
-
- 

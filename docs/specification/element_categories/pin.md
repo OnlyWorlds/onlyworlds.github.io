@@ -25,8 +25,11 @@ They are distinct from:
 
 [Pin discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/pin)
 
---- 
+---
+### Details
+- **Map** (single-link: Map): Map that the pin is placed on
+- **Element**: Link to any Element (managed by ContentType + UUID)
+- **X** (#): x coordinate, from bottom left of the map
+- **Y** (#): y coordinate, from bottom left of the map
+- **Z** (#): z coordinate, in case of depth (optional)
 
-
-
- 

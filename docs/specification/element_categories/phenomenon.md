@@ -28,4 +28,17 @@ They are distinct from:
 [Phenomenon discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/phenomenon)
 
 ---
- 
+### Mechanics
+- **Expression**: How the phenomenon manifests or takes shape in the world
+- **Effects**: The primary outcomes or changes caused by the phenomenon
+- **Duration** (#): The amount of time the phenomenon lasts, measured in world TIME units
+- **Catalysts** (multi-link: Object): Objects or materials that initiate or enhance the phenomenon
+- **Empowerments** (multi-link: Ability): Abilities that initiate or enhance the phenomenon, or are initiated or enhanced by it
+
+### World
+- **Mythology**: Cultural, religious, or narrative meaning associated with the phenomenon
+- **System** (single-link: Phenomenon): Broader phenomenon that this one is part of or linked to
+- **Triggers** (multi-link: Construct): Conceptual mechanisms or patterns that cause the phenomenon to activate
+- **Wielders** (multi-link: Character): Characters capable of intentionally directing or controlling the phenomenon
+- **Environments** (multi-link: Location): Locations where the phenomenon occurs or is known to manifest
+

@@ -26,4 +26,15 @@ They are distinct from:
 [Language discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/language)
 
 ---
- 
+### Structure
+- **Phonology**: The language's sound systems, including phonemes, tone, and pronunciation rules
+- **Grammar**: Rules governing syntax, morphology, and sentence structure
+- **Lexicon**: Vocabulary principles or full word lists used in the language
+- **Writing**: Script or notation system used to represent the language in written form
+- **Classification** (single-link: Construct): Linguistic group or typological category the language belongs to
+
+### World
+- **Status**: Current vitality, reputation, or dominance of the language
+- **Spread** (multi-link: Location): Geographical areas where the language is used or spoken
+- **Dialects** (multi-link: Language): Variants or dialect languages derived from the language
+
