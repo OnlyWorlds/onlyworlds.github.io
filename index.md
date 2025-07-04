@@ -30,11 +30,11 @@ Development support
 - [**GitHub**](https://github.com/onlyworlds/onlyworlds)
   - [Base Schema](https://github.com/OnlyWorlds/OnlyWorlds/tree/main/schema)
   - [Language Conversions](https://github.com/OnlyWorlds/OnlyWorlds/tree/main/languages)
+  - [Custom GPT](https://chatgpt.com/g/g-dydgDFnOz-onlyworldbot)
 
 Documentation and community
  
-- [Framework Specification](../docs/specification/)
-- [Custom GPT](https://onlyworlds.com/custom_gpt/)
+- [Framework Specifics](../docs/specification/)
 - [Guides](../docs/guides/)
 - [Discord](https://discord.gg/twCjqvVBwb)
 - [Discussions](https://github.com/OnlyWorlds/OnlyWorlds/discussions)
