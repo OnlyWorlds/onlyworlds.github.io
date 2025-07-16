@@ -1,14 +1,14 @@
 ---
 layout: default
 title: Character
-parent: Element Categories
+parent: Elements
 grand_parent: Specification
 nav_order: 2
 ---
 
 <span class="material-symbols-outlined">person_4</span>
 
-A Character is a self-directed actor with the capacity to choose, respond, and shape the world around them. Characters serve as the central drivers of change across most worlds. They tend to have complex motivations, personal history, and the ability to form meaningful relationships.
+A Character represents an individual with agency and the capacity to make choices that affect their world. Characters are self-directed actors who can respond to situations, form relationships, and drive narrative change through their decisions and actions.
 
 ---
 
@@ -40,7 +40,7 @@ They are distinct from:
 ### Origins
 - **Background**: History, upbringing, or formative experiences of the character
 - **Motivations**: Core desires, goals, or values that drive the character's choices and behavior
-- **Birth_date** (#): Moment of birth, expressed in the world's TIME units
+- **birth_date** (#): Moment of birth, expressed in the world's TIME units
 - **Birthplace** (single-link: Location): Location where the character was born
 - **Languages** (multi-link: Language): Languages the character can understand, speak, or use for communication
 
@@ -63,7 +63,7 @@ They are distinct from:
 - **Friends** (multi-link: Character): Characters the character considers close allies or companions
 - **Rivals** (multi-link: Character): Characters the character is in active opposition or competition with
 
-### Ttrpg
+### TTRPG
 - **Level** (#): Progression rank of the character in a game system
 - **Hit_points** (#): Total health available to the character
 - **Str** (#): Physical force and carrying capacity

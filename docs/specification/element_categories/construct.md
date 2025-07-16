@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Construct
-parent: Element Categories
+parent: Elements
 grand_parent: Specification
 nav_order: 4
 ---

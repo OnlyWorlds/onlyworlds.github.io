@@ -2,40 +2,59 @@
 layout: default
 title: Fields
 parent: Specification
-av_order: 3
+nav_order: 2
 has_toc: false
 ---
 
 # Fields
 
-Each element is given shape and meaning by the optional fields that its category offers. 
+Fields are the building blocks that give elements their properties and characteristics. Every element starts with the same base fields, then gains additional fields specific to its category.
 
-There are two types of fields:
+---
 
-1.  **Base Fields:** A common set of fields shared by *all* element categories
-2.  **Category-Specific Fields:** Fields unique to each individual category
+## Field Types
 
-## Base Fields
- 
+### Base Fields
+
+Every element, regardless of category, includes these essential fields:
 
 | Field         | Type          | Required | Description                                                            |
 | :------------ | :------------ | :------- | :--------------------------------------------------------------------- |
-| `Id`          | string (uuid) | Yes      | Unique identifier for the element (uuidv7 format) |
-| `Name`        | string        | Yes      | Name of the element                                                   |
-| `Description` | string        | No       | Any text information about the element                                   |
-| `Supertype`   | string        | No       | Primary classification of the element (see [Typings](./typings.md)). |
-| `Subtype`     | string        | No       | Secondary classification of the element (as a subset of the supertype) |
-| `Image_URL`   | string (url)  | No       | URL to an image representing the element                              |
-| `World`       | string (uuid) | Yes      | UUID of the world the element is part of                            |
- 
- 
+| `id`          | string (uuid) | Yes      | Unique identifier (UUIDv7 format) |
+| `name`        | string        | Yes      | Display name of the element                                                   |
+| `world`       | string (uuid) | Yes      | World this element belongs to                            |
+| `description` | string        | No       | Free-form text about the element                                   |
+| `supertype`   | string        | No       | Primary classification (see [Supertypes and subtypes](./supertypes_and_subtypes.md)) |
+| `subtype`     | string        | No       | Secondary classification within the supertype |
+| `image_url`   | string (url)  | No       | Link to a representative image                              |
 
-## Field Data Types
+### Category-Specific Fields
 
-All fields are of one of the following types:
+Each element category extends these base fields with its own specialized properties. For example:
+- **Characters** gain fields like `titles`, `abilities`, and `relations`
+- **Locations** add `coordinates`, `zones`, and `contained objects`
+- **Events** include `time_start`, `time_end`, and `participants`
 
-*   `string` (including specific formats like `uuid` or `url`)
-*   `integer` (currently locked in at positives only, potentially with a maximum value) 
-*   `single link` (a reference to maximum one other element)
-*   `multi link` (a reference to any number of other elements)
+See individual [element pages](./element_categories/) for complete field listings.
 
+---
+
+## Data Types
+
+Fields use one of four data types:
+
+| Type | Description | Example |
+| :--- | :---------- | :------ |
+| **string** | Text data, sometimes with specific formats | "The Dark Tower", UUID, URL |
+| **integer** | Positive whole numbers (may have limits) | 42, 1000, 9999 |
+| **single link** | Reference to exactly one other element | Character's current location |
+| **multi link** | References to multiple other elements | Event's participants, Location's inhabitants |
+
+---
+
+## Usage Notes
+
+- Required fields must be provided when creating an element
+- Optional fields can be added later as your world develops
+- Link fields create the relationships that connect your world
+- Field names use lowercase with underscores (e.g., `time_start`)

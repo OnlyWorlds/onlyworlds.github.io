@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Map
-parent: Element Categories
+parent: Elements
 grand_parent: Specification
 ---
 Base Text

@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Trait
-parent: Element Categories
+parent: Elements
 grand_parent: Specification
 nav_order: 20
 ---

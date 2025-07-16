@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Pin
-parent: Element Categories
+parent: Elements
 grand_parent: Specification
 nav_order: 16
 ---
