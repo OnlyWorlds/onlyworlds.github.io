@@ -30,27 +30,17 @@ All elements in OnlyWorlds share a common set of base properties that provide fu
 - **Required:** Yes
 
 ---
+### Id
 
-## Optional Properties
+### Name
 
-### description
-- **Type:** string
-- **Description:** Any text information about the element
-- **Required:** No
+### Description
 
-### supertype
-- **Type:** string
-- **Description:** Primary classification of the element (see [Supertypes and Subtypes](../supertypes_and_subtypes.md))
-- **Required:** No
+### Supertype
 
-### subtype
-- **Type:** string
-- **Description:** Secondary classification of the element (as a subset of the supertype)
-- **Required:** No
+### Subtype
 
-### image_url
-- **Type:** string (url)
-- **Description:** URL to an image representing the element
-- **Required:** No
+### Image_url
 
- 
+### World
+
