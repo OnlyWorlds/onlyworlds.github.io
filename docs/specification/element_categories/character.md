@@ -40,7 +40,7 @@ They are distinct from:
 ### Origins
 - **Background**: History, upbringing, or formative experiences of the character
 - **Motivations**: Core desires, goals, or values that drive the character's choices and behavior
-- **birth_date** (#): Moment of birth, expressed in the world's TIME units
+- **Birth_date** (#): Moment of birth, expressed in the world's TIME units
 - **Birthplace** (single-link: Location): Location where the character was born
 - **Languages** (multi-link: Language): Languages the character can understand, speak, or use for communication
 
@@ -63,7 +63,7 @@ They are distinct from:
 - **Friends** (multi-link: Character): Characters the character considers close allies or companions
 - **Rivals** (multi-link: Character): Characters the character is in active opposition or competition with
 
-### TTRPG
+### Ttrpg
 - **Level** (#): Progression rank of the character in a game system
 - **Hit_points** (#): Total health available to the character
 - **Str** (#): Physical force and carrying capacity
