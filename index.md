@@ -17,66 +17,61 @@ An open-source standard for defining digital worlds as portable, text-based data
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin: 40px 0;">
 
 <div style="border: 2px solid #4a5568; border-radius: 12px; padding: 25px; background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
-<h3 style="color: #90cdf4; margin-top: 0; display: flex; align-items: center;">
-🌐 <span style="margin-left: 10px;">OnlyWorlds Platform</span>
+<h3 style="color: #90cdf4; margin-top: 0;">
+OnlyWorlds Platform
 </h3>
 <p style="color: #a0aec0; margin: 15px 0;">Manage and transfer your worlds</p>
 <ul style="color: #cbd5e0; margin: 0;">
 <li><a href="https://onlyworlds.com" style="color: #90cdf4;">onlyworlds.com</a></li>
-<li><a href="https://onlyworlds.com/worlds/" style="color: #90cdf4;">account & world management</a></li>
-<li><a href="https://onlyworlds.com/api/docs" style="color: #90cdf4;">openapi & authentication</a></li>
+<li><a href="https://onlyworlds.com/worlds/" style="color: #90cdf4;">Account & World Management</a></li>
+<li><a href="https://onlyworlds.com/api/docs" style="color: #90cdf4;">OpenAPI & Authentication</a></li>
 </ul>
 </div>
 
 <div style="border: 2px solid #4a5568; border-radius: 12px; padding: 25px; background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
-<h3 style="color: #90cdf4; margin-top: 0; display: flex; align-items: center;">
-🛠️ <span style="margin-left: 10px;">Tools & Applications</span>
+<h3 style="color: #90cdf4; margin-top: 0;">
+Tools & Applications
 </h3>
 <p style="color: #a0aec0; margin: 15px 0;">Convert, build, and shape worlds</p>
 <ul style="color: #cbd5e0; margin: 0;">
-<li><a href="docs/tool-directory/" style="color: #90cdf4;">tool directory</a></li>
-<li><a href="https://onlyworlds.com/map_tool/" style="color: #90cdf4;">map tool</a></li>
-<li><a href="https://onlyworlds.com/parse_tool/" style="color: #90cdf4;">parse tool</a></li>
-<li><a href="https://github.com/OnlyWorlds/obsidian-plugin" style="color: #90cdf4;">obsidian plugin</a></li>
+<li><a href="docs/tool-directory/" style="color: #90cdf4;">Tool Directory</a></li>
+<li><a href="https://onlyworlds.com/map_tool/" style="color: #90cdf4;">Map Tool</a></li>
+<li><a href="https://onlyworlds.com/parse_tool/" style="color: #90cdf4;">Parse Tool</a></li>
+<li><a href="https://github.com/OnlyWorlds/obsidian-plugin" style="color: #90cdf4;">Obsidian Plugin</a></li>
+</ul>
+</div>
+
+
+<div style="border: 2px solid #4a5568; border-radius: 12px; padding: 25px; background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
+<h3 style="color: #90cdf4; margin-top: 0;">
+Development
+</h3>
+<p style="color: #a0aec0; margin: 15px 0;">Integrate and extend the OnlyWorlds ecosystem</p>
+<ul style="color: #cbd5e0; margin: 0;">
+<li><a href="https://github.com/onlyworlds/onlyworlds" style="color: #90cdf4;">GitHub Repository</a></li>
+<li><a href="https://github.com/OnlyWorlds/OnlyWorlds/tree/main/schema" style="color: #90cdf4;">Base Schema</a></li>
+<li><a href="https://chatgpt.com/g/g-dydgDFnOz-onlyworldsbot" style="color: #90cdf4;">OnlyWorldBot (Custom OpenAI GPT)</a></li>
+<li><a href="https://www.onlyworlds.com/mcp/" style="color: #90cdf4;">OnlyWorlds MCP server</a></li>
 </ul>
 </div>
 
 <div style="border: 2px solid #4a5568; border-radius: 12px; padding: 25px; background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
-<h3 style="color: #90cdf4; margin-top: 0; display: flex; align-items: center;">
-📚 <span style="margin-left: 10px;">Documentation</span>
+<h3 style="color: #90cdf4; margin-top: 0;">
+Interaction
 </h3>
-<p style="color: #a0aec0; margin: 15px 0;">Learn about the OnlyWorlds standard</p>
+<p style="color: #a0aec0; margin: 15px 0;">Discuss and improve the framework</p>
 <ul style="color: #cbd5e0; margin: 0;">
-<li><a href="docs/specification/" style="color: #90cdf4;">framework specification</a></li>
-<li><a href="docs/getting-started/" style="color: #90cdf4;">getting started guide</a></li>
-<li><a href="docs/changelog/" style="color: #90cdf4;">changelog</a></li>
-</ul>
-</div>
-
-<div style="border: 2px solid #4a5568; border-radius: 12px; padding: 25px; background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
-<h3 style="color: #90cdf4; margin-top: 0; display: flex; align-items: center;">
-⚙️ <span style="margin-left: 10px;">Development</span>
-</h3>
-<p style="color: #a0aec0; margin: 15px 0;">Build with and on top of OnlyWorlds</p>
-<ul style="color: #cbd5e0; margin: 0;">
-<li><a href="https://github.com/onlyworlds/onlyworlds" style="color: #90cdf4;">github repository</a></li>
-<li><a href="https://github.com/OnlyWorlds/OnlyWorlds/tree/main/schema" style="color: #90cdf4;">base schema</a></li>
-<li><a href="https://chatgpt.com/g/g-dydgDFnOz-onlyworldbot" style="color: #90cdf4;">custom OpenAI GPT</a></li>
-</ul>
-</div>
-
-<div style="border: 2px solid #4a5568; border-radius: 12px; padding: 25px; background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
-<h3 style="color: #90cdf4; margin-top: 0; display: flex; align-items: center;">
-💬 <span style="margin-left: 10px;">Community</span>
-</h3>
-<p style="color: #a0aec0; margin: 15px 0;">Help improve the framework</p>
-<ul style="color: #cbd5e0; margin: 0;">
-<li><a href="https://discord.gg/twCjqvVBwb" style="color: #90cdf4;">discord server</a></li>
-<li><a href="https://github.com/OnlyWorlds/OnlyWorlds/discussions" style="color: #90cdf4;">github discussions</a></li>
+<li><a href="https://discord.gg/twCjqvVBwb" style="color: #90cdf4;">Discord Server</a></li>
+<li><a href="https://github.com/OnlyWorlds/OnlyWorlds/discussions" style="color: #90cdf4;">GitHub Discussions</a></li>
+<li><a href="mailto:info@onlyworlds.com" style="color: #90cdf4;">Email</a></li>
 </ul>
 </div>
 
 </div>
+
+<p style="text-align: center; color: #cbd5e0; max-width: 800px; margin: 20px auto;">
+Learn about the <a href="docs/specification/" style="color: #90cdf4;">framework specification</a>, explore our <a href="docs/getting-started/" style="color: #90cdf4;">getting started guide</a>, or check the latest updates in the <a href="docs/changelog/" style="color: #90cdf4;">changelog</a>.
+</p>
 
 ---
 

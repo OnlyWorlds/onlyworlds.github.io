@@ -51,9 +51,10 @@ OnlyWorlds offers a few of such tools out of the box, and intends to support the
 
 </div>
 
----
 
-## Where to Go Next
+<!-- 
+---
+## Also look at
 
 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 20px 0;">
 
@@ -77,4 +78,4 @@ OnlyWorlds offers a few of such tools out of the box, and intends to support the
 <p style="color: #a0aec0;">Get familiar with the framework through examples and tutorials</p>
 </div>
 
-</div>
+</div> -->
