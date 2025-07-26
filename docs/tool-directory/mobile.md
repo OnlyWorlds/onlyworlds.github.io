@@ -12,7 +12,7 @@ Create and edit elements on the go with a bonus progression system.
 **URL:** [iOS TestFlight](https://testflight.apple.com/join/XWTuaack) • [Android APK](https://drive.google.com/file/d/1ZBgudPtApUy6eR-kE0OuMKkGBF61aru0/view?usp=sharing)  
 **Type:** Mobile Application  
 **Uses Tokens:** No (but does have basic AI features)  
-**Status:** Beta Testing
+**Status:** Available
 
 ---
 

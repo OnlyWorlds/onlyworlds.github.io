@@ -8,7 +8,7 @@ description: "Welcome to OnlyWorlds"
 <div style="text-align: center; margin: 40px 0;">
 <h1 style="color: #e2e8f0; margin-bottom: 20px;">OnlyWorlds</h1>
 <p style="font-size: 1.2em; color: #cbd5e0; max-width: 800px; margin: 0 auto;">
-An open-source standard for defining digital worlds as portable, text-based data. Build anywhere, use any way.
+An open-source standard for defining digital worlds as portable, text-based data.  
 </p>
 </div>
 
@@ -16,7 +16,7 @@ An open-source standard for defining digital worlds as portable, text-based data
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin: 40px 0;">
 
-<div style="border: 2px solid #4a5568; border-radius: 12px; padding: 25px; background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
+<div style="border: 2px solid #4a5568; border-radius: 12px; padding: 25px; background: #2d3748; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
 <h3 style="color: #90cdf4; margin-top: 0;">
 OnlyWorlds Platform
 </h3>
@@ -28,7 +28,7 @@ OnlyWorlds Platform
 </ul>
 </div>
 
-<div style="border: 2px solid #4a5568; border-radius: 12px; padding: 25px; background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
+<div style="border: 2px solid #4a5568; border-radius: 12px; padding: 25px; background: #2d3748; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
 <h3 style="color: #90cdf4; margin-top: 0;">
 Tools & Applications
 </h3>
@@ -42,7 +42,7 @@ Tools & Applications
 </div>
 
 
-<div style="border: 2px solid #4a5568; border-radius: 12px; padding: 25px; background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
+<div style="border: 2px solid #4a5568; border-radius: 12px; padding: 25px; background: #2d3748; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
 <h3 style="color: #90cdf4; margin-top: 0;">
 Development
 </h3>
@@ -55,7 +55,7 @@ Development
 </ul>
 </div>
 
-<div style="border: 2px solid #4a5568; border-radius: 12px; padding: 25px; background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
+<div style="border: 2px solid #4a5568; border-radius: 12px; padding: 25px; background: #2d3748; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
 <h3 style="color: #90cdf4; margin-top: 0;">
 Interaction
 </h3>
@@ -69,9 +69,9 @@ Interaction
 
 </div>
 
-<p style="text-align: center; color: #cbd5e0; max-width: 800px; margin: 20px auto;">
+<!-- <p style="text-align: center; color: #cbd5e0; max-width: 800px; margin: 20px auto;">
 Learn about the <a href="docs/specification/" style="color: #90cdf4;">framework specification</a>, explore our <a href="docs/getting-started/" style="color: #90cdf4;">getting started guide</a>, or check the latest updates in the <a href="docs/changelog/" style="color: #90cdf4;">changelog</a>.
-</p>
+</p> -->
 
 ---
 

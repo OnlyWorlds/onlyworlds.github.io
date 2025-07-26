@@ -12,7 +12,7 @@ View, edit, and showcase your world elements with a clean two-panel interface.
 **URL:** [onlyworlds.github.io/browse-tool](https://onlyworlds.github.io/browse-tool/)  
 **Type:** Web Application  
 **Uses Tokens:** No  
-**Status:** Available but heavily under development 
+**Status:** Under construction 
 
 ---
 
