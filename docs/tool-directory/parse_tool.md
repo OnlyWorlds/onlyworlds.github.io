@@ -2,7 +2,7 @@
 layout: default
 title: Parse Tool
 parent: Tool Directory
-nav_order: 3
+nav_order: 4
 ---
 
 # 💻 Parse Tool

@@ -1,11 +1,11 @@
 ---
 layout: default
-title: Mission & History
-nav_order: 5
+title: Vision & History
+nav_order: 8
 has_toc: false
 ---
 
-# Mission & History
+# Vision & History
  
 When you build a world, you might want to do more than just organize text: visualize it on maps, run simulations of its economy or politics, build games within it, explore it through different interfaces. Each approach requires different tools, but recreating your world's data for each tool is wasteful and error-prone. Finding a data expression flexible enough for any world type while maintaining the structure needed for all these different uses is complex.
 
@@ -72,7 +72,7 @@ A: While there's a technical upper limit of elements per world to prevent system
 A: The schema will continue evolving significantly as the community discovers new needs. However, a robust versioning system ensures your worlds remain compatible. OnlyWorlds commits to providing migration paths and maintaining backward compatibility. Your world data created today will still work years from now, even as the standard improves.</p>
 
 <p><strong>Q: Can I add custom element types for my specific needs?</strong><br>
-A: Custom categories and fields aren't supported as they would break portability between tools (a more customiazble foundation would be advantageous, but not likely in the short term). Supertypes and subtypes are currently optional and customizable, and will likely be expanded in the future into a templating system.</p>
+A: Custom categories and fields aren't supported as they would break portability between tools (a more customiazble foundation would be advantageous, but not likely in the short term). Types (supertypes and subtypes) are currently optional and customizable, and will likely be expanded in the future into a templating system.</p>
 
 <p><strong>Q: Does this support multiple people working on the same world?</strong><br>
 A: The data structure fully supports collaborative editing, and it's up to tool developers to build such features. Currently, worlds can be shared via API keys for basic collaboration. Users can also share worlds directly with other members on onlyworlds.com, so that they have direct access to the other's world data with their own PIN.</p>

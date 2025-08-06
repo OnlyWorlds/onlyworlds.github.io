@@ -2,13 +2,13 @@
 layout: default
 title: Fields
 parent: Specification
-nav_order: 2
+nav_order: 3
 has_toc: false
 ---
 
 # Fields
 
-Fields are the building blocks that give elements their properties and characteristics. Every element starts with the same base fields, then gains additional fields specific to its category.
+Fields define the essential properties of elements. Every element starts with the same base fields, then gains additional fields specific to its category.
 
 ---
 
@@ -24,7 +24,7 @@ Every element, regardless of category, includes these essential fields:
 | `name`        | string        | Yes      | Display name of the element                                                   |
 | `world`       | string (uuid) | Yes      | World this element belongs to                            |
 | `description` | string        | No       | Free-form text about the element                                   |
-| `supertype`   | string        | No       | Primary classification (see [Supertypes and subtypes](./supertypes_and_subtypes.md)) |
+| `supertype`   | string        | No       | Primary classification (see [Types](./types.md)) |
 | `subtype`     | string        | No       | Secondary classification within the supertype |
 | `image_url`   | string (url)  | No       | Link to a representative image                              |
 

@@ -1,13 +1,13 @@
 ---
 layout: default
-title: World metadata
+title: Worlds
 parent: Specification
-nav_order: 3
+nav_order: 1
 ---
 
-# World metadata
+# Worlds
 
-World metadata defines the container that holds all your elements. It includes essential information about ownership, versioning, and time systems that exist outside of individual elements.
+A world is the top-level container in OnlyWorlds. It's where all your elements live—every character, location, event, and concept exists within a world. Think of it as your universe's database.
 
 ---
 

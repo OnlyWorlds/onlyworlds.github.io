@@ -1,15 +1,15 @@
 ---
 layout: default
-title: Supertypes and subtypes
+title: Types
 parent: Specification
 nav_order: 4
 has_toc: false
 ---
  
 
-# Supertypes and subtypes
+# Types
 
-An optional classification system that adds genre-specific detail to your elements. This feature is in early development and will possibly evolve into a full template system.
+An optional classification system that adds genre-specific detail to your elements. Types help categorize elements within their base categories for better organization and discovery.
 
 ---
 

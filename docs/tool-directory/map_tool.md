@@ -2,7 +2,7 @@
 layout: default
 title: Map Tool
 parent: Tool Directory
-nav_order: 1
+nav_order: 3
 ---
 
 # 💻 Map Tool
