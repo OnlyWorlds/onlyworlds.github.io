@@ -7,7 +7,7 @@ nav_order: 5
 
 # 🔌 Obsidian Plugin
 
-Edit OnlyWorlds elements directly in your Obsidian vault.
+Integrate OnlyWorlds elements into Obsidian workflows and vaults.
 
 **URL:** [github.com/OnlyWorlds/obsidian-plugin](https://github.com/OnlyWorlds/obsidian-plugin)  
 **Type:** Plugin/Extension  
