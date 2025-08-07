@@ -10,7 +10,7 @@ has_toc: false
 
 07-08-2025 - Documentation structure and content updated (WIP), OnlyWorlds MCP server created, Browse tool created (WIP), Template tool created (WIP)
 
-05-07-2025 - new onlyworlds.com website deployed, Obsidian plugin new release
+05-07-2025 - Deployed new onlyworlds.com website, re-release  Obsidian plugin 
 
 27-06-2025 - Schema rework completed: website and API updated, mobile + parse + map tools updated
 
@@ -26,6 +26,8 @@ has_toc: false
 
 2025 - Obsidian Plugin
 
-2024 - OnlyWorlds closed alpha & mobile app
+2024 - OnlyWorlds closed alpha
+
+2023 - Mobile app
   
-2019 - [Worldsmith](https://github.com/worldsmithdev/Worldsmith) release
+2019 - Release of [Worldsmith](https://github.com/worldsmithdev/Worldsmith)
