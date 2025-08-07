@@ -194,6 +194,7 @@ Relations between parent and child locations can also be inferred to create 'sta
 > **Maps Section Rules**  
 > 1. The loaded map is never shown here, only other maps
 > 2. Local maps can NOT be pinned to the canvas because this might conflict with their representation by a location-pin
+> 3. The global map stack is currently NOT affected by global map pin placement, only by hierarchy values
 
 ---
 
