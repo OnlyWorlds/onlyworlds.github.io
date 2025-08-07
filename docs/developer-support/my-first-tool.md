@@ -1,11 +1,11 @@
 ---
 layout: default
-title: AI-Assisted Tool Creation
+title: My First Tool
 parent: Developer Support
-nav_order: 2
+nav_order: 1
 ---
 
-# AI-Assisted Tool Creation
+# My First Tool
 {: .no_toc }
 
 Build your own OnlyWorlds tool without writing a single line of code by hand.
