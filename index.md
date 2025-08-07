@@ -6,7 +6,9 @@ description: "Welcome to OnlyWorlds"
 ---
  
 
-**OnlyWorlds** is a universal language for digital worlds. It offers a **standardized** way to represent characters, locations,  creatures, events, and anything else that might inhabit or define fictional or historic settings.  
+**OnlyWorlds** is a universal language for digital worlds. It offers a **standardized** representation of characters, locations,  creatures, events, and anything else that might inhabit or define your fictional or historic settings. 
+
+Its worlds are **lightweight text files** that can be easily exported and imported. OnlyWorlds is **entirely free** and offers **infrastructure** and **tools** to share worlds and bring them to life. Extensive **developer support** enables anyone to build tools and games that integrate the language, with no commercial restrictions. 
 
 ## OnlyWorlds includes
 
@@ -18,13 +20,13 @@ description: "Welcome to OnlyWorlds"
 
 [**A set of free tools**](/docs/tool-directory/) for building and visualizing worlds.  
 
-[**Integration guides and tools**](/docs/getting-started/migration-guide/) for rapidly converting existing work into the OnlyWorlds format.  
+[**Automated pipelines**](/docs/getting-started/migration-guide/) for rapidly converting existing work into the OnlyWorlds format.  
 
-[**Developer support**](/docs/developer-support/) for developers of any experience level to get started building tools that they want to use or sell. 
+[**Developer support**](/docs/developer-support/) for any experience level to easily build tools that they want to use or sell. 
 
-[**Infrastructure and AI tools**](https://github.com/OnlyWorlds/OnlyWorlds) to further enable and simplify this development. 
+[**Infrastructure and AI tools**](https://github.com/OnlyWorlds/OnlyWorlds) to further enable and streamline this development. 
 
-[**Feedback channels**](https://github.com/OnlyWorlds/OnlyWorlds/discussions) for a framework that is intended to evolve significantly over time.  
+[**Feedback channels**](https://github.com/OnlyWorlds/OnlyWorlds/discussions) for a framework an language that is intended to evolve significantly over time.  
 
 
 ## This documentation contains
@@ -36,7 +38,7 @@ description: "Welcome to OnlyWorlds"
 - **[Developer Support](/docs/developer-support/)** — With guides, references, and useful tooling
 
 
-OnlyWorlds is a long term project by a game developer who wants their worlds to come alive beyond text and image. Read more about the [vision and history of OnlyWorlds](/docs/vision-history/), or [sign up here](/docs/getting-started/) to create your first world.
+OnlyWorlds is a long term project by a game developer who wants their worlds to function beyond text and image. Read more about the [vision and history of OnlyWorlds](/docs/vision-history/), or [sign up here](https://www.onlyworlds.com/accounts/login/) to create your first world.
 
 ---
 

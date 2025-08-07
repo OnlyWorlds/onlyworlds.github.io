@@ -10,16 +10,16 @@ has_toc: false
 
 ## <span class="material-symbols-outlined" style="vertical-align: middle;">edit_note</span> as world builder
 
-OnlyWorlds comes with a [free set of tools](/docs/tool-directory/) for building new worlds or converting existing work.
+OnlyWorlds comes with a [free set of tools](/docs/tool-directory/) for building new worlds and converting existing work.
 
 1. Sign up at [onlyworlds.com](https://onlyworlds.com) 
 2. Write down (or change) the PIN value in your profile
 3. Go to the Worlds section and create a new world
 4. Load it into any supporting tool using its API key and your PIN
 
-Navigate to [My First OnlyWorld](my-first-world/) for a detailed walkthrough.
+Navigate to [My First OnlyWorld](my-first-world/) for a more detailed walkthrough and general introduction to key concepts.
 
-The [Parsing & Migrating](parsing-and-migrating/) section helps you convert your existing work into OnlyWorlds.
+The [Parsing & Migrating](parsing-and-migrating/) section offers automation for translating your existing work into OnlyWorlds.
 
 [Translation Examples](translation-examples/) further illustrate how to understand and create OnlyWorlds elements.
 

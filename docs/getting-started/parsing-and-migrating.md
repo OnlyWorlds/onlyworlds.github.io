@@ -16,6 +16,11 @@ OWBot does not (yet) have a direct integration with the OnlyWorlds World API, bu
 
 These tools and pipelines are a work in progress, experimental, and offer no guarantee of accuracy or completeness. Your feedback and experience in using them is, as always, very welcome.
 
+<div style="text-align: center; margin: 40px 0; padding: 20px; background: #374151; border-radius: 8px; border-left: 4px solid #fbbf24;">
+<p style="color: #d1d5db; margin: 0;">⚠️ <strong>Pre-Launch Status:</strong> OnlyWorlds launches August 2025. Parsing functionality is available but imperfect in the parse tool, and not yet activated for the OnlyWorldsBot.</p>
+</div>
+
+
 ## Steps
 
 1. Create a world on [onlyworlds.com](https://onlyworlds.com)
@@ -28,7 +33,7 @@ These tools and pipelines are a work in progress, experimental, and offer no gua
 5. Edit and verify the parsed elements
 6. Click 'save' or 'save all' to upload the elements to the world
 
-### Using the [OnlyWorldBot](https://chatgpt.com/g/g-dydgDFnOz-onlyworldsbot)
+### Using the [OnlyWorldsBot](https://chatgpt.com/g/g-dydgDFnOz-onlyworldsbot)
  
 3. Say 'parse' or click the 'parse' suggestion
 4. Paste in and send world data after OWBot has replied

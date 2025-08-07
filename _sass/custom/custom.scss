@@ -114,4 +114,83 @@ a.nav-list-link[href*="/docs/specification/element_categories/pin.html"]::before
 
 .navigation-list-item > .navigation-list-link[href*="world-metadata"]::before {
   content: "public";
+}
+
+/* Callout Styles */
+.note, .warning, .important {
+  position: relative;
+  padding: 0.75rem 0.75rem 0.75rem 3rem;
+  margin: 1rem 0;
+  border-radius: 4px;
+}
+
+.note::before, .warning::before, .important::before {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Material Symbols Outlined';
+  font-size: 22px;
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+}
+
+.note {
+  border-left: 3px solid #7253ed;
+  background-color: rgba(114, 83, 237, 0.08);
+}
+
+.note::before {
+  content: "lightbulb";
+  color: #7253ed;
+}
+
+.warning {
+  border-left: 3px solid #f77e05;
+  background-color: rgba(247, 126, 5, 0.08);
+}
+
+.warning::before {
+  content: "warning";
+  color: #f77e05;
+}
+
+.important {
+  border-left: 3px solid #e94c4c;
+  background-color: rgba(233, 76, 76, 0.08);
+}
+
+.important::before {
+  content: "priority_high";
+  color: #e94c4c;
+}
+
+/* Ensure proper formatting for callout content */
+.note > p:first-child,
+.warning > p:first-child,
+.important > p:first-child {
+  margin-top: 0;
+}
+
+.note > p:last-child,
+.warning > p:last-child,
+.important > p:last-child {
+  margin-bottom: 0;
+}
+
+/* Field name styling */
+code.field-name {
+  background-color: rgba(114, 83, 237, 0.15);
+  color: #b4a7ff;
+  padding: 0.125rem 0.25rem;
+  border-radius: 3px;
+  font-size: 0.875em;
+  font-weight: 500;
 } 

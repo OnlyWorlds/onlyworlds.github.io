@@ -18,7 +18,7 @@ Extract world elements from text using AI, edit YAML, and save to your world.
 
 ## What it does
 
-Paste text and let AI extract OnlyWorlds elements. Edit them in YAML format, manage in-progress vs saved states, and submit framework feedback to earn tokens. Paste structured data (created token-free by the [OnlyworldBot](https://chatgpt.com/g/g-dydgDFnOz-onlyworldbot)) and import it into your world.
+Paste text and let AI extract OnlyWorlds elements. Edit them in YAML format, manage in-progress vs saved states, and submit framework feedback to earn tokens. Paste structured data (created token-free by the [OnlyWorldsBot](https://chatgpt.com/g/g-dydgDFnOz-OnlyWorldsBot)) and import it into your world.
 
 ## Quick Setup
 
