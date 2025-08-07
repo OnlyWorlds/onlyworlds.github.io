@@ -2,7 +2,7 @@
 layout: default
 title: MCP Server
 parent: Developer Support
-nav_order: 3
+nav_order: 4
 ---
 
 # MCP Server

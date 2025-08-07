@@ -2,7 +2,7 @@
 layout: default
 title: Beginners Guide
 parent: Developer Support
-nav_order: 1
+nav_order: 2
 ---
 
 # Beginners Guide
