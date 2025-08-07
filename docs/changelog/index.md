@@ -8,7 +8,7 @@ has_toc: false
 
 # Changelog
 
-
+07-08-2025 - OnlyWorlds MCP server created, Browse tool created (WIP)
 
 05-07-2025 - new onlyworlds.com website deployed, Obsidian plugin new release
 
