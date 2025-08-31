@@ -1,31 +1,30 @@
 ---
 layout: default
-title: Feedback
+title: Schema Feedback
 parent: Contribution
 nav_order: 1
 ---
 
-# Feedback
+# Schema Feedback
 
-Your experience with OnlyWorlds matters. Share what's working, what isn't, and what could be better.
+The OnlyWorlds specification is in active development. Field names, element categories, and relationships need community input and validation.
 
-## Ways to Provide Feedback
+## Critical Questions
 
-### Discord Community
-Join our [Discord server](https://discord.gg/twCjqvVBwb) for real-time discussions with other worldbuilders and the development team.
+### Categories
+- Missing element types for your world?
+- Categories that overlap or confuse?
+- Better names for existing categories?
 
-### GitHub Discussions
-Visit our [GitHub Discussions](https://github.com/OnlyWorlds/OnlyWorlds/discussions) for longer-form feedback and community conversations.
+### Fields  
+- Confusing field names?
+- Missing essential properties?
+- Fields that should be links instead of text?
+- Required fields that should be optional (or vice versa)?
 
-### Direct Email
-Send detailed feedback to [info@onlyworlds.com](mailto:info@onlyworlds.com).
+### Relationships
+- How should elements connect?
+- Single vs multi-link decisions?
+- Circular reference problems?
 
-## What We're Looking For
-
-- User experience improvements
-- Workflow suggestions
-- Tool integration ideas
-- Documentation clarity
-- General impressions
-
-Your feedback directly influences OnlyWorlds' evolution.
+ 

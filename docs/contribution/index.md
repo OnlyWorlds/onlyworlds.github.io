@@ -8,17 +8,33 @@ has_toc: false
 
 # Contribution
 
-OnlyWorlds thrives on community input. Your feedback, ideas, and bug reports help shape the future of portable worldbuilding.
+Ways to help improve OnlyWorlds beyond building tools.
 
-## How to Contribute
+## Priority Feedback
 
-We welcome contributions in several forms:
+### [Schema Feedback](feedback/)
+The specification needs validation. Element categories, field names, and relationships are not final.
 
-- **[Feedback](feedback/)** - Share your experience using OnlyWorlds
-- **[Feature Requests](feature-requests/)** - Suggest new capabilities
-- **[Bug Reports](bug-reports/)** - Help us fix issues
-- **[Contact](contact/)** - Reach out directly
+### [Bug Reports](bug-reports/)
+Report broken functionality in tools or platform.
 
-## Community First
+---
 
-OnlyWorlds is built for creators, by creators. Every suggestion is considered, and the most requested features guide our development priorities.
+## Feature Requests
+
+Submit new tool or specification ideas via:
+- [GitHub Discussions](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/tool-requests-feature-requests)
+- Discord #suggestions channel
+
+Current priorities: batch operations, import from other platforms, timeline branching, template system.
+
+---
+
+## Submission Channels
+
+**Parse Tool**: [onlyworlds.com/parse_tool](https://onlyworlds.com/parse_tool) - Earn tokens  
+**GitHub**: [Discussions](https://github.com/OnlyWorlds/OnlyWorlds/discussions) - Detailed proposals  
+**Discord**: [discord.gg/twCjqvVBwb](https://discord.gg/twCjqvVBwb) - Quick discussion  
+**Email**: [info@onlyworlds.com](mailto:info@onlyworlds.com) - Private/security issues
+
+Creator: Titus Oosting. Direct feedback welcome.
