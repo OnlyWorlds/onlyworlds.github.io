@@ -51,10 +51,4 @@ Fields use one of four data types:
 | **multi link** | References to multiple other elements | Event's participants, Location's inhabitants |
 
 ---
-
-## Usage Notes
-
-- Required fields must be provided when creating an element
-- Optional fields can be added later as your world develops
-- Link fields create the relationships that connect your world
-- Field names use lowercase with underscores (e.g., `time_start`)
+ 

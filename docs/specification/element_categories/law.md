@@ -37,7 +37,7 @@ They are distinct from:
 - **Purpose**: The intent, motivation, or justification for the law's creation
 - **Date** (#): Date the law was formally established, in world TIME units
 - **Parent_law** (single-link: Law): A law that this law derives from, modifies, or enhances
-- **Penalties** (multi-link: Construct): Consequences intended to beapplied when the law is contravened
+- **Penalties** (multi-link: Construct): Consequences intended to be applied when the law is contravened
 
 ### World
 - **Author** (single-link: Institution): The institution that created or issued the law

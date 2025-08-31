@@ -30,9 +30,10 @@ Mississippi, and Arkansas.<a href="/docs/specification/element_categories/Zone" 
 
 --- 
  
-Everything that exists, occurs, or has a name in your world should be representable by one or more elements.
-
-The element categories can be organized into three broad groups:
+Anything that exists, occurs, or has a name in your world, you should be able to represent through one or more elements.
+Click on a category in the navigation menu for detailed information on each.
+ 
+The element categories can be organized into three informal groups:
 
 ### Active Forces
 *Things that operate in your world and affect other elements*
@@ -59,11 +60,9 @@ The element categories can be organized into three broad groups:
 - **Map** - Spatial templates
 - **Pin** & **Marker** - Positional labels
 - **Title** - Social labels
-- **Species** - Biological or culturalcategories
+- **Species** - Biological or cultural categories
 - **Law** - Codified rules
 - **World** - The container itself
 - **Construct** - Abstract concepts
 - **Relation** - Special signifiers
-
-Click on each category in the navigation menu for detailed information about what it represents and how it differs from similar categories.
  

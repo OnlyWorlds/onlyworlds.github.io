@@ -53,7 +53,7 @@ They are distinct from:
 - **Phenomena** (multi-link: Phenomenon): Phenomena relevant to the construct
 - **Languages** (multi-link: Language): Languages relevant to the construct
 - **Families** (multi-link: Family): Families relevant to the construct
-- **Relations** (multi-link: Relation): No description available.
+- **Relations** (multi-link: Relation): Relations relevant to the construct
 - **Titles** (multi-link: Title): Titles relevant to the construct
 - **Constructs** (multi-link: Construct): Other constructs relevant to the construct
 - **Events** (multi-link: Event): Events relevant to the construct

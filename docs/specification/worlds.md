@@ -7,13 +7,11 @@ nav_order: 1
 
 # Worlds
 
-A world is the top-level container in OnlyWorlds. It's where all your elements live—every character, location, event, and concept exists within a world. Think of it as your universe's database.
+A world is the top-level container for any number of elements. Worlds can (at this time) not be nested with other worlds: a single world should represent a complete setting.
 
 ---
 
 ## Core Properties
-
-These fields identify and describe your world:
 
 | Field         | Type          | Required | Description |
 | :------------ | :------------ | :------- | :---------- |
@@ -25,20 +23,16 @@ These fields identify and describe your world:
 ---
 
 ## System Properties
-
-These fields manage technical aspects:
-
+ 
 | Field     | Type          | Required | Description |
 | :-------- | :------------ | :------- | :---------- |
-| `api_key` | string        | Yes      | 10-character key for API access |
+| `api_key` | string        | Yes      | auto-generated 10-character key for API access |
 | `version` | string        | Yes      | OnlyWorlds format version (e.g., "1.0") |
 | `user`    | string (uuid) | Yes      | Owner's account identifier |
 
 ---
 
 ## Timeline System
-
-Optional fields for worlds with custom time tracking:
 
 | Field                     | Type          | Required | Description |
 | :------------------------ | :------------ | :------- | :---------- |
@@ -60,13 +54,8 @@ Optional fields for worlds with custom time tracking:
 - `time_format_equivalents`: ["Cycle", "Rotation", "Orbit", "Epoch"]
 - `time_basic_unit`: "Cycle"
 - `time_range_min`: 0
-- `time_range_max`: 9999
+- `time_range_max`: 128256
 
 ---
 
-## Usage Notes
-
-- The `api_key` allows tools to access your world data
-- Timeline fields work together - use all or none
-- Custom time names map directly to standard units
-- Time values are integers counting from your chosen starting point
+ 

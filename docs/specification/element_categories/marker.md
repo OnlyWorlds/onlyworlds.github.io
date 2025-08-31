@@ -8,14 +8,14 @@ nav_order: 12
  
 <span class="material-symbols-outlined">brush</span>
 
-A Marker is a special Map element. Groups of Markers, each at a specific coordinate, together desginate a Zone in the world.
+A Marker is a special Map element. Groups of Markers, each at a specific coordinate, together designate a Zone in the world.
 
 --- 
    
 Markers are for painting the Zones of your world. They interact with:
 
 - **Maps** (Markers exist on only one map at a time)
-- **Zones** (A miminum of three Markers together defines one Zone)
+- **Zones** (A mininum of three Markers together defines one Zone)
 
 They are distinct from:
 

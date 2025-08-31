@@ -28,7 +28,7 @@ They are distinct from:
 
 ---
 ### Biology
-- **Appearance**: Typical physical or form featues of the species
+- **Appearance**: Typical physical or form features of the species
 - **Life_span** (#): Average or typical life expectancy of an individual, defined in world TIME units
 - **Weight** (#): Average or typical adult weight, defined in world MASS units
 - **Nourishment** (multi-link: Species): Other species consumed as food sources
