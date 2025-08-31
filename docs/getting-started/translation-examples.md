@@ -5,15 +5,12 @@ parent: Getting Started
 nav_order: 4
 ---
 
-# Translation ExamplesTwo texts, the openings of a science fiction and a historical fiction novel, are scraped here for <a href="/docs/specification/element_categories">OnlyWorlds elements</a>.
-
-This shows how element categories can be understood, and how <a href="/docs/specification/types">types and subtypes</a> might be inferred. 
-
+# Translation Examples
 
 ---
  
 
-From Dan Simmons' **<a href="https://en.wikipedia.org/wiki/Hyperion_(Simmons_novel)">Hyperion</a>** (1989)
+The opening of Dan Simmons' **<a href="https://en.wikipedia.org/wiki/Hyperion_(Simmons_novel)">Hyperion</a>** (1989)
 
 <details>
 <summary style="cursor: pointer; font-weight: bold; margin: 20px 0;">The Consul</summary>

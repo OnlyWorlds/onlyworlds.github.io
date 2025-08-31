@@ -25,10 +25,10 @@ hell, hellholes <a href="/docs/specification/element_categories/Language" title=
  
 
 ### Structure
-- **[Worlds](worlds.md)** - Containers for any universe or setting
+- **[Worlds](worlds)** - Containers for any universe or setting
 - **[Elements](element_categories/)** - Units that embody and define worlds
-- **[Fields](fields.md)** - Properties that shape individual elements
-- **[Types](types.md)** - Optional classification system for elements
+- **[Fields](fields)** - Properties that shape individual elements
+- **[Types](types)** - Optional classification system for elements
 
 ### Implementation
 - Schema defined in [YAML files](https://github.com/OnlyWorlds/OnlyWorlds/tree/main/schema) 

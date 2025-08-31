@@ -13,36 +13,40 @@ has_toc: false
 OnlyWorlds comes with a [free set of tools](/docs/tool-directory/) for building new worlds and converting existing work.
 
 1. Sign up at [onlyworlds.com](https://onlyworlds.com) 
-2. Write down (or change) the PIN value in your profile
-3. Go to the Worlds section and create a new world
-4. Load it into any supporting tool using its API key and your PIN
+2. Note your PIN from your profile (or change it to something memorable)
+3. Create a new world in the Worlds section
+4. Copy the world's API key and use it with your PIN in any tool
 
 Navigate to [My First OnlyWorld](my-first-world/) for a more detailed walkthrough and general introduction to key concepts.
 
-The [Parsing & Migrating](parsing-and-migrating/) section offers automation for translating your existing work into OnlyWorlds.
+The [Parsing & Migrating](parsing-and-migrating/) helps you effectively migrate existing work into OnlyWorlds.
 
-[Translation Examples](translation-examples/) further illustrate how to understand and create OnlyWorlds elements.
+[Translation Examples](translation-examples/) illustrate how to understand and create OnlyWorlds elements.
 
 
 ## <span class="material-symbols-outlined" style="vertical-align: middle;">terminal</span> as developer
 
-OnlyWorlds provides a standardized, predictable format that can integrate into new or existing software. 
-It offers an open license with no commercial restrictions: anyone can make free or paid tools for any purpose.
+OnlyWorlds provides a standardized, predictable format that integrates into new or existing software with no commercial restrictions.
+ 
+Visit the [Developer Support](/docs/developer-support/) section for guides and AI tools to get you started. The [my first tool](/docs/developer-support/my-first-tool/) guide shows developers of any level how to develop tools, and the [template tool](https://github.com/OnlyWorlds/tool-template) provides an easy starting point to build on top of.
 
-Anyone can be a developer in 2025. If you have an idea or wish for a tool, you don't have to wait for others to build it.
-Visit the [Developer Support](/docs/developer-support/) section for guides and AI tools to get you started.
-
-The [GitHub repository](https://github.com/OnlyWorlds/OnlyWorlds) has details on how to share tools within the OnlyWorlds ecosystem.
+The [GitHub repository](https://github.com/OnlyWorlds/OnlyWorlds) has more resources and guidelines for contributing to the OnlyWorlds ecosystem.
 
 ## <span class="material-symbols-outlined" style="vertical-align: middle;">forum</span> as contributor
 
-OnlyWorlds launched with its categories and fields as a starting point. Every one of them is up for discussion and improvement, and user feedback is a key driver for its growth and usability. 
- 
-Poor naming, strange relations, missing fields, desired tools, and anything else relating to your world building quality of life is welcome through any of these channels. 
+  OnlyWorlds needs user input to improve the framework's language and capabilities:
+  - Element names and relationships
+  - Field definitions and data types
+  - Tool ideas and features
+  - Documentation improvements
+  - Bug reports and testing
 
-1. The [GitHub discussions section](https://github.com/OnlyWorlds/OnlyWorlds/discussions) organizes feedback in topics and threads
-2. The [Discord server](https://discord.gg/twCjqvVBwb) has dedicated channels and open discussion
-3. The [parse tool](https://onlyworlds.com/parse_tool) has a feedback submission mechanism 
-4. [Email](mailto:info@onlyworlds.com) is open for any questions or ideas  
+  Ways to contribute:
+  1. [GitHub discussions](https://github.com/OnlyWorlds/OnlyWorlds/discussions) - feedback organized by topic
+  2. [Discord server](https://discord.gg/twCjqvVBwb) - free discussion and support
+  3. [Parse tool](https://onlyworlds.com/parse_tool) - submit feedback, earn rewards
+  4. [Email](mailto:info@onlyworlds.com) - for direct contact
+
+
 
  
