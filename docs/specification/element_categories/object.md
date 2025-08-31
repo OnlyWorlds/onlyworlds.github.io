@@ -33,7 +33,7 @@ They are distinct from:
 - **Weight** (#): Approximate or exact mass of the object, defined by world MASS units
 - **Amount** (#): The number of identical units in this object entry
 - **Parent_object** (single-link: Object): Larger object that this one is part of or contained within
-- **Materials** (multi-link: Construct): The physical matter that constitutes the object
+- **Materials** (multi-link: Construct): The phyiscal matter that constitutes the object
 - **Technology** (multi-link: Construct): Mechanisms relating the object's design or operation
 
 ### Function
