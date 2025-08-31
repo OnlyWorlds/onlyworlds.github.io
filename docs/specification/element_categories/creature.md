@@ -34,7 +34,7 @@ They are distinct from:
 - **Height** (#): Approximate height of the creature, using the world's defined LENGTH units
 - **Species** (multi-link: Species): Species this creature belongs to
 
-### Behaviour
+### Behavior
 - **Habits**: Typical behaviors, instincts, or recurring actions the creature tends to display
 - **Demeanor**: The emotional tone or attitude the creature conveys through posture, expression, or aggression
 - **Traits** (multi-link: Trait): Traits that influence the creature's behavior, capabilities, or appearance
