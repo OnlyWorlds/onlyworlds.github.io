@@ -1,7 +1,8 @@
 ---
 layout: default
 title: Parse Tool
-parent: Tool Directory
+parent: Prototype Tools
+grand_parent: Tool Directory
 nav_order: 4
 ---
 
@@ -11,8 +12,7 @@ Extract world elements from text using AI, edit YAML, and save to your world.
 
 **URL:** [onlyworlds.com/parser](https://onlyworlds.com/parser)  
 **Type:** Web Application  
-**Uses Tokens:** Yes  
-**Status:** Available
+**Uses Tokens:** Yes   
 
 ---
 

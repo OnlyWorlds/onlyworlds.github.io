@@ -1,8 +1,9 @@
 ---
 layout: default
 title: Obsidian Plugin
-parent: Tool Directory
-nav_order: 5
+parent: Prototype Tools
+grand_parent: Tool Directory
+nav_order: 6
 ---
 
 # 🔌 Obsidian Plugin
@@ -11,8 +12,7 @@ Integrate OnlyWorlds elements into Obsidian workflows and vaults.
 
 **URL:** [github.com/OnlyWorlds/obsidian-plugin](https://github.com/OnlyWorlds/obsidian-plugin)  
 **Type:** Plugin/Extension  
-**Uses Tokens:** No  
-**Status:** Available
+**Uses Tokens:** No   
 
 ---
 

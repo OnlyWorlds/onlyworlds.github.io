@@ -1,18 +1,18 @@
 ---
 layout: default
-title: Mobile App
-parent: Tool Directory
-nav_order: 6
+title: Mobile Companion
+parent: Prototype Tools
+grand_parent: Tool Directory
+nav_order: 7
 ---
 
-# 📱 Mobile App
+# 📱 Mobile Companion
 
 Create and edit elements on the go with a bonus progression system.
 
 **URL:** [iOS TestFlight](https://testflight.apple.com/join/XWTuaack) • [Android APK](https://drive.google.com/file/d/1ZBgudPtApUy6eR-kE0OuMKkGBF61aru0/view?usp=sharing)  
 **Type:** Mobile Application  
-**Uses Tokens:** No (but does have basic AI features)  
-**Status:** Available
+**Uses Tokens:** No (but does have basic AI features)   
 
 ---
 

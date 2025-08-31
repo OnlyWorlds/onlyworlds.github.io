@@ -1,7 +1,8 @@
 ---
 layout: default
 title: Map Tool
-parent: Tool Directory
+parent: Prototype Tools
+grand_parent: Tool Directory
 nav_order: 3
 ---
 
@@ -9,10 +10,8 @@ nav_order: 3
 
 Visualize your world by placing element pins on interactive maps.
 
-**URL:** [onlyworlds.com/maptool](https://onlyworlds.com/maptool)  
-**Type:** Web Application  
-**Uses Tokens:** No  
-**Status:** Available
+**URL:** [onlyworlds.com/map_tool](https://onlyworlds.com/map_tool)  
+**Type:** Web Application   
 
 ---
 

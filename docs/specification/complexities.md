@@ -28,7 +28,7 @@ Some fields are functional, not just descriptive: resource yields feed economic 
 
 Besides their text fields, where you can write any information in anyformat, every OnlyWorlds category also has game- and simulation enabling fields. In these, specific formats and data types can be used for mechanical inference and simulation in academic or game systems.
 
-OnlyWorlds' predecessor WorldSmith originiated as an economic simulation engine, and it's this type of function that OnlyWorlds aims to support. Identifying optimal 'simulation fields' and creating systems to formalize this static vs dynamic approach to fields is a major and continuous goal of the upcoming refactors and refinement of the OnlyWorlds schema. 
+OnlyWorlds' predecessor WorldSmith originated as an [economic simulation engine](https://www.onlyworlds.com/sikelia), and it's this type of function that OnlyWorlds aims to support. Identifying optimal 'simulation fields' and creating systems to formalize this static vs dynamic approach to fields is a major and continuous goal of the upcoming refactors and refinement of the OnlyWorlds schema. 
 
 ---
 
