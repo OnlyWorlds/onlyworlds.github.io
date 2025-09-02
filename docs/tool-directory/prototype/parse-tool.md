@@ -12,7 +12,7 @@ Extract world elements from text using AI, edit YAML, and save to your world.
 
 **URL:** [onlyworlds.com/parse_tool](https://onlyworlds.com/parse_tool)  
 **Type:** Web Application  
-**Uses Tokens:** Yes   
+**Uses Tokens:** Yes, for minor features   
 
 ---
 
