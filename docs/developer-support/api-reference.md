@@ -7,56 +7,67 @@ nav_order: 3
 
 # API Reference
 
-Complete documentation for the OnlyWorlds API.
+RESTful API for OnlyWorlds data access.
 
-## OpenAPI Specification
+## Base Configuration
 
-Full interactive documentation available at:
-[https://onlyworlds.com/api/docs](https://onlyworlds.com/api/docs)
+**Endpoint**: `https://onlyworlds.com/api/worldapi/`  
+**Format**: JSON  
+**IDs**: UUIDv7 (time-sortable)
 
-## Quick Reference
+## Authentication
 
-### Base URL
-```
-https://onlyworlds.com/api/worldapi/
-```
-
-### Authentication Headers
+Required headers for all requests:
 ```
 API-Key: {world-specific-key}
 API-Pin: {your-account-pin}
 ```
 
-### Common Endpoints
+Get credentials from your [profile](https://onlyworlds.com/profile/) and for a specific world.
 
-| Method | Endpoint | Description |
-|:-------|:---------|:------------|
-| GET | `/elements/{type}/` | List all elements of type |
-| GET | `/elements/{type}/{id}/` | Get specific element |
-| POST | `/elements/{type}/` | Create new element |
-| PUT | `/elements/{type}/{id}/` | Update element |
-| DELETE | `/elements/{type}/{id}/` | Delete element |
+## Operations
 
-### Element Types
-`ability`, `character`, `collective`, `construct`, `creature`, `event`, `family`, `institution`, `language`, `law`, `location`, `map`, `marker`, `narrative`, `object`, `phenomenon`, `pin`, `relation`, `species`, `title`, `trait`, `zone`
+### Standard CRUD Pattern
+All 22 element types support identical operations:
 
-## Response Format
+| Method | Path | Purpose |
+|:-------|:-----|:--------|
+| GET | `/{type}/` | List elements (paginated) |
+| POST | `/{type}/` | Create element |
+| GET | `/{type}/{id}/` | Get single element |
+| PUT | `/{type}/{id}/` | Update element |
+| DELETE | `/{type}/{id}/` | Delete element |
 
-All responses return JSON:
+### Query Parameters
+- `world={uuid}` - Filter by world
+- `name__icontains={text}` - Search names
+- `supertype={value}` - Filter by supertype
+- `limit={n}` & `offset={n}` - Pagination
+
+## Element Types
+
+22 types organized by category:
+
+**Entities**: `character`, `creature`, `species`, `family`, `collective`  
+**Places**: `location`, `zone`, `construct`, `map`, `pin`, `marker`  
+**Concepts**: `ability`, `trait`, `title`, `language`, `law`, `institution`  
+**Content**: `event`, `narrative`, `object`, `phenomenon`, `relation`
+
+## Response Structure
+
+### Base Fields (all elements)
 ```json
 {
-  "id": "uuid-v7",
+  "id": "01912a3b-4c5d-6e7f-8901-234567890abc",
   "name": "Element Name",
-  "description": "Description text",
-  "world": "world-uuid",
+  "description": "Detailed description",
+  "world": "01912a3b-4c5d-6e7f-8901-234567890def",
+  "supertype": "optional-category",
+  "subtype": "optional-subcategory",
+  "image_url": "https://example.com/image.jpg",
   "created_at": "2024-01-01T00:00:00Z",
-  "updated_at": "2024-01-01T00:00:00Z",
-  // type-specific fields...
+  "updated_at": "2024-01-01T00:00:00Z"
 }
 ```
 
-## Rate Limits
-- 1000 requests/hour per world
-- 10 requests/second burst
 
-See [Using the API](/docs/getting-started/using-the-api/) for examples.

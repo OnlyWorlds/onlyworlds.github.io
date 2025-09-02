@@ -8,20 +8,24 @@ has_toc: false
 
 # Developer Support
 
-Build amazing tools and integrations with OnlyWorlds. We provide everything you need to get started.
+Build tools and integrations with OnlyWorlds.
 
-## Resources for Developers
+## Quick Start
 
-- **[Beginners Guide](beginners-guide/)** - Start building with OnlyWorlds
-- **[API Reference](api-reference/)** - Complete API documentation
+1. Get API credentials from [onlyworlds.com](https://onlyworlds.com)
+2. Install a [package](packages/) or use the [API](api-reference/) directly
+3. Build from scratch, or on top of the [Template Tool](/docs/tool-directory/prototype/template-tool/)
+
+## Resources
+
+- **[Packages](packages/)** - NPM and Python SDKs
+- **[API Reference](api-reference/)** - RESTful endpoints
+- **[My First Tool](my-first-tool/)** - Step-by-step guide
 - **[MCP Server](mcp-server/)** - AI assistant integration
-- **[OnlyWorldsBot](https://chatgpt.com/g/g-dydgDFnOz-onlyworldsbot)** - Custom GPT for development help
+- **[OnlyWorldsBot](onlyworldsbot/)** - Custom GPT helper
 
-## Why Build with OnlyWorlds?
+## Support
 
-- **Open ecosystem** - No gatekeepers or approval process
-- **Simple API** - RESTful design with clear documentation
-- **Active community** - Get help and share your tools
-- **Growing user base** - Reach worldbuilders eager for new tools
-
-Start building the future of worldbuilding tools today.
+- [GitHub Discussions](https://github.com/OnlyWorlds/OnlyWorlds/discussions)
+- [Discord](https://discord.gg/twCjqvVBwb)
+- [Email](mailto:info@onlyworlds.com)

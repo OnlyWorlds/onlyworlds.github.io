@@ -7,50 +7,39 @@ nav_order: 5
 
 # OnlyWorldsBot
 
-A custom ChatGPT assistant trained specifically for OnlyWorlds development.
+Custom GPT for OnlyWorlds development.
 
-## Access
-
-Use OnlyWorldsBot at:
-[https://chatgpt.com/g/g-dydgDFnOz-onlyworldsbot](https://chatgpt.com/g/g-dydgDFnOz-onlyworldsbot)
+**Access**: [chatgpt.com/g/g-dydgDFnOz-onlyworldsbot](https://chatgpt.com/g/g-dydgDFnOz-onlyworldsbot)
 
 ## Capabilities
 
-OnlyWorldsBot can help with:
-- **Code generation** for API integrations
-- **Schema questions** about element types
-- **Tool development** guidance
-- **Best practices** for OnlyWorlds apps
-- **Debugging** API issues
+- Code generation in any language
+- Schema and field questions
+- Tool development guidance
+- API integration examples
+- Debugging assistance
 
 ## Example Prompts
 
-- "Show me how to create a character using Python"
-- "What fields does the Location element have?"
-- "Help me build a family tree visualizer"
-- "How do I handle authentication in JavaScript?"
-- "Generate a TypeScript interface for Event elements"
+- "Create a character using Python"
+- "What fields does Location have?"
+- "Build a family tree visualizer"
+- "Handle auth in JavaScript"
+- "TypeScript types for Event"
 
-## How It Works
+## Training
 
-OnlyWorldsBot has been trained on:
-- Complete OnlyWorlds specification
+Trained on:
+- Complete specification
 - API documentation
-- Code examples in multiple languages
-- Common implementation patterns
+- Code examples
+- Common patterns
 
-## Tips for Best Results
+## Tips
 
-1. **Be specific** about your programming language
-2. **Describe your use case** clearly
-3. **Ask for examples** when learning
-4. **Iterate** on the generated code
+- Specify your language
+- Describe use case clearly
+- Ask for examples
+- Iterate on code
 
-## Limitations
-
-- Based on GPT-4's knowledge cutoff
-- May not reflect very recent API changes
-- Always verify generated code
-- Check official docs for authoritative info
-
-OnlyWorldsBot is your AI pair programmer for OnlyWorlds development.
+Requires ChatGPT Plus subscription.

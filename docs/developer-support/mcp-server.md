@@ -7,54 +7,43 @@ nav_order: 4
 
 # MCP Server
 
-Integrate OnlyWorlds with AI assistants using the Model Context Protocol.
-
-## What is MCP?
-
-The Model Context Protocol allows AI assistants like Claude to directly interact with OnlyWorlds data. This enables:
-- Natural language world queries
-- Automated element creation
-- AI-powered world analysis
-- Integration with AI workflows
+Integrate OnlyWorlds with AI assistants.
 
 ## Installation
 
-### For Claude Desktop
-
-1. Install via npm:
 ```bash
-npm install -g @onlyworlds/mcp-server
+npm install -g @onlyworlds/mcp-client
 ```
 
-2. Add to Claude Desktop config:
+Add to Claude Desktop config:
 ```json
 {
   "mcpServers": {
     "onlyworlds": {
       "command": "npx",
-      "args": ["@onlyworlds/mcp-server"]
+      "args": ["@onlyworlds/mcp-client"]
     }
   }
 }
 ```
 
-## Available Resources
+## Features
 
-The MCP server provides:
-- **Schema Summary**: Compact list of all element types and fields
-- **API Access**: Direct world data manipulation
-- **Query Tools**: Search and filter elements
+- Schema summary for all element types
+- Direct API access from Claude
+- Natural language queries
+- Automated element creation
 
-## Usage Examples
+## Usage
 
-Once installed, you can ask Claude:
-- "Show me all characters in my world"
-- "Create a new location called Crystal Cave"
-- "Find all events involving Elena"
-- "Analyze the relationships in my world"
+Ask Claude:
+- "Show all characters in my world"
+- "Create a location called Crystal Cave"
+- "Find events involving Elena"
+- "Analyze world relationships"
 
-## Learn More
+## Resources
 
-- [MCP Server Repository](https://github.com/OnlyWorlds/mcp-server)
+- [GitHub Repository](https://github.com/OnlyWorlds/mcp-server)
 - [Model Context Protocol](https://modelcontextprotocol.io)
-- Visit [onlyworlds.com/mcp/](https://www.onlyworlds.com/mcp/) for details
+- [Setup Guide](https://www.onlyworlds.com/mcp/)
