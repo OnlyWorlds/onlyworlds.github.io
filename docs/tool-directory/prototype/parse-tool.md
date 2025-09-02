@@ -10,7 +10,7 @@ nav_order: 4
 
 Extract world elements from text using AI, edit YAML, and save to your world.
 
-**URL:** [onlyworlds.com/parser](https://onlyworlds.com/parser)  
+**URL:** [onlyworlds.com/parse_tool](https://onlyworlds.com/parse_tool)  
 **Type:** Web Application  
 **Uses Tokens:** Yes   
 

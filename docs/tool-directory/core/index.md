@@ -20,10 +20,9 @@ Stable and recommended for daily use.
 
 Tools move from Prototype to Core when they demonstrate:
 - **Stability** - Minimal bugs after an extended testing period
-- **Performance** - Responsive and efficient operation
-- **Compatibility** - Full OnlyWorlds specification compliance
+- **Performance** - Responsive and efficient operation 
 - **Documentation** - Complete user guides and examples
-- **Usability** - Has a clear usefulness and purpose
+- **Usability** - Having a clear usefulness and purpose
 
 ---
 

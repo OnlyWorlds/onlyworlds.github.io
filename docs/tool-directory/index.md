@@ -14,15 +14,12 @@ The Tool Directory hosts free, secure tools for a broad range of world building 
 ---
 
 ## Tool Categories
-
-### [Submitted Tools](submitted/) (0 tools)
-Recent submissions awaiting security review. Not yet approved for general use.
-
-### [Prototype Tools](prototype/) (8 tools)
-Functional tools in active testing. Expect occasional bugs but generally usable for worldbuilding tasks.
+ 
+### [Prototype Tools](prototype/) (7 tools)
+Functional tools in active testing: potential for bugs, but generally usable for worldbuilding tasks.
 
 ### [Core Tools](core/) (0 tools)
-Stable, tested, and recommended for production use. These tools have proven reliability through extensive community testing.
+Stable, tested, and proven useful.
 
 ---
 
