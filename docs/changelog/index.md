@@ -8,6 +8,8 @@ has_toc: false
 
 # Changelog
 
+19-09-2025 - Created & deployed new (mobile friendly) UI on onlyworlds.com, finished browsing tool, finished MCP server, finished template tool,started a little game on top of template tool for my-first-tool guide, created NPM and python packages, added OnlyWorlds to Context7, deployed parsing pipeline through OnlyWorldsBot
+
 07-08-2025 - Documentation structure and content updated (WIP), OnlyWorlds MCP server created, Browse tool created (WIP), Template tool created (WIP)
 
 05-07-2025 - Deployed new onlyworlds.com website, re-release  Obsidian plugin 
