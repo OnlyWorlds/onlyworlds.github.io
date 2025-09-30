@@ -1,11 +1,11 @@
 ---
 layout: default
-title: My First OnlyWorld
-parent: Getting Started
+title: Your First World
+parent: Getting Started (Old)
 nav_order: 1
 ---
 
-# My First OnlyWorld
+# Your First World
 {: .no_toc }
 
 ## Table of contents
@@ -69,7 +69,7 @@ Press an icon at the top to select an element category.
 
 - Click the <span class="material-symbols-outlined">person_4</span> [Character](/docs/specification/element_categories/character.html) icon (first icon)
 - Click the **+** button to create a new character
-- Change the name of the new character to that of someone who inhabits your world
+- Change the name of the new character to "the Consul"
 - Press the **Save** button to persist this name change
 
 {: .important }
@@ -80,14 +80,14 @@ Press an icon at the top to select an element category.
 
 - Click the <span class="material-symbols-outlined">castle</span> [Location](/docs/specification/element_categories/location.html) icon (third icon)
 - Create a new [location](/docs/specification/element_categories/location.html)
-- Change the name of the new [location](/docs/specification/element_categories/location.html) to that of the place where your [character](/docs/specification/element_categories/character.html) was born
+- Change the name of the new [location](/docs/specification/element_categories/location.html) to "Hyperion" (the planet where we first encounter the Consul)
 - Press the **Save** button
 
 ### Connecting character to birthplace
 
-- Navigate back to the [character](/docs/specification/element_categories/character.html) you created
-- Write something about the [character](/docs/specification/element_categories/character.html) in the `description` field or something about their physical or mental qualities in the `physicality` or `mentality` fields
-- Scroll down to the `birthplace` field and select the [location](/docs/specification/element_categories/location.html) you created
+- Navigate back to the Consul
+- Write something about the Consul in the `description` field or something about their physical or mental qualities in the `physicality` or `mentality` fields
+- Scroll down to the `birthplace` field and select Hyperion
 - Save your changes
 
 {: .note }
@@ -96,10 +96,10 @@ Press an icon at the top to select an element category.
 ### Adding possessions
 
 - Click the <span class="material-symbols-outlined">webhook</span> [Object](/docs/specification/element_categories/object.html) icon (second icon)
-- Create three [objects](/docs/specification/element_categories/object.html) that currently exist in your world and rename them; make two of these [objects](/docs/specification/element_categories/object.html) that are owned by your [character](/docs/specification/element_categories/character.html)
+- Create three [objects](/docs/specification/element_categories/object.html) that currently exist in your world and rename them; for example: "Consul's ship", "ancient datasphere access codes", "ceremonial staff"
 
-- Navigate back to the [character](/docs/specification/element_categories/character.html) you created
-- Scroll down to the `objects` field and use **Ctrl+Click** to select the two [objects](/docs/specification/element_categories/object.html) they own
+- Navigate back to the Consul
+- Scroll down to the `objects` field and use **Ctrl+Click** to select two [objects](/docs/specification/element_categories/object.html) that belong to the Consul
 - Save your changes
 
 {: .note }
@@ -110,12 +110,12 @@ Press an icon at the top to select an element category.
 ## Map your world
 
 The [Map Tool](/docs/tool-directory/map_tool.html) lets you place your elements on any map that you have at hand.
-Let's first place your [character](/docs/specification/element_categories/character.html) at a [location](/docs/specification/element_categories/location.html) to enable some additional map tool functionality.
+Let's first place the Consul at a [location](/docs/specification/element_categories/location.html) to enable some additional map tool functionality.
 
 ### Establishing character location
 
-- Create a new [location](/docs/specification/element_categories/location.html) (or use your [character](/docs/specification/element_categories/character.html)'s birthplace [location](/docs/specification/element_categories/location.html))
-- Establish that your [character](/docs/specification/element_categories/character.html) is currently at this [location](/docs/specification/element_categories/location.html) by assigning it to their `location` field
+- Create a new [location](/docs/specification/element_categories/location.html) called "Valley of the Time Tombs" (or use Hyperion if you prefer)
+- Establish that the Consul is currently at this [location](/docs/specification/element_categories/location.html) by assigning it to their `location` field
 
 {: .note }
 > You can use the familiar onlyworlds.com interface for this or try other tools: the [Browse Tool](/docs/tool-directory/browse_tool.html), [Parse Tool](/docs/tool-directory/parse_tool.html), [Obsidian Plugin](/docs/tool-directory/obsidian.html) and [Mobile Companion](/docs/tool-directory/mobile.html) all offer field editing.
@@ -136,7 +136,7 @@ Let's first place your [character](/docs/specification/element_categories/charac
 ### Placing elements on the map
 
 - Click the **Load Map** button to load the image into the canvas
-- Find the [location](/docs/specification/element_categories/location.html) that your [character](/docs/specification/element_categories/character.html) is at in the sidebar and click it to select it, then click on the canvas to place its pin (or drag it there directly)
+- Find the [location](/docs/specification/element_categories/location.html) where the Consul is in the sidebar and click it to select it, then click on the canvas to place its pin (or drag it there directly)
 - Save your map using the **Save New Map** button in the top right
 
 {: .warning }
@@ -146,7 +146,7 @@ Let's first place your [character](/docs/specification/element_categories/charac
 
 ### Spawning elements at locations
 
-You have previously established that your [character](/docs/specification/element_categories/character.html) is at the [location](/docs/specification/element_categories/location.html) that you just pinned.
+You have previously established that the Consul is at the [location](/docs/specification/element_categories/location.html) that you just pinned.
 
 - Click this [location](/docs/specification/element_categories/location.html)'s pin to select it
 - Click the little sprout button in the sidebar to spawn all elements that are currently at this [location](/docs/specification/element_categories/location.html)
@@ -163,11 +163,11 @@ Relations between parent and child locations can also be inferred to create 'sta
 > Local maps can form stacks if their [locations](/docs/specification/element_categories/location.html) are embedded.  
 > Click the help icon in the top-left of the map tool for more information.
 
-- Create a [location](/docs/specification/element_categories/location.html) that represents the [map](/docs/specification/element_categories/map.html) you have created earlier (e.g., a continent, planet, or area of some type)
-- Create, find or placehold a map image that represents the [location](/docs/specification/element_categories/location.html) that your [character](/docs/specification/element_categories/character.html) is at (and which you pinned on above map).
-- In your [character](/docs/specification/element_categories/character.html)'s current [location](/docs/specification/element_categories/location.html)'s `parent_location` field, assign the [location](/docs/specification/element_categories/location.html) you just created (to represent your original map)
+- If you haven't already, ensure you have Hyperion as a [location](/docs/specification/element_categories/location.html) representing the planet
+- Create, find or placehold a map image that represents the Valley of the Time Tombs (where the Consul is)
+- In the Valley of the Time Tombs' `parent_location` field, assign Hyperion (the planet contains the valley)
 
-- Create a new map for your original [location](/docs/specification/element_categories/location.html), assign the image URL, load it into canvas, then save it
+- Create a new map for Hyperion, assign the image URL, load it into canvas, then save it
 - For each map, assign the [location](/docs/specification/element_categories/location.html) that it represents in the dropdown that has default value 'Global Map', then save it
 - Load the 'child' map into the canvas
 - Notice that the 'parent' [location](/docs/specification/element_categories/location.html) has a little map icon and click it
@@ -205,4 +205,8 @@ These steps give you an introduction to some key concepts of the OnlyWorlds lang
 You can try different features and approaches to further building out and visualizing your worlds. Keep an eye on the [tool directory](/docs/tool-directory/) for current and upcoming tools. If there are tools or features that you are eager to access, consider following the [My First Tool](/docs/getting-started/my-first-tool.html) guide to create whatever you want to use yourself.
 
 Please feel free to leave feedback on any aspects of the framework. If there is someting unclear, incorrect, or missing in this guide, that feedback is [also welcome](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/feedback-bug-reports).
+
+---
+
+**Previous: [Understanding OnlyWorlds](understanding-onlyworlds)** | **Next: [Migration Guide](migration-guide)**
 

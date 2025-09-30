@@ -1,5 +1,5 @@
 ---
-title: Home
+title: Overview
 layout: default
 nav_order: 1
 description: "Welcome to OnlyWorlds"
@@ -15,7 +15,7 @@ description: "Welcome to OnlyWorlds"
 
   OnlyWorlds includes essentials tools, developer resources, and a growing ecosystem of compatible software. Worlds can be stored and used with no restrictions, and OnlyWorlds offers free world hosting and transfer services.
 
-## OnlyWorlds includes
+## Infrastructure
 
 <div style="background: rgba(55, 65, 81, 0.3); border-radius: 8px; padding: 24px; margin: 24px 0;">
   <div style="display: grid; gap: 16px;">
@@ -41,8 +41,8 @@ description: "Welcome to OnlyWorlds"
     </div>
 
     <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
-      <strong><a href="/docs/getting-started/parsing-and-migrating/" style="color: inherit;">World migration</a></strong>
-      <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">Specialized AI and tools to convert existing worldbuilding content into the OnlyWorlds format</div>
+      <strong><a href="/docs/getting-started/migration-guide/" style="color: inherit;">World migration</a></strong>
+      <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">Free AI-powered tools to convert existing worldbuilding content into OnlyWorlds format</div>
     </div>
 
     <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
@@ -99,7 +99,7 @@ description: "Welcome to OnlyWorlds"
 
 
 <div style="text-align: center;">
-<a href="https://www.onlyworlds.com/accounts/login/">Create your first world</a> • <a href="https://discord.gg/twCjqvVBwb">Join Discord</a> • <a href="https://github.com/OnlyWorlds/OnlyWorlds">View on GitHub</a>
+<a href="https://www.onlyworlds.com/accounts/login/">create a world</a> • <a href="https://discord.gg/twCjqvVBwb">join Discord</a> • <a href="https://github.com/OnlyWorlds/OnlyWorlds">view on GitHub</a>
 </div>
 
 
