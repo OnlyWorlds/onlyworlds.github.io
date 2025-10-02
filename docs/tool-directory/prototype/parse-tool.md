@@ -6,37 +6,36 @@ grand_parent: Tool Directory
 nav_order: 4
 ---
 
-# 💻 Parse Tool
+# Parse Tool
 
-Extract world elements from text using AI, edit YAML, and save to your world.
+Multi-purpose workspace for AI parsing, YAML editing, and earning token ratings.
 
-**URL:** [onlyworlds.com/parse_tool](https://onlyworlds.com/parse_tool)  
-**Type:** Web Application  
-**Uses Tokens:** Yes, for minor features   
+**URL:** [onlyworlds.com/parse_tool](https://onlyworlds.com/parse_tool)
+**Type:** Web Application
+**Uses Tokens:** Yes, for AI features
 
 ---
 
-## What it does
+## Features
 
-Paste text and let AI extract OnlyWorlds elements. Edit them in YAML format, manage in-progress vs saved states, and submit framework feedback to earn tokens. Paste structured data (created token-free by the [OnlyWorldsBot](https://chatgpt.com/g/g-dydgDFnOz-OnlyWorldsBot)) and import it into your world.
+Three-panel workspace combining AI extraction, direct YAML editing, and conversational refinement. Currently the only way to earn token rating through the feedback system. Import structured data from [OnlyWorldsBot](https://chatgpt.com/g/g-dydgDFnOz-OnlyWorldsBot) without token costs.
 
 ## Quick Setup
 
 1. **Enter** World Key and PIN
 2. **Validate** to load world data
 3. **Paste text** in middle panel
-4. **Click parse** to extract elements
+4. **Click parse** to extract elements (or paste YAML directly)
 5. **Edit YAML** and save changes
 
 ## Key Features
 
-- **Three-panel layout** - Chat, editor, element lists
-- **YAML editing** - Direct element manipulation
-- **In-progress tracking** - Separate editing from saved
-- **AI chat** - Refine elements conversationally
-- **Feedback system** - Submit improvements for token rating increase
-- **Token display** - Learn about AI operation costs
-
- 
+- **Three-panel layout** - Chat on left, editor in middle, element lists on right
+- **YAML editing** - Direct manipulation with syntax highlighting
+- **In-progress tracking** - Work on elements before committing saves
+- **AI chat** - Iterate and refine elements conversationally
+- **Feedback system** - Submit framework improvements to earn token rating (exclusive feature)
+- **Token display** - Watch AI operation costs in real-time
+- **Multiple workflows** - Parse text, edit YAML, chat with AI, or all three
 
  

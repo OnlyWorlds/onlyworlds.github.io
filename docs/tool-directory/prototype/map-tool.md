@@ -6,18 +6,18 @@ grand_parent: Tool Directory
 nav_order: 3
 ---
 
-# 💻 Map Tool
+# Map Tool
 
-Visualize your world by placing element pins on interactive maps.
+Place element pins on interactive maps using any image URL.
 
-**URL:** [onlyworlds.com/map_tool](https://onlyworlds.com/map_tool)  
-**Type:** Web Application   
+**URL:** [onlyworlds.com/map_tool](https://onlyworlds.com/map_tool)
+**Type:** Web Application
 
 ---
 
-## What it does
+## Features
 
-Create interactive maps using any image URL and place pins linking to your world elements. Build map hierarchies from universe scale down to building interiors.
+Create interactive maps with element pins. Link maps to build hierarchies from universe scale to building interiors.
 
 ## Quick Setup
 
@@ -32,8 +32,5 @@ Create interactive maps using any image URL and place pins linking to your world
 - **Any image URL** - Use images hosted anywhere, one per map
 - **Element pins** - Link to characters, locations, objects
 - **Map linking** - Connect maps to create hierarchies
-- **Drag to reposition** - Move pins after placement 
+- **Drag to reposition** - Move pins after placement
 - **Manual saving** - Click save button to persist changes
-
- 
- 

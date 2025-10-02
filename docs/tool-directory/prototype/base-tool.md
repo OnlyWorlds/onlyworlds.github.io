@@ -1,17 +1,17 @@
 ---
 layout: default
-title: Template Tool
+title: Base Tool
 parent: Prototype Tools
 grand_parent: Tool Directory
 nav_order: 5
 ---
-TODO: rename fully to base tool
-# Template Tool
+
+# Base Tool
 
 Starter template for building OnlyWorlds tools.
 
-**URL:** [onlyworlds.github.io/tool-template](https://onlyworlds.github.io/tool-template/)  
-**Source:** [github.com/OnlyWorlds/tool-template](https://github.com/OnlyWorlds/tool-template)  
+**URL:** [onlyworlds.github.io/base-tool](https://onlyworlds.github.io/base-tool/)
+**Source:** [github.com/OnlyWorlds/base-tool](https://github.com/OnlyWorlds/base-tool)
 **Type:** Web Application / Development Template   
 
 ---
@@ -42,10 +42,10 @@ Dual-purpose tool that serves as:
 ## Getting Started
 
 ### To Use
-Visit [onlyworlds.github.io/tool-template](https://onlyworlds.github.io/tool-template/) and enter credentials.
+Visit [onlyworlds.github.io/base-tool](https://onlyworlds.github.io/base-tool/) and enter credentials.
 
 ### To Build With
-1. Fork the [repository](https://github.com/OnlyWorlds/tool-template)
+1. Fork the [repository](https://github.com/OnlyWorlds/base-tool)
 2. Clone to your machine
 3. Open index.html in browser
 4. Modify to add your features
@@ -53,7 +53,7 @@ Visit [onlyworlds.github.io/tool-template](https://onlyworlds.github.io/tool-tem
 ## Code Structure
 
 ```
-tool-template/
+base-tool/
 ├── index.html           # Entry point
 ├── css/
 │   └── styles.css      # Minimal styling
