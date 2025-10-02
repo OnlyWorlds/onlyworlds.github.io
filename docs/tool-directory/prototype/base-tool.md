@@ -5,7 +5,7 @@ parent: Prototype Tools
 grand_parent: Tool Directory
 nav_order: 5
 ---
-
+TODO: rename fully to base tool
 # Template Tool
 
 Starter template for building OnlyWorlds tools.

@@ -8,21 +8,21 @@ has_children: false
 
 # Core Tools
 
-Stable and recommended for daily use.
+Stable and recommended for production use.
 
 ---
 
-*No tools have reached Core status yet. OnlyWorlds launches September 2025, after which the most stable prototype tools will graduate to Core status based on community testing and feedback.*
+*No tools have reached Core status yet. Tools graduate from Prototype after demonstrating stability, performance, and community validation.*
 
 ---
 
 ## Graduation Criteria
 
 Tools move from Prototype to Core when they demonstrate:
-- **Stability** - Minimal bugs after an extended testing period
-- **Performance** - Responsive and efficient operation 
+- **Stability** - Minimal bugs over extended testing period
+- **Performance** - Responsive and efficient operation
 - **Documentation** - Complete user guides and examples
-- **Usability** - Having a clear usefulness and purpose
+- **Community validation** - Positive feedback and active use
 
 ---
 
