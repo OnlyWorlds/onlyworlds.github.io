@@ -28,11 +28,18 @@ In truth, the gentleman standing here before you posing as a minister of the Lor
 only totally illiterate <a href="/docs/specification/element_categories/Ability" title="Ability"><span class="material-symbols-outlined" style="font-size: 18px;">auto_fix_normal</span></a> but is also wanted by the law <a href="/docs/specification/element_categories/Law" title="Law"><span class="material-symbols-outlined" style="font-size: 18px;">gpp_bad</span></a> in the states of Tennessee, Kentucky,
 Mississippi, and Arkansas.<a href="/docs/specification/element_categories/Zone" title="Zone"><span class="material-symbols-outlined" style="font-size: 18px;">architecture</span></a>*
 
---- 
- 
-Anything that exists, occurs, or has a name in your world, you should be able to represent through one or more elements.
+---
+
+An **element** is a structured data object with a unique identifier, type-specific fields, and relationship capabilities. Elements are the building blocks of OnlyWorlds: anything that exists, occurs, explains, defines, or can otherwise have a name in your world can be represented through one or more elements.
+
+Each element has:
+- A **UUIDv7 identifier** for unique reference
+- **Base fields** common to all types (name, description, image)
+- **Type-specific fields** that define its unique properties
+- **Relationship fields** that connect it to other elements
+
 Click on a category in the navigation menu for detailed information on each.
- 
+
 The element categories can be organized into three informal groups:
 
 ### Active Forces

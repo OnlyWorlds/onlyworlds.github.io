@@ -22,7 +22,7 @@ Convert existing worldbuilding content into OnlyWorlds format using AI-powered p
 
 OnlyWorlds provides free AI-powered tools to parse unstructured text into structured elements. You can convert:
 
-- **Platform exports**: WorldAnvil, LegendKeeper, Campfire, or other worldbuilding tools
+- **Platform exports**: from other worldbuilding tools
 - **Documents**: Google Docs, Word files, PDFs, Notion pages
 - **Scattered notes**: Text files, wiki content, campaign logs
 - **Published text**: Novels, short stories, published settings
@@ -135,7 +135,7 @@ The Parse Tool identifies entities, categorizes them, and extracts relationships
 
 ## Source-specific tips
 
-### WorldAnvil / LegendKeeper exports
+### Other platform exports
 
 - Export to Markdown or HTML
 - Parse by category (all characters, then all locations)
