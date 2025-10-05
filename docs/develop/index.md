@@ -41,12 +41,15 @@ Feedback, forks, and contributions are encouraged. Use these resources to integr
 
 ## Technical Notes
 
-**Identifiers**: OnlyWorlds uses UUIDv7 for world and element IDs
+
+**Identifiers**: OnlyWorlds currently uses UUIDv7 for world and element IDs
 
 **Format**: JSON API with YAML schema definitions
 
 **Authentication**: API-Key and API-Pin headers for all requests
 
 **Discovery**: Listed in [Context7 library](https://context7.com/onlyworlds/onlyworlds) for documentation search 
+
+**Modfiying or extending the schema in-software**: Is possible and encouraged (succesful or popular modifications might inspire schema changes). Note that the onlyworlds.com services and API is limited only current schema fields: customized data must be maintained externally.  
 
  

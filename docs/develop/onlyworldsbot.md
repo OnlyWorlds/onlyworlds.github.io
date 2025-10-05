@@ -5,11 +5,10 @@ parent: Develop
 nav_order: 5
 ---
 
-
-
-Custom GPT for OnlyWorlds development.
+Custom GPT for OnlyWorlds information and development.
 
 **Access**: [chatgpt.com/g/g-dydgDFnOz-onlyworldsbot](https://chatgpt.com/g/g-dydgDFnOz-onlyworldsbot)
+**Parsing Specialist:** [https://chatgpt.com/g/g-68e266c5ac3c81919a28a671d3727936-onlyworldsparsebot](https://chatgpt.com/g/g-68e266c5ac3c81919a28a671d3727936-onlyworldsparsebot)
 
 ## Capabilities
 
@@ -42,4 +41,4 @@ Trained on:
 - Ask for examples
 - Iterate on code
 
-Requires ChatGPT Plus subscription.
+Requires ChatGPT Plus subscription for intensive use.
