@@ -1,9 +1,8 @@
 ---
 layout: default
 title: Map Tool
-parent: Prototype Tools
-grand_parent: Tool Directory
-nav_order: 3
+parent: Tool Directory
+nav_order: 5
 ---
 
 # Map Tool

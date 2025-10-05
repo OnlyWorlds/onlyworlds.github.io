@@ -1,12 +1,11 @@
 ---
 layout: default
-title: Parse Tool
-parent: Prototype Tools
-grand_parent: Tool Directory
+title: Text Tool
+parent: Tool Directory
 nav_order: 4
 ---
 
-# Parse Tool
+# Text Tool
 
 Multi-purpose workspace for AI parsing, YAML editing, and earning token ratings.
 

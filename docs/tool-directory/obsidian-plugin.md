@@ -1,9 +1,8 @@
 ---
 layout: default
 title: Obsidian Plugin
-parent: Prototype Tools
-grand_parent: Tool Directory
-nav_order: 6
+parent: Tool Directory
+nav_order: 7
 ---
 
 # 🔌 Obsidian Plugin

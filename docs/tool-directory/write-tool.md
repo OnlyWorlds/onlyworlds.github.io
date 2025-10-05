@@ -1,12 +1,11 @@
 ---
 layout: default
-title: Browse Tool
-parent: Prototype Tools
-grand_parent: Tool Directory
-nav_order: 2
+title: Write Tool
+parent: Tool Directory
+nav_order: 3
 ---
 
-# Browse Tool
+# Write Tool
 
 Advanced world editor with presentation features.
 

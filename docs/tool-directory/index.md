@@ -8,46 +8,29 @@ has_toc: false
 
 # Tool Directory
 
-The Tool Directory hosts free, public OnlyWorlds tools for world building. All tools here integrate with the OnlyWorlds standard, are completely free to use, and undergo security review before listing.
+Free tools that integrate with the OnlyWorlds standard across various platforms. 
 
 ---
 
-## Tool Categories
+## Available Tools
 
-### [Prototype Tools](prototype/)
-Functional tools in active community testing. (6 tools)
+| Tool | Type | URL | Details |
+|------|------|-----|---------|
+| OnlyWorlds.com | Web App | [onlyworlds.com](https://onlyworlds.com) | [Info](onlyworlds-com) |
+| Base Tool | Template | [base-tool](https://onlyworlds.github.io/base-tool/) | [Info](base-tool) |
+| Write Tool | Web App | [browse-tool](https://onlyworlds.github.io/browse-tool/) | [Info](write-tool) |
+| Text Tool | Web App | [parse_tool](https://onlyworlds.com/parse_tool) | [Info](text-tool) |
+| Map Tool | Web App | [map_tool](https://onlyworlds.com/map_tool) | [Info](map-tool) |
+| Mobile Companion | Mobile | iOS TestFlight / Android APK | [Info](mobile-companion) |
+| Obsidian Plugin | Integration | [GitHub](https://github.com/OnlyWorlds/obsidian-plugin) | [Info](obsidian-plugin) |
 
-### [Base Tool](base/)
-TypeScript foundation optimized for AI-assisted development. Use directly or extend for custom tools.
-
-### [Core Tools](core/)
-Stable, tested, and proven reliable. (0 tools)
-
-### [Submit a Tool](submitted/)
-Guidelines for submitting external tools to the directory.
-
+ 
+ 
 ---
 
-## Tool Progression
+## Reporting Issues
 
-All tools undergo community testing in Prototype. After proven stability, tools graduate to Core status.
+Report bugs feedback via:
 
-**External submissions:** Review → Prototype → Core
-**Direct additions:** Prototype → Core
-
-[Base Tool](base/) available as LLM-ready development foundation.
-
----
-
-## Token System
-
-Some tools use AI features that require token allocation. Each OnlyWorlds account includes 10,000 tokens daily.
-
-**Increase allocation by:**
-- Submitting feedback via Parse Tool
-- Contributing to the ecosystem
-- Supporting development
-
----
-
-*Submit a tool, build with [Base Tool](base/), or explore [Prototype Tools](prototype/).*
+- **GitHub:** [Tool Bug Reports](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/software)
+- **Discord:** [discord.gg/twCjqvVBwb](https://discord.gg/twCjqvVBwb)

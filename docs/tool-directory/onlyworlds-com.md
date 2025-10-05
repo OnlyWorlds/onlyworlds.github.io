@@ -1,8 +1,7 @@
 ---
 layout: default
 title: OnlyWorlds.com
-parent: Prototype Tools
-grand_parent: Tool Directory
+parent: Tool Directory
 nav_order: 1
 ---
 

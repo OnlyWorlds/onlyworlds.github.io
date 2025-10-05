@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Contribution
-nav_order: 6
+title: Contribute
+nav_order: 5
 has_children: true
 has_toc: false
 ---

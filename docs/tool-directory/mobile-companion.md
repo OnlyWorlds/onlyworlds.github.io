@@ -1,9 +1,8 @@
 ---
 layout: default
 title: Mobile Companion
-parent: Prototype Tools
-grand_parent: Tool Directory
-nav_order: 7
+parent: Tool Directory
+nav_order: 6
 ---
 
 # 📱 Mobile Companion
