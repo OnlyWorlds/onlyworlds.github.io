@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Ability
+title: ability
 parent: Elements
 grand_parent: Specification
 nav_order: 1

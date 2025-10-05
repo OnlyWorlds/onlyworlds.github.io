@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Write Tool
+title: write tool
 parent: Tools
 nav_order: 3
 ---

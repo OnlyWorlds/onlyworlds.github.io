@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Mapping Worlds
+title: mapping worlds
 parent: Worldbuilding
 nav_order: 2
 ---

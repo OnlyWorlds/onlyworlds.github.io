@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Creature
+title: creature
 parent: Elements
 grand_parent: Specification
 nav_order: 5

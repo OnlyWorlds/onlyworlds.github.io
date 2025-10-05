@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Location
+title: location
 parent: Elements
 grand_parent: Specification
 nav_order: 11

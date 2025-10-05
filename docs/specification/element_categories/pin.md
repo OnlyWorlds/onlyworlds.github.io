@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Pin
+title: pin
 parent: Elements
 grand_parent: Specification
 nav_order: 16

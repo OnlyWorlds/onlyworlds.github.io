@@ -9,7 +9,7 @@ has_toc: false
 
 OnlyWorlds provides open resources for building tools and integrations. All packages, APIs, and documentation are free to use with no commercial restrictions.
 
-Feedback, forks, and contributions are encouraged. Use these resources to integrate OnlyWorlds into your existing tools or build new ones. OnlyWorlds aims to enable maximum capability of AI-assisted development.
+Feedback, forks, and contributions are encouraged. Use these resources to integrate OnlyWorlds into your existing tools or build new ones. OnlyWorlds strives to empower AI-assisted development.
 
 ## Development Resources
 
@@ -37,5 +37,16 @@ Feedback, forks, and contributions are encouraged. Use these resources to integr
     </div>
   </div>
 </div>
+ 
+
+## Technical Notes
+
+**Identifiers**: OnlyWorlds uses UUIDv7 for world and element IDs
+
+**Format**: JSON API with YAML schema definitions
+
+**Authentication**: API-Key and API-Pin headers for all requests
+
+**Discovery**: Listed in [Context7 library](https://context7.com/onlyworlds/onlyworlds) for documentation search 
 
  

@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Zone
+title: zone
 parent: Elements
 grand_parent: Specification
 nav_order: 21

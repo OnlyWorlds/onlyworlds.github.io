@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Migrating Worlds
+title: migrating worlds
 parent: Worldbuilding
 nav_order: 3
 ---

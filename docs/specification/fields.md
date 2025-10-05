@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Fields
+title: fields
 parent: Specification
 nav_order: 3
 has_toc: false

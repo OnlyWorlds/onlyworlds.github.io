@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Trait
+title: trait
 parent: Elements
 grand_parent: Specification
 nav_order: 20

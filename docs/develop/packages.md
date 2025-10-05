@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Packages
+title: packages
 parent: Develop
 nav_order: 2
 ---

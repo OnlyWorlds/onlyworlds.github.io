@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Creating Worlds
+title: creating worlds
 parent: Worldbuilding
 nav_order: 1
 ---

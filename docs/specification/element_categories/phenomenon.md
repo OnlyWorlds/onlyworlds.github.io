@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Phenomenon
+title: phenomenon
 parent: Elements
 grand_parent: Specification
 nav_order: 15

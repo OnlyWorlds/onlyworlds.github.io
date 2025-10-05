@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Types
+title: types
 parent: Specification
 nav_order: 4
 has_toc: false

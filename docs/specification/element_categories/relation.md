@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Relation
+title: relation
 parent: Elements
 grand_parent: Specification
 nav_order: 17

@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Narrative
+title: narrative
 parent: Elements
 grand_parent: Specification
 nav_order: 13

@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Law
+title: law
 parent: Elements
 grand_parent: Specification
 nav_order: 10

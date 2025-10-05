@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Collective
+title: collective
 parent: Elements
 grand_parent: Specification
 nav_order: 3

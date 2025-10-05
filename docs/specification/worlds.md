@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Worlds
+title: worlds
 parent: Specification
 nav_order: 1
 ---

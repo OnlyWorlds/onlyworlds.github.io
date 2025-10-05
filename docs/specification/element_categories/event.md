@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Event
+title: event
 parent: Elements
 grand_parent: Specification
 nav_order: 6

@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Your First World
+title: your first world
 parent: Getting Started
 nav_order: 1
 ---

@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Language
+title: language
 parent: Elements
 grand_parent: Specification
 nav_order: 9

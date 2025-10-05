@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Map Tool
+title: map tool
 parent: Tools
 nav_order: 5
 ---

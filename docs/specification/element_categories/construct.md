@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Construct
+title: construct
 parent: Elements
 grand_parent: Specification
 nav_order: 4

@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Map
+title: map
 parent: Elements
 grand_parent: Specification
 nav_order: 11

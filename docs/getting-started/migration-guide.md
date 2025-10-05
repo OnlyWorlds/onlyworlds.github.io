@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Migration Guide
+title: migration guide
 parent: Getting Started
 nav_order: 2
 ---

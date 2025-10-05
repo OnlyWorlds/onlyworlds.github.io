@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Species
+title: species
 parent: Elements
 grand_parent: Specification
 nav_order: 18

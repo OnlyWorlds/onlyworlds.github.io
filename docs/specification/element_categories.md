@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Elements
+title: elements
 parent: Specification
 nav_order: 2
 has_children: true

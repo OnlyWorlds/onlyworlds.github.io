@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Title
+title: title
 parent: Elements
 grand_parent: Specification
 nav_order: 19

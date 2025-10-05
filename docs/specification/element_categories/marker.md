@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Marker
+title: marker
 parent: Elements
 grand_parent: Specification
 nav_order: 12

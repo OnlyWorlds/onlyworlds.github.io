@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Character
+title: character
 parent: Elements
 grand_parent: Specification
 nav_order: 2

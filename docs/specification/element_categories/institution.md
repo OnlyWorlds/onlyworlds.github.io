@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Institution
+title: institution
 parent: Elements
 grand_parent: Specification
 nav_order: 8

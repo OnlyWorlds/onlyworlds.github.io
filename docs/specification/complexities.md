@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Complexities
+title: complexities
 parent: Specification
 nav_order: 5
 has_toc: false
