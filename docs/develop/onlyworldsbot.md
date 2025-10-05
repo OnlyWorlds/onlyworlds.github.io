@@ -1,11 +1,11 @@
 ---
 layout: default
 title: OnlyWorldsBot
-parent: Developer Support
+parent: Develop
 nav_order: 5
 ---
 
-# OnlyWorldsBot
+
 
 Custom GPT for OnlyWorlds development.
 

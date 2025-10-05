@@ -123,7 +123,7 @@ Authoritative source for all element definitions, maintained at [github.com/Only
 
 2. **Tool Development**
    - Build new compatible tools
-   - Submit to Tool Directory (must be free/freemium)
+   - Submit to Tools (must be free/freemium)
    - Integrate OnlyWorlds format
 
 3. **Schema Enhancement**

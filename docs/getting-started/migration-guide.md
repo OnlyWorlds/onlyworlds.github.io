@@ -420,4 +420,4 @@ For bugs or technical problems: [GitHub Issues](https://github.com/OnlyWorlds/On
 
 ---
 
-**Previous: [Your First World](your-first-world/)** | **Next: [Tool Directory](/docs/tool-directory/)**
+**Previous: [Your First World](your-first-world/)** | **Next: [Tools](/docs/tools/)**

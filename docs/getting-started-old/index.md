@@ -11,7 +11,7 @@ nav_exclude: true
 
 ## <span class="material-symbols-outlined" style="vertical-align: middle;">edit_note</span> as world builder
 
-OnlyWorlds comes with a [free set of tools](/docs/tool-directory/) for building new worlds and converting existing work.
+OnlyWorlds comes with a [free set of tools](/docs/tools/) for building new worlds and converting existing work.
 
 1. Sign up at [onlyworlds.com](https://onlyworlds.com) 
 2. Note your PIN from your profile (or change it to something memorable)
@@ -29,7 +29,7 @@ Use the [Migration Guide](migration-guide/) to convert existing worldbuilding co
 
 OnlyWorlds provides a standardized, predictable format that integrates into new or existing software with no commercial restrictions.
  
-Visit the [Developer Support](/docs/developer-support/) section for guides and AI tools to get you started. The [my first tool](/docs/developer-support/my-first-tool/) guide shows developers of any level how to develop tools, and the [template tool](https://github.com/OnlyWorlds/tool-template) provides an easy starting point to build on top of.
+Visit the [Develop](/docs/develop/) section for guides and AI tools to get you started. The [my first tool](/docs/develop/my-first-tool/) guide shows developers of any level how to develop tools, and the [template tool](https://github.com/OnlyWorlds/tool-template) provides an easy starting point to build on top of.
 
 The [GitHub repository](https://github.com/OnlyWorlds/OnlyWorlds) has more resources and guidelines for contributing to the OnlyWorlds ecosystem.
 

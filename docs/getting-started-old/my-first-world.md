@@ -63,7 +63,7 @@ You can create, modify and delete elements for a world that you have selected in
 Press an icon at the top to select an element category.
 
 {: .note }
-> The interface on onlyworlds.com is functional but, arguably, not quite beautiful. Use it as you like or need, but remember that OnlyWorlds is meant to integrate with other tools and applications. There are other tools, such as the [Browse Tool](/docs/tool-directory/browse_tool.html) or [Obsidian Plugin](/docs/tool-directory/obsidian.html), that might provide a better UI experience.
+> The interface on onlyworlds.com is functional but, arguably, not quite beautiful. Use it as you like or need, but remember that OnlyWorlds is meant to integrate with other tools and applications. There are other tools, such as the [Browse Tool](/docs/tools/browse_tool.html) or [Obsidian Plugin](/docs/tools/obsidian.html), that might provide a better UI experience.
 
 ### Creating your first character
 
@@ -109,7 +109,7 @@ Press an icon at the top to select an element category.
 
 ## Map your world
 
-The [Map Tool](/docs/tool-directory/map_tool.html) lets you place your elements on any map that you have at hand.
+The [Map Tool](/docs/tools/map_tool.html) lets you place your elements on any map that you have at hand.
 Let's first place the Consul at a [location](/docs/specification/element_categories/location.html) to enable some additional map tool functionality.
 
 ### Establishing character location
@@ -118,7 +118,7 @@ Let's first place the Consul at a [location](/docs/specification/element_categor
 - Establish that the Consul is currently at this [location](/docs/specification/element_categories/location.html) by assigning it to their `location` field
 
 {: .note }
-> You can use the familiar onlyworlds.com interface for this or try other tools: the [Browse Tool](/docs/tool-directory/browse_tool.html), [Parse Tool](/docs/tool-directory/parse_tool.html), [Obsidian Plugin](/docs/tool-directory/obsidian.html) and [Mobile Companion](/docs/tool-directory/mobile.html) all offer field editing.
+> You can use the familiar onlyworlds.com interface for this or try other tools: the [Browse Tool](/docs/tools/browse_tool.html), [Parse Tool](/docs/tools/parse_tool.html), [Obsidian Plugin](/docs/tools/obsidian.html) and [Mobile Companion](/docs/tools/mobile.html) all offer field editing.
 
 ### Creating your first map
 
@@ -202,7 +202,7 @@ Relations between parent and child locations can also be inferred to create 'sta
 
 These steps give you an introduction to some key concepts of the OnlyWorlds language and workflows.
 
-You can try different features and approaches to further building out and visualizing your worlds. Keep an eye on the [tool directory](/docs/tool-directory/) for current and upcoming tools. If there are tools or features that you are eager to access, consider following the [My First Tool](/docs/getting-started/my-first-tool.html) guide to create whatever you want to use yourself.
+You can try different features and approaches to further building out and visualizing your worlds. Keep an eye on the [tools](/docs/tools/) for current and upcoming tools. If there are tools or features that you are eager to access, consider following the [My First Tool](/docs/getting-started/my-first-tool.html) guide to create whatever you want to use yourself.
 
 Please feel free to leave feedback on any aspects of the framework. If there is someting unclear, incorrect, or missing in this guide, that feedback is [also welcome](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/feedback-bug-reports).
 

@@ -36,7 +36,7 @@ OnlyWorlds' predecessor WorldSmith originated as an [economic simulation engine]
 
 Not everyone knows everything: this applies to characters within your world as well as IRL people you share or collaborate the world's content with.
 
-New tooling can enable the latter: the [browse tool](../tool-directory/browse_tool) has a prototype 'showcase' function where you can choose what to share for a specific element. This kind of logic can built out much further in dedicacted tools. 
+New tooling can enable the latter: the [browse tool](../tools/browse_tool) has a prototype 'showcase' function where you can choose what to share for a specific element. This kind of logic can built out much further in dedicacted tools. 
 
 For 'in-world knowledge', a field metadata or tagging system might enable future complexity of this sort (and integrate with the timeline and simulation systems, as well).  
 

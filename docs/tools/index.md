@@ -1,14 +1,13 @@
 ---
 layout: default
-title: Tool Directory
+title: Tools
 nav_order: 4
 has_children: true
 has_toc: false
 ---
+ 
 
-# Tool Directory
-
-Free tools that integrate with the OnlyWorlds standard across various platforms. 
+Free tools that integrate with the OnlyWorlds standard across various platforms. Some of these are more legacy than others, but all are functional and OnlyWorlds-compatible. More tools to follow.
 
 ---
 

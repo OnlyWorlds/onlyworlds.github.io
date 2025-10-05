@@ -196,7 +196,7 @@ These relationships are queryable and actionable by any OnlyWorlds tool.
 
 ## Map your world
 
-The [Map Tool](/docs/tool-directory/map_tool.html) visualizes spatial relationships.
+The [Map Tool](/docs/tools/map_tool.html) visualizes spatial relationships.
 
 ### Set current location
 
@@ -299,14 +299,14 @@ See [Specification](/docs/specification/) for complete field details per categor
 
 ### Try other tools
 
-- **[Browse Tool](/docs/tool-directory/browse_tool.html)** - Advanced element editing
-- **[Parse Tool](/docs/tool-directory/parse_tool.html)** - AI-powered text conversion
-- **[Obsidian Plugin](/docs/tool-directory/obsidian.html)** - Edit elements as markdown
-- **[Mobile Companion](/docs/tool-directory/mobile.html)** - Mobile world management
+- **[Browse Tool](/docs/tools/browse_tool.html)** - Advanced element editing
+- **[Parse Tool](/docs/tools/parse_tool.html)** - AI-powered text conversion
+- **[Obsidian Plugin](/docs/tools/obsidian.html)** - Edit elements as markdown
+- **[Mobile Companion](/docs/tools/mobile.html)** - Mobile world management
 
 ### Build your own tool
 
-Everything here can be done programmatically. **[My First Tool](/docs/developer-support/my-first-tool/)** walks through building a Hyperion viewer using the REST API. The [Template Tool](https://github.com/OnlyWorlds/tool-template) provides an extensible foundation designed for LLM-assisted development—build custom tools without manual coding.
+Everything here can be done programmatically. **[My First Tool](/docs/develop/my-first-tool/)** walks through building a Hyperion viewer using the REST API. The [Template Tool](https://github.com/OnlyWorlds/tool-template) provides an extensible foundation designed for LLM-assisted development—build custom tools without manual coding.
 
 ### Convert existing content
 

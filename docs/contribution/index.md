@@ -5,7 +5,7 @@ nav_order: 6
 has_toc: false
 ---
 
-# Contribute
+
 
 The OnlyWorlds specification is functional but not final. The element categories, fields, and further concepts need user feedback to reveal what works and what needs adjustment.
 
