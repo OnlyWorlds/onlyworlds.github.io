@@ -11,8 +11,8 @@ nav_order: 10
   'Damn,' said the Consul and went in to answer it.<br><br>
   While the computer took a few seconds to convert and decode the burst of decaying tachyons, the Consul poured himself a glass of Scotch. He settled into the cushions of the projection pit just as the diskey blinked green. 'Play,' he said.<br><br>
   'You have been chosen to return to Hyperion,' came a woman's husky voice. Full visuals had not yet formed; the air remained empty except for the pulse of transmission codes which told the Consul that this fatline squirt had originated on the Hegemony administrative world of Tau Ceti Center.<br><br>
-  The Consul did not need the transmission coordinates to know this.  <span class="ow-highlight">br><br>  
-   The aged but still beautiful voice of Meina Gladstone was unmistakable. 'You have been chosen to return to Hyperion as a member of the Shrike Pilgrimage,' continued the voice.<br><br>
+  The Consul did not need the transmission coordinates to know this.<br><br>
+   <span class="ow-highlight">The aged but still beautiful voice of Meina Gladstone was unmistakable. 'You have been chosen to return to Hyperion as a member of the Shrike Pilgrimage,' continued the voice.<br><br>
   The hell you say, thought the Consul and rose to leave the pit.<br><br>
 'You and six others have been selected by the Church of the Shrike and confirmed by the All Thing,' said Meina Gladstone. 'It is in the interest of the Hegemony that you accept.'</span><br><br> 
 </div>
