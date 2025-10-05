@@ -8,10 +8,9 @@ nav_order: 2
 # Base Tool
 
 All-round element editor with clean interface and full field support.
-Support complete online and offline workflows.
+Supports complete and dual online and offline workflows.
 
-**URL:** [onlyworlds.github.io/base-tool](https://onlyworlds.github.io/base-tool/)
-**Source:** [github.com/OnlyWorlds/base-tool](https://github.com/OnlyWorlds/base-tool)
+**URL:** [onlyworlds.github.io/base-tool](base-tool.onlyworlds.com) 
 **Type:** Web Application
 
 ---
@@ -27,7 +26,7 @@ Support complete online and offline workflows.
 
 ## Getting Started
 
-1. Visit [onlyworlds.github.io/base-tool](https://onlyworlds.github.io/base-tool/)
+1. Visit [onlyworlds.github.io/base-tool](base-tool.onlyworlds.com)
 2. Enter World Key and PIN
 3. Select element category
 4. Browse and edit elements

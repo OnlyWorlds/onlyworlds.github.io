@@ -6,16 +6,16 @@ description: "Welcome to OnlyWorlds"
 ---
  
 
- **OnlyWorlds** provides an open standard for world building: a unified data format to represent 'worlds' of any historic or fantasy setting. 
+**OnlyWorlds** provides an open standard for worldbuilding: a unified data format to represent worlds of any historic or fantasy setting.
 
-Applications that support this schema can read, edit, and transfer world data objects between them. This enables an ecosystem of compatible tools and software so that you can write, map, explore, simulate and gamify your worlds both in broad ways and specialized to your preferences. 
+The standard defines 22 element categories (characters, locations, creatures, events, etc.) with specific fields and relationships. Applications that support this schema can read, edit, and transfer world data between them. This enables an ecosystem of compatible tools and software so that you can write, map, explore, simulate and gamify your worlds.
 
-Core services and essential tools will forever remain free and open source. OnlyWorlds is an open source project that thrives on community input on the schema, and that provides developers with resources and freedom to integrate the standard in any way they want.
+Its infrastructure and essential tools will always remain free and functional. OnlyWorlds is an open source project that thrives on community contributions, and provides developers with resources and freedom to integrate the standard in any way they want.
  
 
 ## Infrastructure
 
-<div style="background: rgba(55, 65, 81, 0.3); border-radius: 8px; padding: 24px; margin: 24px 0;">
+<div style="background: rgba(59, 130, 246, 0.15); border-radius: 8px; padding: 24px; margin: 24px 0;">
   <div style="display: grid; gap: 16px;">
 
     <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
@@ -63,7 +63,7 @@ Core services and essential tools will forever remain free and open source. Only
   <div style="display: grid; gap: 16px;">
 
     <div style="background: rgba(251, 191, 36, 0.1); border-left: 3px solid rgba(251, 191, 36, 0.6); border-radius: 4px; padding: 16px;">
-      <strong><a href="/docs/getting-started/" style="color: inherit;">Getting Started</a></strong>
+      <strong><a href="/docs/getting-started/" style="color: inherit;">Worldbuilding</a></strong>
       <div style="margin-top: 6px; font-size: 0.9em; opacity: 0.8;">Introduction to OnlyWorlds concepts and guides for creating and migrating worlds</div>
     </div>
 
@@ -85,11 +85,6 @@ Core services and essential tools will forever remain free and open source. Only
     <div style="background: rgba(244, 114, 182, 0.1); border-left: 3px solid rgba(244, 114, 182, 0.6); border-radius: 4px; padding: 16px;">
       <strong><a href="/docs/developer-support/" style="color: inherit;">Developer Support</a></strong>
       <div style="margin-top: 6px; font-size: 0.9em; opacity: 0.8;">Technical documentation and resources for developing OnlyWorlds applications</div>
-    </div>
-
-    <div style="background: rgba(148, 163, 184, 0.1); border-left: 3px solid rgba(148, 163, 184, 0.6); border-radius: 4px; padding: 16px;">
-      <strong><a href="/docs/vision-history/" style="color: inherit;">Vision & History</a></strong>
-      <div style="margin-top: 6px; font-size: 0.9em; opacity: 0.8;">Project philosophy, goals, and evolution</div>
     </div>
 
   </div>
