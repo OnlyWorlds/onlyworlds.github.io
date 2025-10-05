@@ -5,45 +5,43 @@ parent: Specification
 nav_order: 1
 ---
 
-# Worlds
-
-A world is the top-level container for any number of elements. Worlds can (at this time) not be nested with other worlds: a single world should represent a complete setting.
+A world is the top-level container for elements, representing a complete setting at any scope you define.
 
 ---
 
-## Core Properties
+## Properties
+
+### Core
 
 | Field         | Type          | Required | Description |
 | :------------ | :------------ | :------- | :---------- |
 | `id`          | string (uuid) | Yes      | Unique world identifier (UUIDv7) |
-| `name`        | string        | Yes      | Display name of your world |
-| `description` | string        | No       | Overview or summary of your world |
+| `name`        | string        | Yes      | Display name |
+| `description` | string        | No       | Text description |
 | `image_url`   | string (url)  | No       | Cover image or representative visual |
 
----
+### System
 
-## System Properties
- 
 | Field     | Type          | Required | Description |
 | :-------- | :------------ | :------- | :---------- |
-| `api_key` | string        | Yes      | auto-generated 10-character key for API access |
+| `api_key` | string        | Yes      | Auto-generated 10-character key for API access |
 | `version` | string        | Yes      | OnlyWorlds format version (e.g., "1.0") |
 | `user`    | string (uuid) | Yes      | Owner's account identifier |
 
----
-
-## Timeline System
+### Timeline
 
 | Field                     | Type          | Required | Description |
 | :------------------------ | :------------ | :------- | :---------- |
 | `time_format_names`       | array[string] | No       | Standard units: ["Day", "Week", "Month", "Year"] |
-| `time_format_equivalents` | array[string] | No       | Your custom names: ["Sol", "Cycle", "Season", "Era"] |
+| `time_format_equivalents` | array[string] | No       | Custom names: ["Sol", "Cycle", "Season", "Era"] |
 | `time_basic_unit`         | string        | No       | Smallest time unit (e.g., "Day" or "Hour") |
 | `time_range_min`          | integer       | No       | Earliest tracked time point |
 | `time_range_max`          | integer       | No       | Latest tracked time point |
 | `time_current`            | integer       | No       | Current time in your world |
 
-### Timeline Examples
+---
+
+## Timeline Examples
 
 **Fantasy world with custom calendar:**
 - `time_format_equivalents`: ["Sun", "Tenday", "Moon", "Turning"]
@@ -58,4 +56,4 @@ A world is the top-level container for any number of elements. Worlds can (at th
 
 ---
 
- 
+Timeline fields integrate with [events](/docs/specification/element_categories/event) and [narratives](/docs/specification/element_categories/narrative).

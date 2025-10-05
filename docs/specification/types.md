@@ -5,50 +5,33 @@ parent: Specification
 nav_order: 4
 has_toc: false
 ---
- 
 
-# Types
-
-An optional classification system that adds genre-specific detail to your elements. Types help categorize elements within their base categories for better organization and discovery.
+Types provide optional classification within element categories using two fields: `supertype` and `subtype`.
 
 ---
 
-## Current Implementation
+## Using Types
 
-Elements can optionally include:
-- **`supertype`** - Primary classification within a category
-- **`subtype`** - Secondary classification within the supertype
+Both fields accept any string value. Suggested defaults exist for some categories but are incomplete and subject to change.
 
-Both fields accept any string value. Some pre-made default values are available for most categories.
-
-### Examples
-
-**Fantasy Character:**
-- Category: `Character`
+**Fantasy character:**
+- Category: `character`
 - Supertype: `Humanoid`
 - Subtype: `Elf`
 
-**Sci-fi Location:**
-- Category: `Location`
+**Sci-fi location:**
+- Category: `location`
 - Supertype: `Spaceborne`
 - Subtype: `Station`
 
 ---
 
-## Important Notes
+## Status
 
-### 🚧 Draft Status
+**Draft**: Current suggestions are preliminary, incomplete, and not enforced. Use any values that fit your world.
 
-The current suggested supertypes and subtypes in the schema are:
-- **Incomplete** - Many categories lack suggestions entirely
-- **Draft quality** - Existing suggestions are preliminary
-- **Not enforced** - You can use any values that fit your world
-- **Subject to change** - Will be revised based on community feedback
+**Future**: This system will evolve into genre-specific templates (fantasy, sci-fi, historical) with validation rules and custom template support.
 
-### 🔮 Future Direction
+---
 
-This system is a placeholder for a more robust template system that will:
-- Allow **genre-specific templates** (Fantasy, Sci-fi, Historical, etc.)
-- Support **custom templates** for unique world types
-- Provide **validation rules** and restrictions for consistency  
- 
+Use types for organization, not validation. Custom values work better than waiting for suggested defaults.

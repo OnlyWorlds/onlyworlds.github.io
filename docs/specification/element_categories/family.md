@@ -1,7 +1,7 @@
 ---
 layout: default
 title: family
-parent: Elements
+parent: elements
 grand_parent: Specification
 nav_order: 7
 ---

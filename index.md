@@ -6,11 +6,11 @@ description: "Welcome to OnlyWorlds"
 ---
  
 
-**OnlyWorlds** provides an open standard for worldbuilding: a unified data format to represent worlds of any historic or fantasy setting.
+OnlyWorlds is an open standard for worldbuilding: a unified data format for worlds of any setting.
 
-The standard defines 22 element categories (characters, locations, creatures, events, etc.) with specific fields and relationships. Applications that support this schema can read, edit, and transfer world data between them. This enables an ecosystem of compatible tools and software so that you can write, map, explore, simulate and gamify your worlds.
+The standard defines 22 element categories (characters, locations, creatures, events, etc.) with specific fields and relationships. Applications that support OnlyWorlds can read, edit, and exchange world data. This enables an ecosystem of compatible tools to write, map, explore, simulate, and gamify worlds.
 
-Its infrastructure and essential tools will always remain free and functional. OnlyWorlds is an open source project that thrives on community contributions, and provides developers with resources and freedom to integrate the standard in any way they want.
+Infrastructure and essential tools are forever free. OnlyWorlds is open source, thrives on community contributions, and provides developers the resources and freedom to integrate the standard however they want.
  
 
 ## Infrastructure

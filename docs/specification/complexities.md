@@ -1,48 +1,38 @@
 ---
 layout: default
-title: complexities
+title: advanced topics
 parent: Specification
 nav_order: 5
 has_toc: false
 ---
 
-# Complexities
+Advanced topics that are in consideration for future schema versions.
 
-Advanced concepts that OnlyWorlds will support in future versions.
+## Temporal States (Planned)
 
----
+Elements exist in time. Fields relate to time differently: a character's current location is a snapshot, their birthplace is historical, a location's description might be timeless.
 
-## Temporal states and timeline
+Currently, each world represents a single frozen moment. The `time_current` field hints at this, but you cannot yet create multiple versions of a world at different time points.  
 
-Elements exist in time, but fields relate to time differently: a character's current location is a snapshot, their birthplace is historical (though might not exist on the entire timeline). A location's description might be timeless.
-
-Currently, each world represents a single frozen moment. The `time_current` field hints at this, but you can't yet create multiple versions at different time points (unless you get creative with world duplication, but this is not intended behavior).  
-
-OnlyWorlds will eventually support a variation of git-style versioning for worlds: branch at different times, track changes between states, merge timelines. This will enable multiple world versions: before and after major events, what-if alternate timelines, different campaign states, all from a single world base.
+OnlyWorlds should eventually support git-style versioning for worlds: branch at different times, track changes between states, merge timelines. This enables multiple world versions from a single base—before and after major events, alternate timelines, different campaign states.
 
 ---
 
-## Simulation capabilities
+## Simulation Capabilities (Partial)
 
-Some fields are functional, not just descriptive: resource yields feed economic simulations, health values determine combat outcomes, character personalities can affect politics. 
+Some fields are functional, not just descriptive. Resource yields feed economic simulations, health values determine combat outcomes, character personalities affect political systems.
 
-Besides their text fields, where you can write any information in anyformat, every OnlyWorlds category also has game- and simulation enabling fields. In these, specific formats and data types can be used for mechanical inference and simulation in academic or game systems.
+Every element category includes text fields (write anything in any format) and structured fields (specific data types for mechanical inference). OnlyWorlds' predecessor [WorldSmith](https://www.onlyworlds.com/sikelia) was an economic simulation engine. Supporting this functionality is a core goal.
 
-OnlyWorlds' predecessor WorldSmith originated as an [economic simulation engine](https://www.onlyworlds.com/sikelia), and it's this type of function that OnlyWorlds aims to support. Identifying optimal 'simulation fields' and creating systems to formalize this static vs dynamic approach to fields is a major and continuous goal of the upcoming refactors and refinement of the OnlyWorlds schema. 
+Fields have different natures: a character's location is time-bound and dynamic, their backstory is static. A location's economic production is functional-quantitative. Future schema versions might include field metadata or tagging to formalize these distinctions—enabling tools to identify time-sensitive fields, economic fields, or simulation-relevant data automatically.
 
----
-
-## Points of view
-
-Not everyone knows everything: this applies to characters within your world as well as IRL people you share or collaborate the world's content with.
-
-New tooling can enable the latter: the [browse tool](../tools/browse_tool) has a prototype 'showcase' function where you can choose what to share for a specific element. This kind of logic can built out much further in dedicacted tools. 
-
-For 'in-world knowledge', a field metadata or tagging system might enable future complexity of this sort (and integrate with the timeline and simulation systems, as well).  
 
 ---
 
+## Knowledge Systems (Prototype)
+
+Not everyone knows everything. This applies to characters within your world and to people you collaborate with.
+
+For in-world knowledge, a field metadata or tagging system could enable knowledge tracking and integrate with timeline and simulation systems.
 
  
-
-*Your thoughts on these and other systems are welcome! Share your ideas and critiques in [discord](https://discord.gg/9m8fSTbG) or on [GitHub discussions](https://github.com/OnlyWorlds/OnlyWorlds/discussions).*
