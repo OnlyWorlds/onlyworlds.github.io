@@ -1,13 +1,13 @@
 ---
 layout: default
-title: Contribute
+title: contribute
 nav_order: 6
 has_toc: false
 ---
 
 
 
-The OnlyWorlds specification is functional but not final. The element categories, fields, and further concepts need user feedback to reveal what works and what needs adjustment.
+The onlyworlds specification is functional but not final. The element categories, fields, and further concepts need user feedback to reveal what works and what needs adjustment.
 
 ## Submission Channels
 
@@ -26,7 +26,7 @@ The OnlyWorlds specification is functional but not final. The element categories
       <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">Private questions, issues, concerns</div>
     </div>
     <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
-      <strong><a href="https://onlyworlds.com/parse_tool" style="color: inherit;">Parse Tool</a></strong>
+      <strong><a href="https://onlyworlds.com/text_tool" style="color: inherit;">text tool</a></strong>
       <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">Contribute by improving parsing quality</div>
     </div>
   </div>
@@ -34,6 +34,6 @@ The OnlyWorlds specification is functional but not final. The element categories
 
 ## Support
 
-OnlyWorlds is free and will remain free. I built it outside my day job because I want to use such tools and tend to make them as broadly usable as possible.
+onlyworlds is free and will remain free. I built it outside my day job because I want to use such tools and tend to make them as broadly usable as possible.
 
 If you want to support future development, [Patreon](#) contributions are welcome but entirely optional.

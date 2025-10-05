@@ -1,12 +1,12 @@
 ---
 layout: default
 title: api platform
-parent: Develop
+parent: develop
 nav_order: 3
 ---
 
 
-OnlyWorlds provides REST APIs at [onlyworlds.com/api/docs](https://onlyworlds.com/api/docs) for accessing and updating world data.
+onlyworlds provides REST APIs at [onlyworlds.com/api/docs](https://onlyworlds.com/api/docs) for accessing and updating world data.
 
 ## World API (Primary)
 

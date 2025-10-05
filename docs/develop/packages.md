@@ -1,12 +1,12 @@
 ---
 layout: default
 title: packages
-parent: Develop
+parent: develop
 nav_order: 2
 ---
 
 
-Official packages for easy integration of OnlyWorlds into your applications. Will keep up to date with future schema changes.
+Official packages for easy integration of onlyworlds into your applications. Will keep up to date with future schema changes.
 
 ## NPM Packages
 

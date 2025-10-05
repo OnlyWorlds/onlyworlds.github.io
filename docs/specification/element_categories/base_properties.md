@@ -1,8 +1,8 @@
 ---
 layout: default
-title: Base_properties
-parent: Element Categories
-grand_parent: Specification
+title: base_properties
+parent: elements
+grand_parent: specification
 ---
 Base Text
 ---

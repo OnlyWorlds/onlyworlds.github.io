@@ -1,12 +1,12 @@
 ---
 layout: default
 title: mcp server
-parent: Develop
+parent: develop
 nav_order: 4
 ---
 
 
-The OnlyWorlds MCP (Model Context Protocol) server gives AI assistants direct access to OnlyWorlds schema, API documentation, and development resources.
+The onlyworlds MCP (Model Context Protocol) server gives AI assistants direct access to onlyworlds schema, API documentation, and development resources.
 
 ## Installation Methods
 
@@ -159,7 +159,7 @@ Once configured, your AI assistant can:
 - [NPM Package](https://www.npmjs.com/package/@onlyworlds/mcp-client)
 - [GitHub Repository](https://github.com/OnlyWorlds/mcp-client)
 - [Model Context Protocol Spec](https://modelcontextprotocol.io)
-- [OnlyWorlds API Docs](https://www.onlyworlds.com/api/docs)
+- [onlyworlds API Docs](https://www.onlyworlds.com/api/docs)
 
 ## Troubleshooting
 

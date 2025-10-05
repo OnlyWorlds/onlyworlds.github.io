@@ -2,7 +2,7 @@
 layout: default
 title: object
 parent: elements
-grand_parent: Specification
+grand_parent: specification
 nav_order: 14
 ---
  

@@ -1,11 +1,11 @@
 ---
 layout: default
 title: mobile companion
-parent: Tools
+parent: tools
 nav_order: 6
 ---
 
-The oldest tool available in the tool directory. Designed for easy access to element creation and editing. A unique and strange progression system teaches OnlyWorlds concepts while you build. An AI assistant prototype provides variation and unexpected behavior. 
+The oldest tool available in the tool directory. Designed for easy access to element creation and editing. A unique and strange progression system teaches onlyworlds concepts while you build. An AI assistant prototype provides variation and unexpected behavior. 
 
 
 **URL:** [iOS TestFlight](https://testflight.apple.com/join/XWTuaack) • [Android APK](https://drive.google.com/file/d/1ZBgudPtApUy6eR-kE0OuMKkGBF61aru0/view?usp=sharing)  
@@ -19,7 +19,7 @@ The oldest tool available in the tool directory. Designed for easy access to ele
 ### iOS (TestFlight)
 1. **Install TestFlight** from the App Store
 2. **Join the beta** using the TestFlight link
-3. **Download** the OnlyWorlds app 
+3. **Download** the onlyworlds app 
 4. **Fetch existing worlds** or start a new one 
 
 ### Android (Beta APK)
@@ -33,7 +33,7 @@ The oldest tool available in the tool directory. Designed for easy access to ele
 
 - **Offline creation** - Work without internet, sync manually   
 - **Timeline system prototype** - Map events and customize time settings
-- **Progression system** - Learn OnlyWorlds through guided challenges, unlock some rewards and features
+- **Progression system** - Learn onlyworlds through guided challenges, unlock some rewards and features
 
  
  

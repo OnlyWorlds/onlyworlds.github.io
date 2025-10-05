@@ -1,12 +1,12 @@
 ---
 layout: default
-title: Specification
+title: specification
 nav_order: 3
 has_children: true
 has_toc: false
 ---
 
-The [OnlyWorlds specification](https://github.com/OnlyWorlds/OnlyWorlds/tree/main/schema) defines 22 element categories, their fields, and relationship structures. This is the complete technical standard.
+The [onlyworlds specification](https://github.com/OnlyWorlds/OnlyWorlds/tree/main/schema) defines 22 element categories, their fields, and relationship structures. This is the complete technical standard.
 
 ---
 

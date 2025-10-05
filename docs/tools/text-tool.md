@@ -1,14 +1,14 @@
 ---
 layout: default
 title: text tool
-parent: Tools
+parent: tools
 nav_order: 4
 ---
 
 
 Multi-purpose tinker tool for AI parsing, YAML editing, and earning token ratings.
 
-**URL:** [onlyworlds.com/parse_tool](https://onlyworlds.com/parse_tool)
+**URL:** [onlyworlds.com/text_tool](https://onlyworlds.com/text_tool)
 **Type:** Web Application
 **Uses Tokens:** Yes, for gimmicky AI features
 

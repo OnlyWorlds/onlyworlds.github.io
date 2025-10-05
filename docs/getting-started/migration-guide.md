@@ -1,14 +1,14 @@
 ---
 layout: default
 title: migration guide
-parent: Getting Started
+parent: getting started
 nav_order: 2
 ---
 
 # Migration Guide
 {: .no_toc }
 
-Convert existing worldbuilding content into OnlyWorlds format using AI-powered parsing.
+Convert existing worldbuilding content into onlyworlds format using AI-powered parsing.
 
 ## Table of contents
 {: .no_toc .text-delta }
@@ -20,7 +20,7 @@ Convert existing worldbuilding content into OnlyWorlds format using AI-powered p
 
 ## What you can convert
 
-OnlyWorlds provides free AI-powered tools to parse unstructured text into structured elements. You can convert:
+onlyworlds provides free AI-powered tools to parse unstructured text into structured elements. You can convert:
 
 - **Platform exports**: from other worldbuilding tools
 - **Documents**: Google Docs, Word files, PDFs, Notion pages
@@ -29,19 +29,19 @@ OnlyWorlds provides free AI-powered tools to parse unstructured text into struct
 - **Handwritten notes**: Photos of notebooks (requires OCR preprocessing)
 - **Mixed formats**: Any combination of the above
 
-The Parse Tool and OnlyWorldsBot extract entities, categorize them into OnlyWorlds elements, and map relationships automatically.
+The Parse Tool and OnlyWorldsBot extract entities, categorize them into onlyworlds elements, and map relationships automatically.
 
 ---
 
 ## Conversion tools
 
-### Parse Tool
+### Text Tool
 
-The [Parse Tool](https://onlyworlds.com/parse_tool) converts text directly into OnlyWorlds elements using the OpenAI API. Your account has a daily token limit (10,000 tokens) to manage API costs. This covers moderate parsing—approximately 3,000-4,000 words per day.
+The [Text Tool](https://onlyworlds.com/text_tool) converts text directly into onlyworlds elements using the OpenAI API. Your account has a daily token limit (10,000 tokens) to manage API costs. This covers moderate parsing—approximately 3,000-4,000 words per day.
 
 ### OnlyWorldsBot
 
-The [OnlyWorldsBot](https://chatgpt.com/g/g-dydgDFnOz-onlyworldsbot) provides higher parsing capacity, especially useful with ChatGPT Plus. It generates JSON output that you paste into the Parse Tool for upload to your world.
+The [OnlyWorldsBot](https://chatgpt.com/g/g-dydgDFnOz-OnlyWorldsBot) provides higher parsing capacity, especially useful with ChatGPT Plus. It generates JSON output that you paste into the Text Tool for upload to your world.
 
 {: .note }
 > These tools are experimental. Accuracy varies by source text quality and complexity. Always review parsed elements before saving.
@@ -53,15 +53,15 @@ The [OnlyWorldsBot](https://chatgpt.com/g/g-dydgDFnOz-onlyworldsbot) provides hi
 ### Quick start
 
 1. **Create a world** at [onlyworlds.com](https://onlyworlds.com)
-2. **Open the Parse Tool** and enter your API key and PIN
+2. **Open the Text Tool** and enter your API key and PIN
 3. **Choose your method:**
    - **Direct Parse**: Paste text → Parse → Review → Save
    - **Via OnlyWorldsBot**: Paste in ChatGPT → Copy JSON → Import → Review → Save
 4. **Build incrementally**: Parse in batches, review between passes
 
-### Using the Parse Tool
+### Using the Text Tool
 
-1. Navigate to [Parse Tool](https://onlyworlds.com/parse_tool)
+1. Navigate to [Text Tool](https://onlyworlds.com/text_tool)
 2. Enter your world's API key and PIN
 3. Click **Load World**
 4. Paste content into the text box
@@ -72,11 +72,11 @@ The [OnlyWorldsBot](https://chatgpt.com/g/g-dydgDFnOz-onlyworldsbot) provides hi
 
 ### Using OnlyWorldsBot
 
-1. Open [OnlyWorldsBot](https://chatgpt.com/g/g-dydgDFnOz-onlyworldsbot)
+1. Open [OnlyWorldsBot](https://chatgpt.com/g/g-dydgDFnOz-OnlyWorldsBot)
 2. Say "parse" or click the parse suggestion
 3. Paste your content and send
 4. Copy the JSON output
-5. Paste JSON into Parse Tool text box
+5. Paste JSON into Text Tool text box
 6. Click **Import Elements** (appears automatically for valid JSON)
 7. Review and save
 
@@ -84,7 +84,7 @@ The [OnlyWorldsBot](https://chatgpt.com/g/g-dydgDFnOz-onlyworldsbot) provides hi
 
 ## Example: Parsing Hyperion
 
-This example demonstrates how literary text converts to structured OnlyWorlds data using the opening of Dan Simmons' *Hyperion*.
+This example demonstrates how literary text converts to structured onlyworlds data using the opening of Dan Simmons' *Hyperion*.
 
 ### Source text
 
@@ -92,7 +92,7 @@ This example demonstrates how literary text converts to structured OnlyWorlds da
 
 ### Parsed elements
 
-One sentence yields multiple structured elements:
+One sentence yields multiple structured onlyworlds elements:
 
 - **Character**: "Hegemony Consul" (protagonist)
 - **Title**: "Consul of Hegemony" (political position)
@@ -129,7 +129,7 @@ New elements:
 - **Institution**: "Church of the Final Atonement"
 - **Creature**: "the Shrike"
 
-The Parse Tool identifies entities, categorizes them, and extracts relationships. Continue parsing incrementally to build the complete setting.
+The Text Tool identifies entities, categorizes them, and extracts relationships. Continue parsing incrementally to build the complete setting.
 
 ---
 
@@ -144,7 +144,7 @@ The Parse Tool identifies entities, categorizes them, and extracts relationships
 
 ### Google Docs / Word documents
 
-- Copy text directly into Parse Tool
+- Copy text directly into Text Tool
 - Remove heavy formatting if it causes issues
 - Parse in 5-10 page chunks
 - Add context headers if documents lack setup ("Character: X in world Y")
@@ -191,7 +191,7 @@ Keep text showing how elements connect: "The Consul was born on Hyperion" links 
 Ensure characters aren't categorized as objects, locations aren't events. Edit categories after parsing if needed.
 
 **Check relationships**
-Confirm links between elements are accurate. The Parse Tool identifies relationships from proximity and grammar.
+Confirm links between elements are accurate. The Text Tool identifies relationships from proximity and grammar.
 
 **Fill gaps**
 Add details the AI missed. Parsing captures obvious entities but may miss subtle attributes.
@@ -232,11 +232,11 @@ Fill missing relationships, add detailed field values manually.
 
 ### Category forcing
 
-If the Parse Tool miscategorizes consistently:
+If the Text Tool miscategorizes consistently:
 
 - Add explicit category hints: "Character: the Consul", "Location: Hyperion"
 - Parse one category at a time with clear headers
-- Edit categories in the Parse Tool interface after parsing
+- Edit categories in the Text Tool interface after parsing
 
 ### Relationship verification
 
@@ -261,13 +261,13 @@ When source text is ambiguous:
 - **Object**: Personal spacecraft, movable
 - **Construct**: Massive station, permanent structure
 
-Make consistent choices for your world. The specification supports both interpretations.
+Make consistent choices for your world. onlyworlds supports both interpretations.
 
 ---
 
 ## Troubleshooting
 
-### Parse Tool returns empty results
+### Text Tool returns empty results
 
 **Cause**: Text too short, lacks clear entities, or exceeds token limit
 
@@ -281,7 +281,7 @@ Make consistent choices for your world. The specification supports both interpre
 **Cause**: Ambiguous source text or parsing heuristics
 
 **Solution**:
-- Edit category after parsing in the Parse Tool interface
+- Edit category after parsing in the Text Tool interface
 - Add explicit category hints before parsing
 - Manually create element with correct category
 
@@ -305,12 +305,12 @@ Make consistent choices for your world. The specification supports both interpre
 
 ### Token limit reached
 
-**Cause**: Daily Parse Tool limit exhausted (10,000 tokens)
+**Cause**: Daily Text Tool limit exhausted (10,000 tokens)
 
 **Solution**:
 - Switch to OnlyWorldsBot (higher capacity with ChatGPT Plus)
 - Parse smaller chunks
-- Request token rating increase via Parse Tool feedback system
+- Request token rating increase via Text Tool feedback system
 
 ### OnlyWorldsBot output won't import
 
@@ -394,7 +394,7 @@ Everything in your world is accessible via the REST API. Use the [Template Tool]
 1. Export to HTML
 2. Parse in category batches (characters, locations, organizations separately)
 3. Use multi-pass strategy (foundation, context, details)
-4. Map WorldAnvil custom fields to OnlyWorlds fields
+4. Map WorldAnvil custom fields to onlyworlds fields
 5. Store unmapped fields in element descriptions
 6. Verify relationships using original WorldAnvil graph
 
@@ -408,11 +408,11 @@ Everything in your world is accessible via the REST API. Use the [Template Tool]
 
 - **[Discord](https://discord.gg/twCjqvVBwb)**: Real-time discussion with other users
 - **[GitHub Discussions](https://github.com/OnlyWorlds/OnlyWorlds/discussions)**: Feature requests and technical questions
-- **[Parse Tool Feedback](https://onlyworlds.com/parse_tool)**: Report parsing issues, earn token rewards
+- **[Text Tool Feedback](https://onlyworlds.com/text_tool)**: Report parsing issues, earn token rewards
 
 ### Improving parsing
 
-Submit feedback through the Parse Tool interface to improve AI accuracy. High-quality feedback earns increased token ratings.
+Submit feedback through the Text Tool interface to improve AI accuracy. High-quality feedback earns increased token ratings.
 
 ### Technical issues
 

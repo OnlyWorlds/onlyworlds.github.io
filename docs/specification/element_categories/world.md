@@ -1,8 +1,8 @@
 ---
 layout: default
-title: World
-parent: Element Categories
-grand_parent: Specification
+title: world
+parent: elements
+grand_parent: specification
 ---
 Base Text
 ---

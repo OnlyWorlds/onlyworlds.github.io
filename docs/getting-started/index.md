@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Getting Started
+title: getting started
 nav_order: 7
 has_children: true
 has_toc: false
@@ -19,11 +19,11 @@ Start here if you want to create or convert worldbuilding content.
    - **[Migration Guide](migration-guide/)** - Convert existing content with free AI parsing (WorldAnvil exports, Google Docs, scattered notes, book text, even photos of handwritten notes)
    - **[Tools](/docs/tools/)** - Browse available tools for different workflows
 
-The web interface handles basic element creation. The Parse Tool and OnlyWorldsBot convert unstructured text into structured OnlyWorlds elements automatically. Specialized tools offer better workflows for specific tasks.
+The web interface handles basic element creation. The Parse Tool and OnlyWorldsBot convert unstructured text into structured onlyworlds elements automatically. Specialized tools offer better workflows for specific tasks.
 
 ## Developing tools
 
-OnlyWorlds provides a REST API with no licensing requirements. Build whatever you need. The [Template Tool](https://github.com/OnlyWorlds/tool-template) is designed for extension by LLMs—anyone can build custom tools or commercial applications without writing code manually.
+onlyworlds provides a REST API with no licensing requirements. Build whatever you need. The [Template Tool](https://github.com/OnlyWorlds/tool-template) is designed for extension by LLMs—anyone can build custom tools or commercial applications without writing code manually.
 
 **Quick start:**
 - **[My First Tool](/docs/develop/my-first-tool/)** - Build an application step by step
@@ -40,7 +40,7 @@ The framework improves through community input on element definitions, field spe
 **Provide feedback through:**
 - [GitHub Discussions](https://github.com/OnlyWorlds/OnlyWorlds/discussions) - Feature requests and framework improvements
 - [Discord](https://discord.gg/twCjqvVBwb) - Direct discussion with other users
-- [Parse Tool](https://onlyworlds.com/parse_tool) - Submit parsing feedback, earn token rewards
+- [Parse Tool](https://onlyworlds.com/text_tool) - Submit parsing feedback, earn token rewards
 - [Email](mailto:info@onlyworlds.com) - Direct contact
 
 See [Contribution](/docs/contribution/) for guidelines on submitting changes.

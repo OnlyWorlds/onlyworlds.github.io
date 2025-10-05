@@ -1,0 +1,62 @@
+/* OnlyWorlds Worldbuilding Documentation Styles */
+
+.ow-story-box {
+  background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+  padding: 2.5rem;
+  border-radius: 8px;
+  line-height: 1.8;
+  font-family: Georgia, serif;
+  margin: 2rem 0;
+  color: #e2e8f0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.ow-story-box .attribution {
+  text-align: right;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #a0aec0;
+}
+
+.ow-element-label {
+  margin-bottom: 1.5rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 3px solid #4299e1;
+  font-size: 0.9rem;
+  color: #90cdf4;
+  font-family: monospace;
+}
+
+.ow-highlight {
+  background: rgba(251, 191, 36, 0.25);
+  padding: 0.1rem 0;
+  border-bottom: 2px solid rgba(251, 191, 36, 0.5);
+  box-shadow: 0 0 8px rgba(251, 191, 36, 0.15);
+}
+
+.ow-screenshot {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.ow-screenshot img {
+  max-width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.ow-screenshot-caption {
+  font-size: 0.85rem;
+  color: #a0aec0;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+.ow-intro {
+  margin: 1.5rem 0;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}

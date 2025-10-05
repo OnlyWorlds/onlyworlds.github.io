@@ -1,25 +1,25 @@
 ---
 layout: default
-title: Migration Guide
-parent: Getting Started (Old)
+title: migration guide
+parent: getting started (old)
 nav_order: 2
 ---
 
 # Migration Guide
 
-Converting existing worldbuilding content into the OnlyWorlds format enables your work to function across all compatible tools and applications. This guide covers the available migration methods and demonstrates the conversion process using examples from the opening of Dan Simmons' Hyperion.
+Converting existing worldbuilding content into the onlyworlds format enables your work to function across all compatible tools and applications. This guide covers the available migration methods and demonstrates the conversion process using examples from the opening of Dan Simmons' Hyperion.
 
 ## Available Migration Tools
 
-OnlyWorlds currently offers two AI-powered pipelines for converting unstructured text into OnlyWorlds elements:
+onlyworlds currently offers two AI-powered pipelines for converting unstructured text into onlyworlds elements:
 
-### Parse Tool
+### Text Tool
 
-The [parse tool](https://onlyworlds.com/parse_tool) processes any text into OnlyWorlds elements and field values. It runs on the OpenAI API using the developer's private API key and account. To limit costs from multi-user access, your account is rate limited using a Token Rating of 10k tokens per day.
+The [text tool](https://onlyworlds.com/text_tool) processes any text into onlyworlds elements and field values. It runs on the OpenAI API using the developer's private API key and account. To limit costs from multi-user access, your account is rate limited using a Token Rating of 10k tokens per day.
 
 ### OnlyWorldsBot
 
-The [OnlyWorldsBot](https://chatgpt.com/g/g-dydgDFnOz-onlyworldsbot) provides additional parsing capacity, especially useful for ChatGPT Plus subscribers. OWBot does not yet have direct integration with the OnlyWorlds World API, but the parse tool can act as proxy: OWBot does the parsing and formatting, and you can copy its output into the parse tool, which will recognize the JSON format and stage the elements for upload.
+The [OnlyWorldsBot](https://chatgpt.com/g/g-dydgDFnOz-OnlyWorldsBot) provides additional parsing capacity, especially useful for ChatGPT Plus subscribers. OWBot does not yet have direct integration with the onlyworlds World API, but the text tool can act as proxy: OWBot does the parsing and formatting, and you can copy its output into the text tool, which will recognize the JSON format and stage the elements for upload.
 
 <div style="text-align: center; margin: 40px 0; padding: 20px; background: #374151; border-radius: 8px; border-left: 4px solid #fbbf24;">
 <p style="color: #d1d5db; margin: 0;">⚠️ <strong>Note:</strong> These tools are experimental and offer no guarantee of accuracy or completeness. Your feedback and experience is welcome.</p>
@@ -30,16 +30,16 @@ The [OnlyWorldsBot](https://chatgpt.com/g/g-dydgDFnOz-onlyworldsbot) provides ad
 ### Basic Steps
 
 1. Create a world on [onlyworlds.com](https://onlyworlds.com)
-2. Go to the [parse tool](https://onlyworlds.com/parse_tool) and load in your world
+2. Go to the [text tool](https://onlyworlds.com/text_tool) and load in your world
 3. Either:
    - **Direct parsing**: Copy world data into the middle text box and click 'parse'
-   - **Via OnlyWorldsBot**: Say 'parse' to OWBot, paste your data, then copy its JSON output into the parse tool
+   - **Via OnlyWorldsBot**: Say 'parse' to OWBot, paste your data, then copy its JSON output into the text tool
 4. Review and edit the parsed elements
 5. Click 'save' or 'save all' to upload the elements to your world
 
 ### Understanding the Conversion
 
-When you migrate text to OnlyWorlds format, the AI identifies entities and concepts in your text and maps them to appropriate element categories. Let's examine how the opening of Hyperion converts:
+When you migrate text to onlyworlds format, the AI identifies entities and concepts in your text and maps them to appropriate element categories. Let's examine how the opening of Hyperion converts:
 
 #### Original Text
 > The Hegemony Consul sat on the balcony of his ebony spaceship and played Rachmaninov's Prelude in C-sharp Minor on an ancient but well-maintained Steinway while great, green, saurian things surged and bellowed in the swamps below.
@@ -65,7 +65,7 @@ After initial migration, you can expand your world by continuing to parse additi
 2. This adds new elements: "Hyperion" (location), "Time Tombs" (location), "The Shrike" (creature)
 3. These automatically become available for linking to existing elements
 
-The migration creates a foundation you can build upon using any OnlyWorlds tool.
+The migration creates a foundation you can build upon using any onlyworlds tool.
 
 ## Migration Examples
 
@@ -175,4 +175,4 @@ This approach, demonstrated with the Hyperion example, creates a more organized 
 
 ---
 
-**Previous: [Your First World](my-first-world)** | **Next: [Understanding OnlyWorlds](understanding-onlyworlds)**
+**Previous: [Your First World](my-first-world)** | **Next: [Understanding onlyworlds](understanding-onlyworlds)**

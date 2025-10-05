@@ -2,7 +2,7 @@
 layout: default
 title: phenomenon
 parent: elements
-grand_parent: Specification
+grand_parent: specification
 nav_order: 15
 ---
 

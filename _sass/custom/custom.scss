@@ -193,4 +193,83 @@ code.field-name {
   border-radius: 3px;
   font-size: 0.875em;
   font-weight: 500;
-} 
+}
+
+/* OnlyWorlds Worldbuilding Documentation Styles */
+
+.ow-story-box {
+  background: #1a202c !important;
+  padding: 2.5rem !important;
+  border-radius: 8px !important;
+  line-height: 1.8 !important;
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-size: 14px !important;
+  margin: 2rem 0 !important;
+  color: #e2e8f0 !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3) !important;
+}
+
+.ow-story-box .attribution {
+  text-align: right !important;
+  margin-top: 1.5rem !important;
+  font-size: 0.9rem !important;
+  font-style: italic !important;
+  color: #a0aec0 !important;
+}
+
+.ow-element-label {
+  margin-bottom: 1.5rem !important;
+  padding: 0.5rem 0.75rem !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-left: 3px solid #4299e1 !important;
+  font-size: 0.9rem !important;
+  color: #90cdf4 !important;
+  font-family: monospace !important;
+}
+
+.ow-highlight {
+  background: rgba(96, 165, 250, 0.2) !important;
+  padding: 0.1rem 0.3rem !important;
+  border-radius: 4px !important;
+  box-decoration-break: clone !important;
+  -webkit-box-decoration-break: clone !important;
+}
+
+.ow-screenshot {
+  text-align: center !important;
+  margin-top: 2rem !important;
+}
+
+.ow-screenshot img {
+  max-width: 100% !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 4px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+}
+
+.ow-screenshot-caption {
+  font-size: 0.85rem !important;
+  color: #a0aec0 !important;
+  margin-top: 0.5rem !important;
+  font-style: italic !important;
+}
+
+.ow-intro {
+  margin: 1.5rem 0 !important;
+  font-size: 1.1rem !important;
+  line-height: 1.6 !important;
+}
+
+/* Navigation sidebar font size fix */
+.nav-list .nav-list-item .nav-list-link {
+  font-size: 16px !important;
+}
+
+.side-bar .site-title,
+.side-bar .nav-list-link {
+  font-size: 16px !important;
+}
+
+.main-content {
+  font-size: 16px !important;
+}

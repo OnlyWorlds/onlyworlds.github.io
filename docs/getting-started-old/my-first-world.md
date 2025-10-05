@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Your First World
-parent: Getting Started (Old)
+title: your first world
+parent: getting started (old)
 nav_order: 1
 ---
 
@@ -18,11 +18,11 @@ nav_order: 1
 
 ## Create a world
 
-A 'world' in OnlyWorlds can be as big as a multidimensional megaverse or as small as a minor ant-hill.
+A 'world' in onlyworlds can be as big as a multidimensional megaverse or as small as a minor ant-hill.
 Its physical spacing and shape is largely defined by its [location](/docs/specification/element_categories/location.html) elements.
 
 Before you start creating planet or worker tunnel [locations](/docs/specification/element_categories/location.html), you'll need to create the world itself.
-OnlyWorlds.com offers a world creation and management interface for this.
+onlyworlds.com offers a world creation and management interface for this.
 
 ### Setting up your account
 
@@ -49,7 +49,7 @@ OnlyWorlds.com offers a world creation and management interface for this.
 > **Additional Features**  
 > This section offers more functionality:
 > 
-> 1. **Share access** with others who have an OnlyWorlds account. This gives them access to the world API key using their own PIN, granting full read and write access. Use with caution and trust. You can revoke access at any time by pressing the 'x' in the field that appears.
+> 1. **Share access** with others who have an onlyworlds account. This gives them access to the world API key using their own PIN, granting full read and write access. Use with caution and trust. You can revoke access at any time by pressing the 'x' in the field that appears.
 > 
 > 2. **Export your world** and all its content into a JSON file. Use this freely to backup your world and keep it local. Some tools allow direct import and export of this data format, meaning you're not locked in to using the onlyworlds.com hosting.
 > 
@@ -63,7 +63,7 @@ You can create, modify and delete elements for a world that you have selected in
 Press an icon at the top to select an element category.
 
 {: .note }
-> The interface on onlyworlds.com is functional but, arguably, not quite beautiful. Use it as you like or need, but remember that OnlyWorlds is meant to integrate with other tools and applications. There are other tools, such as the [Browse Tool](/docs/tools/browse_tool.html) or [Obsidian Plugin](/docs/tools/obsidian.html), that might provide a better UI experience.
+> The interface on onlyworlds.com is functional but, arguably, not quite beautiful. Use it as you like or need, but remember that onlyworlds is meant to integrate with other tools and applications. There are other tools, such as the [Write Tool](/docs/tools/write-tool.html) or [Obsidian Plugin](/docs/tools/obsidian-plugin.html), that might provide a better UI experience.
 
 ### Creating your first character
 
@@ -73,7 +73,7 @@ Press an icon at the top to select an element category.
 - Press the **Save** button to persist this name change
 
 {: .important }
-> All elements in OnlyWorlds require a value in their `name` field. Other fields are always optional.  
+> All elements in onlyworlds require a value in their `name` field. Other fields are always optional.  
 > The `description` field can hold as much text as you like, as a catch-all for any information that doesn't fit in other fields.
 
 ### Creating a birthplace
@@ -118,7 +118,7 @@ Let's first place the Consul at a [location](/docs/specification/element_categor
 - Establish that the Consul is currently at this [location](/docs/specification/element_categories/location.html) by assigning it to their `location` field
 
 {: .note }
-> You can use the familiar onlyworlds.com interface for this or try other tools: the [Browse Tool](/docs/tools/browse_tool.html), [Parse Tool](/docs/tools/parse_tool.html), [Obsidian Plugin](/docs/tools/obsidian.html) and [Mobile Companion](/docs/tools/mobile.html) all offer field editing.
+> You can use the familiar onlyworlds.com interface for this or try other tools: the [Write Tool](/docs/tools/write-tool.html), [Text Tool](/docs/tools/text-tool.html), [Obsidian Plugin](/docs/tools/obsidian-plugin.html) and [Mobile Companion](/docs/tools/mobile-companion.html) all offer field editing.
 
 ### Creating your first map
 
@@ -128,10 +128,10 @@ Let's first place the Consul at a [location](/docs/specification/element_categor
 
 {: .important }
 > **Image Hosting**  
-> OnlyWorlds does not currently offer image hosting. All elements have an `image_url` field that can link to a single online image.  
+> onlyworlds does not currently offer image hosting. All elements have an `image_url` field that can link to a single online image.  
 > For most elements, this image can represent a kind of profile picture.  
 > [Maps](/docs/specification/element_categories/map.html) are special elements, for which the `image_url` should link to an image that can function as a map.  
-> You will have to supply your own image and host it online to use it for an OnlyWorlds [map](/docs/specification/element_categories/map.html).
+> You will have to supply your own image and host it online to use it for an onlyworlds [map](/docs/specification/element_categories/map.html).
 
 ### Placing elements on the map
 
@@ -157,7 +157,7 @@ You have previously established that the Consul is at the [location](/docs/speci
 Relations between parent and child locations can also be inferred to create 'stacks' of embedded maps.
 
 {: .note }
-> OnlyWorlds distinguishes between two map types: 'local' and 'global' maps.  
+> onlyworlds distinguishes between two map types: 'local' and 'global' maps.  
 > Local maps directly represent a specific [location](/docs/specification/element_categories/location.html), while global maps exist in a separate hierarchy.  
 > All global maps live in the same 'stack', determined by their hierarchy value.  
 > Local maps can form stacks if their [locations](/docs/specification/element_categories/location.html) are embedded.  
@@ -200,7 +200,7 @@ Relations between parent and child locations can also be inferred to create 'sta
 
 ## Expand your world
 
-These steps give you an introduction to some key concepts of the OnlyWorlds language and workflows.
+These steps give you an introduction to some key concepts of the onlyworlds language and workflows.
 
 You can try different features and approaches to further building out and visualizing your worlds. Keep an eye on the [tools](/docs/tools/) for current and upcoming tools. If there are tools or features that you are eager to access, consider following the [My First Tool](/docs/getting-started/my-first-tool.html) guide to create whatever you want to use yourself.
 
@@ -208,5 +208,5 @@ Please feel free to leave feedback on any aspects of the framework. If there is 
 
 ---
 
-**Previous: [Understanding OnlyWorlds](understanding-onlyworlds)** | **Next: [Migration Guide](migration-guide)**
+**Previous: [Understanding onlyworlds](understanding-onlyworlds)** | **Next: [Migration Guide](migration-guide)**
 

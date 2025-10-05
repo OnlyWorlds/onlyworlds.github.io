@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Translation Examples
-parent: Getting Started (Old)
+title: translation examples
+parent: getting started (old)
 nav_order: 4
 ---
 

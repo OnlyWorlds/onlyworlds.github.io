@@ -2,7 +2,7 @@
 layout: default
 title: collective
 parent: elements
-grand_parent: Specification
+grand_parent: specification
 nav_order: 3
 ---
 

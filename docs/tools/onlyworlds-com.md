@@ -1,11 +1,11 @@
 ---
 layout: default
 title: onlyworlds.com
-parent: Tools
+parent: tools
 nav_order: 1
 ---
 
-The primary web platform for OnlyWorlds world management.
+The primary web platform for onlyworlds world management.
 
 **URL:** [onlyworlds.com/worlds](https://onlyworlds.com/worlds)  
 **Type:** Web Application   

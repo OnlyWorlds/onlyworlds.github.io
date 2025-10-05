@@ -1,13 +1,13 @@
 ---
 layout: default
-title: onlyworldsbot
-parent: Develop
+title: OnlyWorldsBot
+parent: develop
 nav_order: 5
 ---
 
-Custom GPT for OnlyWorlds information and development.
+Custom GPT for onlyworlds information and development.
 
-**Access**: [chatgpt.com/g/g-dydgDFnOz-onlyworldsbot](https://chatgpt.com/g/g-dydgDFnOz-onlyworldsbot)
+**Access**: [chatgpt.com/g/g-dydgDFnOz-OnlyWorldsBot](https://chatgpt.com/g/g-dydgDFnOz-OnlyWorldsBot)
 **Parsing Specialist:** [https://chatgpt.com/g/g-68e266c5ac3c81919a28a671d3727936-onlyworldsparsebot](https://chatgpt.com/g/g-68e266c5ac3c81919a28a671d3727936-onlyworldsparsebot)
 
 ## Capabilities

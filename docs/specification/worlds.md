@@ -1,7 +1,7 @@
 ---
 layout: default
 title: worlds
-parent: Specification
+parent: specification
 nav_order: 1
 ---
 
@@ -25,7 +25,7 @@ A world is the top-level container for elements, representing a complete setting
 | Field     | Type          | Required | Description |
 | :-------- | :------------ | :------- | :---------- |
 | `api_key` | string        | Yes      | Auto-generated 10-character key for API access |
-| `version` | string        | Yes      | OnlyWorlds format version (e.g., "1.0") |
+| `version` | string        | Yes      | onlyworlds format version (e.g., "1.0") |
 | `user`    | string (uuid) | Yes      | Owner's account identifier |
 
 ### Timeline

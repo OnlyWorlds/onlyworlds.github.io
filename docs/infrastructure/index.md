@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Infrastructure
+title: infrastructure
 nav_order: 6
 has_children: true
 published: false
@@ -21,9 +21,9 @@ nav_exclude: true
         │                                   │                                   │
         ▼                                   ▼                                   ▼
 ╔═══════════════════╗                ╔═══════════════════╗                ╔═══════════════════╗
-║ CREATION TOOLS    ║                ║ OnlyWorlds.com    ║                ║ CONSUMPTION TOOLS ║
+║ CREATION TOOLS    ║                ║ onlyworlds.com    ║                ║ CONSUMPTION TOOLS ║
 ╟───────────────────╢◄──────────────►╟───────────────────╢◄──────────────►╟───────────────────╢
-║                   ║   OnlyWorlds   ║ • REST API        ║   OnlyWorlds   ║                   ║
+║                   ║   onlyworlds   ║ • REST API        ║   onlyworlds   ║                   ║
 ║                   ║    Format      ║ • World Storage   ║    Format      ║                   ║
 ║                   ║                ║ • User Accounts   ║                ║                   ║
 ╚═══════════════════╝                ╚═════════╤═════════╝                ╚═══════════════════╝
@@ -31,7 +31,7 @@ nav_exclude: true
                                                │
                             ╔══════════════════╧══════════════════╗
                             ║         Schema Repository           ║
-                            ║      github.com/OnlyWorlds          ║
+                            ║      github.com/onlyworlds          ║
                             ║   • Element Definitions (YAML)      ║
                             ║   • JSON Schema Validation          ║
                             ║   • Version Control                 ║
@@ -60,7 +60,7 @@ nav_exclude: true
 
 ## Core Components
 
-### OnlyWorlds.com
+### onlyworlds.com
 Central platform providing world storage, REST API access, and user authentication.
 
 ### Schema Repository
@@ -73,20 +73,20 @@ Authoritative source for all element definitions, maintained at [github.com/Only
 
 ---
 
-## Building on OnlyWorlds
+## Building on onlyworlds
 
 ### For Tool Developers
 
 **Integration Steps**:
 
-1. **(Optional)** Consult the [OnlyWorlds Custom GPT](https://chat.openai.com/g/onlyworlds) for implementation guidance
+1. **(Optional)** Consult the [onlyworlds Custom GPT](https://chat.openai.com/g/onlyworlds) for implementation guidance
 
 2. **Import language files** or create new ones if not supplied for your platform
    - Check existing conversions in the [tools repository](https://github.com/OnlyWorlds/tools)
    - Follow the schema definitions precisely
 
 3. **Set up core requirements**:
-   - **OpenAPI Integration** - Connect to OnlyWorlds.com API
+   - **OpenAPI Integration** - Connect to onlyworlds.com API
    - **UUID v7** - For generating unique identifiers
    - **JSON Schema validation** - Ensure data compliance
    - **UTF-8 encoding** - For international support
@@ -110,7 +110,7 @@ Authoritative source for all element definitions, maintained at [github.com/Only
 - **Share worlds** as examples
 - **Write documentation** improvements
 
-**Token Rating System**: Users receive daily tokens for using AI-powered OnlyWorlds tools (like the Parse Tool). Contributing feedback earns additional tokens.
+**Token Rating System**: Users receive daily tokens for using AI-powered onlyworlds tools (like the Parse Tool). Contributing feedback earns additional tokens.
 
 ### For Developers
 
@@ -124,7 +124,7 @@ Authoritative source for all element definitions, maintained at [github.com/Only
 2. **Tool Development**
    - Build new compatible tools
    - Submit to Tools (must be free/freemium)
-   - Integrate OnlyWorlds format
+   - Integrate onlyworlds format
 
 3. **Schema Enhancement**
    - Propose new element types

@@ -1,7 +1,7 @@
 ---
 layout: default
 title: your first world
-parent: Getting Started
+parent: getting started
 nav_order: 1
 ---
 
@@ -39,7 +39,7 @@ Build Dan Simmons' Hyperion setting element by element, from the Consul's introd
 > Your world's API key identifies this world for external tools. Anyone with this key and your PIN has full read/write access.
 
 {: .note }
-> **Share access** with other OnlyWorlds users (grants full access using their PIN). **Export to JSON** for local backup. **Import data** by pasting JSON into the Overwrite box.
+> **Share access** with other onlyworlds users (grants full access using their PIN). **Export to JSON** for local backup. **Import data** by pasting JSON into the Overwrite box.
 
 ---
 
@@ -190,7 +190,7 @@ These aren't isolated entries—they're connected through explicit relationships
 - The Valley is part of Hyperion
 - The Pilgrimage involves the Consul, occurs at Hyperion and the Valley, uses the Consul's ship
 
-These relationships are queryable and actionable by any OnlyWorlds tool.
+These relationships are queryable and actionable by any onlyworlds tool.
 
 ---
 
@@ -215,7 +215,7 @@ The [Map Tool](/docs/tools/map_tool.html) visualizes spatial relationships.
 - Click **+**, name "Hyperion Surface", click **Create Map**
 
 {: .important }
-> OnlyWorlds doesn't host images. Provide a URL to an online image. Use any image host.
+> onlyworlds doesn't host images. Provide a URL to an online image. Use any image host.
 
 - Paste map image URL
 - Click **Load Map**
@@ -300,7 +300,7 @@ See [Specification](/docs/specification/) for complete field details per categor
 ### Try other tools
 
 - **[Browse Tool](/docs/tools/browse_tool.html)** - Advanced element editing
-- **[Parse Tool](/docs/tools/parse_tool.html)** - AI-powered text conversion
+- **[Parse Tool](/docs/tools/text_tool.html)** - AI-powered text conversion
 - **[Obsidian Plugin](/docs/tools/obsidian.html)** - Edit elements as markdown
 - **[Mobile Companion](/docs/tools/mobile.html)** - Mobile world management
 
@@ -310,7 +310,7 @@ Everything here can be done programmatically. **[My First Tool](/docs/develop/my
 
 ### Convert existing content
 
-This entire Hyperion world could be built by parsing the novel's opening chapters instead of creating elements manually. **[Migration Guide](migration-guide/)** shows how to convert book text, campaign notes, WorldAnvil exports, or scattered documentation into OnlyWorlds format using free AI-powered tools.
+This entire Hyperion world could be built by parsing the novel's opening chapters instead of creating elements manually. **[Migration Guide](migration-guide/)** shows how to convert book text, campaign notes, WorldAnvil exports, or scattered documentation into onlyworlds format using free AI-powered tools.
 
 ---
 
