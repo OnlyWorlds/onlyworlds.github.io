@@ -67,28 +67,28 @@ Get familiar by [world building](/docs/world-building/).
   <div style="display: grid; gap: 16px;">
 
     <div style="background: rgba(251, 191, 36, 0.1); border-left: 3px solid rgba(251, 191, 36, 0.6); border-radius: 4px; padding: 16px;">
-      <strong><a href="/docs/world-building/" style="color: inherit;">Worldbuilding</a></strong>
-      <div style="margin-top: 6px; font-size: 0.9em; opacity: 0.8;">Deconstructing a world</div>
+      <strong><a href="/docs/world-building/" style="color: inherit;">worldbuilding</a></strong>
+      <div style="margin-top: 6px; font-size: 0.9em; opacity: 0.8;">How to deconstruct a world</div>
     </div>
 
     <div style="background: rgba(96, 165, 250, 0.1); border-left: 3px solid rgba(96, 165, 250, 0.6); border-radius: 4px; padding: 16px;">
-      <strong><a href="/docs/specification/" style="color: inherit;">Specification</a></strong>
-      <div style="margin-top: 6px; font-size: 0.9em; opacity: 0.8;">Schema details and advanced topics</div>
+      <strong><a href="/docs/specification/" style="color: inherit;">specification</a></strong>
+      <div style="margin-top: 6px; font-size: 0.9em; opacity: 0.8;">How to specify a world</div>
     </div>
 
     <div style="background: rgba(52, 211, 153, 0.1); border-left: 3px solid rgba(52, 211, 153, 0.6); border-radius: 4px; padding: 16px;">
-      <strong><a href="/docs/tools/" style="color: inherit;">Tool Directory</a></strong>
-      <div style="margin-top: 6px; font-size: 0.9em; opacity: 0.8;">Available software to write, map, organize worlds</div>
+      <strong><a href="/docs/tools/" style="color: inherit;">tools</a></strong>
+      <div style="margin-top: 6px; font-size: 0.9em; opacity: 0.8;">How to play with worlds</div>
     </div>
 
     <div style="background: rgba(167, 139, 250, 0.1); border-left: 3px solid rgba(167, 139, 250, 0.6); border-radius: 4px; padding: 16px;">
-      <strong><a href="/docs/contribution/" style="color: inherit;">Contribution</a></strong>
-      <div style="margin-top: 6px; font-size: 0.9em; opacity: 0.8;">Feedback is welcome</div>
+      <strong><a href="/docs/contribution/" style="color: inherit;">contribute</a></strong>
+      <div style="margin-top: 6px; font-size: 0.9em; opacity: 0.8;">How to streamline worlds</div>
     </div>
 
     <div style="background: rgba(244, 114, 182, 0.1); border-left: 3px solid rgba(244, 114, 182, 0.6); border-radius: 4px; padding: 16px;">
-      <strong><a href="/docs/developer/" style="color: inherit;">Developer Support</a></strong>
-      <div style="margin-top: 6px; font-size: 0.9em; opacity: 0.8;">Technical docs and tools for (aspiring) developers</div>
+      <strong><a href="/docs/develop/" style="color: inherit;">developers</a></strong>
+      <div style="margin-top: 6px; font-size: 0.9em; opacity: 0.8;">How to enrich worlds</div>
     </div>
 
   </div>
@@ -96,7 +96,7 @@ Get familiar by [world building](/docs/world-building/).
 
 
 <div style="text-align: center;">
-<a href="https://www.onlyworlds.com/accounts/login/">Create a World</a> • <a href="https://discord.gg/twCjqvVBwb">Join Discord</a> • <a href="https://github.com/OnlyWorlds/OnlyWorlds">View on GitHub</a>
+<a href="https://www.onlyworlds.com/accounts/login/">create a World</a> • <a href="https://discord.gg/twCjqvVBwb">join Discord</a> • <a href="https://github.com/OnlyWorlds/OnlyWorlds">view on GitHub</a>
 </div>
 
 
