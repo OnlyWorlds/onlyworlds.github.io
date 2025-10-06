@@ -1,8 +1,8 @@
 ---
 layout: default
 title: packages
-parent: Develop
-nav_order: 2
+parent: Development
+nav_order: 3
 ---
 
 
