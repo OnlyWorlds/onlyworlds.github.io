@@ -1,7 +1,7 @@
 ---
 layout: default
 title: able objects
-parent: worldbuilding
+parent: Worldbuilding
 nav_order: 3
 ---
 

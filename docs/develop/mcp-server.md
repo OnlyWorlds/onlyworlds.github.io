@@ -1,7 +1,7 @@
 ---
 layout: default
 title: mcp server
-parent: develop
+parent: Develop
 nav_order: 4
 ---
 

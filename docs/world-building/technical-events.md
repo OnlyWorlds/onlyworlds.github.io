@@ -1,7 +1,7 @@
 ---
 layout: default
 title: technical events
-parent: worldbuilding
+parent: Worldbuilding
 nav_order: 7
 ---
 

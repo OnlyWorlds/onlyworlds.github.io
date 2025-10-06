@@ -1,7 +1,7 @@
 ---
 layout: default
 title: onlyworlds.com
-parent: tools
+parent: Tools
 nav_order: 1
 ---
 

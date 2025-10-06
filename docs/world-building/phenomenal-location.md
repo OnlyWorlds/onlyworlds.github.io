@@ -1,7 +1,7 @@
 ---
 layout: default
 title: phenomenal location
-parent: worldbuilding
+parent: Worldbuilding
 nav_order: 6
 ---
 

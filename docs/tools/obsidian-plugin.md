@@ -1,7 +1,7 @@
 ---
 layout: default
 title: obsidian plugin
-parent: tools
+parent: Tools
 nav_order: 7
 ---
 

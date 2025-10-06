@@ -1,7 +1,7 @@
 ---
 layout: default
 title: specified creatures
-parent: worldbuilding
+parent: Worldbuilding
 nav_order: 4
 ---
 

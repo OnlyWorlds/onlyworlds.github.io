@@ -1,7 +1,7 @@
 ---
 layout: default
 title: OnlyWorldsBot
-parent: develop
+parent: Develop
 nav_order: 5
 ---
 

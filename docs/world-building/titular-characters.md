@@ -1,7 +1,7 @@
 ---
 layout: default
 title: titular characters
-parent: worldbuilding
+parent: Worldbuilding
 nav_order: 1
 ---
 

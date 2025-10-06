@@ -2,7 +2,7 @@
 layout: default
 title: narrative
 parent: elements
-grand_parent: specification
+grand_parent: Specification
 nav_order: 13
 ---
 

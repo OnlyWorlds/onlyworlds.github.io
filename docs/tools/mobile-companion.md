@@ -1,7 +1,7 @@
 ---
 layout: default
 title: mobile companion
-parent: tools
+parent: Tools
 nav_order: 6
 ---
 
