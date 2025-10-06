@@ -12,7 +12,7 @@ But how do you break down a world?
 
 You [create one](https://onlyworlds.com/worlds).
 
-And start with the [opening sentence](/docs/world-building/titular-character).
+And start with the [opening sentence](/docs/world-building/titular-characters).
 
 
  
