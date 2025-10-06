@@ -7,11 +7,11 @@ description: "Welcome to OnlyWorlds"
 
 **OnlyWorlds** offers creatives a universal worldbuilding language and the means to validate it.
 
-The standard defines 22 element categories and fields that define and relate them. OnlyWorlds-enabled applications can exchange this text-based world data locally and via API. 
+The standard defines 22 element categories through fields and relations. OnlyWorlds-enabled applications can exchange this text-based world data locally and via API. 
 
-This means that worlds can be deployed in any software to write/build/organize/map or visualize/explore/simulate/gamify. 
+These worlds can be integrated to write/build/organize/map/collaborate/publish or visualize/explore/simulate/gamify. 
 
-Its WorldAPI provides a headless backend. Developer resources (SDKs, documentation, AI support) ease can ease developers of any level into the [ecosystem](link).
+Its WorldAPI provides a headless backend and resources (SDKs, documentation, AI support) for developers of any level to participate in its [ecosystem](link).
 
 Get familiar by [world building](/docs/world-building/).
 
