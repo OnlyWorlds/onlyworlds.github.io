@@ -34,7 +34,7 @@ Worlds are represented as 22 element categories and respective fields. Compatibl
     </div>
 
     <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
-      <strong><a href="/docs/tool-directory/" style="color: inherit;">compatible tools</a></strong>
+      <strong><a href="/docs/tools/" style="color: inherit;">compatible tools</a></strong>
       <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">software for creating, mapping, writing, and visualizing onlyworlds-format worlds</div>
     </div>
 
@@ -73,7 +73,7 @@ Worlds are represented as 22 element categories and respective fields. Compatibl
     </div>
 
     <div style="background: rgba(52, 211, 153, 0.1); border-left: 3px solid rgba(52, 211, 153, 0.6); border-radius: 4px; padding: 16px;">
-      <strong><a href="/docs/tool-directory/" style="color: inherit;">tool directory</a></strong>
+      <strong><a href="/docs/tools/" style="color: inherit;">tool directory</a></strong>
       <div style="margin-top: 6px; font-size: 0.9em; opacity: 0.8;">available software to write, map, organize worlds</div>
     </div>
 
