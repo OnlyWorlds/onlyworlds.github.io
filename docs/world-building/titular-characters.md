@@ -1,12 +1,16 @@
 ---
 layout: default
 title: titular characters
-parent: Worldbuilding
+parent: worldbuilding
 nav_order: 1
 ---
 
 <div class="ow-story-box">
   <span class="ow-highlight">The Hegemony Consul</span>
+
+  <div class="attribution">
+    — Dan Simmons, Hyperion
+  </div>
 </div>
 
 <div class="ow-screenshot">

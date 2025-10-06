@@ -1,7 +1,7 @@
 ---
 layout: default
 title: instant bureaucracy
-parent: Worldbuilding
+parent: worldbuilding
 nav_order: 9
 ---
 

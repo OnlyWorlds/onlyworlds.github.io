@@ -1,7 +1,7 @@
 ---
 layout: default
 title: text tool
-parent: Tools
+parent: tools
 nav_order: 4
 ---
 

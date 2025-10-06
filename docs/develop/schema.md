@@ -1,7 +1,7 @@
 ---
 layout: default
 title: schema
-parent: Development
+parent: development
 nav_order: 1
 ---
 

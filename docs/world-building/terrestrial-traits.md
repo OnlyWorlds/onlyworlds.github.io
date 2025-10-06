@@ -1,7 +1,7 @@
 ---
 layout: default
 title: terrestrial traits
-parent: Worldbuilding
+parent: worldbuilding
 nav_order: 5
 ---
 

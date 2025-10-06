@@ -1,7 +1,7 @@
 ---
 layout: default
 title: objective components
-parent: Worldbuilding
+parent: worldbuilding
 nav_order: 2
 ---
 

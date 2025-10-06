@@ -1,17 +1,21 @@
 ---
-title: Overview
+title: overview
 layout: default
 nav_order: 1
 description: "Welcome to OnlyWorlds"
 ---
 
+**OnlyWorlds** offers creatives a universal worldbuilding language and the means to validate it.
 
-OnlyWorlds is a world building language that comes with batteries included.
+The standard defines 22 element categories and fields that define and relate them. OnlyWorlds-enabled applications can exchange this text-based world data locally and via API. 
 
-Worlds are represented as 22 element categories and respective fields. Compatible software can read, edit, and exchange through local data or online API.
+This means that worlds can be deployed in any software to write/build/organize/map or visualize/explore/simulate/gamify. 
 
-[What's in a World?](/docs/world-building/)
+Its WorldAPI provides a headless backend. Developer resources (SDKs, documentation, AI support) ease can ease developers of any level into the [ecosystem](link).
 
+Get familiar by [world building](/docs/world-building/).
+
+    
 
 ## Infrastructure
 

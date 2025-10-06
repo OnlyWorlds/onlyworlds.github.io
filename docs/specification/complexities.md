@@ -1,7 +1,7 @@
 ---
 layout: default
 title: advanced topics
-parent: Specification
+parent: specification
 nav_order: 5
 has_toc: false
 ---

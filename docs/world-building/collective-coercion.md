@@ -1,7 +1,7 @@
 ---
 layout: default
 title: collective coercion
-parent: Worldbuilding
+parent: worldbuilding
 nav_order: 10
 ---
 

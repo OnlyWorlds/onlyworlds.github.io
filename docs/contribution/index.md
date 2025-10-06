@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Contribute
+title: contribute
 nav_order: 6
 has_toc: false
 ---

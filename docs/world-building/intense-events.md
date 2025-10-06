@@ -1,7 +1,7 @@
 ---
 layout: default
 title: intense events
-parent: Worldbuilding
+parent: worldbuilding
 nav_order: 8
 ---
 
