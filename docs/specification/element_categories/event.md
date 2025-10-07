@@ -8,7 +8,7 @@ nav_order: 6
 
  <span class="material-symbols-outlined">saved_search</span>
 
-Events are time-bound happenings in the world. An Event refers to any notable incident, whether historical, natural, or supernatural, that has any kind of significance for the world or any of its inhabitants. They are meta-level elements of instantaneous or prolonged duration that can involve other element types. 
+An Event represents a time-bound happening within the world. Events capture notable incidents—historical, natural, or supernatural—that hold significance for the world or its inhabitants. They define what happens, when it happens, and who or what is involved. 
 
 --- 
   
@@ -51,7 +51,7 @@ Events are about what happens. The rest of the schema gives it meaning, context,
 - **Zones** (multi-link: Zone): Zones relevant to the event
 - **Abilities** (multi-link: Ability): Abilities relevant to the event
 - **Phenomena** (multi-link: Phenomenon): Natural or supernatural phenomena relevant to the event
-- **Languages** (multi-link: Language): No description available.
+- **Languages** (multi-link: Language): Languages relevant to the event
 - **Families** (multi-link: Family): Families relevant to the event
 - **Relations** (multi-link: Relation): Interpersonal or political relations relevant to the event
 - **Titles** (multi-link: Title): Titles relevant to the event
