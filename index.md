@@ -7,7 +7,7 @@ description: "Welcome to OnlyWorlds"
 
 **OnlyWorlds** is a platform-hosted data model tuned for digital worldbuilding. 
 
-Live per October 8th 2025 with a [poetic introduction](http://soontm.onlyworlds.com).
+Live per October 8th 2025 with a [poetic introduction](http://canto-count.onlyworlds.com).
 
 
 
