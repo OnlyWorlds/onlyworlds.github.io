@@ -5,7 +5,7 @@ nav_order: 1
 description: "Welcome to OnlyWorlds"
 ---
 
-**OnlyWorlds** presents a platform-hosted data model tuned for digital worldbuilding and writing. 
+**OnlyWorlds** is a platform-hosted data model tuned for digital worldbuilding and writing. 
 
 It launches October 8th 2025 with a [poetic introduction](http://soontm.onlyworlds.com).
 
