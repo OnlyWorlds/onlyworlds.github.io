@@ -5,15 +5,13 @@ nav_order: 1
 description: "Welcome to OnlyWorlds"
 ---
 
-**OnlyWorlds** offers creatives a universal worldbuilding language and the means to validate its usefulness.
+**OnlyWorlds** offers creatives a universal worldbuilding language and ecosystem.
 
-The standard defines 22 element categories with fields and relations. OnlyWorlds-enabled applications can exchange text-based world data locally and via online API. 
+The standard defines 22 element categories, their fields and relations. OnlyWorlds-enabled applications can exchange text-based world data locally and via online API. 
 
-These worlds can be integrated to write/build/organize/map/collaborate/publish or visualize/explore/simulate/gamify. 
+OnlyWorlds launches October 8th 2025 with a [poetic introduction](http://soontm.onlyworlds.com).
 
-Learn how your worlds and ideas might translate into OnlyWorlds by [parsing a sentence](http://single-sentence.onlyworlds.com).
-
-Or see what tools and ideas are currently on offer in the [OnlyWorlds ecosystem](http://ecosystem.onlyworlds.com). 
+Make sure to check out the [OnlyWorlds ecosystem](http://soontm.onlyworlds.com). 
 
 
 ## Infrastructure
@@ -22,38 +20,37 @@ Or see what tools and ideas are currently on offer in the [OnlyWorlds ecosystem]
   <div style="display: grid; gap: 16px;">
 
     <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
-      <strong><a href="https://github.com/OnlyWorlds/OnlyWorlds/tree/main/schema" style="color: inherit;">Core Language</a></strong>
-      <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">YAML schema defining 22 element categories, their fields, and relationships</div>
+      <strong><a href="http://ecosystem.onlyworlds.com" style="color: inherit;">Ecosystem</a></strong>
+      <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">Tools, games, voting, feedback</div>
+    </div>
+    <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
+      <strong><a href="https://github.com/OnlyWorlds/OnlyWorlds/tree/main/schema" style="color: inherit;">Standard</a></strong>
+      <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">YAML schema defining 22 element categories, their fields and relations</div>
     </div>
 
     <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
       <strong><a href="https://onlyworlds.com" style="color: inherit;">Web Platform</a></strong>
-      <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">Free account creation, world management, and element storage at onlyworlds.com</div>
+      <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">Accounts, world management and hosting</div>
     </div>
 
     <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
       <strong><a href="https://www.onlyworlds.com/api/docs" style="color: inherit;">World API</a></strong>
-      <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">REST API for applications to access and exchange world data</div>
-    </div>
-
-    <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
-      <strong><a href="/docs/tools/" style="color: inherit;">Compatible Tools</a></strong>
-      <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">Software for creating, mapping, writing, and visualizing onlyworlds-format worlds</div>
+      <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">REST APIs for world exchange</div>
     </div>
 
     <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
       <strong><a href="/docs/getting-started/migration-guide/" style="color: inherit;">World Migration</a></strong>
-      <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">Free AI-powered tools to convert existing worldbuilding content into onlyworlds format</div>
+      <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">AI helps to convert exsiting work into the format</div>
     </div>
 
     <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
-      <strong><a href="/docs/developer/" style="color: inherit;">Developer Resources</a></strong>
-      <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">Packages, guides, AI support and a foundational tool so anyone can build or integrate personal tools and commercial applications</div>
+      <strong><a href="/docs/developer/" style="color: inherit;">Development</a></strong>
+      <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">For easy integration</div>
     </div>
 
     <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
       <strong><a href="https://github.com/OnlyWorlds/OnlyWorlds/discussions" style="color: inherit;">Community Channels</a></strong>
-      <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">Organized feedback systems, feature requests, and collaborative improvement</div>
+      <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">Feedback, feature requests, contact</div>
     </div>
 
   </div>
