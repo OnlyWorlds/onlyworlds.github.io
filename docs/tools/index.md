@@ -29,7 +29,7 @@ Free tools that integrate with the onlyworlds standard across various platforms.
 ## In Development
 
 | Tool | Tier | Purpose |
-|------|-----|---------|---------| 
+|------|------|---------|
 | Local world manager | Free | Offline world management and database 
 | Zoner | Free | Draw zones (roads, rivers, territories, etc) on maps using markers
 | Timeliner | Free | Manage world calendars, timestates, narratives, events

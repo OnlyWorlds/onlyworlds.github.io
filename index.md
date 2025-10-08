@@ -5,13 +5,11 @@ nav_order: 1
 description: "Welcome to OnlyWorlds"
 ---
 
-**OnlyWorlds** offers creatives a universal worldbuilding language and ecosystem.
-
-The standard defines 22 element categories, their fields and relations. OnlyWorlds-enabled applications can exchange text-based world data locally and via online API. 
+**OnlyWorlds** defines 22 element categories, their fields, and relations. Easy exchange of text-based world data local/offline and online/API. 
 
 OnlyWorlds launches October 8th 2025 with a [poetic introduction](http://soontm.onlyworlds.com).
 
-Make sure to check out the [OnlyWorlds ecosystem](http://soontm.onlyworlds.com). 
+Cast a vote in the [OnlyWorlds ecosystem](http://soontm.onlyworlds.com). 
 
 
 ## Infrastructure

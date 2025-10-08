@@ -5,10 +5,7 @@ nav_order: 6
 has_toc: false
 ---
 
-
-
-The onlyworlds specification is functional but not final. The element categories, fields, and further concepts need user feedback to reveal what works and what needs adjustment.
-
+ 
 ## Submission Channels
 
 <div style="background: rgba(59, 130, 246, 0.1); border-radius: 8px; padding: 24px; margin: 24px 0;">
@@ -31,9 +28,4 @@ The onlyworlds specification is functional but not final. The element categories
     </div>
   </div>
 </div>
-
-## Support
-
-onlyworlds is free and will remain free. I built it outside my day job because I want to use such tools and tend to make them as broadly usable as possible.
-
-If you want to support future development, [Patreon](#) contributions are welcome but entirely optional.
+ 

@@ -6,11 +6,6 @@ has_children: true
 has_toc: false
 ---
  
-
-onlyworlds provides open resources for building tools and integrations. All packages, APIs, and documentation are free to use with no commercial restrictions.
-
-Feedback, forks, and contributions are encouraged. Use these resources to integrate onlyworlds into your existing tools or build new ones. onlyworlds strives to empower AI-assisted development.
-
 ## Development Resources
 
 <div style="background: rgba(59, 130, 246, 0.1); border-radius: 8px; padding: 24px; margin: 24px 0;">
@@ -44,8 +39,8 @@ Feedback, forks, and contributions are encouraged. Use these resources to integr
 
 **Authentication**: API-Key and API-Pin headers for all requests
 
-**Discovery**: Listed in [Context7 library](https://context7.com/OnlyWorlds/onlyworlds) for documentation search 
+**Discovery**: Listed in [Context7 library](https://context7.com/OnlyWorlds/onlyworlds) for documentation search
 
-**Modfiying or extending the schema in-software**: Is possible and encouraged (succesful or popular modifications might inspire schema changes). Note that the onlyworlds.com services and API is limited only current schema fields: customized data must be maintained externally.  
+**Modifying or extending the schema in-software**: Is possible and encouraged (succesful or popular modifications might inspire schema changes). Note that the onlyworlds.com services and API is limited only current schema fields: customized data must be maintained externally.  
 
  
