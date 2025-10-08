@@ -11,11 +11,10 @@ The standard defines 22 element categories with fields and relations. OnlyWorlds
 
 These worlds can be integrated to write/build/organize/map/collaborate/publish or visualize/explore/simulate/gamify. 
 
-Developer resources and community feedback encourage a lively [ecosystem](link).
+Learn how your worlds and ideas might translate into OnlyWorlds by [parsing a sentence](http://single-sentence.onlyworlds.com).
 
-Get familiar by [world building](/docs/world-building/).
+Or see what tools and ideas are currently on offer in the [OnlyWorlds ecosystem](http://ecosystem.onlyworlds.com). 
 
-    
 
 ## Infrastructure
 
@@ -65,11 +64,6 @@ Get familiar by [world building](/docs/world-building/).
 
 <div style="background: rgba(55, 65, 81, 0.3); border-radius: 8px; padding: 24px; margin: 24px 0;">
   <div style="display: grid; gap: 16px;">
-
-    <div style="background: rgba(251, 191, 36, 0.1); border-left: 3px solid rgba(251, 191, 36, 0.6); border-radius: 4px; padding: 16px;">
-      <strong><a href="/docs/world-building/" style="color: inherit;">worldbuilding</a></strong>
-      <div style="margin-top: 6px; font-size: 0.9em; opacity: 0.8;">How to deconstruct a world</div>
-    </div>
 
     <div style="background: rgba(96, 165, 250, 0.1); border-left: 3px solid rgba(96, 165, 250, 0.6); border-radius: 4px; padding: 16px;">
       <strong><a href="/docs/specification/" style="color: inherit;">specification</a></strong>

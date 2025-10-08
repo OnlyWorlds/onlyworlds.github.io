@@ -7,3 +7,6 @@ url: https://onlyworlds.github.io
 logo: "/assets/images/OWLogo.png"
 favicon_ico: "/assets/images/favicon.ico"
 color_scheme: dark
+
+exclude:
+  - archive/
