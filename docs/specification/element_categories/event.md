@@ -51,7 +51,7 @@ Events are about what happens. The rest of the schema gives it meaning, context,
 - **Zones** (multi-link: Zone): Zones relevant to the event
 - **Abilities** (multi-link: Ability): Abilities relevant to the event
 - **Phenomena** (multi-link: Phenomenon): Natural or supernatural phenomena relevant to the event
-- **Languages** (multi-link: Language): Languages relevant to the event
+- **Languages** (multi-link: Language): No description available.
 - **Families** (multi-link: Family): Families relevant to the event
 - **Relations** (multi-link: Relation): Interpersonal or political relations relevant to the event
 - **Titles** (multi-link: Title): Titles relevant to the event
