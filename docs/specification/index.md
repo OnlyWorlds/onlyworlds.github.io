@@ -6,11 +6,10 @@ has_children: true
 has_toc: false
 ---
 
-The [onlyworlds specification](https://github.com/OnlyWorlds/OnlyWorlds/tree/main/schema) defines 22 element categories, their fields, and relationship structures. This is the complete technical standard.
+The [onlyworlds specification](https://github.com/OnlyWorlds/OnlyWorlds/tree/main/schema) defines 22 element categories, their fields, and relationship structures. 
 
 ---
-
-## Core Components
+ 
 
 **[worlds](worlds)** - Top-level containers with timeline systems and API access
 
@@ -22,6 +21,4 @@ The [onlyworlds specification](https://github.com/OnlyWorlds/OnlyWorlds/tree/mai
 
 **[complexities](complexities)** - Future capabilities: temporal versioning, simulation fields, knowledge systems
 
----
-
-**Implementation**: Schema defined in [YAML files](https://github.com/OnlyWorlds/OnlyWorlds/tree/main/schema), accessible via REST API at [onlyworlds.com/api/worldapi/](https://www.onlyworlds.com/api/worldapi/)
+ 

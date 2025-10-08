@@ -2,7 +2,7 @@
 layout: default
 title: law
 parent: elements
-grand_parent: Specification
+grand_parent: specification
 nav_order: 10
 ---
 

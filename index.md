@@ -5,11 +5,11 @@ nav_order: 1
 description: "Welcome to OnlyWorlds"
 ---
 
-**OnlyWorlds** defines 22 element categories, their fields, and relations. Easy exchange of text-based world data local/offline and online/API. 
+**OnlyWorlds** presents a platform-hosted data model tuned for digital worldbuilding and writing. 
 
-OnlyWorlds launches October 8th 2025 with a [poetic introduction](http://soontm.onlyworlds.com).
+It launches October 8th 2025 with a [poetic introduction](http://soontm.onlyworlds.com).
 
-Cast a vote in the [OnlyWorlds ecosystem](http://soontm.onlyworlds.com). 
+
 
 
 ## Infrastructure

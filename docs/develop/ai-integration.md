@@ -5,11 +5,7 @@ parent: development
 nav_order: 4
 ---
 
-AI-powered development is an excellent accelerator for the kind of tools and software that OnlyWorlds enables. This page contains some resources to help make your AI development easier and more effective.
-
-
-## Custom GPTs
-
+ 
 ### OnlyWorldsBot (General Assistant)
 
 **Access**: [chatgpt.com/g/g-dydgDFnOz-OnlyWorldsBot](https://chatgpt.com/g/g-dydgDFnOz-OnlyWorldsBot)
@@ -26,7 +22,7 @@ Use of 'thinking mode' for GPT-5 has, so far, improved accuracy, but is not stri
 
 This GPT should be able to take any text in any format and identify OnlyWorlds elements and their field values. 
  
-## OnlyWorldsMCP Server
+### MCP Server
 
 Provides AI assistants with direct access to schema, API documentation, and development resources. Full details and setup instructions at [onlyworlds.com/mcp](https://onlyworlds.com/mcp).
 
@@ -51,9 +47,4 @@ claude mcp add onlyworlds -- npx @onlyworlds/mcp-client
 
 - **Schema Summary** (`schema://summary`) - Compact list of all element types and fields (6KB)
 - **API Endpoints** (`api://endpoints`) - All endpoints with examples
-
  
-
-## Context7 Library
-
-OnlyWorlds documentation is in the [Context7](https://context7.com/onlyworlds/onlyworlds), a useful documentation-search MCP that is popular for general development purposes.

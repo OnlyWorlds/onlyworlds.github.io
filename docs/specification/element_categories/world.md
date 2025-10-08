@@ -2,7 +2,7 @@
 layout: default
 title: world
 parent: elements
-grand_parent: Specification
+grand_parent: specification
 ---
 Base Text
 ---

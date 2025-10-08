@@ -5,8 +5,7 @@ nav_order: 5
 has_children: true
 has_toc: false
 ---
- 
-## Development Resources
+  
 
 <div style="background: rgba(59, 130, 246, 0.1); border-radius: 8px; padding: 24px; margin: 24px 0;">
   <div style="display: grid; gap: 12px;">
@@ -29,8 +28,7 @@ has_toc: false
   </div>
 </div>
  
-
-## Technical Notes
+ 
 
 
 **Identifiers**: onlyworlds currently uses UUIDv7 for world and element IDs

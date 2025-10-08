@@ -8,8 +8,7 @@ nav_order: 1
 A world is the top-level container for elements, representing a complete setting at any scope you define.
 
 ---
-
-## Properties
+ 
 
 ### Core
 
@@ -41,7 +40,7 @@ A world is the top-level container for elements, representing a complete setting
 
 ---
 
-## Timeline Examples
+### Timeline Examples
 
 **Fantasy world with custom calendar:**
 - `time_format_equivalents`: ["Sun", "Tenday", "Moon", "Turning"]

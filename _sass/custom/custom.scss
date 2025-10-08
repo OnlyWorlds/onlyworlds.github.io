@@ -273,3 +273,14 @@ code.field-name {
 .main-content {
   font-size: 16px !important;
 }
+
+/* Infrastructure page subtle background */
+body[data-page-url*="infrastructure"] .main-content,
+.main-content:has(h1:contains("Infrastructure")) {
+  background: rgba(66, 153, 225, 0.03) !important;
+}
+
+/* Alternative: target by page title in frontmatter */
+[data-title="infrastructure"] .main-content {
+  background: rgba(66, 153, 225, 0.03) !important;
+}
