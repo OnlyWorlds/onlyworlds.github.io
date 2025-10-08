@@ -16,9 +16,4 @@ The [onlyworlds specification](https://github.com/OnlyWorlds/OnlyWorlds/tree/mai
 **[elements](element_categories/)** - 22 categories of worldbuilding data, each with specialized fields
 
 **[fields](fields)** - Base properties shared across all elements, plus category-specific attributes
-
-**[types](types)** - Optional supertype/subtype classification system (draft status)
-
-**[complexities](complexities)** - Future capabilities: temporal versioning, simulation fields, knowledge systems
-
  

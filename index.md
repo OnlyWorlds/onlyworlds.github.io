@@ -7,7 +7,7 @@ description: "Welcome to OnlyWorlds"
 
 **OnlyWorlds** is a platform-hosted data model tuned for digital worldbuilding. 
 
-It launches October 8th 2025 with a [poetic introduction](http://soontm.onlyworlds.com).
+Live per October 8th 2025 with a [poetic introduction](http://soontm.onlyworlds.com).
 
 
 
@@ -17,10 +17,7 @@ It launches October 8th 2025 with a [poetic introduction](http://soontm.onlyworl
 <div style="background: rgba(59, 130, 246, 0.15); border-radius: 8px; padding: 24px; margin: 24px 0;">
   <div style="display: grid; gap: 16px;">
 
-    <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
-      <strong><a href="http://ecosystem.onlyworlds.com" style="color: inherit;">Ecosystem</a></strong>
-      <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">Tools, games, voting, feedback</div>
-    </div>
+
     <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
       <strong><a href="https://github.com/OnlyWorlds/OnlyWorlds/tree/main/schema" style="color: inherit;">Standard</a></strong>
       <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">YAML schema defining 22 element categories, their fields and relations</div>
@@ -37,12 +34,13 @@ It launches October 8th 2025 with a [poetic introduction](http://soontm.onlyworl
     </div>
 
     <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
-      <strong><a href="/docs/getting-started/migration-guide/" style="color: inherit;">World Migration</a></strong>
-      <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">AI helps to convert exsiting work into the format</div>
+      <strong><a href="/docs/tools/" style="color: inherit;">Tools</a></strong>
+      <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">For writing, organizing, mapping, migrating</div>
     </div>
 
+
     <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
-      <strong><a href="/docs/developer/" style="color: inherit;">Development</a></strong>
+      <strong><a href="/docs/development/" style="color: inherit;">Development</a></strong>
       <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">For easy integration</div>
     </div>
 
@@ -76,7 +74,7 @@ It launches October 8th 2025 with a [poetic introduction](http://soontm.onlyworl
     </div>
 
     <div style="background: rgba(244, 114, 182, 0.1); border-left: 3px solid rgba(244, 114, 182, 0.6); border-radius: 4px; padding: 16px;">
-      <strong><a href="/docs/develop/" style="color: inherit;">developers</a></strong>
+      <strong><a href="/docs/development/" style="color: inherit;">developers</a></strong>
       <div style="margin-top: 6px; font-size: 0.9em; opacity: 0.8;">How to enrich worlds</div>
     </div>
 
