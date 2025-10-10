@@ -20,4 +20,5 @@ Version tracking is maintained in the repository's VERSION file.
 The repository includes ready conversions in `/languages`. These update automatically on schema changes. You can request or propose new languages to be added here. Make sure to include a conversion script if you propose a new language.
 
 
- 
+For details on schema definition, visit the [specification](/docs/specification/) page.
+

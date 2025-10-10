@@ -6,8 +6,6 @@ nav_order: 3
 ---
 
 
-Official packages for easy integration of onlyworlds into your applications. Will keep up to date with future schema changes.
-
 ## NPM Packages
 
 ### [@onlyworlds/sdk](https://www.npmjs.com/package/@onlyworlds/sdk)

@@ -5,11 +5,9 @@ nav_order: 1
 description: "Welcome to OnlyWorlds"
 ---
 
-**OnlyWorlds** is a platform-hosted data model tuned for digital worldbuilding. 
+**OnlyWorlds** is a data language tuned for worldbuilding with infrastructure and resources that enable an app ecosystem around a headless backend. 
 
-Live per October 8th 2025 with a [poetic introduction](http://canto-count.onlyworlds.com).
-
-
+October 8th 2025: soft release with a [poetic introduction](http://hyperion-hype.onlyworlds.com).
 
 
 ## Infrastructure
@@ -60,12 +58,12 @@ Live per October 8th 2025 with a [poetic introduction](http://canto-count.onlywo
 
     <div style="background: rgba(96, 165, 250, 0.1); border-left: 3px solid rgba(96, 165, 250, 0.6); border-radius: 4px; padding: 16px;">
       <strong><a href="/docs/specification/" style="color: inherit;">specification</a></strong>
-      <div style="margin-top: 6px; font-size: 0.9em; opacity: 0.8;">How to specify a world</div>
+      <div style="margin-top: 6px; font-size: 0.9em; opacity: 0.8;">Full technical details of the schema and its categories</div>
     </div>
 
     <div style="background: rgba(52, 211, 153, 0.1); border-left: 3px solid rgba(52, 211, 153, 0.6); border-radius: 4px; padding: 16px;">
       <strong><a href="/docs/tools/" style="color: inherit;">tools</a></strong>
-      <div style="margin-top: 6px; font-size: 0.9em; opacity: 0.8;">How to play with worlds</div>
+      <div style="margin-top: 6px; font-size: 0.9em; opacity: 0.8;">A growing, always-free tool directory for essential world building purposes </div>
     </div>
 
     <div style="background: rgba(167, 139, 250, 0.1); border-left: 3px solid rgba(167, 139, 250, 0.6); border-radius: 4px; padding: 16px;">

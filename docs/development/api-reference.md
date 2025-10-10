@@ -6,7 +6,7 @@ nav_order: 2
 ---
 
 
-onlyworlds provides REST APIs at [onlyworlds.com/api/docs](https://onlyworlds.com/api/docs) for accessing and updating world data.
+OnlyWorlds provides REST APIs at [onlyworlds.com/api/docs](https://onlyworlds.com/api/docs) for accessing and updating world data.
 
 ## World API (Primary)
 
@@ -24,7 +24,7 @@ API-Key: your-world-api-key
 API-Pin: your-account-pin
 ```
 
-Get credentials from your [profile page](https://onlyworlds.com/profile).
+Credentials are available for users at [onlyworlds.com](https://onlyworlds.com/profile).
 
 ### Standard Operations
 
@@ -58,19 +58,8 @@ POST /api/worldapi/location/
 - `world={uuid}` - Filter by world
 - `name__icontains={text}` - Search by name
 - `supertype={value}` - Filter by supertype
-- `subtype={value}` - Filter by subtype
-- `ordering={field}` - Sort results (prefix with `-` for descending)
-- `limit={n}` & `offset={n}` - Pagination
-
-### Element Types
-
-22 element categories available via the API:
-
-**Entities**: `character`, `creature`, `species`, `family`, `collective`, `institution`
-**Places**: `location`, `zone`, `map`, `pin`, `marker`
-**Things**: `object`, `construct`, `title`
-**Abstract**: `language`, `law`, `trait`, `ability`, `phenomenon`
-**Narrative**: `event`, `narrative`, `relation`
+- `subtype={value}` - Filter by subtype  
+ 
 
 ### Response Structure
 
@@ -84,9 +73,7 @@ All elements share base fields:
   "world": "01912a3b-4c5d-6e7f-8901-234567890def",
   "supertype": "optional-category",
   "subtype": "optional-subcategory",
-  "image_url": "https://example.com/image.jpg",
-  "created_at": "2024-01-01T00:00:00Z",
-  "updated_at": "2024-01-01T00:00:00Z"
+  "image_url": "https://example.com/image.jpg", 
 }
 ```
 
@@ -104,25 +91,20 @@ Legacy endpoint for full world import/export operations.
 
 Use World API for standard operations. WorldSync is for migration tools and bulk data operations.
 
-## Session API (Web Only)
 
-Browser-based authentication alternative for web applications.
-
-**Base URL**: `https://onlyworlds.com/api/worldapi/session/`
-
-**Authentication**: Session cookies instead of API-Key/API-Pin headers
-
-**Use case**: Web tools where users log in through the browser
-
-Most developers should use World API with API-Key/API-Pin headers instead.
-
-   
 
 ## CORS
 
-API allows cross-origin requests from:
-- `onlyworlds.com` domains
-- `*.pages.dev` (Cloudflare Pages)
-- Custom domains configured per request
+OnlyWorlds API accepts cross-origin requests from a wide range of hosting platforms to make it easy to build and deploy community tools.
+
+**Pre-approved platforms:**
+
+- **OnlyWorlds domains**: `*.onlyworlds.com` subdomains, `onlyworlds.github.io`
+- **Static hosting**: GitHub Pages, GitLab Pages, Cloudflare Pages
+- **Modern platforms**: Vercel, Netlify, Render, Railway, Fly.io
+- **Traditional hosting**: Heroku, AWS Amplify, Firebase Hosting
+- **Quick deploy**: Surge.sh, Glitch
+- **Online IDEs**: Replit, CodeSandbox, StackBlitz, CodePen, JSFiddle
+- **Local development**: `localhost` and `127.0.0.1` on any port
 
 For custom domain CORS access, contact [info@onlyworlds.com](mailto:info@onlyworlds.com).
