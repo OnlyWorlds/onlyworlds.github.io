@@ -8,7 +8,7 @@ nav_order: 3
 
 General element editing tool with writing, presentation, and graph features.
 
-**URL:** [onlyworlds.github.io/browse-tool](https://onlyworlds.github.io/browse-tool/)  
+**URL:** [onlyworlds.github.io/write-tool](https://onlyworlds.github.io/write-tool/)  
 **Type:** Web Application   
 
 ---
