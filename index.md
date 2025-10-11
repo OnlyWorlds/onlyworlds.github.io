@@ -5,7 +5,7 @@ nav_order: 1
 description: "Welcome to OnlyWorlds"
 ---
 
-**OnlyWorlds** is a data language tuned for worldbuilding with infrastructure and resources that enable an app ecosystem around a headless backend. 
+**OnlyWorlds** is a data language tuned for worldbuilding with supporting infrastructure and tools. Its worlds are packages that can be shared across compatible applications.
 
 October 8th 2025: soft release with a [poetic introduction](http://hyperion-hype.onlyworlds.com).
 
