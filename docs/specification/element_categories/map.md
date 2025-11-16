@@ -29,7 +29,7 @@ They are distinct from:
 ---
 ### Details
 - **Background_color**: Color of the space around the map when zoomed out
-- **Hierarchy** (#): To associate or differentiate between maps with a common parent or in a global hierarchy
+- **Hierarchy** (#): To associate or differentiate between maps with a common parent
 - **Width** (#): In pixels
 - **Height** (#): In pixels
 - **Depth** (#): In pixels
