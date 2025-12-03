@@ -31,8 +31,7 @@ Model Context Protocol server for AI assistant integration.
 ```bash
 npm install @onlyworlds/mcp-client
 ```
-
-More info on [MCP page](mcp-server/).
+ 
 
 ## Python Package
 

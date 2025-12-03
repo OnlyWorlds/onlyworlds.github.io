@@ -9,7 +9,7 @@ nav_order: 2
 All-round element editor with clean interface and full field support.
 Supports dual online and offline workflows.
 
-**URL:** [onlyworlds.github.io/base-tool](https://base-tool.onlyworlds.com) 
+**URL:** [onlyworlds.github.io/base-tool](https://base-tool.onlyworlds.com)  
 **Type:** Web Application
 
 ---

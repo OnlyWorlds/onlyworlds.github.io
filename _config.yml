@@ -8,5 +8,9 @@ logo: "/assets/images/OWLogo.png"
 favicon_ico: "/assets/images/favicon.ico"
 color_scheme: dark
 
+# Custom CSS
+aux_links_new_tab: false
+custom_css: "/assets/css/custom.css"
+
 exclude:
   - archive/

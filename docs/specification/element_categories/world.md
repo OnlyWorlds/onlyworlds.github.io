@@ -3,6 +3,7 @@ layout: default
 title: world
 parent: elements
 grand_parent: specification
+nav_exclude: true
 ---
 Base Text
 ---

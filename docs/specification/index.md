@@ -6,14 +6,14 @@ has_children: true
 has_toc: false
 ---
 
-The [onlyworlds specification](https://github.com/OnlyWorlds/OnlyWorlds/tree/main/schema) defines 22 element categories, their fields, and relationship structures. 
+The OnlyWorlds schema defines 22 element categories with structured fields and relationships. Schema files are [YAML on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/tree/main/schema).
 
 ---
  
 
-**[worlds](worlds)** - Top-level containers with timeline systems and API access
+**[worlds](worlds)** - World container structure and timeline configuration
 
-**[elements](element_categories/)** - 22 categories of worldbuilding data, each with specialized fields
+**[element categories](element_categories/)** - The 22 worldbuilding data types and their fields
 
-**[fields](fields)** - Base properties shared across all elements, plus category-specific attributes
+**[fields](fields)** - Base properties, data types, and relationship patterns
  

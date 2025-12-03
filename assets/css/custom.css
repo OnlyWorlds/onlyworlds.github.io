@@ -1,5 +1,43 @@
 /* OnlyWorlds Worldbuilding Documentation Styles */
 
+/* Material Symbols Icons - sizing for nav and content */
+.material-symbols-outlined {
+  font-size: 1.25rem;
+  vertical-align: middle;
+  margin-right: 0.25rem;
+}
+
+/* Smaller icons in sidebar navigation - match text size */
+.nav-list-link .material-symbols-outlined {
+  font-size: 0.875rem;
+  vertical-align: text-bottom;
+  margin-right: 0.35rem;
+}
+
+/* Add icons to nav links via CSS */
+.nav-list-link[href*="/ability.html"]::before { content: "auto_fix_normal"; font-family: 'Material Symbols Outlined'; margin-right: 0.35rem; }
+.nav-list-link[href*="/character.html"]::before { content: "person_4"; font-family: 'Material Symbols Outlined'; margin-right: 0.35rem; }
+.nav-list-link[href*="/collective.html"]::before { content: "groups_3"; font-family: 'Material Symbols Outlined'; margin-right: 0.35rem; }
+.nav-list-link[href*="/construct.html"]::before { content: "api"; font-family: 'Material Symbols Outlined'; margin-right: 0.35rem; }
+.nav-list-link[href*="/creature.html"]::before { content: "bug_report"; font-family: 'Material Symbols Outlined'; margin-right: 0.35rem; }
+.nav-list-link[href*="/event.html"]::before { content: "saved_search"; font-family: 'Material Symbols Outlined'; margin-right: 0.35rem; }
+.nav-list-link[href*="/family.html"]::before { content: "supervisor_account"; font-family: 'Material Symbols Outlined'; margin-right: 0.35rem; }
+.nav-list-link[href*="/institution.html"]::before { content: "business"; font-family: 'Material Symbols Outlined'; margin-right: 0.35rem; }
+.nav-list-link[href*="/language.html"]::before { content: "edit_road"; font-family: 'Material Symbols Outlined'; margin-right: 0.35rem; }
+.nav-list-link[href*="/law.html"]::before { content: "gpp_bad"; font-family: 'Material Symbols Outlined'; margin-right: 0.35rem; }
+.nav-list-link[href*="/location.html"]::before { content: "castle"; font-family: 'Material Symbols Outlined'; margin-right: 0.35rem; }
+.nav-list-link[href*="/map.html"]::before { content: "map"; font-family: 'Material Symbols Outlined'; margin-right: 0.35rem; }
+.nav-list-link[href*="/marker.html"]::before { content: "brush"; font-family: 'Material Symbols Outlined'; margin-right: 0.35rem; }
+.nav-list-link[href*="/narrative.html"]::before { content: "book"; font-family: 'Material Symbols Outlined'; margin-right: 0.35rem; }
+.nav-list-link[href*="/object.html"]::before { content: "webhook"; font-family: 'Material Symbols Outlined'; margin-right: 0.35rem; }
+.nav-list-link[href*="/phenomenon.html"]::before { content: "thunderstorm"; font-family: 'Material Symbols Outlined'; margin-right: 0.35rem; }
+.nav-list-link[href*="/pin.html"]::before { content: "location_pin"; font-family: 'Material Symbols Outlined'; margin-right: 0.35rem; }
+.nav-list-link[href*="/relation.html"]::before { content: "link"; font-family: 'Material Symbols Outlined'; margin-right: 0.35rem; }
+.nav-list-link[href*="/species.html"]::before { content: "crib"; font-family: 'Material Symbols Outlined'; margin-right: 0.35rem; }
+.nav-list-link[href*="/title.html"]::before { content: "military_tech"; font-family: 'Material Symbols Outlined'; margin-right: 0.35rem; }
+.nav-list-link[href*="/trait.html"]::before { content: "flaky"; font-family: 'Material Symbols Outlined'; margin-right: 0.35rem; }
+.nav-list-link[href*="/zone.html"]::before { content: "architecture"; font-family: 'Material Symbols Outlined'; margin-right: 0.35rem; }
+
 .ow-story-box {
   background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
   padding: 2.5rem;

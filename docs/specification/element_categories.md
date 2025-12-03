@@ -1,6 +1,6 @@
 ---
 layout: default
-title: elements
+title: categories
 parent: specification
 nav_order: 2
 has_children: true

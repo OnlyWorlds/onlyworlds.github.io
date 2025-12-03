@@ -20,11 +20,11 @@ All elements include these fields:
 | `name`        | string        | Yes      | Display name                                                   |
 | `world`       | string (uuid) | Yes      | World this element belongs to                            |
 | `description` | string        | No       | Text description                                   |
-| `supertype`   | string        | No       | Primary classification (see [types](./types)) |
+| `supertype`   | string        | No       | Primary classification |
 | `subtype`     | string        | No       | Secondary classification within supertype |
 | `image_url`   | string (url)  | No       | Link to representative image                              |
 
-Category-specific fields are documented on individual [element pages](./element_categories/).
+Category-specific fields are documented on specific [category pages](./element_categories).
 
 ---
 
@@ -39,4 +39,4 @@ Category-specific fields are documented on individual [element pages](./element_
 
 ---
 
-Elements use UUIDv7 identifiers for time-sortable unique IDs. Relationships use `_id` suffix for single links, `_ids` suffix for multi links.
+Elements use UUIDv7 identifiers for time-sortable unique IDs.
