@@ -26,7 +26,7 @@ OnlyWorlds offers a migration pipeline for converting text in any format into a 
 
 **[OnlyWorldsBot](https://chatgpt.com/g/g-dydgDFnOz-onlyworldbot)** converts text of any format (scattered docs, exports from other tools/websites, pictures of handwriting, your favorite book) into OnlyWorlds elements. Open OnlyWorldsBot, say 'parse' to it, then paste your content. The GPT will convert it to output data in compatible JSON format. 
 
-Copy this output into the [**base tool**](https://base-tool.onlyworlds.com)'s 'migrator' screen (double arrows icon in left bar). It will validate the output and offer bulk import of elements (note: can take a bit of time for large datasets). If issues are identified, it will give you a copy to put back into the GPT conversation to fix those issues.
+Copy this output into the [**base tool**](https://base-tool.onlyworlds.com)'s 'migrator' screen ('import elements' in the top bar). It will validate the output and offer bulk import of elements (note: can take a bit of time for large datasets). If issues are identified, it will give you a copy to put back into the GPT conversation to fix those issues.
  
  
 ---
