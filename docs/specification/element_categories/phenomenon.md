@@ -1,7 +1,7 @@
 ---
 layout: default
 title: phenomenon
-parent: elements
+parent: categories
 grand_parent: specification
 nav_order: 15
 ---

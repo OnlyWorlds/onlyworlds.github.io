@@ -1,7 +1,7 @@
 ---
 layout: default
 title: location
-parent: elements
+parent: categories
 grand_parent: specification
 nav_order: 11
 ---
