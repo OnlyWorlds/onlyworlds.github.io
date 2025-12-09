@@ -8,7 +8,7 @@ nav_order: 12
  
 <span class="material-symbols-outlined">brush</span>
 
-A Marker is a special Map element. Groups of Markers, each at a specific coordinate, together designate a Zone in the world.
+A Marker is a special Map element. Groups of Markers, each at a specific coordinate, together designate a Zone in the world. Zones can be either lines or polygons (through supertype).
 
 --- 
    
@@ -30,4 +30,5 @@ They are distinct from:
 - **X** (#): x coordinate, from bottom left of the map
 - **Y** (#): y coordinate, from bottom left of the map
 - **Z** (#): z coordinate, in case of depth
+- **Order** (#): position in zone sequence (0 = first)
 
