@@ -1,6 +1,6 @@
 ---
 layout: default
-title: ai integration
+title: ai tooling
 parent: development
 nav_order: 4
 ---

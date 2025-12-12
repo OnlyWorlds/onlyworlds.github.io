@@ -6,37 +6,181 @@ has_children: true
 has_toc: false
 ---
 
-Tools for creating, organizing, and visualizing OnlyWorlds data. All tools listed in this directory remain free. 
+ 
 
-A tool marketplace with voting is under construction. Until its release, request features or propose new tools in [Discord](https://discord.gg/twCjqvVBwb).
+### Available 
 
+<div style="background: rgba(59, 130, 246, 0.15); border-radius: 8px; padding: 24px; margin: 24px 0;">
+  <div style="display: grid; gap: 16px;">
 
-### Available Tools
+  <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span class="material-symbols-outlined" style="font-size: 20px; opacity: 0.7;">hub</span>
+      <strong><a href="onlyworlds-com" style="color: inherit;">onlyworlds.com</a></strong>
+      <a href="https://onlyworlds.com" style="opacity: 0.7; font-size: 0.9em;">
+        <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">link</span>
+      </a>
+      <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.5; margin-left: auto;">computer</span>
+      <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.5;">smartphone</span>
+    </div>
+    <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">account and world management</div>
+  </div>
 
-| Tool | Platform | URL | Description |
-|------|----------|-----|-------------|
-| [onlyworlds.com](onlyworlds-com) | Desktop | [onlyworlds.com](https://onlyworlds.com) | Account and world management |
-| [base tool](base-tool) | Desktop | [base-tool.onlyworlds.com](https://base-tool.onlyworlds.com/) | Allrounder with offline and migration support |
-| [map tool](map-tool) | Desktop | [onlyworlds.com/map_tool](https://onlyworlds.com/map_tool) | 2D Maps and pins |
-| [write tool](write-tool) | Desktop | [onlyworlds.github.io/write-tool](https://onlyworlds.github.io/write-tool/) | Writing and browsing features |
-| [text tool](text-tool) | Desktop | [onlyworlds.com/text_tool](https://onlyworlds.com/text_tool) | Text-based tinkering |
-| [zoner](zoner) | Desktop | [onlyworlds.com/zoner](https://onlyworlds.com/zoner) | Draw zones (polygons, linepoints) on maps |
-| [mobile companion](mobile-companion) | Mobile | [iOS TestFlight](https://testflight.apple.com/join/XWTuaack) / [Android APK](https://drive.google.com/file/d/1ZBgudPtApUy6eR-kE0OuMKkGBF61aru0/view?usp=sharing) | Mobile access and quirky mechanics |
-| [mobile elements](mobile-elements) | Mobile | [iOS TestFlight](https://testflight.apple.com/join/XWTuaack) / [Android APK](https://drive.google.com/file/d/1ZBgudPtApUy6eR-kE0OuMKkGBF61aru0/view?usp=sharing) | Mobile element management |
-| [obsidian plugin](obsidian-plugin) | Desktop | [GitHub](https://github.com/OnlyWorlds/obsidian-plugin) | Community plugin for OW integration |
+  <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span class="material-symbols-outlined" style="font-size: 20px; opacity: 0.7;">dashboard</span>
+      <strong><a href="base-tool" style="color: inherit;">base tool</a></strong>
+      <a href="https://base-tool.onlyworlds.com/" style="opacity: 0.7; font-size: 0.9em;">
+        <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">link</span>
+      </a>
+      <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.5; margin-left: auto;">computer</span>
+    </div>
+    <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">allrounder with migration support</div>
+  </div>
+
+  <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span class="material-symbols-outlined" style="font-size: 20px; opacity: 0.7;">map</span>
+      <strong><a href="map-tool" style="color: inherit;">map tool</a></strong>
+      <a href="https://onlyworlds.com/map_tool" style="opacity: 0.7; font-size: 0.9em;">
+        <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">link</span>
+      </a>
+      <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.5; margin-left: auto;">computer</span>
+    </div>
+    <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">map and pin creation, embedding</div>
+  </div>
+
+  <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span class="material-symbols-outlined" style="font-size: 20px; opacity: 0.7;">polyline</span>
+      <strong><a href="zoner" style="color: inherit;">zoner</a></strong>
+      <a href="https://onlyworlds.com/zoner" style="opacity: 0.7; font-size: 0.9em;">
+        <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">link</span>
+      </a>
+      <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.5; margin-left: auto;">computer</span>
+    </div>
+    <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">map and zone creation</div>
+  </div>
+
+  <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span class="material-symbols-outlined" style="font-size: 20px; opacity: 0.7;">edit_note</span>
+      <strong><a href="write-tool" style="color: inherit;">write tool</a></strong>
+      <a href="https://onlyworlds.github.io/write-tool/" style="opacity: 0.7; font-size: 0.9em;">
+        <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">link</span>
+      </a>
+      <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.5; margin-left: auto;">computer</span>
+    </div>
+    <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">writing and browsing features</div>
+  </div>
+
+  <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span class="material-symbols-outlined" style="font-size: 20px; opacity: 0.7;">article</span>
+      <strong><a href="text-tool" style="color: inherit;">text tool</a></strong>
+      <a href="https://onlyworlds.com/text_tool" style="opacity: 0.7; font-size: 0.9em;">
+        <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">link</span>
+      </a>
+      <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.5; margin-left: auto;">computer</span>
+    </div>
+    <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">AI parsing and feedback tinkering</div>
+  </div>
+
+  <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span class="material-symbols-outlined" style="font-size: 20px; opacity: 0.7;">diamond</span>
+      <strong><a href="obsidian-plugin" style="color: inherit;">obsidian plugin</a></strong>
+      <a href="https://github.com/OnlyWorlds/obsidian-plugin" style="opacity: 0.7; font-size: 0.9em;">
+        <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">link</span>
+      </a>
+      <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.5; margin-left: auto;">computer</span>
+    </div>
+    <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">community plugin for OW integration</div>
+  </div>
+
+  <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span class="material-symbols-outlined" style="font-size: 20px; opacity: 0.7;">flutter</span>
+      <strong><a href="mobile-companion" style="color: inherit;">mobile companion</a></strong>
+      <a href="https://testflight.apple.com/join/XWTuaack" style="opacity: 0.7; font-size: 0.9em;">
+        <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">link</span>
+      </a>
+      <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.5; margin-left: auto;">smartphone</span>
+    </div>
+    <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">comprehensive mobile app</div>
+  </div>
+
+  <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span class="material-symbols-outlined" style="font-size: 20px; opacity: 0.7;">quick_reference_all</span>
+      <strong><a href="easy-mobile" style="color: inherit;">easy-mobile</a></strong>
+      <a href="https://testflight.apple.com/join/XWTuaack" style="opacity: 0.7; font-size: 0.9em;">
+        <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">link</span>
+      </a>
+      <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.5; margin-left: auto;">smartphone</span>
+    </div>
+    <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">quick mobile editor</div>
+  </div>
+
+  </div>
+</div>
 
  
 ---
 
-### In Development
+### Planned
 
-| Tool | Platform | Description |
-|------|----------|---------|
-| local world manager | Desktop | Offline/local world creation, editing |
-| timeliner | Desktop | Organize & visualize timestates, narratives, events |
-| unity plugin | Desktop | Editor UIToolkit, import/export, ready scripts |
-| tactical tangle | Desktop | Little hoplite battle simulator game with OW characters integration |
-| planet mapper | Desktop | 3D Mapping and exploring tool |
+<div style="background: rgba(59, 130, 246, 0.15); border-radius: 8px; padding: 24px; margin: 24px 0;">
+  <div style="display: grid; gap: 16px;">
+
+  <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span class="material-symbols-outlined" style="font-size: 20px; opacity: 0.7;">folder_open</span>
+      <strong style="color: inherit;">local world manager</strong>
+      <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.5; margin-left: auto;">computer</span>
+      <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.5;">smartphone</span>
+    </div>
+    <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">offline/local world creation, editing</div>
+  </div>
+
+  <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span class="material-symbols-outlined" style="font-size: 20px; opacity: 0.7;">timeline</span>
+      <strong style="color: inherit;">timeliner</strong>
+      <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.5; margin-left: auto;">computer</span>
+    </div>
+    <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">organize & visualize timestates, narratives, events</div>
+  </div>
+
+  <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span class="material-symbols-outlined" style="font-size: 20px; opacity: 0.7;">category</span>
+      <strong style="color: inherit;">unity plugin</strong>
+      <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.5; margin-left: auto;">computer</span>
+    </div>
+    <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">editor integration (UIToolkit), simulation</div>
+  </div>
+
+  <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span class="material-symbols-outlined" style="font-size: 20px; opacity: 0.7;">swords</span>
+      <strong style="color: inherit;">tactical tangle</strong>
+      <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.5; margin-left: auto;">computer</span>
+    </div>
+    <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">little hoplite battle simulator game with OW characters integration</div>
+  </div>
+
+  <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span class="material-symbols-outlined" style="font-size: 20px; opacity: 0.7;">public</span>
+      <strong style="color: inherit;">planet mapper</strong>
+      <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.5; margin-left: auto;">computer</span>
+    </div>
+    <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">3D mapping and exploring tool</div>
+  </div>
+
+  </div>
+</div>
 
  
  

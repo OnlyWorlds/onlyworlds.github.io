@@ -1,6 +1,6 @@
 ---
 layout: default
-title: api platform
+title: world api
 parent: development
 nav_order: 2
 ---
