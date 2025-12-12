@@ -205,12 +205,10 @@ Delete Element:
 
 await client.characters.delete('element-uuid');
 
-WORKING WITH RELATIONSHIPS
+LINKING ELEMENTS
 ---------------------------
 
 OnlyWorlds elements can link to other elements. The SDK handles the format conversion automatically.
-
-Creating with Relationships:
 
 Single-link fields (birthplace, location, etc.):
 await client.characters.create({
@@ -244,7 +242,7 @@ const character = await client.characters.create({
   languages: ['common-id', 'elvish-id']
 });
 
-Reading Relationships:
+Reading link Relationships:
 
 The API returns FULL NESTED OBJECTS, not just IDs:
 
@@ -259,7 +257,7 @@ char.species.forEach(sp => {
   console.log(sp.name);  // Full Species object
 });
 
-Filtering by Relationships:
+Filtering by link-relations:
 
 Use _id or _ids suffix when filtering:
 
@@ -273,7 +271,7 @@ const elves = await client.characters.list({
   species_ids: 'elf-species-id'  // Note: _ids suffix
 });
 
-RELATIONSHIP PATTERN SUMMARY:
+LINK PATTERN SUMMARY:
 
 Operation    | Field Format        | Example
 -------------|---------------------|---------------------------
@@ -281,6 +279,9 @@ Create       | Clean name          | birthplace: 'uuid'
 Update       | Clean name          | species: ['uuid1', 'uuid2']
 Read         | Clean name          | char.birthplace.name
 Filter       | With _id/_ids       | birthplace_id: 'uuid'
+
+RELATION ELEMENTS:
+Beyond link fields, the 'Relation' category can be used to create particularly deep statements between two elements, especially characters and institutions.
 
 AVAILABLE ELEMENT TYPES
 ------------------------
