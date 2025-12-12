@@ -11,7 +11,7 @@ nav_order: 7
 
 **[GitHub Discussions](https://github.com/OnlyWorlds/OnlyWorlds/discussions)** - schema feedback, announcements, discussions
 
-**[OnlyWorldsBot](https://chatgpt.com/g/g-dydgDFnOz-OnlyWorldsBot)** - non human migration, schema, development support
+**[OnlyWorldsBot](https://chatgpt.com/g/g-dydgDFnOz-OnlyWorldsBot)** - migration, schema, development support  
 
 
 
