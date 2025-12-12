@@ -54,7 +54,7 @@ has_toc: false
     <div style="display: flex; align-items: center; gap: 8px;">
       <span class="material-symbols-outlined" style="font-size: 20px; opacity: 0.7;">polyline</span>
       <strong><a href="zoner" style="color: inherit;">zoner</a></strong>
-      <a href="https://onlyworlds.com/zoner" style="opacity: 0.7; font-size: 0.9em;">
+      <a href="https://zoner.onlyworlds.com" style="opacity: 0.7; font-size: 0.9em;">
         <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">link</span>
       </a>
       <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.5; margin-left: auto;">computer</span>
@@ -114,7 +114,7 @@ has_toc: false
     <div style="display: flex; align-items: center; gap: 8px;">
       <span class="material-symbols-outlined" style="font-size: 20px; opacity: 0.7;">quick_reference_all</span>
       <strong><a href="easy-mobile" style="color: inherit;">easy-mobile</a></strong>
-      <a href="https://testflight.apple.com/join/XWTuaack" style="opacity: 0.7; font-size: 0.9em;">
+      <a href="https://easy-mobile.onlyworlds.com" style="opacity: 0.7; font-size: 0.9em;">
         <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">link</span>
       </a>
       <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.5; margin-left: auto;">smartphone</span>

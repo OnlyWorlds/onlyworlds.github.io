@@ -9,7 +9,7 @@ has_toc: false
 
 OnlyWorlds is open source, license free, and encourages developers to use its infrastructure and tools for integration into existing or new tools. The resources here support dynamic schema integration for easy migrations.
 
-For simple, deployable tools, use TypeScript with the OnlyWorlds npm SDK. Feed this <a href="/assets/ow_llm_guide.txt" download>llm-instructional guide</a> to a local llm for effective development or consult [OnlyWorldsBot](https://chatgpt.com/g/g-dydgDFnOz-OnlyWorldsBot) in the browser. 
+For simple, deployable tools, use TypeScript with the OnlyWorlds npm SDK. Feed this <a href="/assets/ow_llm_guide.txt" download>llm-instructional guide</a> to your local llm for effective development or consult [OnlyWorldsBot](https://chatgpt.com/g/g-dydgDFnOz-OnlyWorldsBot) in the browser. 
 
 ---
 
