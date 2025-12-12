@@ -30,5 +30,5 @@ They are distinct from:
 - **X** (#): x coordinate, from bottom left of the map
 - **Y** (#): y coordinate, from bottom left of the map
 - **Z** (#): z coordinate, in case of depth
-- **Order** (#): position in zone sequence (0 = first)
+- **Order** (#): Sequence position when markers define a polygon or line (0 = first point)
 
