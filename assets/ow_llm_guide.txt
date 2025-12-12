@@ -1,17 +1,57 @@
 ONLYWORLDS SDK - QUICK START GUIDE FOR DEVELOPERS & LLMs
 =========================================================
 
+FOR LLM ASSISTANTS: SUPPORTING USER ENVIRONMENT SETUP
+------------------------------------------------------
+
+Before diving into OnlyWorlds development, users may need help setting up their development environment. Be prepared to assist with:
+
+1. **Node.js Installation**
+   - Check if installed: Ask user to run `node --version` in terminal
+   - If not installed or version < 18:
+     - Direct to nodejs.org/en/download
+     - Recommend LTS version (20+)
+     - Help verify installation: `node --version` and `npm --version`
+
+2. **Git Installation** (optional but recommended)
+   - Check: `git --version`
+   - If not installed: git-scm.com/downloads
+   - Help with basic config if needed:
+     - `git config --global user.name "User Name"`
+     - `git config --global user.email "email@example.com"`
+
+3. **Code Editor/IDE Setup**
+   - Recommend VS Code (code.visualstudio.com) for beginners
+   - Suggest extensions: "TypeScript", "Vite"
+   - Help them open terminal in VS Code (Ctrl+` or View > Terminal)
+
+4. **Terminal/Command Line Access**
+   - Windows: PowerShell, Command Prompt, or Git Bash
+   - Mac/Linux: Terminal
+   - Help them navigate to project directory with `cd` commands
+
+5. **Creating Project Directory**
+   - Help them create a folder for their project
+   - Navigate to it in terminal: `cd path/to/project`
+
+Once environment is ready, proceed with the OnlyWorlds-specific setup below.
+
+=========================================================
+
+ONLYWORLDS SDK QUICK START
+===========================
+
 Get from zero to working OnlyWorlds tool in 5 minutes.
 
 PREREQUISITES
 -------------
-- Node.js 18+ installed
+- Node.js 18+ installed (run `node --version` to check)
 - OnlyWorlds account at onlyworlds.com
 
 GET API CREDENTIALS
 -------------------
 1. Sign up at onlyworlds.com
-2. Go to Profile ’ API Credentials
+2. Go to Profile ï¿½ API Credentials
 3. Copy your API Key and PIN
 
 IMPORTANT: API keys are world-scoped. One key = one world. You never need to specify a world ID.
