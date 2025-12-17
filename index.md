@@ -11,7 +11,7 @@ Build or migrate [worlds](https://onlyworlds.com/worlds) using [provided tools](
 
 Your [feedback](/docs/contact/) is instrumental to improving the langauge and infrastructure.
 
-Take an [interactive introduction](https://ecosystem-explorer.onlyworlds.com) (best on desktop) or [get started](/docs/getting-started/) with your first world and migration. 
+Take an [interactive introduction](https://explorer.onlyworlds.com) (best on desktop) or [get started](/docs/getting-started/) with your first world and migration. 
 
 
 

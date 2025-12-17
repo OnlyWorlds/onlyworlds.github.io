@@ -140,7 +140,7 @@ has_toc: false
       <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.5; margin-left: auto;">computer</span>
       <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.5;">smartphone</span>
     </div>
-    <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">offline/local world creation, editing</div>
+    <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">personal worlds manager: local/offline and GitHub</div>
   </div>
 
   <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
