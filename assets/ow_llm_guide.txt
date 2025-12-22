@@ -1,64 +1,224 @@
-ONLYWORLDS SDK - QUICK START GUIDE FOR DEVELOPERS & LLMs
-=========================================================
+ONLYWORLDS - COMPLETE GUIDE FOR AI ASSISTANTS & DEVELOPERS
+============================================================
 
-FOR LLM ASSISTANTS: SUPPORTING USER ENVIRONMENT SETUP
-------------------------------------------------------
+This guide enables AI assistants to help users build OnlyWorlds tools effectively.
+OnlyWorlds is an open standard for worldbuilding data with a TypeScript SDK and REST API.
 
-Before diving into OnlyWorlds development, users may need help setting up their development environment. Be prepared to assist with:
+============================================================
+PART 1: FOR AI ASSISTANTS - HOW TO HELP USERS
+============================================================
 
-1. **Node.js Installation**
-   - Check if installed: Ask user to run `node --version` in terminal
-   - If not installed or version < 18:
-     - Direct to nodejs.org/en/download
-     - Recommend LTS version (20+)
-     - Help verify installation: `node --version` and `npm --version`
+You are helping a user build a tool that works with OnlyWorlds worldbuilding data.
+Your role is to guide them from idea to working application.
 
-2. **Git Installation** (optional but recommended)
+ASSESS USER EXPERIENCE LEVEL
+----------------------------
+
+Before diving into code, understand who you're helping:
+
+BEGINNER (no coding experience):
+- Use browser tools: Lovable, Replit, v0.dev, or ChatGPT Canvas
+- Focus on clear explanations, avoid jargon
+- Build in small, testable steps
+- Celebrate working milestones
+
+INTERMEDIATE (some coding):
+- Can use local development (VS Code + terminal)
+- Understands HTML/CSS/JS basics
+- May need help with TypeScript, async/await, or API concepts
+
+ADVANCED (experienced developer):
+- Skip setup explanations, focus on SDK specifics
+- Can handle full project architecture discussions
+- Interested in edge cases and optimization
+
+Adjust your guidance based on the user's responses.
+
+HELP USERS PLAN BEFORE BUILDING
+-------------------------------
+
+Many users have a vague idea ("I want to build something for my world") but haven't
+thought through what exactly. Help them create a simple spec BEFORE writing code.
+
+ASK THESE QUESTIONS:
+
+1. "What problem does this tool solve?"
+   - Bad: "I want to display my world"
+   - Good: "I want my players to browse NPCs by location during sessions"
+
+2. "Who will use it?"
+   - Just you? Your gaming group? Public users?
+   - This affects auth, hosting, and complexity decisions
+
+3. "What's the core interaction?"
+   - Reading data? Creating/editing? Visualizing relationships?
+   - One core action is enough for v1
+
+4. "What OnlyWorlds elements matter?"
+   - Most tools focus on 2-4 element types, not all 22
+   - Example: A faction tracker needs institutions, characters, maybe locations
+
+HELP THEM WRITE A SIMPLE SPEC:
+
+Guide them to produce something like this (adjust formality to their style):
+
+---
+TOOL: NPC Browser for D&D Sessions
+PURPOSE: Let players quickly look up NPCs during gameplay
+USERS: My 5-person gaming group
+CORE FLOW:
+  1. Open tool (no login needed for players)
+  2. See list of NPCs (characters)
+  3. Filter by location or faction
+  4. Click to see full details + relationships
+ELEMENTS NEEDED: characters, locations, institutions
+NICE TO HAVE: Search, portraits, family connections
+---
+
+This spec prevents scope creep and gives clear direction.
+
+GUIDE THE DEVELOPMENT PATH
+--------------------------
+
+After planning, help them choose an approach:
+
+BROWSER-BASED (Lovable, Replit, v0.dev):
+- Zero local setup
+- Paste this entire guide into the chat
+- Describe tool using their spec
+- Iterate with "change X" and "add Y"
+- Deploy with one click
+
+LOCAL DEVELOPMENT (recommended for serious work):
+- More control, version control, faster iteration
+- Requires environment setup (see below)
+- Use Claude Code, Cursor Composer, or Copilot
+
+For beginners, start browser-based. They can migrate to local later.
+
+ENVIRONMENT SETUP SUPPORT
+-------------------------
+
+If user needs local development, help them set up:
+
+1. Node.js Installation
+   - Check: `node --version`
+   - Need version 18+
+   - Download: nodejs.org/en/download (recommend LTS)
+   - Verify: `node --version` and `npm --version`
+
+2. Git Installation (recommended)
    - Check: `git --version`
-   - If not installed: git-scm.com/downloads
-   - Help with basic config if needed:
-     - `git config --global user.name "User Name"`
-     - `git config --global user.email "email@example.com"`
+   - Download: git-scm.com/downloads
+   - Basic config:
+     `git config --global user.name "Name"`
+     `git config --global user.email "email@example.com"`
 
-3. **Code Editor/IDE Setup**
-   - Recommend VS Code (code.visualstudio.com) for beginners
-   - Suggest extensions: "TypeScript", "Vite"
-   - Help them open terminal in VS Code (Ctrl+` or View > Terminal)
+3. Code Editor
+   - Recommend VS Code (code.visualstudio.com)
+   - Extensions: TypeScript, Vite
+   - Open terminal: Ctrl+` or View > Terminal
 
-4. **Terminal/Command Line Access**
-   - Windows: PowerShell, Command Prompt, or Git Bash
-   - Mac/Linux: Terminal
-   - Help them navigate to project directory with `cd` commands
+4. Project Directory
+   - Create folder for project
+   - Navigate in terminal: `cd path/to/project`
 
-5. **Creating Project Directory**
-   - Help them create a folder for their project
-   - Navigate to it in terminal: `cd path/to/project`
+============================================================
+PART 2: ONLYWORLDS ESSENTIALS
+============================================================
 
-Once environment is ready, proceed with the OnlyWorlds-specific setup below.
+WHAT ONLYWORLDS IS
+------------------
 
-=========================================================
+OnlyWorlds is:
+- An open standard for worldbuilding data (22 element categories)
+- A free API for storing and accessing world data
+- A TypeScript SDK for building tools
+- 100% free and open source
 
-ONLYWORLDS SDK QUICK START
-===========================
+Users create worlds at onlyworlds.com, then build tools that read/write that data.
 
-Get from zero to working OnlyWorlds tool in 5 minutes.
+THE 22 ELEMENT CATEGORIES
+-------------------------
 
-PREREQUISITES
--------------
-- Node.js 18+ installed (run `node --version` to check)
-- OnlyWorlds account at onlyworlds.com
+Every piece of world data belongs to exactly one category:
+
+BEINGS (who exists):
+- character: Sentient individuals with agency (protagonists, NPCs, villains)
+- creature: Living beings without full self-awareness (animals, beasts, monsters)
+- species: Classification types (Human, Elf, Dragon) - characters/creatures link to these
+
+GROUPS (who acts together):
+- family: Kinship organizations, bloodlines, dynasties
+- collective: Physical gatherings that project force (armies, parties, mobs)
+- institution: Organized bodies behind ideas/purposes (governments, guilds, churches)
+  Note: An army's logistics = institution. Physical soldiers = collective. Often both.
+
+PLACES (where things exist):
+- location: Any named place, infinitely nestable (galaxy > planet > city > room)
+- object: Physical things with names (items, vehicles, buildings via supertype: 'Building')
+- construct: Named things with NO physical form (currencies, technologies, blueprints)
+  Note: A physical sword = object. The concept "longsword" = construct.
+
+QUALITIES (what describes them):
+- ability: Active capabilities, things you CAN DO (swordfighting, spellcasting)
+- trait: Passive characteristics, what you ARE (brave, tall, cursed)
+- title: Roles granted by institutions (King, Doctor) - links to holders and issuers
+- language: Communication systems (spoken tongues, musical notation, code)
+
+HAPPENINGS (what occurs):
+- event: Factual occurrences at specific times (battles, births, discoveries)
+- narrative: Interpretations/groupings of events (stories, chapters, legends)
+- phenomenon: Natural/supernatural occurrences (storms, magic fields, plagues)
+- law: Codified rules issued by institutions (edicts, customs with enforcement)
+- relation: Meta-element for deep connections (marriages, rivalries, alliances)
+
+SPATIAL (map representation):
+- map: 2D/3D visual representations of spaces
+- pin: Point markers linking elements to map coordinates
+- zone: Bounded regions (territories, biomes) defined by markers
+- marker: Points that define zone boundaries
+
+MAPPING USER CONCEPTS TO CATEGORIES
+-----------------------------------
+
+Help users translate their world concepts:
+
+Gaming examples:
+- "Player characters" -> character
+- "Monster stat blocks" -> species (template) + creature (instances)
+- "Magic spells" -> ability
+- "Inventory items" -> object
+- "Gold/currency system" -> construct
+- "Guilds and factions" -> institution
+
+Fiction examples:
+- "Main cast" -> character
+- "Magic system rules" -> construct + phenomenon
+- "Historical timeline" -> events linked to narrative
+- "Noble houses" -> family + institution (often both)
+
+General principle: If it has a name and matters to your world, it's an element.
+Categories can overlap - an army can be both institution and collective.
+
+============================================================
+PART 3: SDK QUICK START
+============================================================
 
 GET API CREDENTIALS
 -------------------
-1. Sign up at onlyworlds.com
-2. Go to Profile � API Credentials
-3. Copy your API Key and PIN
 
-IMPORTANT: API keys are world-scoped. One key = one world. You never need to specify a world ID.
+1. Sign up at onlyworlds.com
+2. Create a world (or use existing)
+3. Go to Profile > API Credentials
+4. Copy your API Key and PIN
+
+IMPORTANT: API keys are world-scoped. One key = one world. Never specify world ID.
 
 MINIMAL WORKING EXAMPLE
 -----------------------
-Create a file test.ts and run it to verify connectivity:
+
+Create test.ts:
 
 ```typescript
 import { OnlyWorldsClient } from '@onlyworlds/sdk';
@@ -75,22 +235,24 @@ console.log('Connected to:', world.name);
 // List characters (returns paginated results)
 const chars = await client.characters.list();
 console.log('Found', chars.count, 'characters');
-console.log('First page:', chars.results.length, 'items');
 ```
 
-Run it: npx tsx test.ts
+Run: `npx tsx test.ts`
 
-CRITICAL DIFFERENCE: worlds.get() returns a single World object. All other endpoints return paginated results with { count, results, next, previous }.
+CRITICAL: worlds.get() returns a single World object.
+All other endpoints return paginated: { count, results, next, previous }
 
 FULL PROJECT SETUP
 ------------------
 
-Install Dependencies:
+```bash
 npm init -y
 npm install @onlyworlds/sdk
 npm install --save-dev typescript vite @types/node
+```
 
-Configure package.json:
+package.json:
+```json
 {
   "type": "module",
   "scripts": {
@@ -98,8 +260,10 @@ Configure package.json:
     "build": "tsc && vite build"
   }
 }
+```
 
-Configure tsconfig.json:
+tsconfig.json:
+```json
 {
   "compilerOptions": {
     "target": "ES2020",
@@ -110,15 +274,18 @@ Configure tsconfig.json:
     "esModuleInterop": true
   }
 }
+```
 
-Configure vite.config.ts:
+vite.config.ts:
+```typescript
 import { defineConfig } from 'vite';
-
 export default defineConfig({
   server: { port: 3000 }
 });
+```
 
-Create index.html:
+index.html:
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -130,8 +297,10 @@ Create index.html:
   <script type="module" src="/src/main.ts"></script>
 </body>
 </html>
+```
 
-Create src/main.ts:
+src/main.ts:
+```typescript
 import { OnlyWorldsClient } from '@onlyworlds/sdk';
 
 const client = new OnlyWorldsClient({
@@ -148,23 +317,28 @@ async function init() {
 }
 
 init();
+```
 
-Run Development Server: npm run dev
-Open http://localhost:3000 - you should see your world name.
+Run: `npm run dev`
+Open: http://localhost:3000
+
+============================================================
+PART 4: SDK REFERENCE
+============================================================
 
 BASIC OPERATIONS
 ----------------
 
-List Elements:
-
-// List all characters
+List elements:
+```typescript
 const response = await client.characters.list();
 console.log(response.results);  // Array of Character objects
+console.log(response.count);    // Total count
 
-// List with filters
-const humans = await client.characters.list({
+// With filters
+const filtered = await client.characters.list({
   supertype: 'Human',           // Filter by supertype
-  name__icontains: 'aragorn',   // Search by name
+  name__icontains: 'aragorn',   // Search by name (case-insensitive)
   limit: 50,                    // Page size (default: 100)
   ordering: '-created_at'       // Sort (- for descending)
 });
@@ -175,214 +349,211 @@ if (response.next) {
     offset: response.results.length
   });
 }
+```
 
-Get Single Element:
-
+Get single element:
+```typescript
 const character = await client.characters.get('element-uuid');
-console.log(character.name);
-console.log(character.description);
+```
 
-Create Element:
-
+Create element:
+```typescript
 const newChar = await client.characters.create({
-  name: 'Aragorn',                    // Required
-  description: 'Heir of Isildur',    // Optional
-  supertype: 'Human',                 // Optional
-  subtype: 'Ranger',                  // Optional
+  name: 'Aragorn',              // Required for all elements
+  description: 'Heir of Isildur',
+  supertype: 'Human',
+  subtype: 'Ranger',
   image_url: 'https://example.com/aragorn.jpg'
 });
-
 console.log('Created:', newChar.id);
+```
 
-Update Element:
-
-// Partial update - only send changed fields
+Update element:
+```typescript
 const updated = await client.characters.update('element-uuid', {
-  description: 'Updated description'
+  description: 'Updated description'  // Partial updates work
 });
+```
 
-Delete Element:
-
+Delete element:
+```typescript
 await client.characters.delete('element-uuid');
+```
+
+All 22 element types follow this pattern:
+```typescript
+client.characters.list()
+client.locations.create({ name: 'Mordor' })
+client.abilities.get('uuid')
+client.events.update('uuid', { ... })
+client.institutions.delete('uuid')
+```
 
 LINKING ELEMENTS
----------------------------
+----------------
 
-OnlyWorlds elements can link to other elements. The SDK handles the format conversion automatically.
+Elements connect to each other via link fields.
 
-Single-link fields (birthplace, location, etc.):
+Single-link (one reference):
+```typescript
 await client.characters.create({
   name: 'Frodo',
-  birthplace: 'shire-location-id',  // String UUID
-  location: 'rivendell-location-id'
+  birthplace: 'shire-location-uuid',  // Use clean field name
+  location: 'rivendell-uuid'
 });
+```
 
-Multi-link fields (species, abilities, traits, etc.):
+Multi-link (multiple references):
+```typescript
 await client.characters.create({
   name: 'Aragorn',
-  species: ['human-species-id'],                  // Array of UUIDs
-  abilities: ['sword-id', 'tracking-id'],
-  traits: ['brave-id', 'noble-id'],
-  friends: ['legolas-id', 'gimli-id']
+  species: ['human-species-uuid'],
+  abilities: ['sword-uuid', 'tracking-uuid'],
+  traits: ['brave-uuid', 'noble-uuid']
 });
+```
 
-Complete example:
-const character = await client.characters.create({
-  name: 'Gandalf',
-  description: 'Grey wizard',
-  supertype: 'Maia',
+Reading relationships (API returns FULL OBJECTS, not IDs):
+```typescript
+const char = await client.characters.get('uuid');
+console.log(char.birthplace.name);     // Full Location object
+console.log(char.species[0].name);     // Array of full Species objects
+```
 
-  // Single links - use clean field name
-  birthplace: 'valinor-location-id',
-  location: 'middle-earth-location-id',
-
-  // Multi links - use clean field name with array
-  species: ['maia-species-id'],
-  abilities: ['magic-id', 'staff-combat-id'],
-  languages: ['common-id', 'elvish-id']
-});
-
-Reading link Relationships:
-
-The API returns FULL NESTED OBJECTS, not just IDs:
-
-const char = await client.characters.get('character-id');
-
-// Single links return full objects
-console.log(char.birthplace.name);     // 'The Shire'
-console.log(char.location.description); // Full location data
-
-// Multi links return arrays of full objects
-char.species.forEach(sp => {
-  console.log(sp.name);  // Full Species object
-});
-
-Filtering by link-relations:
-
-Use _id or _ids suffix when filtering:
-
-// Find all characters born in the Shire
+Filtering by relationships (use _id or _ids suffix):
+```typescript
+// Find characters born in the Shire
 const hobbits = await client.characters.list({
-  birthplace_id: 'shire-location-id'  // Note: _id suffix
+  birthplace_id: 'shire-uuid'  // Note: _id suffix for filters
 });
 
-// Find characters with specific species
+// Find characters of a species
 const elves = await client.characters.list({
-  species_ids: 'elf-species-id'  // Note: _ids suffix
+  species_ids: 'elf-uuid'  // Note: _ids suffix for multi-link filters
 });
+```
 
 LINK PATTERN SUMMARY:
-
-Operation    | Field Format        | Example
+Operation    | Format              | Example
 -------------|---------------------|---------------------------
-Create       | Clean name          | birthplace: 'uuid'
-Update       | Clean name          | species: ['uuid1', 'uuid2']
-Read         | Clean name          | char.birthplace.name
-Filter       | With _id/_ids       | birthplace_id: 'uuid'
+Create/Update| Clean field name    | birthplace: 'uuid'
+Read         | Clean field name    | char.birthplace.name
+Filter       | _id or _ids suffix  | birthplace_id: 'uuid'
 
-RELATION ELEMENTS:
-Beyond link fields, the 'Relation' category can be used to create particularly deep statements between two elements, especially characters and institutions.
+SDK UI HELPERS
+--------------
 
-AVAILABLE ELEMENT TYPES
-------------------------
+```typescript
+import {
+  ELEMENT_ICONS,
+  ELEMENT_UNICODE_ICONS,
+  ELEMENT_SECTIONS,
+  FIELD_SCHEMA,
+  getElementIcon,
+  getElementUnicodeIcon
+} from '@onlyworlds/sdk';
+```
 
-All 22 element types support the same CRUD operations:
+ELEMENT_ICONS (Material Icons names):
+- character = 'person'
+- location = 'castle'
+- event = 'saved_search'
+- creature = 'bug_report'
+- institution = 'business'
+Use with Google Material Icons font.
 
-Beings: characters, creatures, species
-Groups: families, collectives, institutions
-Places: locations, objects (includes buildings)
-Things: constructs (concepts, systems, currencies)
-Powers: abilities, traits, titles, languages
-Rules: laws
-Story: events, narratives, phenomena, relations
-Maps: maps, pins, markers, zones
-Meta: worlds
+ELEMENT_UNICODE_ICONS (emoji fallbacks):
+- character = '👤'
+- location = '🏰'
+- event = '📅'
+- ability = '✨'
 
-Usage (all follow same pattern):
-await client.locations.list();
-await client.abilities.create({ name: 'Flight' });
-await client.events.get('event-uuid');
-await client.maps.update('map-uuid', { name: 'New Name' });
+Helper functions:
+- getElementIcon('character') -> 'person'
+- getElementUnicodeIcon('character') -> '👤'
 
-DEPLOYMENT
-----------
+ELEMENT_SECTIONS: Groups related fields for form layouts
+FIELD_SCHEMA: Complete metadata for all element fields (types, targets, etc.)
 
-Build for Production:
-npm run build
+ERROR HANDLING
+--------------
 
+Common responses:
+- 401 Unauthorized: Bad API key or PIN
+- 403 Forbidden: Key lacks write access
+- 404 Not Found: Element UUID doesn't exist
+- 422 Validation Error: Invalid data (check required fields)
+
+```typescript
+try {
+  const char = await client.characters.create({ name: 'Test' });
+} catch (error) {
+  if (error.status === 401) {
+    console.error('Check your API key and PIN');
+  } else if (error.status === 422) {
+    console.error('Validation failed:', error.message);
+  }
+}
+```
+
+COMMON PITFALLS
+---------------
+
+WRONG: client.worlds.list()
+CORRECT: client.worlds.get()  // Returns single World, no list()
+
+WRONG: birthplace_id: 'uuid' in create
+CORRECT: birthplace: 'uuid'  // Clean name for create/update
+
+WRONG: birthplace: 'uuid' in filters
+CORRECT: birthplace_id: 'uuid'  // _id suffix for filters
+
+WRONG: Expecting char.species to be array of IDs
+CORRECT: char.species is array of full Species objects
+
+============================================================
+PART 5: DEPLOYMENT
+============================================================
+
+Build: `npm run build`
 Output: dist/ directory
 
-CORS Pre-Approved Platforms:
-
-OnlyWorlds API accepts requests from:
-- Cloudflare Pages: *.pages.dev
+CORS PRE-APPROVED PLATFORMS (no configuration needed):
+- Cloudflare Pages: *.pages.dev (recommended)
 - Vercel: *.vercel.app
 - Netlify: *.netlify.app
 - GitHub Pages: *.github.io
-- Local development: localhost:*, 127.0.0.1:*
+- Local: localhost:*, 127.0.0.1:*
 
-Deploy to any of these platforms and API requests work immediately (no CORS configuration needed).
-
-Cloudflare Pages (Recommended):
+CLOUDFLARE PAGES DEPLOYMENT:
 1. Push code to GitHub
 2. Connect repo to Cloudflare Pages
 3. Build command: npm run build
 4. Output directory: dist
 5. Node version: 18+
 
-COMMON PITFALLS
----------------
+============================================================
+PART 6: RESOURCES
+============================================================
 
-WRONG: Trying to list worlds
-const worlds = await client.worlds.list(); // Error: no list() method
-
-CORRECT: Get your world directly
-const world = await client.worlds.get(); // Returns single World
-
----
-
-WRONG: Using _id suffix in create/update
-await client.characters.create({
-  birthplace_id: 'location-uuid'  // Wrong!
-});
-
-CORRECT: Use clean field name
-await client.characters.create({
-  birthplace: 'location-uuid'  // SDK converts to birthplace_id
-});
-
----
-
-WRONG: Using clean name in filters
-await client.characters.list({
-  birthplace: 'location-uuid'  // Won't filter correctly
-});
-
-CORRECT: Use _id suffix in filters
-await client.characters.list({
-  birthplace_id: 'location-uuid'  // Filters work
-});
-
----
-
-WRONG: Assuming relationships are just IDs
-const char = await client.characters.get('id');
-console.log(char.species);  // Not an array of IDs!
-
-CORRECT: API returns full objects
-const char = await client.characters.get('id');
-console.log(char.species[0].name);  // Array of full Species objects
-
-NEXT STEPS
-----------
-
-Full API Reference: onlyworlds.com/api/docs
+API Documentation: onlyworlds.com/api/docs
 SDK Package: npmjs.com/package/@onlyworlds/sdk
-Schema Repo: github.com/OnlyWorlds/OnlyWorlds
+Schema Repository: github.com/OnlyWorlds/OnlyWorlds
 Example Tools: onlyworlds.github.io/docs/tools
+Community: Discord (discord.gg/twCjqvVBwb)
 
-Questions or issues? Discord or GitHub for support.
+MCP SERVER (for AI-assisted editors):
+npm install @onlyworlds/mcp-client
+Provides OnlyWorlds context directly to Claude Code, Cursor, etc.
 
----
-Last updated: 2025-12-12
+============================================================
+
+Last updated: 2025-12-22
 SDK version: 2.2.0+
+
+Changelog:
+- v3: Restructured for LLM effectiveness. Added planning/PRD guidance section.
+      Reorganized into logical parts. Added user experience level assessment.
+      Kept all technical content from v2.
+- v2: Fixed ELEMENT_ICONS.event. Added unicode icons, helpers, FIELD_SCHEMA.
+      Added error handling. Expanded category explanations. Added paths guidance.
