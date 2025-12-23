@@ -7,7 +7,7 @@ nav_order: 8
 
 Quick mobile web editor for OnlyWorlds elements.
 
-**URL:** [mobile-crud-base.pages.dev](https://easy-mobile.onlyworlds.com) 
+**URL:** [https://easy-mobile.onlyworlds.com](https://easy-mobile.onlyworlds.com) 
 **Type:** Mobile Web Application
 
 ---
