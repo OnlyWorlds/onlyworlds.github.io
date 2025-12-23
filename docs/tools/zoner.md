@@ -7,7 +7,7 @@ nav_order: 6
 
 Draw zones (polygons and linepoints) on maps using markers.
 
-**URL:** [onlyworlds.com/zoner](https://zoner.onlyworlds.com)
+**URL:** [https://zoner.onlyworlds.com](https://zoner.onlyworlds.com)
 **Type:** Web Application
 
 ---
