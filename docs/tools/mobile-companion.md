@@ -7,7 +7,6 @@ nav_order: 6
 
 The oldest tool available in the tool directory. Designed for easy access to element creation and editing. A unique and strange progression system teaches onlyworlds concepts while you build. An AI assistant prototype provides variation and unexpected behavior. 
 
-**NOTE**: iOS build has expired. New build will be provided 17-10-2025
 **URL:** [iOS TestFlight](https://testflight.apple.com/join/XWTuaack) • [Android APK](https://drive.google.com/file/d/1ZBgudPtApUy6eR-kE0OuMKkGBF61aru0/view?usp=sharing)  
 **Type:** Mobile Application  
  
