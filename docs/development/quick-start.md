@@ -28,7 +28,7 @@ More control, better for ongoing projects.
 
 **AI assistants**
 such as:
-- [Claude Code](https://claude.ai/code) - terminal-based, recommended
+- [Claude Code](https://code.claude.com/docs/en/setup) - terminal-based, recommended
 - [Codex](https://openai.com/codex/) - OpenAI integration
 - [Cursor](https://cursor.com) - IDE with built-in agents
 - [GitHub Copilot](https://github.com/features/copilot) - VS Code extension
