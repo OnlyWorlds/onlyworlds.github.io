@@ -32,9 +32,10 @@ Works with any AI that reads markdown. Optimized for Claude Code. Outputs OnlyWo
 ```bash
 /plugin marketplace add OnlyWorlds/toolkit
 /plugin install toolkit@onlyworlds
+# Restart Claude Code to load
 ```
 
-### Direct
+### Direct (no restart needed)
 
 ```bash
 git clone https://github.com/OnlyWorlds/toolkit
