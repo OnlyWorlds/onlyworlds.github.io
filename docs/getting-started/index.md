@@ -4,26 +4,36 @@ title: getting started
 nav_order: 2
 ---
 
-  
+## Create an account
 
- 
-Sign up at [onlyworlds.com](https://onlyworlds.com/accounts/signup/), go to the world section, then create a world. 
+Sign up at [onlyworlds.com](https://onlyworlds.com/accounts/signup/) and create your first world.
 
-Note the world's auto-generated API key and your PIN from profile page for use across [tools](/docs/tools/).  
+Note your **API key** (World Settings) and **PIN** (Profile) for connecting tools.
 
-Create and edit elements using the onlyworlds.com web interface, or try the [base tool](https://base-tool.onlyworlds.com) for desktop and [easy mobile tool](https://onlyworlds.github.io/write-tool/).
- 
+## Explore tools
 
----
- 
-You can leverage AI to migrate existing work of into OnlyWorlds.  
+**Building tools:**
+- **[Base Tool](https://base-tool.onlyworlds.com)** - Element editor with import, validation, bulk editing
+- **[Map Tool](https://onlyworlds.com/map_tool)** - Visual mapping with pins and markers
+- **[Zoner](https://zoner.onlyworlds.com)** - Define zones and boundaries
 
-**[OnlyWorldsBot](https://chatgpt.com/g/g-dydgDFnOz-onlyworldbot)** identifies OnlyWorlds elements and relations and shapes it into OnlyWorlds JSON. Say 'parse' to activate, then paste your content and iterate using the [**base tool**](https://base-tool.onlyworlds.com)'s validation until the JSON format is correct and complete.  
- 
-Local AI agents such as Claude Code can also be set up for parsing and upload systems. Contact the developer for support or collaboration. 
- 
- 
+**Learning:**
+- **[Explorer](https://explorer.onlyworlds.com)** - Interactive introduction to OnlyWorlds
+- **[Council](https://council.onlyworlds.com)** - Schema governance and community voting *(coming soon)*
 
+See all available [tools](/docs/tools/).
 
+## Work with AI
 
- 
+AI assistants can help convert existing content, manage world data, and build tools.
+
+**[Toolkit](/docs/tools/toolkit)** - Local AI plugin for parsing text into elements, modeling help, API operations, and building your own tools. Works with Claude Code and other local AI tools, or web AI via [GitHub](https://github.com/OnlyWorlds/toolkit).
+
+**[OnlyWorldsBot](https://chatgpt.com/g/g-dydgDFnOz-onlyworldbot)** - ChatGPT assistant for quick questions.
+
+## Build your own
+
+OnlyWorlds is open infrastructure. Build tools, games, visualizations - anything that works with world data.
+
+See [development resources](/docs/development/).
+

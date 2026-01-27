@@ -8,7 +8,7 @@ has_toc: false
 
  
 
-### Available 
+### World Building 
 
 <div style="background: rgba(59, 130, 246, 0.15); border-radius: 8px; padding: 24px; margin: 24px 0;">
   <div style="display: grid; gap: 16px;">
@@ -93,6 +93,17 @@ has_toc: false
 
   <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
     <div style="display: flex; align-items: center; gap: 8px;">
+      <strong><a href="toolkit" style="color: inherit;">toolkit</a></strong>
+      <a href="https://github.com/OnlyWorlds/toolkit" style="opacity: 0.7; font-size: 0.9em;">
+        <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">link</span>
+      </a>
+      <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.5; margin-left: auto;">computer</span>
+    </div>
+    <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">Claude Code plugin for AI-assisted worldbuilding</div>
+  </div>
+
+  <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
+    <div style="display: flex; align-items: center; gap: 8px;">
       <strong><a href="mobile-companion" style="color: inherit;">mobile companion</a></strong>
       <a href="https://testflight.apple.com/join/XWTuaack" style="opacity: 0.7; font-size: 0.9em;">
         <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">link</span>
@@ -116,7 +127,38 @@ has_toc: false
   </div>
 </div>
 
- 
+---
+
+### Learn & Participate
+
+<div style="background: rgba(59, 130, 246, 0.15); border-radius: 8px; padding: 24px; margin: 24px 0;">
+  <div style="display: grid; gap: 16px;">
+
+  <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <strong><a href="explorer" style="color: inherit;">explorer</a></strong>
+      <a href="https://explorer.onlyworlds.com" style="opacity: 0.7; font-size: 0.9em;">
+        <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">link</span>
+      </a>
+      <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.5; margin-left: auto;">computer</span>
+    </div>
+    <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">interactive 3D introduction to OnlyWorlds</div>
+  </div>
+
+  <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <strong><a href="council" style="color: inherit;">council</a></strong>
+      <a href="https://council.onlyworlds.com" style="opacity: 0.7; font-size: 0.9em;">
+        <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">link</span>
+      </a>
+      <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.5; margin-left: auto;">computer</span>
+    </div>
+    <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">schema governance and community voting</div>
+  </div>
+
+  </div>
+</div>
+
 ---
 
 ### Planned

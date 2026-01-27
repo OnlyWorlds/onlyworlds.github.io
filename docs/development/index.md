@@ -5,20 +5,17 @@ nav_order: 5
 has_children: true
 has_toc: false
 ---
-  
 
-OnlyWorlds is open source and license free. Anyone can build tools using AI assistance, and the quick start guide gets you and your assistants running.
+
+OnlyWorlds is open source and license free. Build tools, games, and integrations using AI assistance or traditional development.
 
 ---
 
-**[quick start](quick-start)** - set up for AI-assisted development 
-
+**[tooling](tooling)** - AI-assisted development with the toolkit and other resources
 
 **[schema](schema)** - GitHub repo with core schema specifications (YAML)
 
 **[world api](api-reference)** - API details for world data exchange
 
 **[packages](packages)** - NPM and Python SDKs
-
-**[ai tooling](ai-integration)** - custom GPTs, MCP server, and Context7 library
 
