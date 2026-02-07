@@ -28,8 +28,8 @@ nav_order: 3
 </div>
 
 <div style="border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 1.25rem; background: rgba(255,255,255,0.03);">
-<h3 style="margin-top: 0;">MCP Server</h3>
-<p style="font-size: 0.9rem; margin-bottom: 0.75rem;">Provides OnlyWorlds project and schema context. This context is also in the library of context7 MCP.</p>
+<h3 style="margin-top: 0;">MCP Server </h3>
+<p style="font-size: 0.9rem; margin-bottom: 0.75rem;">A <a href="https://www.onlyworlds.com/mcp/">dedicated OnlyWorlds server</a> provides schema context. Also available in context7 library.</p>
 <p style="margin-bottom: 0;"><code>npm install @onlyworlds/mcp-client</code></p>
 </div>
 
