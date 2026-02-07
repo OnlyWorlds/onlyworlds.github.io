@@ -5,14 +5,10 @@ nav_order: 1
 description: "Welcome to OnlyWorlds"
 --- 
 
-  **OnlyWorlds** is an open data [language](/docs/specification/) for worldbuilding. It defines element [categories](/docs/specification/) with structured fields and relationships, for worlds that are portable across environments and computationally flexible.
+**OnlyWorlds** is an open standard for worldbuilding. It defines 22 element categories with structured fields and relationships. OnlyWorlds-compatible worlds work across tools and support computational use.
 
-Build or migrate [worlds](https://onlyworlds.com/worlds) using [provided tools](/docs/tools/) or consult [development resources](/docs/development/) to create your own. 
-
-Your [feedback](/docs/contact/) is instrumental to improving the langauge and infrastructure.
-
-Take an [interactive introduction](https://explorer.onlyworlds.com) (best on desktop) or [get started](/docs/getting-started/) with your first world and migration. 
-
-
+Create worlds at [onlyworlds.com](https://onlyworlds.com/worlds) for use in [tools](/docs/tools), or [build your own software](/docs/development) with the open API, SDKs, and AI solutions.
+ 
+[Get started](/docs/getting-started) · [Interactive introduction](https://explorer.onlyworlds.com) · [Specification](/docs/specification) · [Contact](/docs/contact)
 
  

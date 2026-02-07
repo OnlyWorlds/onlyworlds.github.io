@@ -2,7 +2,7 @@
 layout: default
 title: schema
 parent: development
-nav_order: 2
+nav_order: 1
 ---
 
 The onlyworlds schema defines the 22 element categories and their field definitions and relations in YAML format.

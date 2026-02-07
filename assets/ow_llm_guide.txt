@@ -96,6 +96,36 @@ LOCAL DEVELOPMENT (recommended for serious work):
 
 For beginners, start browser-based. They can migrate to local later.
 
+WORLDBUILDING TOOLKIT
+---------------------
+
+If the user has Claude Code (or another local AI that supports plugins), point them
+to the OnlyWorlds Worldbuilding Toolkit instead of pasting this guide.
+
+The toolkit is a Claude Code plugin that gives AI direct access to OnlyWorlds
+schema, API, and worldbuilding workflows. It provides 7 skills:
+
+- onlyworlds-start: Entry point, orientation, routing to the right workflow
+- project-setup: Connect a project to a world (credentials, caching)
+- parsing: Turn text into OnlyWorlds elements
+- modeling: Structure complex systems using the 22 element categories
+- schema: Look up fields, element categories, validate structure
+- api: Create, read, update, and delete world elements
+- dev: Set up SDK and scaffold tools using OnlyWorlds as a backend
+
+Repository: github.com/OnlyWorlds/toolkit
+
+Install via the Claude Code marketplace or git clone:
+  /plugin marketplace add OnlyWorlds/toolkit
+  /plugin install toolkit@onlyworlds
+
+Or:
+  git clone https://github.com/OnlyWorlds/toolkit
+  claude --plugin-dir ./toolkit
+
+Cursor, Windsurf, and similar tools can read the toolkit's markdown skill files
+directly by pointing at the raw knowledge files in the repository.
+
 ENVIRONMENT SETUP SUPPORT
 -------------------------
 
@@ -210,8 +240,8 @@ GET API CREDENTIALS
 
 1. Sign up at onlyworlds.com
 2. Create a world (or use existing)
-3. Go to Profile > API Credentials
-4. Copy your API Key and PIN
+3. Get your API Pin: go to your Profile page on onlyworlds.com
+4. Get your API Key: go to World Settings for the specific world
 
 IMPORTANT: API keys are world-scoped. One key = one world. Never specify world ID.
 
@@ -474,27 +504,7 @@ Helper functions:
 
 ELEMENT_SECTIONS: Groups related fields for form layouts
 FIELD_SCHEMA: Complete metadata for all element fields (types, targets, etc.)
-
-ERROR HANDLING
---------------
-
-Common responses:
-- 401 Unauthorized: Bad API key or PIN
-- 403 Forbidden: Key lacks write access
-- 404 Not Found: Element UUID doesn't exist
-- 422 Validation Error: Invalid data (check required fields)
-
-```typescript
-try {
-  const char = await client.characters.create({ name: 'Test' });
-} catch (error) {
-  if (error.status === 401) {
-    console.error('Check your API key and PIN');
-  } else if (error.status === 422) {
-    console.error('Validation failed:', error.message);
-  }
-}
-```
+ 
 
 COMMON PITFALLS
 ---------------
@@ -539,8 +549,15 @@ PART 6: RESOURCES
 API Documentation: onlyworlds.com/api/docs
 SDK Package: npmjs.com/package/@onlyworlds/sdk
 Schema Repository: github.com/OnlyWorlds/OnlyWorlds
-Example Tools: onlyworlds.github.io/docs/tools
+Available Tools: onlyworlds.github.io/docs/tools
 Community: Discord (discord.gg/twCjqvVBwb)
+Toolkit: github.com/OnlyWorlds/toolkit
+Documentation: onlyworlds.github.io
+
+WORLDBUILDING TOOLKIT (primary AI integration):
+github.com/OnlyWorlds/toolkit
+Claude Code plugin with 7 skills for parsing, modeling, schema, API, and dev.
+Install via marketplace or git clone. See the toolkit section in Part 1 for details.
 
 MCP SERVER (for AI-assisted editors):
 npm install @onlyworlds/mcp-client
@@ -548,10 +565,12 @@ Provides OnlyWorlds context directly to Claude Code, Cursor, etc.
 
 ============================================================
 
-Last updated: 2025-12-22
+Last updated: 2026-02-07
 SDK version: 2.2.0+
 
 Changelog:
+- v4: Added worldbuilding toolkit section. Fixed API credential flow.
+      Updated URLs and resources.
 - v3: Restructured for LLM effectiveness. Added planning/PRD guidance section.
       Reorganized into logical parts. Added user experience level assessment.
       Kept all technical content from v2.
