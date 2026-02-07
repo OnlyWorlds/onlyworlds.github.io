@@ -18,7 +18,7 @@ The [map tool](https://onlyworlds.com/map_tool) and [zoner](https://zoner.onlywo
 
 Learn more about the project and language in the [explorer tool](https://explorer.onlyworlds.com), and voice your thoughts and needs in the [council](https://council.onlyworlds.com).
 
-For a complete list of tools, see [onlyworlds.com/tools](https://onlyworlds.com/tools) or the [tool directory](/docs/tools/) in these docs. 
+Find all available tools in the [tool directory](/docs/tools/). 
 
  
 
