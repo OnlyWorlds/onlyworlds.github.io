@@ -1,6 +1,6 @@
 ---
 layout: default
-title: ai
+title: AI
 parent: development
 nav_order: 3
 ---

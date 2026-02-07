@@ -15,6 +15,6 @@ OnlyWorlds is open source and license free. Build tools, games, and integrations
 
 **[world api](api-reference)** - API details for world data exchange
 
-**[ai](ai)** - AI tools for working with world data, including the worldbuilding toolkit
+**[AI](ai)** - AI tools for working with world data, including the worldbuilding toolkit
 
 **[packages](packages)** - NPM and Python SDKs
