@@ -7,9 +7,9 @@ nav_order: 1
 
 ## Worldbuilding Toolkit
 
-Parse text into structured world data. Model systems. Build tools.
+A local AI toolkit for worldbuilding with structured data. Turn text into queryable elements, design complex systems, build tools that use world data as a backend.
 
-Works with any AI that reads markdown. Optimized for Claude Code. Outputs OnlyWorlds format.
+Native plugin for Claude Code. Also works with other local AI systems, through skill and/or knowledge files. 
 
 **Repository**: [github.com/OnlyWorlds/toolkit](https://github.com/OnlyWorlds/toolkit)
 
@@ -17,25 +17,33 @@ Works with any AI that reads markdown. Optimized for Claude Code. Outputs OnlyWo
 
 ## What It Does
 
-**Parsing** extracts world elements from any text. Paste a paragraph, a chapter, a folder of campaign notes. Characters, locations, factions, items, events come out as linked JSON ready to import. The toolkit applies OnlyWorlds schema knowledge to avoid hallucinated fields and handles messy, contradictory sources.
+**Get oriented**: New to OnlyWorlds? The toolkit explains what OnlyWorlds is, what it can do, and routes you to the right workflow.
 
-**Modeling** is design consultation. "How do I represent a magic system where some people have innate gifts and others learn spells?" The toolkit understands compositional worldbuilding - one concept often becomes multiple connected elements (Construct for the system, Ability for spells, Trait for gifts, Phenomenon for effects).
+**Connect projects**: Set up `.ow/` folder with credentials and world cache for ongoing work. Supports multiple worlds per project.
 
-**Building** uses OnlyWorlds as a headless backend. Your world data lives in the cloud with REST API access. Fetch characters, locations, relationships - render them however you want. No database to manage, no server to run. The dev skill scaffolds projects and handles SDK setup.
+**Parse text**: Convert xisting world data, stories you wrote, campaign notes, or any other text into queryable JSON ready for import.
+
+**Model systems**: Get recommendations for representing magic systems, empires, tech trees, or other complex structures. Which element types? How do they connect?
+
+**Build tools**: Scaffold projects that use OnlyWorlds as a backend. Your world data lives in the cloud with REST API access. Build games, visualizations, editors without managing a database.
+
+**Reference schema**: Look up fields, validate structure, check what exists. The full OnlyWorlds schema (22 element types, all fields) available on demand.
+
+**Sync data**: Create, read, update, and delete elements in your world via API.
 
 ---
 
-## Install (Claude Code)
+## Install
 
-### Marketplace
+### Via Marketplace
 
 ```bash
 /plugin marketplace add OnlyWorlds/toolkit
 /plugin install toolkit@onlyworlds
-# Restart Claude Code to load
+# Restart Claude Code
 ```
 
-### Direct (no restart needed)
+### Direct Install
 
 ```bash
 git clone https://github.com/OnlyWorlds/toolkit
@@ -46,45 +54,50 @@ claude --plugin-dir ./toolkit
 
 ## Skills
 
-| Skill | Purpose |
+| Skill | Use Case |
 |-------|---------|
-| **parsing** | Text to OnlyWorlds elements |
-| **modeling** | Design consultation |
-| **schema** | Field reference (auto-loads) |
-| **api** | CRUD operations |
-| **dev** | SDK and deployment |
+| **onlyworlds-start** | New to OnlyWorlds? Start here for orientation |
+| **project-setup** | Connect your project to your world (credentials, caching) |
+| **parsing** | Turn text into OnlyWorlds elements |
+| **modeling** | Figure out how to structure complex systems |
+| **schema** | Look up fields and element types |
+| **api** | Create, update, or delete elements |
+| **dev** | Set up SDK and build tools |
 
 ---
 
 ## Usage
 
+**First time?** Say "OnlyWorlds" or use `/onlyworlds-start` to get oriented.
+
+**Connecting a project?** Use `/project-setup` to create `.ow/` folder with credentials and world cache.
+
+**Parsing or modeling?** Just ask:
+
 ```
-"Parse this" + text, files, folders
-"How do I model a magic system?"
+"Parse this text: [paste text]"
+"How should I model a magic system with learned and innate abilities?"
 "What fields does Character have?"
+"Create a new Location in my world"
+"Build a quiz tool using my world data"
 ```
 
----
-
-## Other AI Options
-
-**Any AI + raw files** - Point at the knowledge files:
-- [schema-reference.md](https://raw.githubusercontent.com/OnlyWorlds/toolkit/main/knowledge/schema-reference.md)
-- [modeling-patterns.md](https://raw.githubusercontent.com/OnlyWorlds/toolkit/main/knowledge/modeling-patterns.md)
-- [onlyworlds-core.md](https://raw.githubusercontent.com/OnlyWorlds/toolkit/main/knowledge/onlyworlds-core.md)
-
-**Browser AI** - Paste the <a href="/assets/ow_llm_guide.txt" download>LLM guide</a> into chat.
-
-**[OnlyWorldsBot](https://chatgpt.com/g/g-dydgDFnOz-onlyworldbot)** - ChatGPT assistant for quick questions.
-
-**[MCP Server](https://onlyworlds.com/mcp)** - Schema/API access for Claude Desktop, Cursor. `npm install @onlyworlds/mcp-client`
+Skills load automatically when needed, or invoke directly with `/skill-name`.
 
 ---
 
-## Manual Development
+## Alternative Access
 
-Standard setup without AI:
+**Other local AI tools**:
+- **Cursor / Windsurf**: Point at raw toolkit files - they read markdown skills directly
+- **Knowledge files**: [schema-reference.md](https://raw.githubusercontent.com/OnlyWorlds/toolkit/main/knowledge/schema-reference.md), [modeling-patterns.md](https://raw.githubusercontent.com/OnlyWorlds/toolkit/main/knowledge/modeling-patterns.md)
+- **MCP Server** (Claude Desktop / Cursor): `npm install @onlyworlds/mcp-client`
 
-1. Get API credentials from [onlyworlds.com](https://onlyworlds.com) (Profile → PIN, World Settings → API Key)
+**Browser-based**:
+- [OnlyWorldsBot](https://chatgpt.com/g/g-dydgDFnOz-onlyworldbot) - ChatGPT custom GPT for quick parsing/questions
+- <a href="/assets/ow_llm_guide.txt" download>LLM guide</a> - paste into any AI chat for basic support
+
+**Manual development** (no AI):
+1. Get credentials: **Profile → PIN**, **World Settings → API Key**
 2. Install SDK: `npm install @onlyworlds/sdk`
 3. See [API Reference](/docs/development/api-reference) and [SDK docs](https://www.npmjs.com/package/@onlyworlds/sdk)

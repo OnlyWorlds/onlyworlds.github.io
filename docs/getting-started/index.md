@@ -19,7 +19,7 @@ Note your **API key** (World Settings) and **PIN** (Profile) for connecting tool
 
 **Learning:**
 - **[Explorer](https://explorer.onlyworlds.com)** - Interactive introduction to OnlyWorlds
-- **[Council](https://council.onlyworlds.com)** - Schema governance and community voting *(coming soon)*
+- **[Council](https://council.onlyworlds.com)** - Schema governance and community voting 
 
 See all available [tools](/docs/tools/).
 
