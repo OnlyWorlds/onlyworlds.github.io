@@ -39,7 +39,7 @@ nav_order: 3
 
 ## OnlyWorlds toolkit
 
-Claude Code plugin with interactive skills for general world building development with OnlyWorlds integration. Works in other local AI tools via its skills and/or knowledge files.
+Most powerful solution: a Claude Code plugin for world building development and OnlyWorlds integration & handling. Its skills and knowledge files can be used by other types of local or web agents as well.
 
 **Repository**: [github.com/OnlyWorlds/toolkit](https://github.com/OnlyWorlds/toolkit)
 
