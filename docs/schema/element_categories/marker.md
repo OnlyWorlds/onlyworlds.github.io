@@ -15,7 +15,7 @@ A Marker is a special Map element. Groups of Markers, each at a specific coordin
 Markers are for painting the Zones of your world. They interact with:
 
 - **Maps** (Markers exist on only one map at a time)
-- **Zones** (A mininum of three Markers together defines one Zone)
+- **Zones** (A minimum of three Markers together defines one Zone)
 
 They are distinct from:
 

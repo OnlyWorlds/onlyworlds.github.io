@@ -37,7 +37,7 @@ Events are about what happens. The rest of the schema gives it meaning, context,
 - **Consequences**: Outcomes and impacts resulting from the event
 - **Start_date** (#): Date on which the event began
 - **End_date** (#): Date on which the event concluded
-- **Triggers** (multi-link: Event): Events that eventuated the event
+- **Triggers** (multi-link: Event): Events that precipitated this event
 
 ### Involves
 - **Characters** (multi-link: Character): Key characters relevant to the event
@@ -51,7 +51,7 @@ Events are about what happens. The rest of the schema gives it meaning, context,
 - **Zones** (multi-link: Zone): Zones relevant to the event
 - **Abilities** (multi-link: Ability): Abilities relevant to the event
 - **Phenomena** (multi-link: Phenomenon): Natural or supernatural phenomena relevant to the event
-- **Languages** (multi-link: Language): No description available.
+- **Languages** (multi-link: Language): Languages relevant to the event
 - **Families** (multi-link: Family): Families relevant to the event
 - **Relations** (multi-link: Relation): Interpersonal or political relations relevant to the event
 - **Titles** (multi-link: Title): Titles relevant to the event

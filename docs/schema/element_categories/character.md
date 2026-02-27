@@ -25,7 +25,7 @@ They are distinct from:
 - **Creatures** (which lack reasoned choices or structured goals)  
 - **Collectives** (which model group entities without individual agency)  
  
-[Character discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Character)
+[Character discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/character)
 
 ---
 ### Constitution

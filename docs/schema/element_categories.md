@@ -37,7 +37,7 @@ Each element has a unique identifier (UUIDv7), base fields (name, description, i
 
 **[object](/docs/schema/element_categories/object)** - Named items and things
 
-**[construct](/docs/schema/element_categories/construct)** - Built structures and abstract concepts
+**[construct](/docs/schema/element_categories/construct)** - Abstract or conceptual structures and frameworks
 
 **[title](/docs/schema/element_categories/title)** - Social roles and positions
 

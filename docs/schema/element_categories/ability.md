@@ -25,7 +25,7 @@ They are distinct from:
 - **Traits** (which describe qualities, not actions)   
 - **Events** (which describe outcomes or occurrences, not repeatable powers)   
 
-[Ability discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/Ability)
+[Ability discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/ability)
 
 ---
 ### Mechanics

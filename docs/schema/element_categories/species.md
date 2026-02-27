@@ -8,7 +8,7 @@ nav_order: 18
 
 <span class="material-symbols-outlined">crib</span>
 
-Species defines a distinct biological or cultural form of life. They help define how life functions or diverges across environments and histories.
+A Species defines a distinct biological or cultural form of life. They help define how life functions or diverges across environments and histories.
 
 --- 
   

@@ -8,7 +8,7 @@ nav_order: 14
  
 <span class="material-symbols-outlined">webhook</span>
 
-Objects are tangible, non-living things that can be made, own, traded or destroyed. They can enable abilities, consume resources, trigger phenomena and shape stories.
+Objects are tangible, non-living things that can be made, owned, traded or destroyed. They can enable abilities, consume resources, trigger phenomena and shape stories.
 
 ---
 
@@ -33,13 +33,13 @@ They are distinct from:
 - **Weight** (#): Approximate or exact mass of the object, defined by world MASS units
 - **Amount** (#): The number of identical units in this object entry
 - **Parent_object** (single-link: Object): Larger object that this one is part of or contained within
-- **Materials** (multi-link: Construct): The phyiscal matter that constitutes the object
-- **Technology** (multi-link: Construct): Mechanisms relating the object's design or operation
+- **Materials** (multi-link: Construct): The physical matter that constitutes the object
+- **Technology** (multi-link: Construct): Mechanisms relating to the object's design or operation
 
 ### Function
 - **Utility**: Intended purpose or primary use of the object
 - **Effects** (multi-link: Phenomenon): Phenomena potentially triggered or emitted on object use
-- **Abilities** (multi-link: Ability): Abilities that the object grant or enables
+- **Abilities** (multi-link: Ability): Abilities that the object grants or enables
 - **Consumes** (multi-link: Construct): What might be used or depleted on object use
 
 ### World

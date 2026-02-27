@@ -3,7 +3,7 @@ layout: default
 title: location
 parent: categories
 grand_parent: schema
-nav_order: 11
+nav_order: 9
 ---
 
 <span class="material-symbols-outlined">castle</span>

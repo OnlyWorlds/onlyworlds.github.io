@@ -5,11 +5,10 @@ parent: categories
 grand_parent: schema
 nav_order: 4
 ---
+
 <span class="material-symbols-outlined">api</span>
 
-
-Constructs are abstract or conceptual structures that exist within a world and can have causal, symbolic, or systemic roles.
-They are non-physical, non-character entities that help explain or organize how the world works. Constructs shape cultures, behaviors, and institutions by providing internal logic or justification for how things work. They are not universal truths, but frameworks that are made, sustained and lost over time.
+Constructs are abstract or conceptual structures that exist within a world and can have causal, symbolic, or systemic roles. They are non-physical, non-character entities that help explain or organize how the world works. Constructs shape cultures, behaviors, and institutions by providing internal logic or justification for how things work. They are not universal truths, but frameworks that are made, sustained and lost over time.
 
 --- 
   
@@ -53,7 +52,7 @@ They are distinct from:
 - **Phenomena** (multi-link: Phenomenon): Phenomena relevant to the construct
 - **Languages** (multi-link: Language): Languages relevant to the construct
 - **Families** (multi-link: Family): Families relevant to the construct
-- **Relations** (multi-link: Relation): No description available.
+- **Relations** (multi-link: Relation): Relations relevant to the construct
 - **Titles** (multi-link: Title): Titles relevant to the construct
 - **Constructs** (multi-link: Construct): Other constructs relevant to the construct
 - **Events** (multi-link: Event): Events relevant to the construct

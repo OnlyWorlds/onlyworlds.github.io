@@ -6,13 +6,9 @@ grand_parent: schema
 nav_order: 10
 ---
 
-*A system of rules and penalties built on claims to authority*
-
-A Law is a formalized set of guidelines or commands that govern the actions of individuals or groups within a specific jurisdiction.  
-
 <span class="material-symbols-outlined">gpp_bad</span>
 
-Laws are formal rules issued by an authority to guide behavior, establish boundaries, or enforce order within a world. They define what is permitted or prohibited, outline consequences for violations, and specify who interprets and enforces them. Laws can be administrative, punitive, or symbolic, and may carry legal, cultural, or spiritual significance. 
+A Law represents a formalized rule or set of guidelines that governs the actions of individuals or groups within a specific jurisdiction. Laws define what is permitted or prohibited, outline consequences for violations, and specify who interprets and enforces them. They can be administrative, punitive, or symbolic, and may carry legal, cultural, or spiritual significance.
 
 ---
 
@@ -37,7 +33,7 @@ They are distinct from:
 - **Purpose**: The intent, motivation, or justification for the law's creation
 - **Date** (#): Date the law was formally established, in world TIME units
 - **Parent_law** (single-link: Law): A law that this law derives from, modifies, or enhances
-- **Penalties** (multi-link: Construct): Consequences intended to beapplied when the law is contravened
+- **Penalties** (multi-link: Construct): Consequences intended to be applied when the law is contravened
 
 ### World
 - **Author** (single-link: Institution): The institution that created or issued the law
