@@ -1,6 +1,6 @@
 ---
 layout: default
-title: contact
+title: resources
 nav_order: 7
 ---
 
@@ -15,6 +15,7 @@ nav_order: 7
 
 **[OnlyWorldsBot](https://chatgpt.com/g/g-dydgDFnOz-OnlyWorldsBot)** - general questions, development support, data migrations
 
+**[Patreon](https://www.patreon.com/OnlyWorlds)** - support the project
 
 
 

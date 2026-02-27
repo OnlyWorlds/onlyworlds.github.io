@@ -2,7 +2,7 @@
 layout: default
 title: law
 parent: categories
-grand_parent: specification
+grand_parent: schema
 nav_order: 10
 ---
 

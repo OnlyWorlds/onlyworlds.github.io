@@ -2,7 +2,7 @@
 layout: default
 title: object
 parent: categories
-grand_parent: specification
+grand_parent: schema
 nav_order: 14
 ---
  

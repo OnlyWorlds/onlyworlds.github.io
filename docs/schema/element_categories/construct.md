@@ -2,7 +2,7 @@
 layout: default
 title: construct
 parent: categories
-grand_parent: specification
+grand_parent: schema
 nav_order: 4
 ---
 <span class="material-symbols-outlined">api</span>

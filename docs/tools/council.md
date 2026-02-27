@@ -13,6 +13,6 @@ Community governance tool for the OnlyWorlds schema.
 
 ## Overview
 
-Participate in evolving the OnlyWorlds specification through structured voting. Propose motions or amendments for schema changes, vote as a delegate, find precendents, or build prestige through accepted contributions.
+Participate in evolving the OnlyWorlds schema through structured voting. Propose motions or amendments for schema changes, vote as a delegate, find precendents, or build prestige through accepted contributions.
  
 

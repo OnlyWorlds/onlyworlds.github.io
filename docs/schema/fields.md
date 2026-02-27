@@ -1,7 +1,7 @@
 ---
 layout: default
 title: fields
-parent: specification
+parent: schema
 nav_order: 3
 has_toc: false
 ---

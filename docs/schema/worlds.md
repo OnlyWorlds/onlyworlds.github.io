@@ -1,7 +1,7 @@
 ---
 layout: default
 title: worlds
-parent: specification
+parent: schema
 nav_order: 1
 ---
 
@@ -55,4 +55,4 @@ A world is the top-level container for elements, representing a complete setting
 
 ---
 
-Timeline fields integrate with [events](/docs/specification/element_categories/event) and [narratives](/docs/specification/element_categories/narrative).
+Timeline fields integrate with [events](/docs/schema/element_categories/event) and [narratives](/docs/schema/element_categories/narrative).

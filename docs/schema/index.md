@@ -1,6 +1,6 @@
 ---
 layout: default
-title: specification
+title: schema
 nav_order: 3
 has_children: true
 has_toc: false

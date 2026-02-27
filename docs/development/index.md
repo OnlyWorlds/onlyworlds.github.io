@@ -11,7 +11,7 @@ OnlyWorlds is open source and license free. Build tools, games, and integrations
 
 ---
 
-**[schema](schema)** - GitHub repo with core schema specifications (YAML)
+**[schema](schema)** - GitHub repo with core schema definitions (YAML)
 
 **[world api](api-reference)** - API details for world data exchange
 
