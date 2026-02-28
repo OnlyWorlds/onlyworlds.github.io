@@ -115,8 +115,8 @@ has_toc: false
 
   <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
     <div style="display: flex; align-items: center; gap: 8px;">
-      <strong><a href="element-viewer" style="color: inherit;">element viewer</a></strong>
-      <a href="https://little-element-viewer.onlyworlds.com/" style="opacity: 0.7; font-size: 0.9em;">
+      <strong><a href="element-viewer" style="color: inherit;">little lens</a></strong>
+      <a href="https://little-lens.onlyworlds.com/" style="opacity: 0.7; font-size: 0.9em;">
         <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">link</span>
       </a>
       <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.5; margin-left: auto;">computer</span>

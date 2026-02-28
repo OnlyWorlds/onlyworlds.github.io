@@ -8,13 +8,12 @@ nav_order: 9
 Interactive 3D introduction to OnlyWorlds concepts and structure.
 
 **URL:** [explorer.onlyworlds.com](https://explorer.onlyworlds.com)
-**Type:** Learning experience
+**Type:** Learning Experience
 
 ---
 
-## Overview
+## Features
 
-A visual, interactive way to understand how OnlyWorlds works. Navigate through the element types, see relationships, and explore the schema in 3D space.
-
-Best experienced on desktop.
-
+- **3D Navigation** - Explore element types and relationships in 3D space
+- **Schema Visualization** - See how the OnlyWorlds schema connects
+- **Desktop Optimized** - Best experienced on desktop

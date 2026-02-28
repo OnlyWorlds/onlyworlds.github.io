@@ -16,7 +16,7 @@ Supports dual online and offline workflows.
 
 ## Features
 
-- Full CRUD - 22 element types, inline editing, relationship management
-- Dual-Mode - Online (API) or offline (local JSON) with seamless switching
-- AI Chat - OpenAI integration with free daily tokens or personal key
-- Import Pipeline - Validates and resolves AI-parsed world data efectively
+- **Full CRUD** - 22 element types, inline editing, relationship management
+- **Dual-Mode** - Online (API) or offline (local JSON) with seamless switching
+- **AI Chat** - OpenAI integration with free daily tokens or personal key
+- **Import Pipeline** - Validates and resolves AI-parsed world data effectively

@@ -1,18 +1,24 @@
 ---
 layout: default
-title: element viewer
+title: little lens
 parent: tools
 nav_order: 9
 ---
 
-View elements in detail, follow their links, and navigate through a world.
+Browse, search, and explore your world's elements and their connections.
 
-**URL:** [little-element-viewer.onlyworlds.com](https://little-element-viewer.onlyworlds.com/)
-**Type:** Read-only viewer
+**URL:** [little-lens.onlyworlds.com](https://little-lens.onlyworlds.com/)
+**Type:** Read-only Viewer
 
 ---
 
-## Overview
+## Features
 
-A focused tool for browsing world elements. Select an element, see its fields and relationships, click through to linked elements. No editing, no creation: just viewing and navigating.
-
+- **Card Grid** - Type-colored icons, descriptions, and link counts
+- **Type Filters** - Filter across 18 browsable element types, compact icon-only mode
+- **Search & Sort** - Search names and descriptions, sort alphabetically or by connections
+- **Detail View** - All fields, outgoing and reverse connections, element images
+- **Connection Graph** - Radial visualization of direct and reverse connections, clickable navigation
+- **Timeline Bar** - Temporal visualization with element-type icons, expandable with zoom
+- **Breadcrumb Trail** - Navigate connection chains with full browser back/forward support
+- **Showcase World** - Moppetopia pre-loaded as demo

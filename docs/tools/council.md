@@ -8,11 +8,13 @@ nav_order: 10
 Community governance tool for the OnlyWorlds schema.
 
 **URL:** [council.onlyworlds.com](https://council.onlyworlds.com)
+**Type:** Web Application
 
 ---
 
-## Overview
+## Features
 
-Participate in evolving the OnlyWorlds schema through structured voting. Propose motions or amendments for schema changes, vote as a delegate, find precendents, or build prestige through accepted contributions.
- 
-
+- **Motions & Amendments** - Propose schema changes for community review
+- **Delegate Voting** - Vote on proposed changes
+- **Precedents** - Search past decisions for reference
+- **Prestige** - Build reputation through accepted contributions

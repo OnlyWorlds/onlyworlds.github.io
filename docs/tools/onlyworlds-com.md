@@ -5,20 +5,19 @@ parent: tools
 nav_order: 1
 ---
 
-The primary web platform for onlyworlds world management.
+Primary web platform for OnlyWorlds world management.
 
-**URL:** [onlyworlds.com/worlds](https://onlyworlds.com/worlds)  
-**Type:** Web Application   
+**URL:** [onlyworlds.com/worlds](https://onlyworlds.com/worlds)
+**Type:** Web Application
 
 ---
 
 ## Features
 
-- Create and manage worlds
-- View and edit elements
-- Export/import world data
-- Share worlds with collaborators  
-- Profile management and API access
+- **World Management** - Create, edit, and share worlds with collaborators
+- **Element Editing** - View and edit all 22 element types
+- **Import/Export** - JSON backup and migration via copy data button
+- **Profile & API** - Account management, PIN, and API key access
 
 ## Getting Started
 
@@ -26,10 +25,3 @@ The primary web platform for onlyworlds world management.
 2. Note your PIN from profile settings
 3. Create a new world, note its API key for tool access
 4. Start adding elements on the website or in tools
-
- 
-## Data Controls
-
-Worlds can be exported (or imported) as JSON files for backup or migration to other tools. Use the copy data button for a selected world. 
-
- 
