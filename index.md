@@ -10,5 +10,5 @@ description: "Welcome to OnlyWorlds"
 Create worlds at [onlyworlds.com](https://onlyworlds.com/worlds) for use in [tools](/docs/tools), or [build your own software](/docs/development) with the open [API](/docs/development/api-reference), [SDKs](/docs/development/packages), and [AI solutions](/docs/development/ai).
  
  
-[Get started](/docs/getting-started) · [Interactive introduction](https://explorer.onlyworlds.com) 
+[Get started](/docs/getting-started) building or developing, or take an [interactive introduction](https://explorer.onlyworlds.com) 
  
