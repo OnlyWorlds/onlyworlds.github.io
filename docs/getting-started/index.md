@@ -21,9 +21,3 @@ Learn more about the project and language in the [explorer tool](https://explore
 Find all available tools in the [tool directory](/docs/tools/). 
 
  
-
-## Develop
-
-OnlyWorlds provides [development resources](/docs/development) that include [AI solutions](/docs/development/ai) for converting existing content, managing world data, and building software. 
-
- 
