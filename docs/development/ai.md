@@ -7,6 +7,8 @@ nav_order: 3
 
 ## General resources
 
+OnlyWorlds data is structured and portable, which makes it well-suited for AI-assisted development. These resources help AI systems understand the schema, so that you can effectively understand, design, and build software with it.  
+
 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0;">
 
 <div style="border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 1.25rem; background: rgba(255,255,255,0.03);">
@@ -34,7 +36,7 @@ nav_order: 3
 
 ## OnlyWorlds toolkit
 
-Most powerful solution: a Claude Code plugin for development and OnlyWorlds integration. Its skills and knowledge files can be used by other types of local or web agents as well.
+Claude Code plugin for development and OnlyWorlds integration. 
 
 **Repository**: [github.com/OnlyWorlds/toolkit](https://github.com/OnlyWorlds/toolkit)
 
@@ -48,7 +50,7 @@ Most powerful solution: a Claude Code plugin for development and OnlyWorlds inte
 | **schema** | Look up fields and structures |
 | **api** | Manage operations using natural language |
 | **dev** | Set up SDK and local development  |
-| **survey** | Generate a creative report about your world  |
+| **survey** | Generate a creative brief about your world's content  |
 | **link** | Analyze missing gaps in relations between elements  |
 
  

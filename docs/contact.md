@@ -4,7 +4,7 @@ title: resources
 nav_order: 7
 ---
 
-OnlyWorlds is free to use. Core services (world hosting, the World API, schema governance) will never be monetized. Essential tools are and will remain free.
+OnlyWorlds is free to use and extend.
 
 
 ### Community
@@ -19,7 +19,7 @@ OnlyWorlds is free to use. Core services (world hosting, the World API, schema g
 
 ### Learn
 
-**[YouTube](https://www.youtube.com/watch?v=2XBeNjUoTgc)** - welcome video
+**[YouTube](https://youtu.be/1IEazx8wg4I)** - welcome video
 
 **[Podcast](https://onlyworlds.com/podcast)** - a NotebookLM conversation about the project and history
 

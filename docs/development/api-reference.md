@@ -5,15 +5,12 @@ parent: development
 nav_order: 2
 ---
 
+A REST API for accessing and updating world data. Interactive docs at [onlyworlds.com/api/docs](https://www.onlyworlds.com/api/docs).
 
-OnlyWorlds provides REST APIs at [onlyworlds.com/api/docs](https://onlyworlds.com/api/docs) for accessing and updating world data.
+**Base URL**: `https://www.onlyworlds.com/api/worldapi/`
 
-## World API (Primary)
-
-The primary REST API for individual world or element operations.
-
-**Base URL**: `https://onlyworlds.com/api/worldapi/`
 **Format**: JSON
+
 **Authentication**: API-Key and API-Pin headers
 
 ### Authentication
@@ -24,42 +21,58 @@ API-Key: your-world-api-key
 API-Pin: your-account-pin
 ```
 
-Credentials are available for users at [onlyworlds.com](https://onlyworlds.com/profile).
+Each API-Key is scoped to one world. Credentials are available at [onlyworlds.com/profile](https://www.onlyworlds.com/profile).
 
 ### Standard Operations
 
-All 22 element types support identical CRUD operations:
+All 22 element types support identical CRUD operations. Endpoint names are **singular** (`/character/`, `/location/`, `/institution/`).
 
 | Method | Endpoint | Purpose |
 |:-------|:---------|:--------|
 | GET | `/{element_type}/` | List elements (supports filtering) |
 | POST | `/{element_type}/` | Create new element |
 | GET | `/{element_type}/{uuid}/` | Get single element |
-| PUT | `/{element_type}/{uuid}/` | Update element |
+| PATCH | `/{element_type}/{uuid}/` | Update element (partial) |
+| PUT | `/{element_type}/{uuid}/` | Replace element (full) |
 | DELETE | `/{element_type}/{uuid}/` | Delete element |
 
 **Example - List characters:**
 ```bash
-GET /api/worldapi/character/?world={world-uuid}
+curl -s -X GET "https://www.onlyworlds.com/api/worldapi/character/?world={world-uuid}" \
+  -H "API-Key: {key}" \
+  -H "API-Pin: {pin}"
 ```
 
 **Example - Create location:**
 ```bash
-POST /api/worldapi/location/
-{
-  "name": "Hyperion",
-  "description": "Time Tomb planet",
-  "world": "{world-uuid}"
-}
+curl -s -X POST "https://www.onlyworlds.com/api/worldapi/location/" \
+  -H "API-Key: {key}" \
+  -H "API-Pin: {pin}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Hyperion",
+    "description": "Time Tomb planet",
+    "world": "{world-uuid}"
+  }'
 ```
 
 ### Query Parameters
 
-- `world={uuid}` - Filter by world
-- `name__icontains={text}` - Search by name
-- `supertype={value}` - Filter by supertype
-- `subtype={value}` - Filter by subtype  
- 
+- `world={uuid}` — Filter by world
+- `search={text}` — Search by name
+- `supertype={value}` — Filter by supertype
+- `subtype={value}` — Filter by subtype
+
+### Link Fields
+
+Multi-link fields (e.g. linking characters to a location) use different names on read vs write:
+
+| Direction | Field name | Example |
+|:----------|:-----------|:--------|
+| GET (read) | `characters` | Returns list of linked UUIDs |
+| POST/PATCH (write) | `characters_ids` | Send list of UUIDs to link |
+
+Single-link fields use `_id` suffix on write (e.g. `location_id`).
 
 ### Response Structure
 
@@ -73,29 +86,15 @@ All elements share base fields:
   "world": "01912a3b-4c5d-6e7f-8901-234567890def",
   "supertype": "optional-category",
   "subtype": "optional-subcategory",
-  "image_url": "https://example.com/image.jpg", 
+  "image_url": "https://example.com/image.jpg"
 }
 ```
 
-Element-specific fields vary by type (character has 42 total fields, location has fewer, etc.).
-
-## World Sync API (Bulk Operations)
-
-Legacy endpoint for full world import/export operations.
-
-**Base URL**: `https://onlyworlds.com/api/worldsync/`
-
-**Purpose**: Bulk data transfer, import/export entire worlds
-
-**Format**: Full JSON payloads
-
-Use World API for standard operations. WorldSync is for migration tools and bulk data operations.
-
-
+Element-specific fields vary by type — see the [schema documentation](https://onlyworlds.github.io/docs/schema/) for details.
 
 ## CORS
 
-OnlyWorlds API accepts cross-origin requests from a wide range of hosting platforms to make it easy to build and deploy community tools.
+The API accepts cross-origin requests from a wide range of hosting platforms.
 
 **Pre-approved platforms:**
 
