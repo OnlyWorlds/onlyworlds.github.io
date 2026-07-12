@@ -23,8 +23,8 @@ OnlyWorlds data is structured, typed, and linked across 22 element categories. T
 
 <div style="border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 1.25rem; background: rgba(255,255,255,0.03);">
 <h3 style="margin-top: 0;">MCP Server</h3>
-<p style="font-size: 0.9rem; margin-bottom: 0.75rem;">Hosted Model Context Protocol server that lets an MCP-capable AI client read and write your worlds directly — no local install. Eleven tools (schema, read, write). See the <a href="/docs/development/mcp/">MCP setup guide</a>.</p>
-<p style="margin-bottom: 0;"><code>https://www.onlyworlds.com/mcp</code></p>
+<p style="font-size: 0.9rem; margin-bottom: 0.75rem;">Hosted Model Context Protocol server that lets an MCP-capable AI client read and write your worlds directly — no local install. Eleven tools (schema, read, write).</p>
+<p style="margin-bottom: 0;"><a href="https://www.onlyworlds.com/mcp">https://www.onlyworlds.com/mcp</a></p>
 </div>
 
 <div style="border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 1.25rem; background: rgba(255,255,255,0.03);">
