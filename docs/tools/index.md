@@ -15,6 +15,17 @@ has_toc: false
 
   <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
     <div style="display: flex; align-items: center; gap: 8px;">
+      <strong><a href="atlas" style="color: inherit;">atlas</a></strong>
+      <a href="https://atlas.onlyworlds.com" style="opacity: 0.7; font-size: 0.9em;">
+        <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">link</span>
+      </a>
+      <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.5; margin-left: auto;">computer</span>
+    </div>
+    <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">the primary workspace — the folder is the world: build, write, map, chart</div>
+  </div>
+
+  <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
+    <div style="display: flex; align-items: center; gap: 8px;">
       <strong><a href="onlyworlds-com" style="color: inherit;">onlyworlds.com</a></strong>
       <a href="https://onlyworlds.com" style="opacity: 0.7; font-size: 0.9em;">
         <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">link</span>
@@ -165,15 +176,6 @@ has_toc: false
 
 <div style="background: rgba(59, 130, 246, 0.15); border-radius: 8px; padding: 24px; margin: 24px 0;">
   <div style="display: grid; gap: 16px;">
-
-  <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
-    <div style="display: flex; align-items: center; gap: 8px;">
-      <strong style="color: inherit;">local world manager</strong>
-      <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.5; margin-left: auto;">computer</span>
-      <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.5;">smartphone</span>
-    </div>
-    <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">personal worlds manager: local/offline and GitHub</div>
-  </div>
 
   <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
     <div style="display: flex; align-items: center; gap: 8px;">
