@@ -15,6 +15,10 @@ OnlyWorlds is open source and license free. Build tools, games, and integrations
 
 **[world api](api-reference)** - API details for world data exchange
 
+**[API errors](/api/errors)** - error envelope and every error code
+
 **[AI](ai)** - development and migration solutions
+
+**[MCP server](mcp)** - hosted Model Context Protocol server for AI clients
 
 **[packages](packages)** - NPM and Python SDKs

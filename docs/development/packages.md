@@ -10,7 +10,7 @@ nav_order: 4
 
 ### [@onlyworlds/sdk](https://www.npmjs.com/package/@onlyworlds/sdk)
 
-TypeScript/JavaScript SDK for building web applications and tools.
+TypeScript/JavaScript SDK for building web applications and tools. Current version **2.2.2** (speaks the v1 API dialect).
 
 **Install:**
 ```bash
@@ -23,15 +23,12 @@ npm install @onlyworlds/sdk
 - Automatic relationship handling
 - Built-in authentication
 
-### [@onlyworlds/mcp-client](https://www.npmjs.com/package/@onlyworlds/mcp-client)
+### MCP server (hosted — no package to install)
 
-Model Context Protocol server for AI assistant integration.
+AI-assistant integration is now a **hosted server**, not an npm package. Point any MCP client at `https://www.onlyworlds.com/mcp`.
 
-**Install:**
-```bash
-npm install @onlyworlds/mcp-client
-```
- 
+The old `@onlyworlds/mcp-client` package is retired. See the [MCP setup guide](/docs/development/mcp/).
+
 
 ## Python Package
 

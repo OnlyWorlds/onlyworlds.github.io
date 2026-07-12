@@ -102,8 +102,8 @@ WORLDBUILDING TOOLKIT
 If the user has Claude Code (or another local AI that supports plugins), point them
 to the OnlyWorlds Worldbuilding Toolkit instead of pasting this guide.
 
-The toolkit is a Claude Code plugin that gives AI direct access to OnlyWorlds
-schema, API, and worldbuilding workflows. It provides 7 skills:
+The toolkit is a Claude Code plugin (v2.0.0) that gives AI direct access to
+OnlyWorlds schema, API, and worldbuilding workflows. It provides nine skills:
 
 - onlyworlds-start: Entry point, orientation, routing to the right workflow
 - project-setup: Connect a project to a world (credentials, caching)
@@ -112,6 +112,8 @@ schema, API, and worldbuilding workflows. It provides 7 skills:
 - schema: Look up fields, element categories, validate structure
 - api: Create, read, update, and delete world elements
 - dev: Set up SDK and scaffold tools using OnlyWorlds as a backend
+- survey: Synthesize a creative brief from a whole world
+- link: Find missing connections and suggest Relations
 
 Repository: github.com/OnlyWorlds/toolkit
 
@@ -240,8 +242,11 @@ GET API CREDENTIALS
 
 1. Sign up at onlyworlds.com
 2. Create a world (or use existing)
-3. Get your API Pin: go to your Profile page on onlyworlds.com
-4. Get your API Key: go to World Settings for the specific world
+3. Mint an API Key in the account portal: onlyworlds.com/account/
+   - ow_w_... keys read AND write; ow_r_... keys are read-only.
+   - Legacy 10-digit keys still work forever, but new ones are no longer issued.
+4. The world's PIN is its wall: required on every write, and on reads of a
+   walled world. A world with no PIN reads without one.
 
 IMPORTANT: API keys are world-scoped. One key = one world. Never specify world ID.
 
@@ -463,12 +468,20 @@ const elves = await client.characters.list({
 });
 ```
 
-LINK PATTERN SUMMARY:
+LINK PATTERN SUMMARY (SDK / v1 dialect):
 Operation    | Format              | Example
 -------------|---------------------|---------------------------
 Create/Update| Clean field name    | birthplace: 'uuid'
-Read         | Clean field name    | char.birthplace.name
+Read         | Full objects        | char.birthplace.name
 Filter       | _id or _ids suffix  | birthplace_id: 'uuid'
+
+API DIALECTS -- the _ids suffix is v1-only:
+The SDK (v2.2.2) and the classic API at /api/worldapi/ use the v1 dialect:
+link fields differ by operation (bare name on write, _id/_ids on filters,
+full nested objects on read). The modern API at /api/v2/ removes all of that:
+one bare field name in BOTH directions, values are always flat UUID arrays
+(or a UUID/null for single links). On v2, sending a _ids/_id suffix is a
+422 error. Use /api/v2/ for new raw-HTTP work; the SDK still speaks v1.
 
 SDK UI HELPERS
 --------------
@@ -556,19 +569,27 @@ Documentation: onlyworlds.github.io
 
 WORLDBUILDING TOOLKIT (primary AI integration):
 github.com/OnlyWorlds/toolkit
-Claude Code plugin with 7 skills for parsing, modeling, schema, API, and dev.
-Install via marketplace or git clone. See the toolkit section in Part 1 for details.
+Claude Code plugin (v2.0.0) with nine skills for parsing, modeling, schema,
+API, dev, survey, and linking. Install via marketplace or git clone. See the
+toolkit section in Part 1 for details.
 
-MCP SERVER (for AI-assisted editors):
-npm install @onlyworlds/mcp-client
-Provides OnlyWorlds context directly to Claude Code, Cursor, etc.
+MCP SERVER (hosted -- for AI-assisted editors):
+Connect any MCP client to https://www.onlyworlds.com/mcp (streamable HTTP,
+no install). Eleven tools; schema tools need no key. The old
+@onlyworlds/mcp-client npm package is retired.
+See onlyworlds.github.io/docs/development/mcp/ for setup.
 
 ============================================================
 
-Last updated: 2026-02-07
-SDK version: 2.2.0+
+Last updated: 2026-07-12
+SDK version: 2.2.2 (v1 dialect)
 
 Changelog:
+- v5: Added the modern /api/v2/ dialect (flat UUID link arrays both directions,
+      cursor pagination, one error envelope) alongside the v1/SDK dialect.
+      Credentials now minted in the account portal (ow_w_/ow_r_ keys; PIN as
+      world wall). MCP is now a hosted server (npm mcp-client retired).
+      Toolkit at nine skills.
 - v4: Added worldbuilding toolkit section. Fixed API credential flow.
       Updated URLs and resources.
 - v3: Restructured for LLM effectiveness. Added planning/PRD guidance section.

@@ -8,7 +8,9 @@ nav_order: 2
 
 Sign up at [onlyworlds.com](https://onlyworlds.com/accounts/signup/) and create your first world.
 
-Note your **API key** (World Settings) and **PIN** (Profile) for connecting tools.
+**Connecting tools — keys and PIN.** Mint an **API key** for your world in the [account portal](https://www.onlyworlds.com/account/). Keys come in two kinds: `ow_w_…` (read **and** write) and `ow_r_…` (read only). Older **10-digit keys** still work and never expire, but new ones are no longer issued — use the prefixed keys above. Each key is scoped to one world.
+
+Your world's **PIN** is its wall: any world with a PIN requires it on every write, and on reads too. A world with no PIN can be read without one. Pass the key and PIN as `API-Key` / `API-Pin` headers (or paste them into a tool's settings).
 
 ## Build and explore
 
