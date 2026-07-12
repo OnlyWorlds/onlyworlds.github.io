@@ -49,17 +49,6 @@ has_toc: false
 
   <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
     <div style="display: flex; align-items: center; gap: 8px;">
-      <strong><a href="map-tool" style="color: inherit;">map tool</a></strong>
-      <a href="https://onlyworlds.com/map_tool" style="opacity: 0.7; font-size: 0.9em;">
-        <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">link</span>
-      </a>
-      <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.5; margin-left: auto;">computer</span>
-    </div>
-    <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">map and pin creation, embedding</div>
-  </div>
-
-  <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
-    <div style="display: flex; align-items: center; gap: 8px;">
       <strong><a href="zoner" style="color: inherit;">zoner</a></strong>
       <a href="https://zoner.onlyworlds.com" style="opacity: 0.7; font-size: 0.9em;">
         <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">link</span>
@@ -78,17 +67,6 @@ has_toc: false
       <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.5; margin-left: auto;">computer</span>
     </div>
     <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">writing and browsing features</div>
-  </div>
-
-  <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
-    <div style="display: flex; align-items: center; gap: 8px;">
-      <strong><a href="text-tool" style="color: inherit;">text tool</a></strong>
-      <a href="https://onlyworlds.com/text_tool" style="opacity: 0.7; font-size: 0.9em;">
-        <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">link</span>
-      </a>
-      <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.5; margin-left: auto;">computer</span>
-    </div>
-    <div style="margin-top: 4px; font-size: 0.9em; opacity: 0.8;">AI parsing and feedback tinkering</div>
   </div>
 
   <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">

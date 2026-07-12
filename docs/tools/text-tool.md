@@ -8,7 +8,7 @@ nav_order: 4
 
 Multi-purpose tinker tool for AI parsing, YAML editing, and earning token ratings.
 
-**URL:** [onlyworlds.com/text_tool](https://onlyworlds.com/text_tool)
+**Status:** RETIRED with the 2026 platform rebuild - AI parsing lives in the toolkit and MCP server.
 **Type:** Web Application
 
 ---

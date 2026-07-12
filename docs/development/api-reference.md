@@ -33,7 +33,7 @@ API-Pin: your-world-pin
 
 - `ow_w_…` — **world write.** Read and write one world.
 - `ow_r_…` — **read capability.** Read one world; write routes return `403`.
-- `ow_a_…` — **account** key.
+- `ow_a_…` — **account token.** Acts on your account, not one world: list your worlds (`GET /api/v2/account/worlds`), create worlds, mint/revoke world keys, manage watched worlds. Sent as `Authorization: Bearer ow_a_…`. Mint one under **Settings → Account tokens** in the portal.
 - **Legacy 10-digit keys** (e.g. `0000000001`) still work and are valid forever. New 10-digit keys are no longer issued — use the prefixed keys above.
 
 Each key is scoped to one world. The key alone determines the world; you do not pass a world id in the body.
@@ -58,7 +58,8 @@ All 22 element types are addressed by their singular slug. The URL determines th
 | DELETE | `/api/v2/{type}/{id}` | Delete |
 | POST | `/api/v2/bulk` | Mixed-type batch create/upsert |
 | GET | `/api/v2/changes` | World change feed (sync/export) |
-| GET | `/api/v2/world` | The world named by the credential |
+| GET | `/api/v2/world` | The world named by the credential (identity + meta) |
+| PATCH | `/api/v2/world` | Update world meta (name, description, time fields) |
 
 (Trailing slashes are tolerated on v2 — `/api/v2/character/{id}` and `/api/v2/character/{id}/` both resolve.)
 
@@ -189,7 +190,9 @@ Adds dedupe (idempotent); removes tolerate ids that aren't present. No prior GET
 - **`head`** is the world's current change sequence; if your stored cursor position exceeds `head`, a restore rewound the world — treat your cursor as invalid and re-baseline.
 - `?limit=` (default 500, cap 1000) bounds one response.
 
-`GET /api/v2/world` — returns `{id, name, created_at, updated_at}` for the world named by the credential. A `200` also validates the key (and PIN, if walled).
+`GET /api/v2/world` — returns the world named by the credential: `{id, name, description, image_url, time_format_names, time_format_equivalents, time_basic_unit, time_range_min, time_range_max, time_range_current, public_read, created_at, updated_at}`. A `200` also validates the key (and PIN, if walled).
+
+`PATCH /api/v2/world` — update world meta (write key + PIN). Writable: `name`, `description`, `image_url`, `time_basic_unit` (strings), `time_format_names`, `time_format_equivalents` (lists of strings), `time_range_min`, `time_range_max`, `time_range_current` (integers or null). Unknown fields are a `422`; `public_read` and the PIN are managed in the [account portal](https://www.onlyworlds.com/account/), not here. World meta does **not** appear in `/changes` — poll `GET /world` and compare `updated_at`.
 
 ---
 

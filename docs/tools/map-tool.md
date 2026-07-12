@@ -7,7 +7,7 @@ nav_order: 5
 
 Manage maps and their hierarchies, and locate elements on them using pins.
 
-**URL:** [onlyworlds.com/map_tool](https://onlyworlds.com/map_tool)
+**Status:** RETIRED with the 2026 platform rebuild - map features live in Atlas.
 **Type:** Web Application
 
 ---
