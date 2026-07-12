@@ -15,20 +15,25 @@ OnlyWorlds runs a hosted [Model Context Protocol](https://modelcontextprotocol.i
 - Opening the URL in a **browser** shows a plain info page. MCP clients POST JSON-RPC to the same URL.
 - The old npm client (`@onlyworlds/mcp-client`) and the `/mcp/messages/` endpoint are **retired** — use the hosted server above.
 
-> The MCP server speaks the v1 API dialect under the hood. It is a real, in-use surface; a port to the v2 dialect is planned. Behavior is stable regardless.
+> The MCP server is generated from the same schema registry and service layer as the v2 REST API — a read or write through MCP is identical to the same operation through `/api/v2/`.
 
 ---
 
 ## Connect from Claude Code
 
+Just exploring? The three schema tools need no account and no key:
+
 ```bash
-claude mcp add --transport http onlyworlds https://www.onlyworlds.com/mcp \
-  --header "API-Key: <your-key>" \
-  --header "API-Pin: <your-pin>"
+claude mcp add --transport http onlyworlds https://www.onlyworlds.com/mcp
+```
+
+For your world: the same command, plus your credentials as headers. Each command is a single line — paste it whole (a backslash-continuation form breaks in PowerShell):
+
+```bash
+claude mcp add --transport http onlyworlds https://www.onlyworlds.com/mcp --header "API-Key: <your-key>" --header "API-Pin: <your-pin>"
 ```
 
 - Your **key** and **PIN** come from the [account portal](https://www.onlyworlds.com/account/). The key scopes the server to one world; the PIN is required for writes (and for reads on a walled world).
-- The three schema tools work with **no key at all** — schema is public reference.
 
 The **claude.ai web connector is not supported** by this server in its current version. Use Claude Code, or another MCP client that speaks streamable HTTP.
 
@@ -53,7 +58,7 @@ Eleven tools, in three groups.
 | `list_elements` | List elements of one type in the key's world. |
 | `get_element` | Fetch one element by type and UUID. |
 | `search_elements` | Search elements by name across all 22 types in the world. |
-| `get_changes` | Return the world's delta feed (upserts and deletes since a cursor). |
+| `get_changes` | Return the world's delta feed (upserts and deletes since a cursor), paged — default 25 entries per call, `limit` up to 1000. |
 
 ### Write — key required (PIN too, on a walled world)
 
