@@ -39,7 +39,14 @@ OnlyWorlds data is structured, typed, and linked across 22 element categories. T
 
 ## OnlyWorlds Toolkit
 
-A Claude Code plugin (v2.0.0) with nine skills. Covers worldbuilding (parsing, modeling, exploring), world management (API operations, element linking), and development (SDK setup, schema reference, project configuration).
+A Claude Code plugin (v2.1.0) with ten skills. Covers worldbuilding (parsing, modeling, exploring), world management (API operations, element linking), and development (SDK setup, schema reference, project configuration).
+
+**Install** (in Claude Code):
+
+```
+/plugin marketplace add OnlyWorlds/toolkit
+/plugin install toolkit@onlyworlds
+```
 
 **Repository**: [github.com/OnlyWorlds/toolkit](https://github.com/OnlyWorlds/toolkit)
 
@@ -54,5 +61,6 @@ A Claude Code plugin (v2.0.0) with nine skills. Covers worldbuilding (parsing, m
 | **dev** | Scaffold projects with the SDK, configure credentials, set up local development |
 | **survey** | Fetch all elements from a world and synthesize a creative brief covering its themes, tensions, and structure |
 | **link** | Analyze a world's elements for missing connections and suggest potential Relations |
+| **council** | Browse and draft schema governance motions when the 22 types don't fit |
 
 The toolkit also includes an orchestration agent (ow-agent) that coordinates multiple skills for complex multi-step operations, and a knowledge base covering schema reference, element type descriptions, and decision trees for ambiguous modeling choices.
