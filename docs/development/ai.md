@@ -9,6 +9,8 @@ nav_order: 3
 
 OnlyWorlds data is structured, typed, and linked across 22 element categories. This makes it a natural fit for AI tooling: the schema is predictable, the API is consistent, and the format is the same regardless of the world's content. The resources below let any AI system read, write, and reason about OnlyWorlds data.
 
+New to AI tools, or unsure where to begin? The guided on-ramp is [onlyworlds.com/develop](https://www.onlyworlds.com/develop) — three lanes, from zero-install to full SDK.
+
 ---
 
 ## General resources

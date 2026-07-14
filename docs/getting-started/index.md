@@ -14,11 +14,11 @@ Your world's **PIN** is its wall: any world with a PIN requires it on every writ
 
 ## Build and explore
 
-The [base tool](https://base-tool.onlyworlds.com) lets you create, edit, and import elements. Write and showcase them using the [write tool](https://onlyworlds.github.io/write-tool/), or go mobile through [web](https://easy_mobile.onlyworlds.com/) or [app](https://onlyworlds.github.io/docs/tools/mobile-companion).
+The full getting-started guide lives at [onlyworlds.com/open_world](https://www.onlyworlds.com/open_world) — which surface fits how you work, how to bring in existing material, and where to go deeper.
 
-Map and draw your worlds in [Atlas](https://atlas.onlyworlds.com), or shape zones with [zoner](https://zoner.onlyworlds.com).
+The short version: [Atlas](https://atlas.onlyworlds.com) is the recommended workspace (your world as plain files on your own disk), the [Obsidian plugin](https://github.com/OnlyWorlds/obsidian-plugin) serves the notes-native, and [council](https://council.onlyworlds.com) is where the schema evolves.
 
-Learn more about the project and language in the [explorer tool](https://explorer.onlyworlds.com), and voice your (characters') thoughts and needs through the [council](https://council.onlyworlds.com).
+Want to build your own tool — with an AI assistant or by hand? Start at [onlyworlds.com/develop](https://www.onlyworlds.com/develop).
 
 Find all available tools in the [tool directory](/docs/tools/). 
 
