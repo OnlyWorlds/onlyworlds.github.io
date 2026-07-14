@@ -16,7 +16,7 @@ Your world's **PIN** is its wall: any world with a PIN requires it on every writ
 
 The [base tool](https://base-tool.onlyworlds.com) lets you create, edit, and import elements. Write and showcase them using the [write tool](https://onlyworlds.github.io/write-tool/), or go mobile through [web](https://easy_mobile.onlyworlds.com/) or [app](https://onlyworlds.github.io/docs/tools/mobile-companion).
 
-The [map tool](https://onlyworlds.com/map_tool) and [zoner](https://zoner.onlyworlds.com) let you shape and form your worlds.
+Map and draw your worlds in [Atlas](https://atlas.onlyworlds.com), or shape zones with [zoner](https://zoner.onlyworlds.com).
 
 Learn more about the project and language in the [explorer tool](https://explorer.onlyworlds.com), and voice your (characters') thoughts and needs through the [council](https://council.onlyworlds.com).
 

@@ -39,6 +39,7 @@ has_toc: false
   <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
     <div style="display: flex; align-items: center; gap: 8px;">
       <strong><a href="base-tool" style="color: inherit;">base tool</a></strong>
+      <span style="font-size: 0.8em; opacity: 0.5;">(legacy)</span>
       <a href="https://base-tool.onlyworlds.com/" style="opacity: 0.7; font-size: 0.9em;">
         <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">link</span>
       </a>
@@ -50,6 +51,7 @@ has_toc: false
   <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
     <div style="display: flex; align-items: center; gap: 8px;">
       <strong><a href="zoner" style="color: inherit;">zoner</a></strong>
+      <span style="font-size: 0.8em; opacity: 0.5;">(legacy)</span>
       <a href="https://zoner.onlyworlds.com" style="opacity: 0.7; font-size: 0.9em;">
         <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">link</span>
       </a>
@@ -61,6 +63,7 @@ has_toc: false
   <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
     <div style="display: flex; align-items: center; gap: 8px;">
       <strong><a href="write-tool" style="color: inherit;">write tool</a></strong>
+      <span style="font-size: 0.8em; opacity: 0.5;">(legacy)</span>
       <a href="https://onlyworlds.github.io/write-tool/" style="opacity: 0.7; font-size: 0.9em;">
         <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">link</span>
       </a>
@@ -83,6 +86,7 @@ has_toc: false
   <div style="border-left: 2px solid rgba(148, 163, 184, 0.5); padding-left: 16px;">
     <div style="display: flex; align-items: center; gap: 8px;">
       <strong><a href="mobile-companion" style="color: inherit;">mobile companion</a></strong>
+      <span style="font-size: 0.8em; opacity: 0.5;">(legacy)</span>
       <a href="https://testflight.apple.com/join/XWTuaack" style="opacity: 0.7; font-size: 0.9em;">
         <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">link</span>
       </a>
@@ -190,5 +194,4 @@ has_toc: false
   </div>
 </div>
 
- 
- 
+<p style="font-size: 0.85em; opacity: 0.55; margin-top: 32px;">Older tools: <a href="history" style="color: inherit;">tool history</a></p>
