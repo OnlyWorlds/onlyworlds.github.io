@@ -21,4 +21,4 @@ The primary OnlyWorlds workspace. The folder is the world: your world lives as p
 - **Local-first** - Worlds are folders of plain text files you own; works offline
 - **Sync** - Attach a world key to push/pull with onlyworlds.com hosting
 - **Import / Export** - World folders move freely between Atlas, the API, and other tools
-- **Sharing** - Publish read-only show pages at show.onlyworlds.com
+- **Sharing** - Publish read-only pages of your world you can send to anyone
