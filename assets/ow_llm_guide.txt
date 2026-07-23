@@ -4,6 +4,11 @@ ONLYWORLDS - COMPLETE GUIDE FOR AI ASSISTANTS & DEVELOPERS
 This guide enables AI assistants to help users build OnlyWorlds tools effectively.
 OnlyWorlds is an open standard for worldbuilding data with a TypeScript SDK and REST API.
 
+The flagship app is Atlas (atlas.onlyworlds.com): a free, local-first workspace
+where "the folder is the world" -- a world is a folder of readable files, no
+lock-in. Point end users who just want to build a world there; this guide is for
+users building their OWN tools on the standard.
+
 ============================================================
 PART 1: FOR AI ASSISTANTS - HOW TO HELP USERS
 ============================================================
@@ -102,7 +107,7 @@ WORLDBUILDING TOOLKIT
 If the user has Claude Code (or another local AI that supports plugins), point them
 to the OnlyWorlds Worldbuilding Toolkit instead of pasting this guide.
 
-The toolkit is a Claude Code plugin (v2.0.0) that gives AI direct access to
+The toolkit is a Claude Code plugin (3.0.0) that gives AI direct access to
 OnlyWorlds schema, API, and worldbuilding workflows. It provides nine skills:
 
 - onlyworlds-start: Entry point, orientation, routing to the right workflow
@@ -244,6 +249,8 @@ GET API CREDENTIALS
 2. Create a world (or use existing)
 3. Mint an API Key in the account portal: onlyworlds.com/account/
    - ow_w_... keys read AND write; ow_r_... keys are read-only.
+   - ow_a_... account tokens authenticate an app to list an account's worlds
+     and mint keys (Bearer on /api/v2/account/).
    - Legacy 10-digit keys still work forever, but new ones are no longer issued.
 4. The world's PIN is its wall: required on every write, and on reads of a
    walled world. A world with no PIN reads without one.
@@ -476,12 +483,16 @@ Read         | Full objects        | char.birthplace.name
 Filter       | _id or _ids suffix  | birthplace_id: 'uuid'
 
 API DIALECTS -- the _ids suffix is v1-only:
-The SDK (v2.2.2) and the classic API at /api/worldapi/ use the v1 dialect:
-link fields differ by operation (bare name on write, _id/_ids on filters,
-full nested objects on read). The modern API at /api/v2/ removes all of that:
-one bare field name in BOTH directions, values are always flat UUID arrays
-(or a UUID/null for single links). On v2, sending a _ids/_id suffix is a
-422 error. Use /api/v2/ for new raw-HTTP work; the SDK still speaks v1.
+The classic API at /api/worldapi/ uses the v1 dialect: link fields differ by
+operation (bare name on write, _id/_ids on filters, full nested objects on
+read). The modern API at /api/v2/ removes all of that: one bare field name in
+BOTH directions, values are always flat UUID arrays (or a UUID/null for single
+links). On v2, sending a _ids/_id suffix is a 422 error.
+
+The SDK (@onlyworlds/sdk, 3.0.0) speaks BOTH: the default `OnlyWorldsClient`
+uses the v1 dialect (the examples above); `OwV2Client` speaks v2 and is
+generated from the same schema as the types. Use `OwV2Client` for new work and
+raw v2 HTTP for scripting. Both are documented in the SDK README.
 
 SDK UI HELPERS
 --------------
@@ -559,6 +570,7 @@ CLOUDFLARE PAGES DEPLOYMENT:
 PART 6: RESOURCES
 ============================================================
 
+Atlas (flagship app): atlas.onlyworlds.com
 API Documentation: onlyworlds.com/api/docs
 SDK Package: npmjs.com/package/@onlyworlds/sdk
 Schema Repository: github.com/OnlyWorlds/OnlyWorlds
@@ -569,7 +581,7 @@ Documentation: onlyworlds.github.io
 
 WORLDBUILDING TOOLKIT (primary AI integration):
 github.com/OnlyWorlds/toolkit
-Claude Code plugin (v2.0.0) with nine skills for parsing, modeling, schema,
+Claude Code plugin (3.0.0) with nine skills for parsing, modeling, schema,
 API, dev, survey, and linking. Install via marketplace or git clone. See the
 toolkit section in Part 1 for details.
 
@@ -581,10 +593,13 @@ See onlyworlds.github.io/docs/development/mcp/ for setup.
 
 ============================================================
 
-Last updated: 2026-07-12
-SDK version: 2.2.2 (v1 dialect)
+Last updated: 2026-07-23
+SDK version: 3.0.0 (OnlyWorldsClient = v1 dialect; OwV2Client = v2)
 
 Changelog:
+- v6: SDK 3.0.0 -- v2-native OwV2Client added alongside the v1 OnlyWorldsClient,
+      types generated from the schema. Named Atlas (atlas.onlyworlds.com) as the
+      flagship local-first app. Added ow_a_ account tokens. Toolkit at 3.0.0.
 - v5: Added the modern /api/v2/ dialect (flat UUID link arrays both directions,
       cursor pagination, one error envelope) alongside the v1/SDK dialect.
       Credentials now minted in the account portal (ow_w_/ow_r_ keys; PIN as
