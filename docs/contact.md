@@ -11,6 +11,8 @@ OnlyWorlds is free to use and extend.
 
 **[Discord](https://discord.gg/twCjqvVBwb)** - chat, feedback, tool requests
 
+**[Feedback](https://www.onlyworlds.com/feedback)** - report issues, request features
+
 **[GitHub Discussions](https://github.com/OnlyWorlds/OnlyWorlds/discussions)** - announcements, technical discussion
 
 **[Workshop](https://onlyworlds.com/workshop)** - guided creative sessions, open to all
