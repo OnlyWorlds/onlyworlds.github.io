@@ -52,5 +52,6 @@ They are distinct from:
 - **Families** (multi-link: Family): Families relevant to the relation
 - **Titles** (multi-link: Title): Titles relevant to the relation
 - **Constructs** (multi-link: Construct): Concepts, contracts, or principles relevant to the relation
+- **Events** (multi-link: Event): Events where the relation is involved or relevant
 - **Narratives** (multi-link: Narrative): Narratives relevant to the relation
 
