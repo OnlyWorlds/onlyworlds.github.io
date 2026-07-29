@@ -10,11 +10,11 @@ Sign up at [onlyworlds.com](https://onlyworlds.com/accounts/signup/) and create 
 
 **Connecting tools — keys and PIN.** Mint an **API key** for your world in the [account portal](https://www.onlyworlds.com/account/). Keys come in two kinds: `ow_w_…` (read **and** write) and `ow_r_…` (read only). Older **10-digit keys** still work and never expire, but new ones are no longer issued — use the prefixed keys above. Each key is scoped to one world.
 
-Your world's **PIN** is its wall: any world with a PIN requires it on every write, and on reads too. A world with no PIN can be read without one. Pass the key and PIN as `API-Key` / `API-Pin` headers (or paste them into a tool's settings).
+Your world's **PIN** is its wall: any world with a PIN requires it on every write. Prefixed keys (`ow_w_` and `ow_r_`) read without a PIN; older 10-digit keys need the PIN to read a private world. Pass the key and PIN as `API-Key` / `API-Pin` headers (or paste them into a tool's settings).
 
 ## Build and explore
 
-The full getting-started guide lives at [onlyworlds.com/open_world](https://www.onlyworlds.com/open_world) — which surface fits how you work, how to bring in existing material, and where to go deeper.
+The full getting-started guide lives at [onlyworlds.com/start](https://www.onlyworlds.com/start): which surface fits how you work, how to bring in existing material, and where to go deeper.
 
 The short version: [Atlas](https://atlas.onlyworlds.com) is the recommended workspace (your world as plain files on your own disk), the [Obsidian plugin](https://github.com/OnlyWorlds/obsidian-plugin) serves the notes-native, and [council](https://council.onlyworlds.com) is where the schema evolves.
 

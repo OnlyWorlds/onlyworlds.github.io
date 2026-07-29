@@ -21,4 +21,4 @@ OnlyWorlds is open source and license free. Build tools, games, and integrations
 
 **[MCP server](mcp)** - hosted Model Context Protocol server for AI clients
 
-**[packages](packages)** - NPM and Python SDKs
+**[packages](packages)** - the NPM SDK, and how to call the API from Python without one
