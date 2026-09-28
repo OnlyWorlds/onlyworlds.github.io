@@ -6,7 +6,7 @@ grand_parent: schema
 nav_order: 13
 ---
 
-<span class="material-symbols-outlined">book</span>
+<span class="material-symbols-outlined">menu_book</span>
 
 Narratives represent stories told in your world, and can involve the organization or reinterpretation of Events.  
 

@@ -22,7 +22,7 @@ Interactive docs: [onlyworlds.com/api/v2/docs](https://www.onlyworlds.com/api/v2
 
 ## Authentication
 
-Requests carry the world key, and the PIN when the world is walled:
+Requests carry the world key, and the PIN on writes when the world has one:
 
 ```http
 API-Key: your-world-api-key
@@ -36,9 +36,9 @@ API-Pin: your-world-pin
 - `ow_a_…` — **account token.** Acts on your account, not one world: list your worlds (`GET /api/v2/account/worlds`), create worlds, mint/revoke world keys, manage watched worlds. Sent as `Authorization: Bearer ow_a_…`. Mint one under **Settings → Account tokens** in the portal.
 - **Legacy 10-digit keys** (e.g. `0000000001`) still work and are valid forever. New 10-digit keys are no longer issued — use the prefixed keys above.
 
-Each key is scoped to one world. The key alone determines the world; you do not pass a world id in the body.
+Each world key (`ow_w_`, `ow_r_`, legacy) is scoped to one world. The key alone determines the world; you do not pass a world id in the body.
 
-**The PIN is the world's wall.** A world with a PIN requires it on **every write**, and on **reads** too. A world with no PIN (a public/demo world) reads without a PIN, but writes still require one if the world has one set. So whether a read needs a PIN is a property of the *world*, not the dialect: walled world → PIN on reads; open world → no PIN on reads.
+**The PIN is the world's wall for writes.** A world with a PIN requires it on **every write**. Reads with a prefixed key (`ow_w_`, `ow_r_`) never need the PIN. Only a legacy 10-digit key reading a private world must send it.
 
 Credentials are managed at the [account portal](https://www.onlyworlds.com/account/).
 
@@ -104,9 +104,9 @@ curl -s "https://www.onlyworlds.com/api/v2/character?limit=100&cursor={next_curs
 
 A **single-element** GET (`/api/v2/character/{id}`) returns the bare element object — **not** enveloped, no `data` wrapper.
 
-**Filtering** uses a closed set of Django-style operators — anything else is a `422` (typos are rejected, not silently ignored):
+**Filtering** takes exactly three parameters: `name__icontains` (case-insensitive substring), `supertype` and `subtype` (exact match). Any other query parameter is a `422` (typos are rejected, not silently ignored).
 
-`__icontains`, `__in`, `__gte`, `__lte`, `__isnull`, plus `supertype` / `subtype` equality, and `?ordering=`.
+**Ordering** is not supported: `?ordering=` is accepted but has no effect, and pages always come in change order. Sort client-side.
 
 ```bash
 curl -s "https://www.onlyworlds.com/api/v2/character?name__icontains=admiral" -H "API-Key: {key}"
@@ -144,11 +144,12 @@ Adds dedupe (idempotent); removes tolerate ids that aren't present. No prior GET
 
 ## Writes
 
-- **`POST /{type}`** — create. You may supply an `id` (any RFC-4122 UUID; v7 recommended), or omit it and the server mints one. Reusing an existing id is a `409 id_conflict` — use `PUT` to upsert.
-- **`PUT /{type}/{id}`** — upsert by id: creates if absent, **full-replaces** if present.
+- **`POST /{type}`** — create. You may supply an `id` (any RFC-4122 UUID; v7 recommended), or omit it and the server mints one (a UUIDv4). Returns `201`. Reusing an existing id is a `409 id_conflict` — use `PUT` to upsert.
+- **`PUT /{type}/{id}`** — upsert by id: creates if absent, **full-replaces** if present. Returns `201` when it created, `200` when it replaced.
 - **`PATCH /{type}/{id}`** — partial update. Omitted fields are left untouched. **Arrays replace** (a `PATCH` to `friends` sets the whole list — use the [link operations](#link-fields--flat-uuid-arrays-both-directions) endpoint to add/remove). To clear a field, send its empty shape: `""`/`null` for text, `null` for a single link, `[]` for a multi link, `null` for a number.
 - **`DELETE /{type}/{id}`** — returns `204`. Idempotent: deleting an already-absent element is still `204`. Deleting an element also scrubs its UUID from every other element's links — no dangling references.
 - **Unknown fields** return a `422` naming the field. (Fields under the reserved extension namespaces `atlas_*`, `shadow_*`, `x_*` pass through and are stored verbatim.)
+- **Server fields** (`type`, `created_at`, `updated_at`, `change_seq`) appear on reads but are rejected on writes, so strip them before sending an element back. `name` is required on `POST` and `PUT`. (`world` in a body is ignored.)
 
 **Idempotency-Key** (on `POST` and `/bulk`): send a unique key header and the first successful response is stored for 24h. An identical replay returns that stored response (with an `Idempotent-Replay: true` header) and does not act twice; the same key with a *different* body is a `409 idempotency_error`. Only successful (2xx) responses are stored — a retry after an error re-executes.
 
@@ -156,18 +157,20 @@ Adds dedupe (idempotent); removes tolerate ids that aren't present. No prior GET
 
 ## Bulk
 
-`POST /api/v2/bulk` — one call, mixed types, the parse-pipeline and sync workhorse. Always returns HTTP `200`; results are per-item, in request order:
+`POST /api/v2/bulk` — one call, mixed types, the parse-pipeline and sync workhorse. Returns HTTP `200` once the batch is accepted; results are per-item, in request order. A malformed request (bad JSON, `items` not an array, over 1000 items) or an auth failure answers with the usual status and envelope.
 
 ```jsonc
 // request
-{ "items": [ { "op": "upsert", "type": "character", "element": { "name": "…" } }, … ] }
+{ "items": [ { "type": "character", "element": { "id": "…", "name": "…" } }, … ] }
 
 // response
 { "errors": false,
   "items": [ { "status": 201, "id": "…", "created_at": "…", "updated_at": "…" }, … ] }
 ```
 
-- **Partial success is the default** — one bad item does not sink the batch. Send `"atomic": true` for all-or-nothing.
+- An item whose `element` carries an `id` upserts that id; one without an `id` creates. An `op` field on an item is optional and ignored.
+- Up to 1000 items per request.
+- **Partial success is the default** — one bad item does not sink the batch. Send `"atomic": true` for all-or-nothing. In atomic mode, if `errors` is `true` **nothing** was written, even though non-failing items show `201`/`200` (what they would have returned).
 - Each success slot echoes the server's `created_at` / `updated_at`, so a sync client sets its baseline from the bulk response alone.
 - Links are validated against the world **plus surviving items in the same batch**, in any order — a batch may reference its own members without pre-sorting.
 - Failed items carry the standard [error envelope](/api/errors) under `error`; the top-level `errors` flag is `true` if any item failed.
@@ -189,8 +192,9 @@ Adds dedupe (idempotent); removes tolerate ids that aren't present. No prior GET
 - **Deletes are explicit** tombstones (`op: "delete"`), never inferred from absence. Tombstones are retained indefinitely, so an old cursor still replays every delete above it.
 - **`head`** is the world's current change sequence; if your stored cursor position exceeds `head`, a restore rewound the world — treat your cursor as invalid and re-baseline.
 - `?limit=` (default 500, cap 1000) bounds one response.
+- `?head=true` returns only the current tip (`head` and a `cursor` to follow from), with no elements: the cheap way to start following from now, or to check whether you are behind.
 
-`GET /api/v2/world` — returns the world named by the credential: `{id, name, description, image_url, time_format_names, time_format_equivalents, time_basic_unit, time_range_min, time_range_max, time_range_current, public_read, created_at, updated_at}`. A `200` also validates the key (and PIN, if walled).
+`GET /api/v2/world` — returns the world named by the credential: `{id, name, description, image_url, time_format_names, time_format_equivalents, time_basic_unit, time_range_min, time_range_max, time_range_current, public_read, created_at, updated_at}`. A `200` validates the key. It checks the PIN only for a legacy 10-digit key on a private world, so to test a PIN with a prefixed key you need a write.
 
 `PATCH /api/v2/world` — update world meta (write key + PIN). Writable: `name`, `description`, `image_url`, `time_basic_unit` (strings), `time_format_names`, `time_format_equivalents` (lists of strings), `time_range_min`, `time_range_max`, `time_range_current` (integers or null). Unknown fields are a `422`; `public_read` and the PIN are managed in the [account portal](https://www.onlyworlds.com/account/), not here. World meta does **not** appear in `/changes` — poll `GET /world` and compare `updated_at`.
 

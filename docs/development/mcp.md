@@ -33,7 +33,7 @@ For your world: the same command, plus your credentials as headers. Each command
 claude mcp add --transport http onlyworlds https://www.onlyworlds.com/mcp --header "API-Key: <your-key>" --header "API-Pin: <your-pin>"
 ```
 
-- Your **key** and **PIN** come from the [account portal](https://www.onlyworlds.com/account/). The key scopes the server to one world; the PIN is required for writes (and for reads on a walled world).
+- Your **key** and **PIN** come from the [account portal](https://www.onlyworlds.com/account/). The key scopes the server to one world; the PIN is required for writes (and, with a legacy 10-digit key only, for reads of a private world).
 
 The **claude.ai web connector is not supported** by this server in its current version. Use Claude Code, or another MCP client that speaks streamable HTTP.
 
@@ -60,7 +60,7 @@ Eleven tools, in three groups.
 | `search_elements` | Search elements by name across all 22 types in the world. |
 | `get_changes` | Return the world's delta feed (upserts and deletes since a cursor), paged — default 25 entries per call, `limit` up to 1000. |
 
-### Write — key required (PIN too, on a walled world)
+### Write — key required (PIN too, when the world has one)
 
 | Tool | What it does |
 |------|--------------|

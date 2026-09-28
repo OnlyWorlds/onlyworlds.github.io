@@ -6,7 +6,7 @@ grand_parent: schema
 nav_order: 12
 ---
  
-<span class="material-symbols-outlined">brush</span>
+<span class="material-symbols-outlined">location_on</span>
 
 A Marker is a special Map element. Groups of Markers, each at a specific coordinate, together designate a Zone in the world. Zones can be either lines or polygons (through supertype).
 

@@ -8,7 +8,7 @@ permalink: /api/errors/
 
 # API error reference
 
-Every error from the modern API (`/api/v2/`, `/bulk`, `/changes`, `/mcp`) is returned in **one envelope**. When a response carries a non-2xx status, its body looks like this:
+Every error from the modern API (`/api/v2/`, `/bulk`, `/changes`) is returned in **one envelope**. When a response carries a non-2xx status, its body looks like this:
 
 ```jsonc
 {
@@ -30,7 +30,9 @@ Every error from the modern API (`/api/v2/`, `/bulk`, `/changes`, `/mcp`) is ret
 
 For `/bulk`, each item carries its own error under this same shape — see [Bulk errors](#bulk-errors) below.
 
-> **Classic API (v1 dialect) uses a different envelope.** Requests to `/api/worldapi/` return the legacy shape — either `{"detail": "…"}` (a string) or `{"detail": [ … ]}` (a list of field validation errors), and auth failures add a nested `{"error": {"code": "unauthorized", …}}`. The codes below apply to the **v2 / bulk / MCP** surface only. See the [Classic API section](api-reference#classic-api-v1-dialect--legacy) of the API reference for the v1 shapes.
+MCP tools report failures as tool errors carrying the same human message, without the envelope fields.
+
+> **Classic API (v1 dialect) uses a different envelope.** Requests to `/api/worldapi/` return the legacy shape — either `{"detail": "…"}` (a string) or `{"detail": [ … ]}` (a list of field validation errors), and auth failures add a nested `{"error": {"code": "unauthorized", …}}`. The codes below apply to the **v2 / bulk / changes** surface only. See the [Classic API section](/docs/development/api-reference#classic-api-v1-dialect--legacy) of the API reference for the v1 shapes.
 
 ---
 
@@ -42,8 +44,8 @@ For `/bulk`, each item carries its own error under this same shape — see [Bulk
 
 The request body or query is malformed: an unknown field, an unknown query parameter, a value that fails validation, or a wrong-shaped payload.
 
-- **Common cause:** a misspelled field name (`freinds`), a `_ids`/`_id` suffix carried over from the v1 dialect (v2 uses bare link names — see the [API reference](api-reference)), an unrecognized query parameter (a typo'd filter like `nmae__icontains`), or a bulk request whose `items` is not an array.
-- **How to fix:** check the `param` field — it names the offending field or query parameter. Correct the spelling, drop the `_ids`/`_id` suffix, or remove the unknown parameter. The v2 filter operators are a closed set (`__icontains`, `__in`, `__gte`, `__lte`, `__isnull`, plus `supertype`/`subtype` equality) and unknown ones are rejected rather than ignored.
+- **Common cause:** a misspelled field name (`freinds`), a `_ids`/`_id` suffix carried over from the v1 dialect (v2 uses bare link names — see the [API reference](/docs/development/api-reference)), an unrecognized query parameter (a typo'd filter like `nmae__icontains`), or a bulk request whose `items` is not an array.
+- **How to fix:** check the `param` field — it names the offending field or query parameter. Correct the spelling, drop the `_ids`/`_id` suffix, or remove the unknown parameter. The v2 filters are `name__icontains`, `supertype` and `subtype`; any other query parameter is rejected rather than ignored.
 
 Note: unknown fields are a **hard error**, not a silent drop. A typo'd field name fails loudly instead of vanishing. (Fields under the reserved extension namespaces — `atlas_*`, `shadow_*`, `x_*` — are the exception: they pass through and are stored verbatim.)
 
@@ -62,7 +64,7 @@ This replaces the old v1 behavior where a dangling link was silently dropped. It
 
 **Type:** `invalid_request` · **HTTP status:** `409`
 
-A `POST` create supplied an `id` that already exists in this world.
+A `POST` create supplied an `id` that already exists. Element ids are unique across **all** worlds, so the collision may be with an element in another world.
 
 - **Common cause:** retrying a create with a client-minted UUID that already landed, or minting a UUID that collides with an existing element.
 - **How to fix:** use `PUT /{type}/{id}` instead — it is the upsert (creates if absent, replaces if present). `POST` is strictly create; a duplicate id is a real conflict, not an overwrite. If you are retrying a possibly-completed request, send an `Idempotency-Key` header instead of re-POSTing.
@@ -73,8 +75,8 @@ A `POST` create supplied an `id` that already exists in this world.
 
 The API key or PIN was missing, unrecognized, or incorrect.
 
-- **Common cause:** no `API-Key` header, a mistyped key, or a missing/wrong `API-Pin` on a walled world. Reads on a walled (PIN-protected) world require the PIN; writes always require it.
-- **How to fix:** confirm the `API-Key` and `API-Pin` headers (exact casing) and that the key belongs to the world you're addressing. Keys are minted in the [account portal](https://www.onlyworlds.com/account/). A walled world needs its PIN on every write and on reads.
+- **Common cause:** no `API-Key` header, a mistyped key, or a missing/wrong `API-Pin` on a write. Only legacy 10-digit keys also need the PIN to read a private world; prefixed keys (`ow_w_`, `ow_r_`) read without it.
+- **How to fix:** confirm the `API-Key` and `API-Pin` headers (exact casing) and that the key belongs to the world you're addressing. Keys are minted in the [account portal](https://www.onlyworlds.com/account/). A world with a PIN needs it on every write.
 
 ### key_revoked
 
@@ -134,7 +136,7 @@ An unexpected server-side error. The envelope is preserved even here — a v2 re
 
 ## Bulk errors
 
-`POST /api/v2/bulk` always returns HTTP `200`. Success and failure are reported **per item**, in request order, under a top-level `errors` flag:
+`POST /api/v2/bulk` returns HTTP `200` once the batch is accepted. (A malformed request, such as bad JSON, `items` not an array or over 1000 items, or an auth failure answers with the usual status and envelope.) Success and failure are reported **per item**, in request order, under a top-level `errors` flag:
 
 ```jsonc
 {

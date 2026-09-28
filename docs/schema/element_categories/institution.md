@@ -6,7 +6,7 @@ grand_parent: schema
 nav_order: 8
 ---
 
-<span class="material-symbols-outlined">business</span>
+<span class="material-symbols-outlined">account_balance</span>
 
 Institutions are organized bodies with purpose and structure. They shape the world through policy, organization, and culture. Institutions can serve as key agents of power, coordinating individuals and collectives around shared goals, practices, or ideologies. 
 

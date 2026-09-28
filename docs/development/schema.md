@@ -15,9 +15,9 @@ The authoritative schema lives in the `/schema` directory as YAML files. Each el
 
 Version tracking is maintained in the repository's VERSION file.
 
-## Precompiled Languages
+## For tool builders
 
-The repository includes ready conversions in `/languages`. These update automatically on schema changes. You can request or propose new languages to be added here. Make sure to include a conversion script if you propose a new language.
+Typed clients live with the tools that maintain them (the TypeScript SDK on npm). Tool builders who decode the schema should use **[schema-dist](https://github.com/OnlyWorlds/schema-dist)**: the generated distribution, its decoder, and the ruling table.
 
 
 For details on schema definition, visit the [schema](/docs/schema/) page.

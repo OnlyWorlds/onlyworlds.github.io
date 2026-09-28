@@ -7,7 +7,7 @@ nav_order: 16
 ---
 
 
-<span class="material-symbols-outlined">location_pin</span>
+<span class="material-symbols-outlined">push_pin</span>
  
 
 A Pin is a special Map element. Pins represent a single element on a single Map, indicating its position in that particular world view. 
@@ -28,7 +28,7 @@ They are distinct from:
 ---
 ### Details
 - **Map** (single-link: Map): Map that the pin is placed on
-- **Element**: Link to any Element (managed by ContentType + UUID)
+- **Element** (generic-link: any element): Link to any Element (managed by ContentType + UUID)
 - **X** (#): x coordinate, from bottom left of the map
 - **Y** (#): y coordinate, from bottom left of the map
 - **Z** (#): z coordinate, in case of depth (optional)

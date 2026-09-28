@@ -10,7 +10,7 @@ nav_order: 4
 
 ### [@onlyworlds/sdk](https://www.npmjs.com/package/@onlyworlds/sdk)
 
-TypeScript/JavaScript SDK for building web applications and tools. Current version **4.0.0**, v2-native (link fields use bare schema names; the `_id`/`_ids` suffixes are the legacy v1 dialect).
+TypeScript/JavaScript SDK for building web applications and tools. Version **4.x** (currently 4.1.0), ESM-only, v2-native (link fields use bare schema names; the `_id`/`_ids` suffixes are the legacy v1 dialect). The client is `OwV2Client`.
 
 **Install:**
 ```bash
@@ -19,15 +19,15 @@ npm install @onlyworlds/sdk
 
 **Features:**
 - Complete TypeScript types for all 22 element categories
-- Simple CRUD operations (create, get, list, update, delete)
-- Automatic relationship handling
+- `OwV2Client`: `list`/`listAll`, `get`, `create`, `upsert`, `patch`, `delete`, plus `editLinks`, `bulk`, `changes`/`changesAll` and `getWorld`
+- Link helpers: `editLinks` (add/remove without read-modify-write) and one-level `expand`
 - Built-in authentication
 
 ### MCP server (hosted — no package to install)
 
 AI-assistant integration is now a **hosted server**, not an npm package. Point any MCP client at `https://www.onlyworlds.com/mcp`.
 
-The old `@onlyworlds/mcp-client` package is retired. See the [MCP setup guide](/docs/development/mcp/).
+The old `@onlyworlds/mcp-client` package is retired. See the [MCP setup guide](/docs/development/mcp).
 
 
 ## Python

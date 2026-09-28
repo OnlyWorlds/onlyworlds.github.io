@@ -5,6 +5,8 @@ parent: tools
 nav_order: 9
 ---
 
+<p style="font-size: 0.85em; opacity: 0.65; border-left: 2px solid rgba(148, 163, 184, 0.4); padding-left: 12px; margin: 0 0 20px;"><em>Legacy tool: still available, no longer developed. See the <a href="https://www.onlyworlds.com/tools" style="color: inherit;">current tools</a>.</em></p>
+
 Browse, search, and explore your world's elements and their connections.
 
 **URL:** [little-lens.onlyworlds.com](https://little-lens.onlyworlds.com/)

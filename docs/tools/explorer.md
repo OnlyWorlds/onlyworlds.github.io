@@ -16,4 +16,4 @@ Interactive 3D introduction to OnlyWorlds concepts and structure.
 
 - **3D Navigation** - Explore element types and relationships in 3D space
 - **Schema Visualization** - See how the OnlyWorlds schema connects
-- **Desktop Optimized** - Best experienced on desktop
+- **Desktop Optimized** - Best experienced on desktop; touch devices are sent to a [mobile version](https://explorer-mobile.onlyworlds.com)

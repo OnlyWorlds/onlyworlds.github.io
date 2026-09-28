@@ -34,12 +34,12 @@ They are distinct from:
 - **Behaviour_effects**: Relating to visible aspects and patterns of behavior
 
 ### Quantitative
-- **Charisma** (# max:100): Affecting a character's charisma score
-- **Coercion** (# max:100): Affecting a character's coercion score
-- **Competence** (# max:100): Affecting a character's competence score
-- **Compassion** (# max:100): Affecting a character's compassion score
-- **Creativity** (# max:100): Affecting a character's creativity score
-- **Courage** (# max:100): Affecting a character's courage score
+- **Charisma** (# min:-100 max:100): Affecting a character's charisma score
+- **Coercion** (# min:-100 max:100): Affecting a character's coercion score
+- **Competence** (# min:-100 max:100): Affecting a character's competence score
+- **Compassion** (# min:-100 max:100): Affecting a character's compassion score
+- **Creativity** (# min:-100 max:100): Affecting a character's creativity score
+- **Courage** (# min:-100 max:100): Affecting a character's courage score
 
 ### World
 - **Significance**: Describes the trait's societal, symbolic, or systemic presence

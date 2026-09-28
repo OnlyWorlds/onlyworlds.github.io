@@ -15,8 +15,6 @@ OnlyWorlds is free to use and extend.
 
 **[GitHub Discussions](https://github.com/OnlyWorlds/OnlyWorlds/discussions)** - announcements, technical discussion
 
-**[Workshop](https://onlyworlds.com/workshop)** - guided creative sessions, open to all
-
 **[Council](https://council.onlyworlds.com)** - delegate your characters to evolve the language
 
 ### Learn
@@ -29,6 +27,6 @@ OnlyWorlds is free to use and extend.
 
 ### Support
 
-**[Patreon](https://www.patreon.com/OnlyWorlds)** - support the project 
+**[Patreon](https://www.patreon.com/cw/OnlyWorlds)** - support the project 
 
 **[Email](mailto:info@onlyworlds.com)** - general inquiry

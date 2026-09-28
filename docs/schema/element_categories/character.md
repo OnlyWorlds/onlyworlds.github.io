@@ -6,7 +6,7 @@ grand_parent: schema
 nav_order: 2
 ---
 
-<span class="material-symbols-outlined">person_4</span>
+<span class="material-symbols-outlined">person</span>
 
 A Character represents an individual with agency and the capacity to make choices that affect their world. Characters are self-directed actors who can respond to situations, form relationships, and drive narrative change through their decisions and actions.
 
@@ -66,10 +66,10 @@ They are distinct from:
 ### Ttrpg
 - **Level** (#): Progression rank of the character in a game system
 - **Hit_points** (#): Total health available to the character
-- **Str** (#): Physical force and carrying capacity
-- **Dex** (#): Agility, coordination, and reflexes
-- **Con** (#): Endurance and resistance to strain
-- **Int** (#): Reasoning, memory, and learning
-- **Wis** (#): Intuition, awareness, and judgment
-- **Cha** (#): Persuasiveness and personal magnetism
+- **STR** (#): Physical force and carrying capacity
+- **DEX** (#): Agility, coordination, and reflexes
+- **CON** (#): Endurance and resistance to strain
+- **INT** (#): Reasoning, memory, and learning
+- **WIS** (#): Intuition, awareness, and judgment
+- **CHA** (#): Persuasiveness and personal magnetism
 

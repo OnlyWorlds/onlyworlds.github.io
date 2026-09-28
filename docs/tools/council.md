@@ -14,7 +14,8 @@ Community governance tool for the OnlyWorlds schema.
 
 ## Features
 
-- **Motions & Amendments** - Propose schema changes for community review
-- **Delegate Voting** - Vote on proposed changes
-- **Precedents** - Search past decisions for reference
-- **Prestige** - Build reputation through accepted contributions
+- **Motions & Amendments** - Raise a schema limitation as a motion, or propose the change that answers it as an amendment
+- **Precedents** - Answer a motion by showing how the schema already handles it
+- **Delegates** - Commit a character from your own world as your delegate, then vote on what others propose
+- **Prestige** - Build reputation when motions you wrote or seconded are implemented
+- **From an AI session** - Browse and submit motions through the [toolkit](https://github.com/OnlyWorlds/toolkit)'s council skill
