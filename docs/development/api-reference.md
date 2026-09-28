@@ -106,7 +106,7 @@ A **single-element** GET (`/api/v2/character/{id}`) returns the bare element obj
 
 **Filtering** takes exactly three parameters: `name__icontains` (case-insensitive substring), `supertype` and `subtype` (exact match). Any other query parameter is a `422` (typos are rejected, not silently ignored).
 
-**Ordering** is not supported: `?ordering=` is accepted but has no effect, and pages always come in change order. Sort client-side.
+**Ordering** is not supported: `?ordering=` returns `422`, and pages always come in change order. Sort client-side.
 
 ```bash
 curl -s "https://www.onlyworlds.com/api/v2/character?name__icontains=admiral" -H "API-Key: {key}"
@@ -144,7 +144,7 @@ Adds dedupe (idempotent); removes tolerate ids that aren't present. No prior GET
 
 ## Writes
 
-- **`POST /{type}`** — create. You may supply an `id` (any RFC-4122 UUID; v7 recommended), or omit it and the server mints one (a UUIDv4). Returns `201`. Reusing an existing id is a `409 id_conflict` — use `PUT` to upsert.
+- **`POST /{type}`** — create. You may supply an `id` (any RFC-4122 UUID; v7 recommended), or omit it and the server mints one (a UUIDv7). Returns `201`. Reusing an existing id is a `409 id_conflict` — use `PUT` to upsert.
 - **`PUT /{type}/{id}`** — upsert by id: creates if absent, **full-replaces** if present. Returns `201` when it created, `200` when it replaced.
 - **`PATCH /{type}/{id}`** — partial update. Omitted fields are left untouched. **Arrays replace** (a `PATCH` to `friends` sets the whole list — use the [link operations](#link-fields--flat-uuid-arrays-both-directions) endpoint to add/remove). To clear a field, send its empty shape: `""`/`null` for text, `null` for a single link, `[]` for a multi link, `null` for a number.
 - **`DELETE /{type}/{id}`** — returns `204`. Idempotent: deleting an already-absent element is still `204`. Deleting an element also scrubs its UUID from every other element's links — no dangling references.
