@@ -66,10 +66,10 @@ They are distinct from:
 ### Ttrpg
 - **Level** (#): Progression rank of the character in a game system
 - **Hit_points** (#): Total health available to the character
-- **STR** (#): Physical force and carrying capacity
-- **DEX** (#): Agility, coordination, and reflexes
-- **CON** (#): Endurance and resistance to strain
-- **INT** (#): Reasoning, memory, and learning
-- **WIS** (#): Intuition, awareness, and judgment
-- **CHA** (#): Persuasiveness and personal magnetism
+- **Str** (#): Physical force and carrying capacity
+- **Dex** (#): Agility, coordination, and reflexes
+- **Con** (#): Endurance and resistance to strain
+- **Int** (#): Reasoning, memory, and learning
+- **Wis** (#): Intuition, awareness, and judgment
+- **Cha** (#): Persuasiveness and personal magnetism
 

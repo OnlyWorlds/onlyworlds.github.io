@@ -28,7 +28,7 @@ They are distinct from:
 ---
 ### Details
 - **Map** (single-link: Map): Map that the pin is placed on
-- **Element** (generic-link: any element): Link to any Element (managed by ContentType + UUID)
+- **Element**: Link to any Element (managed by ContentType + UUID)
 - **X** (#): x coordinate, from bottom left of the map
 - **Y** (#): y coordinate, from bottom left of the map
 - **Z** (#): z coordinate, in case of depth (optional)
