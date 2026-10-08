@@ -170,6 +170,17 @@ for (const f of walk(DIST)) {
     if (sitemapUrls.size && !sitemapUrls.has(abs)) fail.push(`${pageUrl(f)}: ${what} ${abs} is not the address the sitemap lists`);
   }
 }
+// robots.txt names the sitemap for crawlers and agents (Boss, h37 #1093): each Sitemap: line must answer.
+{
+  const rb = join(DIST, 'robots.txt');
+  if (!isFile(rb)) fail.push('no robots.txt in dist (crawlers and agents look there for the sitemap)');
+  else {
+    const maps = [...readFileSync(rb, 'utf8').matchAll(/^Sitemap:\s*(\S+)/gim)].map((m) => m[1]);
+    if (!maps.length) fail.push('robots.txt names no Sitemap:');
+    for (const s of maps) { selfUrls++; direct(s, 'robots.txt Sitemap'); }
+  }
+}
+
 // The llms files are what agents read first: every onlyworlds.github.io URL in them must answer,
 // and each page's <link rel="alternate" type="text/markdown"> must point at a twin that exists.
 for (const lf of walk(DIST).filter((f) => /(llms[^/\\]*|_llms-txt[/\\][^/\\]+)\.txt$/.test(f))) {
