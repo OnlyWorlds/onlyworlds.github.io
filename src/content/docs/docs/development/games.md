@@ -47,14 +47,15 @@ Four rules keep a write from damaging work done elsewhere:
 |---|---|
 | **Unity** | The [Unity SDK](/docs/development/unity): typed C# models, a v2 client, a world cache that ships as an asset, and a world browser in the Editor. |
 | **Browser games** (JavaScript, TypeScript) | The [TypeScript SDK](/docs/development/typescript). |
-| **Godot, Unreal and other engines** | The [REST API](/docs/development/api-reference) directly: HTTPS and JSON, with the key in a header (the call below). Generate a client from the [OpenAPI document](https://www.onlyworlds.com/api/v2/openapi.json), and types for the 22 element types from [schema-dist](https://github.com/OnlyWorlds/schema-dist). |
+| **Godot, Unreal and other engines** | The [REST API](/docs/development/api-reference) directly: HTTPS and JSON, with the key in a header (the call below). Generate a client from the [OpenAPI document](https://www.onlyworlds.com/api/v2/openapi.json), and types for the 22 element types from [schema-dist](https://github.com/OnlyWorlds/schema-dist) (its decoder, the walk, is Python today). |
 | **Build pipelines and tools** | The [Python package](/docs/development/python) reads and writes world folders and talks to the API. |
 
-Every path ends in the same call. This one reads Hyperion, the public example world, with its demo key:
+Every path ends in the same call. This one reads three characters of Moppetopia, a public sample world, with its demo
+key, the same first run the SDKs start with:
 
 ```bash
-curl -H "API-Key: 0000000000" \
-  "https://www.onlyworlds.com/api/v2/character/?fields=id,name"
+curl -H "API-Key: 0000000001" \
+  "https://www.onlyworlds.com/api/v2/character/?fields=id,name&limit=3"
 ```
 
 Unity is the first engine with an SDK of its own. Until another engine has one, its path is the API.

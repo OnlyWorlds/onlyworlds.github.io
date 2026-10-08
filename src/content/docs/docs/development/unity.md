@@ -35,7 +35,8 @@ The package ships a **Quick Start** sample (Package Manager â†’ OnlyWorlds SDK â
 
 ## Read a World
 
-No account yet? The demo key `0000000000` reads Hyperion, the public example world, with no PIN.
+No account yet? The demo key `0000000001` reads Moppetopia, a public sample world, with no PIN. It's the same key the
+other SDKs start with, so the output matches theirs.
 
 ```csharp
 using OnlyWorlds.Sdk;
@@ -45,7 +46,7 @@ public class ReadWorld : MonoBehaviour
 {
     // A read key (ow_r_) needs no PIN. A key in a build can be extracted from it,
     // so ship only a read key, and only for a world your players may read.
-    [SerializeField] private string apiKey = "0000000000";
+    [SerializeField] private string apiKey = "0000000001";
 
     private async void Start()
     {
@@ -93,7 +94,7 @@ The same steps run from code. `OWSync.BaselineAsync(client, cache)` fetches the 
 
 ## Write
 
-Writes need a write key (`ow_w_`) and the world's PIN in `OWClientConfig.ApiPin`. Both can be extracted from a build, so write from the Editor, a server or a tool you control, never from a game you ship to players.
+Writes need a write key (`ow_w_`) and a secret in `OWClientConfig.ApiPin`: best an [agent seat](/docs/development/agents)'s own `ow_s_` secret, which works in one world and can be removed, or else the account PIN. Both can be extracted from a build, so write from the Editor, a server or a tool you control, never from a game you ship to players.
 
 **Send only what changed.** A `PATCH` replaces every field it carries, so sending back an element fetched an hour ago undoes an hour of someone else's edits. `OWEdit` snapshots an element and sends the difference:
 
