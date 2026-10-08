@@ -59,9 +59,12 @@ if (movedDirs.length) {
   rules.push([new RegExp(`(href=["'])/(${dirs})\\.html(?=[#?"'])`, 'g'), count((_, pre, d) => `${pre}/${d}/`)]);
   const enc = movedDirs.map((d) => esc(encodeURIComponent('/' + d))).join('|');
   rules.push([new RegExp(`(${enc})\\.html(?=%20|&|"|')`, 'g'), count((_, d) => `${d}${encodeURIComponent('/')}`)]);
+  // canonical and og:url carry the absolute form; the sitemap lists section pages without the slash
+  rules.push([new RegExp(`(https://onlyworlds\\.github\\.io/)(${dirs})\\.html(?=["'#?])`, 'g'), count((_, h, d) => `${h}${d}/`)]);
+  rules.push([new RegExp(`(<loc>https://onlyworlds\\.github\\.io/)(${dirs})(?=</loc>)`, 'g'), count((_, h, d) => `${h}${d}/`)]);
 }
 for (const file of walk(DIST)) {
-  if (!file.endsWith('.html')) continue;
+  if (!file.endsWith('.html') && !/sitemap.*\.xml$/.test(file)) continue;
   const html = readFileSync(file, 'utf8');
   let next = html;
   for (const [re, fn] of rules) next = next.replace(re, fn);

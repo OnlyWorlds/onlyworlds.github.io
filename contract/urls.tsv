@@ -113,3 +113,5 @@
 /api/errors#resync_required	load-bearing	floor	keel doc_url (core/errors.py DOC_BASE + code); anchor live after 343d08f
 /api/errors#server_busy	load-bearing	floor	keel doc_url (core/errors.py DOC_BASE + code); anchor live after 343d08f
 /api/errors#storage_full	load-bearing	floor	keel doc_url (core/errors.py DOC_BASE + code); anchor live after 343d08f
+/docs/schema/element_categories/base_properties	page	200	source docs/schema/element_categories/base_properties.md (found 2026-10-08 by diffing against jekyll-final)
+/docs/schema/element_categories/world	page	200	source docs/schema/element_categories/world.md (found 2026-10-08 by diffing against jekyll-final)

@@ -63,8 +63,15 @@ def render(fields: list[dict]) -> str:
         if f.get("section") != section:
             section = f.get("section")
             out += ["", f"### {section}", "", "| Field | Type | Description |", "|---|---|---|"]
-        name = f"`{f['name']}`" + (" (required)" if f.get("required") else "")
-        out.append(f"| {name} | {kind_label(f)} | {cell(f.get('desc') or '')} |")
+        req = " (required)" if f.get("required") else ""
+        if f["kind"] == "generic":
+            # On the wire a generic link is two fields, <name>_type and <name>_id (the walk's own
+            # note for pin.element; the live API answers element_type and element_id).
+            # (Plain descriptions: the YAML's own text for this field describes the platform's storage.)
+            out.append(f"| `{f['name']}_type`{req} | text: one of the 22 type names | The type of the linked element, any of the 22 |")
+            out.append(f"| `{f['name']}_id`{req} | id of an element of that type | The id of the linked element |")
+            continue
+        out.append(f"| `{f['name']}`{req} | {kind_label(f)} | {cell(f.get('desc') or '')} |")
     return "\n".join(out).replace("\n\n\n", "\n\n").strip() + "\n"
 
 

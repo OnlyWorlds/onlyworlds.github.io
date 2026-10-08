@@ -29,7 +29,8 @@ They are distinct from:
 | Field | Type | Description |
 |---|---|---|
 | `map` (required) | link to Map | Map that the pin is placed on |
-| `element` (required) | link to any element | Link to any Element (managed by ContentType + UUID) |
+| `element_type` (required) | text: one of the 22 type names | The type of the linked element, any of the 22 |
+| `element_id` (required) | id of an element of that type | The id of the linked element |
 | `x` (required) | integer | x coordinate, from bottom left of the map |
 | `y` (required) | integer | y coordinate, from bottom left of the map |
 | `z` | integer | z coordinate, in case of depth (optional) |

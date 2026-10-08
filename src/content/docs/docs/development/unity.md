@@ -3,7 +3,9 @@ title: "Unity SDK"
 description: "The OnlyWorlds Unity SDK: typed C# models for the 22 element types, a client for the v2 API, and a world cache that lives in your project as an asset."
 ---
 
-`com.onlyworlds.sdk` reads and writes OnlyWorlds worlds from Unity. It has three parts:
+OnlyWorlds is an open schema for world data: characters, creatures, places, items, factions and events as 22 element types with typed links between them. Worlds are hosted on [onlyworlds.com](https://www.onlyworlds.com) and edited there or in any tool built on the schema. For what that gives a game, see [Games](/docs/development/games).
+
+`com.onlyworlds.sdk` reads and writes those worlds from Unity. It has three parts:
 
 | Part | Assembly | What it is |
 |---|---|---|
@@ -17,21 +19,23 @@ The models are generated from [schema-dist](https://github.com/OnlyWorlds/schema
 The package is public and in use, but it carries no compatibility promise yet, so expect the interface to change between releases. The [changelog](https://github.com/OnlyWorlds/unity-sdk/blob/main/Packages/com.onlyworlds.sdk/CHANGELOG.md) says what each version holds.
 :::
 
-For the patterns a game can use with a world (bake it in, read it live, write back), see [Games](/docs/development/games).
-
 ## Install
 
-Unity 6 (6000.0) or later. In the Package Manager: **+ → Add package from git URL**, and paste:
+Unity 6 (6000.0) or later, with [Git](https://git-scm.com) installed: the Package Manager needs it to add a package from a git URL. In the Package Manager: **+ → Add package from git URL**, and paste:
 
 ```
 https://github.com/OnlyWorlds/unity-sdk.git?path=/Packages/com.onlyworlds.sdk
 ```
 
-To pin a release, add its tag from the repository to the end of the URL (`…com.onlyworlds.sdk#v<version>`). The package depends on Newtonsoft JSON (`com.unity.nuget.newtonsoft-json`), which the Package Manager resolves for you.
+To pin a release, add a tag from the [repository's tags](https://github.com/OnlyWorlds/unity-sdk/tags) to the end of the URL (`…com.onlyworlds.sdk#v<version>`). The package depends on Newtonsoft JSON (`com.unity.nuget.newtonsoft-json`), which the Package Manager resolves for you.
+
+**Platforms**: the requests go through `UnityWebRequest`, and the JSON converters are marked to survive IL2CPP code stripping, which was checked by inspecting a stripped Android build. The package has not yet been run on a device, or in a WebGL build.
 
 The package ships a **Quick Start** sample (Package Manager → OnlyWorlds SDK → Samples). It reads a world at runtime, from the API or from a cache asset, and shows nullable fields, link resolution and error handling.
 
 ## Read a World
+
+No account yet? The demo key `0000000000` reads Hyperion, the public example world, with no PIN.
 
 ```csharp
 using OnlyWorlds.Sdk;
@@ -39,7 +43,9 @@ using UnityEngine;
 
 public class ReadWorld : MonoBehaviour
 {
-    [SerializeField] private string apiKey; // an ow_r_ key reads without a PIN
+    // A read key (ow_r_) needs no PIN. A key in a build can be extracted from it,
+    // so ship only a read key, and only for a world your players may read.
+    [SerializeField] private string apiKey = "0000000000";
 
     private async void Start()
     {
@@ -87,7 +93,7 @@ The same steps run from code. `OWSync.BaselineAsync(client, cache)` fetches the 
 
 ## Write
 
-Writes need a write key (`ow_w_`) and the world's PIN in `OWClientConfig.ApiPin`.
+Writes need a write key (`ow_w_`) and the world's PIN in `OWClientConfig.ApiPin`. Both can be extracted from a build, so write from the Editor, a server or a tool you control, never from a game you ship to players.
 
 **Send only what changed.** A `PATCH` replaces every field it carries, so sending back an element fetched an hour ago undoes an hour of someone else's edits. `OWEdit` snapshots an element and sends the difference:
 

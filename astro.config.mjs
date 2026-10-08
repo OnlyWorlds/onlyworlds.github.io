@@ -16,6 +16,18 @@ export default defineConfig({
   site: 'https://onlyworlds.github.io',
   build: { format: 'file' },
   trailingSlash: 'ignore',
+  // Pages folded into others. Each is a 'page' row in contract/urls.tsv (nothing outside links it),
+  // so a redirect stub is enough; load-bearing rows may never be redirected.
+  redirects: {
+    '/docs/tools/base-tool': '/docs/tools/legacy#base-tool',
+    '/docs/tools/write-tool': '/docs/tools/legacy#write-tool',
+    '/docs/tools/zoner': '/docs/tools/legacy#zoner',
+    '/docs/tools/mobile-companion': '/docs/tools/legacy#mobile-companion',
+    '/docs/tools/element-viewer': '/docs/tools/legacy#little-lens-element-viewer',
+    '/docs/tools/history': '/docs/tools/legacy#tool-history',
+    '/docs/schema/element_categories/base_properties': '/docs/schema/fields',
+    '/docs/schema/element_categories/world': '/docs/schema/worlds',
+  },
   integrations: [
     starlight({
       title: 'OnlyWorlds',
@@ -116,6 +128,7 @@ export default defineConfig({
             { slug: 'docs/tools/onlyworlds-com' },
             { slug: 'docs/tools/easy-mobile' },
             { slug: 'docs/tools/explorer' },
+            { slug: 'docs/tools/council' },
             { slug: 'docs/tools/legacy' },
           ],
         },

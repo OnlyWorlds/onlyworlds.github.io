@@ -20,6 +20,16 @@ The game reads the world from the API while it runs, so a new character or a rew
 
 A read key (`ow_r_`) is made for this: it reads, cannot write, and needs no PIN. A key inside a shipped game can be extracted, so assume your players can read the whole world. See [Keys and PINs](/docs/getting-started/keys).
 
+What a live read can count on:
+
+- **It's free**, with no fee and no account tiers.
+- **There is no request quota on reads** per key.
+- **Under load the server answers `503`** [`server_busy`](/api/errors/#server_busy) with a `Retry-After` header. Wait that long, then retry.
+- **Image uploads have a daily cap** per world.
+- **There is no uptime guarantee.**
+
+So a game that must never break should bake its world in, and read live only the content that may change.
+
 ### Write Back
 
 The game writes its outcomes into the world: who died, which town burned, what was found. The world becomes the record of play, and every other tool on it sees the result. Writing needs a write key and the PIN, so keep it on a server or in a tool you control, not in a game you ship to players.
@@ -37,8 +47,15 @@ Four rules keep a write from damaging work done elsewhere:
 |---|---|
 | **Unity** | The [Unity SDK](/docs/development/unity): typed C# models, a v2 client, a world cache that ships as an asset, and a world browser in the Editor. |
 | **Browser games** (JavaScript, TypeScript) | The [TypeScript SDK](/docs/development/typescript). |
-| **Godot, Unreal and other engines** | The [REST API](/docs/development/api-reference) directly: HTTPS and JSON, with the key in a header. Generate a client from the [OpenAPI document](https://www.onlyworlds.com/api/v2/openapi.json), and types for the 22 element types from [schema-dist](https://github.com/OnlyWorlds/schema-dist). |
+| **Godot, Unreal and other engines** | The [REST API](/docs/development/api-reference) directly: HTTPS and JSON, with the key in a header (the call below). Generate a client from the [OpenAPI document](https://www.onlyworlds.com/api/v2/openapi.json), and types for the 22 element types from [schema-dist](https://github.com/OnlyWorlds/schema-dist). |
 | **Build pipelines and tools** | The [Python package](/docs/development/python) reads and writes world folders and talks to the API. |
+
+Every path ends in the same call. This one reads Hyperion, the public example world, with its demo key:
+
+```bash
+curl -H "API-Key: 0000000000" \
+  "https://www.onlyworlds.com/api/v2/character/?fields=id,name"
+```
 
 Unity is the first engine with an SDK of its own. Until another engine has one, its path is the API.
 
@@ -49,15 +66,26 @@ The 22 element types cover most of what a game holds. A starting point:
 | In your game | Element type |
 |---|---|
 | Player characters, NPCs | Character |
-| Monsters, animals | Creature |
+| Races and peoples | Species |
+| Monster and animal types (goblin, frost wyrm, the stat block) | Species |
+| Individual monsters (the goblin chief, a named dragon) | Creature, linked to its Species |
 | Items, gear, loot | Object |
 | Skills, spells, actions | Ability |
 | Passive perks, qualities | Trait |
 | Guilds, kingdoms, orders | Institution (organized) or Collective (no formal structure) |
+| Magic systems, currencies, crafting rules | Construct |
+| Rules of a faction or realm | Law |
+| Ranks and offices | Title |
+| Languages, including those spoken in dialogue | Language |
+| Quests and storylines | Narrative |
+| Battles and happenings | Event |
+| Weather, curses, magic storms | Phenomenon |
+| Reputation, rivalries, alliances | Relation |
 | Towns, dungeons, levels | Location |
-| Maps and what is placed on them | Map, Pin, Marker, Zone |
+| Territories and regions | Zone |
+| Maps and what is placed on them | Map, Pin, Marker |
 
-`supertype` and `subtype` hold your game's own categories (a Creature with supertype `Boss`), so you don't need new element types for them. Where two types are close, [Conventions](/docs/schema/conventions) draws the line between them. Each type's fields are listed under [Schema](/docs/schema/).
+The line between Character and Creature is agency, not species: an intelligent monster with goals of its own can be a Character. `supertype` and `subtype` hold your game's own categories (a Creature with supertype `Boss`), so you don't need new element types for them. Where two types are close, [Conventions](/docs/schema/conventions) draws the line between them. Each type's fields are listed under [Schema](/docs/schema/).
 
 ## On OnlyWorlds Today
 

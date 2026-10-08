@@ -146,6 +146,28 @@ for (const f of walk(DIST)) {
     }
   }
 }
+// ---- the URLs a page names for itself, and the sitemap: final URLs, 200 with no redirect -----------
+// Search engines and agents take these as the page's address, so a 301 or 404 here misdirects them.
+const direct = (abs, where) => {
+  const u = new URL(abs);
+  if (u.host !== 'onlyworlds.github.io') { fail.push(`${where} names another host: ${abs}`); return; }
+  const r = resolve(u.pathname);
+  if (r.status !== 200) fail.push(`${where} is ${abs}, which answers ${r.status}${r.location ? ` (to ${r.location})` : ''}, not 200`);
+};
+let selfUrls = 0;
+for (const f of walk(DIST)) {
+  if (!f.endsWith('.html')) continue;
+  const html = readFileSync(f, 'utf8');
+  if (stubTarget(html)) continue;
+  for (const m of html.matchAll(/<link rel="canonical" href="([^"]+)"|<meta property="og:url" content="([^"]+)"/g)) {
+    selfUrls++; direct(m[1] || m[2], `${pageUrl(f)}: ${m[1] ? 'canonical' : 'og:url'}`);
+  }
+}
+for (const sm of walk(DIST).filter((f) => /sitemap-\d+\.xml$/.test(f))) {
+  for (const m of readFileSync(sm, 'utf8').matchAll(/<loc>([^<]+)<\/loc>/g)) { selfUrls++; direct(m[1], 'sitemap entry'); }
+}
+if (!selfUrls) gaps.push('no canonical, og:url or sitemap URL found in dist: the self-URL check saw nothing');
+
 for (const [target, from] of brokenLinks) fail.push(`internal link ${target} does not answer on Pages (linked from ${from})`);
 
 // ---- the contract -----------------------------------------------------------------------------
