@@ -8,12 +8,14 @@ The Jekyll site this replaced is kept whole on the `jekyll` branch and the `jeky
 
 ```bash
 npm ci
-npm run build     # astro build, then scripts/postbuild.mjs
-npm run verify    # the URL gate (scripts/verify-urls.mjs) on dist/
+npm run build     # gen_sdk_ref, gen_errors, astro build, then scripts/postbuild.mjs
+npm run verify    # the workflows parse (verify-workflows.mjs), then the URL gate (verify-urls.mjs) on dist/
 node scripts/serve.mjs   # dist/ on http://localhost:4321/, resolved the way GitHub Pages resolves it
 ```
 
 Pages are Markdown in `src/content/docs/`, at the URL they are served from. The sidebar (in `astro.config.mjs`) is independent of the folders.
+
+**Deploys.** `pages.yml` runs on every push to `main`, every 4 hours, and when schema-dist publishes (its publish step ends with `gh workflow run pages.yml -R OnlyWorlds/onlyworlds.github.io`; no token is held for it). Nothing uploads unless `npm run verify` passes. Push and manual deploys are tagged `docs-live-<date>-<run>`; a rollback is a manual run on an earlier tag. Hangar's `fleet/docs_follows_schema.py` notices if the workflow is disabled (GitHub does that after 60 days without activity) or the site falls behind schema-dist. Run `npm run verify` before every push: a workflow that doesn't parse never runs, so GitHub shows no failed check, only none.
 
 ## Old URLs are part of the contract
 
@@ -36,9 +38,14 @@ python scripts/gen_elements.py --dist ../schema-dist          # rewrite
 python scripts/gen_elements.py --dist ../schema-dist --check  # exit 1 if a page is behind
 ```
 
+## Other generated parts
+
+- **The errors page's summary table and the contract's `floor` rows** come from keel's own list of error codes (`Error.x-ow-error-codes` in its OpenAPI), vendored as `contract/error-codes.json`. `scripts/gen_errors.mjs` runs in every build. It fails when a public code has no `### <code>` section, when a section isn't a public code, or when the Upload Host Errors table disagrees with the host rows. The sections themselves are hand-written. `--refresh` re-reads the live list; `--live` compares the snapshot with it (CI and the deploy warn on a difference).
+- **The TypeScript page's reference** comes from the pinned `@onlyworlds/sdk` (a dev dependency): `scripts/gen_sdk_ref.mjs` reads its types with the TypeScript compiler. Bump the pin after an SDK release to move the reference.
+
 ## Who holds what
 
-Kael (Assembly) owns the site: build, design, deploy. Skeld (Orrery) holds content truth for the schema, API and agent pages. Boss (Hangar) holds hosting and the live check.
+Kael (Assembly) owns the site: build, design, deploy. Skeld (Orrery) holds content truth for the schema, API and agent pages. Quillon (Armature) holds the Unity and Games pages. Boss (Hangar) holds hosting and the live checks.
 
 ## License
 
