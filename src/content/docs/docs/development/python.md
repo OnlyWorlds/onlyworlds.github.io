@@ -37,6 +37,20 @@ A write key also takes a PIN: `Client(key, pin)`. Which PIN depends on the key:
 
 Elements are plain dicts. The demo keys `0000000000` to `0000000009` read sample worlds.
 
+## Write
+
+```python
+writer = Client("ow_w_...", "1234")  # a write key and its PIN
+
+peak = writer.create("location", {"name": "Dragon Peak"})
+writer.patch("location", peak["id"], {"supertype": "Mountain"})
+
+# add or remove links on a multi-link field without replacing the list
+writer.edit_links("location", peak["id"], "founders", add=[character_id])
+```
+
+`create` gives an element without an `id` one, and always sends an `Idempotency-Key`. So retrying a create after a lost answer is safe: it replays the stored result instead of making a second element. `patch` replaces every field it sends, and a list replaces the whole list. Use `edit_links` to add or remove links. `bulk` takes up to about 1,000 `{"type", "element"}` items: it succeeds partly by default (check each slot's `status`), or all or nothing with `atomic=True`.
+
 ## Follow changes
 
 ```python
@@ -52,7 +66,7 @@ If the feed refuses a cursor (`is_resync_required` on the error), walk again fro
 
 - **World folders**: `read_folder` and `write_folder` implement the folder format and pass its shared conformance fixture. The reader never changes a folder.
 - **Push**: `plan_push` and `push` compare a folder with a baseline and PATCH only the fields that changed. A rerun skips what already landed.
-- **Client**: `get_world`, `patch_world`, `list_page`, `iter_elements`, `get`, `create`, `upsert`, `patch`, `delete`, `edit_links`, `bulk`, `changes` and `walk_changes`. `create` and `bulk` always send an `Idempotency-Key`, so a retry after a lost answer writes the same elements again instead of creating them twice.
+- **Client**: `get_world`, `patch_world`, `list_page`, `iter_elements`, `get`, `create`, `upsert`, `patch`, `delete`, `edit_links`, `bulk`, `changes` and `walk_changes`. `create` and `bulk` always send an `Idempotency-Key`, so a retry after a lost answer is safe: it never creates an element twice.
 - **Errors**: `ApiError` carries the envelope's `code`, `param` and `doc_url`, with flags such as `is_id_conflict`, `is_not_author`, `is_resync_required` and `is_validation_error`.
 - **Export**: `export_world`.
 

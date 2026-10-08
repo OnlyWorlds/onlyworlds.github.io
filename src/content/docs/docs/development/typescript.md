@@ -47,7 +47,7 @@ The v2 rules the client follows:
 - A link field has one bare name in both directions (`location`, `abilities`). The `_id` and `_ids` suffixes belong to v1.
 - Never send a `world` field: the key decides the world, and the client strips the field.
 - `name` is the one required field. `''` and `null` are accepted and stored as `''`.
-- An `id` is minted on the client when you leave it out, so a retried create stays idempotent.
+- An `id` is minted on the client when you leave it out, so a retried create stays idempotent. (A plain REST request without an `id` gets one from the server instead.)
 - `patch` replaces every field it sends, and an array replaces the whole list. To add or remove links without replacing them, use `editLinks`.
 
 ## Bulk writes
@@ -122,3 +122,44 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 - [npm](https://www.npmjs.com/package/@onlyworlds/sdk) · [Source](https://github.com/OnlyWorlds/sdk) · [Changelog](https://github.com/OnlyWorlds/sdk/blob/main/CHANGELOG.md) · [Migrating from 3.x to 4.x](https://github.com/OnlyWorlds/sdk/blob/main/docs/migrating-3-to-4.md)
 - [Interactive API reference](https://www.onlyworlds.com/api/docs)
+
+<!-- generated:sdk-reference (scripts/gen_sdk_ref.mjs rewrites everything below this line) -->
+
+## Reference
+
+Generated from the types of `@onlyworlds/sdk` 4.6.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+
+### Client options
+
+`new OwV2Client(config)` takes:
+
+| Option | Type | Notes |
+|---|---|---|
+| `apiKey` (required) | `string` | ow_w_ / ow_r_ / ow_a_ prefixed key, or grandfathered 10-digit legacy key. |
+| `apiPin` | `string` | Required for writes when the world has a PIN, and for legacy-key reads of private worlds. |
+| `baseUrl` | `string` | Default: https://www.onlyworlds.com/api/v2 |
+| `pageSize` | `number` | Page size for element lists. |
+| `changesPageSize` | `number` | Page size for /changes pulls. |
+| `fetch` | `typeof globalThis.fetch` | Injectable for tests / fake-keel harnesses. |
+
+### Methods
+
+| Method | Route | What it does | Returns |
+|---|---|---|---|
+| `health()` | `GET /health` | unauthenticated liveness pulse. | `Promise<unknown>` |
+| `getWorld()` | `GET /world` | world meta (name, calendar/time fields, public_read). | `Promise<OwWorldMeta>` |
+| `patchWorld(partial)` | `PATCH /world` | partial world-meta update. | `Promise<OwWorldMeta>` |
+| `list(type, params?)` | `GET /{type}/` | one cursor page. | `Promise<OwPage>` |
+| `listAll(type, params?)` |  | Cursor-walk every page of a type. | `AsyncGenerator<OwElement>` |
+| `get(type, id, opts?)` | `GET /{type}/{id}/` | optional one-level stub expansion / sparse fields. | `Promise<OwElement>` |
+| `create(type, element, opts?)` | `POST /{type}/` | Mints an RFC 9562 UUIDv7 for element.id when the caller omits one (design ruling D29d) so a retry carrying the same Idempotency-Key is structurally safe. | `Promise<OwElement>` |
+| `upsert(type, id, element)` | `PUT /{type}/{id}/` | The local-first write primitive. | `Promise<OwElement>` |
+| `patch(type, id, partial)` | `PATCH /{type}/{id}/` | DESTRUCTIVE on sent fields: arrays replace wholesale, omitted fields stay untouched. | `Promise<OwElement>` |
+| `delete(type, id)` | `DELETE /{type}/{id}/` | idempotent (204 on absent). | `Promise<void>` |
+| `editLinks(type, id, field, edit)` | `POST /{type}/{id}/links/{field} with {add, remove}` | atomic link merge. | `Promise<OwElement>` |
+| `bulk(items, opts?)` | `POST /bulk` | up to ~1000 items. | `Promise<OwBulkResponse>` |
+| `changes(opts?)` | `GET /changes` | one page of the world's ordered change feed. | `Promise<OwChangesPage>` |
+| `changesAll(since?)` |  | Walk the feed from `since` (or from zero = full export) to the current tail, yielding ops in order. | `AsyncGenerator<OwChange, { cursor: string; head: number; }>` |
+| `createMediaTicket()` | `POST /media/ticket` | permission to upload ONE image into this world (a write key and its PIN; no body). | `Promise<OwMediaTicket>` |
+| `uploadImage(image, opts?)` |  | Upload one image and get its permanent public URL: a ticket from keel, then the bytes straight to the edge (keel never sees them). | `Promise<OwUploadedImage>` |
+| `request(method, path, opts?)` |  | Raw authenticated request against this client's baseUrl. | `Promise<T>` |
