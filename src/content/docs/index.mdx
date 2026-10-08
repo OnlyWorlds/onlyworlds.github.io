@@ -1,0 +1,61 @@
+---
+title: OnlyWorlds Docs
+description: Reference for the OnlyWorlds standard, its API, SDKs and AI agent interfaces.
+template: splash
+hero:
+  title: OnlyWorlds Docs
+  tagline: An open schema for world data, and the API, SDKs and agent interfaces to build on it.
+  actions:
+    - text: Get started
+      link: /docs/getting-started/
+      icon: right-arrow
+      variant: primary
+    - text: API
+      link: /docs/development/api-reference/
+      variant: minimal
+---
+
+import { CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+<CardGrid>
+  <LinkCard
+    title="Build an app"
+    description="The TypeScript, Python and Unity SDKs, or plain REST."
+    href="/docs/development/packages/"
+  />
+  <LinkCard
+    title="Connect an agent"
+    description="The MCP server, agent seats, the LLM guide and the toolkit."
+    href="/docs/development/ai/"
+  />
+  <LinkCard
+    title="Understand the schema"
+    description="The 22 element categories, their fields and typed links."
+    href="/docs/schema/"
+  />
+</CardGrid>
+
+## Quickstart
+
+List the Characters in Hyperion, the public example world. Its demo key `0000000000` is read-only and reads without a PIN.
+
+```bash
+curl -H "API-Key: 0000000000" \
+  "https://www.onlyworlds.com/api/v2/character/?fields=id,name"
+```
+
+```json
+{
+  "data": [
+    { "id": "068e92dc-10ec-7225-8000-7efd678bd862", "name": "Mr. Steinway" },
+    { "id": "068e92db-4c40-79eb-8000-8ef44c0d52b4", "name": "Rachmaninov" },
+    { "id": "068e2ddb-83c6-71a7-8000-a45b8b711e25", "name": "The Consul" }
+  ],
+  "has_more": false,
+  "next_cursor": null
+}
+```
+
+Swap in a key for your own world and the same call reads it. [Getting Started](/docs/getting-started/) walks through keys and the first write.
+
+Looking for tools to build a world with, rather than to build on? Start at [onlyworlds.com](https://www.onlyworlds.com).

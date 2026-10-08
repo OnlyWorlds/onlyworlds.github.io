@@ -1,0 +1,114 @@
+/* OnlyWorlds docs theme: Starlight's variables set to the house style.
+   Dark: the develop page (onlyworlds.com/develop): black, one cyan, Lato, #1f2937 hairlines.
+   Light: ow-house-light (Assembly registry/styles/ow-house-light), the official light mode:
+   gallery white, warm hairlines, text-safe cyan #0e7490 (raw #22d3ee fails contrast on white). */
+
+:root {
+  --sl-font: 'Lato', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --sl-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+
+  --sl-color-accent-low: #082f3a;
+  --sl-color-accent: #06b6d4;
+  --sl-color-accent-high: #67e8f9;
+
+  --sl-color-white: #f3f4f6;   /* headings */
+  --sl-color-gray-1: #e5e7eb;  /* body text */
+  --sl-color-gray-2: #d1d5db;
+  --sl-color-gray-3: #9ca3af;  /* muted */
+  --sl-color-gray-4: #6b7280;
+  --sl-color-gray-5: #1f2937;  /* hairlines */
+  --sl-color-gray-6: #0d1117;  /* raised surface */
+  --sl-color-gray-7: #05080c;
+  --sl-color-black: #000000;   /* the page */
+
+  --sl-color-bg-nav: rgba(0, 0, 0, 0.72);
+  --sl-color-bg-sidebar: #000000;
+  --sl-color-hairline: #1f2937;
+  --sl-color-hairline-light: #1f2937;
+  --sl-color-hairline-shade: #111827;
+
+  --ow-link: #22d3ee;          /* the develop page's link colour */
+
+  /* Heading scale: a step below Starlight's default, closer to the develop page */
+  --sl-text-h1: 2.25rem;
+  --sl-text-h2: 1.625rem;
+  --sl-text-h3: 1.25rem;
+  --sl-text-h4: 1.0625rem;
+
+  --ow-code-bg: #0a0f16;
+  --ow-glow: radial-gradient(70% 420px at 50% -120px, rgba(34, 211, 238, 0.07), transparent 70%);
+}
+
+:root[data-theme='light'] {
+  --sl-color-accent-low: #e3f4f8;
+  --sl-color-accent: #0e7490;
+  --sl-color-accent-high: #155e75;
+
+  --sl-color-white: #1c1b18;
+  --sl-color-gray-1: #2b2a26;
+  --sl-color-gray-2: #45433d;
+  --sl-color-gray-3: #6a675f;
+  --sl-color-gray-4: #8a877e;
+  --sl-color-gray-5: #e4e2dc;
+  --sl-color-gray-6: #f4f4f2;
+  --sl-color-gray-7: #ffffff;
+  --sl-color-black: #fbfbfa;
+
+  --sl-color-bg-nav: rgba(251, 251, 250, 0.85);
+  --sl-color-bg-sidebar: #fbfbfa;
+  --sl-color-hairline: #e4e2dc;
+  --sl-color-hairline-light: #e4e2dc;
+  --sl-color-hairline-shade: #d6d3cb;
+
+  --ow-link: #0e7490;
+  --ow-code-bg: #f4f4f2;
+  --ow-glow: none;
+}
+
+body {
+  background: var(--ow-glow), var(--sl-color-black);
+  background-repeat: no-repeat;
+  -webkit-font-smoothing: antialiased;
+}
+
+header.header {
+  backdrop-filter: blur(6px);
+}
+
+/* Links: the accent, underline on hover only (the develop page's rule) */
+.sl-markdown-content a:not(:where(.not-content *)) {
+  color: var(--ow-link);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+.sl-markdown-content a:not(:where(.not-content *)):hover {
+  border-bottom-color: currentColor;
+}
+
+/* Headings: weight from Lato's range, no shouting */
+.sl-markdown-content :is(h1, h2, h3, h4) { font-weight: 700; letter-spacing: -0.005em; }
+.content-panel h1#_top { font-weight: 900; letter-spacing: -0.01em; }
+
+/* Sidebar group labels: the develop page's eyebrow */
+.sidebar-content .group-label .large {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--sl-color-gray-4);
+}
+
+/* Inline code */
+.sl-markdown-content :not(pre) > code {
+  background: var(--ow-code-bg);
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+}
+
+/* Cards and asides: 8px radius, hairlines */
+.sl-markdown-content .card,
+.sl-markdown-content .starlight-aside { border-radius: 8px; }
+
+/* Buttons (the home page's hero actions): the develop page's 6px corners, not pills */
+.sl-link-button { border-radius: 6px; }
