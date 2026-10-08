@@ -26,6 +26,7 @@ jobs:
           git clone --depth 1 https://github.com/OnlyWorlds/schema-dist "$RUNNER_TEMP/schema-dist"
           python scripts/gen_elements.py --dist "$RUNNER_TEMP/schema-dist" --check || echo "::warning::element pages in git are behind schema-dist; the deploy regenerates them"
       - name: Error codes against the live API (report only)
-        run: node scripts/gen_errors.mjs --live || echo "::warning::keel's error-code list moved: run node scripts/gen_errors.mjs --refresh and give each new code a section"
+        run: |
+          node scripts/gen_errors.mjs --live || echo "::warning::keel's error-code list moved: run node scripts/gen_errors.mjs --refresh and give each new code a section"
       - run: npm run build
       - run: npm run verify
