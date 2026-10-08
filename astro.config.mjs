@@ -27,6 +27,7 @@ export default defineConfig({
     '/docs/tools/history': '/docs/tools/legacy#tool-history',
     '/docs/schema/element_categories/base_properties': '/docs/schema/fields',
     '/docs/schema/element_categories/world': '/docs/schema/worlds',
+    '/docs/development/schema': '/docs/schema/',
   },
   integrations: [
     starlight({
@@ -66,7 +67,6 @@ export default defineConfig({
             { slug: 'docs/schema/worlds' },
             { slug: 'docs/schema/fields' },
             { slug: 'docs/schema/conventions' },
-            { slug: 'docs/development/schema', label: 'Schema Files' },
             {
               label: 'Element Types',
               collapsed: true,
