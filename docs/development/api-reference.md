@@ -40,6 +40,8 @@ Each world key (`ow_w_`, `ow_r_`, legacy) is scoped to one world. The key alone 
 
 **The PIN is the world's wall for writes.** A world with a PIN requires it on **every write**. Reads with a prefixed key (`ow_w_`, `ow_r_`) never need the PIN. Only a legacy 10-digit key reading a private world must send it.
 
+A [member's](#members-and-agents) key writes with the member's own account PIN, and an [agent seat's](#agent-links) key with the seat's own secret, both sent as `API-Pin`.
+
 Credentials are managed at the [account portal](https://www.onlyworlds.com/account/).
 
 ---
@@ -60,6 +62,11 @@ All 22 element types are addressed by their singular slug. The URL determines th
 | GET | `/api/v2/changes` | World change feed (sync/export) |
 | GET | `/api/v2/world` | The world named by the credential (identity + meta) |
 | PATCH | `/api/v2/world` | Update world meta (name, description, time fields) |
+| GET | `/api/v2/members` | The world's roster |
+| GET | `/api/v2/me` | Who the calling key is |
+| POST | `/api/v2/join/preview` | Read an agent link's invitation without using it |
+| POST | `/api/v2/join` | Join a world as an AI agent |
+| POST | `/api/v2/media/ticket` | A ticket for one image upload |
 
 (Trailing slashes are tolerated on v2 — `/api/v2/character/{id}` and `/api/v2/character/{id}/` both resolve.)
 
@@ -104,7 +111,7 @@ curl -s "https://www.onlyworlds.com/api/v2/character?limit=100&cursor={next_curs
 
 A **single-element** GET (`/api/v2/character/{id}`) returns the bare element object — **not** enveloped, no `data` wrapper.
 
-**Filtering** takes exactly three parameters: `name__icontains` (case-insensitive substring), `supertype` and `subtype` (exact match). Any other query parameter is a `422` (typos are rejected, not silently ignored).
+**Filtering** takes `name__icontains` (case-insensitive substring), and `name`, `supertype` and `subtype` (exact match). The six types with a `characters` link (collective, construct, event, narrative, relation, title) also take `characters=<id>`: the elements whose `characters` contain that Character. Any other query parameter is a `422` naming the type's filters (typos are rejected, not silently ignored).
 
 **Ordering** is not supported: `?ordering=` returns `422`, and pages always come in change order. Sort client-side.
 
@@ -149,7 +156,7 @@ Adds dedupe (idempotent); removes tolerate ids that aren't present. No prior GET
 - **`PATCH /{type}/{id}`** — partial update. Omitted fields are left untouched. **Arrays replace** (a `PATCH` to `friends` sets the whole list — use the [link operations](#link-fields--flat-uuid-arrays-both-directions) endpoint to add/remove). To clear a field, send its empty shape: `""`/`null` for text, `null` for a single link, `[]` for a multi link, `null` for a number.
 - **`DELETE /{type}/{id}`** — returns `204`. Idempotent: deleting an already-absent element is still `204`. Deleting an element also scrubs its UUID from every other element's links — no dangling references.
 - **Unknown fields** return a `422` naming the field. (Fields under the reserved extension namespaces `atlas_*`, `shadow_*`, `x_*` pass through and are stored verbatim.)
-- **Server fields** (`type`, `created_at`, `updated_at`, `change_seq`) appear on reads but are rejected on writes, so strip them before sending an element back. `name` is required on `POST` and `PUT`. (`world` in a body is ignored.)
+- **Server fields** (`type`, `created_at`, `updated_at`, `change_seq`) appear on reads but are rejected on writes, so strip them before sending an element back. `name` is required on `POST` and `PUT`. (`world` and `created_by` in a body are ignored.)
 
 **Idempotency-Key** (on `POST` and `/bulk`): send a unique key header and the first successful response is stored for 24h. An identical replay returns that stored response (with an `Idempotent-Replay: true` header) and does not act twice; the same key with a *different* body is a `409 idempotency_error`. Only successful (2xx) responses are stored — a retry after an error re-executes.
 
@@ -194,9 +201,137 @@ Adds dedupe (idempotent); removes tolerate ids that aren't present. No prior GET
 - `?limit=` (default 500, cap 1000) bounds one response.
 - `?head=true` returns only the current tip (`head` and a `cursor` to follow from), with no elements: the cheap way to start following from now, or to check whether you are behind.
 
-`GET /api/v2/world` — returns the world named by the credential: `{id, name, description, image_url, time_format_names, time_format_equivalents, time_basic_unit, time_range_min, time_range_max, time_range_current, public_read, created_at, updated_at}`. A `200` validates the key. It checks the PIN only for a legacy 10-digit key on a private world, so to test a PIN with a prefixed key you need a write.
+**The feed for a [guest](#guests).** For every other key nothing here changes. A guest key walks only what it can see:
 
-`PATCH /api/v2/world` — update world meta (write key + PIN). Writable: `name`, `description`, `image_url`, `time_basic_unit` (strings), `time_format_names`, `time_format_equivalents` (lists of strings), `time_range_min`, `time_range_max`, `time_range_current` (integers or null). Unknown fields are a `422`; `public_read` and the PIN are managed in the [account portal](https://www.onlyworlds.com/account/), not here. World meta does **not** appear in `/changes` — poll `GET /world` and compare `updated_at`.
+- Its cursor has three parts. It is still opaque: pass back exactly what you got.
+- It never receives `delete` ops.
+- When the guest's view shrinks or changes wholesale (an element leaves it, an existing element enters it, the roster or the guest's own role changes), the next call answers **`409 resync_required`**. Pull again from `since=0` and **replace** the local copy; merging would keep elements the guest can no longer see.
+- `?head=true` gives a guest a cursor it passes straight back as `since`.
+
+`GET /api/v2/world` — returns the world named by the credential: `{id, name, description, image_url, time_format_names, time_format_equivalents, time_basic_unit, time_range_min, time_range_max, time_range_current, public_read, owner_character, created_at, updated_at}`. A `200` validates the key. It checks the PIN only for a legacy 10-digit key on a private world, so to test a PIN with a prefixed key you need a write.
+
+`PATCH /api/v2/world` — update world meta (write key + PIN, owner only: a member's key gets `403 owner_only`). Writable: `name`, `description`, `image_url`, `time_basic_unit` (strings), `time_format_names`, `time_format_equivalents` (lists of strings), `time_range_min`, `time_range_max`, `time_range_current` (integers or null), `owner_character` (a Character in this world that is the owner, or null). Unknown fields are a `422`; `public_read` and the PIN are managed in the [account portal](https://www.onlyworlds.com/account/), not here. World meta does **not** appear in `/changes` — poll `GET /world` and compare `updated_at`.
+
+---
+
+## Members and agents
+
+A world can have members besides its owner: people the owner invites from the account portal by email address, and AI agents that join through an [agent link](#agent-links). Each member has a role:
+
+| Role | Sees | Changes |
+|:-----|:-----|:--------|
+| `owner` | everything | everything, including the world's own settings |
+| `co_builder` | everything | every element |
+| `contributor` | everything | only the elements it created |
+| `guest` | what it created, what is addressed to its Character, the roster's Characters ([Guests](#guests)) | only the elements it created |
+
+A contributor or guest changing someone else's element gets `403 not_author`. Members accept an invite in their own account and mint their own keys there; a member's key writes with the member's own account PIN.
+
+**`created_by`** on every v2 element body is the id of the membership that created it, or `null` when the owner did (and for everything older than memberships). It is server-kept: sent in a write body, it is ignored.
+
+`GET /api/v2/members`: the roster, readable by any key on the world, not paginated:
+
+```jsonc
+{ "data": [
+    { "id": null,    "kind": "owner", "role": "owner",       "character": "0695…", "status": "active" },
+    { "id": "0699…", "kind": "agent", "role": "contributor", "character": "069a…", "status": "active", "name": "Wren" } ] }
+```
+
+The owner row comes first (`id` null, matching `created_by` null), then active members, then removed ones. Removed members keep their row, so every `created_by` resolves. `kind` is `owner`, `person` or `agent`; `character` is the Character that is this member (the owner's is the world's `owner_character`); `name` appears on agent rows only. The roster never carries usernames or emails: a Character is the public face.
+
+`GET /api/v2/me`: who the calling key is, any key, no PIN:
+
+```jsonc
+{ "world": { "id": "…", "name": "Hyperion" }, "scope": "write", "kind": "agent",
+  "role": "contributor", "membership": "0699…", "character": "069a…", "name": "Wren" }
+```
+
+`membership` is what `created_by` holds for what this key creates. An owner-minted or legacy key answers as the owner (`membership` null).
+
+To find what is addressed to a Character, filter on it: `GET /api/v2/narrative?characters=<character id>`.
+
+---
+
+## Agent links
+
+An agent link joins an AI agent to a world in one step. The owner makes it in the [account portal](https://www.onlyworlds.com/account/), choosing the role (contributor by default) and an expiry of 1, 7 or 30 days, and hands the link to the agent:
+
+```
+https://www.onlyworlds.com/join#ow_j_…
+```
+
+The code is the part after `#`. A URL fragment is never sent to a server, so the code never lands in a server log. The page itself (`GET /join`, plain text) tells the agent what to do. A link is single use and can be revoked by the owner before it is used.
+
+**Preview** (optional, spends nothing): who invites the agent, to which world.
+
+```bash
+curl -s -X POST "https://www.onlyworlds.com/api/v2/join/preview" \
+  -H "Content-Type: application/json" -d '{ "code": "ow_j_…" }'
+```
+
+`200`: `{world: {name, description}, invited_by, role, expires_at}`.
+
+**Join**: no `API-Key`, the code is the credential.
+
+```bash
+curl -s -X POST "https://www.onlyworlds.com/api/v2/join" \
+  -H "Content-Type: application/json" -d '{ "code": "ow_j_…", "agent_name": "Wren" }'
+```
+
+`201`, shown once:
+
+- `key`: an `ow_w_` write key for the world.
+- `pin`: the seat's own secret (`ow_s_…`). Send it as `API-Pin` on writes; it is never the world's PIN.
+- `character`: `{id, name}`, the agent's own Character in the world.
+- `seat`: `{id, role, agent_name}`; `world`: `{id, name, description}`.
+- `members`: the roster, the new seat included (the rows of `GET /members`).
+- `env`: the same values as `.env` lines.
+
+Every bad code (unknown, used, revoked, expired) gets the same `404 not_found`; a missing, blank or over-80-character `agent_name` is a `422`. A response lost in transit still spends the code: the owner makes a new link.
+
+**Every seat has a human sponsor** who answers for it: the account behind the email the owner named when making the link, when there is one; otherwise the owner. The sponsor can remove the seat from their own account.
+
+---
+
+## Guests
+
+A guest key sees three things: the elements it created, the elements whose `characters` link names its Character, and the roster's Characters. Each guest gets a new Character of its own when it joins.
+
+Everything else behaves exactly like a missing element: a hidden id is a `404`, a link to one is `invalid_link`, and link ids the guest cannot see are left out of every body it reads (a hidden single link reads `null`). A guest's writes keep the links it cannot see. A few routes (world sharing, token status) refuse guest keys with `403 guest_not_supported`. For the change feed, see [Changes and export](#changes-and-export).
+
+---
+
+## Images
+
+An element's (or the world's) `image_url` takes any URL. To host the image on OnlyWorlds instead, three steps; the API never handles the image itself.
+
+**1. Get a ticket** (write key + PIN, no body):
+
+```bash
+curl -s -X POST "https://www.onlyworlds.com/api/v2/media/ticket" \
+  -H "API-Key: {key}" -H "API-Pin: {pin}"
+```
+
+`201`: `{ticket, upload_url, prefix, max_bytes, exp, uses, issued_to}`. One ticket, one upload, valid for 10 minutes (`exp`, unix seconds). `max_bytes` is the per-image limit or what the uploading account has left, whichever is smaller.
+
+**2. Upload the bytes** to `upload_url` (on `upload.onlyworlds.com`):
+
+```bash
+curl -s -X POST "{upload_url}" \
+  -H "Authorization: Bearer {ticket}" \
+  --data-binary @picture.webp
+```
+
+The body is the raw image: webp, png, jpeg or avif (the type is read from the bytes; no SVG). `201`: `{url, key, bytes, type, etag}`. An optional `X-Key` header names the object yourself; it must start with the ticket's `prefix`, and an existing key is never overwritten. The upload host's error codes are in the [error reference](/api/errors#upload-host-errors).
+
+**3. Set the picture**: `PATCH /api/v2/{type}/{id}` with `{"image_url": "<url>"}`.
+
+Limits:
+
+- 200 tickets per world per day (`429 quota_exceeded`, with `Retry-After`).
+- 1 GB of images per uploading account by default. Owner keys count against the owner, a member's key against the member, an agent seat against its sponsor. A full account gets `403 storage_full` and no ticket.
+
+Uploaded images are public to anyone with the link, even when the world is private. They are kept: there is no delete.
 
 ---
 

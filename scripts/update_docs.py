@@ -5,7 +5,7 @@ import yaml
 def fetch_yaml_files():
     repo_api_url = "https://api.github.com/repos/OnlyWorlds/OnlyWorlds/contents/schema"
     response = requests.get(repo_api_url)
-    files = [file['name'] for file in response.json() if file['name'].endswith('.yaml') and file['name'] != 'core.yaml']
+    files = [file['name'] for file in response.json() if file['name'].endswith('.yaml') and file['name'] not in ('core.yaml', 'base_properties.yaml', 'world.yaml')]
     return files
 
 def fetch_yaml_content(file_name):
@@ -14,15 +14,19 @@ def fetch_yaml_content(file_name):
     return response.text
 
 def format_attribute_name(name):
-    return name.capitalize()
+    # Keep all-caps wire names as-is (STR, DEX, ...): capitalizing them gives names that don't exist
+    return name if name.isupper() else name.capitalize()
 
 def type_formatter(type_info, sub_value):
     formatted_type = ""
     if type_info == "string":
         formatted_type = ""
     elif type_info == "integer":
+        min_val = sub_value.get('minimum')
         max_val = sub_value.get('maximum')
-        if max_val is not None and max_val != 0:
+        if min_val is not None and min_val < 0:
+            formatted_type = f" (# min:{min_val} max:{max_val})"
+        elif max_val is not None and max_val != 0:
             formatted_type = f" (# max:{max_val})"
         else:
             formatted_type = " (#)"
@@ -32,6 +36,8 @@ def type_formatter(type_info, sub_value):
     elif type_info == "single-link":
         category = sub_value.get('category', 'unknown')
         formatted_type = f" (single-link: {category})"
+    elif type_info == "generic-link":
+        formatted_type = " (generic-link: any element)"
     return formatted_type
 
 
