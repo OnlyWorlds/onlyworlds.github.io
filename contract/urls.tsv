@@ -17,7 +17,7 @@
 /assets/ow_llm_guide.txt	load-bearing	200	azgaar-converter:README.md; foundry-converter:README.md; keel:tests/test_web.py; keel:web/templates/web/about.html; keel:web/templates/web/about_lab_2.html; keel:web/templates/web/about_lab_3.html; keel:web/templates/web/develop.html; toolkit:knowledge/ai-builders.md
 /browse-tool/	load-bearing	404	keel:tests/test_web.py; keel:web/views.py
 /docs/api/errors#${code}	load-bearing	template	sdk:test/v2-client.test.mjs
-/docs/developer-support/my-first-tool.html	load-bearing	404	tactical-tangle:README.md
+/docs/developer-support/my-first-tool.html	load-bearing	404	tactical-tangle (tmoosting/tactical-tangle, not OnlyWorlds/):README.md
 /docs/development/	load-bearing	200	OnlyWorlds:README.md; keel:web/templates/web/develop.html; toolkit:.claude-plugin/marketplace.json; toolkit:.claude-plugin/plugin.json
 /docs/development/ai.html	load-bearing	200	keel:web/templates/web/about.html; keel:web/templates/web/about_lab_2.html; keel:web/templates/web/about_lab_3.html; keel:web/templates/web/start.html
 /docs/development/api-reference	load-bearing	200	keel:core/api.py
