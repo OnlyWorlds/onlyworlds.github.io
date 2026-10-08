@@ -87,7 +87,14 @@ export default defineConfig({
             { slug: 'docs/development/packages', label: 'Overview' },
             { slug: 'docs/development/typescript' },
             { slug: 'docs/development/python' },
-            { slug: 'docs/development/unity' },
+          ],
+        },
+        {
+          // Quillon's (h37 #1028): engine-neutral overview, then one page per engine SDK
+          label: 'Games',
+          items: [
+            { slug: 'docs/development/games', label: 'Overview' },
+            { slug: 'docs/development/unity', label: 'Unity' },
           ],
         },
         {

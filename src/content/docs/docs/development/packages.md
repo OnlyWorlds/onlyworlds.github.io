@@ -1,34 +1,23 @@
 ---
-title: "Packages"
-description: "TypeScript/JavaScript SDK for building web applications and tools."
+title: SDKs and Clients
+description: Every way to call OnlyWorlds from code, by language and by where it runs.
 ---
 
-## NPM Packages
+Every client below speaks the same REST API v2 and the same 22 element types. Pick by language, or by where your code runs.
 
-### [@onlyworlds/sdk](https://www.npmjs.com/package/@onlyworlds/sdk)
+| Client | For | Install | State |
+|---|---|---|---|
+| [TypeScript SDK](/docs/development/typescript) | web apps, Node tools, browser games | `npm install @onlyworlds/sdk` | published on npm |
+| [Python package](/docs/development/python) | scripts, pipelines, world folders | `pip install "git+https://github.com/OnlyWorlds/python-sdk"` | pre-release, not on PyPI yet |
+| [Unity SDK](/docs/development/unity) | Unity games and tools | Package Manager, by git URL | public, interface not yet stable |
+| [MCP server](/docs/development/mcp) | AI assistants and agents | nothing to install: `https://www.onlyworlds.com/mcp` | live |
+| Plain REST | any other language or engine | none | live |
 
-TypeScript/JavaScript SDK for building web applications and tools. Version **4.x** (currently 4.1.0), ESM-only, v2-native (link fields use bare schema names; the `_id`/`_ids` suffixes are the legacy v1 dialect). The client is `OwV2Client`.
+The TypeScript, Python and Unity clients generate their types from [schema-dist](https://github.com/OnlyWorlds/schema-dist), the published copy of the schema. For other engines, see [Games](/docs/development/games).
 
-**Install:**
-```bash
-npm install @onlyworlds/sdk
-```
+## Plain REST
 
-**Features:**
-- Complete TypeScript types for all 22 element categories
-- `OwV2Client`: `list`/`listAll`, `get`, `create`, `upsert`, `patch`, `delete`, plus `editLinks`, `bulk`, `changes`/`changesAll` and `getWorld`
-- Link helpers: `editLinks` (add/remove without read-modify-write) and one-level `expand`
-- Built-in authentication
-
-### MCP server (hosted — no package to install)
-
-AI-assistant integration is now a **hosted server**, not an npm package. Point any MCP client at `https://www.onlyworlds.com/mcp`.
-
-The old `@onlyworlds/mcp-client` package is retired. See the [MCP setup guide](/docs/development/mcp).
-
-## Python
-
-There is no published Python package. The API is plain REST, so `requests` plus the [API reference](https://onlyworlds.com/api/docs) is all you need:
+The API needs no SDK. Send the key (and, for writes, the PIN) as headers:
 
 ```python
 import requests
@@ -38,4 +27,8 @@ r = requests.get("https://www.onlyworlds.com/api/v2/character/", headers=headers
 characters = r.json()["data"]
 ```
 
-List responses come back in a `{data, has_more, next_cursor}` envelope, so paginate on `next_cursor`.
+List responses come back in a `{data, has_more, next_cursor}` envelope, so paginate on `next_cursor`. To generate a client in another language, start from the OpenAPI document at `https://www.onlyworlds.com/api/v2/openapi.json`; the [interactive reference](https://www.onlyworlds.com/api/docs) is built from the same document.
+
+## Retired
+
+The `@onlyworlds/mcp-client` npm package is retired: the MCP server is hosted now, with nothing to install.
