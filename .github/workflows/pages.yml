@@ -9,6 +9,10 @@ on:
     branches: ["main"]
   schedule:
     - cron: "0 */4 * * *"
+  # schema-dist's publish step sends this, so the element pages follow a publish within minutes.
+  # The cron stays as the fallback; Hangar's fleet/docs_follows_schema.py notices when either dies.
+  repository_dispatch:
+    types: [schema-dist-published]
   workflow_dispatch:
 
 permissions:
@@ -63,10 +67,11 @@ jobs:
         uses: actions/deploy-pages@v4
 
   # Every deploy from a push or a manual run is tagged docs-live-<date>-<run>, so a rollback is a
-  # manual run of this workflow on the previous tag. The 4-hourly rebuilds are not tagged (same source).
+  # manual run of this workflow on the previous tag. Scheduled and schema-dist rebuilds are not tagged
+  # (same source commit; only the generated element pages differ).
   tag:
     needs: deploy
-    if: github.event_name != 'schedule'
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     permissions:
       contents: write
