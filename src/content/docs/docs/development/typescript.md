@@ -26,7 +26,7 @@ for await (const character of client.listAll('character')) {
 }
 ```
 
-A read-only key (`ow_r_`) needs no PIN. The demo keys `0000000000` to `0000000009` read sample worlds. See [Keys and PINs](/docs/getting-started/keys) for the key types.
+A read-only key (`ow_r_`) needs no PIN. Two demo keys read public sample worlds: `0000000000` (Hyperion) and `0000000001` (Moppetopia). See [Keys and PINs](/docs/getting-started/keys) for the key types.
 
 ## Write
 

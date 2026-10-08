@@ -20,6 +20,10 @@ They are distinct from:
 
 [Marker discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/marker)
 
+:::note
+The API does not enforce the fields marked required below: a write needs only `name`. See [What Is Required](/docs/schema/fields#what-is-required).
+:::
+
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->
 
 ## Fields

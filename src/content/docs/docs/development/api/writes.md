@@ -3,7 +3,7 @@ title: Writes and Bulk
 description: Creating, replacing, updating and deleting elements, retrying safely, writing many elements in one call, and updating the world itself.
 ---
 
-Writes take a write key (`ow_w_`, a legacy key, a member's or an agent seat's key) and the PIN in `API-Pin`. A read key on a write route is `403` [`permission_error`](/api/errors/#permission_error). The key names the world, so a body never carries one.
+Writes take a write key (`ow_w_`, a legacy key, a member's or an agent seat's key) and the PIN in `API-Pin`. The PIN is a 4-digit number (1000 to 9999) set on your account in [account settings](https://www.onlyworlds.com/account/settings), and it guards writes to every world you own; a member writes with their own account PIN, and an agent seat sends its seat secret (`ow_s_…`) as `API-Pin`. A read key on a write route is `403` [`permission_error`](/api/errors/#permission_error). The key names the world, so a body never carries one.
 
 ## Create
 
@@ -44,10 +44,11 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/location" \
 
 ## Field Rules
 
-- **`name`** is required on `POST` and `PUT`. It may be empty.
+- **`name`** is required on `POST` and `PUT`: the key must be present, and an empty string is accepted.
 - **Unknown fields** are a `422` naming the field. A misspelled field fails loudly instead of vanishing.
 - **Extension fields** under the namespaces `atlas_*`, `shadow_*` and `x_*` are accepted, stored as written and returned verbatim, up to 65,536 bytes of extensions per element (counted as compact UTF-8 JSON). More is a `422` with `param` `extensions`.
 - **Server fields** `type`, `created_at`, `updated_at` and `change_seq` appear on reads and are a `422` on writes. Strip them before sending a read body back.
+- **Never write back a body read with `?expand=`.** Its links hold stub objects instead of ids, and a link field takes only ids. Read without `expand` when you mean to send the body back.
 - **`created_by`** and **`world`** in a body are ignored, whatever their value.
 - **Text length**: `name` holds up to 255 characters, `supertype` and `subtype` 128, `image_url` 1024. Longer is a `422`.
 - **Values are coerced where they can be**: an integer field accepts `"7"` as 7, truncates `7.9` to 7, and reads `true` as 1; a value that cannot become an integer is a `422`. Text fields turn a number into its digits. Send the types the schema names.
@@ -58,7 +59,12 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/location" \
 
 - An identical replay returns the stored response, with an `Idempotent-Replay: true` header, and does not write again.
 - The same key with a different body is `409` [`idempotency_error`](/api/errors/#idempotency_error).
-- Only successful (`2xx`) responses are stored. A retry after an error runs again.
+- Only successful (`2xx`) responses are stored; errors never are. A `/bulk` answer is a `200` even when items failed, so it is stored, item errors included, and a replay returns the same errors.
+
+The rule for retries:
+
+- **The answer was lost** (a timeout, a dropped connection): retry with the **same** `Idempotency-Key`. A stored `2xx` replays; after an error, the request runs again.
+- **A `/bulk` answer had `errors: true`**: fix the failed items and send them with a **new** key. Under the same key, an identical body replays the same errors, and a changed body is a `409` [`idempotency_error`](/api/errors/#idempotency_error).
 
 ```bash
 curl -s -X POST "https://www.onlyworlds.com/api/v2/character" \
@@ -119,6 +125,7 @@ curl -s -X PATCH "https://www.onlyworlds.com/api/v2/world" \
 ```
 
 - Unknown fields are a `422`, and the whole patch is refused before anything is written.
-- `public_read` and the PIN are managed in the [account portal](https://www.onlyworlds.com/account/), not here.
+- The world's `name` cannot be empty, unlike an element's.
+- `public_read` is set in the [account portal](https://www.onlyworlds.com/account/) and the PIN in [account settings](https://www.onlyworlds.com/account/settings), not here.
 - Every field sent is applied, so an identical value still moves `updated_at`. Send only real changes.
 - World fields do not appear in [`/changes`](/docs/development/api/changes). To follow them, poll `GET /api/v2/world` and compare `updated_at`.

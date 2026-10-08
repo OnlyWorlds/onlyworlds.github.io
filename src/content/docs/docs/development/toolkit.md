@@ -65,7 +65,7 @@ Most of the toolkit runs on files alone, with no account:
 - `parsing` can write that folder shape directly, so your notes become a world Atlas opens.
 - `context` and `resolve` work with whatever holds the world: a folder, your own notes, or an OnlyWorlds world.
 
-With an OnlyWorlds account, the same skills work on an account world over the [API](/docs/development/api-reference). `project-setup` connects the project (a `.env` you fill with your key and PIN, kept out of git), and `api` and `dev` build on it. To connect an agent to a world directly, see the [MCP server](/docs/development/mcp).
+With an OnlyWorlds account, the same skills work on an account world over the [API](/docs/development/api-reference). `project-setup` connects the project (a `.env` you fill with your key and PIN as `ONLYWORLDS_API_KEY` and `ONLYWORLDS_API_PIN`, kept out of git), and `api` and `dev` build on it. To connect an agent to a world directly, see the [MCP server](/docs/development/mcp).
 
 ## Example Requests
 

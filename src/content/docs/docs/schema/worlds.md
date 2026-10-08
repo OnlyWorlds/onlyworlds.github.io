@@ -10,7 +10,7 @@ A world is the top-level container for elements, representing a complete setting
 | Field | Type | Required | Description |
 | :--- | :--- | :--- | :--- |
 | `id` | string (uuid) | No (server-assigned) | Unique world identifier (UUIDv7) |
-| `name` | string | Yes | Display name |
+| `name` | string | Yes | Display name; it cannot be empty |
 | `description` | string | No | Text description |
 | `image_url` | string (url) | No | Cover image or representative visual |
 
@@ -19,11 +19,11 @@ A world is the top-level container for elements, representing a complete setting
 | Field | Type | Required | Description |
 | :--- | :--- | :--- | :--- |
 | `time_format_names` | array of strings | No | Names of each time step: `["Day", "Week", "Month", "Year"]`, or custom names like `["Sol", "Cycle", "Season", "Era"]` |
-| `time_format_equivalents` | array of integers | No | Basic units per step, e.g. `[1, 7, 30, 365]` |
+| `time_format_equivalents` | array of strings | No | Basic units per step, e.g. `["1", "7", "30", "365"]` |
 | `time_basic_unit` | string | No | Smallest time unit (e.g. `"Day"` or `"Hour"`) |
 | `time_range_min` | integer | No | Earliest tracked time point |
 | `time_range_max` | integer | No | Latest tracked time point |
-| `time_current` | integer | No | Current time in your world. The API names this field `time_range_current`. |
+| `time_range_current` | integer | No | Current time in your world. The standard's YAML names this field `time_current`. |
 
 Element fields that hold a moment, such as a Character's `birth_date` or an Event's `start_date`, are integers in the world's time units.
 
@@ -32,7 +32,7 @@ Element fields that hold a moment, such as a Character's `birth_date` or an Even
 **Fantasy world with a custom calendar:**
 - `time_format_names`: `["Sun", "Tenday", "Moon", "Turning"]`
 - `time_basic_unit`: `"Sun"`
-- `time_current`: `1247` (year 1247 of the Third Age)
+- `time_range_current`: `1247` (year 1247 of the Third Age)
 
 **Science fiction setting with stardates:**
 - `time_format_names`: `["Cycle", "Rotation", "Orbit", "Epoch"]`

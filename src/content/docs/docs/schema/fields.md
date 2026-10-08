@@ -10,7 +10,7 @@ Every element carries the same base fields, then the fields of its own category.
 | Field | Type | Required | Description |
 | :--- | :--- | :--- | :--- |
 | `id` | string (uuid) | No (server-assigned if omitted) | Unique identifier, UUIDv7 |
-| `name` | string | Yes | Display name, up to 255 characters |
+| `name` | string | Yes: the key must be present; an empty string is accepted | Display name, up to 255 characters |
 | `world` | string (uuid) | No (set by the API key; never sent in a body) | The world this element belongs to |
 | `description` | string | No | Any kind of details about the element |
 | `supertype` | string | No | The top-level category the element belongs to in its world, up to 128 characters |
@@ -60,7 +60,7 @@ Numbers are integers. The API truncates a decimal instead of rejecting it (`7.9`
 
 ## What Is Required
 
-On every element, only `name` is required. The API requires the field to be present on create and full replace, and accepts an empty string: Markers, which mark the boundary points of a Zone, are often unnamed.
+On every element, only `name` is required: the key must be present on create and full replace, and an empty string is accepted. Markers, which mark the boundary points of a Zone, are often unnamed.
 
 The standard requires more on two map categories:
 

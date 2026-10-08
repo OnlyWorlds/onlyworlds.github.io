@@ -29,13 +29,9 @@ for character in client.iter_elements("character"):
     print(character["name"])
 ```
 
-A write key also takes a PIN: `Client(key, pin)`. Which PIN depends on the key:
+A write key also takes a PIN: `Client(key, pin)`. The PIN is a 4-digit number (1000 to 9999) set on your account in account settings, and it guards writes to every world you own. A member writes with their own account PIN, and an agent seat sends its seat secret (`ow_s_…`) as the PIN.
 
-- the world's PIN, for the owner's key
-- the member's own account PIN, for a member key
-- the seat's `ow_s_` secret, for an agent seat (the world PIN is refused for both of these)
-
-Elements are plain dicts. The demo keys `0000000000` to `0000000009` read sample worlds.
+Elements are plain dicts. Two demo keys read public sample worlds: `0000000000` (Hyperion) and `0000000001` (Moppetopia).
 
 ## Write
 

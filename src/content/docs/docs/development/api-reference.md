@@ -60,6 +60,26 @@ A single element answers as the bare element object. Every error answers in one 
 
 Trailing slashes are tolerated on every route: `/api/v2/character/{id}` and `/api/v2/character/{id}/` both resolve, with no redirect.
 
+## Limits
+
+| Limit | Value |
+|:--|:--|
+| Request rate | No per-key quota on reads. Under load the server answers `503` [`server_busy`](/api/errors/#server_busy) with a `Retry-After` header: each worker runs six requests at once, and a request waits up to 10 seconds for a slot |
+| Request body | Keep a JSON body under 2.5 MB: larger bodies are refused. Over 8 MB the server answers `413` [`payload_too_large`](/api/errors/#payload_too_large) before reading it. Split a large `/bulk` into several calls |
+| Wrong PINs | Repeated failures lock the key out: `429` [`rate_limited`](/api/errors/#rate_limited) with `Retry-After` |
+| `/bulk` | Up to 1000 items per request |
+| List pages | `limit` from 1 to 1000, default 100; the change feed defaults to 500 |
+| Images | A daily cap on upload tickets per world (`429` [`quota_exceeded`](/api/errors/#quota_exceeded)) and a storage cap per account (`403` [`storage_full`](/api/errors/#storage_full)). See [Images](/docs/development/api/images) |
+| `expand` | One level deep: a stub is `{id, name, supertype, subtype, image_url}`, with no links of its own |
+
+There are no webhooks. To follow a world's changes, poll [`/changes`](/docs/development/api/changes) with your stored cursor; `?head=true` is the cheap check for whether anything moved.
+
+## Stability
+
+- `/api/v2/` is the current API. The [Classic API](/docs/development/api/classic) at `/api/worldapi/` keeps working, and no retirement date is set.
+- Error codes and field names are a contract: a client may branch on them. Error messages are not.
+- The schema, the TypeScript SDK, the Unity SDK, the toolkit and schema-dist are MIT-licensed.
+
 ## API Pages
 
 | Page | Covers |

@@ -9,7 +9,7 @@ sidebar:
 
 A Pin is a special Map element. Pins represent a single element on a single Map, indicating its position in that particular world view. 
 
-Pins are how you shape your world. They interact with:
+Pins place elements on a map. They interact with:
 
 - **Maps** (Pins exist on only one map at a time)
 - **Elements** (Pins locate a single element on a Map)
@@ -19,6 +19,10 @@ They are distinct from:
 - **Markers** (which define a Zone on a Map)
 
 [Pin discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/pin)
+
+:::note
+The API does not enforce the fields marked required below: a write needs only `name`. See [What Is Required](/docs/schema/fields#what-is-required).
+:::
 
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->
 

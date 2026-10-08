@@ -8,19 +8,25 @@ description: The world's ordered change feed, used to export a whole world and t
 ## The Feed
 
 ```bash
-curl -s "https://www.onlyworlds.com/api/v2/changes?since={cursor}" -H "API-Key: {key}"
+curl -s "https://www.onlyworlds.com/api/v2/changes?limit=1" -H "API-Key: 0000000000"
 ```
 
 ```json
-{ "cursor": "…", "has_more": false, "head": 4213, "changes": [
-    { "op": "upsert", "type": "character", "id": "…", "updated_at": "…", "element": { } },
-    { "op": "delete", "type": "location", "id": "…", "deleted_at": "…" } ] }
+{ "cursor": "1:068e2e60-fc37-789e-8000-a64560195ff8", "has_more": true, "head": 124, "changes": [
+    { "op": "upsert", "type": "ability", "id": "068e2e60-fc37-789e-8000-a64560195ff8", "change_seq": 1,
+      "updated_at": "2025-10-05T21:41:35.764549+00:00", "element": { "type": "ability", "name": "Piano Playing", "…": "…" } } ] }
+```
+
+That is Hyperion's first page. The next call sends `?since=1:068e2e60-fc37-789e-8000-a64560195ff8`. A delete in the feed reads:
+
+```json
+{ "op": "delete", "type": "location", "id": "…", "deleted_at": "…" }
 ```
 
 | Key | Meaning |
 |:--|:--|
 | `changes` | The ops on this page, sorted by the world's change sequence |
-| `cursor` | Pass it back as `?since=` for the next page |
+| `cursor` | Pass it back as `?since=` for the next page. Its shape varies (a page's cursor such as `"1:068e…"`, or a number from `?head=true`), so store it as it came |
 | `has_more` | `true` if more pages remain |
 | `head` | The world's current change sequence |
 
@@ -65,7 +71,7 @@ def pull(since=None):
 
 ## Full Export
 
-`GET /api/v2/changes` with no `since` returns every live element at its latest state, plus tombstones: the whole world in one walk. There is no separate export route. Deletes are always explicit `delete` ops, never inferred from an element's absence.
+Walking `GET /api/v2/changes` from no `since` until `has_more` is `false` gives every live element at its latest state, plus a tombstone for each delete: the whole world. Most worlds take several pages. There is no separate export route. Deletes are always explicit `delete` ops, never inferred from an element's absence.
 
 World fields (`name`, the time fields and the rest of `GET /api/v2/world`) are not in the feed. Poll `GET /api/v2/world` and compare `updated_at`; element writes never change the world's `updated_at`.
 

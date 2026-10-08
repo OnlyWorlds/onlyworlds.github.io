@@ -25,7 +25,7 @@ Every error from the current API (`/api/v2/`, including `/bulk` and `/changes`) 
 | `param` | The field or query parameter at fault, when there is one; otherwise `null` |
 | `doc_url` | This page, at the code's section (`#<code>`) |
 
-Each code has its own section below, and the summary table lists them all: a link to `#<code>` lands on it, and an agent that fetched the whole page can search for the heading `### <code>`. In `/bulk`, each failed item carries this same envelope: see [Bulk Errors](#bulk-errors). MCP tools report failures as tool errors carrying the same human message, without the envelope fields.
+Each code has its own section below, and the summary table lists them all. A fetch of this page gets every section; each code's section has the id `<code>`, so `doc_url`'s `#<code>` lands on it. The same page as Markdown is at [`/api/errors.md`](/api/errors.md), where each section is the heading `### <code>`. In `/bulk`, each failed item carries this same envelope: see [Bulk Errors](#bulk-errors). MCP tools report failures as tool errors carrying the same human message, without the envelope fields.
 
 :::note
 The [Classic API](/docs/development/api/classic) at `/api/worldapi/` answers in its own legacy shape, `{"detail": …}`. The codes on this page apply to `/api/v2/` only.
@@ -67,7 +67,7 @@ The [Classic API](/docs/development/api/classic) at `/api/worldapi/` answers in 
 The request body or query is malformed: an unknown field, a server-managed field in a write, an unknown query parameter, a value that fails validation, text over its length limit, extension fields over the size cap, a malformed id, or a wrong-shaped payload.
 
 - **Common cause:** a misspelled field name (`freinds`); a `_ids` or `_id` suffix carried over from the [Classic API](/docs/development/api/classic) (the current API uses bare link names); an unknown query parameter, such as a mistyped filter (`nmae__icontains`) or `?ordering=`; sending a read body back with `type`, `created_at`, `updated_at` or `change_seq` still in it; a bulk request whose `items` is not an array.
-- **How to fix:** read `param`: it names the field or parameter at fault. Correct the spelling, drop the suffix or the server field, or remove the parameter. The list filters are `name`, `name__icontains`, `supertype` and `subtype`, plus `characters` on the six categories with that link. Any other query parameter is rejected, never ignored.
+- **How to fix:** read `param`: it names the field or parameter at fault. Correct the spelling, drop the suffix or the server field, or remove the parameter. The list filters are `name`, `name__icontains`, `supertype` and `subtype`, plus `characters` on the six categories with that link; the other accepted parameters are `limit`, `cursor`, `expand` and `fields`. Any other query parameter is rejected, never ignored.
 
 Unknown fields are a hard error, not a silent drop, so a mistyped field name fails loudly instead of vanishing. Fields under the extension namespaces `atlas_*`, `shadow_*` and `x_*` are the exception: they are stored as written.
 
@@ -77,10 +77,10 @@ Unknown fields are a hard error, not a silent drop, so a mistyped field name fai
 
 A link field names a UUID that is not an element of the linked category in this world.
 
-- **Common cause:** linking to an element that was never created, was deleted, or whose UUID was mistyped. In `/bulk`, linking to a sibling item that itself failed. For a guest key, linking to an element the guest cannot see.
-- **How to fix:** check that the referenced element exists (read it first, or include it in the same `/bulk` batch). Links in a batch are checked against the world **plus** the batch's surviving items, in any order, but an item that fails cannot be linked to. `param` names the link field.
+- **Common cause:** linking to an element that was never created, was deleted, or whose UUID was mistyped. An id of an element of another category (a Location's id in `friends`, which holds Characters). In `/bulk`, linking to a sibling item that itself failed. For a guest key, linking to an element the guest cannot see.
+- **How to fix:** check that the referenced element exists and is of the category the field names (read it first, or include it in the same `/bulk` batch). Links in a batch are checked against the world **plus** the batch's surviving items, in any order, but an item that fails cannot be linked to. `param` names the link field.
 
-A dangling link is an explicit, named error. The Classic API's old behaviour of silently dropping it does not apply here.
+A single write that fails with `invalid_link` writes nothing, so after fixing the link you can retry it with the same element id. A dangling link is an explicit, named error. The Classic API's old behaviour of silently dropping it does not apply here.
 
 ### id_conflict
 
@@ -113,7 +113,7 @@ An invite names someone who is already a member of the world, or an invite is ac
 
 A member without an account PIN tried to accept an invite or mint a write key. Member keys write with the member's own account PIN.
 
-- **How to fix:** set a PIN in your account settings, then retry.
+- **How to fix:** set a PIN in your [account settings](https://www.onlyworlds.com/account/settings), then retry.
 
 ### invalid_credentials
 
@@ -122,7 +122,7 @@ A member without an account PIN tried to accept an invite or mint a write key. M
 The API key or PIN is missing, unknown or wrong.
 
 - **Common cause:** no `API-Key` header, a mistyped key, or a missing or wrong `API-Pin` on a write. Only a legacy 10-digit key also needs the PIN to read a private world; prefixed keys (`ow_w_`, `ow_r_`) read without it. A deleted world's keys are deleted with it, so they also answer `invalid_credentials`.
-- **How to fix:** check the `API-Key` and `API-Pin` headers (exact names) and that the key belongs to the world you mean. Keys are minted in the [account portal](https://www.onlyworlds.com/account/). A world with a PIN needs it on every write. See [Keys and PINs](/docs/getting-started/keys).
+- **How to fix:** check the `API-Key` and `API-Pin` headers (exact names) and that the key belongs to the world you mean. The `message` tells the two apart: `No valid API-Key.` for the key, `Incorrect PIN.` for the PIN. A key that reads with `200` but writes with `401` has a wrong PIN, since reads with a prefixed key never check it. Keys are minted in the [account portal](https://www.onlyworlds.com/account/). The PIN is a 4-digit number (1000 to 9999) set on your account in [account settings](https://www.onlyworlds.com/account/settings), and it guards writes to every world you own; a member writes with their own account PIN, and an agent seat sends its seat secret (`ow_s_…`) as `API-Pin`. See [Keys and PINs](/docs/getting-started/keys#checking-the-pin).
 
 ### key_revoked
 

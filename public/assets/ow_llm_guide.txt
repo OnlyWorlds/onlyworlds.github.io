@@ -67,7 +67,8 @@ github.com/OnlyWorlds/toolkit
 LOCAL SETUP (if needed)
 -----------------------
 
-1. Node.js 20+ (nodejs.org, LTS). Check: `node --version`, `npm --version`.
+1. Node.js 18+ (nodejs.org, LTS; 20.6+ to load .env with --env-file).
+   Check: `node --version`, `npm --version`.
 2. Git (git-scm.com), recommended.
 3. An editor: VS Code (code.visualstudio.com).
 4. A project folder; open a terminal in it.
@@ -159,8 +160,13 @@ GET A KEY
    - ow_r_...  read-only, needs no PIN. Use this in anything public.
    - ow_a_...  account token (Bearer on /api/v2/account/*): list worlds, mint keys.
    - Legacy 10-digit keys still work; new ones are no longer issued.
-3. The world's PIN: required on every write when the world has one. Prefixed
-   keys read without it.
+3. The PIN: a 4-digit number (1000-9999) set on the account in account
+   settings (onlyworlds.com/account/settings); it guards writes to every world
+   the account owns. A member writes with their own account PIN; an agent seat
+   sends its seat secret (ow_s_...) as API-Pin. Prefixed keys read without it.
+
+No account yet? Demo keys read without a PIN and never write:
+0000000000 (Hyperion, the public example world) and 0000000001 (Moppetopia).
 
 A key is world-scoped: the key decides the world. Never send a world id.
 
@@ -198,12 +204,42 @@ console.log(page.data.length, 'characters on the first page');
 
 Run: `npx tsx --env-file=.env test.ts` (Node 20.6+ reads .env this way)
 
+ONLYWORLDS_API_KEY / ONLYWORLDS_API_PIN are the names projects use (the
+toolkit's project setup, the SDK examples). An agent seat's join response
+names them OW_API_KEY, OW_API_PIN, OW_WORLD, OW_CHARACTER, OW_API_BASE.
+
 ============================================================
 PART 4: SDK AND API REFERENCE
 ============================================================
 
 The API is v2 (https://www.onlyworlds.com/api/v2/). The SDK's OwV2Client speaks
 it. Types are singular slugs: 'character', 'location', 'institution'.
+
+PLAIN HTTP
+----------
+Base URL: https://www.onlyworlds.com/api/v2/
+Headers (exact names): API-Key on every request; API-Pin on writes;
+Content-Type: application/json on writes.
+  GET    /api/v2/{type}                      list (envelope, cursor pages)
+  GET    /api/v2/{type}/{id}                 one element
+  POST   /api/v2/{type}                      create
+  PUT    /api/v2/{type}/{id}                 create or replace by id
+  PATCH  /api/v2/{type}/{id}                 change the fields sent
+  DELETE /api/v2/{type}/{id}                 delete
+  POST   /api/v2/{type}/{id}/links/{field}   {"add": [...], "remove": [...]}
+  POST   /api/v2/bulk                        up to 1000 items
+  GET    /api/v2/changes                     change feed and full export
+  GET    /api/v2/world                       the world the key names
+  GET    /api/v2/me                          who the key is (checks the key,
+                                             not the PIN)
+```bash
+curl -H "API-Key: 0000000000" "https://www.onlyworlds.com/api/v2/character?fields=id,name"
+```
+Every error is one wrapped object:
+  {"error": {"type": "...", "code": "...", "message": "...",
+             "param": "...", "doc_url": "..."}}
+A wrong PIN and a bad key are both 401 invalid_credentials; the message says
+which ("Incorrect PIN." or "No valid API-Key.").
 
 READ
 ----
@@ -220,11 +256,15 @@ const withStubs = await client.get('character', id, { expand: ['location', 'frie
 const slim = await client.list('character', { fields: ['name', 'supertype'] });
 ```
 
-Filters the server accepts: name__icontains, supertype, subtype.
+Filters the server accepts: name (exact), name__icontains, supertype, subtype,
+and characters (a Character id) on collective, construct, event, narrative,
+relation and title.
 ```typescript
 await client.list('character', { filter: { name__icontains: 'fluff', supertype: 'Admiral' } });
 ```
-Any other query parameter returns a 422 naming it.
+limit, cursor, expand and fields are parameters, not filters. Any other query
+parameter returns a 422 naming it. Never write back a body read with expand:
+its links hold stubs, and writes take ids.
 
 WRITE
 -----
@@ -263,8 +303,10 @@ const res = await client.bulk([
 ], { idempotencyKey: crypto.randomUUID() });
 // res.errors true -> check each item's status; { atomic: true } makes it all-or-nothing
 ```
-Up to 1000 items. Retry an identical request with the same idempotency key;
-send a corrected batch under a NEW key.
+Up to 1000 items. Only 2xx answers are stored under an idempotency key, and a
+bulk answer is a 200 even when items failed. If the answer was lost, retry the
+identical request with the same key. After res.errors is true, fix the items
+and send them under a NEW key (the same key replays the same errors).
 
 SYNC
 ----
@@ -276,8 +318,8 @@ Store the cursor as-is. World-meta edits (name, calendar) are not in this feed.
 
 ERRORS
 ------
-Errors come back as { type, code, message, param, doc_url } and the SDK throws
-OwApiError. The common ones:
+Errors come back as {"error": {type, code, message, param, doc_url}} and the
+SDK throws OwApiError. The common ones:
 - 401 invalid_credentials: wrong key or PIN
 - 403 permission_error: a read key on a write
 - 422 invalid_request: unknown field or parameter (the message names it)
@@ -349,13 +391,16 @@ Last updated: 2026-10-08
 SDK: 4.x (OwV2Client, v2 API)
 
 Changelog:
+- v9: PLAIN HTTP block (headers, routes, the {"error": ...} wrapper); the
+      full filter list; where the PIN is set; demo keys; both environment
+      variable conventions; the idempotency rule for bulk; Node 18+.
 - v8: no tool or skill counts (they go stale); the image-upload limit and
       'decide from code' in ERRORS.
 - v7: SDK 4.x: all code moved to OwV2Client and the v2 API (flat UUID links,
       cursor pages, editLinks, bulk, changes); the removed v1 OnlyWorldsClient
       is gone from the guide. Credential safety (read keys in public builds,
       no PIN in a bundle). Type definitions aligned with the standard's
-      wording. World folders as the no-account path. Toolkit 4.0.0, twelve skills.
+      wording. World folders as the no-account path.
 - v6: SDK 3.0.0, Atlas named as flagship, ow_a_ account tokens.
 - v5: the v2 API dialect; keys minted in the account portal; hosted MCP server.
 - v4: toolkit section; credential flow fixed.

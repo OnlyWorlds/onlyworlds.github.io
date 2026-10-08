@@ -116,6 +116,16 @@ Invites and memberships are managed in the [account portal](https://www.onlyworl
 | GET, POST | `/api/v2/account/watched` | List your watched worlds, or add one by a live `ow_r_` key |
 | DELETE | `/api/v2/account/watched/{watch_id}` | Stop watching |
 
+```bash
+curl -s -X POST "https://www.onlyworlds.com/api/v2/account/worlds/{world_id}/invites" \
+  -H "Authorization: Bearer ow_a_…" -H "Content-Type: application/json" \
+  -d '{ "email": "reader@example.com", "role": "contributor" }'
+```
+
+```json
+{ "id": "…", "email": "reader@example.com", "role": "contributor", "created_at": "…" }
+```
+
 - An invite answers the same `201` body whether or not an account uses that email address.
 - Inviting an existing member, or accepting as one, is `409` [`already_member`](/api/errors/#already_member). Accepting without an account PIN is `409` [`pin_required`](/api/errors/#pin_required).
 - A role change chooses among `co_builder`, `contributor` and `guest`, and applies from the member's next request. A member made a guest keeps its roster Character only if it created it.

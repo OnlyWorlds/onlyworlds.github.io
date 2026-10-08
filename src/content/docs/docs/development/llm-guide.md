@@ -23,8 +23,8 @@ For full field definitions beyond the guide, point the assistant at the [schema]
 |:--|:--|
 | 1. How to help the user | Gauging experience (no coding, some coding, advanced), planning a tool before building it with a short spec, choosing between browser builders and a local setup, pointing Claude Code users to the toolkit, and local setup (Node.js, Git, an editor). |
 | 2. OnlyWorlds essentials | What OnlyWorlds is (an open standard; a world as a folder of JSON files or a hosted world with a REST API), the 22 categories in six groups with one line each, how common concepts map onto them, and `x_` extension fields for custom data. |
-| 3. Credentials and first call | Minting a key (`ow_w_`, `ow_r_`, `ow_a_`, legacy), the PIN on writes, keeping credentials out of chats, commits and browser bundles, and a first SDK call. |
-| 4. SDK and API reference | Reads and cursor paging, filters, `expand` and `fields`; create, patch, upsert and delete; link fields and `editLinks`; bulk upload with client-minted ids and idempotency keys; the change feed; error codes; UI helpers (icons, colours, field groups, `FIELD_SCHEMA`); reading a world folder with no account. |
+| 3. Credentials and first call | Minting a key (`ow_w_`, `ow_r_`, `ow_a_`, legacy), where the PIN is set and when it is sent, the demo keys, keeping credentials out of chats, commits and browser bundles, and a first SDK call. |
+| 4. SDK and API reference | Plain HTTP (the base URL, the `API-Key` and `API-Pin` headers, the error envelope); reads and cursor paging, filters, `expand` and `fields`; create, patch, upsert and delete; link fields and `editLinks`; bulk upload with client-minted ids and idempotency keys; the change feed; error codes; UI helpers (icons, colours, field groups, `FIELD_SCHEMA`); reading a world folder with no account. |
 | 5. Deployment | Building, the static hosts the API accepts browser calls from without setup, deploying to Cloudflare Pages, and why a public site uses a read key. |
 | 6. Resources | Links to Atlas, the developer start, the API reference, the SDK, the standard, schema-dist, the toolkit, the MCP server, the tools and the community. |
 

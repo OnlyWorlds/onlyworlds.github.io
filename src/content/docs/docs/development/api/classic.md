@@ -26,7 +26,7 @@ Routes use the singular category slug (`/character/`, `/location/`).
 | PUT | `/{type}/{uuid}/` | Full replace |
 | DELETE | `/{type}/{uuid}/` | Delete |
 
-**The trailing slash is required** on single-element routes. `GET /character/{uuid}` without it answers a `301` redirect with an empty body, which curl and Python's `requests` do not follow by default; `GET /character/{uuid}/` answers `200`.
+**The trailing slash is required** on single-element routes. `GET /character/{uuid}` without it answers a `301` redirect with an empty body. curl does not follow it without `-L`; Python's `requests` follows it for `GET` by default. `GET /character/{uuid}/` answers `200` directly.
 
 ```bash
 curl -s "https://www.onlyworlds.com/api/worldapi/character/{uuid}/" \

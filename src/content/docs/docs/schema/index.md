@@ -5,7 +5,7 @@ description: The OnlyWorlds standard, its 22 element categories, typed links, an
 
 The OnlyWorlds schema is the standard every OnlyWorlds tool and world shares. It defines 22 element **categories**, the fields each one carries, and typed links between them. An **element** is one record in a world: a Character, a Location, a Law.
 
-Use as much of it as you need. Only the name is required (Pins and Markers also need a map and a position), so a world of nothing but Objects is a valid world. Supertype and subtype add a world's own categories, `x_` fields carry data the schema doesn't model, and high-volume data can live in your own database beside the world, keyed by element id.
+Use as much of it as you need. Only `name` is required: the key must be present, and an empty string is accepted (the standard also asks Pins and Markers for a map and a position). So a world of nothing but Objects is a valid world. Supertype and subtype add a world's own categories, `x_` fields carry data the schema doesn't model, and high-volume data can live in your own database beside the world, keyed by element id.
 
 ## The 22 Categories
 

@@ -33,11 +33,16 @@ import { CardGrid, LinkCard } from '@astrojs/starlight/components';
     description="The 22 element categories, their fields and typed links."
     href="/docs/schema/"
   />
+  <LinkCard
+    title="Build a world without code"
+    description="Start at onlyworlds.com/start, or open Atlas: a world as plain files on your own disk, no account needed."
+    href="https://www.onlyworlds.com/start"
+  />
 </CardGrid>
 
 ## Quickstart
 
-List the Characters in Hyperion, the public example world. Its demo key `0000000000` is read-only and reads without a PIN.
+List the Characters in Hyperion, the public example world. Its demo key `0000000000` is read-only and reads without a PIN; the other demo keys are listed on [Keys and PINs](/docs/getting-started/keys#demo-keys).
 
 ```bash
 curl -H "API-Key: 0000000000" \
@@ -58,4 +63,4 @@ curl -H "API-Key: 0000000000" \
 
 Swap in a key for your own world and the same call reads it. [Getting Started](/docs/getting-started/) walks through keys and the first write.
 
-Looking for tools to build a world with, rather than to build on? Start at [onlyworlds.com](https://www.onlyworlds.com).
+Looking for tools to build a world with, rather than to build on? Start at [onlyworlds.com/start](https://www.onlyworlds.com/start), or open [Atlas](https://atlas.onlyworlds.com).

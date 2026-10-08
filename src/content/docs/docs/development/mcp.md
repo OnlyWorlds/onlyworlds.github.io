@@ -11,7 +11,7 @@ OnlyWorlds runs a hosted [Model Context Protocol](https://modelcontextprotocol.i
 - Opening the URL in a browser shows a plain info page. MCP clients POST JSON-RPC to the same URL.
 - The old npm client (`@onlyworlds/mcp-client`) and the `/mcp/messages/` endpoint are retired. Use the hosted server above.
 
-The server is generated from the same schema registry and service layer as the [World API](/docs/development/api-reference): a read or write through MCP is identical to the same operation through `/api/v2/`.
+The server runs on the same schema registry and service layer as the [World API](/docs/development/api-reference): an element read or written through MCP has the same body, validation and permissions as through `/api/v2/`. The tools are shaped for assistants, so paging, filters and errors differ: see [How It Differs From REST](#how-it-differs-from-rest).
 
 ## Connect From Claude Code
 
@@ -41,6 +41,8 @@ url = "https://www.onlyworlds.com/mcp"
 env_http_headers = { "API-Key" = "OW_API_KEY", "API-Pin" = "OW_API_PIN" }
 ```
 
+`OW_API_KEY` and `OW_API_PIN` are the names an [agent seat's](/docs/development/agents) join response uses. Any variable names work, as long as the config and the environment agree.
+
 ## Credentials
 
 Credentials travel as headers on every request, exactly as on the REST API.
@@ -50,9 +52,9 @@ Credentials travel as headers on every request, exactly as on the REST API.
 | `API-Key` | A world key. The key scopes the server to one world. |
 | `API-Pin` | The PIN, required for writes. |
 
-- Your key and PIN come from your world's page in the [account portal](https://www.onlyworlds.com/account/). See [Keys](/docs/getting-started/keys).
+- Keys are minted on your world's page in the [account portal](https://www.onlyworlds.com/account/). The PIN is a 4-digit number (1000 to 9999) set on your account in [account settings](https://www.onlyworlds.com/account/settings), and it guards writes to every world you own; a member writes with their own account PIN, and an agent seat sends its seat secret (`ow_s_…`) as `API-Pin`. See [Keys and PINs](/docs/getting-started/keys).
 - A read-only `ow_r_` key needs no PIN. A prefixed write key (`ow_w_`) reads without the PIN too; only a legacy 10-digit key reading a private world must send it.
-- A [member's](/docs/development/api/members) key works the same way with the member's own account PIN, and an [agent seat's](/docs/development/agents) key with the seat's own secret as `API-Pin`.
+- The client saves both headers in its configuration as written. For read-only use, connect with an `ow_r_` key and no PIN.
 
 ## Tools
 
@@ -88,6 +90,20 @@ The tools fall into three groups by what they need.
 :::note
 There is no delete tool, by design. The MCP server creates and edits; deletion stays in the REST API and the portal, so an assistant cannot remove elements on its own. `bulk_apply` never removes an element either.
 :::
+
+## How It Differs From REST
+
+| | MCP tools | REST (`/api/v2/`) |
+|:--|:--|:--|
+| Listing order | `list_elements`: newest created first | Change order, the order the cursor walks |
+| Paging | `limit` and `offset`; the answer is `{data, limit, offset, has_more}` | `limit` and `cursor`; the answer is `{data, has_more, next_cursor}` |
+| Name filter | `name_contains` (case-insensitive substring) | `name__icontains`, or `name` for an exact match. `offset` and `name_contains` are a `422` here |
+| Other filters | `supertype` | `supertype`, `subtype`, and `characters` on six categories ([Reads](/docs/development/api/reads#filters)) |
+| Search across categories | `search_elements` | None: filter one category at a time |
+| Change feed | `get_changes`: `since_cursor`, 25 entries per page by default | `GET /changes`: `since`, 500 per page by default |
+| Errors | A tool error carrying the human message, without `code` or the other envelope fields | The [error envelope](/api/errors/) |
+| Retries | No `Idempotency-Key` | `Idempotency-Key` on `POST` and `/bulk` ([Writes](/docs/development/api/writes#idempotency)) |
+| Delete | No tool | `DELETE /api/v2/{type}/{id}` |
 
 ## See Also
 

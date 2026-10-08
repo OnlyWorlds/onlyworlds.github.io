@@ -69,7 +69,7 @@ Fields under the extension namespaces `atlas_*`, `shadow_*` and `x_*` appear inl
 curl -s "https://www.onlyworlds.com/api/v2/character?name__icontains=consul" -H "API-Key: {key}"
 ```
 
-Any other query parameter is a `422` [`invalid_request`](/api/errors/#invalid_request) whose message lists the category's filters, so a typo fails loudly instead of returning the unfiltered list:
+Besides these filters, a list takes the parameters `limit`, `cursor`, `expand` and `fields`. Any other query parameter is a `422` [`invalid_request`](/api/errors/#invalid_request) whose message lists the category's filters, so a typo fails loudly instead of returning the unfiltered list:
 
 ```json
 { "error": { "type": "invalid_request", "code": "invalid_request",

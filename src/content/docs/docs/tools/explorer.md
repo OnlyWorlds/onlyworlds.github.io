@@ -1,9 +1,9 @@
 ---
 title: Explorer
-description: Explorer is an interactive 3D introduction to the OnlyWorlds language and ecosystem.
+description: Explorer is an interactive 3D introduction to the OnlyWorlds schema and ecosystem.
 ---
 
-Explorer is a visual introduction to OnlyWorlds concepts and structure, and a deeper look into the language.
+Explorer is a visual introduction to OnlyWorlds concepts and structure, and a deeper look into the schema.
 
 | | |
 |---|---|

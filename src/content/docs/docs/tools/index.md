@@ -18,7 +18,7 @@ These tools all work with the same world format, so a world can move between the
 
 | Tool | What it does | Where |
 |---|---|---|
-| [Explorer](/docs/tools/explorer) | An interactive 3D introduction to the language and the ecosystem. | [explorer.onlyworlds.com](https://explorer.onlyworlds.com) |
+| [Explorer](/docs/tools/explorer) | An interactive 3D introduction to the schema and the ecosystem. | [explorer.onlyworlds.com](https://explorer.onlyworlds.com) |
 | [Council](/docs/tools/council) | Schema governance: motions, precedents, amendments and votes by characters from your worlds. | [council.onlyworlds.com](https://council.onlyworlds.com) |
 
 ## Play and Showcase

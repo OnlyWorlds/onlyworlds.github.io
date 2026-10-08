@@ -9,13 +9,7 @@ sidebar:
 
 A Character represents an individual with agency and the capacity to make choices that affect their world. Characters are self-directed actors who can respond to situations, form relationships, and drive narrative change through their decisions and actions.
 
-A Character is an individual with agency. They interact with:
-
-- **Species** (defining their biological or cultural blueprints)  
-- **Traits and Abilities** (defining their nature and powers)  
-- **Objects and Constructs** (defining what they own, carry, or believe)  
-- **Institutions, Zones, and Events** (contexts they affect or are affected by)  
-- **Families, Collectives, and Relations** (their networks and bonds)
+A Character is an individual with agency. Its own link fields point to: **Species, Traits and Abilities** (`species`, `traits`, `abilities`); **Languages and Objects** (`languages`, `objects`); **Locations** (`birthplace`, `location`); **Institutions and Families** (`institutions`, `family`); **other Characters** (`friends`, `rivals`). Other elements link to a Character from their side: an Event, Collective, Construct, Narrative, Relation or Title lists it in `characters`, and a Relation names it as `actor`. Find those with a filter, e.g. `GET /api/v2/event?characters={id}`.
 
 They are distinct from:
 
@@ -23,6 +17,8 @@ They are distinct from:
 - **Collectives** (which model group entities without individual agency)  
 
 [Character discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/character)
+
+Every field below is optional. The TTRPG group (`level`, `hit_points` and six ability scores) is for worlds that run a game system. `charisma` (Personality) and `CHA` (TTRPG) are separate fields.
 
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->
 

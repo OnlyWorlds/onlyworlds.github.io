@@ -45,4 +45,6 @@ A `503` [`server_busy`](/api/errors/#server_busy) also carries the CORS headers,
 
 :::caution
 A key in browser code is visible to anyone who opens the page. Ship only an `ow_r_` read key in a public page, and keep write keys and PINs out of it.
+
+The origin list is not access control: anyone can host a page on these platforms. The key decides what a request may do. See [Keeping Credentials Safe](/docs/getting-started/keys#keeping-credentials-safe).
 :::
