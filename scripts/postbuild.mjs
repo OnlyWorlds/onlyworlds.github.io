@@ -6,7 +6,7 @@
 // This step moves each <dir>.html written for a src/content/docs/<dir>/index.md(x) to
 // <dir>/index.html, so the old forms keep answering. It never leaves both forms: if a page
 // exists at both paths it stops, since which one GitHub Pages serves is not something we rely on.
-import { readdirSync, statSync, existsSync, renameSync, mkdirSync } from 'node:fs';
+import { readdirSync, statSync, existsSync, renameSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, relative, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -22,6 +22,7 @@ const walk = (d) => readdirSync(d).flatMap((f) => {
 });
 
 let moved = 0;
+const movedDirs = [];
 for (const file of walk(CONTENT)) {
   const rel = relative(CONTENT, file).replace(/\\/g, '/');
   const m = rel.match(/^(.+)\/index\.mdx?$/);
@@ -39,6 +40,31 @@ for (const file of walk(CONTENT)) {
   }
   mkdirSync(join(DIST, dir), { recursive: true });
   renameSync(from, to);
+  movedDirs.push(dir);
   moved++;
 }
-console.log(`postbuild: ${moved} folder page(s) moved to <dir>/index.html`);
+
+// Starlight writes its own links (sidebar, pagination, breadcrumbs) as /<dir>.html under
+// build.format 'file'. For the pages just moved, that file no longer exists: point those links
+// at /<dir>/ instead (verify-urls.mjs resolves every internal link the way Pages does).
+// starlight-page-actions links each page's Markdown twin as <page url>.md, which under 'file'
+// gives /x.html.md; the twin is written at /x.md. Its "Open in Claude/ChatGPT" links carry the page
+// URL encoded in ?q=, so a moved page's /<dir>.html needs rewriting there too.
+let rewrites = 0;
+const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const count = (fn) => (...a) => { rewrites++; return fn(...a); };
+const rules = [[/(href=["'][^"']*?)\.html\.md(?=[#?"'])/g, count((_, pre) => `${pre}.md`)]];
+if (movedDirs.length) {
+  const dirs = movedDirs.map(esc).join('|');
+  rules.push([new RegExp(`(href=["'])/(${dirs})\\.html(?=[#?"'])`, 'g'), count((_, pre, d) => `${pre}/${d}/`)]);
+  const enc = movedDirs.map((d) => esc(encodeURIComponent('/' + d))).join('|');
+  rules.push([new RegExp(`(${enc})\\.html(?=%20|&|"|')`, 'g'), count((_, d) => `${d}${encodeURIComponent('/')}`)]);
+}
+for (const file of walk(DIST)) {
+  if (!file.endsWith('.html')) continue;
+  const html = readFileSync(file, 'utf8');
+  let next = html;
+  for (const [re, fn] of rules) next = next.replace(re, fn);
+  if (next !== html) writeFileSync(file, next);
+}
+console.log(`postbuild: ${moved} folder page(s) moved to <dir>/index.html; ${rewrites} link(s) to them rewritten to <dir>/`);

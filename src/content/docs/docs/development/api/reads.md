@@ -3,7 +3,7 @@ title: Reads and Pagination
 description: How to list and fetch elements, page through results, filter, expand links, and read the world itself.
 ---
 
-Reads take the key alone: a prefixed key (`ow_w_`, `ow_r_`) never needs the PIN to read. See [Keys and PINs](/docs/getting-started/keys/).
+Reads take the key alone: a prefixed key (`ow_w_`, `ow_r_`) never needs the PIN to read. See [Keys and PINs](/docs/getting-started/keys).
 
 ## Lists
 
@@ -31,7 +31,7 @@ curl -s "https://www.onlyworlds.com/api/v2/character?limit=100" -H "API-Key: {ke
 curl -s "https://www.onlyworlds.com/api/v2/character?limit=100&cursor={next_cursor}" -H "API-Key: {key}"
 ```
 
-Treat the cursor as opaque: do not parse or build it. Pages come in change order, the order the cursor walks, so each element appears exactly once in a walk. To pull a whole world, or to keep a local copy in sync, use the [change feed](/docs/development/api/changes/) instead.
+Treat the cursor as opaque: do not parse or build it. Pages come in change order, the order the cursor walks, so each element appears exactly once in a walk. To pull a whole world, or to keep a local copy in sync, use the [change feed](/docs/development/api/changes) instead.
 
 ## Single Elements
 
@@ -51,9 +51,9 @@ Besides its category's fields (see [the schema](/docs/schema/)), every element r
 | `id` | The element's UUID |
 | `created_at`, `updated_at` | Server timestamps; `updated_at` is always present |
 | `change_seq` | The world's change sequence at this element's last write |
-| `created_by` | The membership that created the element, or `null` when the owner did ([Members](/docs/development/api/members/)) |
+| `created_by` | The membership that created the element, or `null` when the owner did ([Members](/docs/development/api/members)) |
 
-Fields under the extension namespaces `atlas_*`, `shadow_*` and `x_*` appear inline, exactly as they were written. Links read as bare UUIDs: see [Link Fields](/docs/development/api/links/).
+Fields under the extension namespaces `atlas_*`, `shadow_*` and `x_*` appear inline, exactly as they were written. Links read as bare UUIDs: see [Link Fields](/docs/development/api/links).
 
 ## Filters
 
@@ -102,8 +102,8 @@ curl -s "https://www.onlyworlds.com/api/v2/character/{id}?expand=location,instit
   "created_at": "…", "updated_at": "…" }
 ```
 
-`owner_character` is the Character that is the owner, or `null`. The response carries an `ETag`; send it back as `If-None-Match` and an unchanged world answers `304`. A `200` validates the key. Updating these fields is on [Writes](/docs/development/api/writes/#the-world).
+`owner_character` is the Character that is the owner, or `null`. The response carries an `ETag`; send it back as `If-None-Match` and an unchanged world answers `304`. A `200` validates the key. Updating these fields is on [Writes](/docs/development/api/writes#the-world).
 
 ## Guests
 
-A key with the guest role reads only part of a world, and everything else answers as if it did not exist. See [Guests](/docs/development/api/members/#guests).
+A key with the guest role reads only part of a world, and everything else answers as if it did not exist. See [Guests](/docs/development/api/members#guests).

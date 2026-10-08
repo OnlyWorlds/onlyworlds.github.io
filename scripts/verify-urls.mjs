@@ -98,6 +98,56 @@ for (const f of walk(DIST)) {
   if (isFile(asDir)) fail.push(`two forms of one page: ${f.slice(DIST.length)} and ${asDir.slice(DIST.length)}`);
 }
 
+// ---- every internal link in the built pages, resolved the way Pages resolves it ------------------
+// starlight-links-validator resolves links the way Astro does (/x/ finds x.md), not the way Pages
+// serves them (/x/ needs x/index.html), so it passed 51 links that 404 on Pages (Skeld, h37 #1023).
+const pageUrl = (file) => {
+  const rel = file.slice(DIST.length).replace(/\\/g, '/');
+  if (rel.endsWith('/index.html')) return rel.slice(0, -'index.html'.length);
+  return rel.endsWith('.html') ? rel.slice(0, -5) : rel;
+};
+const idCache = new Map();
+const idsOf = (file) => { if (!idCache.has(file)) idCache.set(file, ids(readFileSync(file, 'utf8'))); return idCache.get(file); };
+let hrefs = 0;
+const brokenLinks = new Map(); // target -> first page linking it
+for (const f of walk(DIST)) {
+  if (!f.endsWith('.html')) continue;
+  const html = readFileSync(f, 'utf8');
+  if (stubTarget(html)) continue; // a redirect stub's target is checked as its own row
+  const base = new URL(pageUrl(f), 'https://onlyworlds.github.io');
+  for (const m of html.matchAll(/<a\s[^>]*?href=["']([^"']+)["']/gi)) {
+    const raw = m[1].replace(/&amp;/g, '&');
+    if (/^(mailto:|tel:|javascript:|data:)/i.test(raw)) continue;
+    let u;
+    try { u = new URL(raw, base); } catch { gaps.push(`unparseable href "${raw}" on ${pageUrl(f)}`); continue; }
+    if (u.host !== 'onlyworlds.github.io') {
+      // "Open in Claude/ChatGPT" links carry our page's URL inside ?q=: the AI fetches it, so it must answer.
+      const q = u.searchParams.get('q') || '';
+      for (const inner of q.matchAll(/https:\/\/onlyworlds\.github\.io(\/[^\s"'<>]*)/g)) {
+        const p = inner[1].replace(/[.,;:)]+$/, '');
+        hrefs++;
+        if (follow(p).status !== 200 && !brokenLinks.has(p)) brokenLinks.set(p, `${pageUrl(f)} (inside a ${u.host} link)`);
+      }
+      continue;
+    }
+    if (elsewhere(u.pathname)) continue;
+    hrefs++;
+    const r = follow(u.pathname);
+    const at = pageUrl(f);
+    if (r.status !== 200) {
+      const key = u.pathname;
+      if (!brokenLinks.has(key)) brokenLinks.set(key, at);
+      continue;
+    }
+    const frag = decodeURIComponent(u.hash.slice(1));
+    if (frag && frag !== '_top' && r.file.endsWith('.html') && !idsOf(r.file).has(frag)) {
+      const key = `${u.pathname}#${frag}`;
+      if (!brokenLinks.has(key)) brokenLinks.set(key, at);
+    }
+  }
+}
+for (const [target, from] of brokenLinks) fail.push(`internal link ${target} does not answer on Pages (linked from ${from})`);
+
 // ---- the contract -----------------------------------------------------------------------------
 const rows = readFileSync(CONTRACT, 'utf8').split(/\r?\n/).filter((l) => l && !l.startsWith('#'));
 let checked = 0, templates = 0, already = 0;
@@ -131,7 +181,7 @@ for (const line of rows) {
   if (path.endsWith('.txt') && !r.file.endsWith('.txt')) fail.push(`${url}: served from ${r.file}, not as a text file`);
 }
 
-console.log(`verify-urls: ${rows.length} contract rows · ${checked} answered · ${templates} pattern rows (checked through the floor) · ${already} already 404 on the old site`);
+console.log(`verify-urls: ${hrefs} internal links resolved on Pages rules · ${rows.length} contract rows · ${checked} answered · ${templates} pattern rows (checked through the floor) · ${already} already 404 on the old site`);
 for (const n of notes) console.log(`  note   ${n}`);
 for (const g of gaps) console.log(`  GAP    ${g}`);
 for (const f of fail) console.log(`  DRIFT  ${f}`);

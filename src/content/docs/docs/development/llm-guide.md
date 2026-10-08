@@ -7,7 +7,7 @@ The LLM guide is one plain-text file, written for AI assistants, that teaches th
 
 **The file**: [https://onlyworlds.github.io/assets/ow_llm_guide.txt](https://onlyworlds.github.io/assets/ow_llm_guide.txt)
 
-The guide is for people building their own tools. Someone who wants to build a world can go straight to [Atlas](/docs/tools/atlas/), and someone working in Claude Code is better served by the [toolkit](/docs/development/toolkit/), which the guide itself points to.
+The guide is for people building their own tools. Someone who wants to build a world can go straight to [Atlas](/docs/tools/atlas), and someone working in Claude Code is better served by the [toolkit](/docs/development/toolkit), which the guide itself points to.
 
 ## Using It in a Chat
 
@@ -15,7 +15,7 @@ The guide is for people building their own tools. Someone who wants to build a w
 2. Paste it into a new chat (ChatGPT, Claude, or a browser builder such as Lovable, Replit, v0.dev or ChatGPT Canvas).
 3. Describe the tool you want. The guide tells the assistant to ask what problem it solves, who uses it, its one core interaction, and which element categories matter, then to write a short spec with you before writing code.
 
-For full field definitions beyond the guide, point the assistant at the [schema](/docs/schema/) or at `FIELD_SCHEMA` in the [SDK](/docs/development/typescript/).
+For full field definitions beyond the guide, point the assistant at the [schema](/docs/schema/) or at `FIELD_SCHEMA` in the [SDK](/docs/development/typescript).
 
 ## What It Covers
 
@@ -32,6 +32,6 @@ The file ends with its own changelog.
 
 ## Related
 
-- [MCP server](/docs/development/mcp/): connect an assistant to a world directly instead of pasting the guide.
-- [Toolkit](/docs/development/toolkit/): the same knowledge as Claude Code skills, readable by other agents as markdown.
-- [AI agents](/docs/development/ai/): the four ways an AI works with a world.
+- [MCP server](/docs/development/mcp): connect an assistant to a world directly instead of pasting the guide.
+- [Toolkit](/docs/development/toolkit): the same knowledge as Claude Code skills, readable by other agents as markdown.
+- [AI agents](/docs/development/ai): the four ways an AI works with a world.

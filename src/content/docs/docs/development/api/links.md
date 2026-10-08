@@ -3,7 +3,7 @@ title: Link Fields
 description: How links between elements read and write, and how to add or remove links without rewriting a list.
 ---
 
-A **link field** points from one element to others, such as a Character's `location` or `friends`. Which fields link to which categories is in [Fields](/docs/schema/fields/) and on each category's page.
+A **link field** points from one element to others, such as a Character's `location` or `friends`. Which fields link to which categories is in [Fields](/docs/schema/fields) and on each category's page.
 
 ## One Shape, Both Directions
 
@@ -20,10 +20,10 @@ A link field has one bare name and one value shape, in reads and writes alike:
 
 - A **single link** (`location`) is a UUID string, or `null`.
 - A **multi link** (`friends`) is an array of UUID strings.
-- Read and write use the same name. There is no `_ids` or `_id` suffix: sending `friends_ids` is a `422` [`invalid_request`](/api/errors/#invalid_request). (The suffixes belong to the [Classic API](/docs/development/api/classic/).)
+- Read and write use the same name. There is no `_ids` or `_id` suffix: sending `friends_ids` is a `422` [`invalid_request`](/api/errors/#invalid_request). (The suffixes belong to the [Classic API](/docs/development/api/classic).)
 - Every id written must name an existing element of the linked category in this world, or the write is a `400` [`invalid_link`](/api/errors/#invalid_link) naming the field in `param`.
 
-To read the linked elements' names alongside the ids, use [`?expand=`](/docs/development/api/reads/#expansion-and-sparse-fields).
+To read the linked elements' names alongside the ids, use [`?expand=`](/docs/development/api/reads#expansion-and-sparse-fields).
 
 ## Setting and Clearing Links
 
@@ -59,8 +59,8 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/character/{id}/links/friends"
 
 Deleting an element removes its id from every other element's links in the same transaction. A write can never create a dangling link either: a reference to a missing element fails as `invalid_link` instead of being dropped.
 
-In [`/bulk`](/docs/development/api/writes/#bulk), links are checked against the world plus the batch's surviving items, in any order, so a batch may link to its own items without sorting them first.
+In [`/bulk`](/docs/development/api/writes#bulk), links are checked against the world plus the batch's surviving items, in any order, so a batch may link to its own items without sorting them first.
 
 ## Guests
 
-A guest key sees only part of a world. Link ids it cannot see are left out of every body it reads (a hidden single link reads `null`), a link it writes to a hidden element is `invalid_link`, and its writes keep the links it cannot see. See [Guests](/docs/development/api/members/#guests).
+A guest key sees only part of a world. Link ids it cannot see are left out of every body it reads (a hidden single link reads `null`), a link it writes to a hidden element is `invalid_link`, and its writes keep the links it cannot see. See [Guests](/docs/development/api/members#guests).

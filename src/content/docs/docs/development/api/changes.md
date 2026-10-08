@@ -24,7 +24,7 @@ curl -s "https://www.onlyworlds.com/api/v2/changes?since={cursor}" -H "API-Key: 
 | `has_more` | `true` if more pages remain |
 | `head` | The world's current change sequence |
 
-An `upsert` carries the whole element at its latest state, in the same body a [read](/docs/development/api/reads/#what-an-element-carries) returns. A `delete` is a tombstone with the id and `deleted_at`.
+An `upsert` carries the whole element at its latest state, in the same body a [read](/docs/development/api/reads#what-an-element-carries) returns. A `delete` is a tombstone with the id and `deleted_at`.
 
 ## Walking the Feed
 
@@ -75,7 +75,7 @@ In normal operation a world's change sequence only moves forward. The one except
 
 ## Guests' Cursors
 
-For every key except a guest's, everything above holds. A [guest](/docs/development/api/members/#guests) key walks only what it can see:
+For every key except a guest's, everything above holds. A [guest](/docs/development/api/members#guests) key walks only what it can see:
 
 - Its cursor has three parts. It is still opaque: pass back exactly what you got.
 - It never receives `delete` ops.

@@ -28,7 +28,7 @@ Every error from the current API (`/api/v2/`, including `/bulk` and `/changes`) 
 Each code has its own section below, and the summary table lists them all: a link to `#<code>` lands on it, and an agent that fetched the whole page can search for the heading `### <code>`. In `/bulk`, each failed item carries this same envelope: see [Bulk Errors](#bulk-errors). MCP tools report failures as tool errors carrying the same human message, without the envelope fields.
 
 :::note
-The [Classic API](/docs/development/api/classic/) at `/api/worldapi/` answers in its own legacy shape, `{"detail": …}`. The codes on this page apply to `/api/v2/` only.
+The [Classic API](/docs/development/api/classic) at `/api/worldapi/` answers in its own legacy shape, `{"detail": …}`. The codes on this page apply to `/api/v2/` only.
 :::
 
 ## Error Codes
@@ -55,6 +55,7 @@ The [Classic API](/docs/development/api/classic/) at `/api/worldapi/` answers in
 | [`idempotency_error`](#idempotency_error) | `idempotency_error` | `409` |
 | [`api_error`](#api_error) | `api_error` | `500` |
 | [`server_busy`](#server_busy) | `api_error` | `503` |
+| [`payload_too_large`](#payload_too_large) | `api_error` | `413` |
 | [`media_unavailable`](#media_unavailable) | `api_error` | `503` |
 
 ### invalid_request
@@ -63,7 +64,7 @@ The [Classic API](/docs/development/api/classic/) at `/api/worldapi/` answers in
 
 The request body or query is malformed: an unknown field, a server-managed field in a write, an unknown query parameter, a value that fails validation, text over its length limit, extension fields over the size cap, a malformed id, or a wrong-shaped payload.
 
-- **Common cause:** a misspelled field name (`freinds`); a `_ids` or `_id` suffix carried over from the [Classic API](/docs/development/api/classic/) (the current API uses bare link names); an unknown query parameter, such as a mistyped filter (`nmae__icontains`) or `?ordering=`; sending a read body back with `type`, `created_at`, `updated_at` or `change_seq` still in it; a bulk request whose `items` is not an array.
+- **Common cause:** a misspelled field name (`freinds`); a `_ids` or `_id` suffix carried over from the [Classic API](/docs/development/api/classic) (the current API uses bare link names); an unknown query parameter, such as a mistyped filter (`nmae__icontains`) or `?ordering=`; sending a read body back with `type`, `created_at`, `updated_at` or `change_seq` still in it; a bulk request whose `items` is not an array.
 - **How to fix:** read `param`: it names the field or parameter at fault. Correct the spelling, drop the suffix or the server field, or remove the parameter. The list filters are `name`, `name__icontains`, `supertype` and `subtype`, plus `characters` on the six categories with that link. Any other query parameter is rejected, never ignored.
 
 Unknown fields are a hard error, not a silent drop, so a mistyped field name fails loudly instead of vanishing. Fields under the extension namespaces `atlas_*`, `shadow_*` and `x_*` are the exception: they are stored as written.
@@ -94,7 +95,7 @@ A `POST` supplied an `id` that already exists, or a `PUT` named an id held by an
 
 A guest's `/changes` cursor is from before a change to what the guest can see, or the cursor is not this caller's shape (a guest's has three parts, everyone else's two).
 
-- **How to fix:** pull the feed again from `since=0` and replace the local copy. See [Guests' Cursors](/docs/development/api/changes/#guests-cursors).
+- **How to fix:** pull the feed again from `since=0` and replace the local copy. See [Guests' Cursors](/docs/development/api/changes#guests-cursors).
 
 ### already_member
 
@@ -119,7 +120,7 @@ A member without an account PIN tried to accept an invite or mint a write key. M
 The API key or PIN is missing, unknown or wrong.
 
 - **Common cause:** no `API-Key` header, a mistyped key, or a missing or wrong `API-Pin` on a write. Only a legacy 10-digit key also needs the PIN to read a private world; prefixed keys (`ow_w_`, `ow_r_`) read without it. A deleted world's keys are deleted with it, so they also answer `invalid_credentials`.
-- **How to fix:** check the `API-Key` and `API-Pin` headers (exact names) and that the key belongs to the world you mean. Keys are minted in the [account portal](https://www.onlyworlds.com/account/). A world with a PIN needs it on every write. See [Keys and PINs](/docs/getting-started/keys/).
+- **How to fix:** check the `API-Key` and `API-Pin` headers (exact names) and that the key belongs to the world you mean. Keys are minted in the [account portal](https://www.onlyworlds.com/account/). A world with a PIN needs it on every write. See [Keys and PINs](/docs/getting-started/keys).
 
 ### key_revoked
 
@@ -145,7 +146,7 @@ The credential is valid but lacks the scope for this route.
 
 A contributor or guest key changed, replaced, relinked or deleted an element someone else created. In `/bulk` it is reported per item.
 
-- **How to fix:** these roles change only their own elements (`created_by` names the creator). Ask the owner for the co-builder role, or leave the element alone. See [Roles](/docs/development/api/members/#roles).
+- **How to fix:** these roles change only their own elements (`created_by` names the creator). Ask the owner for the co-builder role, or leave the element alone. See [Roles](/docs/development/api/members#roles).
 
 ### owner_only
 
@@ -204,7 +205,7 @@ Too many failed authentication attempts, such as repeated wrong PINs.
 An `Idempotency-Key` header was reused with a **different** request body.
 
 - **Common cause:** reusing one idempotency key across two different requests.
-- **How to fix:** one key names exactly one request: use a new key (a new UUID) for each distinct write. Replaying the identical body with the same key is fine: it returns the original stored response, with an `Idempotent-Replay: true` header, and does not write twice. See [Idempotency](/docs/development/api/writes/#idempotency).
+- **How to fix:** one key names exactly one request: use a new key (a new UUID) for each distinct write. Replaying the identical body with the same key is fine: it returns the original stored response, with an `Idempotent-Replay: true` header, and does not write twice. See [Idempotency](/docs/development/api/writes#idempotency).
 
 ### api_error
 
@@ -222,6 +223,14 @@ An unexpected server-side error. The envelope holds even here: the API never ans
 Every request slot on the server stayed full for 10 seconds.
 
 - **How to fix:** retry after the `Retry-After` header's seconds.
+
+### payload_too_large
+
+**Type** `api_error` · **Status** `413`
+
+The request body is over 8 MB. The server refuses it while the request waits for a slot.
+
+- **How to fix:** send less per request: split a large `/bulk` batch into several, and upload images through [image upload](/docs/development/api/images), never inside a JSON body.
 
 ### media_unavailable
 
@@ -255,7 +264,7 @@ Every request slot on the server stayed full for 10 seconds.
 - `errors` is `true` if any item failed, `false` if all succeeded.
 - Each item's `error` uses the same envelope as above. The codes seen per item are [`invalid_request`](#invalid_request) (unknown field, wrong shape), [`invalid_link`](#invalid_link) (a reference to a missing element), [`not_author`](#not_author) (`403`, a contributor or guest touching someone else's element) and [`apply_failed`](#apply_failed).
 - Each item's `status` is what a single write would have returned: `201` created, `200` replaced, or `400`, `403` or `422` for the errors above.
-- Partial success is the default: one bad item does not stop the batch. Send `"atomic": true` for all or nothing. See [Bulk](/docs/development/api/writes/#bulk).
+- Partial success is the default: one bad item does not stop the batch. Send `"atomic": true` for all or nothing. See [Bulk](/docs/development/api/writes#bulk).
 
 ### apply_failed
 
@@ -267,7 +276,7 @@ The item passed validation but the write itself failed a database constraint. Th
 
 ## Upload Host Errors
 
-The [image upload](/docs/development/api/images/) to `upload.onlyworlds.com` is not part of the API and answers errors in its own shape, `{"error": "<code>"}`. Its only open path is `POST https://upload.onlyworlds.com/v1/upload`; the host's root and every other path redirect to a login on purpose, and are not for browsers. A successful upload answers `201` with `{url, key, bytes, type, etag}`.
+The [image upload](/docs/development/api/images) to `upload.onlyworlds.com` is not part of the API and answers errors in its own shape, `{"error": "<code>"}`. Its only open path is `POST https://upload.onlyworlds.com/v1/upload`; the host's root and every other path redirect to a login on purpose, and are not for browsers. A successful upload answers `201` with `{url, key, bytes, type, etag}`.
 
 | Status | Code | What to do |
 |:--|:--|:--|

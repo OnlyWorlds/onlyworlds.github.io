@@ -11,7 +11,7 @@ OnlyWorlds runs a hosted [Model Context Protocol](https://modelcontextprotocol.i
 - Opening the URL in a browser shows a plain info page. MCP clients POST JSON-RPC to the same URL.
 - The old npm client (`@onlyworlds/mcp-client`) and the `/mcp/messages/` endpoint are retired. Use the hosted server above.
 
-The server is generated from the same schema registry and service layer as the [World API](/docs/development/api-reference/): a read or write through MCP is identical to the same operation through `/api/v2/`.
+The server is generated from the same schema registry and service layer as the [World API](/docs/development/api-reference): a read or write through MCP is identical to the same operation through `/api/v2/`.
 
 ## Connect From Claude Code
 
@@ -50,9 +50,9 @@ Credentials travel as headers on every request, exactly as on the REST API.
 | `API-Key` | A world key. The key scopes the server to one world. |
 | `API-Pin` | The PIN, required for writes. |
 
-- Your key and PIN come from your world's page in the [account portal](https://www.onlyworlds.com/account/). See [Keys](/docs/getting-started/keys/).
+- Your key and PIN come from your world's page in the [account portal](https://www.onlyworlds.com/account/). See [Keys](/docs/getting-started/keys).
 - A read-only `ow_r_` key needs no PIN. A prefixed write key (`ow_w_`) reads without the PIN too; only a legacy 10-digit key reading a private world must send it.
-- A [member's](/docs/development/api/members/) key works the same way with the member's own account PIN, and an [agent seat's](/docs/development/agents/) key with the seat's own secret as `API-Pin`.
+- A [member's](/docs/development/api/members) key works the same way with the member's own account PIN, and an [agent seat's](/docs/development/agents) key with the seat's own secret as `API-Pin`.
 
 ## Tools
 
@@ -73,7 +73,7 @@ The tools fall into three groups by what they need.
 | `list_elements` | List elements of one category in the key's world, newest first. Filters by `name_contains` and `supertype`; pages with `limit` (default 100, up to 1000) and `offset`. |
 | `get_element` | Fetch one element by category and UUID, in the same shape as `GET /api/v2/{type}/{id}`. |
 | `search_elements` | Search elements by name across all 22 categories in the world, up to 50 matches per category. |
-| `get_changes` | Return the world's delta feed (upserts and deletes since a cursor), paged: 25 entries per call by default, `limit` up to 1000. A guest key gets only what it can see and no deletes; when its view changes, the tool says to pull again from the start and replace the local copy. Mirrors [`GET /api/v2/changes`](/docs/development/api/changes/). |
+| `get_changes` | Return the world's delta feed (upserts and deletes since a cursor), paged: 25 entries per call by default, `limit` up to 1000. A guest key gets only what it can see and no deletes; when its view changes, the tool says to pull again from the start and replace the local copy. Mirrors [`GET /api/v2/changes`](/docs/development/api/changes). |
 
 ### Write: A Write Key and PIN
 
@@ -83,7 +83,7 @@ The tools fall into three groups by what they need.
 | `update_element` | Update an existing element by category and id. A server-side read-merge: it changes only the fields you pass and leaves the rest intact. A multi-link field you pass replaces that field's whole array. |
 | `edit_links` | Add and/or remove links on one multi-link field, leaving the field's other links untouched. |
 | `bulk_apply` | Create and/or update up to 1000 elements across any categories in one call. An item with an `id` updates that element (creating it if absent); items can link to each other. With `atomic` true, any failure rolls the whole batch back. |
-| `get_image_upload_ticket` | Return a single-use ticket for one image upload: `ticket`, `upload_url`, `max_bytes`, `exp`. The image never passes through the tool: the agent uploads the bytes itself to `upload_url` with the ticket, then calls `update_element` with the returned `url` as `image_url`. See [Images](/docs/development/api/images/). |
+| `get_image_upload_ticket` | Return a single-use ticket for one image upload: `ticket`, `upload_url`, `max_bytes`, `exp`. The image never passes through the tool: the agent uploads the bytes itself to `upload_url` with the ticket, then calls `update_element` with the returned `url` as `image_url`. See [Images](/docs/development/api/images). |
 
 :::note
 There is no delete tool, by design. The MCP server creates and edits; deletion stays in the REST API and the portal, so an assistant cannot remove elements on its own. `bulk_apply` never removes an element either.
@@ -91,6 +91,6 @@ There is no delete tool, by design. The MCP server creates and edits; deletion s
 
 ## See Also
 
-- [World API](/docs/development/api-reference/): the same data over REST, with the interactive reference at [onlyworlds.com/api/docs](https://www.onlyworlds.com/api/docs).
-- [Agent seats](/docs/development/agents/): give an agent its own key and Character in a world, then connect it here.
-- [Toolkit](/docs/development/toolkit/): Claude Code skills that work on a world folder or an account world.
+- [World API](/docs/development/api-reference): the same data over REST, with the interactive reference at [onlyworlds.com/api/docs](https://www.onlyworlds.com/api/docs).
+- [Agent seats](/docs/development/agents): give an agent its own key and Character in a world, then connect it here.
+- [Toolkit](/docs/development/toolkit): Claude Code skills that work on a world folder or an account world.

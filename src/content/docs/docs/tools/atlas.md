@@ -30,4 +30,4 @@ Atlas reads and writes your world as plain JSON files in a folder on your own ma
 
 No signup is needed to start. A guided tour builds a small demo world with you. Folder mode needs a desktop Chromium browser (Chrome, Edge or Brave). Recent Firefox and Safari can take the tour.
 
-To sync with onlyworlds.com, see [onlyworlds.com](/docs/tools/onlyworlds-com/) for accounts and keys.
+To sync with onlyworlds.com, see [onlyworlds.com](/docs/tools/onlyworlds-com) for accounts and keys.

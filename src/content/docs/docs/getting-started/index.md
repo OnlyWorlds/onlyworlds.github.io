@@ -27,7 +27,7 @@ Sign up at [onlyworlds.com](https://www.onlyworlds.com/accounts/signup/) and cre
 | `ow_w_…` | One world, read and write. Writes also need the world's PIN. |
 | `ow_r_…` | One world, read only. No PIN, safe to share. |
 
-Each key is scoped to one world: the key decides which world a request reads or writes, so you never send a world id. Older 10-digit keys still work and never expire, but new ones are no longer issued. [Keys and PINs](/docs/getting-started/keys/) covers every key kind, the PIN and account tokens.
+Each key is scoped to one world: the key decides which world a request reads or writes, so you never send a world id. Older 10-digit keys still work and never expire, but new ones are no longer issued. [Keys and PINs](/docs/getting-started/keys) covers every key kind, the PIN and account tokens.
 
 Send the key as the `API-Key` header, and the PIN as `API-Pin` on writes.
 
@@ -42,7 +42,7 @@ curl -H "API-Key: ow_r_your_key" \
 
 Lists come in an envelope: `{"data": [...], "has_more": false, "next_cursor": null}`. When `has_more` is true, pass `next_cursor` back as `?cursor=` for the next page. To try this before you have a world, use Hyperion's demo key `0000000000`, which reads without a PIN.
 
-Every one of the 22 categories has the same routes at its singular name: `/api/v2/location/`, `/api/v2/event/`, and so on. [Reads and Pagination](/docs/development/api/reads/) covers filters, sparse fields and expansion.
+Every one of the 22 categories has the same routes at its singular name: `/api/v2/location/`, `/api/v2/event/`, and so on. [Reads and Pagination](/docs/development/api/reads) covers filters, sparse fields and expansion.
 
 ### 3. Write
 
@@ -66,12 +66,12 @@ curl -X PATCH "https://www.onlyworlds.com/api/v2/character/<character-id>/" \
   -d '{"description": "Diplomat of the Hegemony.", "location": "<location-id>"}'
 ```
 
-A read key on a write route answers `403` ([`permission_error`](/api/errors/#permission_error)). [Writes and Bulk](/docs/development/api/writes/) covers upserts, deletes and clearing fields; [Link Fields](/docs/development/api/links/) covers adding and removing links without reading first.
+A read key on a write route answers `403` ([`permission_error`](/api/errors/#permission_error)). [Writes and Bulk](/docs/development/api/writes) covers upserts, deletes and clearing fields; [Link Fields](/docs/development/api/links) covers adding and removing links without reading first.
 
 ## Where to Go Next
 
-- **Build an app or script**: [SDKs](/docs/development/packages/) for TypeScript, Python and Unity, or the [API reference](/docs/development/api-reference/).
-- **Connect an AI agent**: the [MCP server](/docs/development/mcp/), agent seats, the LLM guide and the toolkit, under [AI Agents](/docs/development/ai/).
-- **Learn the data model**: [Schema](/docs/schema/), [Fields](/docs/schema/fields/) and [Conventions](/docs/schema/conventions/).
+- **Build an app or script**: [SDKs](/docs/development/packages) for TypeScript, Python and Unity, or the [API reference](/docs/development/api-reference).
+- **Connect an AI agent**: the [MCP server](/docs/development/mcp), agent seats, the LLM guide and the toolkit, under [AI Agents](/docs/development/ai).
+- **Learn the data model**: [Schema](/docs/schema/), [Fields](/docs/schema/fields) and [Conventions](/docs/schema/conventions).
 - **Build a world without code**: the guide at [onlyworlds.com/start](https://www.onlyworlds.com/start) covers which tool fits how you work and how to bring in existing material. [Atlas](https://atlas.onlyworlds.com) is the recommended workspace and keeps your world as plain files on your own disk; the [Obsidian plugin](https://github.com/OnlyWorlds/obsidian-plugin) syncs a world as markdown notes. Every tool is listed under [Tools](/docs/tools/).
 - **Shape the schema**: motions and votes happen at [council.onlyworlds.com](https://council.onlyworlds.com).

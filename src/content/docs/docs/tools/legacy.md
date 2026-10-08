@@ -60,7 +60,7 @@ A read-only viewer for browsing, searching and exploring a world's elements and 
 
 Tools that have been retired and replaced:
 
-- **Text Tool.** An AI-parsing and YAML-editing tool, retired with the 2026 platform rebuild. Parsing now lives in the [Toolkit](/docs/development/toolkit/) and the [MCP server](/docs/development/mcp/).
-- **Map Tool.** Maps, pins and hierarchies, retired with the same rebuild. Mapping now lives in [Atlas](/docs/tools/atlas/).
-- **The Old Browser Editor.** The first web workspace, superseded by [Atlas](/docs/tools/atlas/) and the [onlyworlds.com](/docs/tools/onlyworlds-com/) portal.
+- **Text Tool.** An AI-parsing and YAML-editing tool, retired with the 2026 platform rebuild. Parsing now lives in the [Toolkit](/docs/development/toolkit) and the [MCP server](/docs/development/mcp).
+- **Map Tool.** Maps, pins and hierarchies, retired with the same rebuild. Mapping now lives in [Atlas](/docs/tools/atlas).
+- **The Old Browser Editor.** The first web workspace, superseded by [Atlas](/docs/tools/atlas) and the [onlyworlds.com](/docs/tools/onlyworlds-com) portal.
 

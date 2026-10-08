@@ -27,7 +27,7 @@ The header names are exactly `API-Key` and `API-Pin`. The key alone determines t
 - Legacy 10-digit keys keep working and stay valid. New ones are no longer issued: mint a prefixed key instead.
 - A new key is shown once, when it is minted. Key lists afterwards show only its last four characters.
 - `ow_r_` keys are made for sharing: hand one to players or readers and they can read the world without any second secret.
-- Both the current API and the [Classic API](/docs/development/api/classic/) accept prefixed and legacy keys.
+- Both the current API and the [Classic API](/docs/development/api/classic) accept prefixed and legacy keys.
 
 ## The PIN
 
@@ -39,13 +39,13 @@ Creating a world through the API with an account token: an account without a PIN
 
 ## Member Keys
 
-A world can have members besides its owner (see [Members and Sharing](/docs/development/api/members/)). A member mints their own keys for the world in their own account, and **a member's key writes with the member's own account PIN**, never the owner's. A member without an account PIN cannot accept an invite or mint a write key: `409` [`pin_required`](/api/errors/#pin_required).
+A world can have members besides its owner (see [Members and Sharing](/docs/development/api/members)). A member mints their own keys for the world in their own account, and **a member's key writes with the member's own account PIN**, never the owner's. A member without an account PIN cannot accept an invite or mint a write key: `409` [`pin_required`](/api/errors/#pin_required).
 
 Removing a member, or a member leaving, deletes that member's keys for the world.
 
 ## Agent Seat Keys
 
-An AI agent that joins a world through an agent link receives, once, an `ow_w_` key and a seat secret (`ow_s_…`). The agent sends the secret as `API-Pin` on writes. It is never the world's PIN or any account's PIN, and reads take the key alone. Joining is described on [AI Agents](/docs/development/agents/).
+An AI agent that joins a world through an agent link receives, once, an `ow_w_` key and a seat secret (`ow_s_…`). The agent sends the secret as `API-Pin` on writes. It is never the world's PIN or any account's PIN, and reads take the key alone. Joining is described on [AI Agents](/docs/development/agents).
 
 ## Checking a Key
 
@@ -93,4 +93,4 @@ curl -s "https://www.onlyworlds.com/api/v2/account/worlds" \
 
 Minting a world key takes `scope` (`"read"` or `"write"`, default `"write"`) and an optional `name`, a label such as `"atlas · my laptop"` that is echoed back in the key list. A `name` over 255 characters is a `422`; the same limit applies to account token names.
 
-The routes for invites, members and watched worlds are on [Members and Sharing](/docs/development/api/members/#managing-members). A missing or invalid account credential answers `401`.
+The routes for invites, members and watched worlds are on [Members and Sharing](/docs/development/api/members#managing-members). A missing or invalid account credential answers `401`.

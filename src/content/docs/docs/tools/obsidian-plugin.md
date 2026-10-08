@@ -16,7 +16,7 @@ The OnlyWorlds Builder is an Obsidian community plugin. Each element is a plain 
 - **Vault Integration.** Create and edit elements as Obsidian notes.
 - **Local-Only Worlds.** Build a world entirely in your vault, no account needed.
 - **Optional Sync.** Connect a world to onlyworlds.com, or take a local-only world online later.
-- **World Folder Import and Export.** Read and write OnlyWorlds world folders, which open directly in [Atlas](/docs/tools/atlas/).
+- **World Folder Import and Export.** Read and write OnlyWorlds world folders, which open directly in [Atlas](/docs/tools/atlas).
 - **Commands.** World operations are available in the Obsidian command palette.
 
 ## Setup

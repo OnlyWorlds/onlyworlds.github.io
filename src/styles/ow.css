@@ -1,10 +1,11 @@
 /* OnlyWorlds docs theme: Starlight's variables set to the house style.
-   Dark: the develop page (onlyworlds.com/develop): black, one cyan, Lato, #1f2937 hairlines.
+   Dark: the develop page (onlyworlds.com/develop): black, one cyan, Open Sans, #1f2937 hairlines.
+   (Open Sans is what onlyworlds.com and Atlas compute to; measured live by Seethe, h37 #1024.)
    Light: ow-house-light (Assembly registry/styles/ow-house-light), the official light mode:
    gallery white, warm hairlines, text-safe cyan #0e7490 (raw #22d3ee fails contrast on white). */
 
 :root {
-  --sl-font: 'Lato', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --sl-font: 'Open Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --sl-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
 
   --sl-color-accent-low: #082f3a;
@@ -85,9 +86,9 @@ header.header {
   border-bottom-color: currentColor;
 }
 
-/* Headings: weight from Lato's range, no shouting */
+/* Headings: one weight, no shouting */
 .sl-markdown-content :is(h1, h2, h3, h4) { font-weight: 700; letter-spacing: -0.005em; }
-.content-panel h1#_top { font-weight: 900; letter-spacing: -0.01em; }
+.content-panel h1#_top { font-weight: 700; letter-spacing: -0.01em; }
 
 /* Sidebar group labels: the develop page's eyebrow */
 .sidebar-content .group-label .large {
@@ -95,7 +96,7 @@ header.header {
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--sl-color-gray-4);
+  color: var(--sl-color-gray-3); /* gray-4 at 0.72rem read 4.34:1 dark, 3.47:1 light (Seethe) */
 }
 
 /* Inline code */
@@ -112,3 +113,55 @@ header.header {
 
 /* Buttons (the home page's hero actions): the develop page's 6px corners, not pills */
 .sl-link-button { border-radius: 6px; }
+
+/* Style pass 1 (Seethe, h37 #1022): quieter chrome --------------------------------------------- */
+
+/* The current page in the sidebar: a quiet accent, not a filled block */
+.sidebar-content a[aria-current='page'],
+.sidebar-content a[aria-current='page']:hover {
+  background: var(--sl-color-accent-low);
+  color: var(--sl-color-accent-high);
+  font-weight: 600;
+  box-shadow: inset 2px 0 0 var(--sl-color-accent);
+  border-radius: 0 6px 6px 0;
+}
+
+/* Copy Markdown / Open: ghost buttons that stay on one line */
+.actions-container { flex-wrap: nowrap; gap: 0.5rem; }
+.actions-container .action-button {
+  font-size: 0.8125rem;
+  background: transparent;
+  border-color: var(--sl-color-hairline);
+  color: var(--sl-color-gray-2);
+  white-space: nowrap;
+}
+
+/* Phone menu button: a hairline button, not a white disc */
+.sl-menu-button {
+  background: var(--sl-color-gray-6);
+  border: 1px solid var(--sl-color-hairline);
+  color: var(--sl-color-white);
+  box-shadow: none;
+}
+.sl-menu-button[aria-expanded='true'] {
+  background: var(--sl-color-accent-low);
+  color: var(--sl-color-accent-high);
+}
+
+/* Home hero: the develop page opens with a small cyan eyebrow and a modest title */
+.hero h1 { font-size: clamp(2.25rem, 5vw, 3rem); font-weight: 700; letter-spacing: -0.01em; }
+.hero h1::before {
+  content: 'Documentation';
+  display: block;
+  margin-bottom: 0.9rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ow-link);
+}
+
+/* Home cards: the develop page's cyan-tinted panel edge, so the doors read as live */
+:root { --ow-card-edge: rgba(34, 211, 238, 0.3); }
+:root[data-theme='light'] { --ow-card-edge: var(--sl-color-hairline); }
+.sl-link-card { border-color: var(--ow-card-edge); }

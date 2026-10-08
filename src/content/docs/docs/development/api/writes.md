@@ -27,7 +27,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/location" \
 `PATCH /api/v2/{type}/{id}` changes only the fields sent and returns `200` with the full element.
 
 - Omitted fields are left untouched.
-- **Arrays replace.** A `PATCH` to `friends` sets the whole list; to add or remove single ids, use the [link operations route](/docs/development/api/links/#link-operations).
+- **Arrays replace.** A `PATCH` to `friends` sets the whole list; to add or remove single ids, use the [link operations route](/docs/development/api/links#link-operations).
 - Extension fields merge by key.
 - To clear a field, send its empty shape:
 
@@ -40,7 +40,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/location" \
 
 ## Delete
 
-`DELETE /api/v2/{type}/{id}` returns `204`. It is idempotent: deleting an element that is already gone also returns `204`. Deleting an element removes its id from every other element's links, and the change feed records the delete as a [tombstone](/docs/development/api/changes/).
+`DELETE /api/v2/{type}/{id}` returns `204`. It is idempotent: deleting an element that is already gone also returns `204`. Deleting an element removes its id from every other element's links, and the change feed records the delete as a [tombstone](/docs/development/api/changes).
 
 ## Field Rules
 
@@ -121,4 +121,4 @@ curl -s -X PATCH "https://www.onlyworlds.com/api/v2/world" \
 - Unknown fields are a `422`, and the whole patch is refused before anything is written.
 - `public_read` and the PIN are managed in the [account portal](https://www.onlyworlds.com/account/), not here.
 - Every field sent is applied, so an identical value still moves `updated_at`. Send only real changes.
-- World fields do not appear in [`/changes`](/docs/development/api/changes/). To follow them, poll `GET /api/v2/world` and compare `updated_at`.
+- World fields do not appear in [`/changes`](/docs/development/api/changes). To follow them, poll `GET /api/v2/world` and compare `updated_at`.

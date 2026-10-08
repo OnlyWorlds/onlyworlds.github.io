@@ -3,7 +3,7 @@ title: onlyworlds.com
 description: "The OnlyWorlds platform: accounts, world hosting, keys and the API."
 ---
 
-onlyworlds.com is the platform hub: accounts, world hosting, keys and the API. Editing happens in [Atlas](/docs/tools/atlas/) and the other tools, and onlyworlds.com is where your worlds live online.
+onlyworlds.com is the platform hub: accounts, world hosting, keys and the API. Editing happens in [Atlas](/docs/tools/atlas) and the other tools, and onlyworlds.com is where your worlds live online.
 
 | | |
 |---|---|
@@ -13,11 +13,11 @@ onlyworlds.com is the platform hub: accounts, world hosting, keys and the API. E
 ## Features
 
 - **World Hosting.** Create worlds and manage them from the account portal.
-- **Keys.** Mint and revoke scoped world keys, `ow_w_` for write and `ow_r_` for read. A key is shown once. See [Keys](/docs/getting-started/keys/).
+- **Keys.** Mint and revoke scoped world keys, `ow_w_` for write and `ow_r_` for read. A key is shown once. See [Keys](/docs/getting-started/keys).
 - **Account Tokens.** Mint `ow_a_` tokens in Settings so apps can act on your account.
 - **Element Viewer.** Browse the elements of your worlds read-only, from the portal.
 - **Export.** Download a world as a single JSON file.
-- **API.** Full REST access, documented at [api/docs](https://www.onlyworlds.com/api/docs), and an [MCP server](https://www.onlyworlds.com/mcp) for AI assistants. See the [API reference](/docs/development/api-reference/) and [MCP](/docs/development/mcp/).
+- **API.** Full REST access, documented at [api/docs](https://www.onlyworlds.com/api/docs), and an [MCP server](https://www.onlyworlds.com/mcp) for AI assistants. See the [API reference](/docs/development/api-reference) and [MCP](/docs/development/mcp).
 
 ## Getting Started
 

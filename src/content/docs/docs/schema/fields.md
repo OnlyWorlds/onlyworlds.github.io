@@ -3,7 +3,7 @@ title: Fields
 description: The base fields every element carries, the field types, what is required, and extension fields.
 ---
 
-Every element carries the same base fields, then the fields of its own category. Category fields are listed on each category's page, for example [Character](/docs/schema/element_categories/character/).
+Every element carries the same base fields, then the fields of its own category. Category fields are listed on each category's page, for example [Character](/docs/schema/element_categories/character).
 
 ## Base Fields
 
@@ -19,7 +19,7 @@ Every element carries the same base fields, then the fields of its own category.
 
 Ids are UUIDv7 when the server mints them, which makes them time-sortable. A client may supply its own `id` on create: any RFC 4122 UUID is accepted.
 
-Supertype and subtype are free text, so each world defines its own. [Conventions](/docs/schema/conventions/) covers how to use them.
+Supertype and subtype are free text, so each world defines its own. [Conventions](/docs/schema/conventions) covers how to use them.
 
 ### Server-Kept Fields
 
@@ -56,7 +56,7 @@ Link fields use their bare names in both directions: `location`, `friends`. Ther
 
 Numbers are integers. The API truncates a decimal instead of rejecting it (`7.9` is stored as `7`), so scale values to whole units before writing.
 
-**Units.** Dates are integers in the world's time units (see [Worlds](/docs/schema/worlds/)). Some measurements name their unit kind in the schema: a Character's `height` uses the world's length units, `weight` its mass units.
+**Units.** Dates are integers in the world's time units (see [Worlds](/docs/schema/worlds)). Some measurements name their unit kind in the schema: a Character's `height` uses the world's length units, `weight` its mass units.
 
 ## What Is Required
 
@@ -66,8 +66,8 @@ The standard requires more on two map categories:
 
 | Category | Required fields |
 | :--- | :--- |
-| [Pin](/docs/schema/element_categories/pin/) | `map`, `element`, `x`, `y` |
-| [Marker](/docs/schema/element_categories/marker/) | `map`, `zone`, `x`, `y`, `order` |
+| [Pin](/docs/schema/element_categories/pin) | `map`, `element`, `x`, `y` |
+| [Marker](/docs/schema/element_categories/marker) | `map`, `zone`, `x`, `y`, `order` |
 
 Coordinates `x` and `y` are integers measured from the bottom left of the map; `z` is optional, for depth. A Marker's `order` is its position in the sequence when Markers define a polygon or line (`0` is the first point).
 

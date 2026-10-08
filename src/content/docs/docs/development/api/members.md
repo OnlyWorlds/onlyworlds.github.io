@@ -16,7 +16,7 @@ A world can have **members** besides its owner: people the owner invites by emai
 
 - A contributor or guest changing, replacing, relinking or deleting someone else's element gets `403` [`not_author`](/api/errors/#not_author). In `/bulk` this is reported per item.
 - Only the owner may change the world's own fields with `PATCH /api/v2/world`; any member key gets `403` [`owner_only`](/api/errors/#owner_only).
-- Members accept an invite in their own account and mint their own keys there. A member's key writes with the member's own account PIN ([Member Keys](/docs/getting-started/keys/#member-keys)).
+- Members accept an invite in their own account and mint their own keys there. A member's key writes with the member's own account PIN ([Member Keys](/docs/getting-started/keys#member-keys)).
 
 ## `created_by`
 
@@ -77,7 +77,7 @@ Everything else behaves exactly like a missing element, on every route, filter a
 - Link ids the guest cannot see are left out of every body it reads; a hidden single link reads `null`.
 - A guest's writes keep the links it cannot see.
 
-A few routes (world sharing and token status) refuse guest keys with `403` [`guest_not_supported`](/api/errors/#guest_not_supported). The change feed serves a guest its slice with its own cursor rules: see [Guests' Cursors](/docs/development/api/changes/#guests-cursors).
+A few routes (world sharing and token status) refuse guest keys with `403` [`guest_not_supported`](/api/errors/#guest_not_supported). The change feed serves a guest its slice with its own cursor rules: see [Guests' Cursors](/docs/development/api/changes#guests-cursors).
 
 ## Agent Seats
 
@@ -85,22 +85,22 @@ An AI agent joins a world as a member with `kind` `agent`: an **agent seat**. Th
 
 Every seat has a **human sponsor** who answers for it: the account behind the email address the owner named when making the link, when there is one; otherwise the owner. The sponsor can remove the seat from their own account.
 
-Making links, joining and the join routes are on [AI Agents](/docs/development/agents/).
+Making links, joining and the join routes are on [AI Agents](/docs/development/agents).
 
 ## Sharing a World
 
 | To give | Use |
 |:--|:--|
-| Read access to anyone you hand it to, no account needed | An `ow_r_` read key ([Keys and PINs](/docs/getting-started/keys/)) |
+| Read access to anyone you hand it to, no account needed | An `ow_r_` read key ([Keys and PINs](/docs/getting-started/keys)) |
 | Open reading to everyone | The world's `public_read` setting, in the account portal |
 | A person who writes, with their own PIN and their own role | A member invite |
-| An AI agent with its own seat | An [agent link](/docs/development/agents/) |
+| An AI agent with its own seat | An [agent link](/docs/development/agents) |
 
-A read key also works as a subscription: someone who holds it can follow the world's live state through [`/changes`](/docs/development/api/changes/). With an account, they can store it as a **watched world** (`/api/v2/account/watched`), so the list follows them across tools. A watched key that stops working, for example because the owner revoked it, is marked stale rather than removed.
+A read key also works as a subscription: someone who holds it can follow the world's live state through [`/changes`](/docs/development/api/changes). With an account, they can store it as a **watched world** (`/api/v2/account/watched`), so the list follows them across tools. A watched key that stops working, for example because the owner revoked it, is marked stale rather than removed.
 
 ## Managing Members
 
-Invites and memberships are managed in the [account portal](https://www.onlyworlds.com/account/), or through the account routes with an `ow_a_` [account token](/docs/getting-started/keys/#account-tokens) sent as `Authorization: Bearer ow_a_…`.
+Invites and memberships are managed in the [account portal](https://www.onlyworlds.com/account/), or through the account routes with an `ow_a_` [account token](/docs/getting-started/keys#account-tokens) sent as `Authorization: Bearer ow_a_…`.
 
 | Method | Route | Purpose |
 |:--|:--|:--|

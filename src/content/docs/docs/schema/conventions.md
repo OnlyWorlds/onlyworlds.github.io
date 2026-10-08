@@ -19,7 +19,7 @@ The API filters on both by exact value (`?supertype=City`), so keep the vocabula
 
 A link field states that a connection exists: a Character's `location`, an Event's `characters`. Links point one way, from the element that holds the field.
 
-When the connection itself has content, make it a [Relation](/docs/schema/element_categories/relation/). A Relation is an element of its own, so it can carry what a link cannot:
+When the connection itself has content, make it a [Relation](/docs/schema/element_categories/relation). A Relation is an element of its own, so it can carry what a link cannot:
 
 | Relation field | Holds |
 | :--- | :--- |
@@ -49,31 +49,31 @@ The category definitions draw these lines themselves:
 
 ## Zones Take Their Shape From Markers
 
-A Zone has no geometry of its own. Its shape on a [Map](/docs/schema/element_categories/map/) is a set of [Markers](/docs/schema/element_categories/marker/), each linked to the Map and the Zone, at an `x`/`y` coordinate, with an `order` that sequences them into a polygon or line (`0` is the first point). Markers are boundary points and usually carry an empty name. A [Pin](/docs/schema/element_categories/pin/) places one element of any category at one point on one Map.
+A Zone has no geometry of its own. Its shape on a [Map](/docs/schema/element_categories/map) is a set of [Markers](/docs/schema/element_categories/marker), each linked to the Map and the Zone, at an `x`/`y` coordinate, with an `order` that sequences them into a polygon or line (`0` is the first point). Markers are boundary points and usually carry an empty name. A [Pin](/docs/schema/element_categories/pin) places one element of any category at one point on one Map.
 
 ## Time and Units
 
-Dates are integers in the world's own time units, set on the [world](/docs/schema/worlds/): a Character's `birth_date`, an Event's `start_date` and `end_date`, a Relation's span. Height and weight use the world's length and mass units. All numbers are whole, and the API truncates decimals, so choose units small enough that values come out whole.
+Dates are integers in the world's own time units, set on the [world](/docs/schema/worlds): a Character's `birth_date`, an Event's `start_date` and `end_date`, a Relation's span. Height and weight use the world's length and mass units. All numbers are whole, and the API truncates decimals, so choose units small enough that values come out whole.
 
 ## Story and Description
 
-On a [Narrative](/docs/schema/element_categories/narrative/), `story` holds the content of the narrative, as told or remembered. `description`, the base field every element has, holds details about it. Put the text of a tale, a chronicle or a message in `story`, and an account of it in `description`.
+On a [Narrative](/docs/schema/element_categories/narrative), `story` holds the content of the narrative, as told or remembered. `description`, the base field every element has, holds details about it. Put the text of a tale, a chronicle or a message in `story`, and an account of it in `description`.
 
 ## Messages Between Members
 
-In-world messages are [Narratives](/docs/schema/element_categories/narrative/) with supertype `Message`. The `narrator` is the Character credited with the message, and `characters` names its recipients, so a member's inbox is one filtered read:
+In-world messages are [Narratives](/docs/schema/element_categories/narrative) with supertype `Message`. The `narrator` is the Character credited with the message, and `characters` names its recipients, so a member's inbox is one filtered read:
 
 ```http
 GET /api/v2/narrative/?supertype=Message&characters=<character-id>
 ```
 
-`narrator` is what a message claims; the element's `created_by` is what the server recorded. [Members](/docs/development/api/members/) covers the roster that joins the two.
+`narrator` is what a message claims; the element's `created_by` is what the server recorded. [Members](/docs/development/api/members) covers the roster that joins the two.
 
 ## Data the Schema Does Not Model
 
 Two places hold what the categories have no field for:
 
-- **Extension fields** (`x_*`) on the element itself, for small amounts of tool-specific data. They are stored and returned verbatim, up to 64 KB per element. See [Fields](/docs/schema/fields/#extension-fields).
+- **Extension fields** (`x_*`) on the element itself, for small amounts of tool-specific data. They are stored and returned verbatim, up to 64 KB per element. See [Fields](/docs/schema/fields#extension-fields).
 - **Your own database**, beside the world, for high-volume data such as logs, statistics or simulation state. Key each row by the element's `id`.
 
 Data in either place travels only to the tools that read it. Anything another tool should understand belongs in the schema's own fields.

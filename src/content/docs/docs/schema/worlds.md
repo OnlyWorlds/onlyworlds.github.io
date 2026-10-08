@@ -40,7 +40,7 @@ Element fields that hold a moment, such as a Character's `birth_date` or an Even
 - `time_range_min`: `0`
 - `time_range_max`: `128256`
 
-Timeline fields work with [Events](/docs/schema/element_categories/event/) and [Narratives](/docs/schema/element_categories/narrative/).
+Timeline fields work with [Events](/docs/schema/element_categories/event) and [Narratives](/docs/schema/element_categories/narrative).
 
 ## Platform Fields
 
