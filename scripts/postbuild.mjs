@@ -64,7 +64,7 @@ if (movedDirs.length) {
   rules.push([new RegExp(`(<loc>https://onlyworlds\\.github\\.io/)(${dirs})(?=</loc>)`, 'g'), count((_, h, d) => `${h}${d}/`)]);
 }
 // A page's canonical and og:url take the sitemap's bare form (/x, not /x.html), so every page has
-// one address across the sitemap, llms.txt and its own head (Boss, h37 #1046). Runs after the
+// one address across the sitemap, llms.txt and its own head. Runs after the
 // moved-page rule above, which has already turned those into /<dir>/.
 // (index.html first: the home page's canonical is /, not /index)
 rules.push([/((?:<link rel="canonical" href|<meta property="og:url" content)="https:\/\/onlyworlds\.github\.io\/(?:[^"]*\/)?)index\.html"/g, count((_, a) => `${a}"`)]);

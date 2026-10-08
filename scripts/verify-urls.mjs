@@ -5,7 +5,7 @@
  * Run:  node scripts/verify-urls.mjs [--dist dist] [--contract contract/urls.tsv]
  *
  * The contract (contract/urls.tsv) lists every page of the old site and every onlyworlds.github.io
- * URL found in the OnlyWorlds repos. Boss's /fleet check reads the same file against the live site;
+ * URL found in the OnlyWorlds repos. An outside check reads the same file against the live site;
  * this gate reads it against dist/ before anything is pushed.
  *
  * It resolves each URL the way GitHub Pages does (a file; else <path>.html; else a folder with
@@ -32,7 +32,7 @@ const CONTRACT = resolvePath(ROOT, arg('--contract', join('contract', 'urls.tsv'
 const fail = [], gaps = [], notes = [];
 
 // Paths served by another repo's GitHub Pages site under the same host (a project site). This
-// build cannot answer for them; Boss's live check does. The build must never write into them.
+// build cannot answer for them; the live check does. The build must never write into them.
 // From `gh api orgs/OnlyWorlds/repos` (has_pages), 2026-10-08: onlyworlds.github.io and write-tool.
 const PROJECT_SITES = ['/write-tool'];
 const elsewhere = (path) => PROJECT_SITES.some((p) => path === p || path.startsWith(p + '/'));
@@ -100,7 +100,7 @@ for (const f of walk(DIST)) {
 
 // ---- every internal link in the built pages, resolved the way Pages resolves it ------------------
 // starlight-links-validator resolves links the way Astro does (/x/ finds x.md), not the way Pages
-// serves them (/x/ needs x/index.html), so it passed 51 links that 404 on Pages (Skeld, h37 #1023).
+// serves them (/x/ needs x/index.html), so it passed 51 links that 404 on Pages.
 const pageUrl = (file) => {
   const rel = file.slice(DIST.length).replace(/\\/g, '/');
   if (rel.endsWith('/index.html')) return rel.slice(0, -'index.html'.length);
@@ -166,11 +166,11 @@ for (const f of walk(DIST)) {
   for (const m of html.matchAll(/<link rel="canonical" href="([^"]+)"|<meta property="og:url" content="([^"]+)"/g)) {
     const abs = m[1] || m[2], what = m[1] ? 'canonical' : 'og:url';
     selfUrls++; direct(abs, `${pageUrl(f)}: ${what}`);
-    // one address per page: what the page calls itself is what the sitemap lists (Boss, #1046)
+    // one address per page: what the page calls itself is what the sitemap lists
     if (sitemapUrls.size && !sitemapUrls.has(abs)) fail.push(`${pageUrl(f)}: ${what} ${abs} is not the address the sitemap lists`);
   }
 }
-// robots.txt names the sitemap for crawlers and agents (Boss, h37 #1093): each Sitemap: line must answer.
+// robots.txt names the sitemap for crawlers and agents: each Sitemap: line must answer.
 {
   const rb = join(DIST, 'robots.txt');
   if (!isFile(rb)) fail.push('no robots.txt in dist (crawlers and agents look there for the sitemap)');

@@ -1,5 +1,5 @@
-# The docs site's URL list (OW Infra #81) · created 2026-10-08 11:51 by Kael
-# One list, read by two gates: Kael's build gate (before the switch) and Boss's /fleet check (live, every sweep).
+# The docs site's URL list · created 2026-10-08
+# One list, read by two checks: the build gate (npm run verify) and an outside check on the live site.
 # Built by scanning the tracked files of every repo under Development/OnlyWorlds for onlyworlds.github.io URLs, plus every page of the current site from its source tree.
 # class: load-bearing = linked from outside the site or from the LLM guide: the path must serve the real content, 200, same host, never a stub.
 #        page = a current page nothing outside links to: a stub redirect is enough if it moves.

@@ -28,7 +28,7 @@ export default defineConfig({
     '/docs/schema/element_categories/base_properties': '/docs/schema/fields',
     '/docs/schema/element_categories/world': '/docs/schema/worlds',
     '/docs/development/schema': '/docs/schema/',
-    '/docs/schema/element_categories': '/docs/schema/', // its index contradicted the verbatim definitions there (Skeld, #1059)
+    '/docs/schema/element_categories': '/docs/schema/', // its index contradicted the verbatim definitions there
   },
   integrations: [
     starlight({
@@ -50,7 +50,7 @@ export default defineConfig({
       ],
       editLink: { baseUrl: 'https://github.com/OnlyWorlds/onlyworlds.github.io/edit/main/' },
       lastUpdated: true,
-      // Structure: Skeld's #991 (h37). Slugs are the old paths where a page existed; new pages are new slugs.
+      // Slugs are the old paths where a page existed; new pages are new slugs.
       sidebar: [
         {
           label: 'Start',
@@ -101,7 +101,7 @@ export default defineConfig({
           ],
         },
         {
-          // Quillon's (h37 #1028): engine-neutral overview, then one page per engine SDK
+          // engine-neutral overview, then one page per engine SDK
           label: 'Games',
           items: [
             { slug: 'docs/development/games', label: 'Overview' },

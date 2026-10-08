@@ -15,7 +15,7 @@
  * contract/urls.tsv (one per public code: each must be an anchor on /api/errors/).
  * Checks (fail): every public code has a '### <code>' section and every section is a public code;
  * the Upload Host Errors table lists exactly the host rows, with the same statuses.
- * The prose of each section stays hand-written (Skeld); only its presence is checked.
+ * The prose of each section stays hand-written; only its presence is checked.
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';

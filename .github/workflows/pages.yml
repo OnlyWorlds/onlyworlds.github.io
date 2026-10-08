@@ -11,7 +11,7 @@ on:
     - cron: "0 */4 * * *"
   # schema-dist's publish ends with `gh workflow run pages.yml -R OnlyWorlds/onlyworlds.github.io`
   # (workflow_dispatch, no extra credential), so the element pages follow a publish within minutes.
-  # The cron stays as the fallback; Hangar's fleet/docs_follows_schema.py notices when either dies.
+  # The cron stays as the fallback; an outside check on the live site notices when either dies.
   # repository_dispatch is kept as a listener only: no token to send it is held, by choice.
   repository_dispatch:
     types: [schema-dist-published]
