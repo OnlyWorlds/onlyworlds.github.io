@@ -55,8 +55,8 @@ The [Classic API](/docs/development/api/classic) at `/api/worldapi/` answers in 
 | [`quota_exceeded`](#quota_exceeded) | `rate_limited` | `429` | The world has used its image upload tickets for the day; retry after Retry-After. |
 | [`idempotency_error`](#idempotency_error) | `idempotency_error` | `409` | An Idempotency-Key was reused with a different request body. |
 | [`api_error`](#api_error) | `api_error` | `500` | An unexpected server-side error; the envelope is kept even here. |
-| [`server_busy`](#server_busy) | `api_error` | `503` | Every request slot stayed full for 10 seconds; retry after Retry-After (the admission gate, outside Django). |
-| [`payload_too_large`](#payload_too_large) | `api_error` | `413` | The request body is over 8 MB (the admission gate refuses it while the request waits for a slot). |
+| [`server_busy`](#server_busy) | `api_error` | `503` | Every request slot stayed full for 10 seconds; retry after Retry-After. |
+| [`payload_too_large`](#payload_too_large) | `api_error` | `413` | The request body is over 8 MB. |
 | [`media_unavailable`](#media_unavailable) | `api_error` | `503` | Image upload is not configured on the server right now. |
 <!-- /generated:error-codes -->
 

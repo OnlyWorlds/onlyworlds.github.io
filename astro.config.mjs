@@ -66,6 +66,7 @@ export default defineConfig({
           items: [
             { slug: 'docs/schema' },
             { slug: 'docs/schema/worlds' },
+            { slug: 'docs/schema/folders' },
             { slug: 'docs/schema/fields' },
             { slug: 'docs/schema/conventions' },
             { slug: 'docs/schema/example' },

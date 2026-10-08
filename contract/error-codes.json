@@ -97,12 +97,12 @@
   "server_busy": {
     "type": "api_error",
     "status": 503,
-    "summary": "Every request slot stayed full for 10 seconds; retry after Retry-After (the admission gate, outside Django)."
+    "summary": "Every request slot stayed full for 10 seconds; retry after Retry-After."
   },
   "payload_too_large": {
     "type": "api_error",
     "status": 413,
-    "summary": "The request body is over 8 MB (the admission gate refuses it while the request waits for a slot)."
+    "summary": "The request body is over 8 MB."
   },
   "media_unavailable": {
     "type": "api_error",
