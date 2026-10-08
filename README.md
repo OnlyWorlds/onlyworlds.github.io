@@ -21,7 +21,7 @@ Run `npm run verify` before you push: a workflow file that doesn't parse never r
 
 ## Old URLs are part of the contract
 
-keel's error responses link to `/api/errors#<code>`, the LLM guide lives at `/assets/ow_llm_guide.txt`, and tools, READMEs and AI chats link to old paths. `contract/urls.tsv` lists every one, with where it is linked from:
+The API's error responses link to `/api/errors#<code>`, the LLM guide lives at `/assets/ow_llm_guide.txt`, and tools, READMEs and AI chats link to old paths. `contract/urls.tsv` lists every one, with where it is linked from:
 
 - **load-bearing** rows must answer 200 with the real page, on this host. Never a redirect stub: agents read the stub, not its target.
 - **floor** rows are the error codes keel links to; each must be an id on `/api/errors/`.
