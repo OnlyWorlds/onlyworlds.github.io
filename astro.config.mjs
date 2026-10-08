@@ -145,6 +145,31 @@ export default defineConfig({
         starlightLlmsTxt({
           projectName: 'OnlyWorlds',
           description: 'OnlyWorlds is an open schema for world data (22 element types with typed links), a hosted platform with a REST API v2 and an MCP server, and SDKs for TypeScript, Python and Unity.',
+          // The page index an agent starts from (the AI-agent reader, round 1: llms.txt listed no pages).
+          // Every docs page also has a Markdown copy at its own path plus .md.
+          details: [
+            'Start with these pages (Markdown copies):',
+            '',
+            '- [Getting started](https://onlyworlds.github.io/docs/getting-started.md): what OnlyWorlds is and a first call',
+            '- [Keys and PINs](https://onlyworlds.github.io/docs/getting-started/keys.md): which key and PIN a request needs',
+            '- [API overview](https://onlyworlds.github.io/docs/development/api-reference.md): base URL, headers, the error envelope',
+            '- [Reading](https://onlyworlds.github.io/docs/development/api/reads.md) · [Link fields](https://onlyworlds.github.io/docs/development/api/links.md) · [Writes and bulk](https://onlyworlds.github.io/docs/development/api/writes.md) · [Changes](https://onlyworlds.github.io/docs/development/api/changes.md)',
+            '- [Errors](https://onlyworlds.github.io/api/errors.md): every error code; each `doc_url` points here',
+            '- [Schema](https://onlyworlds.github.io/docs/schema.md) and [fields](https://onlyworlds.github.io/docs/schema/fields.md); one page per element type under /docs/schema/element_categories/',
+            '- [The LLM guide](https://onlyworlds.github.io/assets/ow_llm_guide.txt): the whole standard in one text file',
+            '- [OpenAPI document](https://www.onlyworlds.com/api/v2/openapi.json): the API, machine-readable',
+          ].join('\n'),
+          customSets: [
+            { label: 'API', description: 'the REST API v2: reads, links, writes, changes, members, images, CORS, v1 migration and errors', paths: ['docs/development/api-reference', 'docs/development/api/**', 'api/errors', 'docs/getting-started/keys'] },
+            { label: 'Schema', description: 'the 22 element types, their fields and the conventions for using them', paths: ['docs/schema/**', 'docs/schema'] },
+            { label: 'AI agents', description: 'the MCP server, agent seats, the LLM guide and the toolkit', paths: ['docs/development/ai', 'docs/development/mcp', 'docs/development/agents', 'docs/development/llm-guide', 'docs/development/toolkit'] },
+          ],
+          // llms-small keeps asides and line breaks: the reader found notes like "no delete tool, by design" dropped
+          minify: { note: false, tip: false, whitespace: false },
+          // llms-small gets small by leaving whole pages out instead: tools, contact, changelog, and the
+          // 22 element pages (their fields are in _llms-txt/schema.txt and on each page's .md copy)
+          exclude: ['docs/tools/**', 'docs/contact', 'docs/changelog', 'docs/schema/element_categories/**'],
+          demote: ['docs/tools/**', 'docs/contact', 'docs/changelog'],
         }),
         starlightLinksValidator({ errorOnLocalLinks: false }),
       ],

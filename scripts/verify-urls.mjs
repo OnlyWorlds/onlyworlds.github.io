@@ -155,17 +155,37 @@ const direct = (abs, where) => {
   if (r.status !== 200) fail.push(`${where} is ${abs}, which answers ${r.status}${r.location ? ` (to ${r.location})` : ''}, not 200`);
 };
 let selfUrls = 0;
+const sitemapUrls = new Set();
+for (const sm of walk(DIST).filter((f) => /sitemap-\d+\.xml$/.test(f))) {
+  for (const m of readFileSync(sm, 'utf8').matchAll(/<loc>([^<]+)<\/loc>/g)) { selfUrls++; sitemapUrls.add(m[1]); direct(m[1], 'sitemap entry'); }
+}
 for (const f of walk(DIST)) {
   if (!f.endsWith('.html')) continue;
   const html = readFileSync(f, 'utf8');
-  if (stubTarget(html)) continue;
+  if (stubTarget(html) || f.endsWith('404.html')) continue;
   for (const m of html.matchAll(/<link rel="canonical" href="([^"]+)"|<meta property="og:url" content="([^"]+)"/g)) {
-    selfUrls++; direct(m[1] || m[2], `${pageUrl(f)}: ${m[1] ? 'canonical' : 'og:url'}`);
+    const abs = m[1] || m[2], what = m[1] ? 'canonical' : 'og:url';
+    selfUrls++; direct(abs, `${pageUrl(f)}: ${what}`);
+    // one address per page: what the page calls itself is what the sitemap lists (Boss, #1046)
+    if (sitemapUrls.size && !sitemapUrls.has(abs)) fail.push(`${pageUrl(f)}: ${what} ${abs} is not the address the sitemap lists`);
   }
 }
-for (const sm of walk(DIST).filter((f) => /sitemap-\d+\.xml$/.test(f))) {
-  for (const m of readFileSync(sm, 'utf8').matchAll(/<loc>([^<]+)<\/loc>/g)) { selfUrls++; direct(m[1], 'sitemap entry'); }
+// The llms files are what agents read first: every onlyworlds.github.io URL in them must answer,
+// and each page's <link rel="alternate" type="text/markdown"> must point at a twin that exists.
+for (const lf of walk(DIST).filter((f) => /(llms[^/\\]*|_llms-txt[/\\][^/\\]+)\.txt$/.test(f))) {
+  for (const m of readFileSync(lf, 'utf8').matchAll(/https:\/\/onlyworlds\.github\.io(\/[^\s)\]"'<>]*)/g)) {
+    if (elsewhere(m[1].split('#')[0])) continue;
+    selfUrls++;
+    const r = follow(m[1].split('#')[0]);
+    if (r.status !== 200) fail.push(`${lf.slice(DIST.length)} links ${m[0]}, which answers ${r.status}`);
+  }
 }
+for (const f of walk(DIST)) {
+  if (!f.endsWith('.html')) continue;
+  const m = readFileSync(f, 'utf8').match(/<link rel="alternate" type="text\/markdown" href="([^"]+)"/);
+  if (m && resolve(m[1]).status !== 200) fail.push(`${pageUrl(f)}: names Markdown twin ${m[1]}, which answers ${resolve(m[1]).status}`);
+}
+
 if (!selfUrls) gaps.push('no canonical, og:url or sitemap URL found in dist: the self-URL check saw nothing');
 
 for (const [target, from] of brokenLinks) fail.push(`internal link ${target} does not answer on Pages (linked from ${from})`);

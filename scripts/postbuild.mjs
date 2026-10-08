@@ -63,6 +63,13 @@ if (movedDirs.length) {
   rules.push([new RegExp(`(https://onlyworlds\\.github\\.io/)(${dirs})\\.html(?=["'#?])`, 'g'), count((_, h, d) => `${h}${d}/`)]);
   rules.push([new RegExp(`(<loc>https://onlyworlds\\.github\\.io/)(${dirs})(?=</loc>)`, 'g'), count((_, h, d) => `${h}${d}/`)]);
 }
+// A page's canonical and og:url take the sitemap's bare form (/x, not /x.html), so every page has
+// one address across the sitemap, llms.txt and its own head (Boss, h37 #1046). Runs after the
+// moved-page rule above, which has already turned those into /<dir>/.
+// (index.html first: the home page's canonical is /, not /index)
+rules.push([/((?:<link rel="canonical" href|<meta property="og:url" content)="https:\/\/onlyworlds\.github\.io\/(?:[^"]*\/)?)index\.html"/g, count((_, a) => `${a}"`)]);
+rules.push([/(<link rel="canonical" href="https:\/\/onlyworlds\.github\.io\/[^"]*?)\.html"/g, count((_, a) => `${a}"`)]);
+rules.push([/(<meta property="og:url" content="https:\/\/onlyworlds\.github\.io\/[^"]*?)\.html"/g, count((_, a) => `${a}"`)]);
 for (const file of walk(DIST)) {
   if (!file.endsWith('.html') && !/sitemap.*\.xml$/.test(file)) continue;
   const html = readFileSync(file, 'utf8');
@@ -70,4 +77,18 @@ for (const file of walk(DIST)) {
   for (const [re, fn] of rules) next = next.replace(re, fn);
   if (next !== html) writeFileSync(file, next);
 }
-console.log(`postbuild: ${moved} folder page(s) moved to <dir>/index.html; ${rewrites} link(s) to them rewritten to <dir>/`);
+// Each page names its Markdown twin in <head>, so an agent that fetched the HTML can find the lean
+// copy without guessing the path (the AI-agent reader, round 1). Twins are written by page-actions:
+// /x.html -> /x.md, /dir/index.html -> /dir.md, /index.html -> /index.md.
+let alternates = 0;
+for (const file of walk(DIST)) {
+  if (!file.endsWith('.html')) continue;
+  const rel = relative(DIST, file).replace(/\\/g, '/');
+  const twin = rel === 'index.html' ? 'index.md' : rel.endsWith('/index.html') ? rel.slice(0, -'/index.html'.length) + '.md' : rel.slice(0, -5) + '.md';
+  if (!existsSync(join(DIST, twin))) continue;
+  const html = readFileSync(file, 'utf8');
+  if (html.includes('type="text/markdown"')) continue;
+  const next = html.replace('</head>', `<link rel="alternate" type="text/markdown" href="/${twin}"></head>`);
+  if (next !== html) { writeFileSync(file, next); alternates++; }
+}
+console.log(`postbuild: ${moved} folder page(s) moved to <dir>/index.html; ${rewrites} link(s) to them rewritten to <dir>/; ${alternates} page(s) name their Markdown twin`);
