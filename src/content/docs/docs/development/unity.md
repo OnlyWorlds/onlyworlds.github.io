@@ -111,7 +111,7 @@ await edit.CommitAsync(client, "character"); // sends { "level": 12 } and nothin
 
 `OWFolderWriter` writes elements and the world into a world folder, byte for byte as the format specifies, so a folder kept in git doesn't change from one machine to the next.
 
-## Things That Will Bite You
+## Common Pitfalls
 
 - **`""` is how a string field is unset.** The API never sends `null` for text. Test with `string.IsNullOrEmpty`, never `== null`. A single link is different: its unset value is `null`.
 - **`null` is not `0`.** Nullable numbers are `SerializableNullable<T>`, which keeps unset, a deliberate zero and absent apart. You can assign a plain `T`, but reading one makes you handle the unset case. The Inspector shows unset as `--`, never as `0`.
@@ -120,4 +120,4 @@ await edit.CommitAsync(client, "character"); // sends { "level": 12 } and nothin
 
 ## Status
 
-Early, and real. All 22 element models are generated, and a drift check in the repository keeps them in step with the pinned schema. The package README holds more on each rule above, and the repository's README explains how to work on the SDK itself and run its tests.
+The package is early: public and in use, with no compatibility promise yet. All 22 element models are generated, and a drift check in the repository keeps them in step with the pinned schema. The package README holds more on each rule above, and the repository's README explains how to work on the SDK itself and run its tests.
