@@ -87,4 +87,4 @@ Dates are integers on the world's own timeline. Moppetopia counts in years (`tim
 
 ## What It Leaves Out
 
-Moppetopia uses 20 of the 22 categories: it has no Creatures and no Pins. Most of its elements leave most fields empty, and the world is still valid: [Fields](/docs/schema/fields) lists what is required.
+Moppetopia uses 18 of the 22 categories: it has no Creatures, and its one Map has no Pins, Markers or Zones yet. Most of its elements leave most fields empty, and the world is still valid: [Fields](/docs/schema/fields) lists what is required.
