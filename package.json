@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "node scripts/gen_sdk_ref.mjs && node scripts/gen_errors.mjs && astro build && node scripts/postbuild.mjs",
-    "verify": "node scripts/verify-urls.mjs",
+    "verify": "node scripts/verify-workflows.mjs && node scripts/verify-urls.mjs",
     "check": "npm run build && npm run verify"
   },
   "dependencies": {
