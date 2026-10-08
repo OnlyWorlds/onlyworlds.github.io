@@ -128,7 +128,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.6.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.7.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -136,12 +136,12 @@ Generated from the types of `@onlyworlds/sdk` 4.6.0, the version these docs pin.
 
 | Option | Type | Notes |
 |---|---|---|
-| `apiKey` (required) | `string` | ow_w_ / ow_r_ / ow_a_ prefixed key, or grandfathered 10-digit legacy key. |
-| `apiPin` | `string` | Required for writes when the world has a PIN, and for legacy-key reads of private worlds. |
-| `baseUrl` | `string` | Default: https://www.onlyworlds.com/api/v2 |
-| `pageSize` | `number` | Page size for element lists. |
-| `changesPageSize` | `number` | Page size for /changes pulls. |
-| `fetch` | `typeof globalThis.fetch` | Injectable for tests / fake-keel harnesses. |
+| `apiKey` (required) | `string` | The key: an ow_w_ (write) or ow_r_ (read) world key, an ow_a_ account token (sent as a Bearer token, for the account routes), or a 10-digit legacy key. |
+| `apiPin` | `string` | The PIN, needed for writes when the world has one, and for legacy-key reads of private worlds. |
+| `baseUrl` | `string` | The API's base URL, default https://www.onlyworlds.com/api/v2. |
+| `pageSize` | `number` | Page size for element lists, default 100 (the server's default; at most 1000). |
+| `changesPageSize` | `number` | Page size for /changes pulls, default 100. |
+| `fetch` | `typeof globalThis.fetch` | A fetch implementation to use instead of globalThis.fetch (for tests and other runtimes). |
 
 ### Methods
 
@@ -153,7 +153,7 @@ Generated from the types of `@onlyworlds/sdk` 4.6.0, the version these docs pin.
 | `list(type, params?)` | `GET /{type}/` | one cursor page. | `Promise<OwPage>` |
 | `listAll(type, params?)` |  | Cursor-walk every page of a type. | `AsyncGenerator<OwElement>` |
 | `get(type, id, opts?)` | `GET /{type}/{id}/` | optional one-level stub expansion / sparse fields. | `Promise<OwElement>` |
-| `create(type, element, opts?)` | `POST /{type}/` | Mints an RFC 9562 UUIDv7 for element.id when the caller omits one (design ruling D29d) so a retry carrying the same Idempotency-Key is structurally safe. | `Promise<OwElement>` |
+| `create(type, element, opts?)` | `POST /{type}/` | create one element, minting a UUIDv7 id on the client when you leave id out. | `Promise<OwElement>` |
 | `upsert(type, id, element)` | `PUT /{type}/{id}/` | The local-first write primitive. | `Promise<OwElement>` |
 | `patch(type, id, partial)` | `PATCH /{type}/{id}/` | DESTRUCTIVE on sent fields: arrays replace wholesale, omitted fields stay untouched. | `Promise<OwElement>` |
 | `delete(type, id)` | `DELETE /{type}/{id}/` | idempotent (204 on absent). | `Promise<void>` |
@@ -162,5 +162,5 @@ Generated from the types of `@onlyworlds/sdk` 4.6.0, the version these docs pin.
 | `changes(opts?)` | `GET /changes` | one page of the world's ordered change feed. | `Promise<OwChangesPage>` |
 | `changesAll(since?)` |  | Walk the feed from `since` (or from zero = full export) to the current tail, yielding ops in order. | `AsyncGenerator<OwChange, { cursor: string; head: number; }>` |
 | `createMediaTicket()` | `POST /media/ticket` | permission to upload ONE image into this world (a write key and its PIN; no body). | `Promise<OwMediaTicket>` |
-| `uploadImage(image, opts?)` |  | Upload one image and get its permanent public URL: a ticket from keel, then the bytes straight to the edge (keel never sees them). | `Promise<OwUploadedImage>` |
+| `uploadImage(image, opts?)` |  | Upload one image and get its permanent public URL: a ticket from the API, then the bytes straight to the media edge (the API never sees them). | `Promise<OwUploadedImage>` |
 | `request(method, path, opts?)` |  | Raw authenticated request against this client's baseUrl. | `Promise<T>` |

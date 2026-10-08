@@ -16,7 +16,7 @@
     "starlight-page-actions": "0.7.1"
   },
   "devDependencies": {
-    "@onlyworlds/sdk": "4.6.0",
+    "@onlyworlds/sdk": "4.7.0",
     "typescript": "5.9.3"
   }
 }
