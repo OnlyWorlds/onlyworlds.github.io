@@ -267,7 +267,7 @@ The item passed validation but the write itself failed a database constraint. Th
 
 ## Upload Host Errors
 
-The [image upload](/docs/development/api/images/) to `upload.onlyworlds.com` is not part of the API and answers errors in its own shape, `{"error": "<code>"}`:
+The [image upload](/docs/development/api/images/) to `upload.onlyworlds.com` is not part of the API and answers errors in its own shape, `{"error": "<code>"}`. Its only open path is `POST https://upload.onlyworlds.com/v1/upload`; the host's root and every other path redirect to a login on purpose, and are not for browsers. A successful upload answers `201` with `{url, key, bytes, type, etag}`.
 
 | Status | Code | What to do |
 |:--|:--|:--|
@@ -275,8 +275,12 @@ The [image upload](/docs/development/api/images/) to `upload.onlyworlds.com` is 
 | `401` | `ticket_invalid` | Send the ticket exactly as `POST /api/v2/media/ticket` returned it. |
 | `401` | `ticket_expired` | Tickets last 10 minutes: get a new one. |
 | `401` | `ticket_used` | One ticket, one upload: get a new one for the next image. |
-| `400` | `bad_key` | An `X-Key` must start with the ticket's `prefix`. |
+| `400` | `bad_key` | The `X-Key` is not allowed: it must start with the ticket's `prefix`, use only `a-z 0-9 . _ -` and single slashes, stay within 200 characters, and carry an extension that matches the file's bytes. The response's `reason` field names the cause. |
+| `400` | `empty_body` | The request had no image bytes. |
+| `411` | `content_length_required` | Send a `Content-Length` header. |
+| `405` | `method_not_allowed` | Only `POST` uploads. |
 | `409` | `exists` | That `X-Key` is taken and objects are never overwritten: choose another, or omit `X-Key`. |
 | `413` | `too_large` | The image is over the ticket's `max_bytes`. |
 | `415` | `unsupported_type` | Send webp, png, jpeg or avif (the type is read from the bytes; no SVG). |
+| `502` | `write_failed` | Nothing was stored and the ticket is still unspent: retry with the same ticket. |
 | `503` | `ticket_lane_unconfigured` | Uploads are not configured on the host right now: retry later. |

@@ -1,8 +1,64 @@
 ---
 title: Python Package
-description: "The onlyworlds Python package: client, world folders and push. Pre-release."
+description: "The onlyworlds Python package: the world folder format and a client for the v2 API. A pre-release, installed from GitHub."
 ---
 
-:::caution[Draft]
-This page is being written. It will hold: the onlyworlds Python package: client, world folders and push. Pre-release.
+:::caution[Pre-release]
+The package is not on PyPI yet. Install it from GitHub, and expect the interface to change before the first release.
 :::
+
+`onlyworlds` is the Python package for OnlyWorlds. It reads and writes the world folder format, pushes a folder's changes to a world, and has a client for the REST API v2. It needs Python 3.12 or later and has no runtime dependencies.
+
+The 22 element types and the kind of every field are generated from [schema-dist](https://github.com/OnlyWorlds/schema-dist), never listed by hand. The package's version is its own and does not track the schema's.
+
+## Install
+
+```bash
+pip install "git+https://github.com/OnlyWorlds/python-sdk"
+```
+
+The `onlyworlds` package on TestPyPI is an older, unrelated package for the v1 API.
+
+## Read a world
+
+```python
+from onlyworlds import Client
+
+client = Client("ow_r_...")  # a read key needs no PIN
+for character in client.iter_elements("character"):
+    print(character["name"])
+```
+
+A write key also takes a PIN: `Client(key, pin)`. Which PIN depends on the key:
+
+- the world's PIN, for the owner's key
+- the member's own account PIN, for a member key
+- the seat's `ow_s_` secret, for an agent seat (the world PIN is refused for both of these)
+
+Elements are plain dicts. The demo keys `0000000000` to `0000000009` read sample worlds.
+
+## Follow changes
+
+```python
+walk = client.walk_changes(saved_cursor)  # None for everything
+for op in walk:
+    ...  # op["op"] is "upsert" or "delete"
+saved_cursor = walk.cursor  # opaque: persist it, never parse it
+```
+
+If the feed refuses a cursor (`is_resync_required` on the error), walk again from the start and replace the local copy. See [Sync with Changes](/docs/development/api/changes).
+
+## What it covers
+
+- **World folders**: `read_folder` and `write_folder` implement the folder format and pass its shared conformance fixture. The reader never changes a folder.
+- **Push**: `plan_push` and `push` compare a folder with a baseline and PATCH only the fields that changed. A rerun skips what already landed.
+- **Client**: `get_world`, `patch_world`, `list_page`, `iter_elements`, `get`, `create`, `upsert`, `patch`, `delete`, `edit_links`, `bulk`, `changes` and `walk_changes`. `create` and `bulk` always send an `Idempotency-Key`, so a retry after a lost answer writes the same elements again instead of creating them twice.
+- **Errors**: `ApiError` carries the envelope's `code`, `param` and `doc_url`, with flags such as `is_id_conflict`, `is_not_author`, `is_resync_required` and `is_validation_error`.
+- **Export**: `export_world`.
+
+Not yet: typed element models, the account routes and the snapshot writer.
+
+## Links
+
+- [Source and README](https://github.com/OnlyWorlds/python-sdk)
+- [Interactive API reference](https://www.onlyworlds.com/api/docs)
