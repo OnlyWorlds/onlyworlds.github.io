@@ -1,0 +1,196 @@
+{
+  "invalid_request": {
+    "type": "invalid_request",
+    "status": 422,
+    "summary": "The body or query is malformed: an unknown field or query parameter, a bad value, or a wrong-shaped payload; `param` names the culprit."
+  },
+  "invalid_link": {
+    "type": "invalid_request",
+    "status": 400,
+    "summary": "A link field names an element that does not exist in this world (or among a /bulk batch's surviving items)."
+  },
+  "id_conflict": {
+    "type": "invalid_request",
+    "status": 409,
+    "summary": "A create supplied an id that already exists, in this world or another (element ids are unique across all worlds)."
+  },
+  "resync_required": {
+    "type": "invalid_request",
+    "status": 409,
+    "summary": "A guest's /changes cursor predates a change to what it can see, or is not this caller's cursor shape: pull again from since=0."
+  },
+  "already_member": {
+    "type": "invalid_request",
+    "status": 409,
+    "summary": "The invite names someone who is already a member, or the accepting account already is one."
+  },
+  "pin_required": {
+    "type": "invalid_request",
+    "status": 409,
+    "summary": "A member without an account PIN tried to accept an invite or mint a write key."
+  },
+  "apply_failed": {
+    "type": "invalid_request",
+    "status": 422,
+    "summary": "A /bulk item passed validation but its write failed a database constraint (most often an id that already exists in another world)."
+  },
+  "invalid_credentials": {
+    "type": "authentication_error",
+    "status": 401,
+    "summary": "The API key or PIN is missing, unrecognised or wrong."
+  },
+  "key_revoked": {
+    "type": "authentication_error",
+    "status": 401,
+    "summary": "The API key was recognised but has been revoked."
+  },
+  "permission_error": {
+    "type": "permission_error",
+    "status": 403,
+    "summary": "The credential is valid but lacks the scope for this route (e.g. a read key on a write route)."
+  },
+  "not_author": {
+    "type": "permission_error",
+    "status": 403,
+    "summary": "A contributor or guest key changed, replaced, relinked or deleted an element someone else created."
+  },
+  "owner_only": {
+    "type": "permission_error",
+    "status": 403,
+    "summary": "A member key, even a co-builder's, tried to change the world's own settings."
+  },
+  "guest_not_supported": {
+    "type": "permission_error",
+    "status": 403,
+    "summary": "A guest key called a route guests cannot use yet."
+  },
+  "storage_full": {
+    "type": "permission_error",
+    "status": 403,
+    "summary": "The account the upload counts against has used all of its image storage."
+  },
+  "not_found": {
+    "type": "not_found",
+    "status": 404,
+    "summary": "The element or route does not exist in this world."
+  },
+  "rate_limited": {
+    "type": "rate_limited",
+    "status": 429,
+    "summary": "Too many failed PIN attempts; retry after the Retry-After header's seconds."
+  },
+  "quota_exceeded": {
+    "type": "rate_limited",
+    "status": 429,
+    "summary": "The world has used its image upload tickets for the day; retry after Retry-After."
+  },
+  "idempotency_error": {
+    "type": "idempotency_error",
+    "status": 409,
+    "summary": "An Idempotency-Key was reused with a different request body."
+  },
+  "api_error": {
+    "type": "api_error",
+    "status": 500,
+    "summary": "An unexpected server-side error; the envelope is kept even here."
+  },
+  "server_busy": {
+    "type": "api_error",
+    "status": 503,
+    "summary": "Every request slot stayed full for 10 seconds; retry after Retry-After (the admission gate, outside Django)."
+  },
+  "payload_too_large": {
+    "type": "api_error",
+    "status": 413,
+    "summary": "The request body is over 8 MB (the admission gate refuses it while the request waits for a slot)."
+  },
+  "media_unavailable": {
+    "type": "api_error",
+    "status": 503,
+    "summary": "Image upload is not configured on the server right now."
+  },
+  "already_reported": {
+    "type": "invalid_request",
+    "status": 409,
+    "internal": true,
+    "summary": "The upload Worker reported a ticket's upload again with different values (POST /api/v2/media/uploaded, edge-only; the same values answer 204)."
+  },
+  "ticket_required": {
+    "type": null,
+    "status": 401,
+    "host": "upload.onlyworlds.com",
+    "summary": "No ticket: send it as Authorization: Bearer <ticket>."
+  },
+  "ticket_invalid": {
+    "type": null,
+    "status": 401,
+    "host": "upload.onlyworlds.com",
+    "summary": "The ticket is not valid: send it exactly as issued."
+  },
+  "ticket_expired": {
+    "type": null,
+    "status": 401,
+    "host": "upload.onlyworlds.com",
+    "summary": "The ticket is past its expiry (issued for 10 minutes; the edge allows 60 s grace): get a new one."
+  },
+  "ticket_used": {
+    "type": null,
+    "status": 401,
+    "host": "upload.onlyworlds.com",
+    "summary": "One ticket, one upload: get a new one for the next image."
+  },
+  "bad_key": {
+    "type": null,
+    "status": 400,
+    "host": "upload.onlyworlds.com",
+    "summary": "The X-Key is not allowed (prefix, characters outside a-z 0-9 . _ - and single slashes, over 200 characters, or an extension that does not match the bytes); the response carries a `reason`."
+  },
+  "empty_body": {
+    "type": null,
+    "status": 400,
+    "host": "upload.onlyworlds.com",
+    "summary": "No image bytes in the request."
+  },
+  "method_not_allowed": {
+    "type": null,
+    "status": 405,
+    "host": "upload.onlyworlds.com",
+    "summary": "Only POST."
+  },
+  "exists": {
+    "type": null,
+    "status": 409,
+    "host": "upload.onlyworlds.com",
+    "summary": "The X-Key is taken and objects are never overwritten: choose another, or omit X-Key."
+  },
+  "content_length_required": {
+    "type": null,
+    "status": 411,
+    "host": "upload.onlyworlds.com",
+    "summary": "Send a Content-Length header."
+  },
+  "too_large": {
+    "type": null,
+    "status": 413,
+    "host": "upload.onlyworlds.com",
+    "summary": "The image is over the ticket's max_bytes."
+  },
+  "unsupported_type": {
+    "type": null,
+    "status": 415,
+    "host": "upload.onlyworlds.com",
+    "summary": "Send webp, png, jpeg or avif only (the type is read from the bytes)."
+  },
+  "write_failed": {
+    "type": null,
+    "status": 502,
+    "host": "upload.onlyworlds.com",
+    "summary": "Nothing was stored and the ticket is still unspent: retry with the same ticket."
+  },
+  "ticket_lane_unconfigured": {
+    "type": null,
+    "status": 503,
+    "host": "upload.onlyworlds.com",
+    "summary": "Uploads are not configured on the host right now: retry later."
+  }
+}

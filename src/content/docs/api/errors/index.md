@@ -33,30 +33,32 @@ The [Classic API](/docs/development/api/classic) at `/api/worldapi/` answers in 
 
 ## Error Codes
 
-| Code | Type | Status |
-|:--|:--|:--|
-| [`invalid_request`](#invalid_request) | `invalid_request` | `422` |
-| [`invalid_link`](#invalid_link) | `invalid_request` | `400` |
-| [`id_conflict`](#id_conflict) | `invalid_request` | `409` |
-| [`resync_required`](#resync_required) | `invalid_request` | `409` |
-| [`already_member`](#already_member) | `invalid_request` | `409` |
-| [`pin_required`](#pin_required) | `invalid_request` | `409` |
-| [`apply_failed`](#apply_failed) | `invalid_request` | `422`, per bulk item |
-| [`invalid_credentials`](#invalid_credentials) | `authentication_error` | `401` |
-| [`key_revoked`](#key_revoked) | `authentication_error` | `401` |
-| [`permission_error`](#permission_error) | `permission_error` | `403` |
-| [`not_author`](#not_author) | `permission_error` | `403` |
-| [`owner_only`](#owner_only) | `permission_error` | `403` |
-| [`guest_not_supported`](#guest_not_supported) | `permission_error` | `403` |
-| [`storage_full`](#storage_full) | `permission_error` | `403` |
-| [`not_found`](#not_found) | `not_found` | `404` |
-| [`rate_limited`](#rate_limited) | `rate_limited` | `429` |
-| [`quota_exceeded`](#quota_exceeded) | `rate_limited` | `429` |
-| [`idempotency_error`](#idempotency_error) | `idempotency_error` | `409` |
-| [`api_error`](#api_error) | `api_error` | `500` |
-| [`server_busy`](#server_busy) | `api_error` | `503` |
-| [`payload_too_large`](#payload_too_large) | `api_error` | `413` |
-| [`media_unavailable`](#media_unavailable) | `api_error` | `503` |
+<!-- generated:error-codes (scripts/gen_errors.mjs, from contract/error-codes.json) -->
+| Code | Type | Status | What happened |
+|:--|:--|:--|:--|
+| [`invalid_request`](#invalid_request) | `invalid_request` | `422` | The body or query is malformed: an unknown field or query parameter, a bad value, or a wrong-shaped payload; `param` names the culprit. |
+| [`invalid_link`](#invalid_link) | `invalid_request` | `400` | A link field names an element that does not exist in this world (or among a /bulk batch's surviving items). |
+| [`id_conflict`](#id_conflict) | `invalid_request` | `409` | A create supplied an id that already exists, in this world or another (element ids are unique across all worlds). |
+| [`resync_required`](#resync_required) | `invalid_request` | `409` | A guest's /changes cursor predates a change to what it can see, or is not this caller's cursor shape: pull again from since=0. |
+| [`already_member`](#already_member) | `invalid_request` | `409` | The invite names someone who is already a member, or the accepting account already is one. |
+| [`pin_required`](#pin_required) | `invalid_request` | `409` | A member without an account PIN tried to accept an invite or mint a write key. |
+| [`apply_failed`](#apply_failed) | `invalid_request` | `422` | A /bulk item passed validation but its write failed a database constraint (most often an id that already exists in another world). |
+| [`invalid_credentials`](#invalid_credentials) | `authentication_error` | `401` | The API key or PIN is missing, unrecognised or wrong. |
+| [`key_revoked`](#key_revoked) | `authentication_error` | `401` | The API key was recognised but has been revoked. |
+| [`permission_error`](#permission_error) | `permission_error` | `403` | The credential is valid but lacks the scope for this route (e.g. a read key on a write route). |
+| [`not_author`](#not_author) | `permission_error` | `403` | A contributor or guest key changed, replaced, relinked or deleted an element someone else created. |
+| [`owner_only`](#owner_only) | `permission_error` | `403` | A member key, even a co-builder's, tried to change the world's own settings. |
+| [`guest_not_supported`](#guest_not_supported) | `permission_error` | `403` | A guest key called a route guests cannot use yet. |
+| [`storage_full`](#storage_full) | `permission_error` | `403` | The account the upload counts against has used all of its image storage. |
+| [`not_found`](#not_found) | `not_found` | `404` | The element or route does not exist in this world. |
+| [`rate_limited`](#rate_limited) | `rate_limited` | `429` | Too many failed PIN attempts; retry after the Retry-After header's seconds. |
+| [`quota_exceeded`](#quota_exceeded) | `rate_limited` | `429` | The world has used its image upload tickets for the day; retry after Retry-After. |
+| [`idempotency_error`](#idempotency_error) | `idempotency_error` | `409` | An Idempotency-Key was reused with a different request body. |
+| [`api_error`](#api_error) | `api_error` | `500` | An unexpected server-side error; the envelope is kept even here. |
+| [`server_busy`](#server_busy) | `api_error` | `503` | Every request slot stayed full for 10 seconds; retry after Retry-After (the admission gate, outside Django). |
+| [`payload_too_large`](#payload_too_large) | `api_error` | `413` | The request body is over 8 MB (the admission gate refuses it while the request waits for a slot). |
+| [`media_unavailable`](#media_unavailable) | `api_error` | `503` | Image upload is not configured on the server right now. |
+<!-- /generated:error-codes -->
 
 ### invalid_request
 

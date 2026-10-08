@@ -3,7 +3,7 @@
 # Built by scanning the tracked files of every repo under Development/OnlyWorlds for onlyworlds.github.io URLs, plus every page of the current site from its source tree.
 # class: load-bearing = linked from outside the site or from the LLM guide: the path must serve the real content, 200, same host, never a stub.
 #        page = a current page nothing outside links to: a stub redirect is enough if it moves.
-# A 'template' row is a pattern: #{code} is any error code keel emits. keel has no structured list of codes (its OpenAPI's Error.code is a free string), so the anchor floor is the 21 rows marked 'floor': the v2 codes keel emits, each an anchor on /api/errors/ after 343d08f (re-diffed 2026-10-08, h37). A code keel adds is not seen until it is added here.
+# A 'template' row is a pattern: #{code} is any error code keel emits. The 'floor' rows are keel's own list of public codes (Error.x-ow-error-codes in its OpenAPI, Keel #82, vendored as contract/error-codes.json), written by scripts/gen_errors.mjs: each must be an anchor on /api/errors/. Don't edit floor rows by hand.
 # status = the live .io today, redirects not followed. A 404 here was already broken before any migration.
 # url	class	status_on_io_today (no redirects followed)	sources (repo:file)
 /	load-bearing	200	OnlyWorlds:CONTRIBUTING.md; OnlyWorlds:README.md; OnlyWorlds:context7.json; azgaar-converter:README.md; feedback:README.md; foundry-converter:README.md; keel:config/settings/local.py; keel:docs/briefs/bout-3.4b-REPORT.md; keel:docs/briefs/bout-6.1-REPORT.md; keel:portal/templates/allauth/layouts/base.html; keel:web/templates/web/about.html; keel:web/templates/web/about_lab_2.html; keel:web/templates/web/about_lab_3.html; keel:web/templates/web/base.html; keel:web/templates/web/editor_moved.html; keel:web/templates/web/mcp.html; keel:web/templates/web/start.html; keel:web/templates/web/workflows.html; keel:web/workflows_content/migration.md; mcp-client:CLAUDE.md; mcp-client:README.md; mcp-client:index.js; mcp-client:package.json; obsidian-plugin:README.md; obsidian-plugin:manifest.json; sdk:README.md; sdk:package.json; tool-factory:.claude/agents/style-artist.md; tool-factory:OnlyWorlds Essentials.md; tool-factory:OnlyWorldsToolBuilding.md; tool-factory:_analysis/genesislog.jsonl; tool-factory:knowledge/ONLYWORLDS-ELEMENTS-REFERENCE.md; tool-factory:stations/01-blueprint-studio/templates/canto-count.json; tool-factory:stations/01-blueprint-studio/templates/element-excavator-blueprint.json; tool-factory:stations/02-component-library/blocks/styles/onlyworlds-base/README.md; tool-factory:stations/04-feature-forge/outputs/local-character-viewer/README.md; tool-factory:style_refs/base-onlyworlds-style.md; toolkit:README.md; toolkit:knowledge/ecosystem.md; toolkit:knowledge/onlyworlds-core.md; toolkit:skills/dev/SKILL.md; onlyworlds.github.io:_config.yml; onlyworlds.github.io:docs/development/api-reference.md
@@ -95,23 +95,24 @@
 /docs/tools/onlyworlds-com	page	200	source docs/tools/onlyworlds-com.md
 /docs/tools/write-tool	page	200	source docs/tools/write-tool.md
 /docs/tools/zoner	page	200	source docs/tools/zoner.md
-/api/errors#already_member	load-bearing	floor	keel doc_url (core/errors.py DOC_BASE + code); anchor live after 343d08f
-/api/errors#api_error	load-bearing	floor	keel doc_url (core/errors.py DOC_BASE + code); anchor live after 343d08f
-/api/errors#guest_not_supported	load-bearing	floor	keel doc_url (core/errors.py DOC_BASE + code); anchor live after 343d08f
-/api/errors#id_conflict	load-bearing	floor	keel doc_url (core/errors.py DOC_BASE + code); anchor live after 343d08f
-/api/errors#idempotency_error	load-bearing	floor	keel doc_url (core/errors.py DOC_BASE + code); anchor live after 343d08f
-/api/errors#invalid_credentials	load-bearing	floor	keel doc_url (core/errors.py DOC_BASE + code); anchor live after 343d08f
-/api/errors#key_revoked	load-bearing	floor	keel doc_url (core/errors.py DOC_BASE + code); anchor live after 343d08f
-/api/errors#media_unavailable	load-bearing	floor	keel doc_url (core/errors.py DOC_BASE + code); anchor live after 343d08f
-/api/errors#not_author	load-bearing	floor	keel doc_url (core/errors.py DOC_BASE + code); anchor live after 343d08f
-/api/errors#not_found	load-bearing	floor	keel doc_url (core/errors.py DOC_BASE + code); anchor live after 343d08f
-/api/errors#owner_only	load-bearing	floor	keel doc_url (core/errors.py DOC_BASE + code); anchor live after 343d08f
-/api/errors#permission_error	load-bearing	floor	keel doc_url (core/errors.py DOC_BASE + code); anchor live after 343d08f
-/api/errors#pin_required	load-bearing	floor	keel doc_url (core/errors.py DOC_BASE + code); anchor live after 343d08f
-/api/errors#quota_exceeded	load-bearing	floor	keel doc_url (core/errors.py DOC_BASE + code); anchor live after 343d08f
-/api/errors#rate_limited	load-bearing	floor	keel doc_url (core/errors.py DOC_BASE + code); anchor live after 343d08f
-/api/errors#resync_required	load-bearing	floor	keel doc_url (core/errors.py DOC_BASE + code); anchor live after 343d08f
-/api/errors#server_busy	load-bearing	floor	keel doc_url (core/errors.py DOC_BASE + code); anchor live after 343d08f
-/api/errors#storage_full	load-bearing	floor	keel doc_url (core/errors.py DOC_BASE + code); anchor live after 343d08f
 /docs/schema/element_categories/base_properties	page	200	source docs/schema/element_categories/base_properties.md (found 2026-10-08 by diffing against jekyll-final)
 /docs/schema/element_categories/world	page	200	source docs/schema/element_categories/world.md (found 2026-10-08 by diffing against jekyll-final)
+/api/errors#id_conflict	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#resync_required	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#already_member	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#pin_required	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#invalid_credentials	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#key_revoked	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#permission_error	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#not_author	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#owner_only	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#guest_not_supported	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#storage_full	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#not_found	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#rate_limited	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#quota_exceeded	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#idempotency_error	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#api_error	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#server_busy	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#payload_too_large	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#media_unavailable	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
