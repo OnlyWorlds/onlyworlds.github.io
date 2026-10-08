@@ -20,10 +20,6 @@ They are distinct from:
 
 [Marker discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/marker)
 
-:::note
-The API does not enforce the fields marked required below: a write needs only `name`. See [What Is Required](/docs/schema/fields#what-is-required).
-:::
-
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->
 
 ## Fields
@@ -32,9 +28,9 @@ The API does not enforce the fields marked required below: a write needs only `n
 
 | Field | Type | Description |
 |---|---|---|
-| `map` (required) | link to Map | Map this marker is placed on |
-| `zone` (required) | link to Zone | Zone that is defined by this marker |
-| `x` (required) | integer | x coordinate, from bottom left of the map |
-| `y` (required) | integer | y coordinate, from bottom left of the map |
+| `map` | link to Map | Map this marker is placed on |
+| `zone` | link to Zone | Zone that is defined by this marker |
+| `x` | integer | x coordinate, from bottom left of the map |
+| `y` | integer | y coordinate, from bottom left of the map |
 | `z` | integer | z coordinate, in case of depth |
-| `order` (required) | integer | Sequence position when markers define a polygon or line (0 = first point) |
+| `order` | integer | Sequence position when markers define a polygon or line (0 = first point); without it, markers keep the order they were made in |

@@ -62,18 +62,9 @@ Numbers are integers. The API truncates a decimal instead of rejecting it (`7.9`
 
 On every element, only `name` is required: the key must be present on create and full replace, and an empty string is accepted. Markers, which mark the boundary points of a Zone, are often unnamed.
 
-The standard requires more on two map categories:
+That includes the map categories. A [Pin](/docs/schema/element_categories/pin) or [Marker](/docs/schema/element_categories/marker) without a map or a position is valid, so an app can keep pins that are not on any map yet. Every other field accepts `null`.
 
-| Category | Required fields |
-| :--- | :--- |
-| [Pin](/docs/schema/element_categories/pin) | `map`, `element`, `x`, `y` |
-| [Marker](/docs/schema/element_categories/marker) | `map`, `zone`, `x`, `y`, `order` |
-
-Coordinates `x` and `y` are integers measured from the bottom left of the map; `z` is optional, for depth. A Marker's `order` is its position in the sequence when Markers define a polygon or line (`0` is the first point).
-
-:::note
-The API does not enforce the Pin and Marker requirements: a write needs only `name`, and `map`, `x`, `y` and the rest accept `null`.
-:::
+Coordinates `x` and `y` are integers measured from the bottom left of the map; `z` is optional, for depth. A Marker's `order` is its position in the sequence when Markers define a polygon or line (`0` is the first point); without it, Markers keep the order they were made in.
 
 ## Extension Fields
 

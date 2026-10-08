@@ -46,8 +46,8 @@ They are distinct from:
 | `governing_title` | link to Title | Governing figure assigned by the location's primary power |
 | `secondary_powers` | links to Institution | Institutions with significant political control |
 | `zone` | link to Zone | Zone of interest that is associated with the location |
-| `rival` | link to Location | Locations with active, traditional, or historical rivalries |
-| `partner` | link to Location | Locations with active, cooperative, or historical ties |
+| `rival` | link to Location | Location with an active, traditional, or historical rivalry with this one |
+| `partner` | link to Location | Location with active, cooperative, or historical ties to this one |
 
 ### World
 
