@@ -51,4 +51,4 @@ Open an issue or a pull request. The field descriptions on the element pages are
 
 ## License
 
-MIT, see `LICENSE`.
+The code is MIT (`LICENSE`). The documentation's text is CC BY 4.0 (`LICENSE-CONTENT`): share and adapt it with credit.

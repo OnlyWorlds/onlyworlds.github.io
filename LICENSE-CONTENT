@@ -1,0 +1,14 @@
+The documentation's text (everything under src/content/) is licensed under
+the Creative Commons Attribution 4.0 International License (CC BY 4.0). The
+OnlyWorlds logo and other images are not covered by it.
+
+Copyright (c) 2024-2026 OnlyWorlds
+
+You may share and adapt them for any purpose, including commercially, as long
+as you give appropriate credit, link to the licence and say whether you made
+changes.
+
+Full licence: https://creativecommons.org/licenses/by/4.0/legalcode
+
+The code that builds the site (scripts, configuration, styles) is under the
+MIT License in LICENSE.
