@@ -5,7 +5,7 @@ description: The OnlyWorlds standard, its 22 element categories, typed links, an
 
 The OnlyWorlds schema is the standard every OnlyWorlds tool and world shares. It defines 22 element **categories**, the fields each one carries, and typed links between them. An **element** is one record in a world: a Character, a Location, a Law.
 
-Use as much of it as you need. Only `name` is required: the key must be present, and an empty string is accepted (the standard also asks Pins and Markers for a map and a position). So a world of nothing but Objects is a valid world. Supertype and subtype add a world's own categories, `x_` fields carry data the schema doesn't model, and high-volume data can live in your own database beside the world, keyed by element id.
+Use as much of it as you need. Only `name` is required: the key must be present, and an empty string is accepted, on every category, Pins and Markers included. So a world of nothing but Objects is a valid world. Supertype and subtype add a world's own categories, `x_` fields carry data the schema doesn't model, and high-volume data can live in your own database beside the world, keyed by element id.
 
 ## The 22 Categories
 
@@ -34,7 +34,7 @@ Use as much of it as you need. Only `name` is required: the key must be present,
 | [Marker](/docs/schema/element_categories/marker) | Groups of Markers, each at a specific coordinate, together designate a Zone in the world. |
 | [Zone](/docs/schema/element_categories/zone) | Zones represent abstract or meaningful areas within the world that hold significance due to cultural, political, environmental, or narrative reasons. |
 
-Every element also carries the same base fields (name, description, supertype, subtype, image and more). [Fields](/docs/schema/fields) lists them, with the field types and what is required. [Worlds](/docs/schema/worlds) covers the container that holds the elements and its timeline.
+Every element also carries the same base fields (name, description, supertype, subtype, image and more). [Fields](/docs/schema/fields) lists them, with the field types and what is required. [Worlds](/docs/schema/worlds) covers the container that holds the elements and its timeline. [A Worked Example](/docs/schema/example) reads one small world through the API, link by link.
 
 ## Typed Links
 

@@ -68,6 +68,7 @@ export default defineConfig({
             { slug: 'docs/schema/worlds' },
             { slug: 'docs/schema/fields' },
             { slug: 'docs/schema/conventions' },
+            { slug: 'docs/schema/example' },
             {
               label: 'Element Types',
               collapsed: true,
