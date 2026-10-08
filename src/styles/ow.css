@@ -165,3 +165,6 @@ header.header {
 :root { --ow-card-edge: rgba(34, 211, 238, 0.3); }
 :root[data-theme='light'] { --ow-card-edge: var(--sl-color-hairline); }
 .sl-link-card { border-color: var(--ow-card-edge); }
+
+/* The hero's secondary button: a hairline, not the brightest line on the page (Seethe, h37 #1037) */
+.sl-link-button.secondary { border-color: var(--sl-color-gray-3); }
