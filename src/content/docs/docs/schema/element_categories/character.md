@@ -9,7 +9,7 @@ sidebar:
 
 A Character represents an individual with agency and the capacity to make choices that affect their world. Characters are self-directed actors who can respond to situations, form relationships, and drive narrative change through their decisions and actions.
 
-A Character is an individual with agency. Its own link fields point to: **Species, Traits and Abilities** (`species`, `traits`, `abilities`); **Languages and Objects** (`languages`, `objects`); **Locations** (`birthplace`, `location`); **Institutions and Families** (`institutions`, `family`); **other Characters** (`friends`, `rivals`). Other elements link to a Character from their side: an Event, Collective, Construct, Narrative, Relation or Title lists it in `characters`, and a Relation names it as `actor`. Find those with a filter, e.g. `GET /api/v2/event?characters={id}`.
+Its own link fields point to: **Species, Traits and Abilities** (`species`, `traits`, `abilities`); **Languages and Objects** (`languages`, `objects`); **Locations** (`birthplace`, `location`); **Institutions and Families** (`institutions`, `family`); **other Characters** (`friends`, `rivals`). Other elements link to a Character from their side: an Event, Collective, Construct, Narrative, Relation or Title lists it in `characters`, and a Relation names it as `actor`. Find those with a filter, e.g. `GET /api/v2/event?characters={id}`.
 
 They are distinct from:
 

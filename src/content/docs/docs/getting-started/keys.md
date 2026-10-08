@@ -20,7 +20,7 @@ The header names are exactly `API-Key` and `API-Pin`. The key alone determines t
 |:--|:--|:--|:--|
 | `ow_w_…` | World write key | Key alone | Key and PIN |
 | `ow_r_…` | World read key | Key alone | Refused: `403` [`permission_error`](/api/errors/#permission_error) |
-| 10-digit legacy key (e.g. `0000000001`) | The original world key | Key alone; a private world also needs the PIN | Key and PIN |
+| 10-digit legacy key | The original world key | Key alone; a private world also needs the PIN | Key and PIN |
 | `ow_a_…` | Account token | Acts on your account, not on one world: see [Account Tokens](#account-tokens) | |
 
 - Each world key (`ow_w_`, `ow_r_`, legacy) is scoped to one world.
