@@ -1,0 +1,118 @@
+# The docs site's URL list (OW Infra #81) · created 2026-10-08 11:51 by Kael
+# One list, read by two gates: Kael's build gate (before the switch) and Boss's /fleet check (live, every sweep).
+# Built by scanning the tracked files of every repo under Development/OnlyWorlds for onlyworlds.github.io URLs, plus every page of the current site from its source tree.
+# class: load-bearing = linked from outside the site or from the LLM guide: the path must serve the real content, 200, same host, never a stub.
+#        page = a current page nothing outside links to: a stub redirect is enough if it moves.
+# A 'template' row is a pattern: #{code} is any error code keel emits. The 'floor' rows are keel's own list of public codes (Error.x-ow-error-codes in its OpenAPI, Keel #82, vendored as contract/error-codes.json), written by scripts/gen_errors.mjs: each must be an anchor on /api/errors/. Don't edit floor rows by hand.
+# status = the live .io today, redirects not followed. A 404 here was already broken before any migration.
+# url	class	status_on_io_today (no redirects followed)	sources (repo:file)
+/	load-bearing	200	OnlyWorlds:CONTRIBUTING.md; OnlyWorlds:README.md; OnlyWorlds:context7.json; azgaar-converter:README.md; feedback:README.md; foundry-converter:README.md; keel:config/settings/local.py; keel:docs/briefs/bout-3.4b-REPORT.md; keel:docs/briefs/bout-6.1-REPORT.md; keel:portal/templates/allauth/layouts/base.html; keel:web/templates/web/about.html; keel:web/templates/web/about_lab_2.html; keel:web/templates/web/about_lab_3.html; keel:web/templates/web/base.html; keel:web/templates/web/editor_moved.html; keel:web/templates/web/mcp.html; keel:web/templates/web/start.html; keel:web/templates/web/workflows.html; keel:web/workflows_content/migration.md; mcp-client:CLAUDE.md; mcp-client:README.md; mcp-client:index.js; mcp-client:package.json; obsidian-plugin:README.md; obsidian-plugin:manifest.json; sdk:README.md; sdk:package.json; tool-factory:.claude/agents/style-artist.md; tool-factory:OnlyWorlds Essentials.md; tool-factory:OnlyWorldsToolBuilding.md; tool-factory:_analysis/genesislog.jsonl; tool-factory:knowledge/ONLYWORLDS-ELEMENTS-REFERENCE.md; tool-factory:stations/01-blueprint-studio/templates/canto-count.json; tool-factory:stations/01-blueprint-studio/templates/element-excavator-blueprint.json; tool-factory:stations/02-component-library/blocks/styles/onlyworlds-base/README.md; tool-factory:stations/04-feature-forge/outputs/local-character-viewer/README.md; tool-factory:style_refs/base-onlyworlds-style.md; toolkit:README.md; toolkit:knowledge/ecosystem.md; toolkit:knowledge/onlyworlds-core.md; toolkit:skills/dev/SKILL.md; onlyworlds.github.io:_config.yml; onlyworlds.github.io:docs/development/api-reference.md
+/api/errors	load-bearing	301 -> https://onlyworlds.github.io/api/errors/	sdk:src/v2/errors.ts; toolkit:knowledge/ecosystem.md; onlyworlds.github.io:assets/ow_llm_guide.txt
+/api/errors#	load-bearing	301 -> https://onlyworlds.github.io/api/errors/	keel:core/errors.py; toolkit:skills/api/SKILL.md
+/api/errors#apply_failed	load-bearing	floor; 301 -> https://onlyworlds.github.io/api/errors/	keel:docs/briefs/bout-3.4b-REPORT.md
+/api/errors#invalid_link	load-bearing	floor; 301 -> https://onlyworlds.github.io/api/errors/	keel:docs/spec/api-v2-spec.md; sdk:test/v2-client.test.mjs; toolkit:skills/api/SKILL.md; onlyworlds.github.io:docs/development/api-reference.md; onlyworlds.github.io:docs/development/errors.md
+/api/errors#invalid_request	load-bearing	floor; 301 -> https://onlyworlds.github.io/api/errors/	sdk:test/v2-client.test.mjs
+/api/errors#{code}	load-bearing	template	keel:core/admission.py
+/api/errors#{exc.code}	load-bearing	template	keel:docs/design/bb-review-request-3.md; keel:elements/bulk.py
+/assets/ow_llm_guide.txt	load-bearing	200	azgaar-converter:README.md; foundry-converter:README.md; keel:tests/test_web.py; keel:web/templates/web/about.html; keel:web/templates/web/about_lab_2.html; keel:web/templates/web/about_lab_3.html; keel:web/templates/web/develop.html; toolkit:knowledge/ai-builders.md
+/browse-tool/	load-bearing	404	keel:tests/test_web.py; keel:web/views.py
+/docs/api/errors#${code}	load-bearing	template	sdk:test/v2-client.test.mjs
+/docs/developer-support/my-first-tool.html	load-bearing	404	tactical-tangle:README.md
+/docs/development/	load-bearing	200	OnlyWorlds:README.md; keel:web/templates/web/develop.html; toolkit:.claude-plugin/marketplace.json; toolkit:.claude-plugin/plugin.json
+/docs/development/ai.html	load-bearing	200	keel:web/templates/web/about.html; keel:web/templates/web/about_lab_2.html; keel:web/templates/web/about_lab_3.html; keel:web/templates/web/start.html
+/docs/development/api-reference	load-bearing	200	keel:core/api.py
+/docs/development/mcp	load-bearing	200	onlyworlds.github.io:assets/ow_llm_guide.txt
+/docs/development/packages	load-bearing	200	keel:web/templates/web/about.html; keel:web/templates/web/about_lab_2.html; keel:web/templates/web/about_lab_3.html
+/docs/framework/	load-bearing	404	tool-factory:labs/research/interactive-text-mobile/sources.md
+/docs/schema/	load-bearing	200	keel:web/templates/web/start.html
+/docs/schema/element_categories/ability.html	load-bearing	200	keel:web/templates/web/home.html
+/docs/schema/element_categories/character.html	load-bearing	200	keel:web/templates/web/home.html
+/docs/schema/element_categories/collective.html	load-bearing	200	keel:web/templates/web/home.html
+/docs/schema/element_categories/construct.html	load-bearing	200	keel:web/templates/web/home.html
+/docs/schema/element_categories/creature.html	load-bearing	200	keel:web/templates/web/home.html
+/docs/schema/element_categories/event.html	load-bearing	200	keel:web/templates/web/home.html
+/docs/schema/element_categories/family.html	load-bearing	200	keel:web/templates/web/home.html
+/docs/schema/element_categories/institution.html	load-bearing	200	keel:web/templates/web/home.html
+/docs/schema/element_categories/language.html	load-bearing	200	keel:web/templates/web/home.html
+/docs/schema/element_categories/law.html	load-bearing	200	keel:web/templates/web/home.html
+/docs/schema/element_categories/location.html	load-bearing	200	keel:web/templates/web/home.html
+/docs/schema/element_categories/map.html	load-bearing	200	keel:web/templates/web/home.html
+/docs/schema/element_categories/marker.html	load-bearing	200	keel:web/templates/web/home.html
+/docs/schema/element_categories/narrative.html	load-bearing	200	keel:web/templates/web/home.html
+/docs/schema/element_categories/object.html	load-bearing	200	keel:web/templates/web/home.html
+/docs/schema/element_categories/phenomenon.html	load-bearing	200	keel:web/templates/web/home.html
+/docs/schema/element_categories/pin.html	load-bearing	200	keel:web/templates/web/home.html
+/docs/schema/element_categories/relation.html	load-bearing	200	keel:web/templates/web/home.html
+/docs/schema/element_categories/species.html	load-bearing	200	keel:web/templates/web/home.html
+/docs/schema/element_categories/title.html	load-bearing	200	keel:web/templates/web/home.html
+/docs/schema/element_categories/trait.html	load-bearing	200	keel:web/templates/web/home.html
+/docs/schema/element_categories/zone.html	load-bearing	200	keel:web/templates/web/home.html
+/docs/specification/	load-bearing	404	tool-factory:labs/research/interactive-text-mobile/sources.md; write-tool:src/utils/fieldDescriptions.ts
+/docs/specification/element_categories/${element.category	load-bearing	template	write-tool:src/components/ShowcaseViewer.tsx
+/docs/specification/fields.html	load-bearing	404	tool-factory:labs/research/interactive-text-mobile/sources.md; write-tool:src/services/OnlyWorldsFieldTypes.ts
+/docs/specification/world-metadata.html	load-bearing	404	tool-factory:labs/research/interactive-text-mobile/sources.md
+/docs/tools	load-bearing	301 -> https://onlyworlds.github.io/docs/tools/	onlyworlds.github.io:assets/ow_llm_guide.txt
+/write-tool	load-bearing	301 -> https://onlyworlds.github.io/write-tool/	keel:web/templates/web/about.html; keel:web/templates/web/about_lab_2.html; keel:web/templates/web/about_lab_3.html; write-tool:src/components/ElementViewer.tsx; onlyworlds.github.io:docs/tools/write-tool.md
+/write-tool/	internal	200	onlyworlds.github.io:docs/tools/index.md; onlyworlds.github.io:docs/tools/write-tool.md
+/docs/contact	page	200	source docs/contact.md
+/docs/development/ai	page	200	source docs/development/ai.md
+/docs/development/schema	page	200	source docs/development/schema.md
+/docs/getting-started/	page	200	source docs/getting-started/index.md
+/docs/schema/element_categories	page	200	source docs/schema/element_categories.md
+/docs/schema/element_categories/ability	page	200	source docs/schema/element_categories/ability.md
+/docs/schema/element_categories/character	page	200	source docs/schema/element_categories/character.md
+/docs/schema/element_categories/collective	page	200	source docs/schema/element_categories/collective.md
+/docs/schema/element_categories/construct	page	200	source docs/schema/element_categories/construct.md
+/docs/schema/element_categories/creature	page	200	source docs/schema/element_categories/creature.md
+/docs/schema/element_categories/event	page	200	source docs/schema/element_categories/event.md
+/docs/schema/element_categories/family	page	200	source docs/schema/element_categories/family.md
+/docs/schema/element_categories/institution	page	200	source docs/schema/element_categories/institution.md
+/docs/schema/element_categories/language	page	200	source docs/schema/element_categories/language.md
+/docs/schema/element_categories/law	page	200	source docs/schema/element_categories/law.md
+/docs/schema/element_categories/location	page	200	source docs/schema/element_categories/location.md
+/docs/schema/element_categories/map	page	200	source docs/schema/element_categories/map.md
+/docs/schema/element_categories/marker	page	200	source docs/schema/element_categories/marker.md
+/docs/schema/element_categories/narrative	page	200	source docs/schema/element_categories/narrative.md
+/docs/schema/element_categories/object	page	200	source docs/schema/element_categories/object.md
+/docs/schema/element_categories/phenomenon	page	200	source docs/schema/element_categories/phenomenon.md
+/docs/schema/element_categories/pin	page	200	source docs/schema/element_categories/pin.md
+/docs/schema/element_categories/relation	page	200	source docs/schema/element_categories/relation.md
+/docs/schema/element_categories/species	page	200	source docs/schema/element_categories/species.md
+/docs/schema/element_categories/title	page	200	source docs/schema/element_categories/title.md
+/docs/schema/element_categories/trait	page	200	source docs/schema/element_categories/trait.md
+/docs/schema/element_categories/zone	page	200	source docs/schema/element_categories/zone.md
+/docs/schema/fields	page	200	source docs/schema/fields.md
+/docs/schema/worlds	page	200	source docs/schema/worlds.md
+/docs/tools/atlas	page	200	source docs/tools/atlas.md
+/docs/tools/base-tool	page	200	source docs/tools/base-tool.md
+/docs/tools/council	page	200	source docs/tools/council.md
+/docs/tools/easy-mobile	page	200	source docs/tools/easy-mobile.md
+/docs/tools/element-viewer	page	200	source docs/tools/element-viewer.md
+/docs/tools/explorer	page	200	source docs/tools/explorer.md
+/docs/tools/history	page	200	source docs/tools/history.md
+/docs/tools/mobile-companion	page	200	source docs/tools/mobile-companion.md
+/docs/tools/obsidian-plugin	page	200	source docs/tools/obsidian-plugin.md
+/docs/tools/onlyworlds-com	page	200	source docs/tools/onlyworlds-com.md
+/docs/tools/write-tool	page	200	source docs/tools/write-tool.md
+/docs/tools/zoner	page	200	source docs/tools/zoner.md
+/docs/schema/element_categories/base_properties	page	200	source docs/schema/element_categories/base_properties.md (found 2026-10-08 by diffing against jekyll-final)
+/docs/schema/element_categories/world	page	200	source docs/schema/element_categories/world.md (found 2026-10-08 by diffing against jekyll-final)
+/api/errors#id_conflict	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#resync_required	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#already_member	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#pin_required	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#invalid_credentials	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#key_revoked	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#permission_error	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#not_author	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#owner_only	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#guest_not_supported	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#storage_full	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#not_found	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#rate_limited	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#quota_exceeded	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#idempotency_error	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#api_error	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#server_busy	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#payload_too_large	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#media_unavailable	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)

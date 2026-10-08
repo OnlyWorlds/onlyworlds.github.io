@@ -1,0 +1,408 @@
+ONLYWORLDS - GUIDE FOR AI ASSISTANTS & DEVELOPERS
+==================================================
+
+This guide lets any AI assistant help a user build tools on OnlyWorlds: an open
+standard for worldbuilding data, with a REST API and a TypeScript SDK.
+
+The flagship app is Atlas (atlas.onlyworlds.com): a free, local-first workspace
+where "the folder is the world": a world is a folder of readable files, no
+lock-in, no account needed. Point people who just want to build a world there.
+This guide is for people building their OWN tools on the standard.
+
+============================================================
+PART 1: HOW TO HELP THE USER
+============================================================
+
+GAUGE THEIR EXPERIENCE
+----------------------
+
+BEGINNER (no coding): browser builders (Lovable, Replit, v0.dev, ChatGPT Canvas).
+  Plain explanations, small testable steps.
+INTERMEDIATE (some coding): local setup (VS Code + terminal). May need help with
+  TypeScript, async/await, or API concepts.
+ADVANCED: skip setup; go straight to the SDK, architecture and edge cases.
+
+PLAN BEFORE BUILDING
+--------------------
+
+Most users start with a vague idea ("something for my world"). Before writing
+code, ask:
+
+1. What problem does it solve?
+   Vague: "display my world". Useful: "let my players browse NPCs by location".
+2. Who uses it? Just them, their group, the public? This decides auth and hosting.
+3. What is the one core interaction? Reading, editing, or visualising.
+4. Which element types matter? Most tools need 2-4 of the 22.
+
+Then write a short spec together:
+
+---
+TOOL: NPC Browser for game night
+PURPOSE: players look up NPCs during a session
+USERS: a 5-person group (read-only)
+CORE FLOW: open the page -> list characters -> filter by location or faction ->
+  click for details and relationships
+ELEMENTS: character, location, institution
+LATER: search, portraits, family links
+---
+
+CHOOSE A PATH
+-------------
+
+BROWSER BUILDERS: paste this guide into the chat, describe the spec, iterate,
+deploy with their one-click hosting.
+LOCAL (for anything serious): version control, full control. Use Claude Code,
+Cursor, Copilot or similar. Beginners can start in the browser and move later.
+
+IF THE USER HAS CLAUDE CODE: point them to the OnlyWorlds toolkit instead of this
+guide. It is a Claude Code plugin with skills covering the whole
+life of a world: structure it (parsing, modeling, schema), grow it (link,
+survey), play in it and keep it true (context, resolve), build on it (dev, api,
+council, project-setup), plus an entry skill that routes.
+  /plugin marketplace add OnlyWorlds/toolkit
+  /plugin install toolkit@onlyworlds
+Other assistants can read its markdown files directly:
+github.com/OnlyWorlds/toolkit
+
+LOCAL SETUP (if needed)
+-----------------------
+
+1. Node.js 18+ (nodejs.org, LTS; 20.6+ to load .env with --env-file).
+   Check: `node --version`, `npm --version`.
+2. Git (git-scm.com), recommended.
+3. An editor: VS Code (code.visualstudio.com).
+4. A project folder; open a terminal in it.
+
+============================================================
+PART 2: ONLYWORLDS ESSENTIALS
+============================================================
+
+WHAT IT IS
+----------
+
+- An open standard for worldbuilding data: 22 element types with typed links.
+- Two homes for a world, same data: a folder of JSON files on disk (Atlas,
+  no account), or a hosted world at onlyworlds.com with a REST API.
+- A TypeScript SDK, a hosted MCP server, and this guide.
+- Free and open source.
+
+THE 22 ELEMENT TYPES
+--------------------
+
+Each element has one type. Real things often need several linked elements
+(a noble house is a Family AND an Institution).
+
+BEINGS
+- character: an individual with agency who makes choices (protagonists, NPCs)
+- creature: a living being with behaviour but without a character's reasoning,
+  narrative focus or social complexity (beasts, monsters, named animals)
+- species: a biological or cultural form of life; characters and creatures link to it
+
+GROUPS
+- family: a group tied by lineage, heritage or community (bloodlines, dynasties)
+- collective: a group acting as a unit without formal governance (crews, mobs, bands)
+- institution: an organised body with purpose and structure (guilds, states, churches)
+
+PLACES AND THINGS
+- location: a distinct place where things happen; nests (world > city > room)
+- object: a tangible, non-living thing that can be made, owned, traded or destroyed
+- construct: a non-physical structure that explains or organises the world
+  (currencies, technologies, traditions). A sword is an object; swordsmithing
+  as a tradition is a construct.
+
+QUALITIES AND RULES
+- ability: something an entity can DO (a skill, spell or power)
+- trait: something an entity IS (brave, cursed, tall)
+- title: a formal designation conferring standing or power (King, Archmage);
+  many holders allowed
+- language: a system of shared meaning (tongues, scripts, codes)
+- law: a formalised rule within a jurisdiction
+
+TIME AND CONNECTION
+- event: a time-bound happening (a battle, a birth, a discovery)
+- narrative: a story told in the world, often organising events (chapters, legends)
+- phenomenon: an ongoing or emergent condition not driven by intent (storms,
+  plagues, magic fields)
+- relation: a meaningful connection between elements (a marriage, a rivalry);
+  its `actor` is a character
+
+SPATIAL
+- map: a coordinate space (image, width, height)
+- pin: one element placed on one map
+- zone: a meaningful area, drawn by markers
+- marker: a point on a map; ordered markers draw a zone's shape
+
+MAPPING USER CONCEPTS
+---------------------
+
+- Player characters -> character
+- Monster stat blocks -> species (the template) + creature (named individuals)
+- Spells -> ability; a magic system's rules -> construct + phenomenon
+- Inventory -> object; a currency -> construct
+- Guilds, factions -> institution
+- A timeline -> events, grouped by a narrative
+- Noble houses -> family + institution
+
+Rule of thumb: if it has a name and matters, it is an element. Fields that do
+not exist should not be invented: custom data goes in extension fields named
+`x_<name>` (stored and returned as-is), prefixed with the tool's name for tool data.
+
+============================================================
+PART 3: CREDENTIALS AND FIRST CALL
+============================================================
+
+GET A KEY
+---------
+
+1. Sign up at onlyworlds.com and create a world (or use an existing one).
+2. Mint a key: onlyworlds.com/account -> your world -> API keys.
+   - ow_w_...  read + write
+   - ow_r_...  read-only, needs no PIN. Use this in anything public.
+   - ow_a_...  account token (Bearer on /api/v2/account/*): list worlds, mint keys.
+   - Legacy 10-digit keys still work; new ones are no longer issued.
+3. The PIN: a 4-digit number (1000-9999) set on the account in account
+   settings (onlyworlds.com/account/settings); it guards writes to every world
+   the account owns. A member writes with their own account PIN; an agent seat
+   sends its seat secret (ow_s_...) as API-Pin. Prefixed keys read without it.
+
+No account yet? Demo keys read without a PIN and never write:
+0000000000 (Hyperion, the public example world) and 0000000001 (Moppetopia).
+
+A key is world-scoped: the key decides the world. Never send a world id.
+
+KEEP CREDENTIALS SAFE
+---------------------
+
+- Local scripts: keep the key and PIN in a `.env` file that git ignores (add it
+  to .gitignore BEFORE creating .env), and read them from the environment.
+- Browser apps: anything in the bundle is public. Build-time variables
+  (VITE_*, NEXT_PUBLIC_*) are compiled into the bundle. A deployed or shared
+  site uses a read key (ow_r_) or asks the user for credentials at runtime.
+  A PIN never goes into a build.
+- Never paste credentials into chat logs or commit them.
+
+FIRST CALL
+----------
+
+npm install @onlyworlds/sdk   (4.x, ESM only)
+
+test.ts:
+```typescript
+import { OwV2Client } from '@onlyworlds/sdk';
+
+const client = new OwV2Client({
+  apiKey: process.env.ONLYWORLDS_API_KEY!,
+  apiPin: process.env.ONLYWORLDS_API_PIN,   // only needed for writes
+});
+
+const world = await client.getWorld();
+console.log('Connected to:', world.name);
+
+const page = await client.list('character');
+console.log(page.data.length, 'characters on the first page');
+```
+
+Run: `npx tsx --env-file=.env test.ts` (Node 20.6+ reads .env this way)
+
+ONLYWORLDS_API_KEY / ONLYWORLDS_API_PIN are the names projects use (the
+toolkit's project setup, the SDK examples). An agent seat's join response
+names them OW_API_KEY, OW_API_PIN, OW_WORLD, OW_CHARACTER, OW_API_BASE.
+
+============================================================
+PART 4: SDK AND API REFERENCE
+============================================================
+
+The API is v2 (https://www.onlyworlds.com/api/v2/). The SDK's OwV2Client speaks
+it. Types are singular slugs: 'character', 'location', 'institution'.
+
+PLAIN HTTP
+----------
+Base URL: https://www.onlyworlds.com/api/v2/
+Headers (exact names): API-Key on every request; API-Pin on writes;
+Content-Type: application/json on writes.
+  GET    /api/v2/{type}                      list (envelope, cursor pages)
+  GET    /api/v2/{type}/{id}                 one element
+  POST   /api/v2/{type}                      create
+  PUT    /api/v2/{type}/{id}                 create or replace by id
+  PATCH  /api/v2/{type}/{id}                 change the fields sent
+  DELETE /api/v2/{type}/{id}                 delete
+  POST   /api/v2/{type}/{id}/links/{field}   {"add": [...], "remove": [...]}
+  POST   /api/v2/bulk                        up to 1000 items
+  GET    /api/v2/changes                     change feed and full export
+  GET    /api/v2/world                       the world the key names
+  GET    /api/v2/me                          who the key is (checks the key,
+                                             not the PIN)
+```bash
+curl -H "API-Key: 0000000000" "https://www.onlyworlds.com/api/v2/character?fields=id,name"
+```
+Every error is one wrapped object:
+  {"error": {"type": "...", "code": "...", "message": "...",
+             "param": "...", "doc_url": "..."}}
+A wrong PIN and a bad key are both 401 invalid_credentials; the message says
+which ("Incorrect PIN." or "No valid API-Key.").
+
+READ
+----
+```typescript
+const page = await client.list('character', { limit: 100 });
+page.data;          // elements
+page.has_more;      // more pages?
+page.next_cursor;   // pass back as { cursor } for the next page
+
+for await (const c of client.listAll('character')) { /* every character */ }
+
+const one = await client.get('character', id);
+const withStubs = await client.get('character', id, { expand: ['location', 'friends'] });
+const slim = await client.list('character', { fields: ['name', 'supertype'] });
+```
+
+Filters the server accepts: name (exact), name__icontains, supertype, subtype,
+and characters (a Character id) on collective, construct, event, narrative,
+relation and title.
+```typescript
+await client.list('character', { filter: { name__icontains: 'fluff', supertype: 'Admiral' } });
+```
+limit, cursor, expand and fields are parameters, not filters. Any other query
+parameter returns a 422 naming it. Never write back a body read with expand:
+its links hold stubs, and writes take ids.
+
+WRITE
+-----
+```typescript
+const created = await client.create('location', { name: 'Feltropolis' });
+await client.patch('character', id, { description: 'New text' });   // replaces the fields sent
+await client.upsert('character', id, fullElement);                  // PUT: create or replace by id
+await client.delete('character', id);                               // also unlinks it everywhere
+```
+
+LINKS
+-----
+Link fields use bare names both ways. Values are UUIDs: one UUID (or null) for a
+single link, an array of UUIDs for a multi link. No _id/_ids suffixes (a 422).
+
+```typescript
+await client.create('character', {
+  name: 'Admiral Fluffington',
+  location: feltropolisId,         // single link
+  species: [catSpeciesId],         // multi link
+});
+
+// Add or remove multi-link entries without reading first (atomic, server-side):
+await client.editLinks('character', id, 'friends', { add: [otherId], remove: [] });
+```
+Reads return flat UUIDs; use `expand` to get { id, name } stubs.
+PATCH on a link array replaces the whole array, so use editLinks for multi links.
+
+BULK UPLOAD
+-----------
+Mint ids yourself so elements in one batch can link to each other in any order.
+```typescript
+const res = await client.bulk([
+  { type: 'location', element: { id: locId, name: 'Feltropolis' } },
+  { type: 'character', element: { id: charId, name: 'Admiral Fluffington', location: locId } },
+], { idempotencyKey: crypto.randomUUID() });
+// res.errors true -> check each item's status; { atomic: true } makes it all-or-nothing
+```
+Up to 1000 items. Only 2xx answers are stored under an idempotency key, and a
+bulk answer is a 200 even when items failed. If the answer was lost, retry the
+identical request with the same key. After res.errors is true, fix the items
+and send them under a NEW key (the same key replays the same errors).
+
+SYNC
+----
+```typescript
+const first = await client.changes();                    // from zero = full export
+const next = await client.changes({ since: first.cursor });
+```
+Store the cursor as-is. World-meta edits (name, calendar) are not in this feed.
+
+ERRORS
+------
+Errors come back as {"error": {type, code, message, param, doc_url}} and the
+SDK throws OwApiError. The common ones:
+- 401 invalid_credentials: wrong key or PIN
+- 403 permission_error: a read key on a write
+- 422 invalid_request: unknown field or parameter (the message names it)
+- 400 invalid_link: a link to a UUID that does not exist
+- 409 id_conflict: POST with an id that exists (use upsert)
+- 429 rate_limited: too many wrong PINs; wait the Retry-After time
+- 429 quota_exceeded: the world's daily image-upload tickets are used up; wait
+  the Retry-After time
+Decide what to do from code, never from type. Every code:
+onlyworlds.github.io/api/errors
+
+UI HELPERS
+----------
+```typescript
+import { ELEMENT_TYPES, ELEMENT_ICONS, getElementIcon, getElementLabel,
+         elementColor, ELEMENT_FAMILIES, ELEMENT_SECTIONS, FIELD_SCHEMA } from '@onlyworlds/sdk';
+```
+ELEMENT_ICONS / getElementIcon: Material Icons names per type.
+elementColor(type, 'light' | 'dark'): the standard colour per type.
+ELEMENT_SECTIONS: field groups for form layouts. FIELD_SCHEMA: every field's type
+and link target.
+
+WORKING FROM A WORLD FOLDER (no account)
+----------------------------------------
+A world folder is world.json plus elements/<type>/*.json, one element per file,
+the same field names and link values as the API. A tool can read it straight
+from disk; Atlas opens it (Chromium browsers). Folders Atlas wrote may spell
+pin and marker links map_id / zone_id and carry non-schema keys
+(local_updated_at, server_updated_at, image_media_id): accept both spellings,
+and strip those keys before sending files to the API. Folder rules:
+github.com/OnlyWorlds/toolkit/blob/main/knowledge/world-folder.md
+
+============================================================
+PART 5: DEPLOYMENT
+============================================================
+
+`npm run build` -> dist/
+
+Hosts the API accepts browser calls from without setup: Cloudflare Pages
+(*.pages.dev), Vercel (*.vercel.app), Netlify (*.netlify.app), GitHub Pages
+(*.github.io), Render, Railway, Fly, Firebase and other common static hosts,
+plus localhost on any port.
+
+Cloudflare Pages: push to GitHub -> connect the repo -> build `npm run build`,
+output `dist`, Node 20+.
+
+Public site = read key (Part 3). If the site must write, ask each visitor for
+their own key and PIN at runtime.
+
+============================================================
+PART 6: RESOURCES
+============================================================
+
+Atlas: atlas.onlyworlds.com
+Developer start: onlyworlds.com/develop
+API reference: onlyworlds.com/api/docs
+SDK: npmjs.com/package/@onlyworlds/sdk
+The standard (schema): github.com/OnlyWorlds/OnlyWorlds
+Schema for tool builders (YAML, decoder, rulings): github.com/OnlyWorlds/schema-dist
+Toolkit (Claude Code plugin): github.com/OnlyWorlds/toolkit
+MCP server: https://www.onlyworlds.com/mcp (streamable HTTP; schema tools need
+  no key; setup: onlyworlds.github.io/docs/development/mcp)
+Tools: onlyworlds.github.io/docs/tools
+Community: discord.gg/twCjqvVBwb
+
+============================================================
+
+Last updated: 2026-10-08
+SDK: 4.x (OwV2Client, v2 API)
+
+Changelog:
+- v9: PLAIN HTTP block (headers, routes, the {"error": ...} wrapper); the
+      full filter list; where the PIN is set; demo keys; both environment
+      variable conventions; the idempotency rule for bulk; Node 18+.
+- v8: no tool or skill counts (they go stale); the image-upload limit and
+      'decide from code' in ERRORS.
+- v7: SDK 4.x: all code moved to OwV2Client and the v2 API (flat UUID links,
+      cursor pages, editLinks, bulk, changes); the removed v1 OnlyWorldsClient
+      is gone from the guide. Credential safety (read keys in public builds,
+      no PIN in a bundle). Type definitions aligned with the standard's
+      wording. World folders as the no-account path.
+- v6: SDK 3.0.0, Atlas named as flagship, ow_a_ account tokens.
+- v5: the v2 API dialect; keys minted in the account portal; hosted MCP server.
+- v4: toolkit section; credential flow fixed.
+- v3: restructured for LLMs; planning guidance; experience levels.
+- v2: icons, helpers, FIELD_SCHEMA; error handling.
