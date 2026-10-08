@@ -28,6 +28,7 @@ export default defineConfig({
     '/docs/schema/element_categories/base_properties': '/docs/schema/fields',
     '/docs/schema/element_categories/world': '/docs/schema/worlds',
     '/docs/development/schema': '/docs/schema/',
+    '/docs/schema/element_categories': '/docs/schema/', // its index contradicted the verbatim definitions there (Skeld, #1059)
   },
   integrations: [
     starlight({
@@ -70,10 +71,7 @@ export default defineConfig({
             {
               label: 'Element Types',
               collapsed: true,
-              items: [
-                { slug: 'docs/schema/element_categories', label: 'All 22 Types' },
-                { autogenerate: { directory: 'docs/schema/element_categories' } },
-              ],
+              items: [{ autogenerate: { directory: 'docs/schema/element_categories' } }],
             },
           ],
         },

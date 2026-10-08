@@ -60,7 +60,7 @@ const res = await writer.bulk(
     { type: 'character', element: { name: 'A' } },
     { type: 'event', element: { name: 'B' } },
   ],
-  { idempotencyKey: crypto.randomUUID() }, // a fresh key per attempt
+  { idempotencyKey: crypto.randomUUID() }, // keep it for a retry if the answer is lost
 );
 if (res.errors) {
   for (const slot of res.items.filter((s) => s.status >= 400)) {
@@ -70,8 +70,9 @@ if (res.errors) {
 ```
 
 - `{ atomic: true }` makes the batch all or nothing. After a failed atomic batch nothing was written, but the slots that would have succeeded still report 201: do not record those ids as created.
-- A failed batch is cached under its idempotency key, so mint a new key for each retry.
-- `res.wasReplay` is true when the server answered from that cache.
+- The server stores every 2xx answer under its idempotency key, and never an error. So when an answer is lost, retry with the **same** key: a stored answer replays, and an error runs again.
+- A bulk answer with item errors is still a 200, so it is stored too. Fix the failed items and send them with a **new** key, because the same key replays the same errors.
+- `res.wasReplay` is true when the server answered from that store.
 
 ## Images
 
