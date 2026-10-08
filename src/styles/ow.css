@@ -168,3 +168,13 @@ header.header {
 
 /* The hero's secondary button: a hairline, not the brightest line on the page (Seethe, h37 #1037) */
 .sl-link-button.secondary { border-color: var(--sl-color-gray-3); }
+
+/* Scrollbars: thin and in the theme, not the browser's light default on a black page (the Captain, h37 #1090).
+   scrollbar-color/width cover current Chrome, Edge and Firefox; ::-webkit-scrollbar covers older WebKit. */
+:root { --ow-scroll-thumb: #374151; --ow-scroll-thumb-hover: #4b5563; }
+:root[data-theme='light'] { --ow-scroll-thumb: #d6d3cb; --ow-scroll-thumb-hover: #b8b4aa; }
+* { scrollbar-width: thin; scrollbar-color: var(--ow-scroll-thumb) transparent; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--ow-scroll-thumb); border-radius: 8px; border: 2px solid transparent; background-clip: padding-box; }
+::-webkit-scrollbar-thumb:hover { background-color: var(--ow-scroll-thumb-hover); }
