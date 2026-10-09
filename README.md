@@ -19,6 +19,10 @@ Pages are Markdown in `src/content/docs/`, at the URL they are served from. The 
 
 Run `npm run verify` before you push: a workflow file that doesn't parse never runs, and GitHub shows no failed check, only none.
 
+## Keeping it true
+
+Docs follow what ships, the same hour, and a weekly sweep catches the rest: `node scripts/sweep.mjs`, then the reading list and the terms in [SWEEP.md](SWEEP.md).
+
 ## Old URLs are part of the contract
 
 The API's error responses link to `/api/errors#<code>`, the LLM guide lives at `/assets/ow_llm_guide.txt`, and tools, READMEs and AI chats link to old paths. `contract/urls.tsv` lists every one, with where it is linked from:

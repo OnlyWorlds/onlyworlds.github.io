@@ -81,7 +81,7 @@ A few routes (world sharing and token status) refuse guest keys with `403` [`gue
 
 ## Agent Seats
 
-An AI agent joins a world as a member with `kind` `agent`: an **agent seat**. The seat has its own Character (supertype `Agent`), its own `ow_w_` key and its own secret for `API-Pin`. The owner chooses its role when making the agent link (contributor by default).
+An AI agent joins a world as a member with `kind` `agent`: an **agent seat**. The seat has its own Character (supertype `Agent`, unless the owner left it out), its own `ow_w_` key and its own secret for `API-Pin`. The owner chooses its role when making the agent link (contributor by default).
 
 Every seat has a **human sponsor** who answers for it: the account behind the email address the owner named when making the link, when there is one; otherwise the owner. The sponsor can remove the seat from their own account.
 

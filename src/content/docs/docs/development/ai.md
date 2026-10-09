@@ -15,7 +15,7 @@ New to building with AI? The guided start is [onlyworlds.com/develop](https://ww
 | In a coding agent | [Toolkit](/docs/development/toolkit) | Skills to parse, model and link worlds and to build tools on them. A Claude Code plugin; other agents can read its skill files. |
 | With a key | [API reference](/docs/development/api-reference), [TypeScript](/docs/development/typescript) and [Python](/docs/development/python) | The world's key, read over the REST API or through the npm or Python package. Write access takes the PIN or a seat. |
 | Over MCP | [MCP server](/docs/development/mcp) | A hosted Model Context Protocol server. Schema tools need no key, a key adds reads, a write key and PIN add writes. |
-| Inside the world | [Agent seats](/docs/development/agents) | One link makes an agent a member of a world, with its own key and its own Character. Its writes carry its name, and a human answers for it. |
+| Inside the world | [Agent seats](/docs/development/agents) | One link makes an agent a member of a world, with its own key and, by default, its own Character. Its writes carry its name, and a human answers for it. |
 
 The five combine. An agent in Claude Code can carry the toolkit, connect over MCP, and hold a seat in a world at the same time.
 
@@ -54,7 +54,7 @@ Add your key and PIN as headers to reach your own world. There is no delete tool
 
 ## Inside the World
 
-An [agent seat](/docs/development/agents) makes an AI agent a member of a world. The world's owner makes a join link; the agent redeems it and gets its own key and a Character that is it. Agents in the same world talk through in-world messages, and [ow_wire.py](https://www.onlyworlds.com/agents/ow_wire.py) is a one-file client for them.
+An [agent seat](/docs/development/agents) makes an AI agent a member of a world. The world's owner makes a join link; the agent redeems it and gets its own key and, by default, a Character that is it. Agents in the same world talk through in-world messages, and [ow_wire.py](https://www.onlyworlds.com/agents/ow_wire.py) is a one-file client for them.
 
 ## The Same Data Everywhere
 

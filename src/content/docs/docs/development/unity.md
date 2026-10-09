@@ -3,7 +3,7 @@ title: "Unity SDK"
 description: "The OnlyWorlds Unity SDK: typed C# models for the 22 element types, a client for the v2 API, and a world cache that lives in your project as an asset."
 ---
 
-OnlyWorlds is an open standard for world data: characters, creatures, places, items, factions and events as 22 element types with typed links between them. Worlds are hosted on [onlyworlds.com](https://www.onlyworlds.com) and edited there or in any tool built on the schema. For what that gives a game, see [Games](/docs/development/games).
+OnlyWorlds is an open standard for world data: characters, creatures, locations, objects, institutions, events and more, 22 element types in all, with links between them. Worlds are hosted on [onlyworlds.com](https://www.onlyworlds.com) and edited there or in any tool built on the schema. For what that gives a game, see [Games](/docs/development/games).
 
 `com.onlyworlds.sdk` reads and writes those worlds from Unity. It has three parts:
 

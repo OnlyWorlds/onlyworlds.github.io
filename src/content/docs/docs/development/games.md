@@ -3,7 +3,7 @@ title: "Games"
 description: "Building a game on an OnlyWorlds world: carry it in the build, read it live, or write back into it, from Unity or any other engine."
 ---
 
-To a game, a world on OnlyWorlds is content: characters, creatures, places, items, factions and events, with typed links between them. The world stays editable outside the game, on [onlyworlds.com](/docs/tools/onlyworlds-com), in [Atlas](/docs/tools/atlas) or in any tool built on the schema. So writers and designers can shape it without opening the engine, and the game picks up their work.
+To a game, a world on OnlyWorlds is content: characters, creatures, locations, objects, institutions, events and the rest of the 22 categories, with links between them. The world stays editable outside the game, on [onlyworlds.com](/docs/tools/onlyworlds-com), in [Atlas](/docs/tools/atlas) or in any tool built on the schema. So writers and designers can shape it without opening the engine, and the game picks up their work.
 
 ## Three Ways to Use a World
 
