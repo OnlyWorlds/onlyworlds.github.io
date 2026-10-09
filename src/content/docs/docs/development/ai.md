@@ -1,22 +1,23 @@
 ---
 title: AI Agents
-description: The four ways an AI works with an OnlyWorlds world, and where each one is documented.
+description: The five ways an AI works with an OnlyWorlds world, and where each one is documented.
 ---
 
-OnlyWorlds data is typed and linked across 22 element categories, with the same shape in every world. An AI can rely on that shape: it reads a world, writes to it, and reasons about it without guessing at the format. There are four ways in, chosen by where the AI runs.
+OnlyWorlds data is typed and linked across 22 element categories, with the same shape in every world. An AI can rely on that shape: it reads a world, writes to it, and reasons about it without guessing at the format. There are five ways in, chosen by where the AI runs.
 
 New to building with AI? The guided start is [onlyworlds.com/develop](https://www.onlyworlds.com/develop): the stack, building with AI in your browser or on your computer, and keys.
 
-## Four Ways In
+## Five Ways In
 
 | Where the AI runs | What to use | What it gives the AI |
 |:--|:--|:--|
 | In a chat | [LLM guide](/docs/development/llm-guide) | One text file that teaches the standard, the 22 categories, the API and the SDK. Paste it into any chat assistant. |
 | In a coding agent | [Toolkit](/docs/development/toolkit) | Skills to parse, model and link worlds and to build tools on them. A Claude Code plugin; other agents can read its skill files. |
+| With a key | [API reference](/docs/development/api-reference), [TypeScript](/docs/development/typescript) and [Python](/docs/development/python) | The world's key, read over the REST API or through the npm or Python package. Write access takes the PIN or a seat. |
 | Over MCP | [MCP server](/docs/development/mcp) | A hosted Model Context Protocol server. Schema tools need no key, a key adds reads, a write key and PIN add writes. |
 | Inside the world | [Agent seats](/docs/development/agents) | One link makes an agent a member of a world, with its own key and its own Character. Its writes carry its name, and a human answers for it. |
 
-The four combine. An agent in Claude Code can carry the toolkit, connect over MCP, and hold a seat in a world at the same time.
+The five combine. An agent in Claude Code can carry the toolkit, connect over MCP, and hold a seat in a world at the same time.
 
 ## In a Chat
 
@@ -36,6 +37,10 @@ Install it in Claude Code:
 ```
 
 Restart Claude Code to load it. Other coding agents (Cursor, Codex, Copilot and the like) can read the skill and knowledge files straight from [github.com/OnlyWorlds/toolkit](https://github.com/OnlyWorlds/toolkit).
+
+## With a Key: the API or an SDK
+
+An assistant or agent given a world's key reads it over the [REST API](/docs/development/api-reference) or through the [npm](/docs/development/typescript) or [Python](/docs/development/python) package. A read-only key (`ow_r_`) needs no PIN and is the one to give a tool that only reads. Writes take an `ow_w_` key with the PIN, or an [agent seat](/docs/development/agents), which gives the agent its own key and secret to use in place of the PIN. Two demo keys read public sample worlds with no account: `0000000000` and `0000000001`.
 
 ## Over MCP
 

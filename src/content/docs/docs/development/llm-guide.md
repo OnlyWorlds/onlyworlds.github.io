@@ -34,4 +34,4 @@ The file ends with its own changelog.
 
 - [MCP server](/docs/development/mcp): connect an assistant to a world directly instead of pasting the guide.
 - [Toolkit](/docs/development/toolkit): the same knowledge as Claude Code skills, readable by other agents as markdown.
-- [AI agents](/docs/development/ai): the four ways an AI works with a world.
+- [AI agents](/docs/development/ai): the five ways an AI works with a world.
