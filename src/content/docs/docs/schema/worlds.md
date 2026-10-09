@@ -42,6 +42,18 @@ Element fields that hold a moment, such as a Character's `birth_date` or an Even
 
 Timeline fields work with [Events](/docs/schema/element_categories/event) and [Narratives](/docs/schema/element_categories/narrative).
 
+## Units
+
+Some element fields hold a measure: a Character's `height` and `weight`, a Creature's `speed`, a Location's `elevation`, an Ability's `range`. The numbers are whole, and the world says what they count in, with three optional free-text settings:
+
+| Field | Type | Counts | Used by |
+| :--- | :--- | :--- | :--- |
+| `length_unit` | string | Lengths | Character and Creature `height` |
+| `mass_unit` | string | Masses | Character, Creature, Object and Species `weight` |
+| `distance_unit` | string | Distances | Ability `range`, Creature `speed`, Location `elevation` |
+
+The value is free text, written as the world means it. Recommended where one fits: `mm`, `cm`, `m`, `in`, `ft` for lengths; `g`, `kg`, `t`, `lb` for masses; `m`, `km`, `ft`, `mi` for distances. A world's own unit (`hands`, `stone`, `leagues`) is shown as written, and nothing is converted: a tool can convert what it recognises and shows the rest verbatim. Empty means not set. A number stays a bare number in the element; only the world names its unit.
+
 ## Platform Fields
 
 onlyworlds.com adds fields of its own to the world it serves. They are part of the platform, not the standard.
@@ -53,7 +65,7 @@ onlyworlds.com adds fields of its own to the world it serves. They are part of t
 | `created_at` | string (date-time) | When the world was created |
 | `updated_at` | string (date-time) | When the world last changed |
 
-The world named by a key is `GET /api/v2/world/`. Only the world's owner can change it, with `PATCH`; the writable fields are `name`, `description`, `image_url`, the timeline fields and `owner_character`.
+The world named by a key is `GET /api/v2/world/`. Only the world's owner can change it, with `PATCH`; the writable fields are `name`, `description`, `image_url`, the timeline fields, the three unit settings and `owner_character`.
 
 ## Legacy and Account Fields
 

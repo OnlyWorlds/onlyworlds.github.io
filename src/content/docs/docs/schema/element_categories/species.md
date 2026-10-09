@@ -33,7 +33,7 @@ They are distinct from:
 |---|---|---|
 | `appearance` | text | Typical physical or form features of the species |
 | `life_span` | integer | Average or typical life expectancy of an individual, defined in world TIME units |
-| `weight` | integer | Average or typical adult weight, defined in world MASS units |
+| `weight` | integer | Average or typical adult weight, in the world's mass unit (World mass_unit) |
 | `nourishment` | links to Species | Other species consumed as food sources |
 | `reproduction` | links to Construct | Reproductive method(s) of the species |
 | `adaptations` | links to Ability | Special physiological or evolutionary abilities |

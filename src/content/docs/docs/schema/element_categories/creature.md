@@ -33,8 +33,8 @@ They are distinct from:
 | Field | Type | Description |
 |---|---|---|
 | `appearance` | text | Visual description of the creature |
-| `weight` | integer | Approximate or exact weight of the creature, using world MASS units |
-| `height` | integer | Approximate height of the creature, using the world's defined LENGTH units |
+| `weight` | integer | Approximate or exact weight of the creature, in the world's mass unit (World mass_unit) |
+| `height` | integer | Approximate height of the creature, in the world's length unit (World length_unit) |
 | `species` | links to Species | Species this creature belongs to |
 
 ### Behavior
@@ -63,5 +63,5 @@ They are distinct from:
 | `challenge_rating` | integer | Difficulty or threat level of the creature in a gameplay context |
 | `hit_points` | integer | Total health or durability value in combat |
 | `armor_class` | integer | Defense rating against physical attacks or effects |
-| `speed` | integer | Typical movement speed, measured in the world's DISTANCE unit per round |
+| `speed` | integer | Typical movement speed, in the world's distance unit (World distance_unit) per round |
 | `actions` | links to Ability | Combat or tactical abilities the creature can perform or use |

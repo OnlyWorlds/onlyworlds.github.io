@@ -35,7 +35,7 @@ They are distinct from:
 | `activation` | text | Method or conditions under which the ability is activated |
 | `duration` | integer | Length of time the ability remains active or its effects persist, measured in TIME units |
 | `potency` | integer | Relative measure of the ability's inherent potency or force, used for scaling or comparison purposes |
-| `range` | integer | Effective reach or distance at which the ability can be used, measured in DISTANCE units |
+| `range` | integer | Effective reach or distance at which the ability can be used, in the world's distance unit (World distance_unit) |
 | `effects` | links to Phenomenon | Phenomena that result from the ability's use, such as environmental changes or sensory effects |
 | `challenges` | text | Describes specific difficulties or constraints that make the ability hard to master or use effectively |
 | `talents` | links to Trait | Traits that naturally enhance or improve performance with this ability |

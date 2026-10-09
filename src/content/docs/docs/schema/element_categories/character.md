@@ -30,8 +30,8 @@ Every field below is optional. The TTRPG group (`level`, `hit_points` and six ab
 |---|---|---|
 | `physicality` | text | The character's visible physical features and body attributes |
 | `mentality` | text | The character's mindset, emotional tone, and style of thinking |
-| `height` | integer | The character's approximate or exact height, using world LENGTH units |
-| `weight` | integer | The character's approximate or exact weight, using world MASS units |
+| `height` | integer | The character's approximate or exact height, in the world's length unit (World length_unit) |
+| `weight` | integer | The character's approximate or exact weight, in the world's mass unit (World mass_unit) |
 | `species` | links to Species | Species the character might belong to |
 | `traits` | links to Trait | Traits for notable behavioral, physical, or systemic characteristics |
 | `abilities` | links to Ability | Abilities the character might perform, control, or invoke |

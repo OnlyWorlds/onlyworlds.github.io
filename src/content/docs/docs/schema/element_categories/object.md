@@ -33,7 +33,7 @@ They are distinct from:
 | Field | Type | Description |
 |---|---|---|
 | `aesthetics` | text | Appearance, design, or visual presentation of the object |
-| `weight` | integer | Approximate or exact mass of the object, defined by world MASS units |
+| `weight` | integer | Approximate or exact mass of the object, in the world's mass unit (World mass_unit) |
 | `amount` | integer | The number of identical units in this object entry |
 | `parent_object` | link to Object | Larger object that this one is part of or contained within |
 | `materials` | links to Construct | The physical matter that constitutes the object |

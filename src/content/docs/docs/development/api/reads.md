@@ -98,6 +98,7 @@ curl -s "https://www.onlyworlds.com/api/v2/character/{id}?expand=location,instit
 { "id": "…", "name": "Hyperion", "description": "…", "image_url": "",
   "time_format_names": [], "time_format_equivalents": [], "time_basic_unit": "Year",
   "time_range_min": 0, "time_range_max": 500, "time_range_current": 500,
+  "length_unit": "", "mass_unit": "", "distance_unit": "",
   "public_read": false, "owner_character": null,
   "created_at": "…", "updated_at": "…" }
 ```

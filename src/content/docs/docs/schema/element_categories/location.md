@@ -89,6 +89,6 @@ They are distinct from:
 | Field | Type | Description |
 |---|---|---|
 | `defensibility` | text | Qualities of natural, constructed, and implemented defenses at the location |
-| `elevation` | integer | Height or elevation of the location relative to surrounding terrain, defined in world DISTANCE units |
+| `elevation` | integer | Height or elevation of the location relative to surrounding terrain, in the world's distance unit (World distance_unit) |
 | `fighters` | links to Construct | Military units or forces responsible for defending the location |
 | `defensive_objects` | links to Object | Objects or installations for defending the location |

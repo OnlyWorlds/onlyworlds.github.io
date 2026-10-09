@@ -53,7 +53,7 @@ A Zone has no geometry of its own. Its shape on a [Map](/docs/schema/element_cat
 
 ## Time and Units
 
-Dates are integers in the world's own time units, set on the [world](/docs/schema/worlds): a Character's `birth_date`, an Event's `start_date` and `end_date`, a Relation's span. Height and weight use the world's length and mass units. All numbers are whole, and the API truncates decimals, so choose units small enough that values come out whole.
+Dates are integers in the world's own time units, set on the [world](/docs/schema/worlds): a Character's `birth_date`, an Event's `start_date` and `end_date`, a Relation's span. Height, weight, elevation, range and speed use the world's units, named by `length_unit`, `mass_unit` and `distance_unit` on the [world](/docs/schema/worlds#units) (free text such as `cm`, `kg` or `km`). All numbers are whole, and the API truncates decimals, so choose units small enough that values come out whole.
 
 ## Story and Description
 

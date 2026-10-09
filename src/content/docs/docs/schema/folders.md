@@ -29,7 +29,7 @@ Two keys are required: `id` (a non-empty string) and `name` (a string, which may
 
 | Key | Holds |
 | :--- | :--- |
-| `description`, `image_url`, timeline fields | As on [Worlds](/docs/schema/worlds). The current time is `time_current` on disk, the standard's name; the API calls it `time_range_current`. |
+| `description`, `image_url`, timeline fields, `length_unit`, `mass_unit`, `distance_unit` | As on [Worlds](/docs/schema/worlds). The unit keys have the same spelling on disk and on the wire. The current time is `time_current` on disk, the standard's name; the API calls it `time_range_current`. |
 | `format_version` | The version of this format the folder was written against |
 | `api` | The link to a world on onlyworlds.com (`world_id`, `api_key`). Present: the folder syncs with it. Absent: a local world. |
 | `snapshot_*`, `writable` | Only on a [snapshot](#snapshots) |
