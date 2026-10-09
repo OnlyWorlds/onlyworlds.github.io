@@ -102,7 +102,7 @@
   "payload_too_large": {
     "type": "api_error",
     "status": 413,
-    "summary": "The request body is over 8 MB."
+    "summary": "The request body is over 2.5 MB; split a large /bulk into several calls."
   },
   "media_unavailable": {
     "type": "api_error",

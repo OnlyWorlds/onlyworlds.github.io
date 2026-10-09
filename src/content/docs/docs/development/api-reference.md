@@ -65,7 +65,7 @@ Trailing slashes are tolerated on every route: `/api/v2/character/{id}` and `/ap
 | Limit | Value |
 |:--|:--|
 | Request rate | No per-key quota on reads. Under load the server answers `503` [`server_busy`](/api/errors/#server_busy) with a `Retry-After` header: each worker runs six requests at once, and a request waits up to 10 seconds for a slot |
-| Request body | Keep a JSON body under 2.5 MB: larger bodies are refused. Over 8 MB the server answers `413` [`payload_too_large`](/api/errors/#payload_too_large) before reading it. Split a large `/bulk` into several calls |
+| Request body | Up to 2.5 MB. A larger body answers `413` [`payload_too_large`](/api/errors/#payload_too_large) and nothing is written. Split a large `/bulk` into several calls |
 | Wrong PINs | Repeated failures lock the key out: `429` [`rate_limited`](/api/errors/#rate_limited) with `Retry-After` |
 | `/bulk` | Up to 1000 items per request |
 | List pages | `limit` from 1 to 1000, default 100; the change feed defaults to 500 |

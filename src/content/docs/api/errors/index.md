@@ -56,7 +56,7 @@ The [Classic API](/docs/development/api/classic) at `/api/worldapi/` answers in 
 | [`idempotency_error`](#idempotency_error) | `idempotency_error` | `409` | An Idempotency-Key was reused with a different request body. |
 | [`api_error`](#api_error) | `api_error` | `500` | An unexpected server-side error; the envelope is kept even here. |
 | [`server_busy`](#server_busy) | `api_error` | `503` | Every request slot stayed full for 10 seconds; retry after Retry-After. |
-| [`payload_too_large`](#payload_too_large) | `api_error` | `413` | The request body is over 8 MB. |
+| [`payload_too_large`](#payload_too_large) | `api_error` | `413` | The request body is over 2.5 MB; split a large /bulk into several calls. |
 | [`media_unavailable`](#media_unavailable) | `api_error` | `503` | Image upload is not configured on the server right now. |
 <!-- /generated:error-codes -->
 
@@ -230,7 +230,7 @@ Every request slot on the server stayed full for 10 seconds.
 
 **Type** `api_error` · **Status** `413`
 
-The request body is over 8 MB. The server refuses it while the request waits for a slot.
+The request body is over 2.5 MB. The server refuses it without writing anything.
 
 - **How to fix:** send less per request: split a large `/bulk` batch into several, and upload images through [image upload](/docs/development/api/images), never inside a JSON body.
 
