@@ -91,4 +91,17 @@ for (const file of walk(DIST)) {
   const next = html.replace('</head>', `<link rel="alternate" type="text/markdown" href="/${twin}"></head>`);
   if (next !== html) { writeFileSync(file, next); alternates++; }
 }
-console.log(`postbuild: ${moved} folder page(s) moved to <dir>/index.html; ${rewrites} link(s) to them rewritten to <dir>/; ${alternates} page(s) name their Markdown twin`);
+// A code block's lines are block <div class="ec-line"> with no newline between them, so a reader
+// that takes the page's text (an agent's fetch, a tag-stripper) gets each block as one line.
+// A hidden newline between lines costs the browser nothing and keeps the breaks in the text.
+let codeBreaks = 0;
+const lineGap = '</div></div><div class="ec-line">';
+for (const file of walk(DIST)) {
+  if (!file.endsWith('.html')) continue;
+  const html = readFileSync(file, 'utf8');
+  if (!html.includes(lineGap)) continue;
+  const next = html.split(lineGap).join(`</div></div><span hidden>\n</span><div class="ec-line">`);
+  codeBreaks += html.split(lineGap).length - 1;
+  writeFileSync(file, next);
+}
+console.log(`postbuild: ${moved} folder page(s) moved to <dir>/index.html; ${rewrites} link(s) to them rewritten to <dir>/; ${alternates} page(s) name their Markdown twin; ${codeBreaks} code line break(s) kept in the text`);
