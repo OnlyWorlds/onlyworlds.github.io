@@ -16,7 +16,7 @@ onlyworlds.com is the platform hub: accounts, world hosting, keys and the API. E
 - **The world page.** Five panes: Overview, Elements, Open with (open the world in a tool), Access (keys and agent invitations) and Settings. See [Agent seats](/docs/development/agents) for the invitations.
 - **Keys.** Mint and revoke scoped world keys, `ow_w_` for write and `ow_r_` for read. A key is shown once. See [Keys](/docs/getting-started/keys).
 - **Account Tokens.** Mint `ow_a_` tokens in Settings so apps can act on your account.
-- **Element Viewer.** Browse the elements of your worlds read-only, from the portal.
+- **Element browser.** The world page's Elements pane shows a world's elements read-only, by type or, for the owner, all on one page in boxes by type, sorted by name, count, most links or most content.
 - **Export.** Download a world as a single JSON file.
 - **API.** Full REST access, documented at [api/docs](https://www.onlyworlds.com/api/docs), and an [MCP server](https://www.onlyworlds.com/mcp) for AI assistants. See the [API reference](/docs/development/api-reference) and [MCP](/docs/development/mcp).
 
