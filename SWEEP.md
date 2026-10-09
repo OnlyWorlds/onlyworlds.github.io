@@ -18,7 +18,7 @@ The docs state facts that other people's work changes: the API, the MCP server, 
 4. **Run `npm run build && npm run verify`,** push, check the deploy.
 5. **Stamp it below** and report the sweep as one line in the OW Infra room: what was stale, what was fixed, what is open.
 
-**Last swept**: 2026-10-08 (the baseline: the docs overhaul, OW Infra #81)
+**Last swept**: 2026-10-09 (the first sweep: the SDK pin, keel #83 and #119, the unrouted-path 404, the API index and MCP resources, Atlas 1.17 to 1.20, the world page; two intro sentences that named non-OnlyWorlds elements). Before it: 2026-10-08, the docs overhaul, OW Infra #81.
 
 ## The terms (one place)
 

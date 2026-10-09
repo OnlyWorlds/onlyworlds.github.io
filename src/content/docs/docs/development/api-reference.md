@@ -8,7 +8,7 @@ The OnlyWorlds API reads and writes world data on onlyworlds.com over HTTPS, in 
 - **`/api/v2/`**: cursor pagination, flat UUID link arrays, create and upsert, bulk writes and a change feed. Use it for new work. Every page in this section describes it unless it says otherwise.
 - **`/api/worldapi/`**: the [Classic API](/docs/development/api/classic), the original dialect. It stays unchanged and supported for existing clients.
 
-**Base URL**: `https://www.onlyworlds.com/api/v2/`
+**Base URL**: `https://www.onlyworlds.com/api/v2/`. `GET /api/` and `GET /api/v2/` answer a small JSON index (the interactive reference, the OpenAPI document, the health check and these docs), with no key.
 
 **Interactive reference**: [onlyworlds.com/api/docs](https://www.onlyworlds.com/api/docs) · **OpenAPI document**: [onlyworlds.com/api/v2/openapi.json](https://www.onlyworlds.com/api/v2/openapi.json)
 

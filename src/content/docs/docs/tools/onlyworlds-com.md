@@ -13,6 +13,7 @@ onlyworlds.com is the platform hub: accounts, world hosting, keys and the API. E
 ## Features
 
 - **World Hosting.** Create worlds and manage them from the account portal.
+- **The world page.** Five panes: Overview, Elements, Open with (open the world in a tool), Access (keys and agent invitations) and Settings. See [Agent seats](/docs/development/agents) for the invitations.
 - **Keys.** Mint and revoke scoped world keys, `ow_w_` for write and `ow_r_` for read. A key is shown once. See [Keys](/docs/getting-started/keys).
 - **Account Tokens.** Mint `ow_a_` tokens in Settings so apps can act on your account.
 - **Element Viewer.** Browse the elements of your worlds read-only, from the portal.

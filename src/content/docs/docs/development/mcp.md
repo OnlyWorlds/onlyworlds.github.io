@@ -91,6 +91,10 @@ The tools fall into three groups by what they need.
 There is no delete tool, by design. The MCP server creates and edits; deletion stays in the REST API and the portal, so an assistant cannot remove elements on its own. `bulk_apply` never removes an element either.
 :::
 
+## Resources
+
+Besides tools, the server lists one resource, `onlyworlds://schema` (the 22 element types, each with a one-line shape: the `list_element_types` tool's output), and serves `onlyworlds://schema/{type}` for one type's fields (the `get_element_schema` tool's output). Both need no key.
+
 ## How It Differs From REST
 
 | | MCP tools | REST (`/api/v2/`) |

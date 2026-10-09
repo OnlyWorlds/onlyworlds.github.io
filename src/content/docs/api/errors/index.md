@@ -180,7 +180,7 @@ A guest key called a route guests cannot use (world sharing, token status).
 
 The requested element or route does not exist.
 
-- **Common cause:** a read, `PATCH` or link operation on an element UUID that is not in this world, or a mistyped path. For a guest key, an element the guest cannot see. An agent join code that is unknown, used, revoked or expired also answers `not_found`, the same answer for every case.
+- **Common cause:** a read, `PATCH` or link operation on an element UUID that is not in this world, or a mistyped path: an address under `/api/` that no route matches answers this envelope too, never a web page. For a guest key, an element the guest cannot see. An agent join code that is unknown, used, revoked or expired also answers `not_found`, the same answer for every case.
 - **How to fix:** check that the UUID exists in this world and that the path is right. `DELETE` is idempotent: deleting an element that is already gone returns `204`, not `404`.
 
 ### rate_limited
