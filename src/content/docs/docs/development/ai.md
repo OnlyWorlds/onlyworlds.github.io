@@ -25,6 +25,10 @@ The [LLM guide](/docs/development/llm-guide) is a single text file, [ow_llm_guid
 
 **OnlyWorldsBot** is a ChatGPT custom GPT preloaded with schema knowledge, for worldbuilding questions and for converting existing content into the OnlyWorlds format: [chatgpt.com/g/g-dydgDFnOz-onlyworldsbot](https://chatgpt.com/g/g-dydgDFnOz-onlyworldsbot).
 
+**Pages as Markdown.** An agent can read both sites as Markdown:
+- **This site:** every page has a Markdown copy at the same path with `.md`, and [llms.txt](/llms.txt) lists them.
+- **onlyworlds.com:** every public page answers as Markdown when the request's `Accept` header prefers `text/markdown`, and it has its own [llms.txt](https://www.onlyworlds.com/llms.txt).
+
 ## In a Coding Agent
 
 The [toolkit](/docs/development/toolkit) is a Claude Code plugin whose skills follow the life of a world: structure it, grow it, play in it and keep it true, build on it. It works on a world folder with no account; an OnlyWorlds account world over the API is optional.

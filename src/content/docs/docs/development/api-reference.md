@@ -76,7 +76,9 @@ There are no webhooks. To follow a world's changes, poll [`/changes`](/docs/deve
 
 ## Stability
 
-- `/api/v2/` is the current API. The [Classic API](/docs/development/api/classic) at `/api/worldapi/` keeps working, and no retirement date is set.
+- `/api/v2/` is the current API. The [Classic API](/docs/development/api/classic) at `/api/worldapi/` keeps answering for the tools built on it; it is frozen, not developed.
+- New fields and routes arrive without notice and never change what existing fields mean. A field, route or behaviour is removed only after it has been announced on the [feedback page](https://www.onlyworlds.com/feedback)'s changelog and in the [API document](https://www.onlyworlds.com/api/v2/openapi.json), at least six months ahead.
+- Every reply's `X-OW-Schema-Version` header names the version of the standard that shapes it (`00.31.00` today).
 - Error codes and field names are a contract: a client may branch on them. Error messages are not.
 - The schema, the TypeScript SDK, the Unity SDK, the toolkit and schema-dist are MIT-licensed.
 
