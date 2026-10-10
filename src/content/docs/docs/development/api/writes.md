@@ -115,7 +115,8 @@ The store suppresses replays on a best-effort basis; it is not a ledger. Minting
 |:--|:--|
 | `name`, `description`, `image_url`, `time_basic_unit` | String |
 | `length_unit`, `mass_unit`, `distance_unit` | String of up to 64 characters (see [Units](/docs/schema/worlds#units)) |
-| `time_format_names`, `time_format_equivalents` | List of strings |
+| `time_format_names` | List of strings |
+| `time_format_equivalents` | List of whole numbers, as the standard types it. Strings are still accepted and kept as sent, so an older world may read back strings. |
 | `time_range_min`, `time_range_max`, `time_range_current` | Integer or `null` |
 | `owner_character` | A Character id in this world (the Character that is the owner), or `null` |
 

@@ -37,7 +37,7 @@ For a custom domain, contact [info@onlyworlds.com](mailto:info@onlyworlds.com).
 ## Headers
 
 - **Request headers** a browser may send include `API-Key`, `API-Pin`, `Idempotency-Key`, `Content-Type` and `Authorization`.
-- **Response headers** a browser may read, besides the standard ones: `Retry-After`, `Idempotent-Replay` and `X-OW-Schema-Version`.
+- **Response headers** a browser may read, besides the standard ones: `Retry-After`, `Idempotent-Replay` and `X-OW-Schema-Version` (the version of the standard the server speaks, such as `00.31.00`; the API's own version is the `v2` in the path).
 - **Credentials** (cookies) are not allowed. The API authenticates by header, so no browser client needs them.
 - Preflight answers may be cached for a day.
 

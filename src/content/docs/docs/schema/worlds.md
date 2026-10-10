@@ -19,7 +19,7 @@ A world is the top-level container for elements, representing a complete setting
 | Field | Type | Required | Description |
 | :--- | :--- | :--- | :--- |
 | `time_format_names` | array of strings | No | Names of each time step: `["Day", "Week", "Month", "Year"]`, or custom names like `["Sol", "Cycle", "Season", "Era"]` |
-| `time_format_equivalents` | array of strings | No | Basic units per step, e.g. `["1", "7", "30", "365"]` |
+| `time_format_equivalents` | array of integers | No | Basic units per step, e.g. `[1, 7, 30, 365]` (older worlds on onlyworlds.com may hold them as strings) |
 | `time_basic_unit` | string | No | Smallest time unit (e.g. `"Day"` or `"Hour"`) |
 | `time_range_min` | integer | No | Earliest tracked time point |
 | `time_range_max` | integer | No | Latest tracked time point |
