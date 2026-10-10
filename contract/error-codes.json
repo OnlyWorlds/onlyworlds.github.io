@@ -29,6 +29,11 @@
     "status": 409,
     "summary": "A removal ticket for this image was issued less than 10 minutes ago and is not yet spent; use it, or retry after Retry-After."
   },
+  "upload_pending": {
+    "type": "invalid_request",
+    "status": 409,
+    "summary": "No image is recorded under this key yet, but an upload ticket in this world is still open and unreported (the upload may have just finished); retry after Retry-After (2 s). The platform cannot tell which key an open ticket will get, so any key answers this while the caller holds one, until it expires; then not_found."
+  },
   "pin_required": {
     "type": "invalid_request",
     "status": 409,

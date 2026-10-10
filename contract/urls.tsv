@@ -101,6 +101,7 @@
 /api/errors#resync_required	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#already_member	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#removal_in_flight	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#upload_pending	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#pin_required	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#invalid_credentials	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#key_revoked	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
