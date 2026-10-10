@@ -72,7 +72,7 @@ curl -s -X POST "https://upload.onlyworlds.com/v1/remove" \
 `200`: `{removed, bytes, cache}`. The bytes go back to the uploading account's storage.
 
 - **Removing doesn't touch the elements.** Clear or replace their `image_url` yourself; `referenced` says how many there are.
-- **A copy can linger.** Images are cached as unchanging, so a copy the network already holds can keep answering for a while after removal. `cache: "may_linger"` says so.
+- **A copy can linger.** Images are cached as unchanging for a year, so a copy that the network or a visitor's browser already holds can keep answering for days or longer after removal. `cache: "may_linger"` says so.
 - **Only ticket uploads.** Images uploaded any other way answer `404` [`not_found`](/api/errors/#not_found).
 - **One removal at a time.** A second ticket for the same image within 10 minutes answers `409` [`removal_in_flight`](/api/errors/#removal_in_flight), with `Retry-After`.
 
