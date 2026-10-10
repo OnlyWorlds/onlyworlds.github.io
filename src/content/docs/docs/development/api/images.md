@@ -52,10 +52,34 @@ curl -s -X PATCH "https://www.onlyworlds.com/api/v2/creature/{id}" \
 
 For the world's own picture, `PATCH /api/v2/world` with the same body (owner only).
 
+## Removing an Image
+
+An image uploaded with a ticket can be removed by its uploader, or by the world's owner key; an agent seat answers as its sponsor. Removal takes two calls, like the upload.
+
+```bash
+curl -s -X POST "https://www.onlyworlds.com/api/v2/media/remove-ticket" \
+  -H "API-Key: {key}" -H "API-Pin: {pin}" -H "Content-Type: application/json" \
+  -d '{ "key": "u/{world_id}/{name}.webp" }'
+```
+
+The `key` is the part of the `image_url` after `https://media.onlyworlds.com/`. The reply is `{ticket, exp, key, referenced}`: a single-use ticket for 10 minutes, and `referenced`, how many of the world's elements still show the image.
+
+```bash
+curl -s -X POST "https://upload.onlyworlds.com/v1/remove" \
+  -H "Authorization: Bearer {ticket}"
+```
+
+`200`: `{removed, bytes, cache}`. The bytes go back to the uploading account's storage.
+
+- **Removing doesn't touch the elements.** Clear or replace their `image_url` yourself; `referenced` says how many there are.
+- **A copy can linger.** Images are cached as unchanging, so a copy the network already holds can keep answering for a while after removal. `cache: "may_linger"` says so.
+- **Only ticket uploads.** Images uploaded any other way answer `404` [`not_found`](/api/errors/#not_found).
+- **One removal at a time.** A second ticket for the same image within 10 minutes answers `409` [`removal_in_flight`](/api/errors/#removal_in_flight), with `Retry-After`.
+
 ## Limits
 
 - **200 tickets per world per day.** More is `429` [`quota_exceeded`](/api/errors/#quota_exceeded), with `Retry-After`.
 - **1 GB of images per uploading account** by default. Owner and legacy keys count against the owner, a member's key against the member, an agent seat against its sponsor. A full account gets `403` [`storage_full`](/api/errors/#storage_full) and no ticket.
 - When image upload is not configured on the server, the ticket route answers `503` [`media_unavailable`](/api/errors/#media_unavailable).
 
-Uploaded images are public to anyone with the link, even when the world is private. They are kept: there is no delete.
+Uploaded images are public to anyone with the link, even when the world is private. They stay until their uploader or the world's owner removes them.

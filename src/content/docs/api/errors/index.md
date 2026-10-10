@@ -41,6 +41,7 @@ The [Classic API](/docs/development/api/classic) at `/api/worldapi/` answers in 
 | [`id_conflict`](#id_conflict) | `invalid_request` | `409` | A create supplied an id that already exists, in this world or another (element ids are unique across all worlds). |
 | [`resync_required`](#resync_required) | `invalid_request` | `409` | A guest's /changes cursor predates a change to what it can see, or is not this caller's cursor shape: pull again from since=0. |
 | [`already_member`](#already_member) | `invalid_request` | `409` | The invite names someone who is already a member, or the accepting account already is one. |
+| [`removal_in_flight`](#removal_in_flight) | `invalid_request` | `409` | A removal ticket for this image was issued less than 10 minutes ago and is not yet spent; use it, or retry after Retry-After. |
 | [`pin_required`](#pin_required) | `invalid_request` | `409` | A member without an account PIN tried to accept an invite or mint a write key. |
 | [`apply_failed`](#apply_failed) | `invalid_request` | `422` | A /bulk item passed validation but its write failed a database constraint (most often an id that already exists in another world). |
 | [`invalid_credentials`](#invalid_credentials) | `authentication_error` | `401` | The API key or PIN is missing, unrecognised or wrong. |
@@ -114,6 +115,14 @@ An invite names someone who is already a member of the world, or an invite is ac
 A member without an account PIN tried to accept an invite or mint a write key. Member keys write with the member's own account PIN.
 
 - **How to fix:** set a PIN in your [account settings](https://www.onlyworlds.com/account/settings), then retry.
+
+### removal_in_flight
+
+**Type** `invalid_request` · **Status** `409`
+
+`POST /api/v2/media/remove-ticket`: a removal ticket for this image was issued less than 10 minutes ago and hasn't been used yet.
+
+- **How to fix:** use the ticket you already have, or retry after the `Retry-After` header's seconds.
 
 ### invalid_credentials
 
@@ -278,7 +287,7 @@ The item passed validation but the write itself failed a database constraint. Th
 
 ## Upload Host Errors
 
-The [image upload](/docs/development/api/images) to `upload.onlyworlds.com` is not part of the API and answers errors in its own shape, `{"error": "<code>"}`. Its only open path is `POST https://upload.onlyworlds.com/v1/upload`; the host's root and every other path redirect to a login on purpose, and are not for browsers. A successful upload answers `201` with `{url, key, bytes, type, etag}`.
+The [image upload](/docs/development/api/images) to `upload.onlyworlds.com` is not part of the API and answers errors in its own shape, `{"error": "<code>"}`. Its open paths are `POST https://upload.onlyworlds.com/v1/upload` and [`POST /v1/remove`](/docs/development/api/images#removing-an-image); the host's root and every other path redirect to a login on purpose, and are not for browsers. A successful upload answers `201` with `{url, key, bytes, type, etag}`.
 
 | Status | Code | What to do |
 |:--|:--|:--|
@@ -294,4 +303,6 @@ The [image upload](/docs/development/api/images) to `upload.onlyworlds.com` is n
 | `413` | `too_large` | The image is over the ticket's `max_bytes`. |
 | `415` | `unsupported_type` | Send webp, png, jpeg or avif (the type is read from the bytes; no SVG). |
 | `502` | `write_failed` | Nothing was stored and the ticket is still unspent: retry with the same ticket. |
+| `403` | `not_removable` | The image was not uploaded into the removal ticket's world with a ticket, so it can't be removed this way. |
+| `502` | `remove_failed` | Nothing was removed and the removal ticket is still unspent: retry with the same ticket. |
 | `503` | `ticket_lane_unconfigured` | Uploads are not configured on the host right now: retry later. |

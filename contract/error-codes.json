@@ -24,6 +24,11 @@
     "status": 409,
     "summary": "The invite names someone who is already a member, or the accepting account already is one."
   },
+  "removal_in_flight": {
+    "type": "invalid_request",
+    "status": 409,
+    "summary": "A removal ticket for this image was issued less than 10 minutes ago and is not yet spent; use it, or retry after Retry-After."
+  },
   "pin_required": {
     "type": "invalid_request",
     "status": 409,
@@ -186,6 +191,18 @@
     "status": 502,
     "host": "upload.onlyworlds.com",
     "summary": "Nothing was stored and the ticket is still unspent: retry with the same ticket."
+  },
+  "not_removable": {
+    "type": null,
+    "status": 403,
+    "host": "upload.onlyworlds.com",
+    "summary": "The image is not one the removal ticket's world uploaded with a ticket, so it cannot be removed this way."
+  },
+  "remove_failed": {
+    "type": null,
+    "status": 502,
+    "host": "upload.onlyworlds.com",
+    "summary": "Nothing was removed and the removal ticket is still unspent: retry with the same ticket."
   },
   "ticket_lane_unconfigured": {
     "type": null,
