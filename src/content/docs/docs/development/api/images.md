@@ -62,10 +62,14 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/media/remove-ticket" \
   -d '{ "key": "u/{world_id}/{name}.webp" }'
 ```
 
-The `key` is the part of the `image_url` after `https://media.onlyworlds.com/`. The reply is `{ticket, exp, key, referenced}`: a single-use ticket for 10 minutes, and `referenced`, how many of the world's elements still show the image.
+The `key` is the part of the `image_url` after `https://media.onlyworlds.com/`. The reply is `{ticket, remove_url, exp, key, referenced}`:
+- a single-use ticket
+- where to send it
+- when it expires, in Unix seconds, 10 minutes after it was issued
+- `referenced`: how many of the world's elements still show the image
 
 ```bash
-curl -s -X POST "https://upload.onlyworlds.com/v1/remove" \
+curl -s -X POST "{remove_url}" \
   -H "Authorization: Bearer {ticket}"
 ```
 
