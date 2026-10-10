@@ -16,6 +16,7 @@ The OnlyWorlds Builder is an Obsidian community plugin. Each element is a plain 
 - **Vault Integration.** Create and edit elements as Obsidian notes.
 - **Local-Only Worlds.** Build a world entirely in your vault, no account needed.
 - **Optional Sync.** Connect a world to onlyworlds.com, or take a local-only world online later.
+- **World Units.** `World.md` holds the world's length, mass and distance units, free text such as `cm` or `leagues`. The nine numbers that use them show the unit beside the value, as in `182 cm`; nothing converts. Download, upload, copy and folder export carry them; only the world's owner can change them on onlyworlds.com.
 - **World Folder Import and Export.** Read and write OnlyWorlds world folders, which open directly in [Atlas](/docs/tools/atlas).
 - **Commands.** World operations are available in the Obsidian command palette.
 
