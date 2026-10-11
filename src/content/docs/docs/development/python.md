@@ -59,7 +59,7 @@ If the feed refuses a cursor (`is_resync_required` on the error), walk again fro
 - **World folders**: `read_folder` and `write_folder` implement the folder format and pass its shared conformance fixture. The reader never changes a folder.
 - **Push**: `plan_push` and `push` compare a folder with a baseline and PATCH only the fields that changed. A rerun skips what already landed.
 - **Client**: `get_world`, `patch_world`, `list_page`, `iter_elements`, `get`, `create`, `upsert`, `patch`, `delete`, `edit_links`, `bulk`, `changes` and `walk_changes`. `create` and `bulk` always send an `Idempotency-Key`, so a retry after a lost answer is safe: it never creates an element twice.
-- **Errors**: `ApiError` carries the envelope's `code`, `param` and `doc_url`, with flags such as `is_id_conflict`, `is_not_author`, `is_resync_required` and `is_validation_error`.
+- **Errors**: `ApiError` carries the envelope's `code`, `param` and `doc_url`, with flags such as `is_id_conflict`, `is_not_author`, `is_resync_required` and `is_validation_error`. Pass `if_match=el["change_seq"]` to `patch` or `edit_links` to write only if nobody changed the element since you read it (since 0.2.0); if it moved, `PreconditionFailed` carries `current`, the element as it is now. See [Only if unchanged](/docs/development/api/writes#only-if-unchanged).
 - **Export**: `export_world`.
 
 Not yet: typed element models, the account routes and the snapshot writer.
