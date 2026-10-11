@@ -108,7 +108,7 @@ if (openapi?.paths) {
   const rules = [
     [/\bfactions?\b/i, 'a faction is not an OnlyWorlds element (use Family, Collective or Institution)'],
     [/\bopen schema\b/i, 'the term rule: the standard names the thing; "schema" only the files'],
-    [/pip install onlyworlds/i, 'the Python package is not on PyPI'],
+    [/git\+https:\/\/github\.com\/OnlyWorlds\/python-sdk/i, 'the Python package is on PyPI since 2026-10-11: pip install onlyworlds'],
     [/api\/worldapi/i, null], // legacy v1 path: allowed only on the legacy pages, reported below
   ];
   let found = 0;
