@@ -95,6 +95,21 @@ for await (const change of client.changesAll(cursor)) {
 
 Edits to the world itself (its name, calendar, `public_read`) do not enter the change feed. Poll `client.getWorld()` and compare `updated_at` for those. See [Sync with Changes](/docs/development/api/changes).
 
+## World files
+
+A world file is one `.zip` holding a whole world folder (`world.json` and `elements/<type>/*.json`), the file Atlas downloads and opens. Reading and writing one needs no account, and works in the browser and in Node (since 4.10.0).
+
+```typescript
+import { readWorldFile, writeWorldFile, OwWorldFileError } from '@onlyworlds/sdk';
+
+const world = readWorldFile(bytes); // a Uint8Array
+// world.worldId, world.name, world.world (world.json), world.files: [{ path, data }]
+
+const zip = writeWorldFile(world.files, 'hollow-reach-0192a000'); // one top-level folder
+```
+
+The reader refuses a file before returning anything: a path that could land outside the folder, more than 1 GiB or 200,000 files uncompressed, no `world.json` with an `id`, or more than one world. `err.reason` on the `OwWorldFileError` says which. Both functions remove `world.json`'s `api` block, so the world's link and key never travel in a file.
+
 ## Errors
 
 Every non-2xx answer throws `OwApiError` with the platform's error envelope: `.status`, `.type`, `.code`, `.param` (the field that failed) and `.docUrl`, which links to the code on [the errors page](/api/errors). Show `docUrl` to your users. Transport failures throw `OwNetworkError`. `err.isValidationError` covers the common case. A write sent with `ifMatch` that found the element moved throws `OwPreconditionFailedError` (412, `err.isPreconditionFailed`), an `OwApiError` that also carries `current`.
@@ -129,7 +144,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.9.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.10.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
