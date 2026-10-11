@@ -76,7 +76,7 @@ public class ReadWorld : MonoBehaviour
 
 A cache is a world stored as an asset in your project. Fill it in the Editor, and the build carries it: no network, no key and no waiting at runtime.
 
-1. Set a key in **Window → OnlyWorlds → World Browser → Settings**. It is stored per machine in `EditorPrefs`, never in the project or in version control.
+1. Set a key in **Window → OnlyWorlds → World Browser → Settings**. It is stored in `EditorPrefs` on this machine, for this project alone, never in the project's files or in version control.
 2. **Connect**, then **Sync to Cache**. The cache asset is written under `Assets/OnlyWorlds/`. **Open Folder…** fills a cache from a world folder on disk instead.
 3. Reference the asset from your scripts:
 
