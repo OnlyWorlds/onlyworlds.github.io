@@ -31,6 +31,8 @@ Each code has its own section below, and the summary table lists them all. A fet
 The [Classic API](/docs/development/api/classic) at `/api/worldapi/` answers in its own legacy shape, `{"detail": …}`. The codes on this page apply to `/api/v2/` only.
 :::
 
+Some errors carry one extra top-level key beside `error`, named in their row: `precondition_failed` carries `current`, the element as it is now. Read the body whole; the envelope is not a closed shape.
+
 ## Error Codes
 
 <!-- generated:error-codes (scripts/gen_errors.mjs, from contract/error-codes.json) -->
@@ -44,6 +46,7 @@ The [Classic API](/docs/development/api/classic) at `/api/worldapi/` answers in 
 | [`removal_in_flight`](#removal_in_flight) | `invalid_request` | `409` | A removal ticket for this image was issued less than 10 minutes ago and is not yet spent; use it, or retry after Retry-After. |
 | [`upload_pending`](#upload_pending) | `invalid_request` | `409` | No image is recorded under this key yet, but an upload ticket in this world is still open and unreported (the upload may have just finished); retry after Retry-After (2 s). The platform cannot tell which key an open ticket will get, so any key answers this while the caller holds one, until it expires; then not_found. |
 | [`pin_required`](#pin_required) | `invalid_request` | `409` | A member without an account PIN tried to accept an invite or mint a write key. |
+| [`precondition_failed`](#precondition_failed) | `invalid_request` | `412` | The request carried If-Match with a change_seq, and the element has moved since; the reply's top-level `current` is the element as it is now. Nothing was written and nothing is merged: re-read `current`, then re-send or ask the user. |
 | [`apply_failed`](#apply_failed) | `invalid_request` | `422` | A /bulk item passed validation but its write failed a database constraint (most often an id that already exists in another world). |
 | [`invalid_credentials`](#invalid_credentials) | `authentication_error` | `401` | The API key or PIN is missing, unrecognised or wrong. |
 | [`key_revoked`](#key_revoked) | `authentication_error` | `401` | The API key was recognised but has been revoked. |
@@ -92,6 +95,15 @@ A `POST` supplied an `id` that already exists, or a `PUT` named an id held by an
 
 - **Common cause:** retrying a create with a client-minted UUID that already landed, or reusing ids copied from another world.
 - **How to fix:** if the id exists in this world, use `PUT /api/v2/{type}/{id}`, the upsert: `POST` only creates. If it exists in another world, mint a new id. To retry a request that may have completed, send an `Idempotency-Key` header instead of posting again.
+
+### precondition_failed
+
+**Type** `invalid_request` · **Status** `412`
+
+A `PATCH` or a link operation carried `If-Match` with a `change_seq`, and the element has changed since. Nothing was written and nothing is merged. The reply carries, beside the error, a top-level `current`: the element as it is now, as this caller sees it.
+
+- **Common cause:** an edit made offline or from a stale copy, while another client (Atlas, a plugin, an agent) changed the same element.
+- **How to fix:** read `current`. If the fields you changed are not the ones that moved, re-send your `PATCH` with `current.change_seq` in `If-Match`. If the same field moved on both sides, ask the user which version to keep. See [Only if unchanged](/docs/development/api/writes#only-if-unchanged).
 
 ### resync_required
 

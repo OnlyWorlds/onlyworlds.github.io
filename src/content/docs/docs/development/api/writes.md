@@ -38,6 +38,25 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/location" \
 | Single link | `null` |
 | Multi link | `[]` |
 
+### Only if unchanged
+
+A client that edits offline, or holds a copy for a while, can ask for the update to land only if nobody else has changed the element since it was read. Send the element's `change_seq` (on every element you read) in an `If-Match` header:
+
+```bash
+curl -X PATCH https://www.onlyworlds.com/api/v2/character/{id} \
+  -H "API-Key: ow_w_…" -H "API-Pin: 1234" -H 'If-Match: "41"' \
+  -H "Content-Type: application/json" -d '{"name": "Fluffington the Bold"}'
+```
+
+If the element is still at change_seq 41 the update applies and the reply's `change_seq` is the new one. If it has moved, nothing is written and the reply is `412` [`precondition_failed`](/api/errors/#precondition_failed), with the element as it is now beside the error, under `current`, so no second read is needed:
+
+```json
+{"error": {"type": "invalid_request", "code": "precondition_failed", "param": "If-Match", "...": "..."},
+ "current": {"type": "character", "id": "…", "change_seq": 44, "name": "…", "...": "..."}}
+```
+
+The check is per element, not per field, and the server never merges. The client decides: when the fields it changed are not the ones that moved, re-send with the new `change_seq`; when the same field changed on both sides, ask the user which to keep. To know what moved, keep the copy you edited from beside the edit, not only the new values. A conditional write answered `404` means the element was deleted meanwhile. `*` or no header means unconditional, as before. The [link operations route](/docs/development/api/links#link-operations) takes the same header; `PUT`, `DELETE` and `/bulk` do not. A deleted element's id is scrubbed from the elements that linked to it, and each of those takes a new `change_seq`, so a stale token is refused there too.
+
 ## Delete
 
 `DELETE /api/v2/{type}/{id}` returns `204`. It is idempotent: deleting an element that is already gone also returns `204`. Deleting an element removes its id from every other element's links, and the change feed records the delete as a [tombstone](/docs/development/api/changes).

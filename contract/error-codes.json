@@ -39,6 +39,11 @@
     "status": 409,
     "summary": "A member without an account PIN tried to accept an invite or mint a write key."
   },
+  "precondition_failed": {
+    "type": "invalid_request",
+    "status": 412,
+    "summary": "The request carried If-Match with a change_seq, and the element has moved since; the reply's top-level `current` is the element as it is now. Nothing was written and nothing is merged: re-read `current`, then re-send or ask the user."
+  },
   "apply_failed": {
     "type": "invalid_request",
     "status": 422,
