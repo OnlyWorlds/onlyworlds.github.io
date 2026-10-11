@@ -84,6 +84,13 @@ await writer.patch('character', id, { image_url: image.url });
 
 This makes two requests: a single-use ticket from the API, then the bytes straight to the media edge. The API never sees the bytes, and the edge never sees your key. Accepted formats are webp, png, jpeg and avif, read from the bytes (never SVG or gif). Each ticket counts toward the world's daily limit and the account's image storage. For a progress bar, call `createMediaTicket()` and POST the bytes to its `upload_url` yourself, with `Authorization: Bearer <ticket>`.
 
+In a browser, shrink a phone photo before uploading it (since 4.11.0):
+
+```typescript
+const photo = await preparePhoto(file); // longest side 2048, webp (JPEG where the browser can't encode webp)
+const image = await writer.uploadImage(photo.blob);
+```
+
 ## Follow changes
 
 ```typescript
@@ -94,6 +101,21 @@ for await (const change of client.changesAll(cursor)) {
 ```
 
 Edits to the world itself (its name, calendar, `public_read`) do not enter the change feed. Poll `client.getWorld()` and compare `updated_at` for those. See [Sync with Changes](/docs/development/api/changes).
+
+## Find things in a world
+
+With a world's elements in memory, `lookupWorld` finds the ones a plain question is about. It uses no model and no network, and runs in a few milliseconds (since 4.11.0).
+
+```typescript
+import { buildWorldIndex, lookupWorld, renderElement } from '@onlyworlds/sdk';
+
+const index = buildWorldIndex(elements); // once per world; each element needs id and type
+const hits = lookupWorld(index, 'who runs the mill in Ostvik?');
+// hits[0].element, hits[0].reasons: best first, with why each matched
+const card = renderElement(hits[0].element, index); // a short text card, links by name
+```
+
+Names come first, then supertype and subtype, then one link step in either direction, then the elements' other text. For an AI answer, give a model the cards of the top hits and ask it to answer only from them.
 
 ## World files
 
@@ -144,7 +166,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.10.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.11.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
