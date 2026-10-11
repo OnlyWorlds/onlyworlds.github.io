@@ -24,7 +24,7 @@ Atlas reads and writes your world as plain JSON files, in a folder on your own m
 - **One file.** Download the whole world as a single .zip (elements, pages, notes, charts and images, without the OnlyWorlds link and its key). Atlas opens it on any browser as a world of its own.
 - **Sync.** Link a world to onlyworlds.com to push and pull. The folder stays the source of truth.
 - **Import and Export.** Import and export the same world file onlyworlds.com exports. A world folder written by another tool opens in place.
-- **Sharing.** Publish read-only pages of your world to send to anyone. Needs an account and has a per-account page quota.
+- **Sharing.** Publish read-only pages of your world to send to anyone. Needs an account; each world can have 20 published pages at a time.
 - **Light and Dark.** Both themes across the whole app.
 
 ## Getting Started
