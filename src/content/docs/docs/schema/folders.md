@@ -116,3 +116,7 @@ The writer mints a fresh world id and keeps every element id; a re-capture under
 - `format_version` only when creating a folder. MUST NOT create or edit a `.gitignore` in a folder it did not create (in your own repo, `.*/` keeps every tool folder out).
 - One writer per folder at a time; never write into another tool's `.<tool>/`.
 - In a linked folder, every changed element file MUST get `local_updated_at` set to now (UTC, ISO 8601), `server_updated_at` left alone; otherwise Atlas never sends the edit. New files carry neither.
+
+**Checking a folder**
+
+[schema-dist](https://github.com/OnlyWorlds/schema-dist) has a checker: `python walk/lint_folder.py path/to/world`. It names every key that is not a field of its type, every link that does not resolve or points at the wrong type, and every value of the wrong shape. Server keys, the folder's own keys and prefixed fields pass. Its last line is the count it checked, and it exits 1 when it finds a problem. A link to an element the folder does not hold (a partial download, say) is reported, and is true.
