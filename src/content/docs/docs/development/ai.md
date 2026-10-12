@@ -73,6 +73,20 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/account/ask" \
 
 `200` answers `{answer, model, stop_reason, usage: {input_tokens, output_tokens}, remaining}`. Each account has an allowance of questions per day (`remaining` counts down; over it, `429` [`quota_exceeded`](/api/errors/#quota_exceeded) with `Retry-After` to midnight UTC). When the proxy is switched off or paused for the day, `503` [`ask_unavailable`](/api/errors/#ask_unavailable); when the model gives no answer, `502` [`ask_failed`](/api/errors/#ask_failed). Neither counts against the allowance. The proxy keeps no questions and no answers; it records only how many questions an account asked and the tokens they took.
 
+### Sort Notes Into a World
+
+The same proxy turns loose notes into changes for the user to review: `POST /api/v2/account/sort`, with the same credential. The app sends the notes (1 to 8, each text up to 4,000 characters and 16,000 in all, or `{text, image_url}` with a picture already uploaded into this world, at most four) and a `slice`: up to 100 elements its own search found for them, each `{id, type, name, anchor?}`.
+
+```bash
+curl -s -X POST "https://www.onlyworlds.com/api/v2/account/sort" \
+  -H "Authorization: Bearer ow_a_…" -H "Content-Type: application/json" \
+  -d '{"world_id": "…", "notes": ["Mira moved to Ostvik."],
+       "slice": [{"id": "…", "type": "character", "name": "Mira Thel"},
+                 {"id": "…", "type": "location", "name": "Ostvik"}]}'
+```
+
+`200` answers `{rows, not_proposed, model, stop_reason, usage, remaining}`. Each row is one of four kinds, with the `source_line` it came from: `make` (a new element: type, name, description), `add_to` (text to append to a field of a slice element), `link` (one slice element to another through a field) and `ask` (a question with `candidates`, when a name matches several elements or the sorter is unsure; its optional `then` is the `add_to` or `link` the user's pick completes). Every id in a row is from the slice, and names come from the slice too; a row naming anything else moves to `not_proposed` with its reason, as do lines the sorter could not place. At most 40 rows. Nothing is written: the app applies what the user accepts. A sort counts as one question against the same allowance, with the same errors. In TypeScript: `account.sort({ worldId, notes, slice })` (SDK 4.18.0).
+
 ## The Same Data Everywhere
 
 Every path reaches the same worlds. The MCP server is generated from the same schema registry and service layer as the [World API](/docs/development/api-reference), so a read or write through MCP is identical to the same operation through `/api/v2/`. The API's full reference is interactive at [onlyworlds.com/api/docs](https://www.onlyworlds.com/api/docs).

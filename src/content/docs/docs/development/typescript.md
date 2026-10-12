@@ -140,6 +140,14 @@ const reply = await account.ask({ worldId, question, context });    // account: 
 
 `kept` says which elements were sent, so the sources you show are the ones the answer used. Each account has 50 questions a day (`err.isQuotaExceeded`).
 
+The same proxy [sorts loose notes](/docs/development/ai#sort-notes-into-a-world) into rows for the user to review (since 4.18.0). Send what your lookup found as the slice; every id in a row comes from it, and nothing is written until your app applies what the user accepts:
+
+```typescript
+const slice = hits.slice(0, 100).map(({ element: e }) => ({ id: e.id, type: e.type, name: e.name }));
+const { rows, not_proposed } = await account.sort({ worldId, notes: ['Mira moved to Ostvik.'], slice });
+// rows: make, add_to, link, or ask (with candidates); one question from the same allowance
+```
+
 ## World files
 
 A world file is one `.zip` holding a whole world folder (`world.json` and `elements/<type>/*.json`), the file Atlas downloads and opens. Reading and writing one needs no account, and works in the browser and in Node (since 4.10.0).
@@ -189,7 +197,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.17.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.18.1, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -230,4 +238,5 @@ Generated from the types of `@onlyworlds/sdk` 4.17.0, the version these docs pin
 | `previewJoin(code)` | `POST /join/preview` | what a join code holds, without using it: who invites, to which world, in what role, and `reader` (`person`: accept it with acceptJoin; `agent`: an AI agent redeems it at POST /join). | `Promise<OwJoinPreview>` |
 | `acceptJoin(code)` | `POST /account/join` | accept an invite link's code as the account this client's `ow_a_` token belongs to: 201 with the new membership. | `Promise<OwJoinedMembership>` |
 | `ask(req)` | `POST /account/ask` | a question about a world the account owns or is in, answered by keel's AI proxy from `context` only (build it with buildAskContext from the elements the user sees). | `Promise<OwAskAnswer>` |
+| `sort(req)` | `POST /account/sort` | the user's unsorted notes, and the elements the app's own search found for them (`slice`: id, lowercase type, name, optional anchor; build it from lookupWorld's hits), sorted by the same proxy as ask into rows to review: `make`, `add_to`, `link`, `ask`. | `Promise<OwSortAnswer>` |
 | `request(method, path, opts?)` |  | Raw authenticated request against this client's baseUrl. | `Promise<T>` |
