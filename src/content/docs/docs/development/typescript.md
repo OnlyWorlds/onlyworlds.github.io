@@ -126,7 +126,17 @@ const hits = lookupWorld(index, 'who runs the mill in Ostvik?');
 const card = renderElement(hits[0].element, index); // a short text card, links by name
 ```
 
-Names come first, then supertype and subtype, then one link step in either direction, then the elements' other text. For an AI answer, give a model the cards of the top hits and ask it to answer only from them.
+Names come first, then supertype and subtype, then one link step in either direction, then the elements' other text.
+
+For an answer in a sentence, a signed-in account can use OnlyWorlds' [AI proxy](/docs/development/ai#ask-your-world-without-a-key-of-your-own) (since 4.13.0):
+
+```typescript
+const { context, kept } = buildAskContext(hits.slice(0, 8), index); // the hits you show, within the proxy's limits
+const reply = await account.ask({ worldId, question, context });    // account: a client with an ow_a_ token
+// reply.answer comes from those elements only, or is "The world doesn't say."
+```
+
+`kept` says which elements were sent, so the sources you show are the ones the answer used. Each account has 50 questions a day (`err.isQuotaExceeded`).
 
 ## World files
 
@@ -177,7 +187,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.12.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.13.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -216,4 +226,5 @@ Generated from the types of `@onlyworlds/sdk` 4.12.0, the version these docs pin
 | `removeImage(keyOrUrl, opts?)` |  | Remove one uploaded image: a removal ticket from the API, then the removal at the edge (the API key never leaves for the edge). | `Promise<OwRemovedImage>` |
 | `previewJoin(code)` | `POST /join/preview` | what a join code holds, without using it: who invites, to which world, in what role, and `reader` (`person`: accept it with acceptJoin; `agent`: an AI agent redeems it at POST /join). | `Promise<OwJoinPreview>` |
 | `acceptJoin(code)` | `POST /account/join` | accept an invite link's code as the account this client's `ow_a_` token belongs to: 201 with the new membership. | `Promise<OwJoinedMembership>` |
+| `ask(req)` | `POST /account/ask` | a question about a world the account owns or is in, answered by keel's AI proxy from `context` only (build it with buildAskContext from the elements the user sees). | `Promise<OwAskAnswer>` |
 | `request(method, path, opts?)` |  | Raw authenticated request against this client's baseUrl. | `Promise<T>` |
