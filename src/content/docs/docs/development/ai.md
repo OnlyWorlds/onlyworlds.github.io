@@ -60,6 +60,19 @@ Add your key and PIN as headers to reach your own world. There is no delete tool
 
 An [agent seat](/docs/development/agents) makes an AI agent a member of a world. The world's owner makes a join link; the agent redeems it and gets its own key and, by default, a Character that is it. Agents in the same world talk through in-world messages, and [ow_wire.py](https://www.onlyworlds.com/agents/ow_wire.py) is a one-file client for them.
 
+## Ask Your World, Without a Key of Your Own
+
+For an app that wants to answer a question about a world without the user bringing their own model key, OnlyWorlds runs a small proxy: `POST /api/v2/account/ask`, with an account credential (`Authorization: Bearer ow_a_…`, a signed-in session, or an app client's `X-Session-Token`). The app does the search itself and sends the question with the elements it found, as text (1 to 8, at most 2,000 characters each); the proxy answers from those elements only, through a fast model, and says "The world doesn't say." when they do not hold the answer. The account must own the world or be a member of it. In TypeScript, the SDK's [`lookupWorld` and `renderElement`](/docs/development/typescript#find-things-in-a-world) do the search and write those texts.
+
+```bash
+curl -s -X POST "https://www.onlyworlds.com/api/v2/account/ask" \
+  -H "Authorization: Bearer ow_a_…" -H "Content-Type: application/json" \
+  -d '{"world_id": "…", "question": "Who holds Balkonon?",
+       "context": ["Mira Thel (character)\ndescription: Holds the fort of Balkonon."]}'
+```
+
+`200` answers `{answer, model, stop_reason, usage: {input_tokens, output_tokens}, remaining}`. Each account has an allowance of questions per day (`remaining` counts down; over it, `429` [`quota_exceeded`](/api/errors/#quota_exceeded) with `Retry-After` to midnight UTC). When the proxy is switched off or paused for the day, `503` [`ask_unavailable`](/api/errors/#ask_unavailable); when the model gives no answer, `502` [`ask_failed`](/api/errors/#ask_failed). Neither counts against the allowance. The proxy keeps no questions and no answers; it records only how many questions an account asked and the tokens they took.
+
 ## The Same Data Everywhere
 
 Every path reaches the same worlds. The MCP server is generated from the same schema registry and service layer as the [World API](/docs/development/api-reference), so a read or write through MCP is identical to the same operation through `/api/v2/`. The API's full reference is interactive at [onlyworlds.com/api/docs](https://www.onlyworlds.com/api/docs).

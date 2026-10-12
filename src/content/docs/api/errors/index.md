@@ -57,9 +57,11 @@ Some errors carry one extra top-level key beside `error`, named in their row: `p
 | [`storage_full`](#storage_full) | `permission_error` | `403` | The account the upload counts against has used all of its image storage. |
 | [`not_found`](#not_found) | `not_found` | `404` | The element or route does not exist in this world. |
 | [`rate_limited`](#rate_limited) | `rate_limited` | `429` | Too many failed PIN attempts; retry after the Retry-After header's seconds. |
-| [`quota_exceeded`](#quota_exceeded) | `rate_limited` | `429` | The world has used its image upload tickets for the day; retry after Retry-After. |
+| [`quota_exceeded`](#quota_exceeded) | `rate_limited` | `429` | A daily allowance is used up (the world's image upload tickets, or the account's questions to the AI proxy); retry after Retry-After. |
 | [`idempotency_error`](#idempotency_error) | `idempotency_error` | `409` | An Idempotency-Key was reused with a different request body. |
 | [`api_error`](#api_error) | `api_error` | `500` | An unexpected server-side error; the envelope is kept even here. |
+| [`ask_failed`](#ask_failed) | `api_error` | `502` | The AI proxy could not get an answer from the model; try again in a moment. Nothing was counted. |
+| [`ask_unavailable`](#ask_unavailable) | `api_error` | `503` | Asking your world is not switched on for this server, or is paused for the day (the server-wide cap); nothing was counted. |
 | [`server_busy`](#server_busy) | `api_error` | `503` | Every request slot stayed full for 10 seconds; retry after Retry-After. |
 | [`payload_too_large`](#payload_too_large) | `api_error` | `413` | The request body is over 2.5 MB; split a large /bulk into several calls. |
 | [`media_unavailable`](#media_unavailable) | `api_error` | `503` | Image upload is not configured on the server right now. |
@@ -226,7 +228,10 @@ Too many failed authentication attempts, such as repeated wrong PINs.
 
 **Type** `rate_limited` · **Status** `429`
 
-`POST /api/v2/media/ticket`: the world has used its 200 image upload tickets for the day.
+A daily allowance is used up. Two routes answer it:
+
+- `POST /api/v2/media/ticket`: the world has used its 200 image upload tickets for the day.
+- `POST /api/v2/account/ask`: the account has asked its 50 questions for the day. The allowance resets at midnight UTC.
 
 - **How to fix:** retry after the `Retry-After` header's seconds.
 
@@ -255,6 +260,22 @@ An unexpected server-side error. The envelope holds even here: the API never ans
 Every request slot on the server stayed full for 10 seconds.
 
 - **How to fix:** retry after the `Retry-After` header's seconds.
+
+### ask_failed
+
+**Type** `api_error` · **Status** `502`
+
+`POST /api/v2/account/ask`: the model behind [Ask Your World](/docs/development/ai#ask-your-world-without-a-key-of-your-own) gave no answer. The question was not counted against the day's allowance.
+
+- **How to fix:** try again in a moment.
+
+### ask_unavailable
+
+**Type** `api_error` · **Status** `503`
+
+`POST /api/v2/account/ask`: asking is switched off on this server, or paused for the rest of the day because the server-wide spending cap was reached. The question was not counted.
+
+- **How to fix:** try again tomorrow (UTC). Your world's own search still works without it.
 
 ### payload_too_large
 

@@ -97,7 +97,7 @@
   "quota_exceeded": {
     "type": "rate_limited",
     "status": 429,
-    "summary": "The world has used its image upload tickets for the day; retry after Retry-After."
+    "summary": "A daily allowance is used up (the world's image upload tickets, or the account's questions to the AI proxy); retry after Retry-After."
   },
   "idempotency_error": {
     "type": "idempotency_error",
@@ -108,6 +108,16 @@
     "type": "api_error",
     "status": 500,
     "summary": "An unexpected server-side error; the envelope is kept even here."
+  },
+  "ask_failed": {
+    "type": "api_error",
+    "status": 502,
+    "summary": "The AI proxy could not get an answer from the model; try again in a moment. Nothing was counted."
+  },
+  "ask_unavailable": {
+    "type": "api_error",
+    "status": 503,
+    "summary": "Asking your world is not switched on for this server, or is paused for the day (the server-wide cap); nothing was counted."
   },
   "server_busy": {
     "type": "api_error",
