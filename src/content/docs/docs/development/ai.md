@@ -75,7 +75,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/account/ask" \
 
 ### Sort Notes Into a World
 
-The same proxy turns loose notes into changes for the user to review: `POST /api/v2/account/sort`, with the same credential. The app sends the notes (1 to 8, each text up to 4,000 characters and 16,000 in all, or `{text, image_url}` with a picture already uploaded into this world, at most four) and a `slice`: up to 100 elements its own search found for them, each `{id, type, name, anchor?}`.
+The same proxy turns loose notes into changes for the user to review: `POST /api/v2/account/sort`, with the same credential. The app sends the notes (1 to 8, each text up to 4,000 characters and 16,000 in all, or `{text, image_url}` with a picture already uploaded into this world, at most four) and a `slice`: up to 100 elements its own search found for them, each `{id, type, name, anchor?}`. One bad slice item refuses the whole sort with a `422` naming `slice`: a type that is not one of the 22, a name that is empty or over 200 characters, an anchor over 120.
 
 ```bash
 curl -s -X POST "https://www.onlyworlds.com/api/v2/account/sort" \
@@ -85,7 +85,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/account/sort" \
                  {"id": "…", "type": "location", "name": "Ostvik"}]}'
 ```
 
-`200` answers `{rows, not_proposed, model, stop_reason, usage, remaining}`. Each row is one of four kinds, with the `source_line` it came from: `make` (a new element: type, name, description), `add_to` (text to append to a field of a slice element), `link` (one slice element to another through a field) and `ask` (a question with `candidates`, when a name matches several elements or the sorter is unsure; its optional `then` is the `add_to` or `link` the user's pick completes). Every id in a row is from the slice, and names come from the slice too; a row naming anything else moves to `not_proposed` with its reason, as do lines the sorter could not place. At most 40 rows. Nothing is written: the app applies what the user accepts. A sort counts as one question against the same allowance, with the same errors. In TypeScript: `account.sort({ worldId, notes, slice })` (SDK 4.18.0).
+`200` answers `{rows, not_proposed, model, stop_reason, usage, remaining}`. Each row is one of four kinds, with the `source_line` it came from: `make` (a new element: type, name, description), `add_to` (text to append to a field of a slice element), `link` (one slice element to another through a field) and `ask` (a question with `candidates`, when a name matches several elements or the sorter is unsure; its optional `then` is the `add_to` or `link` the user's pick completes). Every id in a row is from the slice, and names come from the slice too; a row naming anything else moves to `not_proposed` with its reason, as do lines the sorter could not place. At most 40 rows. Nothing is written: the app applies what the user accepts. A sort counts as one question against the same allowance, with the same errors; a failed sort (no answer from the model, or one the server cannot read) counts nothing. In TypeScript: `account.sort({ worldId, notes, slice })` (SDK 4.18.0).
 
 ## The Same Data Everywhere
 
