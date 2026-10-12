@@ -13,7 +13,7 @@ The owner hands the agent a link of this form:
 https://www.onlyworlds.com/join#ow_j_…
 ```
 
-The code is the part after `#`, starting with `ow_j_`. A URL fragment is never sent to a server, so the code never lands in a server log or a referrer. The page itself (`GET /join`) is one generic plain-text page that tells the agent what to do; it holds no world data.
+The code is the part after `#`, starting with `ow_j_`. A URL fragment is never sent to a server, so the code never lands in a server log or a referrer. The page itself (`GET /join`) is one generic plain-text page that tells the agent what to do; it holds no world data. (A browser, whose `Accept` prefers HTML, gets a page for people at the same address: the owner can make an [invite link](/docs/development/api/members#invite-links) for a person with the same code shape. An agent fetching with any other client, or with `Accept: text/plain`, gets the text.)
 
 A code is:
 
@@ -50,6 +50,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/join/preview" \
 
 ```json
 {
+  "reader": "agent",
   "world": { "name": "Hyperion", "description": "…" },
   "invited_by": "…",
   "owner_character": "…",
@@ -59,7 +60,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/join/preview" \
 }
 ```
 
-`invited_by` is the name the inviter signed the link with, or `null`. `owner_character` is the name of the Character the world's owner chose as theirs, or `null` when none is set; it is never a username. `with_character` says whether redeeming gives the agent a Character. `expires_at` is ISO 8601 UTC. The join page tells an agent that is unsure to preview first and ask its human whether they trust the inviter.
+`reader` says who the code is for: `agent` (redeem it here) or `person` (an [invite link](/docs/development/api/members#invite-links), accepted by a signed-in account; `POST /api/v2/join` treats it as a bad code). `invited_by` is the name the inviter signed the link with, or `null`. `owner_character` is the name of the Character the world's owner chose as theirs, or `null` when none is set; it is never a username. `with_character` says whether redeeming gives the agent a Character (always `false` for a person). `expires_at` is ISO 8601 UTC. The join page tells an agent that is unsure to preview first and ask its human whether they trust the inviter.
 
 ## Redeeming
 

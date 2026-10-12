@@ -3,7 +3,7 @@ title: Members and Sharing
 description: Who can be in a world besides its owner, what each role may see and change, guests, and the ways to share a world.
 ---
 
-A world can have **members** besides its owner: people the owner invites by email address, and AI agents that join through an agent link. Every member has a **role**, and every element records which member created it.
+A world can have **members** besides its owner: people the owner invites by email address or through an invite link, and AI agents that join through an agent link. Every member has a **role**, and every element records which member created it.
 
 ## Roles
 
@@ -12,7 +12,7 @@ A world can have **members** besides its owner: people the owner invites by emai
 | `owner` | Everything | Everything, including the world's own fields |
 | `co_builder` | Everything | Every element |
 | `contributor` | Everything | Only the elements it created |
-| `guest` | What it created, what is addressed to its Character, and the roster's Characters ([Guests](#guests)) | Only the elements it created |
+| `guest` | What it created, what its Character is on or knows, and the roster's Characters ([Guests](#guests)) | Only the elements it created |
 
 - A contributor or guest changing, replacing, relinking or deleting someone else's element gets `403` [`not_author`](/api/errors/#not_author). In `/bulk` this is reported per item.
 - Only the owner may change the world's own fields with `PATCH /api/v2/world`; any member key gets `403` [`owner_only`](/api/errors/#owner_only).
@@ -68,7 +68,7 @@ curl -s "https://www.onlyworlds.com/api/v2/narrative?characters={character_id}" 
 
 ## Guests
 
-A guest key sees three things: the elements it created, the elements whose `characters` link names its Character, and the roster's Characters. A guest accepting an invite gets a new Character of its own (supertype `Guest`) as its roster entry.
+A guest key sees three things: the elements it created, the elements its Character is on or knows, and the roster's Characters. "On or knows" is decided by one link per type. For a Collective, Construct, Event, Relation or Title, the `characters` link: the element names the guest's Character. For a Narrative, its knowers: the `narrator` is the guest's Character, or one of its `collectives` is a Collective whose `characters` include it (a circle the Character is in). A Narrative's own `characters` link means who the story is about and grants a guest nothing, so a secret written about a player's Character stays hidden until a knower names them. A guest accepting an invite gets a new Character of its own (supertype `Guest`) as its roster entry.
 
 Everything else behaves exactly like a missing element, on every route, filter and expansion:
 
@@ -78,6 +78,25 @@ Everything else behaves exactly like a missing element, on every route, filter a
 - A guest's writes keep the links it cannot see.
 
 A few routes (world sharing and token status) refuse guest keys with `403` [`guest_not_supported`](/api/errors/#guest_not_supported). The change feed serves a guest its slice with its own cursor rules: see [Guests' Cursors](/docs/development/api/changes#guests-cursors).
+
+## Invite Links
+
+An owner can invite a person without an email address: an **invite link** with a role, made on the world page under Access (beside the email invites), shown once with a QR code beside it. It has the same form as an agent link:
+
+```text
+https://www.onlyworlds.com/join#ow_j_…
+```
+
+The code is the part after `#`; a URL fragment is never sent to a server, so it never lands in a log or a referrer. A link works once and expires (1, 7 or 30 days); the owner can revoke it until it is used. Opened in a browser, `/join` shows who invites you, to which world and as what role, and a button to join; signing in (or creating an account) first, when needed. The person becomes a member with the link's role, exactly as if they had accepted an email invite: a guest gets a new Character of its own, and the member mints their own keys. A member without an account PIN cannot accept: `409` [`pin_required`](/api/errors/#pin_required), and the link stays unused.
+
+A client can do the same two steps itself:
+
+| Method | Route | What it does |
+|:--|:--|:--|
+| POST | `/api/v2/join/preview` | `{"code"}`: who invites you, the world, the role, `reader` (`person`), `expires_at`. No credential; the code stays unused |
+| POST | `/api/v2/account/join` | `{"code"}`, with an account credential (`Authorization: Bearer ow_a_…`, or the `X-Session-Token` of a signed-in app client): `201` with the new membership (the same body as accepting an invite) |
+
+A code made for a person is a bad code for an AI agent, and the other way round: every bad code, whatever the reason, answers the same `404`.
 
 ## Agent Seats
 
@@ -93,7 +112,7 @@ Making links, joining and the join routes are on [AI Agents](/docs/development/a
 |:--|:--|
 | Read access to anyone you hand it to, no account needed | An `ow_r_` read key ([Keys and PINs](/docs/getting-started/keys)) |
 | Open reading to everyone | The world's `public_read` setting, in the account portal |
-| A person who writes, with their own PIN and their own role | A member invite |
+| A person who writes, with their own PIN and their own role | A member invite by email, or an [invite link](#invite-links) |
 | An AI agent with its own seat | An [agent link](/docs/development/agents) |
 
 A read key also works as a subscription: someone who holds it can follow the world's live state through [`/changes`](/docs/development/api/changes). With an account, they can store it as a **watched world** (`/api/v2/account/watched`), so the list follows them across tools. A watched key that stops working, for example because the owner revoked it, is marked stale rather than removed.
@@ -113,6 +132,7 @@ Invites and memberships are managed in the [account portal](https://www.onlyworl
 | GET | `/api/v2/account/invites` | Invites addressed to your verified email addresses |
 | POST | `/api/v2/account/invites/{invite_id}/accept` | Accept: `201` with the new membership |
 | POST | `/api/v2/account/invites/{invite_id}/refuse` | Refuse |
+| POST | `/api/v2/account/join` | Accept an [invite link](#invite-links)'s code: `201` with the new membership |
 | GET, POST | `/api/v2/account/watched` | List your watched worlds, or add one by a live `ow_r_` key |
 | DELETE | `/api/v2/account/watched/{watch_id}` | Stop watching |
 

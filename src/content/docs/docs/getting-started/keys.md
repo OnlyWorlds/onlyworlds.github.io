@@ -52,7 +52,7 @@ Creating a world through the API with an account token: an account without a PIN
 
 ## Member Keys
 
-A world can have members besides its owner (see [Members and Sharing](/docs/development/api/members)). A member mints their own keys for the world in their own account, and **a member's key writes with the member's own account PIN**, never the owner's. A member without an account PIN cannot accept an invite or mint a write key: `409` [`pin_required`](/api/errors/#pin_required).
+A world can have members besides its owner (see [Members and Sharing](/docs/development/api/members)). A member mints their own keys for the world in their own account, and **a member's key writes with the member's own account PIN**, never the owner's. A member without an account PIN cannot accept an invite or an invite link, or mint a write key: `409` [`pin_required`](/api/errors/#pin_required).
 
 Removing a member, or a member leaving, deletes that member's keys for the world.
 
@@ -116,7 +116,7 @@ curl -s "https://www.onlyworlds.com/api/v2/account/worlds" \
 | POST | `/api/v2/account/worlds/{world_id}/keys` | Mint a world key, shown once |
 | GET | `/api/v2/account/worlds/{world_id}/keys` | List a world's keys (last four characters only) |
 | DELETE | `/api/v2/account/worlds/{world_id}/keys/{key_id}` | Revoke a world key |
-| POST | `/api/v2/account/tokens` | Mint an account token, shown once |
+| POST | `/api/v2/account/tokens` | Mint an account token, shown once. A client that signed in through the login API (`/api/v2/auth/app/v1/auth/login`) may send its `X-Session-Token` here instead of a Bearer token, which is how an app on a phone gets a token of its own after sign-in |
 | GET | `/api/v2/account/tokens` | List your account tokens (last four characters only) |
 | DELETE | `/api/v2/account/tokens/{token_id}` | Revoke an account token |
 
