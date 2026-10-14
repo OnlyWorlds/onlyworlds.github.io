@@ -163,6 +163,23 @@ const zip = writeWorldFile(world.files, 'hollow-reach-0192a000'); // one top-lev
 
 The reader refuses a file before returning anything: a path that could land outside the folder, more than 1 GiB or 200,000 files uncompressed, no `world.json` with an `id`, or more than one world. `err.reason` on the `OwWorldFileError` says which. Both functions remove `world.json`'s `api` block, so the world's link and key never travel in a file.
 
+## World calendars
+
+A world's time is an integer line: the world's now (`time_range_current`) and an Event's `start_date` are points on it. A calendar names those points with months, days and eras. Atlas keeps a calendar on an element in its `atlas_calendar` field, and the SDK reads it with Atlas's own calendar code (since 4.20.0). Atlas owns that field: read it, never write it.
+
+```typescript
+import { worldCalendars, resolveCalendarLens, formatStep, parseDate } from '@onlyworlds/sdk';
+
+const calendars = worldCalendars(elements); // every element with a valid atlas_calendar
+const cal = resolveCalendarLens(elements, chosenId, { fallbackToOnly: true }); // one calendar: used
+if (cal) {
+  formatStep(cal.config, 400);               // "4 Alturiak, 1 DR" (Harptos, from Atlas's tests)
+  parseDate(cal.config, '4 Alturiak, 1 DR'); // { step: 400 }
+}
+```
+
+No calendar, or a broken one, gives null: show the bare number.
+
 ## Errors
 
 Every non-2xx answer throws `OwApiError` with the platform's error envelope: `.status`, `.type`, `.code`, `.param` (the field that failed) and `.docUrl`, which links to the code on [the errors page](/api/errors). Show `docUrl` to your users. Transport failures throw `OwNetworkError`. `err.isValidationError` covers the common case. A write sent with `ifMatch` that found the element moved throws `OwPreconditionFailedError` (412, `err.isPreconditionFailed`), an `OwApiError` that also carries `current`.
@@ -197,7 +214,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.19.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.20.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
