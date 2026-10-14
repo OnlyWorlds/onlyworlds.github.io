@@ -15,6 +15,7 @@ The docs state facts that other people's work changes: the API, the MCP server, 
    - `@onlyworlds/sdk`: `typescript.md`, `packages.md`; its README is the repo's, kept in step by hand
    - the Python package: `python.md`; Atlas: `tools/atlas.md`, `getting-started/*`; Unity: `unity.md`, `games.md`; Obsidian: `tools/obsidian-plugin.md`
 3. **Read for language** (the Captain's two standing complaints, 2026-10-09): OnlyWorlds explained again where a page has no need to; the 22 categories listed again; words that are not OnlyWorlds elements (a faction, an item, a realm) used as if they were. `sweep.mjs` names the pages that restate the 22 and flags the words it knows.
+   Pages that come from Skeld's content folder (the API, schema and agent pages his sync writes) are his to change: send him the finding with its evidence, don't edit them here, or his next sync refuses the page (10-11).
 4. **Run `npm run build && npm run verify`,** push, check the deploy.
 5. **Stamp it below** and report the sweep as one line in the OW Infra room: what was stale, what was fixed, what is open.
 
