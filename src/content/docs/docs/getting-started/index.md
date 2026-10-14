@@ -42,7 +42,7 @@ curl -H "API-Key: ow_r_your_key" \
   "https://www.onlyworlds.com/api/v2/character/"
 ```
 
-Lists come in an envelope: `{"data": [...], "has_more": false, "next_cursor": null}`. When `has_more` is true, pass `next_cursor` back as `?cursor=` for the next page. To try this before you have a world, use Hyperion's demo key `0000000000`, which reads without a PIN ([Demo Keys](/docs/getting-started/keys#demo-keys) lists the others).
+Lists come in an envelope: `{"data": [...], "has_more": false, "next_cursor": null}`. When `has_more` is true, pass `next_cursor` back as `?cursor=` for the next page. To try this before you have a world, use Moppetopia's demo key `0000000001` (the home page's sample world), which reads without a PIN ([Demo Keys](/docs/getting-started/keys#demo-keys) lists the others).
 
 Every one of the 22 categories has the same routes at its singular name: `/api/v2/location/`, `/api/v2/event/`, and so on. [Reads and Pagination](/docs/development/api/reads) covers filters, sparse fields and expansion.
 

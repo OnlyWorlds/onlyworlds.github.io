@@ -15,18 +15,22 @@ npm install @onlyworlds/sdk
 
 ## Read a world
 
+This runs as written: `0000000001` is a public demo key that reads the sample world Moppetopia. Save it as `read.mjs` and run `node read.mjs`. The package is ESM and the example uses top-level `await`, so in a `.js` or `.ts` file set `"type": "module"` in your `package.json` first (then `npx tsx read.ts` runs the TypeScript).
+
 ```typescript
 import { OwV2Client } from '@onlyworlds/sdk';
 
-const client = new OwV2Client({ apiKey: 'ow_r_your_key' });
-const page = await client.list('character'); // { data, has_more, next_cursor }
+const client = new OwV2Client({ apiKey: '0000000001' });
 
-for await (const character of client.listAll('character')) {
+const page = await client.list('character'); // one page: { data, has_more, next_cursor }
+console.log(page.data.length, 'on the first page');
+
+for await (const character of client.listAll('character')) { // every page
   console.log(character.name);
 }
 ```
 
-A read-only key (`ow_r_`) needs no PIN. Two demo keys read public sample worlds: `0000000000` (Hyperion) and `0000000001` (Moppetopia). See [Keys and PINs](/docs/getting-started/keys) for the key types.
+For your own world, use its read-only key (`ow_r_`), which needs no PIN. The other demo key, `0000000000`, reads Hyperion. See [Keys and PINs](/docs/getting-started/keys) for the key types.
 
 ## Write
 

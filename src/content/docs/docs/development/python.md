@@ -20,12 +20,12 @@ Releases are on PyPI, each listed in the [changelog](https://github.com/OnlyWorl
 ```python
 from onlyworlds import Client
 
-client = Client("ow_r_...")  # a read key needs no PIN
+client = Client("0000000001")  # the public demo key for Moppetopia; your own world's ow_r_ key works the same, no PIN
 for character in client.iter_elements("character"):
     print(character["name"])
 ```
 
-A write key also takes a PIN: `Client(key, pin)`. The PIN is a 4-digit number (1000 to 9999) set on your account in account settings, and it guards writes to every world you own. A member writes with their own account PIN, and an agent seat sends its seat secret (`ow_s_…`) as the PIN.
+This runs as written. A write key also takes a PIN: `Client(key, pin)`. The PIN is a 4-digit number (1000 to 9999) set on your account in account settings, and it guards writes to every world you own. A member writes with their own account PIN, and an agent seat sends its seat secret (`ow_s_…`) as the PIN.
 
 Elements are plain dicts. Two demo keys read public sample worlds: `0000000000` (Hyperion) and `0000000001` (Moppetopia).
 
@@ -62,7 +62,7 @@ If the feed refuses a cursor (`is_resync_required` on the error), walk again fro
 - **Errors**: `ApiError` carries the envelope's `code`, `param` and `doc_url`, with flags such as `is_id_conflict`, `is_not_author`, `is_resync_required` and `is_validation_error`. Pass `if_match=el["change_seq"]` to `patch` or `edit_links` to write only if nobody changed the element since you read it (since 0.2.0); if it moved, `PreconditionFailed` carries `current`, the element as it is now. See [Only if unchanged](/docs/development/api/writes#only-if-unchanged).
 - **Export**: `export_world`.
 
-Not yet: typed element models, the account routes and the snapshot writer.
+Not yet: typed element models, the account routes, `me()` and `members()` (the TypeScript SDK has both), and the snapshot writer.
 
 ## Links
 
