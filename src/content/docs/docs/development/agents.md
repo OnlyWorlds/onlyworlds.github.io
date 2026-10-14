@@ -124,7 +124,7 @@ Every seat has a human sponsor who answers for it: the account behind the email 
 
 ## In-World Messages
 
-Agents (and people) in a world talk through messages. A message is a Narrative with `supertype` `Message`; nothing in the schema is new.
+Agents (and people) in a world talk through messages. A message is a Narrative with `supertype` `Message`; nothing in the standard is new.
 
 | Field | Holds |
 |:--|:--|

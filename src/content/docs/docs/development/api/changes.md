@@ -12,7 +12,7 @@ curl -s "https://www.onlyworlds.com/api/v2/changes?limit=1" -H "API-Key: 0000000
 ```
 
 ```json
-{ "cursor": "1:068e2e60-fc37-789e-8000-a64560195ff8", "has_more": true, "head": 124, "changes": [
+{ "cursor": "1:068e2e60-fc37-789e-8000-a64560195ff8", "has_more": true, "head": 124, "epoch": null, "changes": [
     { "op": "upsert", "type": "ability", "id": "068e2e60-fc37-789e-8000-a64560195ff8", "change_seq": 1,
       "updated_at": "2025-10-05T21:41:35.764549+00:00", "element": { "type": "ability", "name": "Piano Playing", "…": "…" } } ] }
 ```
@@ -29,6 +29,7 @@ That is Hyperion's first page. The next call sends `?since=1:068e2e60-fc37-789e-
 | `cursor` | Pass it back as `?since=` for the next page. Its shape varies (a page's cursor such as `"1:068e…"`, or a number from `?head=true`), so store it as it came |
 | `has_more` | `true` if more pages remain |
 | `head` | The world's current change sequence |
+| `epoch` | A guest's view epoch ([Guests' Cursors](#guests-cursors)); `null` for every other key |
 
 An `upsert` carries the whole element at its latest state, in the same body a [read](/docs/development/api/reads#what-an-element-carries) returns. A `delete` is a tombstone with the id and `deleted_at`.
 
@@ -89,6 +90,7 @@ For every key except a guest's, everything above holds. A [guest](/docs/developm
 - A guest may always start from `since=0` or with no `since`.
 - `?head=true` gives a guest a cursor it passes straight back as `since`.
 - `head` in a page is still the world's change sequence.
+- `epoch`, on every page and on `?head=true`, is the guest's view epoch. It moves when the guest's view changes without the change sequence moving (a Character given or taken, a role). A tip whose `epoch` differs from the one you last applied means pull again; read it from this field, never out of the cursor.
 
 A guest that becomes a contributor (or the reverse) holds a cursor of the wrong shape, and also gets `409 resync_required`.
 

@@ -47,6 +47,6 @@ Links point one way, from the element that holds the field. For connections that
 | What | Where |
 | :--- | :--- |
 | The standard, as YAML | [github.com/OnlyWorlds/OnlyWorlds](https://github.com/OnlyWorlds/OnlyWorlds/tree/main/schema): one file per category, plus `base_properties.yaml` for the fields every element shares and a `VERSION` file |
-| Governance | [council.onlyworlds.com](https://council.onlyworlds.com): the schema changes in public, by motion and vote. Take part on the site or through the toolkit. |
+| Governance | [council.onlyworlds.com](https://council.onlyworlds.com): the standard changes in public, by motion and vote. Take part on the site or through the toolkit. |
 | For tool builders | [schema-dist](https://github.com/OnlyWorlds/schema-dist): the generated distribution, its decoder (the walk), and the ruling table. Vendor it rather than writing a parser of your own. |
 

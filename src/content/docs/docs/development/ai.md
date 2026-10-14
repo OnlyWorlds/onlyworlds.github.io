@@ -3,7 +3,7 @@ title: AI Agents
 description: The five ways an AI works with an OnlyWorlds world, and where each one is documented.
 ---
 
-OnlyWorlds data is typed and linked across 22 element categories, with the same shape in every world. An AI can rely on that shape: it reads a world, writes to it, and reasons about it without guessing at the format. There are five ways in, chosen by where the AI runs.
+An AI works with an OnlyWorlds world in one of five ways, chosen by where it runs.
 
 New to building with AI? The guided start is [onlyworlds.com/develop](https://www.onlyworlds.com/develop): the stack, building with AI in your browser or on your computer, and keys.
 
@@ -11,7 +11,7 @@ New to building with AI? The guided start is [onlyworlds.com/develop](https://ww
 
 | Where the AI runs | What to use | What it gives the AI |
 |:--|:--|:--|
-| In a chat | [LLM guide](/docs/development/llm-guide) | One text file that teaches the standard, the 22 categories, the API and the SDK. Paste it into any chat assistant. |
+| In a chat | [LLM guide](/docs/development/llm-guide) | One text file that teaches the standard, the API and the SDK. Paste it into any chat assistant. |
 | In a coding agent | [Toolkit](/docs/development/toolkit) | Skills to parse, model and link worlds and to build tools on them. A Claude Code plugin; other agents can read its skill files. |
 | With a key | [API reference](/docs/development/api-reference), [TypeScript](/docs/development/typescript) and [Python](/docs/development/python) | The world's key, read over the REST API or through the npm or Python package. Write access takes the PIN or a seat. |
 | Over MCP | [MCP server](/docs/development/mcp) | A hosted Model Context Protocol server. Schema tools need no key, a key adds reads, a write key and PIN add writes. |
@@ -23,7 +23,7 @@ The five combine. An agent in Claude Code can carry the toolkit, connect over MC
 
 The [LLM guide](/docs/development/llm-guide) is a single text file, [ow_llm_guide.txt](https://onlyworlds.github.io/assets/ow_llm_guide.txt). Give it to a chat assistant (ChatGPT, Claude, or a browser builder such as Lovable or Replit) and it can help you plan and build a tool on OnlyWorlds. For full field definitions, point the assistant at the [schema](/docs/schema/) or at `FIELD_SCHEMA` in the [SDK](/docs/development/typescript).
 
-**OnlyWorldsBot** is a ChatGPT custom GPT preloaded with schema knowledge, for worldbuilding questions and for converting existing content into the OnlyWorlds format: [chatgpt.com/g/g-dydgDFnOz-onlyworldsbot](https://chatgpt.com/g/g-dydgDFnOz-onlyworldsbot).
+**OnlyWorldsBot** is a ChatGPT custom GPT preloaded with knowledge of the standard, for worldbuilding questions and for converting existing content into the OnlyWorlds format: [chatgpt.com/g/g-dydgDFnOz-onlyworldsbot](https://chatgpt.com/g/g-dydgDFnOz-onlyworldsbot).
 
 **Pages as Markdown.** An agent can read both sites as Markdown:
 - **This site:** every page has a Markdown copy at the same path with `.md`, and [llms.txt](/llms.txt) lists them.
@@ -62,7 +62,7 @@ An [agent seat](/docs/development/agents) makes an AI agent a member of a world.
 
 ## Ask Your World, Without a Key of Your Own
 
-For an app that wants to answer a question about a world without the user bringing their own model key, OnlyWorlds runs a small proxy: `POST /api/v2/account/ask`, with an account credential (`Authorization: Bearer ow_a_…`, a signed-in session, or an app client's `X-Session-Token`). The app does the search itself and sends the question with the elements it found, as text (1 to 8, at most 2,000 characters each); the proxy answers from those elements only, through a fast model, and says "The world doesn't say." when they do not hold the answer. The account must own the world or be a member of it. In TypeScript, the SDK's [`lookupWorld` and `renderElement`](/docs/development/typescript#find-things-in-a-world) do the search and write those texts.
+For an app that wants to answer a question about a world without the user bringing their own model key, OnlyWorlds runs a small proxy: `POST /api/v2/account/ask`, with an account credential (`Authorization: Bearer ow_a_…`, a signed-in session, or an app client's `X-Session-Token`). The app does the search itself and sends the question (1 to 500 characters) with the elements it found, as text (1 to 8, at most 2,000 characters each and 12,000 in all); the proxy answers from those elements only, through a fast model, and says "The world doesn't say." when they do not hold the answer. The account must own the world or be a member of it. In TypeScript, the SDK's [`lookupWorld` and `renderElement`](/docs/development/typescript#find-things-in-a-world) do the search and write those texts.
 
 ```bash
 curl -s -X POST "https://www.onlyworlds.com/api/v2/account/ask" \

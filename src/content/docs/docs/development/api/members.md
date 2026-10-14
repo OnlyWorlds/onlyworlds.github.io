@@ -77,6 +77,12 @@ Everything else behaves exactly like a missing element, on every route, filter a
 - Link ids the guest cannot see are left out of every body it reads; a hidden single link reads `null`.
 - A guest's writes keep the links it cannot see.
 
+A guest writes elements of any category. Its Narratives are notes, narrated by its own Character:
+
+- The `narrator` is the guest's Character. Left out of a create or a `PUT`, or sent as `null`, it is filled in. Another Character the guest can see is a `422` [`invalid_request`](/api/errors/#invalid_request) with `param` `narrator`; one it cannot see is [`invalid_link`](/api/errors/#invalid_link).
+- `collectives` takes only the circles its Character is in. Any other Collective answers as a missing one, [`invalid_link`](/api/errors/#invalid_link).
+- A guest with no Character of its own in the world cannot create or replace a note: `403` [`guest_not_supported`](/api/errors/#guest_not_supported). Nothing in the request can fix that; ask the world's owner.
+
 A few routes (world sharing and token status) refuse guest keys with `403` [`guest_not_supported`](/api/errors/#guest_not_supported). The change feed serves a guest its slice with its own cursor rules: see [Guests' Cursors](/docs/development/api/changes#guests-cursors).
 
 ## Invite Links

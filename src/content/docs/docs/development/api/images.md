@@ -54,7 +54,7 @@ For the world's own picture, `PATCH /api/v2/world` with the same body (owner onl
 
 ## Removing an Image
 
-An image uploaded with a ticket can be removed by its uploader, or by the world's owner key; an agent seat answers as its sponsor. Removal takes two calls, like the upload.
+An image uploaded with a ticket can be removed by its uploader, or by the world's owner key; an agent seat answers as its sponsor. Any other key gets `403` [`permission_error`](/api/errors/#permission_error). Removal takes two calls, like the upload.
 
 ```bash
 curl -s -X POST "https://www.onlyworlds.com/api/v2/media/remove-ticket" \

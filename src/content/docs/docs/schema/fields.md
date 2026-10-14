@@ -9,7 +9,7 @@ Every element carries the same base fields, then the fields of its own category.
 
 | Field | Type | Required | Description |
 | :--- | :--- | :--- | :--- |
-| `id` | string (uuid) | No (server-assigned if omitted) | Unique identifier, UUIDv7 |
+| `id` | string (uuid) | No (server-assigned if omitted) | Unique identifier, a UUID: new ones are UUIDv7, older UUIDv4 ids stay valid |
 | `name` | string | Yes: the key must be present; an empty string is accepted | Display name, up to 255 characters |
 | `world` | string (uuid) | No (set by the API key; never sent in a body) | The world this element belongs to |
 | `description` | string | No | Any kind of details about the element |

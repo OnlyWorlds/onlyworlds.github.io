@@ -154,7 +154,7 @@ A member without an account PIN tried to accept an invite or mint a write key. M
 The API key or PIN is missing, unknown or wrong.
 
 - **Common cause:** no `API-Key` header, a mistyped key, or a missing or wrong `API-Pin` on a write. Only a legacy 10-digit key also needs the PIN to read a private world; prefixed keys (`ow_w_`, `ow_r_`) read without it. A deleted world's keys are deleted with it, so they also answer `invalid_credentials`.
-- **How to fix:** check the `API-Key` and `API-Pin` headers (exact names) and that the key belongs to the world you mean. The `message` tells the two apart: `No valid API-Key.` for the key, `Incorrect PIN.` for the PIN. A key that reads with `200` but writes with `401` has a wrong PIN, since reads with a prefixed key never check it. Keys are minted in the [account portal](https://www.onlyworlds.com/account/). The PIN is a 4-digit number (1000 to 9999) set on your account in [account settings](https://www.onlyworlds.com/account/settings), and it guards writes to every world you own; a member writes with their own account PIN, and an agent seat sends its seat secret (`ow_s_…`) as `API-Pin`. See [Keys and PINs](/docs/getting-started/keys#checking-the-pin).
+- **How to fix:** check the `API-Key` and `API-Pin` headers (exact names) and that the key belongs to the world you mean. The `message` tells the two apart: `No valid API-Key.` for the key, `Incorrect PIN.` for the PIN. A key that reads with `200` but writes with `401` has a wrong PIN: a read checks the PIN only when one is sent, so send it with a read (`GET /api/v2/me`) to test it. A member's key is the exception, its PIN checked only on a write. Keys are minted in the [account portal](https://www.onlyworlds.com/account/). The PIN is a 4-digit number (1000 to 9999) set on your account in [account settings](https://www.onlyworlds.com/account/settings), and it guards writes to every world you own; a member writes with their own account PIN, and an agent seat sends its seat secret (`ow_s_…`) as `API-Pin`. See [Keys and PINs](/docs/getting-started/keys#checking-the-pin).
 
 ### key_revoked
 
@@ -194,9 +194,9 @@ A member key tried to change the world's own fields (`PATCH /api/v2/world`). The
 
 **Type** `permission_error` · **Status** `403`
 
-A guest key called a route guests cannot use (world sharing, token status).
+A guest key called a route guests cannot use (world sharing, token status), or wrote a note (a Narrative) with no Character of its own in the world.
 
-- **How to fix:** use a key with a role other than guest, or skip the route.
+- **How to fix:** use a key with a role other than guest, or skip the route. For a note, nothing in the request can fix it: ask the world's owner. See [Guests](/docs/development/api/members#guests).
 
 ### storage_full
 

@@ -3,7 +3,7 @@ title: Conventions
 description: How to model a world with the categories and fields the schema already has.
 ---
 
-The schema covers most worlds with its 22 categories and their fields. Before reaching for a new field or category, check whether one of these conventions carries the case. When none does, the [Council](https://council.onlyworlds.com) is where the schema changes.
+The standard covers most worlds with the categories and fields it has. Before reaching for a new field or category, check whether one of these conventions carries the case. When none does, the [Council](https://council.onlyworlds.com) is where the standard changes.
 
 ## Use Only What You Need
 

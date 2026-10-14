@@ -13,6 +13,9 @@ A world is the top-level container for elements, representing a complete setting
 | `name` | string | Yes | Display name; it cannot be empty |
 | `description` | string | No | Text description |
 | `image_url` | string (url) | No | Cover image or representative visual |
+| `public_read` | boolean | No (default `false`) | Whether anyone can read the world without a credential |
+| `created_at` | string (date-time) | No (read-only) | When the world was created, as the tool holding it recorded it |
+| `updated_at` | string (date-time) | No (read-only) | When the world's own settings (name, description, image, time and units) last changed |
 
 ## Timeline
 
@@ -56,24 +59,11 @@ The value is free text, written as the world means it. Recommended where one fit
 
 ## Platform Fields
 
-onlyworlds.com adds fields of its own to the world it serves. They are part of the platform, not the standard.
+onlyworlds.com adds one field of its own to the world it serves, part of the platform, not the standard.
 
 | Field | Type | Description |
 | :--- | :--- | :--- |
-| `public_read` | boolean | Whether the world is open to read |
 | `owner_character` | string (uuid) or null | The owner's own Character in this world ("this Character is me"), or null |
-| `created_at` | string (date-time) | When the world was created |
-| `updated_at` | string (date-time) | When the world last changed |
 
-The world named by a key is `GET /api/v2/world/`. Only the world's owner can change it, with `PATCH`; the writable fields are `name`, `description`, `image_url`, the timeline fields, the three unit settings and `owner_character`.
-
-## Legacy and Account Fields
-
-The standard also defines these. The v2 API does not return them.
-
-| Field | Type | Description |
-| :--- | :--- | :--- |
-| `api_key` | string | Legacy 10-character key, not issued for new worlds. Use world keys (`ow_w_` / `ow_r_`) minted in the [account portal](https://www.onlyworlds.com/account/). |
-| `version` | string | The OnlyWorlds format version the world conforms to |
-| `user` | string (uuid) | Owner's account identifier (not exposed on the API) |
+The world named by a key is `GET /api/v2/world/`. Its owner changes it with `PATCH`; the writable fields are `name`, `description`, `image_url`, the timeline fields, the three unit settings and `owner_character`. A co-builder may send `time_range_current` alone, to move the world's now. `public_read` cannot be changed through the API.
 

@@ -49,7 +49,7 @@ A single element answers as the bare element object. Every error answers in one 
 | POST | `/api/v2/bulk` | Create and upsert many elements of mixed categories | [Writes](/docs/development/api/writes#bulk) |
 | GET | `/api/v2/changes` | The world's change feed, and full export | [Changes](/docs/development/api/changes) |
 | GET | `/api/v2/world` | The world named by the key | [Reads](/docs/development/api/reads#the-world) |
-| PATCH | `/api/v2/world` | Update the world's own fields (owner only) | [Writes](/docs/development/api/writes#the-world) |
+| PATCH | `/api/v2/world` | Update the world's own fields (owner only; a co-builder may move the world's now) | [Writes](/docs/development/api/writes#the-world) |
 | GET | `/api/v2/members` | The world's roster | [Members](/docs/development/api/members) |
 | GET | `/api/v2/me` | Who the calling key is | [Members](/docs/development/api/members) |
 | POST | `/api/v2/media/ticket` | A ticket for one image upload | [Images](/docs/development/api/images) |
@@ -78,7 +78,7 @@ There are no webhooks. To follow a world's changes, poll [`/changes`](/docs/deve
 
 - `/api/v2/` is the current API. The [Classic API](/docs/development/api/classic) at `/api/worldapi/` keeps answering for the tools built on it; it is frozen, not developed.
 - New fields and routes arrive without notice and never change what existing fields mean. A field, route or behaviour is removed only after it has been announced on the [feedback page](https://www.onlyworlds.com/feedback)'s changelog and in the [API document](https://www.onlyworlds.com/api/v2/openapi.json), at least six months ahead.
-- Every reply's `X-OW-Schema-Version` header names the version of the standard that shapes it (`00.31.00` today).
+- Every reply's `X-OW-Schema-Version` header names the version of the standard that shapes it.
 - Error codes and field names are a contract: a client may branch on them. Error messages are not.
 - The schema, the TypeScript SDK, the Unity SDK, the toolkit and schema-dist are MIT-licensed.
 

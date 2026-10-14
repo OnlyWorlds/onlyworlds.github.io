@@ -53,7 +53,7 @@ Credentials travel as headers on every request, exactly as on the REST API.
 | `API-Pin` | The PIN, required for writes. |
 
 - Keys are minted on your world's page in the [account portal](https://www.onlyworlds.com/account/). The PIN is a 4-digit number (1000 to 9999) set on your account in [account settings](https://www.onlyworlds.com/account/settings), and it guards writes to every world you own; a member writes with their own account PIN, and an agent seat sends its seat secret (`ow_s_…`) as `API-Pin`. See [Keys and PINs](/docs/getting-started/keys).
-- A read-only `ow_r_` key needs no PIN. A prefixed write key (`ow_w_`) reads without the PIN too; only a legacy 10-digit key reading a private world must send it. A PIN that is sent is checked even where none is needed: a wrong one is refused on a read, so a connection test learns of it at once.
+- A read-only `ow_r_` key needs no PIN. A prefixed write key (`ow_w_`) reads without the PIN too; only a legacy 10-digit key reading a private world must send it. A PIN that is sent is checked even where none is needed: a wrong one is refused on a read, so a connection test learns of it at once (a demo key or a member's key aside).
 - The client saves both headers in its configuration as written. For read-only use, connect with an `ow_r_` key and no PIN.
 
 ## Tools
@@ -74,7 +74,7 @@ The tools fall into three groups by what they need.
 |:--|:--|
 | `list_elements` | List elements of one category in the key's world, newest first. Filters by `name_contains` and `supertype`; pages with `limit` (default 100, up to 1000) and `offset`. |
 | `get_element` | Fetch one element by category and UUID, in the same shape as `GET /api/v2/{type}/{id}`. |
-| `search_elements` | Search elements by name across all 22 categories in the world, up to 50 matches per category. |
+| `search_elements` | Search elements by name across every category in the world, up to 50 matches per category. |
 | `get_changes` | Return the world's delta feed (upserts and deletes since a cursor), paged: 25 entries per call by default, `limit` up to 1000. A guest key gets only what it can see and no deletes; when its view changes, the tool says to pull again from the start and replace the local copy. Mirrors [`GET /api/v2/changes`](/docs/development/api/changes). |
 
 ### Write: A Write Key and PIN
@@ -93,7 +93,7 @@ There is no delete tool, by design. The MCP server creates and edits; deletion s
 
 ## Resources
 
-Besides tools, the server lists one resource, `onlyworlds://schema` (the 22 element types, each with a one-line shape: the `list_element_types` tool's output), and serves `onlyworlds://schema/{type}` for one type's fields (the `get_element_schema` tool's output). Both need no key.
+Besides tools, the server lists one resource, `onlyworlds://schema` (every element type, each with a one-line shape: the `list_element_types` tool's output), and serves `onlyworlds://schema/{type}` for one type's fields (the `get_element_schema` tool's output). Both need no key.
 
 ## How It Differs From REST
 
