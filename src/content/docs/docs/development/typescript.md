@@ -115,6 +115,13 @@ const membership = await account.acceptJoin(code); // account: a client with an 
 
 A bad code is one 404 (`err.isNotFound`). Accepting can answer `err.isAlreadyMember` or `err.isPinRequired` (the account needs a PIN first). A refusal never uses up the code.
 
+Once in, a world key can ask who it is and who else is there (since 4.22.0; see [Who Am I](/docs/development/api/members#who-am-i)):
+
+```typescript
+const me = await client.me();          // { world, scope, kind, role, membership, character }
+const roster = await client.members(); // the roster's rows: { id, kind, role, character, status }
+```
+
 ## Find things in a world
 
 With a world's elements in memory, `lookupWorld` finds the ones a plain question is about. It uses no model and no network, and runs in a few milliseconds (since 4.11.0).
@@ -165,7 +172,7 @@ The reader refuses a file before returning anything: a path that could land outs
 
 ## World calendars
 
-A world's time is an integer line: the world's now (`time_range_current`) and an Event's `start_date` are points on it. A calendar names those points with months, days and eras. Atlas keeps a calendar on an element in its `atlas_calendar` field, and the SDK reads it with Atlas's own calendar code (since 4.20.0). Atlas owns that field: read it, never write it.
+A world's time is an integer line: the world's now (`time_range_current`) and an Event's `start_date` are points on it. A calendar names those points with months, days and eras. Atlas keeps a calendar on an element in its `atlas_calendar` field, and the SDK reads it with its calendar code, which Atlas uses too (since 4.20.0). Atlas owns that field: read it, never write it.
 
 ```typescript
 import { worldCalendars, resolveCalendarLens, formatStep, parseDate } from '@onlyworlds/sdk';
@@ -214,7 +221,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.21.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.22.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -236,6 +243,8 @@ Generated from the types of `@onlyworlds/sdk` 4.21.0, the version these docs pin
 | `health()` | `GET /health` | unauthenticated liveness pulse. | `Promise<unknown>` |
 | `getWorld()` | `GET /world` | world meta (name, calendar/time fields, public_read). | `Promise<OwWorldMeta>` |
 | `patchWorld(partial)` | `PATCH /world` | partial world-meta update. | `Promise<OwWorldMeta>` |
+| `me()` | `GET /me` | who this world key is: the world, read or write scope, the kind (owner, person, agent), the role, the membership id (what `created_by` holds for what this key creates; null for the owner) and the member's Character. | `Promise<OwMe>` |
+| `members()` | `GET /members` | the world's roster: each member's id (null for the owner), kind, role, Character and status (`removed` rows stay, so their elements keep `created_by`). | `Promise<OwMember[]>` |
 | `list(type, params?)` | `GET /{type}/` | one cursor page. | `Promise<OwPage>` |
 | `listAll(type, params?)` |  | Cursor-walk every page of a type. | `AsyncGenerator<OwElement>` |
 | `get(type, id, opts?)` | `GET /{type}/{id}/` | optional one-level stub expansion / sparse fields. | `Promise<OwElement>` |

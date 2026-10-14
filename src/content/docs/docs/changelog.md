@@ -3,7 +3,7 @@ title: Changelog
 description: Notable changes to the OnlyWorlds docs, newest first.
 ---
 
-Notable changes to these docs, newest first. Changes to the packages are in each package's own changelog: [TypeScript SDK](https://github.com/OnlyWorlds/sdk/blob/main/CHANGELOG.md), [Unity SDK](https://github.com/OnlyWorlds/unity-sdk/blob/main/Packages/com.onlyworlds.sdk/CHANGELOG.md).
+Notable changes to these docs, newest first. Changes to the packages are in each package's own changelog: [TypeScript SDK](https://github.com/OnlyWorlds/sdk/blob/main/CHANGELOG.md), [Unity SDK](https://github.com/OnlyWorlds/unity-sdk/blob/main/Packages/com.onlyworlds.sdk/CHANGELOG.md), [Python package](https://github.com/OnlyWorlds/python-sdk/blob/main/CHANGELOG.md).
 
 ## October 2026: the docs rebuilt
 

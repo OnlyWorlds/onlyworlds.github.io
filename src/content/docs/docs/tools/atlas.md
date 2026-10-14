@@ -13,13 +13,14 @@ Atlas reads and writes your world as plain JSON files, in a folder on your own m
 
 ## Features
 
-- **Build and Browse.** All 22 element categories in a schema-driven editor. Link fields are pickers, and every element lists what links to it.
+- **Build and Browse.** Every element category in an editor driven by the standard. Link fields are pickers, and every element lists what links to it.
 - **Write.** Books, chapters and scenes (you set the tier names). Names in your prose become links with a click, and the find bar can link every match at once. The words stay yours.
 - **Web.** Any element's connections as a small graph, including everything that links to it.
 - **Map.** Your own map images, nested maps, pins for any element, and zones drawn as areas or lines. Zones can be coloured by kind (rivers blue, roads dashed), and the style is saved with the world.
 - **Chart.** Place elements on a time axis by their dates, on your world's own calendar. Charts can be saved and added to published pages.
 - **Knowledge.** Track who knows what, per character or circle, and see the world as one of them knows it.
 - **Calendars.** Custom calendars as a display layer over world time.
+- **On a phone.** Built for a bigger screen, Atlas holds together on a phone: a top bar with a More menu, finger-sized buttons, each field's name above its value.
 - **Local-first.** Worlds are folders of plain JSON files you own, in a folder on your drive or in your browser, and Atlas works offline.
 - **One file.** Download the whole world as a single .zip (elements, pages, notes, charts and images, without the OnlyWorlds link and its key). Atlas opens it on any browser as a world of its own.
 - **Sync.** Link a world to onlyworlds.com to push and pull. The folder stays the source of truth.

@@ -5,7 +5,7 @@ description: "The onlyworlds Python package: the world folder format and a clien
 
 `onlyworlds` is the Python package for OnlyWorlds. It reads and writes the world folder format, pushes a folder's changes to a world, and has a client for the REST API v2. It needs Python 3.12 or later and has no runtime dependencies.
 
-The 22 element types and the kind of every field are generated from [schema-dist](https://github.com/OnlyWorlds/schema-dist), never listed by hand. The package's version is its own and does not track the schema's.
+The element types and the kind of every field are generated from [schema-dist](https://github.com/OnlyWorlds/schema-dist), never listed by hand. The package's version is its own and does not track the schema's.
 
 ## Install
 
@@ -13,7 +13,7 @@ The 22 element types and the kind of every field are generated from [schema-dist
 pip install onlyworlds
 ```
 
-0.1.0 is the first release. Until 1.0, the interface can still change between minor versions.
+Releases are on PyPI, each listed in the [changelog](https://github.com/OnlyWorlds/python-sdk/blob/main/CHANGELOG.md). Until 1.0, the interface can still change between minor versions.
 
 ## Read a world
 

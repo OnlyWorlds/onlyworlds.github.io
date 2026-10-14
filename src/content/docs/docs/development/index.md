@@ -7,7 +7,7 @@ OnlyWorlds is open source and license free. A world on [onlyworlds.com](https://
 
 ## API
 
-The REST API at `https://www.onlyworlds.com/api/v2/` serves all 22 element categories at the same routes, with cursor pagination, one-shape links, bulk writes and a change feed.
+The REST API at `https://www.onlyworlds.com/api/v2/` serves every element category at the same routes, with cursor pagination, one-shape links, bulk writes and a change feed.
 
 | Page | Covers |
 | :--- | :--- |

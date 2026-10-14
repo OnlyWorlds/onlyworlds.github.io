@@ -52,12 +52,12 @@ Some errors carry one extra top-level key beside `error`, named in their row: `p
 | [`key_revoked`](#key_revoked) | `authentication_error` | `401` | The API key was recognised but has been revoked. |
 | [`permission_error`](#permission_error) | `permission_error` | `403` | The credential is valid but lacks the scope for this route (e.g. a read key on a write route). |
 | [`not_author`](#not_author) | `permission_error` | `403` | A contributor or guest key changed, replaced, relinked or deleted an element someone else created. |
-| [`owner_only`](#owner_only) | `permission_error` | `403` | A member key, even a co-builder's, tried to change the world's own settings. |
-| [`guest_not_supported`](#guest_not_supported) | `permission_error` | `403` | A guest key called a route guests cannot use yet. |
+| [`owner_only`](#owner_only) | `permission_error` | `403` | A member key tried to change the world's own settings (a co-builder may change time_range_current alone). |
+| [`guest_not_supported`](#guest_not_supported) | `permission_error` | `403` | A guest key called a route guests cannot use yet, or wrote a note (Narrative) without a Character of its own in the world. |
 | [`storage_full`](#storage_full) | `permission_error` | `403` | The account the upload counts against has used all of its image storage. |
 | [`not_found`](#not_found) | `not_found` | `404` | The element or route does not exist in this world. |
 | [`rate_limited`](#rate_limited) | `rate_limited` | `429` | Too many failed PIN attempts; retry after the Retry-After header's seconds. |
-| [`quota_exceeded`](#quota_exceeded) | `rate_limited` | `429` | A daily allowance is used up (the world's image upload tickets, or the account's questions to the AI proxy); retry after Retry-After. |
+| [`quota_exceeded`](#quota_exceeded) | `rate_limited` | `429` | A daily allowance is used up (the world's image upload tickets, or the account's AI allowance in tokens); retry after Retry-After. |
 | [`idempotency_error`](#idempotency_error) | `idempotency_error` | `409` | An Idempotency-Key was reused with a different request body. |
 | [`api_error`](#api_error) | `api_error` | `500` | An unexpected server-side error; the envelope is kept even here. |
 | [`ask_failed`](#ask_failed) | `api_error` | `502` | The AI proxy could not get an answer from the model; try again in a moment. Nothing was counted. |

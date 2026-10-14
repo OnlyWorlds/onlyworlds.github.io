@@ -51,7 +51,7 @@ The skill files themselves sit in the repository's `skills/` folder, one folder 
 | | `resolve` | Designs how a finished session (notes, recap, transcript) gets written back into the world, so canon holds. |
 | Build on it | `api` | Reads, creates, updates and deletes elements through natural language, handling auth, endpoints and field mapping. |
 | | `dev` | SDK integration, project scaffolding, credentials and deployment. |
-| | `council` | Browse and draft schema governance motions when the 22 categories don't fit. |
+| | `council` | Browse and draft motions to change the standard, when its categories don't fit. |
 | | `project-setup` | Connects a project to an OnlyWorlds account world: credentials and a local cache. Runs when another skill needs it. |
 
 The orchestration agent, `ow-agent`, chains several skills for multi-step jobs, such as parsing a whole corpus and then linking and surveying it. The knowledge base covers the schema reference, the category descriptions, and decision trees for ambiguous modeling choices.

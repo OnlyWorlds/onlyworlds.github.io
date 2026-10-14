@@ -72,12 +72,12 @@
   "owner_only": {
     "type": "permission_error",
     "status": 403,
-    "summary": "A member key, even a co-builder's, tried to change the world's own settings."
+    "summary": "A member key tried to change the world's own settings (a co-builder may change time_range_current alone)."
   },
   "guest_not_supported": {
     "type": "permission_error",
     "status": 403,
-    "summary": "A guest key called a route guests cannot use yet."
+    "summary": "A guest key called a route guests cannot use yet, or wrote a note (Narrative) without a Character of its own in the world."
   },
   "storage_full": {
     "type": "permission_error",
@@ -97,7 +97,7 @@
   "quota_exceeded": {
     "type": "rate_limited",
     "status": 429,
-    "summary": "A daily allowance is used up (the world's image upload tickets, or the account's questions to the AI proxy); retry after Retry-After."
+    "summary": "A daily allowance is used up (the world's image upload tickets, or the account's AI allowance in tokens); retry after Retry-After."
   },
   "idempotency_error": {
     "type": "idempotency_error",

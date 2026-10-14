@@ -133,7 +133,9 @@ if (!flag('--no-links')) {
   for (const f of pages) {
     for (const m of readFileSync(f, 'utf8').matchAll(/https?:\/\/[^\s)<>"'`\]]+/g)) {
       const u = m[0].replace(/[.,;:]+$/, '');
-      // API addresses need a key or a method (401, 405 by design): the routes check covers them; so does a wildcard or a placeholder
+      // API addresses need a key or a method (401, 405 by design): the routes check covers them; so does a wildcard or a placeholder.
+      // The image edge's bare root is a prefix in the text (a key follows it), and the edge serves no root page: 404 by design.
+      if (u === 'https://media.onlyworlds.com/') continue;
       if (!/^https?:\/\/(localhost|127\.|example\.|onlyworlds\.github\.io|upload\.onlyworlds\.com)/.test(u)
         && !/^https:\/\/www\.onlyworlds\.com\/(api\/|mcp)/.test(u) && !/[*{[]/.test(u) && !urls.has(u)) urls.set(u, rel(f));
     }

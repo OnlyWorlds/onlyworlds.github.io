@@ -3,7 +3,7 @@ title: SDKs and Clients
 description: Every way to call OnlyWorlds from code, by language and by where it runs.
 ---
 
-Every client below speaks the same REST API v2 and the same 22 element types. Pick by language, or by where your code runs.
+Every client below speaks the same REST API v2. Pick by language, or by where your code runs.
 
 | Client | For | Install | State |
 |---|---|---|---|

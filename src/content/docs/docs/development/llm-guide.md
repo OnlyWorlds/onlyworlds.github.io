@@ -3,7 +3,7 @@ title: LLM Guide
 description: A single text file that teaches a chat assistant OnlyWorlds, so it can help you build a tool on the standard.
 ---
 
-The LLM guide is one plain-text file, written for AI assistants, that teaches the OnlyWorlds standard, the 22 element categories, the API and the TypeScript SDK. Paste it into a chat and the assistant can help you plan and build your own tool on OnlyWorlds.
+The LLM guide is one plain-text file, written for AI assistants, that teaches the OnlyWorlds standard, the API and the TypeScript SDK. Paste it into a chat and the assistant can help you plan and build your own tool on OnlyWorlds.
 
 **The file**: [https://onlyworlds.github.io/assets/ow_llm_guide.txt](https://onlyworlds.github.io/assets/ow_llm_guide.txt)
 

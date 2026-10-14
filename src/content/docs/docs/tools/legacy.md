@@ -10,7 +10,7 @@ These tools are no longer developed. Those marked online still answer at their l
 An all-round element editor with full field support and both online and offline workflows.
 
 - **Status:** online, no longer developed. [base-tool.onlyworlds.com](https://base-tool.onlyworlds.com)
-- Full CRUD on the 22 element categories, with inline editing and relationship management.
+- Full CRUD on every element category, with inline editing and relationship management.
 - Online (API) or offline (local JSON) modes.
 - AI chat through OpenAI, with free daily tokens or a personal key.
 - An import pipeline that validates and resolves AI-parsed world data.

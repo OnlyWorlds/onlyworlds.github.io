@@ -12,7 +12,7 @@ Easy Mobile is a quick mobile web editor for OnlyWorlds elements.
 
 ## Features
 
-- **Full CRUD.** All 22 element categories, with inline editing.
+- **Full CRUD.** Every element category, with inline editing.
 - **Online and Offline.** Work against the API, or offline in local IndexedDB storage and sync later.
 - **Mobile-First.** Touch-friendly, compact layout.
 - **Search and Browse.** Global search, infinite scroll and recent elements.

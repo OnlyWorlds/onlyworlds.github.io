@@ -18,10 +18,10 @@ The docs state facts that other people's work changes: the API, the MCP server, 
 4. **Run `npm run build && npm run verify`,** push, check the deploy.
 5. **Stamp it below** and report the sweep as one line in the OW Infra room: what was stale, what was fixed, what is open.
 
-**Last swept**: 2026-10-09 (the first sweep: the SDK pin, keel #83 and #119, the unrouted-path 404, the API index and MCP resources, Atlas 1.17 to 1.20, the world page; two intro sentences that named non-OnlyWorlds elements). Before it: 2026-10-08, the docs overhaul, OW Infra #81.
+**Last swept**: 2026-10-14 (seven sources moved: the error table refreshed; the edge's bare root named as a prefix, not a dead link; this file's PyPI term trued; the language pass, "schema" for the standard and the repeated 22, on Kael's pages; Python, Atlas on a phone, the calendar and me()/members() on theirs; eleven findings on Skeld's pages sent to him, h37). Before it: 2026-10-09 (the first sweep: the SDK pin, keel #83 and #119, the unrouted-path 404, the API index and MCP resources, Atlas 1.17 to 1.20, the world page; two intro sentences that named non-OnlyWorlds elements). Before it: 2026-10-08, the docs overhaul, OW Infra #81.
 
 ## The terms (one place)
 
 - **"the standard"** names the thing, for people. **"schema"** only for the files (`schema/*.yaml`, schema-dist) and the reference pages about them.
 - Elements are the 22 categories: Character, Creature, Species, Family, Collective, Institution, Location, Object, Construct, Ability, Trait, Title, Language, Law, Event, Narrative, Phenomenon, Relation, Map, Pin, Marker, Zone. A game's own words go on the left of a mapping table, never in prose as if they were ours.
-- The Python package installs from GitHub; there is no `pip install onlyworlds`. Saying so is a sweep check.
+- The Python package is on PyPI since 2026-10-11: `pip install onlyworlds`. The old install line from GitHub (`git+https://…/python-sdk`) is a sweep check.

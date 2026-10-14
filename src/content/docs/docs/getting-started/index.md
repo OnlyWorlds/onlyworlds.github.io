@@ -5,7 +5,7 @@ description: What OnlyWorlds is, and how to make a first read and write against 
 
 This page is for developers and AI agents that read and write worlds through the API. To build a world without code, start at [onlyworlds.com/start](https://www.onlyworlds.com/start) or open [Atlas](https://atlas.onlyworlds.com).
 
-OnlyWorlds is an open standard for world data. It structures a world into 22 element categories (Characters, Locations, Events and more) with fields and typed links between them, so any tool or AI agent that speaks the schema can read and write the same worlds.
+OnlyWorlds is an open standard for world data. It structures a world into 22 element categories (Characters, Locations, Events and more) with fields and typed links between them, so any tool or AI agent that speaks the standard can read and write the same worlds.
 
 It has four layers:
 
