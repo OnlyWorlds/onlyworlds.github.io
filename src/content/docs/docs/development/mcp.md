@@ -8,7 +8,8 @@ OnlyWorlds runs a hosted [Model Context Protocol](https://modelcontextprotocol.i
 **Server URL**: `https://www.onlyworlds.com/mcp`
 
 - **Transport**: streamable HTTP. Point an MCP client at the URL; there is no package to install.
-- Opening the URL in a browser shows a plain info page. MCP clients POST JSON-RPC to the same URL.
+- MCP clients POST JSON-RPC to that exact URL, with no trailing slash. The server is stateless: each POST stands alone, with no session to open first.
+- A browser opening the URL gets a short page with the connect commands. Any other GET, such as a bare `curl`, answers `405 Method Not Allowed`: the server is up, it only speaks POST.
 - The old npm client (`@onlyworlds/mcp-client`) and the `/mcp/messages/` endpoint are retired. Use the hosted server above.
 
 The server runs on the same schema registry and service layer as the [World API](/docs/development/api-reference): an element read or written through MCP has the same body, validation and permissions as through `/api/v2/`. The tools are shaped for assistants, so paging, filters and errors differ: see [How It Differs From REST](#how-it-differs-from-rest).
@@ -58,34 +59,34 @@ Credentials travel as headers on every request, exactly as on the REST API.
 
 ## Tools
 
-The tools fall into three groups by what they need.
+The tools fall into three groups by what they need. Arguments in **bold** are required; the rest are optional, with their default in brackets. Every `type` is a category slug from `list_element_types`, such as `character`, and every `id` is a UUID.
 
 ### Schema: No Key
 
-| Tool | What it does |
-|:--|:--|
-| `list_element_types` | List all 22 element categories with a one-line shape summary of each. |
-| `get_element_schema` | Return the fields of one category, grouped by kind (text, integer, single link, multi link, generic), with each link field's target category. |
-| `search_schema` | Search every category's fields for a substring, such as "which categories have a `location` field?". |
+| Tool | Arguments | Returns |
+|:--|:--|:--|
+| `list_element_types` | none | A map of the 22 category slugs to a one-line shape summary of each. |
+| `get_element_schema` | **`type`** | The category's writable fields grouped by kind (`text`, `integer`, `single_link`, `multi_link`, `generic`), with `link_targets` (each link field's target category) and `output_order`. |
+| `search_schema` | **`query`**: a substring, case-insensitive | A map of category slug to its field names containing `query`, such as "which categories have a `location` field?". A category whose own slug matches is listed with an empty field list. |
 
 ### Read: A Key
 
-| Tool | What it does |
-|:--|:--|
-| `list_elements` | List elements of one category in the key's world, newest first. Filters by `name_contains` and `supertype`; pages with `limit` (default 100, up to 1000) and `offset`. |
-| `get_element` | Fetch one element by category and UUID, in the same shape as `GET /api/v2/{type}/{id}`. |
-| `search_elements` | Search elements by name across every category in the world, up to 50 matches per category. |
-| `get_changes` | Return the world's delta feed (upserts and deletes since a cursor), paged: 25 entries per call by default, `limit` up to 1000. A guest key gets only what it can see and no deletes; when its view changes, the tool says to pull again from the start and replace the local copy. Mirrors [`GET /api/v2/changes`](/docs/development/api/changes). |
+| Tool | Arguments | Returns |
+|:--|:--|:--|
+| `list_elements` | **`type`**, `name_contains` (case-insensitive substring), `supertype` (exact match), `limit` (100, up to 1000), `offset` (0) | `{data, limit, offset, has_more}`, newest created first; each element in the full `/api/v2/` shape. |
+| `get_element` | **`type`**, **`id`** | One element, the same body as `GET /api/v2/{type}/{id}`. |
+| `search_elements` | **`query`**: a name substring, case-insensitive | `{query, results}` across every category, each result `{type, id, name, supertype, subtype}`, up to 50 per category. `get_element` gives the full body. |
+| `get_changes` | `since_cursor` (omit or `""` to start from the beginning), `limit` (25, up to 1000) | `{cursor, changes, has_more, head, epoch}`: each change is an `upsert` with the full element or a `delete`. Pass `cursor` back as `since_cursor` for the next page. A guest key gets only what it can see and no deletes; when its view changes, the tool says to pull again from the start and replace the local copy. Mirrors [`GET /api/v2/changes`](/docs/development/api/changes). |
 
 ### Write: A Write Key and PIN
 
-| Tool | What it does |
-|:--|:--|
-| `create_element` | Create one new element of a given category. Supply your own `id` (a UUID) or let the server mint one. |
-| `update_element` | Update an existing element by category and id. A server-side read-merge: it changes only the fields you pass and leaves the rest intact. A multi-link field you pass replaces that field's whole array. |
-| `edit_links` | Add and/or remove links on one multi-link field, leaving the field's other links untouched. |
-| `bulk_apply` | Create and/or update up to 1000 elements across any categories in one call. An item with an `id` updates that element (creating it if absent); items can link to each other. With `atomic` true, any failure rolls the whole batch back. |
-| `get_image_upload_ticket` | Return a single-use ticket for one image upload: `ticket`, `upload_url`, `max_bytes`, `exp`. The image never passes through the tool: the agent uploads the bytes itself to `upload_url` with the ticket, then calls `update_element` with the returned `url` as `image_url`. See [Images](/docs/development/api/images). |
+| Tool | Arguments | Returns |
+|:--|:--|:--|
+| `create_element` | **`type`**, **`element`**: the field payload, `name` plus any fields of the category; include an `id` to mint at that UUID, or leave it out and the server mints one | The created element in the full `/api/v2/` shape. |
+| `update_element` | **`type`**, **`id`**, **`fields`**: only the fields to change | The updated element. A server-side read-merge: fields you leave out stay intact, `""` clears a text field, and a multi-link field you pass replaces that field's whole array (`[]` clears it). |
+| `edit_links` | **`type`**, **`id`**, **`field`**: one multi-link field, `add` (UUIDs to link), `remove` (UUIDs to unlink) | `{type, id, field, values}`, `values` being the field's whole array after the edit. The field's other links stay untouched. |
+| `bulk_apply` | **`items`**: up to 1000 entries of `{"type": <slug>, "element": <payload>}`, `atomic` (false) | `{errors, items}`, one outcome per item. An `element` with an `id` updates that element (creating it if absent), one without creates; items can link to each other. With `atomic` true, any failure rolls the whole batch back. |
+| `get_image_upload_ticket` | none | A single-use ticket for one image upload: `{ticket, upload_url, max_bytes, exp}`. The image never passes through the tool: the agent uploads the bytes itself to `upload_url` with the ticket, then calls `update_element` with the returned `url` as `image_url`. See [Images](/docs/development/api/images). |
 
 :::note
 There is no delete tool, by design. The MCP server creates and edits; deletion stays in the REST API and the portal, so an assistant cannot remove elements on its own. `bulk_apply` never removes an element either.
