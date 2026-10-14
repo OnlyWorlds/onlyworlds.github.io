@@ -231,7 +231,7 @@ Too many failed authentication attempts, such as repeated wrong PINs.
 A daily limit is used up. Two routes answer it:
 
 - `POST /api/v2/media/ticket`: the world has used its 200 image upload tickets for the day.
-- `POST /api/v2/account/ask` and `POST /api/v2/account/sort`: the account has used its daily token rating (fewer tokens left than the call's output cap). The rating resets at midnight UTC.
+- `POST /api/v2/account/ask` and `POST /api/v2/account/sort`: the account has used its daily token rating (fewer tokens left than the call's output cap). Tokens used reset at midnight UTC.
 
 - **How to fix:** retry after the `Retry-After` header's seconds.
 
