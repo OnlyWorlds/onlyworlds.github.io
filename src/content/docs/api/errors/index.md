@@ -228,10 +228,10 @@ Too many failed authentication attempts, such as repeated wrong PINs.
 
 **Type** `rate_limited` · **Status** `429`
 
-A daily allowance is used up. Two routes answer it:
+A daily limit is used up. Two routes answer it:
 
 - `POST /api/v2/media/ticket`: the world has used its 200 image upload tickets for the day.
-- `POST /api/v2/account/ask` and `POST /api/v2/account/sort`: the account has used its daily AI allowance (fewer tokens left than the call's output cap). The allowance resets at midnight UTC.
+- `POST /api/v2/account/ask` and `POST /api/v2/account/sort`: the account has used its daily token rating (fewer tokens left than the call's output cap). The rating resets at midnight UTC.
 
 - **How to fix:** retry after the `Retry-After` header's seconds.
 
@@ -265,7 +265,7 @@ Every request slot on the server stayed full for 10 seconds.
 
 **Type** `api_error` · **Status** `502`
 
-`POST /api/v2/account/ask`: the model behind [Ask Your World](/docs/development/ai#ask-your-world-without-a-key-of-your-own) gave no answer. The question was not counted against the day's allowance.
+`POST /api/v2/account/ask`: the model behind [Ask Your World](/docs/development/ai#ask-your-world-without-a-key-of-your-own) gave no answer. The question was not counted against the day's token rating.
 
 - **How to fix:** try again in a moment.
 

@@ -117,7 +117,7 @@ Making links, joining and the join routes are on [AI Agents](/docs/development/a
 | To give | Use |
 |:--|:--|
 | Read access to anyone you hand it to, no account needed | An `ow_r_` read key ([Keys and PINs](/docs/getting-started/keys)) |
-| Open reading to everyone | The world's `public_read` setting, in the account portal |
+| Open reading to everyone | The world's `public_read` flag. There is no switch for it yet (planned); until then it is set by the OnlyWorlds team on request |
 | A person who writes, with their own PIN and their own role | A member invite by email, or an [invite link](#invite-links) |
 | An AI agent with its own seat | An [agent link](/docs/development/agents) |
 

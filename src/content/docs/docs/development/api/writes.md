@@ -148,6 +148,6 @@ curl -s -X PATCH "https://www.onlyworlds.com/api/v2/world" \
 
 - Unknown fields are a `422`, and the whole patch is refused before anything is written.
 - The world's `name` cannot be empty, unlike an element's.
-- `public_read` is set in the [account portal](https://www.onlyworlds.com/account/) and the PIN in [account settings](https://www.onlyworlds.com/account/settings), not here.
+- `public_read` has no switch yet (set by the OnlyWorlds team on request) and the PIN lives in [account settings](https://www.onlyworlds.com/account/settings), not here.
 - Every field sent is applied, so an identical value still moves `updated_at`. Send only real changes.
 - World fields do not appear in [`/changes`](/docs/development/api/changes). To follow them, poll `GET /api/v2/world` and compare `updated_at`.
