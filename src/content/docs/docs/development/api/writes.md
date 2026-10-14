@@ -128,7 +128,7 @@ The store suppresses replays on a best-effort basis; it is not a ledger. Minting
 
 ## The World
 
-`PATCH /api/v2/world` updates the world's own fields. It takes a write key and PIN and is **owner only**: a member's key, even a co-builder's, gets `403` [`owner_only`](/api/errors/#owner_only).
+`PATCH /api/v2/world` updates the world's own fields. It takes a write key and PIN and is **owner only**, with one exception: a co-builder may send `time_range_current` alone, so a game master who isn't the owner can move the world's now. Any other member key, or a co-builder's with any other field, gets `403` [`owner_only`](/api/errors/#owner_only).
 
 | Field | Type |
 |:--|:--|

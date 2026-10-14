@@ -186,9 +186,9 @@ A contributor or guest key changed, replaced, relinked or deleted an element som
 
 **Type** `permission_error` · **Status** `403`
 
-A member key, even a co-builder's, tried to change the world's own fields (`PATCH /api/v2/world`).
+A member key tried to change the world's own fields (`PATCH /api/v2/world`). The one exception: a co-builder may send `time_range_current` alone, to move the world's now.
 
-- **How to fix:** only the owner's key can do this.
+- **How to fix:** only the owner's key can do this; a co-builder can move the world's now with a body holding `time_range_current` and nothing else.
 
 ### guest_not_supported
 
@@ -231,7 +231,7 @@ Too many failed authentication attempts, such as repeated wrong PINs.
 A daily allowance is used up. Two routes answer it:
 
 - `POST /api/v2/media/ticket`: the world has used its 200 image upload tickets for the day.
-- `POST /api/v2/account/ask`: the account has asked its 50 questions for the day. The allowance resets at midnight UTC.
+- `POST /api/v2/account/ask` and `POST /api/v2/account/sort`: the account has used its daily AI allowance (fewer tokens left than the call's output cap). The allowance resets at midnight UTC.
 
 - **How to fix:** retry after the `Retry-After` header's seconds.
 

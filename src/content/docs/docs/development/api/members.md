@@ -15,7 +15,7 @@ A world can have **members** besides its owner: people the owner invites by emai
 | `guest` | What it created, what its Character is on or knows, and the roster's Characters ([Guests](#guests)) | Only the elements it created |
 
 - A contributor or guest changing, replacing, relinking or deleting someone else's element gets `403` [`not_author`](/api/errors/#not_author). In `/bulk` this is reported per item.
-- Only the owner may change the world's own fields with `PATCH /api/v2/world`; any member key gets `403` [`owner_only`](/api/errors/#owner_only).
+- Only the owner may change the world's own fields with `PATCH /api/v2/world`, except that a co-builder may move the world's now (`time_range_current` alone); any other member write there gets `403` [`owner_only`](/api/errors/#owner_only).
 - Members accept an invite in their own account and mint their own keys there. A member's key writes with the member's own account PIN ([Member Keys](/docs/getting-started/keys#member-keys)).
 
 ## `created_by`

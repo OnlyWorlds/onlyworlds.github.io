@@ -128,7 +128,7 @@ const hits = lookupWorld(index, 'who runs the mill in Ostvik?');
 const card = renderElement(hits[0].element, index); // a short text card, links by name
 ```
 
-Names come first, then supertype and subtype, then one link step in either direction, then the elements' other text.
+Names come first, then supertype and subtype, then one link step in either direction, then the elements' other text, custom fields (`x_*`) included since 4.19.0. A card shows a custom field by its own name: `x_eye_colour` reads `eye colour: grey`.
 
 For an answer in a sentence, a signed-in account can use OnlyWorlds' [AI proxy](/docs/development/ai#ask-your-world-without-a-key-of-your-own) (since 4.13.0):
 
@@ -138,7 +138,7 @@ const reply = await account.ask({ worldId, question, context });    // account: 
 // reply.answer comes from those elements only, or is "The world doesn't say."
 ```
 
-`kept` says which elements were sent, so the sources you show are the ones the answer used. Each account has 50 questions a day (`err.isQuotaExceeded`).
+`kept` says which elements were sent, so the sources you show are the ones the answer used. Asking spends from the account's daily AI allowance in tokens: `reply.tokens_remaining` and `reply.token_rating` since 4.19.0, and `reply.remaining` counts the answers of this size still in it. Used up, it throws with `err.isQuotaExceeded`.
 
 The same proxy [sorts loose notes](/docs/development/ai#sort-notes-into-a-world) into rows for the user to review (since 4.18.0). Send what your lookup found as the slice; every id in a row comes from it, and nothing is written until your app applies what the user accepts:
 
@@ -197,7 +197,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.18.1, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.19.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
