@@ -28,3 +28,5 @@ The OnlyWorlds Builder is an Obsidian community plugin. Each element is a plain 
 4. Install the OnlyWorlds Builder plugin.
 5. Create or import worlds with the OnlyWorlds commands.
 6. Export worlds or individual elements from the resulting notes.
+
+A world you download keeps its API key in its `World.md`, in plain text: that is how the plugin knows which world a note belongs to. A vault that is itself shared or synced somewhere public carries the key with it; use a read key (`ow_r_`) for such a vault, or keep the vault private.
