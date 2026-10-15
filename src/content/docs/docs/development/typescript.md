@@ -117,7 +117,18 @@ const invite = await client.previewJoin(code);    // who invites, which world, w
 const membership = await account.acceptJoin(code); // account: a client with an ow_a_ token
 ```
 
-A bad code is one 404 (`err.isNotFound`). Accepting can answer `err.isAlreadyMember` or `err.isPinRequired` (the account needs a PIN first). A refusal never uses up the code.
+A bad code is one 404 (`err.isNotFound`). Accepting can answer `err.isAlreadyMember`; it needs no account PIN, though a write key for the new membership waits for one. A refusal never uses up the code.
+
+The owner makes, lists and revokes the links with the account token (since 4.24.0). The code comes back once, in the answer that makes it:
+
+```typescript
+const made = await account.createWorldLink(worldId, { reader: 'person', role: 'contributor', days: 7 });
+// made.line: the one line to send (who invites, to which world, the link); made.code: the ow_j_ code
+const links = await account.listWorldLinks(worldId);  // no codes: status pending | used | revoked | expired
+await account.revokeWorldLink(worldId, made.id);
+```
+
+`reader: 'agent'` makes a link an AI agent redeems for a seat instead. Anyone but the owner gets a 404.
 
 Once in, a world key can ask who it is and who else is there (since 4.22.0; see [Who Am I](/docs/development/api/members#who-am-i)):
 
@@ -225,7 +236,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.23.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.24.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -267,7 +278,10 @@ Generated from the types of `@onlyworlds/sdk` 4.23.0, the version these docs pin
 | `removeImage(keyOrUrl, opts?)` |  | Remove one uploaded image: a removal ticket from the API, then the removal at the edge (the API key never leaves for the edge). | `Promise<OwRemovedImage>` |
 | `previewJoin(code)` | `POST /join/preview` | what a join code holds, without using it: who invites, to which world, in what role, and `reader` (`person`: accept it with acceptJoin; `agent`: an AI agent redeems it at POST /join). | `Promise<OwJoinPreview>` |
 | `acceptJoin(code)` | `POST /account/join` | accept an invite link's code as the account this client's `ow_a_` token belongs to: 201 with the new membership. | `Promise<OwJoinedMembership>` |
+| `createWorldLink(worldId, opts)` | `POST /account/worlds/{worldId}/links` | a new invite link for a world this client's `ow_a_` token owns (keel C1): `reader` is required (`person`, accepted with acceptJoin; `agent`, redeemed at POST /join); `role` defaults to contributor, `days` (1, 7 or 30) to 7; `withCharacter` (agent links only) to true. | `Promise<OwCreatedWorldLink>` |
+| `listWorldLinks(worldId)` | `GET /account/worlds/{worldId}/links` | the world's invite links, without their codes: each with its status (pending, used, revoked or expired) and uses. | `Promise<OwWorldLink[]>` |
+| `revokeWorldLink(worldId, linkId)` | `DELETE /account/worlds/{worldId}/links/{linkId}` | revoke a link: its code no longer works. | `Promise<void>` |
 | `ask(req)` | `POST /account/ask` | a question about a world the account owns or is in, answered by keel's AI proxy from `context` only (build it with buildAskContext from the elements the user sees). | `Promise<OwAskAnswer>` |
 | `sort(req)` | `POST /account/sort` | the user's unsorted notes, and the elements the app's own search found for them (`slice`: id, lowercase type, name, optional anchor; build it from lookupWorld's hits), sorted by the same proxy as ask into rows to review: `make`, `add_to`, `link`, `ask`. | `Promise<OwSortAnswer>` |
-| `allowance()` | `GET /account/allowance` | the account's daily AI allowance, the one meter ask, sort and the Council spend from (keel 872431f): the rating, what is used and left today, and when it resets (the next midnight UTC). | `Promise<OwAllowance>` |
+| `allowance()` | `GET /account/allowance` | the account's token rating, the one daily meter ask, sort and the Council spend from (keel 872431f): the rating, what is used and left today, and when it resets (the next midnight UTC). | `Promise<OwAllowance>` |
 | `request(method, path, opts?)` |  | Raw authenticated request against this client's baseUrl. | `Promise<T>` |

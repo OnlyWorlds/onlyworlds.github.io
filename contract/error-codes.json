@@ -37,7 +37,7 @@
   "pin_required": {
     "type": "invalid_request",
     "status": 409,
-    "summary": "A member without an account PIN tried to accept an invite or mint a write key."
+    "summary": "A member without an account PIN tried to mint a write key. Accepting an invite or a link needs no PIN."
   },
   "precondition_failed": {
     "type": "invalid_request",
@@ -97,7 +97,7 @@
   "quota_exceeded": {
     "type": "rate_limited",
     "status": 429,
-    "summary": "A daily allowance is used up (the world's image upload tickets, or the account's AI allowance in tokens); retry after Retry-After."
+    "summary": "A daily limit is used up (the world's image upload tickets, or the account's token rating for AI); retry after Retry-After."
   },
   "idempotency_error": {
     "type": "idempotency_error",

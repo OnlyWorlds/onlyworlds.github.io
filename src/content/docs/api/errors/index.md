@@ -45,7 +45,7 @@ Some errors carry one extra top-level key beside `error`, named in their row: `p
 | [`already_member`](#already_member) | `invalid_request` | `409` | The invite names someone who is already a member, or the accepting account already is one. |
 | [`removal_in_flight`](#removal_in_flight) | `invalid_request` | `409` | A removal ticket for this image was issued less than 10 minutes ago and is not yet spent; use it, or retry after Retry-After. |
 | [`upload_pending`](#upload_pending) | `invalid_request` | `409` | No image is recorded under this key yet, but an upload ticket in this world is still open and unreported (the upload may have just finished); retry after Retry-After (2 s). The platform cannot tell which key an open ticket will get, so any key answers this while the caller holds one, until it expires; then not_found. |
-| [`pin_required`](#pin_required) | `invalid_request` | `409` | A member without an account PIN tried to accept an invite or mint a write key. |
+| [`pin_required`](#pin_required) | `invalid_request` | `409` | A member without an account PIN tried to mint a write key. Accepting an invite or a link needs no PIN. |
 | [`precondition_failed`](#precondition_failed) | `invalid_request` | `412` | The request carried If-Match with a change_seq, and the element has moved since; the reply's top-level `current` is the element as it is now. Nothing was written and nothing is merged: re-read `current`, then re-send or ask the user. |
 | [`apply_failed`](#apply_failed) | `invalid_request` | `422` | A /bulk item passed validation but its write failed a database constraint (most often an id that already exists in another world). |
 | [`invalid_credentials`](#invalid_credentials) | `authentication_error` | `401` | The API key or PIN is missing, unrecognised or wrong. |
@@ -57,7 +57,7 @@ Some errors carry one extra top-level key beside `error`, named in their row: `p
 | [`storage_full`](#storage_full) | `permission_error` | `403` | The account the upload counts against has used all of its image storage. |
 | [`not_found`](#not_found) | `not_found` | `404` | The element or route does not exist in this world. |
 | [`rate_limited`](#rate_limited) | `rate_limited` | `429` | Too many failed PIN attempts; retry after the Retry-After header's seconds. |
-| [`quota_exceeded`](#quota_exceeded) | `rate_limited` | `429` | A daily allowance is used up (the world's image upload tickets, or the account's AI allowance in tokens); retry after Retry-After. |
+| [`quota_exceeded`](#quota_exceeded) | `rate_limited` | `429` | A daily limit is used up (the world's image upload tickets, or the account's token rating for AI); retry after Retry-After. |
 | [`idempotency_error`](#idempotency_error) | `idempotency_error` | `409` | An Idempotency-Key was reused with a different request body. |
 | [`api_error`](#api_error) | `api_error` | `500` | An unexpected server-side error; the envelope is kept even here. |
 | [`ask_failed`](#ask_failed) | `api_error` | `502` | The AI proxy could not get an answer from the model; try again in a moment. Nothing was counted. |
