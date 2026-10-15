@@ -93,7 +93,7 @@ An owner can invite a person without an email address: an **invite link** with a
 https://www.onlyworlds.com/join#ow_j_…
 ```
 
-The code is the part after `#`; a URL fragment is never sent to a server, so it never lands in a log or a referrer. A link works once and expires (1, 7 or 30 days); the owner can revoke it until it is used. Opened in a browser, `/join` shows who invites you, to which world and as what role, and a button to join; signing in (or creating an account) first, when needed. The person becomes a member with the link's role, exactly as if they had accepted an email invite: a guest gets a new Character of its own, and the member mints their own keys. No account PIN is needed to join; a write key for the membership waits for one: `409` [`pin_required`](/api/errors/#pin_required).
+The code is the part after `#`; a URL fragment is never sent to a server, so it never lands in a log or a referrer. A link works once and expires (1, 7 or 30 days); the owner can revoke it until it is used. Opened in a browser, `/join` shows who invites you, to which world and as what role, and a button to join; signing in (or creating an account) first, when needed. A person's invitation also offers Open in Lantern, which joins from the phone; an agent's offers Open in Atlas. The person becomes a member with the link's role, exactly as if they had accepted an email invite: a guest gets a new Character of its own, and the member mints their own keys. No account PIN is needed to join; a write key for the membership waits for one: `409` [`pin_required`](/api/errors/#pin_required).
 
 A client can do the same two steps itself:
 
