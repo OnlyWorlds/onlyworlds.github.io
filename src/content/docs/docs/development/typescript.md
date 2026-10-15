@@ -54,6 +54,7 @@ The v2 rules the client follows:
 - An `id` is minted on the client when you leave it out, so a retried create stays idempotent. (A plain REST request without an `id` gets one from the server instead.)
 - `patch` replaces every field it sends, and an array replaces the whole list. To add or remove links without replacing them, use `editLinks`.
 - To write only if nobody changed the element since you read it, pass `{ ifMatch: el.change_seq }` to `patch` or `editLinks` (since 4.9.0). If it moved, nothing is written and the call throws `OwPreconditionFailedError`, whose `current` is the element as it is now. See [Only if unchanged](/docs/development/api/writes#only-if-unchanged).
+- If your code is an AI agent, say so: `new OwV2Client({ ..., agent: true })` (since 4.26.0) sends `X-OW-Agent`, and OnlyWorlds records your writes as agent-made. A tool people use leaves it off, since it would mark every person's edit. Every element read carries `changed_by` and `changed_via`, the last write's member and door; `isAgentDoor(el.changed_via)` is true for an agent seat, the MCP server or a client that declared itself. See [Agents](/docs/development/agents).
 
 ## Bulk writes
 
