@@ -104,6 +104,11 @@
     "status": 409,
     "summary": "An Idempotency-Key was reused with a different request body."
   },
+  "idempotency_in_flight": {
+    "type": "idempotency_error",
+    "status": 409,
+    "summary": "A request with this Idempotency-Key is still running; retry after Retry-After (1 s): once it has answered, the same key and body replay its answer."
+  },
   "api_error": {
     "type": "api_error",
     "status": 500,

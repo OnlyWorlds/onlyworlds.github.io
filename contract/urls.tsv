@@ -118,6 +118,7 @@
 /api/errors#rate_limited	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#quota_exceeded	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#idempotency_error	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#idempotency_in_flight	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#api_error	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#ask_failed	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#ask_unavailable	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)

@@ -59,6 +59,7 @@ Some errors carry one extra top-level key beside `error`, named in their row: `p
 | [`rate_limited`](#rate_limited) | `rate_limited` | `429` | Too many failed PIN attempts; retry after the Retry-After header's seconds. |
 | [`quota_exceeded`](#quota_exceeded) | `rate_limited` | `429` | A daily limit is used up (the world's image upload tickets, or the account's token rating for AI); retry after Retry-After. |
 | [`idempotency_error`](#idempotency_error) | `idempotency_error` | `409` | An Idempotency-Key was reused with a different request body. |
+| [`idempotency_in_flight`](#idempotency_in_flight) | `idempotency_error` | `409` | A request with this Idempotency-Key is still running; retry after Retry-After (1 s): once it has answered, the same key and body replay its answer. |
 | [`api_error`](#api_error) | `api_error` | `500` | An unexpected server-side error; the envelope is kept even here. |
 | [`ask_failed`](#ask_failed) | `api_error` | `502` | The AI proxy could not get an answer from the model; try again in a moment. Nothing was counted. |
 | [`ask_unavailable`](#ask_unavailable) | `api_error` | `503` | Asking your world is not switched on for this server, or is paused for the day (the server-wide cap); nothing was counted. |
@@ -243,6 +244,15 @@ An `Idempotency-Key` header was reused with a **different** request body.
 
 - **Common cause:** reusing one idempotency key across two different requests.
 - **How to fix:** one key names exactly one request: use a new key (a new UUID) for each distinct write. Replaying the identical body with the same key is fine: it returns the original stored response, with an `Idempotent-Replay: true` header, and does not write twice. See [Idempotency](/docs/development/api/writes#idempotency).
+
+### idempotency_in_flight
+
+**Type** `idempotency_error` · **Status** `409` · **Retry-After** `1`
+
+A request with the same `Idempotency-Key` is still running. Nothing was written by this one.
+
+- **Common cause:** a retry sent while the first request was still being processed, typically after a client-side timeout.
+- **How to fix:** wait `Retry-After` seconds and send again with the **same** key and body: once the first request has answered, the retry replays its answer (`Idempotent-Replay: true`). Don't change the key; that would write twice. The Python package retries this for you (0.4.0); the TypeScript SDK names it `isIdempotencyInFlight` (4.27.0).
 
 ### api_error
 
