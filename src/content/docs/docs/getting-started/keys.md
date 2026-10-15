@@ -52,7 +52,7 @@ Creating a world through the API with an account token: an account without a PIN
 
 ## Member Keys
 
-A world can have members besides its owner (see [Members and Sharing](/docs/development/api/members)). A member mints their own keys for the world in their own account, and **a member's key writes with the member's own account PIN**, never the owner's. A member without an account PIN cannot accept an invite or an invite link, or mint a write key: `409` [`pin_required`](/api/errors/#pin_required).
+A world can have members besides its owner (see [Members and Sharing](/docs/development/api/members)). A member mints their own keys for the world in their own account, and **a member's key writes with the member's own account PIN**, never the owner's. Accepting an invite or an invite link needs no PIN; a member without an account PIN cannot mint a write key: `409` [`pin_required`](/api/errors/#pin_required).
 
 Removing a member, or a member leaving, deletes that member's keys for the world.
 

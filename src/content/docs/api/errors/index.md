@@ -127,7 +127,7 @@ An invite names someone who is already a member of the world, or an invite is ac
 
 **Type** `invalid_request` · **Status** `409`
 
-A member without an account PIN tried to accept an invite or mint a write key. Member keys write with the member's own account PIN.
+A member without an account PIN tried to mint a write key. Accepting an invite or a link needs no PIN; member keys write with the member's own account PIN.
 
 - **How to fix:** set a PIN in your [account settings](https://www.onlyworlds.com/account/settings), then retry.
 

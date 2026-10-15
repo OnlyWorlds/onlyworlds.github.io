@@ -93,7 +93,7 @@ An owner can invite a person without an email address: an **invite link** with a
 https://www.onlyworlds.com/join#ow_j_…
 ```
 
-The code is the part after `#`; a URL fragment is never sent to a server, so it never lands in a log or a referrer. A link works once and expires (1, 7 or 30 days); the owner can revoke it until it is used. Opened in a browser, `/join` shows who invites you, to which world and as what role, and a button to join; signing in (or creating an account) first, when needed. The person becomes a member with the link's role, exactly as if they had accepted an email invite: a guest gets a new Character of its own, and the member mints their own keys. A member without an account PIN cannot accept: `409` [`pin_required`](/api/errors/#pin_required), and the link stays unused.
+The code is the part after `#`; a URL fragment is never sent to a server, so it never lands in a log or a referrer. A link works once and expires (1, 7 or 30 days); the owner can revoke it until it is used. Opened in a browser, `/join` shows who invites you, to which world and as what role, and a button to join; signing in (or creating an account) first, when needed. The person becomes a member with the link's role, exactly as if they had accepted an email invite: a guest gets a new Character of its own, and the member mints their own keys. No account PIN is needed to join; a write key for the membership waits for one: `409` [`pin_required`](/api/errors/#pin_required).
 
 A client can do the same two steps itself:
 
@@ -153,7 +153,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/account/worlds/{world_id}/inv
 ```
 
 - An invite answers the same `201` body whether or not an account uses that email address.
-- Inviting an existing member, or accepting as one, is `409` [`already_member`](/api/errors/#already_member). Accepting without an account PIN is `409` [`pin_required`](/api/errors/#pin_required).
+- Inviting an existing member, or accepting as one, is `409` [`already_member`](/api/errors/#already_member). Accepting needs no account PIN; minting a write key without one is `409` [`pin_required`](/api/errors/#pin_required).
 - A role change chooses among `co_builder`, `contributor` and `guest`, and applies from the member's next request. A member made a guest keeps its roster Character only if it created it.
 
 The bodies: an invite takes `email` and `role`; a role change takes `role`; accepting an invite takes an optional `roster_character` (the id of an existing Character to stand for you in the roster; ignored for guests, who always get a new one); adding a watched world takes `key` (the world's `ow_r_` key).
