@@ -99,11 +99,11 @@ curl -s "https://www.onlyworlds.com/api/v2/character/{id}?expand=location,instit
   "time_format_names": [], "time_format_equivalents": [], "time_basic_unit": "Year",
   "time_range_min": 0, "time_range_max": 500, "time_range_current": 500,
   "length_unit": "", "mass_unit": "", "distance_unit": "",
-  "public_read": false, "owner_character": null,
+  "public_read": false, "agent_narrator_rule": false, "owner_character": null,
   "created_at": "…", "updated_at": "…" }
 ```
 
-`owner_character` is the Character that is the owner, or `null`. The response carries an `ETag`; send it back as `If-None-Match` and an unchanged world answers `304`. A `200` validates the key. Updating these fields is on [Writes](/docs/development/api/writes#the-world).
+`owner_character` is the Character that is the owner, or `null`. `agent_narrator_rule` is the owner's switch on the world page (Agents narrate as themselves, [Agents](/docs/development/agents)), read-only here. The response carries an `ETag`; send it back as `If-None-Match` and an unchanged world answers `304`. A `200` validates the key. Updating these fields is on [Writes](/docs/development/api/writes#the-world).
 
 ## Guests
 

@@ -77,7 +77,7 @@ curl -s "https://www.onlyworlds.com/api/v2/me" -H "API-Key: {key}"
 
 ### Checking the PIN
 
-Send the PIN with a read and the read checks it. `/me` and every read take the key alone (except a legacy key reading a private world), but a PIN that comes with the request is checked all the same, so `GET /api/v2/me` with the key and the PIN confirms both. A wrong PIN answers the same `401` [`invalid_credentials`](/api/errors/#invalid_credentials) as a bad key, through the same throttle as a write. An empty `API-Pin` header counts as none. Two keys are exceptions: a member's key, whose PIN (or an agent seat's secret) is checked only on a write, and a [demo key](#demo-keys), which reads with any PIN. The `message` tells the failures apart:
+Send the PIN with a read and the read checks it. `/me` and every read take the key alone (except a legacy key reading a private world), but a PIN that comes with the request is checked all the same, so `GET /api/v2/me` with the key and the PIN confirms both. A wrong PIN answers the same `401` [`invalid_credentials`](/api/errors/#invalid_credentials) as a bad key, through the same throttle as a write. An empty `API-Pin` header counts as none. Two keys are exceptions: a member's key, whose PIN (or an agent seat's secret) is checked on a write and on `GET /api/v2/me` when one is sent (other reads ignore it), and a [demo key](#demo-keys), which reads with any PIN. The `message` tells the failures apart:
 
 | Answer | `message` | Meaning |
 |:--|:--|:--|

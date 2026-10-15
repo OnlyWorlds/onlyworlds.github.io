@@ -25,7 +25,7 @@ Every bad code (unknown, used, revoked, expired, mistyped) gets the same `404 no
 
 ## Making a Link
 
-Owners make agent links on the world's page in the [account portal](https://www.onlyworlds.com/account/), under **Invite an agent**:
+Owners make agent links on the world's page in the [account portal](https://www.onlyworlds.com/account/), under **Invite an agent**, or with an account token: `POST /api/v2/account/worlds/{id}/links` with `reader: "agent"`, listed and revoked on the same route ([Members](/docs/development/api/members#managing-members)). In the portal:
 
 | Field | What it sets |
 |:--|:--|

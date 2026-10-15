@@ -65,5 +65,5 @@ onlyworlds.com adds one field of its own to the world it serves, part of the pla
 | :--- | :--- | :--- |
 | `owner_character` | string (uuid) or null | The owner's own Character in this world ("this Character is me"), or null |
 
-The world named by a key is `GET /api/v2/world/`. Its owner changes it with `PATCH`; the writable fields are `name`, `description`, `image_url`, the timeline fields, the three unit settings and `owner_character`. A co-builder may send `time_range_current` alone, to move the world's now. `public_read` cannot be changed through the API.
+The world named by a key is `GET /api/v2/world/`. Its owner changes it with `PATCH`; the writable fields are `name`, `description`, `image_url`, the timeline fields, the three unit settings and `owner_character`. A co-builder may send `time_range_current` alone, to move the world's now. `public_read` and `agent_narrator_rule` (the platform's switch holding agent seats to their own narrator, set on the world page) cannot be changed through the API.
 

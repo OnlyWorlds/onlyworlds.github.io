@@ -66,6 +66,8 @@ curl -s "https://www.onlyworlds.com/api/v2/narrative?characters={character_id}" 
 
 `scope` is `read` or `write`. `membership` is what `created_by` will hold for what this key creates. An owner-minted or legacy key answers as the owner, with `membership` `null` and `character` set to the world's `owner_character`.
 
+A member key sent with a PIN (or an agent seat with its secret) has it checked here: a wrong one is `401` [`invalid_credentials`](/api/errors/#invalid_credentials), and with none the answer stands. So `/me` tests a connection before the first write.
+
 ## Guests
 
 A guest key sees three things: the elements it created, the elements its Character is on or knows, and the roster's Characters. "On or knows" is decided by one link per type. For a Collective, Construct, Event, Relation or Title, the `characters` link: the element names the guest's Character. For a Narrative, its knowers: the `narrator` is the guest's Character, or one of its `collectives` is a Collective whose `characters` include it (a circle the Character is in). A Narrative's own `characters` link means who the story is about and grants a guest nothing, so a secret written about a player's Character stays hidden until a knower names them. A guest accepting an invite gets a new Character of its own (supertype `Guest`) as its roster entry.
@@ -87,7 +89,7 @@ A few routes (world sharing and token status) refuse guest keys with `403` [`gue
 
 ## Invite Links
 
-An owner can invite a person without an email address: an **invite link** with a role, made on the world page under Access (beside the email invites), shown once with a QR code beside it. It has the same form as an agent link:
+An owner can invite a person without an email address: an **invite link** with a role, made on the world page under Access (beside the email invites), shown once with a QR code beside it, or through the owner's [link routes](#managing-members) below. It has the same form as an agent link:
 
 ```text
 https://www.onlyworlds.com/join#ow_j_…
@@ -134,6 +136,9 @@ Invites and memberships are managed in the [account portal](https://www.onlyworl
 | GET | `/api/v2/account/worlds/{world_id}/members` | Members and pending invites |
 | PATCH | `/api/v2/account/worlds/{world_id}/members/{member_id}` | Change a member's role (owner only) |
 | DELETE | `/api/v2/account/worlds/{world_id}/members/{member_id}` | Remove a member; their keys for the world are deleted |
+| POST | `/api/v2/account/worlds/{world_id}/links` | Make an [invite link](#invite-links) (owner only): `reader` (`person` or `agent`, required), `role`, `days`, `inviter_name`, `with_character`; `201` with the code, shown only in this answer |
+| GET | `/api/v2/account/worlds/{world_id}/links` | The world's links, newest first, never a code, each with `uses` and `status` (`pending`, `used`, `revoked`, `expired`) |
+| DELETE | `/api/v2/account/worlds/{world_id}/links/{link_id}` | Revoke a link: `204` |
 | POST | `/api/v2/account/worlds/{world_id}/leave` | Leave a world; your keys for it are deleted |
 | GET | `/api/v2/account/invites` | Invites addressed to your verified email addresses |
 | POST | `/api/v2/account/invites/{invite_id}/accept` | Accept: `201` with the new membership |
