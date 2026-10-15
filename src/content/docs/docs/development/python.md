@@ -43,7 +43,7 @@ writer.edit_links("location", peak["id"], "founders", add=[character_id])
 
 `create` gives an element without an `id` one, and always sends an `Idempotency-Key`. So retrying a create after a lost answer is safe: it replays the stored result instead of making a second element. `patch` replaces every field it sends, and a list replaces the whole list. Use `edit_links` to add or remove links. `bulk` takes up to about 1,000 `{"type", "element"}` items: it succeeds partly by default (check each slot's `status`), or all or nothing with `atomic=True`.
 
-If your script is an AI agent, say so: `Client("ow_w_...", "1234", agent=True)` (since 0.3.0) sends `X-OW-Agent`, and OnlyWorlds records your writes as agent-made. A tool people use leaves it off. Each element read carries `changed_by` and `changed_via`, the last write's member and door (`seat`, `mcp` and `declared` are agent-made). See [Agents](/docs/development/agents).
+If your script is an AI agent, say so: `Client("ow_w_...", "1234", agent=True)` (since 0.3.0) sends `X-OW-Agent` on its element writes, and OnlyWorlds records your writes as agent-made. A tool people use leaves it off. Each element read carries `changed_by` and `changed_via`, the last write's member and door (`seat`, `mcp` and `declared` are agent-made). See [Agents](/docs/development/agents).
 
 ## Follow changes
 

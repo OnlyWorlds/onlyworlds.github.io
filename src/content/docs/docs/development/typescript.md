@@ -54,7 +54,7 @@ The v2 rules the client follows:
 - An `id` is minted on the client when you leave it out, so a retried create stays idempotent. (A plain REST request without an `id` gets one from the server instead.)
 - `patch` replaces every field it sends, and an array replaces the whole list. To add or remove links without replacing them, use `editLinks`.
 - To write only if nobody changed the element since you read it, pass `{ ifMatch: el.change_seq }` to `patch` or `editLinks` (since 4.9.0). If it moved, nothing is written and the call throws `OwPreconditionFailedError`, whose `current` is the element as it is now. See [Only if unchanged](/docs/development/api/writes#only-if-unchanged).
-- If your code is an AI agent, say so: `new OwV2Client({ ..., agent: true })` (since 4.26.0) sends `X-OW-Agent`, and OnlyWorlds records your writes as agent-made. A tool people use leaves it off, since it would mark every person's edit. Every element read carries `changed_by` and `changed_via`, the last write's member and door; `isAgentDoor(el.changed_via)` is true for an agent seat, the MCP server or a client that declared itself. See [Agents](/docs/development/agents).
+- If your code is an AI agent, say so: `new OwV2Client({ ..., agent: true })` (since 4.26.0) sends `X-OW-Agent` on its element writes, and OnlyWorlds records your writes as agent-made. A tool people use leaves it off, since it would mark every person's edit. Every element read carries `changed_by` and `changed_via`, the last write's member and door; `isAgentDoor(el.changed_via)` is true for an agent seat, the MCP server or a client that declared itself. See [Agents](/docs/development/agents).
 
 ## Bulk writes
 
@@ -237,7 +237,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.25.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.26.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -251,6 +251,7 @@ Generated from the types of `@onlyworlds/sdk` 4.25.0, the version these docs pin
 | `pageSize` | `number` | Page size for element lists, default 100 (the server's default; at most 1000). |
 | `changesPageSize` | `number` | Page size for /changes pulls, default 100. |
 | `fetch` | `typeof globalThis.fetch` | A fetch implementation to use instead of globalThis.fetch (for tests and other runtimes). |
+| `agent` | `boolean` | Declare this client an AI agent: every element write (create, upsert, patch, delete, editLinks, bulk) carries `X-OW-Agent`, the operations keel declares it on, and keel records its writes as agent-made (`changed_via: 'declared'`; keel stores that the header was there, never its value). |
 
 ### Methods
 
