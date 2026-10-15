@@ -72,6 +72,8 @@ public class ReadWorld : MonoBehaviour
 
 **Errors come in two kinds.** `OWApiError` means the server answered and refused: it carries `StatusCode`, `Code`, `Param`, `DocUrl` (a link into [Errors](/api/errors/)) and `IsRetryable`. `OWTransportError` means no answer arrived at all.
 
+**Dates on the world's own calendar.** `OWCalendar` reads a world's calendar (the `atlas_calendar` field Atlas writes) and formats and parses dates the way Atlas and the [TypeScript SDK](/docs/development/typescript) do; `OWCalendarLens.WorldCalendars` finds the calendars a world holds. A missing or malformed calendar reads as `null`. It is on the package's main branch, which the install line above follows, ahead of its next tagged release.
+
 ## Ship a World With Your Game
 
 A cache is a world stored as an asset in your project. Fill it in the Editor, and the build carries it: no network, no key and no waiting at runtime.

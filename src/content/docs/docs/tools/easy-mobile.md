@@ -9,6 +9,7 @@ Easy Mobile is a quick mobile web editor for OnlyWorlds elements.
 |---|---|
 | **URL** | [easy-mobile.onlyworlds.com](https://easy-mobile.onlyworlds.com) |
 | **Type** | Mobile web application |
+| **Status** | Online, no longer developed ([Legacy Tools](/docs/tools/legacy)) |
 
 ## Features
 

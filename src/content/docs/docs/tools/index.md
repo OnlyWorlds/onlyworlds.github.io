@@ -12,13 +12,12 @@ These tools all work with the same world format, so a world can move between the
 | [Atlas](/docs/tools/atlas) | The main workspace: build, write, map and chart a world that lives as a folder on your disk. | [atlas.onlyworlds.com](https://atlas.onlyworlds.com) |
 | [Obsidian Plugin](/docs/tools/obsidian-plugin) | Each element is a markdown note in your Obsidian vault, syncable with online worlds. | [GitHub](https://github.com/OnlyWorlds/obsidian-plugin) |
 | [onlyworlds.com](/docs/tools/onlyworlds-com) | Accounts, world hosting, keys and the API. | [onlyworlds.com](https://www.onlyworlds.com) |
-| [Easy Mobile](/docs/tools/easy-mobile) | A mobile element editor with local support. | [easy-mobile.onlyworlds.com](https://easy-mobile.onlyworlds.com) |
 
 ## Learn and Govern
 
 | Tool | What it does | Where |
 |---|---|---|
-| [Explorer](/docs/tools/explorer) | An interactive 3D introduction to the schema and the ecosystem. | [explorer.onlyworlds.com](https://explorer.onlyworlds.com) |
+| [Explorer](/docs/tools/explorer) | An interactive 3D introduction to the standard and the ecosystem. | [explorer.onlyworlds.com](https://explorer.onlyworlds.com) |
 | [Council](/docs/tools/council) | Governance of the standard: motions, precedents, amendments and votes by characters from your worlds. | [council.onlyworlds.com](https://council.onlyworlds.com) |
 
 ## Play and Showcase

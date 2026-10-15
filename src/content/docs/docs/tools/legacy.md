@@ -15,6 +15,13 @@ An all-round element editor with full field support and both online and offline 
 - AI chat through OpenAI, with free daily tokens or a personal key.
 - An import pipeline that validates and resolves AI-parsed world data.
 
+## Easy Mobile
+
+A quick mobile web editor for elements, online or offline.
+
+- **Status:** online, no longer developed. [easy-mobile.onlyworlds.com](https://easy-mobile.onlyworlds.com); its page: [Easy Mobile](/docs/tools/easy-mobile).
+- On a phone today, [Atlas](/docs/tools/atlas) holds together on a touch screen.
+
 ## Write Tool
 
 A general element editor with writing, presentation and graph features.
