@@ -237,7 +237,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.28.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.29.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -285,6 +285,7 @@ Generated from the types of `@onlyworlds/sdk` 4.28.0, the version these docs pin
 | `revokeWorldLink(worldId, linkId)` | `DELETE /account/worlds/{worldId}/links/{linkId}` | revoke a link: its code no longer works. | `Promise<void>` |
 | `createSeat(worldId, opts)` | `POST /account/worlds/{worldId}/seats` | a seat for your own AI in a world you own or are a member of: its own membership, write key and `ow_s_` secret, no join link. | `Promise<OwSeatCreated>` |
 | `listSeats(worldId)` | `GET /account/worlds/{worldId}/seats` | the live agent seats you can see: your own AI's, or, as the world's owner, every seat. | `Promise<OwSeat[]>` |
+| `rekeySeat(worldId, seatId)` | `POST /account/worlds/{worldId}/seats/{seatId}/key` | a new key and secret for a seat whose AI lost its own: its sponsor or the world's owner may. | `Promise<OwSeatCreated>` |
 | `removeSeat(worldId, seatId)` | `DELETE /account/worlds/{worldId}/seats/{seatId}` | remove an agent seat: its sponsor or the world's owner may. | `Promise<void>` |
 | `ask(req)` | `POST /account/ask` | a question about a world the account owns or is in, answered by keel's AI proxy from `context` only (build it with buildAskContext from the elements the user sees). | `Promise<OwAskAnswer>` |
 | `sort(req)` | `POST /account/sort` | the user's unsorted notes, and the elements the app's own search found for them (`slice`: id, lowercase type, name, optional anchor; build it from lookupWorld's hits), sorted by the same proxy as ask into rows to review: `make`, `add_to`, `link`, `ask`. | `Promise<OwSortAnswer>` |
