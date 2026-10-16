@@ -47,8 +47,9 @@ Some errors carry one extra top-level key beside `error`, named in their row: `p
 | [`upload_pending`](#upload_pending) | `invalid_request` | `409` | No image is recorded under this key yet, but an upload ticket in this world is still open and unreported (the upload may have just finished); retry after Retry-After (2 s). The platform cannot tell which key an open ticket will get, so any key answers this while the caller holds one, until it expires; then not_found. |
 | [`pin_required`](#pin_required) | `invalid_request` | `409` | A member without an account PIN tried to mint a write key. Accepting an invite or a link needs no PIN. |
 | [`precondition_failed`](#precondition_failed) | `invalid_request` | `412` | The request carried If-Match with a change_seq, and the element has moved since; the reply's top-level `current` is the element as it is now. Nothing was written and nothing is merged: re-read `current`, then re-send or ask the user. |
+| [`player_role_fixed`](#player_role_fixed) | `invalid_request` | `422` | The owner tried to change a player seat's role: a player (no account) reads as a guest, and that role can't be changed. Remove the player instead. |
 | [`apply_failed`](#apply_failed) | `invalid_request` | `422` | A /bulk item passed validation but its write failed a database constraint (most often an id that already exists in another world). |
-| [`invalid_credentials`](#invalid_credentials) | `authentication_error` | `401` | The API key or PIN is missing, unrecognised or wrong. |
+| [`invalid_credentials`](#invalid_credentials) | `authentication_error` | `401` | The API key or PIN is missing, unrecognised or wrong. A PIN refusal names param API-Pin and says whether the PIN was missing or wrong. |
 | [`key_revoked`](#key_revoked) | `authentication_error` | `401` | The API key was recognised but has been revoked. |
 | [`permission_error`](#permission_error) | `permission_error` | `403` | The credential is valid but lacks the scope for this route (e.g. a read key on a write route). |
 | [`not_author`](#not_author) | `permission_error` | `403` | A contributor or guest key changed, replaced, relinked or deleted an element someone else created. |
@@ -131,6 +132,14 @@ An invite names someone who is already a member of the world, or an invite is ac
 A member without an account PIN tried to mint a write key. Accepting an invite or a link needs no PIN; member keys write with the member's own account PIN.
 
 - **How to fix:** set a PIN in your [account settings](https://www.onlyworlds.com/account/settings), then retry.
+
+### player_role_fixed
+
+**Type** `invalid_request` · **Status** `422`
+
+The owner tried to change a player seat's role: a player (no account) reads as a guest, and that role can't be changed. Remove the player instead.
+
+- **How to fix:** a [player](/docs/development/api/members#player-links) stays a guest. To give that friend more, remove the player and invite them as a person, by email or with an invite link; they will need an account.
 
 ### removal_in_flight
 

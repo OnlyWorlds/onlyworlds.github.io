@@ -107,6 +107,7 @@
 /api/errors#upload_pending	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#pin_required	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#precondition_failed	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#player_role_fixed	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#invalid_credentials	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#key_revoked	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#permission_error	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)

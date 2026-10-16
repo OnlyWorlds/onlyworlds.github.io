@@ -44,6 +44,11 @@
     "status": 412,
     "summary": "The request carried If-Match with a change_seq, and the element has moved since; the reply's top-level `current` is the element as it is now. Nothing was written and nothing is merged: re-read `current`, then re-send or ask the user."
   },
+  "player_role_fixed": {
+    "type": "invalid_request",
+    "status": 422,
+    "summary": "The owner tried to change a player seat's role: a player (no account) reads as a guest, and that role can't be changed. Remove the player instead."
+  },
   "apply_failed": {
     "type": "invalid_request",
     "status": 422,
@@ -52,7 +57,7 @@
   "invalid_credentials": {
     "type": "authentication_error",
     "status": 401,
-    "summary": "The API key or PIN is missing, unrecognised or wrong."
+    "summary": "The API key or PIN is missing, unrecognised or wrong. A PIN refusal names param API-Pin and says whether the PIN was missing or wrong."
   },
   "key_revoked": {
     "type": "authentication_error",

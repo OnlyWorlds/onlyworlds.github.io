@@ -106,6 +106,19 @@ A client can do the same two steps itself:
 
 A code made for a person is a bad code for an AI agent, and the other way round: every bad code, whatever the reason, answers the same `404`.
 
+## Player Links
+
+A **player link** lets a friend read the world with no account and no PIN, as one Character: the game-night guest. The owner makes it on the world page beside the invite links (a link for a player, no account needed), or with `reader` `player` on the owner's [link routes](#managing-members), choosing the Character the player reads as or a fresh one. It is always a guest's, and the same single-use, expiring `/join#ow_j_…` link as an invite link. Whoever opens it first reads as that Character, until the owner removes them.
+
+Opened in a browser, `/join` offers Open in Lantern, with no sign-in. Redeemed, it makes a member with `kind` `player`: no account behind it, role `guest` for good (it cannot be promoted: `422` [`player_role_fixed`](/api/errors/#player_role_fixed)), and one `ow_r_` read key. A player reads exactly what a guest playing that Character reads ([Guests](#guests)) and writes nothing; a write with its key is `403`. The owner can change which Character the player reads as (`character` on the member's `PATCH`, or Plays on the members table), or remove them, which stops the key at once. A lost key: remove the player and make a new link. The members table shows a player who never opened their link as never used.
+
+A client redeems a player code with no credential:
+
+| Method | Route | What it does |
+|:--|:--|:--|
+| POST | `/api/v2/join/preview` | As for an invite link, with `reader` `player` |
+| POST | `/api/v2/join` | `{"code", "name"}` (`name` optional: the Character's name, else `Player`): `201` with `kind` `player`, `role` `guest`, the world, the Character and the read `key`, shown only in this answer. The answer is typed by `kind`; an agent's code answers its own seat |
+
 ## Agent Seats
 
 An AI agent joins a world as a member with `kind` `agent`: an **agent seat**. The seat has its own Character (supertype `Agent`, unless the owner left it out), its own `ow_w_` key and its own secret for `API-Pin`. The owner chooses its role when making the agent link (contributor by default).
@@ -121,6 +134,7 @@ Making links, joining and the join routes are on [AI Agents](/docs/development/a
 | Read access to anyone you hand it to, no account needed | An `ow_r_` read key ([Keys and PINs](/docs/getting-started/keys)) |
 | Open reading to everyone | The world's `public_read` flag. There is no switch for it yet (planned); until then it is set by the OnlyWorlds team on request |
 | A person who writes, with their own PIN and their own role | A member invite by email, or an [invite link](#invite-links) |
+| A friend who reads as one Character, with no account | A [player link](#player-links) |
 | An AI agent with its own seat | An [agent link](/docs/development/agents) |
 
 A read key also works as a subscription: someone who holds it can follow the world's live state through [`/changes`](/docs/development/api/changes). With an account, they can store it as a **watched world** (`/api/v2/account/watched`), so the list follows them across tools. A watched key that stops working, for example because the owner revoked it, is marked stale rather than removed.
@@ -136,7 +150,7 @@ Invites and memberships are managed in the [account portal](https://www.onlyworl
 | GET | `/api/v2/account/worlds/{world_id}/members` | Members and pending invites |
 | PATCH | `/api/v2/account/worlds/{world_id}/members/{member_id}` | Change a member's role (owner only) |
 | DELETE | `/api/v2/account/worlds/{world_id}/members/{member_id}` | Remove a member; their keys for the world are deleted |
-| POST | `/api/v2/account/worlds/{world_id}/links` | Make an [invite link](#invite-links) (owner only): `reader` (`person` or `agent`, required), `role`, `days`, `inviter_name`, `with_character`; `201` with the code, shown only in this answer |
+| POST | `/api/v2/account/worlds/{world_id}/links` | Make an [invite link](#invite-links) (owner only): `reader` (`person`, `agent` or `player`, required), `role`, `days`, `inviter_name`, `with_character`, and for a player `character` (`new` or a Character's id); `201` with the code, shown only in this answer |
 | GET | `/api/v2/account/worlds/{world_id}/links` | The world's links, newest first, never a code, each with `uses` and `status` (`pending`, `used`, `revoked`, `expired`) |
 | DELETE | `/api/v2/account/worlds/{world_id}/links/{link_id}` | Revoke a link: `204` |
 | POST | `/api/v2/account/worlds/{world_id}/leave` | Leave a world; your keys for it are deleted |
