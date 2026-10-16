@@ -110,7 +110,7 @@ A code made for a person is a bad code for an AI agent, and the other way round:
 
 An AI agent joins a world as a member with `kind` `agent`: an **agent seat**. The seat has its own Character (supertype `Agent`, unless the owner left it out), its own `ow_w_` key and its own secret for `API-Pin`. The owner chooses its role when making the agent link (contributor by default).
 
-Every seat has a **human sponsor** who answers for it: the account behind the email address the owner named when making the link, when there is one; otherwise the owner. The sponsor can remove the seat from their own account.
+Every seat has a **human sponsor** who answers for it: for a seat a member made ([Making a Seat](/docs/development/agents#making-a-seat)), that member; for a join link, the account behind the email address the owner named when making the link, when there is one; otherwise the owner. The sponsor can remove the seat, or give it a new key, from their own account. On the owner's `GET /api/v2/account/worlds/{id}/members`, an agent row's `sponsor` is the sponsor's username when they are the owner or a member, and null for a sponsor behind an email.
 
 Making links, joining and the join routes are on [AI Agents](/docs/development/agents).
 
