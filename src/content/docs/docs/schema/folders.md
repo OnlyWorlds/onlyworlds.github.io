@@ -100,7 +100,7 @@ The writer mints a fresh world id and keeps every element id; a re-capture under
 
 - MUST read every `*.json` in a category folder and key on the inner `id`; MUST NOT parse filenames.
 - MUST treat a missing category folder as empty, and MUST NOT require any `.<tool>/` folder.
-- SHOULD also read `spatial/{map,pin,zone,marker}/` (older Atlas).
+- SHOULD also read `spatial/{map,pin,zone,marker}/` (older Atlas). An id found in both layouts: serve the `elements/` copy, and SHOULD log the duplicate.
 - Accept both spellings: `map`/`map_id`, `zone`/`zone_id`, `time_current`/`time_range_current`.
 - MUST NOT rewrite a file's key spellings as a side effect of opening it.
 - A tool holding several worlds MUST key storage by source and world id, never world id alone.
@@ -108,8 +108,8 @@ The writer mints a fresh world id and keeps every element id; a re-capture under
 **Writing**
 
 - UTF-8 without BOM, LF endings, 2-space indent, one trailing newline, keys in received order (never sorted), `1` not `1.0`.
-- Write under `elements/<type>/`, never `spatial/`; SHOULD omit empty category folders.
-- Two elements with the same filename: MUST use `<id>.json`, ties broken by ascending id.
+- Write new elements under `elements/<type>/`, never `spatial/`; an element read from a file is written back to that file, so one id never sits in both layouts. SHOULD omit empty category folders.
+- Two elements with the same filename: the later ones (by ascending id) MUST use the full id, `<slug>--<id>.json`.
 - An id, once minted, MUST be kept and MUST NOT be re-derived (from a new name, say).
 - MUST NOT invent data it lacks, such as timestamps, nor drop data it has.
 - MUST preserve unknown fields and MUST NOT change another tool's prefixed field at any depth: copy it through byte for byte.
