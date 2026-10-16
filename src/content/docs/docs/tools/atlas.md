@@ -23,14 +23,14 @@ Atlas reads and writes your world as plain JSON files, in a folder on your own m
 - **On a phone.** Built for a bigger screen, Atlas holds together on a phone: a top bar with a More menu, finger-sized buttons, each field's name above its value. On a touch screen help and the tour speak in taps, Writing has a Find button, the sidebar has Hide types, and the chart zooms with two fingers, pans with one, and re-dates a tapped dot by sliding it.
 - **Local-first.** Worlds are folders of plain JSON files you own, in a folder on your drive or in your browser, and Atlas works offline.
 - **One file.** Download the whole world as a single .zip (elements, pages, notes, charts and images, without the OnlyWorlds link and its key). Atlas opens it on any browser as a world of its own.
-- **Sync.** Link a world to onlyworlds.com to push and pull. The folder stays the source of truth.
+- **Sync.** Link a world to onlyworlds.com to push and pull. The folder stays the source of truth. An element an agent changed last carries a quiet mark after its name; point at it or tap it to read who. A person's change carries none.
 - **Import and Export.** Import and export the same world file onlyworlds.com exports. A world folder written by another tool opens in place.
-- **Sharing.** Publish read-only pages of your world to send to anyone. Needs an account; each world can have 20 published pages at a time. The owner of a linked world can invite people from Settings: Invite someone opens the world's Access pane on onlyworlds.com.
+- **Sharing.** Publish read-only pages of your world to send to anyone. Needs an account; each world can have 20 published pages at a time. The owner of a linked world invites people from Settings → This world → Invite someone: signed in with your account token, Atlas makes the link (a contributor or a player; it works once, for 7 days) with Copy and a QR code. Seeing and taking back links stays on the world's page on onlyworlds.com, and signed out the button opens that page. An invite link opened in Atlas joins you with your own OnlyWorlds account.
 - **Light and Dark.** Both themes across the whole app.
 
 ## Getting Started
 
-No signup is needed to start. The first screen leads with two doors: **start a world**, and **Moppetopia**, the public demo world, which opens as an editable copy in your browser that never syncs back (later, Settings → Explore Moppetopia opens it again). The guided tour, a world folder and the other ways in sit one line below.
+No signup is needed to start. The first screen leads with two doors: **start a world**, and **Moppetopia**, the public demo world, which opens as an editable copy in your browser that never syncs back (later, Settings → Explore Moppetopia opens it again). The guided tour, a world folder and the other ways in sit one line below. Signed in with your account token, your worlds on onlyworlds.com, your own and those shared with you, are listed under the doors, and one click opens one.
 
 Where a world lives: on Chrome, Edge and Brave a new world asks whether it goes in a folder on your drive, where your AI and other tools can work on it, or in the browser, and a browser world can be moved to a folder later. On Firefox and Safari a world lives in the browser, and that is a full home. A new world's Home asks what you have (start fresh, bring in a world from somewhere else, or look around), then shows the next few steps in the order a world tends to grow.
 
