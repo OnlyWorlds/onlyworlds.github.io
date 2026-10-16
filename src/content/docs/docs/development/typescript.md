@@ -138,6 +138,20 @@ const me = await client.me();          // { world, scope, kind, role, membership
 const roster = await client.members(); // the roster's rows: { id, kind, role, character, status }
 ```
 
+## A seat for your AI
+
+To let your own AI work in a world you own or belong to, make it a seat: its own membership, key and secret, with no link to pass around (see [Giving Your AI Access](/docs/development/agents#giving-your-ai-access)). With the account token (since 4.28.0):
+
+```typescript
+const made = await account.createSeat(worldId, { name: 'Quill', role: 'contributor', character: 'new' });
+// made.env: the .env lines for the AI (OW_API_KEY, OW_API_PIN, OW_WORLD, ...), shown once
+const seats = await account.listSeats(worldId);          // yours; every seat for the owner; no keys
+const renewed = await account.rekeySeat(worldId, made.seat.id); // a new key and secret; the old stop (4.29.0)
+await account.removeSeat(worldId, made.seat.id);
+```
+
+`role` is at most your own; `character` is `new` (a Character of its own), `none`, or `mine` (it plays the Character you play). None of these sends an `Idempotency-Key`, so a key is never stored for a replay: if an answer is lost, `listSeats` shows the seat, and `rekeySeat` gives it a new key.
+
 ## Find things in a world
 
 With a world's elements in memory, `lookupWorld` finds the ones a plain question is about. It uses no model and no network, and runs in a few milliseconds (since 4.11.0).
