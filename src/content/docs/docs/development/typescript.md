@@ -131,6 +131,18 @@ await account.revokeWorldLink(worldId, made.id);
 
 `reader: 'agent'` makes a link an AI agent redeems for a seat instead. Anyone but the owner gets a 404.
 
+`reader: 'player'` makes a link for a friend with no account, who reads the world as a guest playing one Character and writes nothing (since 4.30.0; see [Members and Sharing](/docs/development/api/members)). The friend's side needs no key at all:
+
+```typescript
+const link = await account.createWorldLink(worldId, { reader: 'player', character: 'new' }); // or a Character's id
+// on the friend's device:
+const phone = new OwV2Client();                       // no key: only health, previewJoin and redeemJoin work
+const joined = await phone.redeemJoin(code, { name: 'Ana' }); // joined.kind === 'player'
+const reader = new OwV2Client({ apiKey: joined.key }); // a read key, no PIN, shown once
+```
+
+The code is spent on redeem, and the answer can't be replayed: if it is lost, the owner sees the row never used, and sends a new link.
+
 Once in, a world key can ask who it is and who else is there (since 4.22.0; see [Who Am I](/docs/development/api/members#who-am-i)):
 
 ```typescript
@@ -251,7 +263,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.29.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.30.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -259,7 +271,7 @@ Generated from the types of `@onlyworlds/sdk` 4.29.0, the version these docs pin
 
 | Option | Type | Notes |
 |---|---|---|
-| `apiKey` (required) | `string` | The key: an ow_w_ (write) or ow_r_ (read) world key, an ow_a_ account token (sent as a Bearer token, for the account routes), or a 10-digit legacy key. |
+| `apiKey` | `string` | The key: an ow_w_ (write) or ow_r_ (read) world key, an ow_a_ account token (sent as a Bearer token, for the account routes), or a 10-digit legacy key. |
 | `apiPin` | `string` | The PIN, needed for writes when the world has one, and for legacy-key reads of private worlds. |
 | `baseUrl` | `string` | The API's base URL, default https://www.onlyworlds.com/api/v2. |
 | `pageSize` | `number` | Page size for element lists, default 100 (the server's default; at most 1000). |
@@ -293,8 +305,9 @@ Generated from the types of `@onlyworlds/sdk` 4.29.0, the version these docs pin
 | `createRemovalTicket(key)` | `POST /media/remove-ticket` | permission to remove ONE image (a write key and its PIN). | `Promise<OwRemovalTicket>` |
 | `removeImage(keyOrUrl, opts?)` |  | Remove one uploaded image: a removal ticket from the API, then the removal at the edge (the API key never leaves for the edge). | `Promise<OwRemovedImage>` |
 | `previewJoin(code)` | `POST /join/preview` | what a join code holds, without using it: who invites, to which world, in what role, and `reader` (`person`: accept it with acceptJoin; `agent`: an AI agent redeems it at POST /join). | `Promise<OwJoinPreview>` |
+| `redeemJoin(code, opts?)` | `POST /join` | redeem a join code that needs no account: a player's (a friend reading as a guest, keel #353) or an AI agent's. | `Promise<OwJoined>` |
 | `acceptJoin(code)` | `POST /account/join` | accept an invite link's code as the account this client's `ow_a_` token belongs to: 201 with the new membership. | `Promise<OwJoinedMembership>` |
-| `createWorldLink(worldId, opts)` | `POST /account/worlds/{worldId}/links` | a new invite link for a world this client's `ow_a_` token owns (keel C1): `reader` is required (`person`, accepted with acceptJoin; `agent`, redeemed at POST /join); `role` defaults to contributor, `days` (1, 7 or 30) to 7; `withCharacter` (agent links only) to true. | `Promise<OwCreatedWorldLink>` |
+| `createWorldLink(worldId, opts)` | `POST /account/worlds/{worldId}/links` | a new invite link for a world this client's `ow_a_` token owns (keel C1): `reader` is required (`person`, accepted with acceptJoin; `agent`, redeemed at POST /join; `player`, a friend with no account, redeemed with redeemJoin for a read key, keel #353); `role` defaults to contributor (a player link is guest, and refuses any other), `days` (1, 7 or 30) to 7; `withCharacter` (agent links only) to true; `character` (player links only) a Character's id or `new` (the default): whoever opens the link first reads as it, until removed. | `Promise<OwCreatedWorldLink>` |
 | `listWorldLinks(worldId)` | `GET /account/worlds/{worldId}/links` | the world's invite links, without their codes: each with its status (pending, used, revoked or expired) and uses. | `Promise<OwWorldLink[]>` |
 | `revokeWorldLink(worldId, linkId)` | `DELETE /account/worlds/{worldId}/links/{linkId}` | revoke a link: its code no longer works. | `Promise<void>` |
 | `createSeat(worldId, opts)` | `POST /account/worlds/{worldId}/seats` | a seat for your own AI in a world you own or are a member of: its own membership, write key and `ow_s_` secret, no join link. | `Promise<OwSeatCreated>` |
