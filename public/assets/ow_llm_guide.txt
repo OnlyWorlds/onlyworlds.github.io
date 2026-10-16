@@ -191,8 +191,8 @@ test.ts:
 import { OwV2Client } from '@onlyworlds/sdk';
 
 const client = new OwV2Client({
-  apiKey: process.env.ONLYWORLDS_API_KEY!,
-  apiPin: process.env.ONLYWORLDS_API_PIN,   // only needed for writes
+  apiKey: process.env.OW_API_KEY!,
+  apiPin: process.env.OW_API_PIN,   // only needed for writes
 });
 
 const world = await client.getWorld();
@@ -204,9 +204,11 @@ console.log(page.data.length, 'characters on the first page');
 
 Run: `npx tsx --env-file=.env test.ts` (Node 20.6+ reads .env this way)
 
-ONLYWORLDS_API_KEY / ONLYWORLDS_API_PIN are the names projects use (the
-toolkit's project setup, the SDK examples). An agent seat's join response
-names them OW_API_KEY, OW_API_PIN, OW_WORLD, OW_CHARACTER, OW_API_BASE.
+OW_API_KEY, OW_API_PIN and OW_WORLD (the world's id) are the names to use: the
+SDK examples and an agent seat's join response use them (the join response
+adds OW_CHARACTER and OW_API_BASE). The toolkit's project setup still writes
+the older ONLYWORLDS_API_KEY / ONLYWORLDS_API_PIN until its next release, and
+those names keep working after it.
 
 ============================================================
 PART 4: SDK AND API REFERENCE
@@ -387,10 +389,12 @@ Community: discord.gg/twCjqvVBwb
 
 ============================================================
 
-Last updated: 2026-10-08
+Last updated: 2026-10-16
 SDK: 4.x (OwV2Client, v2 API)
 
 Changelog:
+- v10: one set of environment variable names, OW_API_KEY, OW_API_PIN,
+      OW_WORLD (the toolkit's older ONLYWORLDS_ names keep working).
 - v9: PLAIN HTTP block (headers, routes, the {"error": ...} wrapper); the
       full filter list; where the PIN is set; demo keys; both environment
       variable conventions; the idempotency rule for bulk; Node 18+.
