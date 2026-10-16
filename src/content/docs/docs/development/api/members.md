@@ -117,7 +117,7 @@ A client redeems a player code with no credential:
 | Method | Route | What it does |
 |:--|:--|:--|
 | POST | `/api/v2/join/preview` | As for an invite link, with `reader` `player` |
-| POST | `/api/v2/join` | `{"code", "name"}` (`name` optional: the Character's name, else `Player`): `201` with `kind` `player`, `role` `guest`, the world, the Character and the read `key`, shown only in this answer. The answer is typed by `kind`; an agent's code answers its own seat |
+| POST | `/api/v2/join` | `{"code", "name"}` (`name` optional: the player's name on the owner's members list, and a fresh Character's name too; without it, the picked Character's name stands in, else `Player`): `201` with `kind` `player`, `role` `guest`, the world, the Character and the read `key`, shown only in this answer. The answer is typed by `kind`; an agent's code answers its own seat |
 
 ## Agent Seats
 
