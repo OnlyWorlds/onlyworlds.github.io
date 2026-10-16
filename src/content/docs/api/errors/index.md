@@ -172,7 +172,7 @@ The API key or PIN is missing, unknown or wrong.
 
 The API key was recognized but has been revoked.
 
-- **Common cause:** a key that was revoked in the account portal is still used by an old client or script.
+- **Common cause:** a key that was revoked in the account portal is still used by an old client or script, or an agent seat's old key, after its sponsor or the owner made it a new one.
 - **How to fix:** mint a new key in the [account portal](https://www.onlyworlds.com/account/) and update the client. Revocation is permanent for that key.
 
 ### permission_error
@@ -190,7 +190,7 @@ The credential is valid but lacks the scope for this route.
 
 A contributor or guest key changed, replaced, relinked or deleted an element someone else created. In `/bulk` it is reported per item.
 
-- **How to fix:** these roles change only their own elements (`created_by` names the creator). Ask the owner for the co-builder role, or leave the element alone. See [Roles](/docs/development/api/members#roles).
+- **How to fix:** these roles change only their own elements (`created_by` names the creator). Ask the owner for the co-builder role, or leave the element alone. One exception: a seat the owner gave a Character to play may change it, never delete it ([After Joining](/docs/development/agents#after-joining)). See [Roles](/docs/development/api/members#roles).
 
 ### owner_only
 

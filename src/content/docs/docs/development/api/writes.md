@@ -79,6 +79,7 @@ The check is per element, not per field, and the server never merges. The client
 
 - An identical replay returns the stored response, with an `Idempotent-Replay: true` header, and does not write again.
 - The same key with a different body is `409` [`idempotency_error`](/api/errors/#idempotency_error).
+- While a request with that key is still running, a second one is `409` [`idempotency_in_flight`](/api/errors/#idempotency_in_flight) with `Retry-After: 1`; retry with the same key and body.
 - Only successful (`2xx`) responses are stored; errors never are. A `/bulk` answer is a `200` even when items failed, so it is stored, item errors included, and a replay returns the same errors.
 
 The rule for retries:
@@ -93,8 +94,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/character" \
   -d '{ "id": "0199a1c2-7d3e-7f00-8a11-3c5e7b9d2f40", "name": "The Consul" }'
 ```
 
-The store suppresses replays on a best-effort basis; it is not a ledger. Minting the `id` on the client keeps a retry safe even without the header: two concurrent creates without client ids can make two elements.
-
+A key is held while its request runs, so two sends with it do not both write; the hold and the store are best-effort, not a ledger. Without the header, mint the `id` on the client: two concurrent creates without client ids can make two elements.
 ## Bulk
 
 `POST /api/v2/bulk` creates and upserts up to 1000 elements of mixed categories in one call.

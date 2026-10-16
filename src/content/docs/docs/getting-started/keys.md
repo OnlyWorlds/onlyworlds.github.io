@@ -58,7 +58,7 @@ Removing a member, or a member leaving, deletes that member's keys for the world
 
 ## Agent Seat Keys
 
-An AI agent that joins a world through an agent link receives, once, an `ow_w_` key and a seat secret (`ow_s_…`). The agent sends the secret as `API-Pin` on writes. It is never the world's PIN or any account's PIN, and reads take the key alone. Joining is described on [AI Agents](/docs/development/agents).
+An agent seat, whether a member made it or it joined through an agent link, receives once an `ow_w_` key and a seat secret (`ow_s_…`). The agent sends the secret as `API-Pin` on writes. It is never the world's PIN or any account's PIN, and reads take the key alone. A lost key is replaced with a new one, never a new seat. Joining is described on [AI Agents](/docs/development/agents).
 
 ## Checking a Key
 
@@ -77,12 +77,13 @@ curl -s "https://www.onlyworlds.com/api/v2/me" -H "API-Key: {key}"
 
 ### Checking the PIN
 
-Send the PIN with a read and the read checks it. `/me` and every read take the key alone (except a legacy key reading a private world), but a PIN that comes with the request is checked all the same, so `GET /api/v2/me` with the key and the PIN confirms both. A wrong PIN answers the same `401` [`invalid_credentials`](/api/errors/#invalid_credentials) as a bad key, through the same throttle as a write. An empty `API-Pin` header counts as none. Two keys are exceptions: a member's key, whose PIN (or an agent seat's secret) is checked on a write and on `GET /api/v2/me` when one is sent (other reads ignore it), and a [demo key](#demo-keys), which reads with any PIN. The `message` tells the failures apart:
+Send the PIN with a read and the read checks it. `/me` and every read take the key alone (except a legacy key reading a private world), but a PIN that comes with the request is checked all the same, so `GET /api/v2/me` with the key and the PIN confirms both. A wrong PIN answers the same `401` [`invalid_credentials`](/api/errors/#invalid_credentials) as a bad key, but with `param` `API-Pin`, so a client can tell them apart, through the same throttle as a write. An empty `API-Pin` header counts as none. Two keys are exceptions: a member's key, whose PIN (or an agent seat's secret) is checked on a write and on `GET /api/v2/me` when one is sent (other reads ignore it), and a [demo key](#demo-keys), which reads with any PIN. The `message` tells the failures apart:
 
 | Answer | `message` | Meaning |
 |:--|:--|:--|
 | `401` `invalid_credentials` | `No valid API-Key.` | The key is missing or unknown |
-| `401` `invalid_credentials` | `Incorrect PIN.` | The key is valid; the PIN is missing or wrong |
+| `401` `invalid_credentials` | `A PIN is required: send it as API-Pin.` | The key is valid; the PIN is missing (`param` `API-Pin`) |
+| `401` `invalid_credentials` | `Incorrect PIN.` | The key is valid; the PIN is wrong (`param` `API-Pin`) |
 | `401` [`key_revoked`](/api/errors/#key_revoked) | | The key was recognized but revoked |
 | `403` [`permission_error`](/api/errors/#permission_error) | `This key is read-only and cannot write to this world.` | The key is genuine but lacks the scope, such as a read key on a write route |
 | `429` [`rate_limited`](/api/errors/#rate_limited) | `Too many failed PIN attempts. Try again later.` | Too many wrong PINs: wait the `Retry-After` seconds |
@@ -99,7 +100,7 @@ Message wording may change: branch on `code`, and use the message only to tell a
 
 ## Account Tokens
 
-An `ow_a_` token acts on your account: it lists your worlds, creates worlds, mints and revokes world keys, and manages invites, members and watched worlds. Mint one in the account portal under **Settings → Account tokens**, or with `POST /api/v2/account/tokens`. Like a key, it is shown once.
+An `ow_a_` token acts on your account: it lists your worlds, creates worlds, mints and revokes world keys, and manages invites, members, seats, links and watched worlds. Mint one in the account portal under **Settings → Account tokens**, or with `POST /api/v2/account/tokens`. Like a key, it is shown once.
 
 It is sent as a bearer token, not as `API-Key`:
 
@@ -147,4 +148,4 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/account/worlds" \
   "key": "ow_w_…" }
 ```
 
-The routes for invites, members and watched worlds are on [Members and Sharing](/docs/development/api/members#managing-members). A missing or invalid account credential answers `401`.
+The routes for invites, members, seats, links and watched worlds are on [Members and Sharing](/docs/development/api/members#managing-members). A missing or invalid account credential answers `401`.

@@ -3,7 +3,7 @@ title: Members and Sharing
 description: Who can be in a world besides its owner, what each role may see and change, guests, and the ways to share a world.
 ---
 
-A world can have **members** besides its owner: people the owner invites by email address or through an invite link, and AI agents that join through an agent link. Every member has a **role**, and every element records which member created it.
+A world can have **members** besides its owner: people the owner invites by email address or through an invite link, AI agents with a seat (made by a member, or through an agent link), and players who read with no account. Every member has a **role**, and every element records which member created it.
 
 ## Roles
 
@@ -41,11 +41,11 @@ curl -s "https://www.onlyworlds.com/api/v2/members" -H "API-Key: {key}"
 | Field | Meaning |
 |:--|:--|
 | `id` | The membership id, which is what `created_by` holds; `null` for the owner |
-| `kind` | `owner`, `person` or `agent` |
+| `kind` | `owner`, `person`, `agent` or `player` |
 | `role` | `owner`, `co_builder`, `contributor` or `guest` |
 | `character` | The Character that is this member, or `null`. The owner's is the world's `owner_character` |
 | `status` | `active` or `removed` |
-| `name` | Agent rows only: the agent's name |
+| `name` | Agent and player rows only: their name |
 
 The owner row comes first, then active members in the order they joined, then removed members. Removed members keep their row so every `created_by` resolves. The roster never carries usernames or email addresses: a Character is the public face.
 
@@ -66,7 +66,7 @@ curl -s "https://www.onlyworlds.com/api/v2/narrative?characters={character_id}" 
 
 `scope` is `read` or `write`. `membership` is what `created_by` will hold for what this key creates. An owner-minted or legacy key answers as the owner, with `membership` `null` and `character` set to the world's `owner_character`.
 
-A member key sent with a PIN (or an agent seat with its secret) has it checked here: a wrong one is `401` [`invalid_credentials`](/api/errors/#invalid_credentials), and with none the answer stands. So `/me` tests a connection before the first write.
+A member key sent with a PIN (or an agent seat with its secret) has it checked here: a wrong one is `401` [`invalid_credentials`](/api/errors/#invalid_credentials), and with none the answer stands. So `/me` tests a connection before the first write. A player's key has no PIN; one it sends is ignored.
 
 ## Guests
 
@@ -123,7 +123,7 @@ A client redeems a player code with no credential:
 
 An AI agent joins a world as a member with `kind` `agent`: an **agent seat**. The seat has its own Character (supertype `Agent`, unless the owner left it out), its own `ow_w_` key and its own secret for `API-Pin`. The owner chooses its role when making the agent link (contributor by default).
 
-Every seat has a **human sponsor** who answers for it: for a seat a member made ([Making a Seat](/docs/development/agents#making-a-seat)), that member; for a join link, the account behind the email address the owner named when making the link, when there is one; otherwise the owner. The sponsor can remove the seat, or give it a new key, from their own account. On the owner's `GET /api/v2/account/worlds/{id}/members`, an agent row's `sponsor` is the sponsor's username when they are the owner or a member, and null for a sponsor behind an email.
+Every seat has a **human sponsor** who answers for it: for a seat a member made ([Making a Seat](/docs/development/agents#making-a-seat)), that member; for a join link, the account behind the email address the owner named when making the link, when there is one; otherwise the owner. The sponsor can remove the seat, or give it a new key, from their own account. On the owner's `GET /api/v2/account/worlds/{id}/members`, an agent row's `sponsor` is the sponsor's username when they are the owner or a member, and null for a sponsor behind an email. On an agent row the owner also sees `may_change_character`: true when the seat may change, never delete, the Character it plays.
 
 Making links, joining and the join routes are on [AI Agents](/docs/development/agents).
 
@@ -148,11 +148,15 @@ Invites and memberships are managed in the [account portal](https://www.onlyworl
 | POST | `/api/v2/account/worlds/{world_id}/invites` | Invite an email address as a member (owner only) |
 | DELETE | `/api/v2/account/worlds/{world_id}/invites/{invite_id}` | Cancel an invite |
 | GET | `/api/v2/account/worlds/{world_id}/members` | Members and pending invites |
-| PATCH | `/api/v2/account/worlds/{world_id}/members/{member_id}` | Change a member's role (owner only) |
+| PATCH | `/api/v2/account/worlds/{world_id}/members/{member_id}` | Change a member's `role`, or the `character` an agent or player plays (owner only) |
 | DELETE | `/api/v2/account/worlds/{world_id}/members/{member_id}` | Remove a member; their keys for the world are deleted |
 | POST | `/api/v2/account/worlds/{world_id}/links` | Make an [invite link](#invite-links) (owner only): `reader` (`person`, `agent` or `player`, required), `role`, `days`, `inviter_name`, `with_character`, and for a player `character` (`new` or a Character's id); `201` with the code, shown only in this answer |
 | GET | `/api/v2/account/worlds/{world_id}/links` | The world's links, newest first, never a code, each with `uses` and `status` (`pending`, `used`, `revoked`, `expired`) |
 | DELETE | `/api/v2/account/worlds/{world_id}/links/{link_id}` | Revoke a link: `204` |
+| POST | `/api/v2/account/worlds/{world_id}/seats` | Make a seat for your own AI ([Making a Seat](/docs/development/agents#making-a-seat)): `201` with its key and secret, shown once |
+| GET | `/api/v2/account/worlds/{world_id}/seats` | Your seats; the owner sees every seat; never a key |
+| DELETE | `/api/v2/account/worlds/{world_id}/seats/{seat_id}` | Remove a seat (its sponsor or the owner) |
+| POST | `/api/v2/account/worlds/{world_id}/seats/{seat_id}/key` | A new key and secret for a seat; the old key answers `key_revoked` |
 | POST | `/api/v2/account/worlds/{world_id}/leave` | Leave a world; your keys for it are deleted |
 | GET | `/api/v2/account/invites` | Invites addressed to your verified email addresses |
 | POST | `/api/v2/account/invites/{invite_id}/accept` | Accept: `201` with the new membership |
@@ -175,4 +179,4 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/account/worlds/{world_id}/inv
 - Inviting an existing member, or accepting as one, is `409` [`already_member`](/api/errors/#already_member). Accepting needs no account PIN; minting a write key without one is `409` [`pin_required`](/api/errors/#pin_required).
 - A role change chooses among `co_builder`, `contributor` and `guest`, and applies from the member's next request. A member made a guest keeps its roster Character only if it created it.
 
-The bodies: an invite takes `email` and `role`; a role change takes `role`; accepting an invite takes an optional `roster_character` (the id of an existing Character to stand for you in the roster; ignored for guests, who always get a new one); adding a watched world takes `key` (the world's `ow_r_` key).
+The bodies: an invite takes `email` and `role`; a change takes `role`, `character` (a Character's id, or `null` for an agent), or both; accepting an invite takes an optional `roster_character` (the id of an existing Character to stand for you in the roster; ignored for guests, who always get a new one); adding a watched world takes `key` (the world's `ow_r_` key).

@@ -53,10 +53,10 @@ A single element answers as the bare element object. Every error answers in one 
 | GET | `/api/v2/members` | The world's roster | [Members](/docs/development/api/members) |
 | GET | `/api/v2/me` | Who the calling key is | [Members](/docs/development/api/members) |
 | POST | `/api/v2/media/ticket` | A ticket for one image upload | [Images](/docs/development/api/images) |
-| POST | `/api/v2/join/preview` | Read an agent link without using it | [Agents](/docs/development/agents) |
-| POST | `/api/v2/join` | Join a world as an AI agent | [Agents](/docs/development/agents) |
+| POST | `/api/v2/join/preview` | Read a join link (agent, person or player) without using it | [Agents](/docs/development/agents) |
+| POST | `/api/v2/join` | Redeem an agent's or a player's code, no key | [Agents](/docs/development/agents) |
 | GET | `/api/v2/health` | Liveness check, no key needed | |
-| various | `/api/v2/account/...` | Account token routes: worlds, keys, invites, members, watched worlds | [Keys and PINs](/docs/getting-started/keys#account-tokens), [Members](/docs/development/api/members#managing-members) |
+| various | `/api/v2/account/...` | Account token routes: worlds, keys, invites, members, links, seats, watched worlds | [Keys and PINs](/docs/getting-started/keys#account-tokens), [Members](/docs/development/api/members#managing-members) |
 
 Trailing slashes are tolerated on every route: `/api/v2/character/{id}` and `/api/v2/character/{id}/` both resolve, with no redirect.
 
@@ -80,7 +80,7 @@ There are no webhooks. To follow a world's changes, poll [`/changes`](/docs/deve
 - New fields and routes arrive without notice and never change what existing fields mean. A field, route or behaviour is removed only after it has been announced on the [feedback page](https://www.onlyworlds.com/feedback)'s changelog and in the [API document](https://www.onlyworlds.com/api/v2/openapi.json), at least six months ahead.
 - Every reply's `X-OW-Schema-Version` header names the version of the standard that shapes it.
 - Error codes and field names are a contract: a client may branch on them. Error messages are not.
-- The schema, the TypeScript SDK, the Unity SDK, the toolkit and schema-dist are MIT-licensed.
+- The standard's files, the TypeScript SDK, the Unity SDK, the toolkit and schema-dist are MIT-licensed.
 
 ## API Pages
 
@@ -91,7 +91,7 @@ There are no webhooks. To follow a world's changes, poll [`/changes`](/docs/deve
 | [Link Fields](/docs/development/api/links) | How links read and write, and the link operations route |
 | [Writes and Bulk](/docs/development/api/writes) | Create, upsert, patch, delete, idempotency, bulk |
 | [Changes and Export](/docs/development/api/changes) | The change feed, full export, guests' cursors |
-| [Members and Sharing](/docs/development/api/members) | Roles, the roster, guests, invites, read keys |
+| [Members and Sharing](/docs/development/api/members) | Roles, the roster, guests, invites, player links, agent seats, read keys |
 | [Images](/docs/development/api/images) | Hosting an element's picture on OnlyWorlds |
 | [CORS](/docs/development/api/cors) | Which browser origins may call the API |
 | [Classic API](/docs/development/api/classic) | The original `/api/worldapi/` dialect |

@@ -13,7 +13,7 @@ onlyworlds.com is the platform hub: accounts, world hosting, keys and the API. E
 ## Features
 
 - **World Hosting.** Create worlds and manage them from the account portal.
-- **The world page.** Five panes: Overview, Elements, Open with (how to open the world in Atlas, Lantern, Obsidian or an AI), Access (keys and invitations) and Settings. See [Agent seats](/docs/development/agents) for the invitations. **Open in Atlas** opens the world in Atlas with no key to copy: Atlas signs in with your account token. A member's page for a world shared with them has the same button.
+- **The world page.** Five panes: Overview, Elements, Open with (how to open the world in Atlas, Lantern, Obsidian or an AI), Access (keys and invitations) and Settings. See [Agent seats](/docs/development/agents) for the invitations. **Open in Atlas** opens the world in Atlas with no key to copy: Atlas signs in with your account token. A member's page for a world shared with them has the same button, and **Your AI in this world**, where a member makes a seat for their own AI.
 - **The join page.** An invite link opens `onlyworlds.com/join`, which shows who invites you, to which world and as what role. A person's invitation also offers **Open in Lantern** and **Open in Atlas**; an agent's, **Open in Atlas**. See [Invite links](/docs/development/api/members#invite-links).
 - **Keys.** Mint and revoke scoped world keys, `ow_w_` for write and `ow_r_` for read. A key is shown once. See [Keys](/docs/getting-started/keys).
 - **Account Tokens.** Mint `ow_a_` tokens in Settings so apps can act on your account.
