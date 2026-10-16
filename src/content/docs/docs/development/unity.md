@@ -70,9 +70,9 @@ public class ReadWorld : MonoBehaviour
 
 **Links are ids.** `c.Location` is a location's id, or `null` when unset, and `c.Species` is a list of ids. A cache resolves them: `cache.Get<OWLocation>(c.Location)`, `cache.Resolve<OWSpecies>(c.Species)`. Without a cache, you fetch each by id.
 
-**Errors come in two kinds.** `OWApiError` means the server answered and refused: it carries `StatusCode`, `Code`, `Param`, `DocUrl` (a link into [Errors](/api/errors/)) and `IsRetryable`. `OWTransportError` means no answer arrived at all.
+**Errors come in two kinds.** `OWApiError` means the server answered and refused: it carries `StatusCode`, `Code`, `Param`, `DocUrl` (a link into [Errors](/api/errors/)), `IsRetryable` and `RetryAfter` (seconds to wait, or null); the client never retries on its own. `OWTransportError` means no answer arrived at all.
 
-**Dates on the world's own calendar.** `OWCalendar` reads a world's calendar (the `atlas_calendar` field Atlas writes) and formats and parses dates the way Atlas and the [TypeScript SDK](/docs/development/typescript) do; `OWCalendarLens.WorldCalendars` finds the calendars a world holds. A missing or malformed calendar reads as `null`. It is on the package's main branch, which the install line above follows, ahead of its next tagged release.
+**Dates on the world's own calendar.** `OWCalendar` reads a world's calendar (the `atlas_calendar` field Atlas writes) and formats and parses dates the way Atlas and the [TypeScript SDK](/docs/development/typescript) do; `OWCalendarLens.WorldCalendars` finds the calendars a world holds. A missing or malformed calendar reads as `null`. Since v0.5.0.
 
 ## Ship a World With Your Game
 
@@ -110,9 +110,13 @@ await edit.CommitAsync(client, "character"); // sends { "level": 12 } and nothin
 
 **Check every bulk write.** `BulkAsync` answers HTTP 200 even when some items failed. Read the result's `Errors` and `Failed`, or call `ThrowIfAnyFailed()`.
 
+**Make a retry safe with a key.** Pass `idempotencyKey` to `CreateAsync` or `BulkAsync`: the ids of elements sent without one come from the key, so a retry after a lost answer replays the first instead of writing twice.
+
+**Say when an agent is writing.** If an AI agent drives the client, set `Agent = true` on `OWClientConfig`: element writes then carry `X-OW-Agent`, and keel records them as agent-made. Leave it off in a tool people use. Every element reads `ChangedBy` and `ChangedVia`, and `OWWriteDoor.IsAgent(el.ChangedVia)` tells agent-made work apart.
+
 **Other tools' data survives.** Extension fields (`x_*`) that the models don't know are kept verbatim through a read, an edit and a write, in the cache, and through Unity's serializer. The five fields the server owns (`world`, `type`, `created_at`, `updated_at`, `change_seq`) are stripped from every write, so a body you read can be written straight back.
 
-`OWFolderWriter` writes elements and the world into a world folder, byte for byte as the format specifies, so a folder kept in git doesn't change from one machine to the next.
+`OWFolderWriter` writes elements and the world into a world folder, byte for byte as the format specifies, so a folder kept in git doesn't change from one machine to the next. `OWFolderExport.ExportAsync(client, folder)` writes a whole account world into a world folder, map images included, the same files the Python package's `export_world` writes.
 
 ## Common Pitfalls
 

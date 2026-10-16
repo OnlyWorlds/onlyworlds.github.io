@@ -76,7 +76,7 @@ if (res.errors) {
 ```
 
 - `{ atomic: true }` makes the batch all or nothing. After a failed atomic batch nothing was written, but the slots that would have succeeded still report 201: do not record those ids as created.
-- The server stores every 2xx answer under its idempotency key, and never an error. So when an answer is lost, retry with the **same** key: a stored answer replays, and an error runs again.
+- The server stores every 2xx answer under its idempotency key, and never an error. So when an answer is lost, retry with the **same** key: a stored answer replays, and an error runs again. If the first request is still running, the retry throws with `err.isIdempotencyInFlight` (409): wait `err.retryAfter` seconds and send it again, same key and body (since 4.27.0).
 - A bulk answer with item errors is still a 200, so it is stored too. Fix the failed items and send them with a **new** key, because the same key replays the same errors.
 - `res.wasReplay` is true when the server answered from that store.
 
@@ -231,7 +231,7 @@ No calendar, or a broken one, gives null: show the bare number.
 
 ## Errors
 
-Every non-2xx answer throws `OwApiError` with the platform's error envelope: `.status`, `.type`, `.code`, `.param` (the field that failed) and `.docUrl`, which links to the code on [the errors page](/api/errors). Show `docUrl` to your users. Transport failures throw `OwNetworkError`. `err.isValidationError` covers the common case. A write sent with `ifMatch` that found the element moved throws `OwPreconditionFailedError` (412, `err.isPreconditionFailed`), an `OwApiError` that also carries `current`.
+Every non-2xx answer throws `OwApiError` with the platform's error envelope: `.status`, `.type`, `.code`, `.param` (the field that failed, or `API-Pin` when a PIN was refused) and `.docUrl`, which links to the code on [the errors page](/api/errors). Show `docUrl` to your users. Transport failures throw `OwNetworkError`. `err.isValidationError` covers the common case. A write sent with `ifMatch` that found the element moved throws `OwPreconditionFailedError` (412, `err.isPreconditionFailed`), an `OwApiError` that also carries `current`.
 
 ## Schema constants
 
