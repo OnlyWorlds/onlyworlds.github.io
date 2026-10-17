@@ -56,13 +56,24 @@ saved_cursor = walk.cursor  # opaque: persist it, never parse it
 
 If the feed refuses a cursor (`is_resync_required` on the error), walk again from the start and replace the local copy. See [Sync with Changes](/docs/development/api/changes).
 
+## Export to OKF
+
+Since 0.6.0 a world folder can be exported as a valid [Open Knowledge Format](https://github.com/GoogleCloudPlatform/open-knowledge-format) (OKF) 0.2 bundle, as that spec stands at one pinned commit (`onlyworlds.okf.OKF_COMMIT`). It needs the `okf` extra, which adds PyYAML; the rest of the package stays dependency-free.
+
+```bash
+pip install "onlyworlds[okf]"
+python -m onlyworlds.okf my-world my-world-okf
+```
+
+Each element becomes one markdown file: its fields and links in the frontmatter, its text under headings, its links again as markdown links (in-prose `ow://` references included), plus an index per type. The same folder always gives the same bytes, and anything left out is listed in the report (on stderr from the command line). A bundle is a copy to read elsewhere, never a folder to sync: it carries no `change_seq`, no record of who wrote what, and not the world's key.
+
 ## What it covers
 
 - **World folders**: `read_folder` and `write_folder` implement the folder format and pass its shared conformance fixture. The reader never changes a folder. An element found in both the current `elements/` layout and Atlas's older `spatial/` one is served from `elements/`, and `folder.in_both_layouts` lists it (since 0.5.0).
 - **Push**: `plan_push` and `push` compare a folder with a baseline and PATCH only the fields that changed. A rerun skips what already landed.
 - **Client**: `get_world`, `patch_world`, `list_page`, `iter_elements`, `get`, `create`, `upsert`, `patch`, `delete`, `edit_links`, `bulk`, `changes` and `walk_changes`. `create` and `bulk` always send an `Idempotency-Key`, so a retry after a lost answer is safe: it never creates an element twice. A retry that meets the first request still running (409 `idempotency_in_flight`) waits and tries again until the stored answer replays (since 0.4.0).
 - **Errors**: `ApiError` carries the envelope's `code`, `param` and `doc_url`, with flags such as `is_id_conflict`, `is_not_author`, `is_resync_required`, `is_idempotency_in_flight` and `is_validation_error`. Pass `if_match=el["change_seq"]` to `patch` or `edit_links` to write only if nobody changed the element since you read it (since 0.2.0); if it moved, `PreconditionFailed` carries `current`, the element as it is now. See [Only if unchanged](/docs/development/api/writes#only-if-unchanged).
-- **Export**: `export_world`.
+- **Export**: `export_world` (an account world to a folder), and `onlyworlds.okf.export_okf` (a folder to an OKF bundle, since 0.6.0).
 
 Not yet: typed element models, the account routes, `me()` and `members()` (the TypeScript SDK has both), and the snapshot writer.
 
