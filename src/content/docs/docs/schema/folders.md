@@ -98,7 +98,7 @@ The writer mints a fresh world id and keeps every element id; a re-capture under
 
 **Reading**
 
-- MUST read every `*.json` in a category folder and key on the inner `id`; MUST NOT parse filenames.
+- MUST read every `*.json` in a category folder and key on the inner `id`; MUST NOT parse filenames. SHOULD skip a dot-prefixed file there: it is a tool's litter, not an element.
 - MUST treat a missing category folder as empty, and MUST NOT require any `.<tool>/` folder.
 - SHOULD also read `spatial/{map,pin,zone,marker}/` (older Atlas). An id found in both layouts: serve the `elements/` copy, and SHOULD log the duplicate.
 - Accept both spellings: `map`/`map_id`, `zone`/`zone_id`, `time_current`/`time_range_current`.
