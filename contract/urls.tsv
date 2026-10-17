@@ -126,3 +126,6 @@
 /api/errors#server_busy	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#payload_too_large	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#media_unavailable	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/docs	page	301 -> https://onlyworlds.github.io/docs/	onlyworlds.github.io:the docs root and its namespaces, typed or linked (Skeld h37 #6581, the LegendKeeper lane; 404 on the live site 2026-10-17)
+/api	page	301 -> https://onlyworlds.github.io/api/	onlyworlds.github.io:the docs root and its namespaces, typed or linked (Skeld h37 #6581, the LegendKeeper lane; 404 on the live site 2026-10-17)
+/docs/development/api	page	301 -> https://onlyworlds.github.io/docs/development/api/	onlyworlds.github.io:the docs root and its namespaces, typed or linked (Skeld h37 #6581, the LegendKeeper lane; 404 on the live site 2026-10-17)

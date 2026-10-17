@@ -104,4 +104,52 @@ for (const file of walk(DIST)) {
   codeBreaks += html.split(lineGap).length - 1;
   writeFileSync(file, next);
 }
-console.log(`postbuild: ${moved} folder page(s) moved to <dir>/index.html; ${rewrites} link(s) to them rewritten to <dir>/; ${alternates} page(s) name their Markdown twin; ${codeBreaks} code line break(s) kept in the text`);
+// GitHub Pages answers /x for a directory x with a 301 to /x/, and /x/ needs x/index.html. A
+// directory that holds pages but no index of its own (a namespace, such as /docs) would 301 to a
+// 404. Each one serves a copy of the page that stands for it; the copy keeps that page's canonical,
+// so the page still has one address. A new such directory fails the build until it is named here.
+// A directory with a page of its own name beside it (x.html) needs none: Pages serves x.html for /x
+// (production, 2026-10-17: /docs/schema/element_categories answers 200).
+const DIR_INDEX = {
+  docs: 'index.html',
+  api: 'docs/development/api-reference.html',
+  'docs/development/api': 'docs/development/api-reference.html',
+};
+const holdsPages = (d) => readdirSync(d).some((f) => {
+  const p = join(d, f);
+  return statSync(p).isDirectory() ? holdsPages(p) : f.endsWith('.html');
+});
+const dirs = (d) => readdirSync(d).flatMap((f) => {
+  const p = join(d, f);
+  return statSync(p).isDirectory() ? [p, ...dirs(p)] : [];
+});
+let dirIndexes = 0;
+for (const d of dirs(DIST)) {
+  if (existsSync(join(d, 'index.html')) || existsSync(`${d}.html`) || !holdsPages(d)) continue;
+  const rel = relative(DIST, d).replace(/\\/g, '/');
+  const from = DIR_INDEX[rel];
+  if (!from) {
+    console.error(`postbuild: ${rel}/ holds pages but no index.html, so /${rel} would answer 404: name the page it serves in DIR_INDEX`);
+    process.exit(1);
+  }
+  if (!existsSync(join(DIST, from))) {
+    console.error(`postbuild: DIR_INDEX names ${from} for ${rel}/, and the build has no such page`);
+    process.exit(1);
+  }
+  writeFileSync(join(d, 'index.html'), readFileSync(join(DIST, from)));
+  dirIndexes++;
+}
+// Every other page is a file, x.html, so /x/ (a trailing slash someone typed or linked) answers the
+// 404 page. In a browser that page sends /x/ on to /x, once (a second visit to the same /x stays,
+// so a path that is truly missing cannot loop).
+const slashFix = '<script data-ow-slash>(function(){var p=location.pathname;if(p.length<2||p.slice(-1)!=="/")return;' +
+  'var t=p.replace(/\\/+$/,"");try{if(sessionStorage.getItem("ow-slash")===t)return;sessionStorage.setItem("ow-slash",t)}catch(e){}' +
+  'location.replace(t+location.search+location.hash)})();</script>';
+const page404 = join(DIST, '404.html');
+const html404 = readFileSync(page404, 'utf8');
+if (!html404.includes('data-ow-slash')) {
+  const next = html404.replace('</head>', `${slashFix}</head>`);
+  if (next === html404) { console.error('postbuild: 404.html has no </head> for the trailing-slash script'); process.exit(1); }
+  writeFileSync(page404, next);
+}
+console.log(`postbuild: ${moved} folder page(s) moved to <dir>/index.html; ${rewrites} link(s) to them rewritten to <dir>/; ${alternates} page(s) name their Markdown twin; ${codeBreaks} code line break(s) kept in the text; ${dirIndexes} directory index(es) copied; 404.html sends a trailing slash on`);

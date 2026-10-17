@@ -33,7 +33,7 @@ The API's error responses link to `/api/errors#<code>`, the LLM guide lives at `
 
 Two checks read that file: `npm run verify` on every build (CI and the deploy), and the outside check on the live site. A page keeps its path; to move one that the contract lists, change the contract first.
 
-`build.format: 'file'` writes `page.html`, which Pages serves as both `/page` and `/page.html` (the old site's two forms). `scripts/postbuild.mjs` moves section pages (`<dir>/index.md`) back to `<dir>/index.html`, so `/docs/x` keeps its same-host 301 to `/docs/x/`.
+`build.format: 'file'` writes `page.html`, which Pages serves as both `/page` and `/page.html` (the old site's two forms). `scripts/postbuild.mjs` moves section pages (`<dir>/index.md`) back to `<dir>/index.html`, so `/docs/x` keeps its same-host 301 to `/docs/x/`. A directory that holds pages but none of its own (`/docs`, `/api`, `/docs/development/api`) gets a copy of the page named for it in `DIR_INDEX`, and a new one fails the build until it is named. Every other page is a file, so `/page/` answers the 404 page, which in a browser sends it on to `/page` once.
 
 ## Element pages
 
