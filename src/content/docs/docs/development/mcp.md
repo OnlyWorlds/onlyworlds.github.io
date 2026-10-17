@@ -94,7 +94,16 @@ There is no delete tool, by design. The MCP server creates and edits; deletion s
 
 ## Resources
 
-Besides tools, the server lists one resource, `onlyworlds://schema` (every element type, each with a one-line shape: the `list_element_types` tool's output), and serves `onlyworlds://schema/{type}` for one type's fields (the `get_element_schema` tool's output). Both need no key.
+Besides tools, the server offers resources, which a client can show a person to attach as context. Two are listed, and two are templates read by URI:
+
+| Resource | Key | Returns |
+|:--|:--|:--|
+| `onlyworlds://schema` | None | Every element type, each with a one-line shape (the `list_element_types` tool's output). |
+| `onlyworlds://schema/{type}` | None | One type's fields (the `get_element_schema` tool's output). |
+| `onlyworlds://world` | A key | `{world: {id, name}, types, limit_per_type}`: the key's world and its elements by type, ids and names only, at most 100 per type by name with `has_more` beyond. Types with nothing are left out. A type's full list is `list_elements`, in its own order. |
+| `onlyworlds://element/{type}/{id}` | A key | One element, the same body as `get_element`. |
+
+The two world resources go through the same key check and the same scoping as the read tools: a guest key sees only what it may see. A URI that names nothing answers the JSON-RPC error `-32002`, resource not found.
 
 ## How It Differs From REST
 
