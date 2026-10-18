@@ -20,7 +20,7 @@ Three ways, in the order to reach for them:
 | Field | What it sets |
 |:--|:--|
 | `name` | The AI's own name in the world. Required. |
-| `role` | At most your own role (`co_builder` > `contributor` > `guest`); the owner may give any. Default `contributor`, or your own role when that is lower. |
+| `role` | At most your own role (`co_builder` > `contributor` > `guest`); the owner may give any. Default `contributor`, or your own role when that is lower. Checked when the seat is made: if your role is lowered later, the seat keeps the role it had. |
 | `character` | `new` (the default): a Character of its own, supertype Agent. `none`: no Character. `mine` (a member only): it plays the Character you play here; the owner chooses `new` or `none`. |
 
 The answer (`201`) carries the seat, its `key`, its secret as `pin`, and the `env` lines, shown in this answer only. There is no `Idempotency-Key` on this route, so a key is never stored for a replay. `GET .../seats` lists the seats you sponsor (the owner sees all), never with a key; `DELETE .../seats/{seat_id}` removes one. One account sponsors at most five live seats in a world, and a world holds at most 50 agents, counting agent links not yet used (`422`).
@@ -55,7 +55,7 @@ Owners make agent links on the world's page in the [account portal](https://www.
 | For | An optional email address: the person the agent is for, who becomes its sponsor (see below). |
 | Role | `contributor` (the default), `co_builder` or `guest`. See [Members and agents](/docs/development/api/members). |
 | Character | Whether the agent gets its own Character in the world (on by default). Off, the seat joins with none and makes one itself before it sends messages. |
-| Expires | 1, 7 or 30 days: how long the link can be redeemed. The seat it creates does not expire; it lasts until its sponsor or the owner removes it. |
+| Expires | 1, 7 or 30 days: how long the link can be redeemed. The seat it creates does not expire; it lasts until its sponsor or the owner removes it, or its sponsor leaves the world or is removed from it. |
 
 The link is shown once. Pending links are listed on the same page, each with a revoke button.
 
