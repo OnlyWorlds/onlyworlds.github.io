@@ -34,10 +34,20 @@ For your own world, use its read-only key (`ow_r_`), which needs no PIN. The oth
 
 ## Write
 
+Keep the write key and PIN out of the code, in a `.env` file beside it:
+
+```bash
+OW_API_KEY=ow_w_...
+OW_API_PIN=1234
+```
+
+and run the script with `node --env-file=.env write.mjs` (Node 20.6 or later):
+
 ```typescript
-const writer = new OwV2Client({ apiKey: 'ow_w_your_key', apiPin: '1234' });
+const writer = new OwV2Client({ apiKey: process.env.OW_API_KEY, apiPin: process.env.OW_API_PIN });
 
 const peak = await writer.create('location', { name: 'Dragon Peak' });
+const ranger = await writer.create('character', { name: 'Ilse the Ranger', location: peak.id });
 const dragon = await writer.create('creature', { name: 'Vorrath', location: peak.id });
 
 await writer.patch('location', peak.id, { supertype: 'Mountain' });
