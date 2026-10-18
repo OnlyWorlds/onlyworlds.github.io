@@ -282,7 +282,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.30.1, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.31.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -305,7 +305,7 @@ Generated from the types of `@onlyworlds/sdk` 4.30.1, the version these docs pin
 | `health()` | `GET /health` | unauthenticated liveness pulse. | `Promise<unknown>` |
 | `getWorld()` | `GET /world` | world meta (name, calendar/time fields, public_read). | `Promise<OwWorldMeta>` |
 | `patchWorld(partial)` | `PATCH /world` | partial world-meta update. | `Promise<OwWorldMeta>` |
-| `me()` | `GET /me` | who this world key is: the world, read or write scope, the kind (owner, person, agent), the role, the membership id (what `created_by` holds for what this key creates; null for the owner) and the member's Character. | `Promise<OwMe>` |
+| `me()` | `GET /me` | who this world key is: the world, read or write scope, the kind (owner, person, agent, player), the role, the membership id (what `created_by` holds for what this key creates; null for the owner) and the member's Character. | `Promise<OwMe>` |
 | `members()` | `GET /members` | the world's roster: each member's id (null for the owner), kind, role, Character and status (`removed` rows stay, so their elements keep `created_by`). | `Promise<OwMember[]>` |
 | `list(type, params?)` | `GET /{type}/` | one cursor page. | `Promise<OwPage>` |
 | `listAll(type, params?)` |  | Cursor-walk every page of a type. | `AsyncGenerator<OwElement>` |
@@ -325,6 +325,7 @@ Generated from the types of `@onlyworlds/sdk` 4.30.1, the version these docs pin
 | `removeImage(keyOrUrl, opts?)` |  | Remove one uploaded image: a removal ticket from the API, then the removal at the edge (the API key never leaves for the edge). | `Promise<OwRemovedImage>` |
 | `previewJoin(code)` | `POST /join/preview` | what a join code holds, without using it: who invites, to which world, in what role, and `reader` (`person`: accept it with acceptJoin; `agent`: an AI agent redeems it at POST /join). | `Promise<OwJoinPreview>` |
 | `redeemJoin(code, opts?)` | `POST /join` | redeem a join code that needs no account: a player's (a friend reading as a guest, keel #353) or an AI agent's. | `Promise<OwJoined>` |
+| `signInWithPassword(opts)` |  | Sign in with an email address (or a username) and password, and get a new account token (`ow_a_`) for this device, named `tokenName` (say, "Lantern on iPhone"): the name the account's tokens page lists it under, where it can be revoked. | `Promise<OwSignedIn>` |
 | `acceptJoin(code)` | `POST /account/join` | accept an invite link's code as the account this client's `ow_a_` token belongs to: 201 with the new membership. | `Promise<OwJoinedMembership>` |
 | `createWorldLink(worldId, opts)` | `POST /account/worlds/{worldId}/links` | a new invite link for a world this client's `ow_a_` token owns (keel C1): `reader` is required (`person`, accepted with acceptJoin; `agent`, redeemed at POST /join; `player`, a friend with no account, redeemed with redeemJoin for a read key, keel #353); `role` defaults to contributor (a player link is guest, and refuses any other), `days` (1, 7 or 30) to 7; `withCharacter` (agent links only) to true; `character` (player links only) a Character's id or `new` (the default): whoever opens the link first reads as it, until removed. | `Promise<OwCreatedWorldLink>` |
 | `listWorldLinks(worldId)` | `GET /account/worlds/{worldId}/links` | the world's invite links, without their codes: each with its status (pending, used, revoked or expired) and uses. | `Promise<OwWorldLink[]>` |
