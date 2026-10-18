@@ -40,15 +40,15 @@ A world on onlyworlds.com keeps its API key in its `World.md`, in plain text: th
 
 Only notes inside a world's `Elements` folders are elements. A link to a `[[Name]]` that matches no note in the vault is not sent, so the server keeps its copy of that field.
 
-When Save Element changes an element's name, its note is renamed to match, and links to it update as Obsidian's **Files and links** setting says. Auto-sync never renames. Turn it off with the **Rename note when the element's name changes** setting (on by default, since 3.5.0).
+When Save Element changes an element's name, its note is renamed to match, and links to it update as Obsidian's **Files and links** setting says. Auto-sync never renames: since 3.5.1 the note keeps its old file name and says so, and the next Save Element renames it, also after a restart. Turn renaming off with the **Rename note when the element's name changes** setting (on by default, since 3.5.0).
 
-Text fields round-trip byte for byte, with two exceptions: a line that starts with `### ` starts a new field, and a code fence inside a value must be closed, or the sections after it are read as part of it.
+Text fields round-trip byte for byte (since 3.5.1). In a note, a line that starts with `### ` starts a new field, so a value's own `###` line, or a code fence line such as `~~~`, gains one backslash in the note (`\###`, `\~~~`) and loses it again on the way back to onlyworlds.com. Write `\###` yourself for a line that should read `###`. Inside a closed code block nothing changes. A save is refused only when a code fence left open would swallow the next heading; the notice names the field and the heading.
 
 ## Saving Linked Notes
 
 Since version 3.5.0, **Save Element** on a note that links to notes not yet on onlyworlds.com lists them and asks first, then creates them together with the note. It creates at most 50 this way; past that it creates and saves nothing and points you to Upload World. Auto-sync never creates them.
 
-An element deleted on onlyworlds.com is never brought back without your word, even though Download keeps its note. Save Element asks "create it again?", auto-sync refuses, and Upload World asks once for all of them. A link to a deleted element is left out of what is sent, and the note keeps it.
+An element deleted on onlyworlds.com is never brought back without your word, even though Download keeps its note. Save Element asks "create it again?", auto-sync refuses, and Upload World asks once for all of them. A link to a deleted element is left out of what is sent and named, and the note keeps it. Since 3.5.1 an element onlyworlds.com answers as deleted is known as deleted at once, without reading the change feed.
 
 ## Your OnlyWorlds Account
 
