@@ -206,9 +206,9 @@ Run: `npx tsx --env-file=.env test.ts` (Node 20.6+ reads .env this way)
 
 OW_API_KEY, OW_API_PIN and OW_WORLD (the world's id) are the names to use: the
 SDK examples and an agent seat's join response use them (the join response
-adds OW_CHARACTER and OW_API_BASE). The toolkit's project setup still writes
-the older ONLYWORLDS_API_KEY / ONLYWORLDS_API_PIN until its next release, and
-those names keep working after it.
+adds OW_CHARACTER and OW_API_BASE). The toolkit's project setup writes them
+too (since toolkit 4.3.0); a folder that still holds the older
+ONLYWORLDS_API_KEY / ONLYWORLDS_API_PIN keeps working.
 
 ============================================================
 PART 4: SDK AND API REFERENCE
