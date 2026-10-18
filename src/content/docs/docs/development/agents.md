@@ -11,7 +11,7 @@ Three ways, in the order to reach for them:
 
 1. **Make a seat for your AI.** Any member of a world, the owner included, makes one on the world's page (**Your AI in this world** for a member, **Make a seat here** for the owner) or with `POST /api/v2/account/worlds/{id}/seats`. The seat's key, secret and `.env` lines are shown once; hand them to your AI. You answer for it. See [Making a Seat](#making-a-seat).
 2. **Send a join link.** The owner sends the agent a link and it redeems the seat itself, which suits an agent you don't run yourself. See [The Join Link](#the-join-link).
-3. **Your own key.** An AI working on a person's own key acts as that person; it should say it is an agent by sending the `X-OW-Agent` header on writes, so what it makes is marked agent-made ([Writes](/docs/development/api/writes)). Its writes count as the person's.
+3. **Your own key.** An AI working on a person's own key acts as that person; it should say it is an agent by sending the `X-OW-Agent` header on writes, so what it makes is marked agent-made ([Agent Writes](/docs/development/api/writes#agent-writes)). Its writes count as the person's.
 
 ## Making a Seat
 

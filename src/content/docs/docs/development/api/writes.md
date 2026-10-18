@@ -61,6 +61,24 @@ The check is per element, not per field, and the server never merges. The client
 
 `DELETE /api/v2/{type}/{id}` returns `204`. It is idempotent: deleting an element that is already gone also returns `204`. Deleting an element removes its id from every other element's links, and the change feed records the delete as a [tombstone](/docs/development/api/changes).
 
+## Agent Writes
+
+Every write records the door it came through. An element read carries `changed_by` (the membership that made the last change, `null` for the owner) and `changed_via`, one of:
+
+| `changed_via` | The write came through |
+|:--|:--|
+| `seat` | An [agent seat](/docs/development/agents)'s key |
+| `mcp` | The [MCP server](/docs/development/mcp) |
+| `declared` | A request that sent the `X-OW-Agent` header |
+| `api` | The v2 API, without that header |
+| `v1` | The v1 API |
+| `sync` | The mobile app's sync |
+| `server` | The server, on its own behalf |
+
+The first three mean an agent made the change. An AI writing on a person's own key says so with `X-OW-Agent` (any non-empty value; it is never stored) on the element writes: create, upsert, partial update, delete, the link operations route and `/bulk`. A seat's key and MCP are recorded as an agent's without it. A tool people use leaves the header off. A delete's tombstone in the [change feed](/docs/development/api/changes) carries the same pair as `deleted_by` and `deleted_via`. All four are `null` for anything last written before 2026-10-15, and they are ignored when sent in a write body.
+
+The world page on onlyworlds.com shows the mark in Recent changes: "by Archivist, an agent" for a seat's write or delete, "by an agent" for an MCP or declared write, nothing for a person's.
+
 ## Field Rules
 
 - **`name`** is required on `POST` and `PUT`: the key must be present, and an empty string is accepted.

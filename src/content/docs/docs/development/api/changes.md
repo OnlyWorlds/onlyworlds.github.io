@@ -20,7 +20,7 @@ curl -s "https://www.onlyworlds.com/api/v2/changes?limit=1" -H "API-Key: 0000000
 That is Hyperion's first page. The next call sends `?since=1:068e2e60-fc37-789e-8000-a64560195ff8`. A delete in the feed reads:
 
 ```json
-{ "op": "delete", "type": "location", "id": "…", "deleted_at": "…" }
+{ "op": "delete", "type": "location", "id": "…", "change_seq": 41, "deleted_at": "…", "deleted_by": null, "deleted_via": "api" }
 ```
 
 | Key | Meaning |
@@ -31,7 +31,7 @@ That is Hyperion's first page. The next call sends `?since=1:068e2e60-fc37-789e-
 | `head` | The world's current change sequence |
 | `epoch` | A guest's view epoch ([Guests' Cursors](#guests-cursors)); `null` for every other key |
 
-An `upsert` carries the whole element at its latest state, in the same body a [read](/docs/development/api/reads#what-an-element-carries) returns. A `delete` is a tombstone with the id and `deleted_at`.
+An `upsert` carries the whole element at its latest state, in the same body a [read](/docs/development/api/reads#what-an-element-carries) returns. A `delete` is a tombstone with the id, `deleted_at`, and who deleted it through which door (`deleted_by`, `deleted_via`: see [Agent Writes](/docs/development/api/writes#agent-writes)).
 
 ## Walking the Feed
 

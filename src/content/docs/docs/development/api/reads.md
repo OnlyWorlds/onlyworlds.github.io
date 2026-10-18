@@ -52,6 +52,7 @@ Besides its category's fields (see [the schema](/docs/schema/)), every element r
 | `created_at`, `updated_at` | Server timestamps; `updated_at` is always present |
 | `change_seq` | The world's change sequence at this element's last write |
 | `created_by` | The membership that created the element, or `null` when the owner did ([Members](/docs/development/api/members)) |
+| `changed_by`, `changed_via` | Who made the last change and through which door; `seat`, `mcp` and `declared` mean an agent did ([Agent Writes](/docs/development/api/writes#agent-writes)) |
 
 Fields under the extension namespaces `atlas_*`, `shadow_*` and `x_*` appear inline, exactly as they were written. Links read as bare UUIDs: see [Link Fields](/docs/development/api/links).
 
