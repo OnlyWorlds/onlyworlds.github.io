@@ -141,13 +141,15 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/account/worlds/{world_id}/key
 ```bash
 curl -s -X POST "https://www.onlyworlds.com/api/v2/account/worlds" \
   -H "Authorization: Bearer ow_a_…" -H "Content-Type: application/json" \
-  -d '{ "name": "Hyperion" }'
+  -d '{ "name": "Hyperion", "key_name": "My tool" }'
 ```
 
 ```json
 { "id": "…", "name": "Hyperion", "role": "owner", "public_read": false,
-  "keys": [ { "name": "", "last4": "…", "scope": "WRITE", "revoked": false } ],
+  "keys": [ { "name": "My tool", "last4": "…", "scope": "WRITE", "revoked": false } ],
   "key": "ow_w_…" }
 ```
+
+`key_name` is optional: it names that write key as the website's key list shows it (1 to 80 characters once trimmed; a blank or longer name is a `422` and nothing is made). Without it the key has no name. Either way the route makes exactly one key.
 
 The routes for invites, members, seats, links and watched worlds are on [Members and Sharing](/docs/development/api/members#managing-members). A missing or invalid account credential answers `401`.

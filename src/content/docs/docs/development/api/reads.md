@@ -35,7 +35,7 @@ Treat the cursor as opaque: do not parse or build it. Pages come in change order
 
 ## Single Elements
 
-`GET /api/v2/{type}/{id}` returns the bare element object, with no `data` wrapper. An id not in this world is `404` [`not_found`](/api/errors/#not_found); a malformed id is a `422`.
+`GET /api/v2/{type}/{id}` returns the bare element object, with no `data` wrapper. An id not in this world is `404` [`not_found`](/api/errors/#not_found), and one this world deleted is `410` [`gone`](/api/errors/#gone), with the deletion's `change_seq` and `deleted_at`; a malformed id is a `422`.
 
 ```bash
 curl -s "https://www.onlyworlds.com/api/v2/character/{id}" -H "API-Key: {key}"

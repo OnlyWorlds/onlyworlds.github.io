@@ -31,7 +31,7 @@ Each code has its own section below, and the summary table lists them all. A fet
 The [Classic API](/docs/development/api/classic) at `/api/worldapi/` answers in its own legacy shape, `{"detail": …}`. The codes on this page apply to `/api/v2/` only.
 :::
 
-Some errors carry one extra top-level key beside `error`, named in their row: `precondition_failed` carries `current`, the element as it is now. Read the body whole; the envelope is not a closed shape.
+Some errors carry extra top-level keys beside `error`, named in their row: `precondition_failed` carries `current`, the element as it is now, and `gone` carries the deletion's `change_seq` and `deleted_at`. Read the body whole; the envelope is not a closed shape.
 
 ## Error Codes
 
@@ -57,6 +57,7 @@ Some errors carry one extra top-level key beside `error`, named in their row: `p
 | [`guest_not_supported`](#guest_not_supported) | `permission_error` | `403` | A guest key called a route guests cannot use yet, or wrote a note (Narrative) without a Character of its own in the world. |
 | [`storage_full`](#storage_full) | `permission_error` | `403` | The account the upload counts against has used all of its image storage. |
 | [`not_found`](#not_found) | `not_found` | `404` | The element or route does not exist in this world. |
+| [`gone`](#gone) | `not_found` | `410` | The element was deleted from this world; the body carries the deletion's `change_seq` and `deleted_at` beside the envelope (GET of one element only). |
 | [`rate_limited`](#rate_limited) | `rate_limited` | `429` | Too many failed PIN attempts; retry after the Retry-After header's seconds. |
 | [`quota_exceeded`](#quota_exceeded) | `rate_limited` | `429` | A daily limit is used up (the world's image upload tickets, or the account's token rating for AI); retry after Retry-After. |
 | [`idempotency_error`](#idempotency_error) | `idempotency_error` | `409` | An Idempotency-Key was reused with a different request body. |
@@ -224,6 +225,20 @@ The requested element or route does not exist.
 
 - **Common cause:** a read, `PATCH` or link operation on an element UUID that is not in this world, or a mistyped path: an address under `/api/` that no route matches answers this envelope too, never a web page. For a guest key, an element the guest cannot see. An agent join code that is unknown, used, revoked or expired also answers `not_found`, the same answer for every case.
 - **How to fix:** check that the UUID exists in this world and that the path is right. `DELETE` is idempotent: deleting an element that is already gone returns `204`, not `404`.
+
+### gone
+
+**Type** `not_found` · **Status** `410`
+
+A read of one element (`GET /api/v2/{type}/{id}`) named an element this world held and deleted. Beside the error, the reply carries the deletion's `change_seq` and `deleted_at`:
+
+```json
+{ "error": { "type": "not_found", "code": "gone", "message": "marker '…' was deleted from this world.", "param": null, "doc_url": "https://onlyworlds.github.io/api/errors/#gone" },
+  "change_seq": 3, "deleted_at": "2026-10-08T16:43:38.278435+00:00" }
+```
+
+- **Common cause:** a local copy, a link or a bookmark that still holds the id after someone deleted the element.
+- **How to fix:** drop the element from your copy. To learn of deletes as they happen, follow the [change feed](/docs/development/api/changes), which carries each as a tombstone. An id this world never held, one deleted in another world, a guest's read and the Classic API still answer `404` [`not_found`](#not_found).
 
 ### rate_limited
 

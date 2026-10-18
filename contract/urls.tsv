@@ -119,6 +119,7 @@
 /api/errors#guest_not_supported	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#storage_full	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#not_found	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#gone	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#rate_limited	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#quota_exceeded	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#idempotency_error	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)

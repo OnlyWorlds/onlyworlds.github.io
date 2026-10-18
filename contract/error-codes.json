@@ -94,6 +94,11 @@
     "status": 404,
     "summary": "The element or route does not exist in this world."
   },
+  "gone": {
+    "type": "not_found",
+    "status": 410,
+    "summary": "The element was deleted from this world; the body carries the deletion's `change_seq` and `deleted_at` beside the envelope (GET of one element only)."
+  },
   "rate_limited": {
     "type": "rate_limited",
     "status": 429,
