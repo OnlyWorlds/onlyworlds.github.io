@@ -3,7 +3,7 @@ title: "Unity SDK"
 description: "The OnlyWorlds Unity SDK: typed C# models for the 22 element types, a client for the v2 API, and a world cache that lives in your project as an asset."
 ---
 
-This SDK brings an OnlyWorlds world into Unity. A world is hosted on [onlyworlds.com](https://www.onlyworlds.com) and edited there or in any tool built on the standard, so the people who write it never open the engine. For what that gives a game, see [Games](/docs/development/games).
+This SDK brings an OnlyWorlds world into Unity. A world lives on [onlyworlds.com](https://www.onlyworlds.com) or as a world folder on disk, and is edited there or in any tool built on the standard, so the people who write it never open the engine. For what that gives a game, see [Games](/docs/development/games).
 
 `com.onlyworlds.sdk` reads and writes those worlds from Unity. It has three parts:
 
@@ -92,7 +92,7 @@ void Start()
 }
 ```
 
-The same steps run from code. `OWSync.BaselineAsync(client, cache)` fetches the whole world. `OWSync.IncrementalAsync(client, cache)` applies only what changed since the cache's cursor, from the [changes feed](/docs/development/api/changes), and falls back to a full baseline when the cursor can't be trusted. Edits to world metadata are not in the feed, so poll `GetWorldAsync` when those matter. `OWFolderLoader.LoadInto(cache, path)` reads a world folder and never writes to it.
+The same steps run from code. `OWSync.BaselineAsync(client, cache)` fetches the whole world. `OWSync.IncrementalAsync(client, cache)` applies only what changed since the cache's cursor, from the [changes feed](/docs/development/api/changes), and falls back to a full baseline when the cursor can't be trusted. Edits to world metadata are not in the feed, so poll `GetWorldAsync` when those matter. `OWFolderLoader.LoadInto(cache, path)` reads a world folder and never writes to it. A folder Atlas wrote opens whole: its pins' and markers' links (`map_id`, `zone_id`) and the older `spatial/` layout, with an element found in both served from `elements/` (since v0.6.0).
 
 ## Write
 
@@ -127,4 +127,4 @@ await edit.CommitAsync(client, "character"); // sends { "level": 12 } and nothin
 
 ## Status
 
-The package is early: public and in use, with no compatibility promise yet. All 22 element models are generated, and a drift check in the repository keeps them in step with the pinned schema. The package README holds more on each rule above, and the repository's README explains how to work on the SDK itself and run its tests.
+A drift check in the repository keeps the generated models in step with the pinned schema. The package README holds more on each rule above, and the repository's README explains how to work on the SDK itself and run its tests.

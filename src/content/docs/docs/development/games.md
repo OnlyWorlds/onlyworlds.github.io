@@ -12,7 +12,7 @@ To a game, a world on OnlyWorlds is content: characters, creatures, locations, o
 Fetch the world at build time and ship it inside the game. It works offline, needs no key at runtime, and changes only when you rebuild. This fits a world that is written first and then played.
 
 - **Unity**: fill a [cache asset](/docs/development/unity#ship-a-world-with-your-game) in the Editor and reference it from your scripts.
-- **Any engine**: read a world folder (one JSON file per element, the format Atlas and the [Python package](/docs/development/python) use), or take a [full export](/docs/development/api/changes#full-export) from the API, and convert it into the engine's own data.
+- **Any engine**: read a world folder (one JSON file per element, the format Atlas, the [Python package](/docs/development/python) and the Unity SDK use), or take a [full export](/docs/development/api/changes#full-export) from the API, and convert it into the engine's own data.
 
 ### Read It Live
 
@@ -47,7 +47,7 @@ Four rules keep a write from damaging work done elsewhere:
 |---|---|
 | **Unity** | The [Unity SDK](/docs/development/unity): typed C# models, a v2 client, a world cache that ships as an asset, and a world browser in the Editor. |
 | **Browser games** (JavaScript, TypeScript) | The [TypeScript SDK](/docs/development/typescript). |
-| **Godot, Unreal and other engines** | The [REST API](/docs/development/api-reference) directly: HTTPS and JSON, with the key in a header (the call below). Generate a client from the [OpenAPI document](https://www.onlyworlds.com/api/v2/openapi.json), and types for the element types from [schema-dist](https://github.com/OnlyWorlds/schema-dist) (its decoder, the walk, is Python today). |
+| **Godot, Unreal and other engines** | The [REST API](/docs/development/api-reference) directly: HTTPS and JSON, with the key in a header (the call below). Generate a client from the [OpenAPI document](https://www.onlyworlds.com/api/v2/openapi.json), and a class per element type from [schema-dist](https://github.com/OnlyWorlds/schema-dist) (its decoder, the walk, is Python today). |
 | **Build pipelines and tools** | The [Python package](/docs/development/python) reads and writes world folders and talks to the API. |
 
 Every path ends in the same call. This one finds Admiral Fluffington in Moppetopia, a public sample world, with its

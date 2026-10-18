@@ -1,9 +1,9 @@
 ---
 title: TypeScript SDK
-description: The @onlyworlds/sdk package, a typed client for the v2 API and the schema's constants, generated from schema-dist.
+description: The @onlyworlds/sdk package, a typed client for the v2 API and the standard's constants, generated from schema-dist.
 ---
 
-`@onlyworlds/sdk` is the typed client for the OnlyWorlds REST API v2. It also exports the schema's constants (the 22 element types, their icons, colour families and field schema), generated from [schema-dist](https://github.com/OnlyWorlds/schema-dist) at a pinned, hash-verified tag. The generated files name that tag in their header.
+`@onlyworlds/sdk` is the typed client for the OnlyWorlds REST API v2. It also exports the standard's constants (the 22 element types, their icons, colour families and field schema), generated from [schema-dist](https://github.com/OnlyWorlds/schema-dist) at a pinned, hash-verified tag. The generated files name that tag in their header.
 
 The 4.x line speaks v2 only and is ESM-only (Node 18 or later). Tools on the v1 API dialect (`OnlyWorldsClient`) or on CommonJS `require()` stay on the 3.x line, which is still published.
 
@@ -128,6 +128,34 @@ To poll for news cheaply, `client.changesHead()` returns `{ head, cursor, epoch 
 
 Edits to the world itself (its name, calendar, `public_read`) do not enter the change feed. Poll `client.getWorld()` and compare `updated_at` for those. See [Sync with Changes](/docs/development/api/changes).
 
+## Sign in with a password
+
+`signInWithPassword` turns an OnlyWorlds email (or username) and password into an account token (`ow_a_`) for this device (since 4.31.0). A client with no key can call it. With `OW_EMAIL` and `OW_PASSWORD` in a `.env` file, run this with `node --env-file=.env signin.mjs`:
+
+```typescript
+import { OwV2Client } from '@onlyworlds/sdk';
+
+const { token } = await new OwV2Client().signInWithPassword({
+  email: process.env.OW_EMAIL, // or username: '...'
+  password: process.env.OW_PASSWORD,
+  tokenName: 'My app on iPhone', // the name the token is listed under
+});
+const account = new OwV2Client({ apiKey: token }); // store the token: it is shown once
+```
+
+Pass exactly one of `email` and `username`; both or neither is a `TypeError` before anything is sent. The SDK signs in at onlyworlds.com's sign-in service, mints the token with `POST /api/v2/account/tokens`, then ends the sign-in session, whether the mint worked or not. Only the token is kept: the password is sent once and held nowhere. The answer is `{ token, id, name, last4 }`. The token is listed under `tokenName` on the account's tokens page (**Settings → Account tokens** in the [account portal](https://www.onlyworlds.com/account/)), where it can be revoked.
+
+A refusal throws `OwSignInError`, whose `reason` is one of:
+
+- `invalid_credentials`: a wrong email, username or password
+- `email_unverified`: the account's email address is not confirmed yet
+- `rate_limited`: too many attempts; wait `err.retryAfter` seconds when it is set
+- `offline`: onlyworlds.com was not reached
+- `mint_failed`: signed in, but no token was made
+- `failed`: anything else, with the server's message
+
+The password is never in an error.
+
 ## Invite links
 
 A world's owner can invite a person with a link (see [Invite Links](/docs/development/api/members#invite-links)). The code is the part after `#` (since 4.12.0):
@@ -148,14 +176,14 @@ const links = await account.listWorldLinks(worldId);  // no codes: status pendin
 await account.revokeWorldLink(worldId, made.id);
 ```
 
-`reader: 'agent'` makes a link an AI agent redeems for a seat instead. Anyone but the owner gets a 404.
+`reader: 'agent'` makes a link an AI agent redeems for a seat instead, with `redeemJoin`: the answer has `kind: 'agent'`, the seat's key and secret, and its `.env` lines. Anyone but the owner gets a 404.
 
 `reader: 'player'` makes a link for a friend with no account, who reads the world as a guest playing one Character and writes nothing (since 4.30.0; see [Members and Sharing](/docs/development/api/members)). The friend's side needs no key at all:
 
 ```typescript
 const link = await account.createWorldLink(worldId, { reader: 'player', character: 'new' }); // or a Character's id
 // on the friend's device:
-const phone = new OwV2Client();                       // no key: only health, previewJoin and redeemJoin work
+const phone = new OwV2Client();                       // no key: only health, previewJoin, redeemJoin and signInWithPassword work
 const joined = await phone.redeemJoin(code, { name: 'Ana' }); // joined.kind === 'player'
 const reader = new OwV2Client({ apiKey: joined.key }); // a read key, no PIN, shown once
 ```
@@ -250,7 +278,7 @@ No calendar, or a broken one, gives null: show the bare number.
 
 ## Errors
 
-Every non-2xx answer throws `OwApiError` with the platform's error envelope: `.status`, `.type`, `.code`, `.param` (the field that failed, or `API-Pin` when a PIN was refused) and `.docUrl`, which links to the code on [the errors page](/api/errors). Show `docUrl` to your users. Transport failures throw `OwNetworkError`. `err.isValidationError` covers the common case. A write sent with `ifMatch` that found the element moved throws `OwPreconditionFailedError` (412, `err.isPreconditionFailed`), an `OwApiError` that also carries `current`.
+Every non-2xx answer throws `OwApiError` with the platform's error envelope: `.status`, `.type`, `.code`, `.param` (the field that failed, or `API-Pin` when a PIN was refused) and `.docUrl`, which links to the code on [the errors page](/api/errors). Show `docUrl` to your users. Transport failures throw `OwNetworkError`. `err.isValidationError` covers the common case. A write sent with `ifMatch` that found the element moved throws `OwPreconditionFailedError` (412, `err.isPreconditionFailed`), an `OwApiError` that also carries `current`. `signInWithPassword` throws `OwSignInError` instead, which is not an `OwApiError`: its `reason` says why, `status` and `code` are keel's answer when one came back, and `retryAfter` comes with a rate limit.
 
 ## Schema constants
 

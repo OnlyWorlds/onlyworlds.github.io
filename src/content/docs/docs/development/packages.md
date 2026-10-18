@@ -13,7 +13,7 @@ Every client below speaks the same REST API v2. Pick by language, or by where yo
 | [MCP server](/docs/development/mcp) | AI assistants and agents | nothing to install: `https://www.onlyworlds.com/mcp` | live |
 | Plain REST | any other language or engine | none | live |
 
-The TypeScript, Python and Unity clients generate their types from [schema-dist](https://github.com/OnlyWorlds/schema-dist), the published copy of the schema. For other engines, see [Games](/docs/development/games).
+The TypeScript, Python and Unity clients generate their element types and fields from [schema-dist](https://github.com/OnlyWorlds/schema-dist), the published copy of the schema. For other engines, see [Games](/docs/development/games).
 
 ## Plain REST
 
