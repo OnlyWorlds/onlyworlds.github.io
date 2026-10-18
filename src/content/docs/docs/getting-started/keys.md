@@ -26,7 +26,7 @@ The header names are exactly `API-Key` and `API-Pin`. The key alone determines t
 - Each world key (`ow_w_`, `ow_r_`, legacy) is scoped to one world.
 - Legacy 10-digit keys keep working and stay valid. New ones are no longer issued: mint a prefixed key instead.
 - A new key is shown once, when it is minted. Key lists afterwards show only its last four characters.
-- `ow_r_` keys are made for sharing: hand one to players or readers and they can read the world without any second secret.
+- `ow_r_` keys are made for sharing: hand one to readers and they can read the whole world without any second secret. To let a friend read as one Character, with no account, use a [player link](/docs/development/api/members#player-links).
 - Both the current API and the [Classic API](/docs/development/api/classic) accept prefixed and legacy keys.
 
 ## Demo Keys
@@ -95,12 +95,12 @@ Message wording may change: branch on `code`, and use the message only to tell a
 - A key and PIN in browser code are visible to anyone who opens the page. Ship only an `ow_r_` read key in a public page, or ask each visitor for their own credentials at runtime. See [CORS](/docs/development/api/cors).
 - Keep keys and PINs in a `.env` file that git ignores, never in a commit or a chat.
 - An MCP client stores the `API-Key` and `API-Pin` headers in its own configuration as written. Use a key you can revoke on its own. See [MCP Server](/docs/development/mcp).
-- An agent seat's secret is shown once, at join. See [AI Agents](/docs/development/agents).
+- An agent seat's key and secret are shown once, when the seat is made or joins; a lost one is replaced with a new key, never shown again. See [AI Agents](/docs/development/agents).
 - A leaked key is revoked in the account portal; mint a new one in its place.
 
 ## Account Tokens
 
-An `ow_a_` token acts on your account: it lists your worlds, creates worlds, mints and revokes world keys, and manages invites, members, seats, links and watched worlds. Mint one in the account portal under **Settings → Account tokens**, or with `POST /api/v2/account/tokens`. Like a key, it is shown once.
+An `ow_a_` token acts on your account: it lists your worlds, creates worlds, mints and revokes world keys, and manages invites, members, seats, links and watched worlds. Mint one in the account portal under **Settings → Account tokens**, or with `POST /api/v2/account/tokens`; an app can make one from the user's email and password (the TypeScript SDK's `signInWithPassword`, which calls that route after the login API). Like a key, it is shown once.
 
 It is sent as a bearer token, not as `API-Key`:
 
@@ -108,6 +108,8 @@ It is sent as a bearer token, not as `API-Key`:
 curl -s "https://www.onlyworlds.com/api/v2/account/worlds" \
   -H "Authorization: Bearer ow_a_…"
 ```
+
+An app signed in through the login API (`/api/v2/auth/app/v1/auth/login`) may send its `X-Session-Token` on any account route in place of the token; an unknown or expired one is a `401`.
 
 | Method | Route | Purpose |
 |:--|:--|:--|

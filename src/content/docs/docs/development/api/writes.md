@@ -70,7 +70,7 @@ The check is per element, not per field, and the server never merges. The client
 - **Never write back a body read with `?expand=`.** Its links hold stub objects instead of ids, and a link field takes only ids. Read without `expand` when you mean to send the body back.
 - **`created_by`** and **`world`** in a body are ignored, whatever their value.
 - **Text length**: `name` holds up to 255 characters, `supertype` and `subtype` 128, `image_url` 1024. Longer is a `422`.
-- **Values are coerced where they can be**: an integer field accepts `"7"` as 7, truncates `7.9` to 7, and reads `true` as 1; a value that cannot become an integer, or one outside -2147483648 to 2147483647, is a `422` naming the field. Text fields turn a number into its digits. Send the types the schema names.
+- **Values are coerced where they can be**: an integer field accepts `"7"` as 7, truncates `7.9` to 7, and reads `true` as 1; a value that cannot become an integer, or one outside -2147483648 to 2147483647, is a `422` naming the field. Text fields turn a number into its digits. Send the types the standard names.
 - **A guest's Narratives** are notes narrated by its own Character, with rules of their own: see [Guests](/docs/development/api/members#guests).
 
 ## Idempotency

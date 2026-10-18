@@ -13,7 +13,7 @@ It has four layers:
 | :--- | :--- |
 | **Standard** | The element categories, their fields and links, kept as YAML files, governed in public by the [Council](https://council.onlyworlds.com). See [Schema](/docs/schema/). |
 | **Platform** | [onlyworlds.com](https://www.onlyworlds.com) stores worlds, their members and roles, and issues per-world keys. |
-| **Interfaces** | The REST API, the change feed, the MCP server and agent join links. |
+| **Interfaces** | The REST API, the change feed, the MCP server and agent seats. |
 | **Clients** | Apps and tools (Atlas, the Obsidian plugin, converters), SDKs, and AI agents. |
 
 A [video introduction](https://youtu.be/1IEazx8wg4I) covers the project as a whole.
@@ -75,5 +75,5 @@ A read key on a write route answers `403` ([`permission_error`](/api/errors/#per
 - **Build an app or script**: [SDKs](/docs/development/packages) for TypeScript, Python and Unity, or the [API reference](/docs/development/api-reference).
 - **Connect an AI agent**: the [MCP server](/docs/development/mcp), agent seats, the LLM guide and the toolkit, under [AI Agents](/docs/development/ai).
 - **Learn the data model**: [Schema](/docs/schema/), [Fields](/docs/schema/fields) and [Conventions](/docs/schema/conventions).
-- **Build a world without code**: the guide at [onlyworlds.com/start](https://www.onlyworlds.com/start) covers which tool fits how you work and how to bring in existing material. [Atlas](https://atlas.onlyworlds.com) is the recommended workspace and keeps your world as plain files on your own disk or in your browser; the [Obsidian plugin](https://github.com/OnlyWorlds/obsidian-plugin) syncs a world as markdown notes. Every tool is listed under [Tools](/docs/tools/).
+- **Build a world without code**: the guide at [onlyworlds.com/start](https://www.onlyworlds.com/start) covers which tool fits how you work and how to bring in existing material. [Atlas](https://atlas.onlyworlds.com) is the recommended workspace and keeps your world as plain files on your own disk or in your browser; the [Obsidian plugin](https://github.com/OnlyWorlds/obsidian-plugin) keeps a world as markdown notes in your vault, with optional sync to onlyworlds.com. Every tool is listed under [Tools](/docs/tools/).
 - **Shape the standard**: motions and votes happen at [council.onlyworlds.com](https://council.onlyworlds.com).

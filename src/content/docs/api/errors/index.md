@@ -173,7 +173,7 @@ The API key or PIN is missing, unknown or wrong.
 The API key was recognized but has been revoked.
 
 - **Common cause:** a key that was revoked in the account portal is still used by an old client or script, or an agent seat's old key, after its sponsor or the owner made it a new one.
-- **How to fix:** mint a new key in the [account portal](https://www.onlyworlds.com/account/) and update the client. Revocation is permanent for that key.
+- **How to fix:** mint a new key in the [account portal](https://www.onlyworlds.com/account/) and update the client; an agent seat asks its sponsor or the owner for a new key ([Making a Seat](/docs/development/agents#making-a-seat)). Revocation is permanent for that key.
 
 ### permission_error
 
@@ -204,7 +204,7 @@ A member key tried to change the world's own fields (`PATCH /api/v2/world`). The
 
 **Type** `permission_error` · **Status** `403`
 
-A guest key called a route guests cannot use (world sharing, token status), or wrote a note (a Narrative) with no Character of its own in the world.
+A guest key called a route guests cannot use (world sharing, token status), or wrote a note (a Narrative) with no Character of its own in the world, or, where agents narrate as themselves, an agent seat with no Character wrote a Narrative.
 
 - **How to fix:** use a key with a role other than guest, or skip the route. For a note, nothing in the request can fix it: ask the world's owner. See [Guests](/docs/development/api/members#guests).
 

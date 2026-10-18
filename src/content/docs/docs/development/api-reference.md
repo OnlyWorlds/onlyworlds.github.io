@@ -54,7 +54,7 @@ A single element answers as the bare element object. Every error answers in one 
 | GET | `/api/v2/me` | Who the calling key is | [Members](/docs/development/api/members) |
 | POST | `/api/v2/media/ticket` | A ticket for one image upload | [Images](/docs/development/api/images) |
 | POST | `/api/v2/join/preview` | Read a join link (agent, person or player) without using it | [Agents](/docs/development/agents) |
-| POST | `/api/v2/join` | Redeem an agent's or a player's code, no key | [Agents](/docs/development/agents) |
+| POST | `/api/v2/join` | Redeem an agent's or a player's code, no key | [Agents](/docs/development/agents), [Members](/docs/development/api/members#player-links) |
 | GET | `/api/v2/health` | Liveness check, no key needed | |
 | various | `/api/v2/account/...` | Account token routes: worlds, keys, invites, members, links, seats, watched worlds | [Keys and PINs](/docs/getting-started/keys#account-tokens), [Members](/docs/development/api/members#managing-members) |
 

@@ -30,7 +30,7 @@ Two keys are required: `id` (a non-empty string) and `name` (a string, which may
 | Key | Holds |
 | :--- | :--- |
 | `description`, `image_url`, timeline fields, `length_unit`, `mass_unit`, `distance_unit` | As on [Worlds](/docs/schema/worlds). The unit keys have the same spelling on disk and on the wire. The current time is `time_current` on disk, the standard's name; the API calls it `time_range_current`. |
-| `format_version` | The version of this format the folder was written against |
+| `format_version` | The version of this format the folder was written against, currently `"0.3.8"`. Written only when the folder is created. |
 | `api` | The link to a world on onlyworlds.com (`world_id`, `api_key`). Present: the folder syncs with it. Absent: a local world. |
 | `snapshot_*`, `writable` | Only on a [snapshot](#snapshots) |
 
@@ -63,7 +63,7 @@ A reader fills in `type` from the folder name unless the file declares one. A fi
 ## Folders and onlyworlds.com
 
 - **Linked**: a folder with an `api` block is that account world on disk. To find the server's world, read `api.world_id` first and fall back to `id` (older folders can differ).
-- **Account to folder**: let [Atlas](/docs/tools/atlas) download the world (a linked folder), or by script read [changes](/docs/development/api/changes) from the start until `has_more` is false and write `world.json` from `GET /api/v2/world`, renaming `time_range_current` to `time_current`.
+- **Account to folder**: let [Atlas](/docs/tools/atlas) download the world (a linked folder), export it with the Python package's `export_world` or the Unity SDK's `OWFolderExport`, or by script read [changes](/docs/development/api/changes) from the start until `has_more` is false and write `world.json` from `GET /api/v2/world`, renaming `time_range_current` to `time_current`.
 - **Folder to account**: Atlas can take a local folder online. Or send the files to an empty world through [`/bulk`](/docs/development/api/writes#bulk), stripping `local_updated_at`, `server_updated_at`, `image_media_id`, `created_at`, `updated_at`, `created_by`, `type` and `change_seq`, and renaming `map_id` to `map`, `zone_id` to `zone`.
 - **A copy to share** may drop the `api` block, which holds a key, and nothing else. It keeps its `id`. If a key was ever pushed somewhere public, revoke it in your account.
 - **Archives**: one world per zip, as one top-level folder; readers also accept `world.json` at the root.
@@ -80,7 +80,7 @@ A snapshot is a frozen copy of a world at one moment, such as a chapter's end.
 | `snapshot_change_seq` | The source's change cursor at capture |
 | `snapshot_counts` | Optional: files written per category. A receipt; the files are the truth. |
 | `snapshot_torn` | `true` only on a capture known to be inconsistent |
-| `writable` | `false`. Advisory; no tool is known to honor it. |
+| `writable` | `false`. Advisory: a tool may still write. The Unity SDK opens such a folder read-only and refuses to sync into it. |
 
 The writer mints a fresh world id and keeps every element id; a re-capture under the same label keeps the snapshot's id. It copies `name` exactly and every `world.json` key the source had, keeps `change_seq`, `created_at`, `updated_at` and `type` as received, and writes no `.<tool>/` folder. If the change cursor moved during the walk it fails, or on an explicit override sets `snapshot_torn: true`.
 
@@ -91,6 +91,8 @@ The writer mints a fresh world id and keeps every element id; a re-capture under
 | [Atlas](/docs/tools/atlas) | Reference implementation; stores every world as a folder. Folder mode needs a Chromium browser. Worlds sit inside `onlyworlds-atlas/<name>-<id-prefix>/`: point other tools at the world's own folder. |
 | [Obsidian plugin](/docs/tools/obsidian-plugin) | Exports a world as a folder; imports a folder into notes |
 | [Toolkit](/docs/development/toolkit) | Reads a folder in place of the API; parsing writes new ones |
+| [Python package](/docs/development/python) | Reads and writes folders (`read_folder`, `write_folder`); `export_world` writes an account world as a folder; exports a folder to an OKF bundle |
+| [Unity SDK](/docs/development/unity) | Reads a folder into a world cache; writes elements, and exports an account world as a folder |
 | [Azgaar converter](https://github.com/OnlyWorlds/azgaar-converter) | Azgaar map in, as a folder |
 | [Foundry converter](https://github.com/OnlyWorlds/foundry-converter) | Folder out, to Foundry VTT |
 

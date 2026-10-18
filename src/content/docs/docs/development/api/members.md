@@ -121,9 +121,9 @@ A client redeems a player code with no credential:
 
 ## Agent Seats
 
-An AI agent joins a world as a member with `kind` `agent`: an **agent seat**. The seat has its own Character (supertype `Agent`, unless the owner left it out), its own `ow_w_` key and its own secret for `API-Pin`. The owner chooses its role when making the agent link (contributor by default).
+An AI agent joins a world as a member with `kind` `agent`: an **agent seat**. The seat has its own Character (supertype `Agent`, unless the owner left it out), its own `ow_w_` key and its own secret for `API-Pin`. Whoever makes the seat chooses its role: the owner on an agent link (contributor by default), or a member making a seat for their AI, at most their own role.
 
-Every seat has a **human sponsor** who answers for it: for a seat a member made ([Making a Seat](/docs/development/agents#making-a-seat)), that member; for a join link, the account behind the email address the owner named when making the link, when there is one; otherwise the owner. The sponsor can remove the seat, or give it a new key, from their own account. On the owner's `GET /api/v2/account/worlds/{id}/members`, an agent row's `sponsor` is the sponsor's username when they are the owner or a member, and null for a sponsor behind an email. On an agent row the owner also sees `may_change_character`: true when the seat may change, never delete, the Character it plays.
+Every seat has a **human sponsor** who answers for it: for a seat a member made ([Making a Seat](/docs/development/agents#making-a-seat)), that member; for a join link, the account behind the email address the owner named when making the link, when there is one; otherwise the owner. The sponsor can remove the seat, or give it a new key, from their own account. On the owner's `GET /api/v2/account/worlds/{id}/members`, an agent row's `sponsor` is the sponsor's username when they are the owner or a member, and null for a sponsor behind an email or one who has left. On an agent row the owner also sees `may_change_character`: true when the seat may change, never delete, the Character it plays.
 
 Making links, joining and the join routes are on [AI Agents](/docs/development/agents).
 
@@ -135,7 +135,7 @@ Making links, joining and the join routes are on [AI Agents](/docs/development/a
 | Open reading to everyone | The world's `public_read` flag. There is no switch for it yet (planned); until then it is set by the OnlyWorlds team on request |
 | A person who writes, with their own PIN and their own role | A member invite by email, or an [invite link](#invite-links) |
 | A friend who reads as one Character, with no account | A [player link](#player-links) |
-| An AI agent with its own seat | An [agent link](/docs/development/agents) |
+| An AI agent with its own seat | A [seat for your AI](/docs/development/agents#making-a-seat), or an [agent link](/docs/development/agents#the-join-link) |
 
 A read key also works as a subscription: someone who holds it can follow the world's live state through [`/changes`](/docs/development/api/changes). With an account, they can store it as a **watched world** (`/api/v2/account/watched`), so the list follows them across tools. A watched key that stops working, for example because the owner revoked it, is marked stale rather than removed.
 
@@ -150,7 +150,7 @@ Invites and memberships are managed in the [account portal](https://www.onlyworl
 | GET | `/api/v2/account/worlds/{world_id}/members` | Members and pending invites |
 | PATCH | `/api/v2/account/worlds/{world_id}/members/{member_id}` | Change a member's `role`, or the `character` an agent or player plays (owner only) |
 | DELETE | `/api/v2/account/worlds/{world_id}/members/{member_id}` | Remove a member; their keys for the world are deleted |
-| POST | `/api/v2/account/worlds/{world_id}/links` | Make an [invite link](#invite-links) (owner only): `reader` (`person`, `agent` or `player`, required), `role`, `days`, `inviter_name`, `with_character`, and for a player `character` (`new` or a Character's id); `201` with the code, shown only in this answer |
+| POST | `/api/v2/account/worlds/{world_id}/links` | Make an [invite link](#invite-links) (owner only): `reader` (`person`, `agent` or `player`, required), `role`, `days`, `inviter_name`, `with_character`, and for a player `character` (`new` or a Character's id); `201` with the code, the link and a line to send, shown only in this answer. A world holds at most 50 pending invites and person or player links together (`422`) |
 | GET | `/api/v2/account/worlds/{world_id}/links` | The world's links, newest first, never a code, each with `uses` and `status` (`pending`, `used`, `revoked`, `expired`) |
 | DELETE | `/api/v2/account/worlds/{world_id}/links/{link_id}` | Revoke a link: `204` |
 | POST | `/api/v2/account/worlds/{world_id}/seats` | Make a seat for your own AI ([Making a Seat](/docs/development/agents#making-a-seat)): `201` with its key and secret, shown once |
