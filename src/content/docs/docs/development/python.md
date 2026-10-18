@@ -32,13 +32,18 @@ Elements are plain dicts. Two demo keys read public sample worlds: `0000000000` 
 ## Write
 
 ```python
-writer = Client("ow_w_...", "1234")  # a write key and its PIN
+import os
+from onlyworlds import Client
 
+# the write key and its PIN from the environment (OW_API_KEY, OW_API_PIN), never in the code
+writer = Client(os.environ["OW_API_KEY"], os.environ["OW_API_PIN"])
+
+ranger = writer.create("character", {"name": "Ilse the Ranger"})
 peak = writer.create("location", {"name": "Dragon Peak"})
 writer.patch("location", peak["id"], {"supertype": "Mountain"})
 
 # add or remove links on a multi-link field without replacing the list
-writer.edit_links("location", peak["id"], "founders", add=[character_id])
+writer.edit_links("location", peak["id"], "founders", add=[ranger["id"]])
 ```
 
 `create` gives an element without an `id` one, and always sends an `Idempotency-Key`. So retrying a create after a lost answer is safe: it replays the stored result instead of making a second element. `patch` replaces every field it sends, and a list replaces the whole list. Use `edit_links` to add or remove links. `bulk` takes up to about 1,000 `{"type", "element"}` items: it succeeds partly by default (check each slot's `status`), or all or nothing with `atomic=True`.

@@ -44,10 +44,19 @@ OW_API_PIN=1234
 and run the script with `node --env-file=.env write.mjs` (Node 20.6 or later):
 
 ```typescript
+import { OwV2Client } from '@onlyworlds/sdk';
+
 const writer = new OwV2Client({ apiKey: process.env.OW_API_KEY, apiPin: process.env.OW_API_PIN });
 
+const ranger = await writer.create('character', { name: 'Ilse the Ranger' });
+console.log('made', ranger.name, ranger.id);
+```
+
+That makes one Character; open the world in Atlas and it is there. Links and edits go the same way:
+
+```typescript
 const peak = await writer.create('location', { name: 'Dragon Peak' });
-const ranger = await writer.create('character', { name: 'Ilse the Ranger', location: peak.id });
+await writer.patch('character', ranger.id, { location: peak.id });
 const dragon = await writer.create('creature', { name: 'Vorrath', location: peak.id });
 
 await writer.patch('location', peak.id, { supertype: 'Mountain' });
