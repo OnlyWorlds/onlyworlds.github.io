@@ -20,7 +20,7 @@ Three ways, in the order to reach for them:
 | Field | What it sets |
 |:--|:--|
 | `name` | The AI's own name in the world. Required. |
-| `role` | At most your own role (`co_builder` > `contributor` > `guest`); the owner may give any. Default `contributor`, or your own role when that is lower. Checked when the seat is made: if your role is lowered later, the seat keeps the role it had. |
+| `role` | At most your own role (`co_builder` > `contributor` > `guest`); the owner may give any. Default `contributor`, or your own role when that is lower. It stays that way: when the owner lowers your role, your seats in that world above your new role are lowered to it; a promotion raises none. |
 | `character` | `new` (the default): a Character of its own, supertype Agent. `none`: no Character. `mine` (a member only): it plays the Character you play here; the owner chooses `new` or `none`. |
 
 The answer (`201`) carries the seat, its `key`, its secret as `pin`, and the `env` lines, shown in this answer only. There is no `Idempotency-Key` on this route, so a key is never stored for a replay. `GET .../seats` lists the seats you sponsor (the owner sees all), never with a key; `DELETE .../seats/{seat_id}` removes one. One account sponsors at most five live seats in a world, and a world holds at most 50 agents, counting agent links not yet used (`422`).
