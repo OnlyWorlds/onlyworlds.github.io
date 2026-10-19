@@ -117,7 +117,7 @@
   "quota_exceeded": {
     "type": "rate_limited",
     "status": 429,
-    "summary": "A daily limit is used up (the world's image upload tickets, or the account's token rating for AI); retry after Retry-After."
+    "summary": "A daily limit is used up (the world's image upload tickets, its file upload tickets, or the account's token rating for AI); retry after Retry-After."
   },
   "too_many_requests": {
     "type": "rate_limited",
@@ -216,7 +216,7 @@
     "type": null,
     "status": 409,
     "host": "upload.onlyworlds.com",
-    "summary": "The X-Key is taken and objects are never overwritten: choose another, or omit X-Key."
+    "summary": "The key is taken and objects are never overwritten: for an image, choose another X-Key or omit it; for a file, the ticket's key is already stored (a retry after a success reads this as done)."
   },
   "content_length_required": {
     "type": null,
@@ -234,7 +234,7 @@
     "type": null,
     "status": 415,
     "host": "upload.onlyworlds.com",
-    "summary": "Send webp, png, jpeg or avif only (the type is read from the bytes)."
+    "summary": "An image must be webp, png, jpeg or avif; a file on an element must be a pdf, a text kind (txt, md, json, csv, yaml, toml) or a world's own zip bundle (the type is read from the bytes)."
   },
   "write_failed": {
     "type": null,
@@ -258,12 +258,6 @@
     "type": null,
     "status": 503,
     "host": "upload.onlyworlds.com",
-    "summary": "Uploads are not configured on the host right now: retry later."
-  },
-  "files_unconfigured": {
-    "type": null,
-    "status": 503,
-    "host": "upload.onlyworlds.com",
-    "summary": "File uploads are not configured on the host right now: nothing was stored and the ticket is unspent; retry later."
+    "summary": "Uploads (images and files alike) are not configured on the host right now: retry later."
   }
 }

@@ -61,7 +61,7 @@ Some errors carry extra top-level keys beside `error`, named in their row: `prec
 | [`not_found`](#not_found) | `not_found` | `404` | The element or route does not exist in this world. |
 | [`gone`](#gone) | `not_found` | `410` | The element was deleted from this world; the body carries the deletion's `change_seq` and `deleted_at` beside the envelope (GET of one element only). |
 | [`rate_limited`](#rate_limited) | `rate_limited` | `429` | Too many failed PIN attempts; retry after the Retry-After header's seconds. |
-| [`quota_exceeded`](#quota_exceeded) | `rate_limited` | `429` | A daily limit is used up (the world's image upload tickets, or the account's token rating for AI); retry after Retry-After. |
+| [`quota_exceeded`](#quota_exceeded) | `rate_limited` | `429` | A daily limit is used up (the world's image upload tickets, its file upload tickets, or the account's token rating for AI); retry after Retry-After. |
 | [`too_many_requests`](#too_many_requests) | `rate_limited` | `429` | Over the request budget: 300 requests a minute per key or account token, 60 a minute per address for a request with neither, reads and writes together (a /bulk call is one request); retry after Retry-After. Every reply carries RateLimit-Limit, RateLimit-Remaining and RateLimit-Reset. |
 | [`idempotency_error`](#idempotency_error) | `idempotency_error` | `409` | An Idempotency-Key was reused with a different request body. |
 | [`idempotency_in_flight`](#idempotency_in_flight) | `idempotency_error` | `409` | A request with this Idempotency-Key is still running; retry after Retry-After (1 s): once it has answered, the same key and body replay its answer. |
@@ -411,4 +411,3 @@ The upload host, `upload.onlyworlds.com`, takes [images](/docs/development/api/i
 | `403` | `not_removable` | The image was not uploaded into the removal ticket's world with a ticket, so it can't be removed this way. |
 | `502` | `remove_failed` | Nothing was removed and the removal ticket is still unspent: retry with the same ticket. |
 | `503` | `ticket_lane_unconfigured` | Uploads or removals, of images and files alike, are not configured on the host right now: nothing was stored and the ticket is unspent; retry later. |
-| `503` | `files_unconfigured` | Never met by a client: it answers only the crew's own read of a file's record, behind sign-in. |
