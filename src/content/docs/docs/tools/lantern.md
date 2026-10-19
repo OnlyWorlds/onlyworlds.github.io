@@ -38,12 +38,18 @@ Changes to an online world need your account's four-digit [PIN](/docs/getting-st
 
 - **Online.** Signed in, your account's worlds are listed, your own and those shared with you. Tap one to open it on this phone: Lantern makes the phone a key of its own for that world (a read key for a player) and keeps a copy of the world on the phone.
 - **On this phone only.** **Start a world on this phone** (or **New world**) makes a world with no account behind it. **Put it online**, under it, makes it a world on your account, the one Atlas opens, and the phone keeps working on it. It asks you to sign in first, then for your PIN; if your account has none yet, the four digits become it. The elements go in one batch: if onlyworlds.com refuses the batch, no element is sent. The phone-only copy is removed only once the world reads back whole.
-- **Opened with a key.** **I have a world key** (or **Open with a key** on Your worlds, signed in) opens a world with a key someone gave you: `ow_w_`, `ow_r_` or a ten-digit key ([Key Types](/docs/getting-started/keys#key-types)). The PIN is needed only to make changes. An account token is refused there: sign in instead.
+- **Opened with a key** (under Online when you are signed out). **I have a world key** (or **Open with a key** on Your worlds, signed in) opens a world with a key someone gave you: `ow_w_`, `ow_r_` or a ten-digit key ([Key Types](/docs/getting-started/keys#key-types)). The PIN is needed only to make changes. An account token is refused there: sign in instead.
 - **Demo.** Moppetopia, read only.
 
 ### World Files
 
 A world file is one `.zip` holding a world folder, the way Atlas keeps a world. **Open a world file** (on Your worlds, or **I have a world file** on the first screen) opens one a friend sent as a world on this phone only. A world already on the phone is not opened twice. **Save a copy**, under a phone-only world, hands the file to the phone's share sheet (Save to Files, say) or downloads it. Atlas opens the copy too.
+
+## Catch and Unsorted
+
+**Catch**, a tab at the bottom of a world you can change, keeps an idea before it is lost: a line, a ramble through the keyboard's microphone, or a photo of a page. By default it lands in **Unsorted**, as a Narrative with supertype Unsorted (the photo its picture): material not yet turned into elements. **What is it?** makes it an element of a type at once instead, the first line its name and the rest its description.
+
+The world's home shows **Unsorted** with its count. From a note, **Make it an element** turns it into an element of the type you pick, by hand, in a world on this phone only too, and files the note as Sorted. In a world from your account, signed in, **Sort your notes** has an AI read the notes beside what the world already has and propose what they make, link and add (it spends your account's daily [token rating](/docs/development/ai#sort-notes-into-a-world)); nothing is written until you tick what is true.
 
 ## Joining a World
 
