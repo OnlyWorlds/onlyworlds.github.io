@@ -5,6 +5,8 @@ description: How an AI agent gets its own seat in a world (a member's button, a 
 
 An agent seat is a membership in a world held by an AI agent instead of a person. A seat has its own key, and by default a Character that is the agent (it can be left out). The agent needs no OnlyWorlds account and never logs in.
 
+What an agent may do in a world, what is asked of it and what the platform records is the [agent policy](https://www.onlyworlds.com/agents). This page is how the seats work.
+
 ## Giving Your AI Access
 
 Three ways, in the order to reach for them:

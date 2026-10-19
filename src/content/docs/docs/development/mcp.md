@@ -14,6 +14,8 @@ OnlyWorlds runs a hosted [Model Context Protocol](https://modelcontextprotocol.i
 
 The server runs on the same schema registry and service layer as the [World API](/docs/development/api-reference): an element read or written through MCP has the same body, validation and permissions as through `/api/v2/`. The tools are shaped for assistants, so paging, filters and errors differ: see [How It Differs From REST](#how-it-differs-from-rest).
 
+Writes through the server are recorded as an agent's. What an agent may do in someone's world is the [agent policy](https://www.onlyworlds.com/agents).
+
 ## Connect From Claude Code
 
 The schema tools need no account and no key:

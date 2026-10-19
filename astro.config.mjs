@@ -158,6 +158,7 @@ export default defineConfig({
             '- Clients: [TypeScript SDK](https://onlyworlds.github.io/docs/development/typescript.md) · [Python package](https://onlyworlds.github.io/docs/development/python.md) · [MCP server](https://onlyworlds.github.io/docs/development/mcp.md) · [all packages](https://onlyworlds.github.io/docs/development/packages.md)',
             '- [Schema](https://onlyworlds.github.io/docs/schema.md) and [fields](https://onlyworlds.github.io/docs/schema/fields.md); one page per element type under /docs/schema/element_categories/',
             '- [The LLM guide](https://onlyworlds.github.io/assets/ow_llm_guide.txt): the whole standard in one text file',
+            '- [Agent policy](https://www.onlyworlds.com/agents): what an agent may do in a world, what is asked of it and what the platform keeps',
             '- [OpenAPI document](https://www.onlyworlds.com/api/v2/openapi.json): the API, machine-readable',
           ].join('\n'),
           customSets: [
