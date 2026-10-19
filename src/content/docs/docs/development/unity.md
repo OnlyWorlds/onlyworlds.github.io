@@ -94,6 +94,12 @@ void Start()
 
 The same steps run from code. `OWSync.BaselineAsync(client, cache)` fetches the whole world. `OWSync.IncrementalAsync(client, cache)` applies only what changed since the cache's cursor, from the [changes feed](/docs/development/api/changes), and falls back to a full baseline when the cursor can't be trusted. Edits to world metadata are not in the feed, so poll `GetWorldAsync` when those matter. `OWFolderLoader.LoadInto(cache, path)` reads a world folder and never writes to it. A folder Atlas wrote opens whole: its pins' and markers' links (`map_id`, `zone_id`) and the older `spatial/` layout, with an element found in both served from `elements/` (since v0.6.0).
 
+**A downloaded world file.** `OWEnvelopeLoader.LoadInto(cache, path)` fills a cache from the one-file export an owner downloads from their world's page (`format: onlyworlds-world-export`), read-only: the file is a capture, with nothing to sync and no folder to write back to. `OWEnvelopeReader.Read(path)` returns what a folder read returns, plus the file's `SchemaVersion` and `ExportedAt`. A file whose `format` is anything else is refused whole. The file carries no images, members or time settings. (On `main` after v0.6.0.)
+
+## Join by a Link
+
+A friend with no account can join a world from a [player link](/docs/development/api/members#player-links), and an AI agent from an [agent link](/docs/development/agents). `OWJoin.ParseLink(text)` takes the code out of a pasted link (`…/join#ow_j_…`) or a bare code. `OWJoin.PreviewAsync(code, transport)` (no key needed: pass `new UnityWebRequestTransport()`) says who the code is for (`Reader`: `player`, `agent` or `person`), the world and the role, without using the code. `OWJoin.RedeemAsync(code, transport, name: …)` spends it: a player gets a read key (`ow_r_`, no PIN) and the Character they read as; an agent, with `agentName`, gets its seat's write key and secret. The answer is shown once, so keep `Key` (and an agent's `Pin`) before anything else. A person's link is joined with an account on onlyworlds.com, not here. Every bad code (used, expired, revoked, unknown) is the same `404`. (On `main` after v0.6.0.)
+
 ## Write
 
 Writes need a write key (`ow_w_`) and a secret in `OWClientConfig.ApiPin`: best an [agent seat](/docs/development/agents)'s own `ow_s_` secret, which works in one world and can be removed, or else the account PIN. Both can be extracted from a build, so write from the Editor, a server or a tool you control, never from a game you ship to players.
