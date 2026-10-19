@@ -62,6 +62,7 @@ Some errors carry extra top-level keys beside `error`, named in their row: `prec
 | [`gone`](#gone) | `not_found` | `410` | The element was deleted from this world; the body carries the deletion's `change_seq` and `deleted_at` beside the envelope (GET of one element only). |
 | [`rate_limited`](#rate_limited) | `rate_limited` | `429` | Too many failed PIN attempts; retry after the Retry-After header's seconds. |
 | [`quota_exceeded`](#quota_exceeded) | `rate_limited` | `429` | A daily limit is used up (the world's image upload tickets, or the account's token rating for AI); retry after Retry-After. |
+| [`too_many_requests`](#too_many_requests) | `rate_limited` | `429` | Over the request budget: 300 requests a minute per key or account token, 60 a minute per address for a request with neither, reads and writes together (a /bulk call is one request); retry after Retry-After. Every reply carries RateLimit-Limit, RateLimit-Remaining and RateLimit-Reset. |
 | [`idempotency_error`](#idempotency_error) | `idempotency_error` | `409` | An Idempotency-Key was reused with a different request body. |
 | [`idempotency_in_flight`](#idempotency_in_flight) | `idempotency_error` | `409` | A request with this Idempotency-Key is still running; retry after Retry-After (1 s): once it has answered, the same key and body replay its answer. |
 | [`api_error`](#api_error) | `api_error` | `500` | An unexpected server-side error; the envelope is kept even here. |
@@ -223,9 +224,9 @@ A guest key called a route guests cannot use (world sharing, token status), or w
 
 **Type** `permission_error` · **Status** `403`
 
-Asking for a ticket to attach a file to an element (`POST /api/v2/{type}/{id}/files`): the world's files have no room for this one. A world holds 250 MB of files, whoever uploads them. The message gives the world's use, its cap and the file's size. Files on elements aren't switched on yet, so this code can't be returned today.
+Asking for a ticket to attach a file to an element (`POST /api/v2/{type}/{id}/files`): the world's files have no room for this one. A world holds 250 MB of files, whoever uploads them. The message gives the world's use, its cap and the file's size: "This world has 249.6 MB of its 250 MB. This file is 4 MB. Remove a file, or ask the owner."
 
-- **How to fix:** no ticket is issued. Remove a file from the world, or ask the world's owner to.
+- **How to fix:** no ticket is issued. Remove a file from the world, or ask the world's owner to. `GET /api/v2/world/files` lists the world's files and its total. See [Files](/docs/development/api/files#limits).
 
 ### not_found
 
@@ -263,12 +264,22 @@ Too many failed authentication attempts, such as repeated wrong PINs.
 
 **Type** `rate_limited` · **Status** `429`
 
-A daily limit is used up. Two routes answer it:
+A daily limit is used up. These routes answer it:
 
 - `POST /api/v2/media/ticket`: the world has used its 200 image upload tickets for the day.
+- `POST /api/v2/{type}/{id}/files`: the world has asked for 200 file tickets in the last 24 hours ([Files](/docs/development/api/files#limits)).
 - `POST /api/v2/account/ask` and `POST /api/v2/account/sort`: the account has used its daily token rating (fewer tokens left than the call's output cap). Tokens used reset at midnight UTC.
 
 - **How to fix:** retry after the `Retry-After` header's seconds.
+
+### too_many_requests
+
+**Type** `rate_limited` · **Status** `429`
+
+Over the request budget: 300 requests a minute for one key or account token, 60 a minute from one address for a request with neither. Reads and writes count together, and a `/bulk` call is one request. The minute is the clock's minute, so the count starts again at its end. The message names the budget and the wait: `Too many requests: 300 a minute for this key. Wait 12 seconds.`
+
+- **Common cause:** a loop that never sleeps, or many copies of one program (every player of a game, every tab of a page) sending the same key, which share its 300.
+- **How to fix:** wait the `Retry-After` seconds, which equal `RateLimit-Reset`. To stay under, read the `RateLimit-Remaining` header every reply carries, batch writes into [`/bulk`](/docs/development/api/writes#bulk), and follow [`/changes`](/docs/development/api/changes) instead of reading every category again. A key locked by wrong PINs answers [`rate_limited`](#rate_limited) instead, even over the budget. See [Limits](/docs/development/api-reference#limits).
 
 ### idempotency_error
 
@@ -333,15 +344,15 @@ The request body is over 2.5 MB. The server refuses it without writing anything.
 
 **Type** `invalid_request` · **Status** `413` · **Param** `size`
 
-Asking for a ticket to attach a file to an element: the file is over 25 MB. The message gives both sizes. Files on elements aren't switched on yet, so this code can't be returned today.
+Asking for a ticket to attach a file to an element (`POST /api/v2/{type}/{id}/files`): the file is over 25 MB. The message gives both sizes: "This file is 41 MB; a file can be at most 25 MB."
 
-- **How to fix:** no ticket is issued. Send a smaller file, or split the document into parts.
+- **How to fix:** no ticket is issued. Send a smaller file, or split the document into parts. See [Files](/docs/development/api/files#limits).
 
 ### media_unavailable
 
 **Type** `api_error` · **Status** `503`
 
-`POST /api/v2/media/ticket`: image upload is not configured on the server right now. There is no `Retry-After`.
+Image or file upload is not configured on the server right now: `POST /api/v2/media/ticket` for an image, and for a [file](/docs/development/api/files) the ticket, download and remove routes. There is no `Retry-After`.
 
 - **How to fix:** retry later, or use an image hosted elsewhere. If it persists, report it to [info@onlyworlds.com](mailto:info@onlyworlds.com).
 
@@ -381,22 +392,23 @@ The item passed validation but the write itself failed a database constraint. Th
 
 ## Upload Host Errors
 
-The [image upload](/docs/development/api/images) to `upload.onlyworlds.com` is not part of the API and answers errors in its own shape, `{"error": "<code>"}`. Its open paths are `POST https://upload.onlyworlds.com/v1/upload` and [`POST /v1/remove`](/docs/development/api/images#removing-an-image); the host's root and every other path redirect to a login on purpose, and are not for browsers. A successful upload answers `201` with `{url, key, bytes, type, etag}`.
+The upload host, `upload.onlyworlds.com`, takes [images](/docs/development/api/images) and [files](/docs/development/api/files). It is not part of the API and answers errors in its own shape, `{"error": "<code>"}`. Its open paths are `POST https://upload.onlyworlds.com/v1/upload` and [`POST /v1/remove`](/docs/development/api/images#removing-an-image) for images, and `POST /v1/file` for a file (the `upload_url` of a file ticket); the host's root and every other path redirect to a login on purpose, and are not for browsers. A successful image upload answers `201` with `{url, key, bytes, type, etag}`, a file upload with `{key, fid, bytes, type, etag}`.
 
 | Status | Code | What to do |
 |:--|:--|:--|
 | `401` | `ticket_required` | Send the ticket as `Authorization: Bearer <ticket>`. |
-| `401` | `ticket_invalid` | Send the ticket exactly as `POST /api/v2/media/ticket` returned it. |
+| `401` | `ticket_invalid` | Send the ticket exactly as the API returned it. |
 | `401` | `ticket_expired` | Tickets last 10 minutes: get a new one. |
-| `401` | `ticket_used` | One ticket, one upload: get a new one for the next image. |
+| `401` | `ticket_used` | One ticket, one upload: get a new one for the next image or file. |
 | `400` | `bad_key` | The `X-Key` is not allowed: it must start with the ticket's `prefix`, use only `a-z 0-9 . _ -` and single slashes, stay within 200 characters, and carry an extension that matches the file's bytes. The response's `reason` field names the cause. |
-| `400` | `empty_body` | The request had no image bytes. |
+| `400` | `empty_body` | The request had no bytes. |
 | `411` | `content_length_required` | Send a `Content-Length` header. |
 | `405` | `method_not_allowed` | Only `POST` uploads. |
-| `409` | `exists` | That `X-Key` is taken and objects are never overwritten: choose another, or omit `X-Key`. |
-| `413` | `too_large` | The image is over the ticket's `max_bytes`. |
-| `415` | `unsupported_type` | Send webp, png, jpeg or avif (the type is read from the bytes; no SVG). |
+| `409` | `exists` | An image: that `X-Key` is taken and objects are never overwritten; choose another, or omit `X-Key`. A file: its ticket was already used and the file is stored, so a retry after a success reads this as done. |
+| `413` | `too_large` | The image or file is over the ticket's `max_bytes`. |
+| `415` | `unsupported_type` | An image: send webp, png, jpeg or avif (the type is read from the bytes; no SVG). A file: its bytes are not its kind, or a zip is not a world's bundle ([What a File Can Be](/docs/development/api/files#what-a-file-can-be)); nothing was stored and the ticket is still unspent, and the `reason` field names the cause. |
 | `502` | `write_failed` | Nothing was stored and the ticket is still unspent: retry with the same ticket. |
 | `403` | `not_removable` | The image was not uploaded into the removal ticket's world with a ticket, so it can't be removed this way. |
 | `502` | `remove_failed` | Nothing was removed and the removal ticket is still unspent: retry with the same ticket. |
 | `503` | `ticket_lane_unconfigured` | Uploads are not configured on the host right now: retry later. |
+| `503` | `files_unconfigured` | File uploads are not configured on the host right now: nothing was stored and the ticket is unspent; retry later. |

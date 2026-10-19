@@ -3,7 +3,7 @@ title: Keys and PINs
 description: The credentials the OnlyWorlds API accepts, which headers carry them, and when the PIN is needed.
 ---
 
-A **world key** names one world and says what the caller may do in it. The **PIN** proves the caller may write. Both are managed in the [account portal](https://www.onlyworlds.com/account/), where keys are minted and revoked.
+A **world key** names one world and says what the caller may do in it. The **PIN** proves the caller may write. Both are managed in the [account portal](https://www.onlyworlds.com/account/), where keys are minted and revoked. A world's keys are on its page under Access; `https://www.onlyworlds.com/account/worlds/<world_id>/keys` opens them there for the world's owner, after a sign-in if one is needed.
 
 ## Headers
 

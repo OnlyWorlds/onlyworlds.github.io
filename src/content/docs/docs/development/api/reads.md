@@ -54,7 +54,7 @@ Besides its category's fields (see [the schema](/docs/schema/)), every element r
 | `created_by` | The membership that created the element, or `null` when the owner did ([Members](/docs/development/api/members)) |
 | `changed_by`, `changed_via` | Who made the last change and through which door; `seat`, `mcp` and `declared` mean an agent did ([Agent Writes](/docs/development/api/writes#agent-writes)) |
 
-Fields under the extension namespaces `atlas_*`, `shadow_*` and `x_*` appear inline, exactly as they were written. Links read as bare UUIDs: see [Link Fields](/docs/development/api/links).
+Fields under the extension namespaces `atlas_*`, `shadow_*` and `x_*` appear inline, exactly as they were written. Links read as bare UUIDs: see [Link Fields](/docs/development/api/links). Files attached to an element are never in its body: they have their own routes ([Files](/docs/development/api/files)).
 
 ## Filters
 

@@ -328,8 +328,11 @@ SDK throws OwApiError. The common ones:
 - 400 invalid_link: a link to a UUID that does not exist
 - 409 id_conflict: POST with an id that exists (use upsert)
 - 429 rate_limited: too many wrong PINs; wait the Retry-After time
-- 429 quota_exceeded: the world's daily image-upload tickets are used up; wait
-  the Retry-After time
+- 429 quota_exceeded: the world's daily image or file upload tickets are used
+  up; wait the Retry-After time
+- 429 too_many_requests: over 300 requests a minute for this key (60 per
+  address without one); wait the Retry-After time. Every reply carries
+  RateLimit-Remaining
 Decide what to do from code, never from type. Every code:
 onlyworlds.github.io/api/errors
 

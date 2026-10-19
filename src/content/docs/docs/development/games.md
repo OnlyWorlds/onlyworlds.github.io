@@ -23,7 +23,7 @@ A read key (`ow_r_`) is made for this: it reads, cannot write, and needs no PIN.
 What a live read can count on:
 
 - **It's free**, with no fee and no account tiers.
-- **There is no request quota on reads** per key.
+- **300 requests a minute per key**, reads and writes together. Every copy of a game that ships the same key shares that key's 300; each reply's `RateLimit-Remaining` header says what is left, and over the budget the server answers `429` [`too_many_requests`](/api/errors/#too_many_requests) with a `Retry-After` header. See [Limits](/docs/development/api-reference#limits).
 - **Under load the server answers `503`** [`server_busy`](/api/errors/#server_busy) with a `Retry-After` header. Wait that long, then retry.
 - **Image uploads have a daily cap** per world.
 - **There is no uptime guarantee.**

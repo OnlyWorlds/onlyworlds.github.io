@@ -119,6 +119,11 @@
     "status": 429,
     "summary": "A daily limit is used up (the world's image upload tickets, or the account's token rating for AI); retry after Retry-After."
   },
+  "too_many_requests": {
+    "type": "rate_limited",
+    "status": 429,
+    "summary": "Over the request budget: 300 requests a minute per key or account token, 60 a minute per address for a request with neither, reads and writes together (a /bulk call is one request); retry after Retry-After. Every reply carries RateLimit-Limit, RateLimit-Remaining and RateLimit-Reset."
+  },
   "idempotency_error": {
     "type": "idempotency_error",
     "status": 409,
@@ -254,5 +259,11 @@
     "status": 503,
     "host": "upload.onlyworlds.com",
     "summary": "Uploads are not configured on the host right now: retry later."
+  },
+  "files_unconfigured": {
+    "type": null,
+    "status": 503,
+    "host": "upload.onlyworlds.com",
+    "summary": "File uploads are not configured on the host right now: nothing was stored and the ticket is unspent; retry later."
   }
 }

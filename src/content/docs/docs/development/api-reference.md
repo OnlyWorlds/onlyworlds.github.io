@@ -54,6 +54,10 @@ A single element answers as the bare element object. Every error answers in one 
 | GET | `/api/v2/members` | The world's roster | [Members](/docs/development/api/members) |
 | GET | `/api/v2/me` | Who the calling key is | [Members](/docs/development/api/members) |
 | POST | `/api/v2/media/ticket` | A ticket for one image upload | [Images](/docs/development/api/images) |
+| GET, POST | `/api/v2/{type}/{id}/files` | An element's files; a ticket for one file upload | [Files](/docs/development/api/files) |
+| GET | `/api/v2/{type}/{id}/files/{file_id}/download` | A download link for one file | [Files](/docs/development/api/files#downloading-a-file) |
+| DELETE | `/api/v2/{type}/{id}/files/{file_id}` | Remove a file | [Files](/docs/development/api/files#removing-a-file) |
+| GET | `/api/v2/world/files` | Every file in the world the key may see, and the world's total | [Files](/docs/development/api/files#listing-files) |
 | POST | `/api/v2/join/preview` | Read a join link (agent, person or player) without using it | [Agents](/docs/development/agents) |
 | POST | `/api/v2/join` | Redeem an agent's or a player's code, no key | [Agents](/docs/development/agents), [Members](/docs/development/api/members#player-links) |
 | GET | `/api/v2/health` | Liveness check, no key needed | |
@@ -65,12 +69,14 @@ Trailing slashes are tolerated on every route: `/api/v2/character/{id}` and `/ap
 
 | Limit | Value |
 |:--|:--|
-| Request rate | No per-key quota on reads. Under load the server answers `503` [`server_busy`](/api/errors/#server_busy) with a `Retry-After` header: each worker runs six requests at once, and a request waits up to 10 seconds for a slot |
+| Request rate | 300 requests a minute per key or account token, 60 a minute per address for a request with neither. Reads and writes count together, and a `/bulk` call is one request. The minute is the clock's. Every counted reply carries `RateLimit-Limit` (the budget), `RateLimit-Remaining` (what is left this minute) and `RateLimit-Reset` (seconds to the minute's end), errors included. Over the budget: `429` [`too_many_requests`](/api/errors/#too_many_requests) with `Retry-After`. The health check, the [Classic API](/docs/development/api/classic) and the [MCP server](/docs/development/mcp) are not counted |
+| Busy server | Under load the server answers `503` [`server_busy`](/api/errors/#server_busy) with a `Retry-After` header: each worker runs six requests at once, and a request waits up to 10 seconds for a slot |
 | Request body | Up to 2.5 MB. A larger body answers `413` [`payload_too_large`](/api/errors/#payload_too_large) and nothing is written. Split a large `/bulk` into several calls |
 | Wrong PINs | Repeated failures lock the key out: `429` [`rate_limited`](/api/errors/#rate_limited) with `Retry-After` |
 | `/bulk` | Up to 1000 items per request |
 | List pages | `limit` from 1 to 1000, default 100; the change feed defaults to 500 |
 | Images | A daily cap on upload tickets per world (`429` [`quota_exceeded`](/api/errors/#quota_exceeded)) and a storage cap per account (`403` [`storage_full`](/api/errors/#storage_full)). See [Images](/docs/development/api/images) |
+| Files | 25 MB a file, 250 MB a world, 200 file tickets a world in 24 hours. See [Files](/docs/development/api/files#limits) |
 | `expand` | One level deep: a stub is `{id, name, supertype, subtype, image_url}`, with no links of its own |
 
 There are no webhooks. To follow a world's changes, poll [`/changes`](/docs/development/api/changes) with your stored cursor; `?head=true` is the cheap check for whether anything moved.
@@ -94,6 +100,7 @@ There are no webhooks. To follow a world's changes, poll [`/changes`](/docs/deve
 | [Changes and Export](/docs/development/api/changes) | The change feed, full export, guests' cursors |
 | [Members and Sharing](/docs/development/api/members) | Roles, the roster, guests, invites, player links, agent seats, read keys |
 | [Images](/docs/development/api/images) | Hosting an element's picture on OnlyWorlds |
+| [Files](/docs/development/api/files) | Attaching PDFs, text files and world bundles to an element |
 | [CORS](/docs/development/api/cors) | Which browser origins may call the API |
 | [Classic API](/docs/development/api/classic) | The original `/api/worldapi/` dialect |
 | [Error Reference](/api/errors/) | Every error code, its cause and its fix |

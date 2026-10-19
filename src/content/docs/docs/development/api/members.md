@@ -89,7 +89,7 @@ A few routes (world sharing and token status) refuse guest keys with `403` [`gue
 
 ## Invite Links
 
-An owner can invite a person without an email address: an **invite link** with a role, made on the world page under Access (beside the email invites), shown once with a QR code beside it, or through the owner's [link routes](#managing-members) below. It has the same form as an agent link:
+An owner can invite a person without an email address: an **invite link** with a role, made on the world page under Access (beside the email invites; `/account/worlds/<world_id>/access` opens it, after a sign-in if one is needed), shown once with a QR code beside it, or through the owner's [link routes](#managing-members) below. It has the same form as an agent link:
 
 ```text
 https://www.onlyworlds.com/join#ow_j_…

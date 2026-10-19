@@ -87,6 +87,7 @@ export default defineConfig({
             { slug: 'docs/development/api/changes' },
             { slug: 'docs/development/api/members' },
             { slug: 'docs/development/api/images' },
+            { slug: 'docs/development/api/files' },
             { slug: 'docs/development/api/cors' },
             { slug: 'docs/development/api/classic' },
             { slug: 'api/errors' },
@@ -162,7 +163,7 @@ export default defineConfig({
             '- [OpenAPI document](https://www.onlyworlds.com/api/v2/openapi.json): the API, machine-readable',
           ].join('\n'),
           customSets: [
-            { label: 'API', description: 'the REST API v2: reads, links, writes, changes, members, images, CORS, v1 migration and errors', paths: ['docs/development/api-reference', 'docs/development/api/**', 'api/errors', 'docs/getting-started/keys'] },
+            { label: 'API', description: 'the REST API v2: reads, links, writes, changes, members, images, files, CORS, v1 migration and errors', paths: ['docs/development/api-reference', 'docs/development/api/**', 'api/errors', 'docs/getting-started/keys'] },
             { label: 'Schema', description: 'the 22 element types, their fields and the conventions for using them', paths: ['docs/schema/**', 'docs/schema'] },
             { label: 'AI agents', description: 'the MCP server, agent seats, the LLM guide and the toolkit', paths: ['docs/development/ai', 'docs/development/mcp', 'docs/development/agents', 'docs/development/llm-guide', 'docs/development/toolkit'] },
           ],
