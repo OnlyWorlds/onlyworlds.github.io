@@ -48,6 +48,7 @@ Some errors carry extra top-level keys beside `error`, named in their row: `prec
 | [`pin_required`](#pin_required) | `invalid_request` | `409` | A member without an account PIN tried to mint a write key. Accepting an invite or a link needs no PIN. |
 | [`precondition_failed`](#precondition_failed) | `invalid_request` | `412` | The request carried If-Match with a change_seq, and the element has moved since; the reply's top-level `current` is the element as it is now. Nothing was written and nothing is merged: re-read `current`, then re-send or ask the user. |
 | [`player_role_fixed`](#player_role_fixed) | `invalid_request` | `422` | The owner tried to change a player seat's role: a player (no account) reads as a guest, and that role can't be changed. Remove the player instead. |
+| [`character_hidden`](#character_hidden) | `invalid_request` | `422` | The owner tried to set a hidden Character as the one a seat or a player plays (`param` character): a played Character is on every reader's roster, so a hidden one can never be picked. Unhide it first, or pick another. |
 | [`apply_failed`](#apply_failed) | `invalid_request` | `422` | A /bulk item passed validation but its write failed a database constraint (most often an id that already exists in another world). |
 | [`file_too_large`](#file_too_large) | `invalid_request` | `413` | A file asked to be attached to an element is over 25 MB; the message gives both sizes (`param` size). |
 | [`invalid_credentials`](#invalid_credentials) | `authentication_error` | `401` | The API key or PIN is missing, unrecognised or wrong. A PIN refusal names param API-Pin and says whether the PIN was missing or wrong. |
@@ -144,6 +145,14 @@ A member without an account PIN tried to mint a write key. Accepting an invite o
 The owner tried to change a player seat's role: a player (no account) reads as a guest, and that role can't be changed. Remove the player instead.
 
 - **How to fix:** a [player](/docs/development/api/members#player-links) stays a guest. To give that friend more, remove the player and invite them as a person, by email or with an invite link; they will need an account.
+
+### character_hidden
+
+**Type** `invalid_request` · **Status** `422`
+
+The owner tried to set a hidden Character as the one an agent seat or a player plays (`character` on the member's `PATCH`, or Plays on the members table; `param` `character`). A played Character is on every reader's roster, so a hidden one can never be picked, by anyone.
+
+- **How to fix:** unhide the Character first, or pick another.
 
 ### removal_in_flight
 
