@@ -13,7 +13,7 @@ A world is the top-level container for elements, representing a complete setting
 | `name` | string | Yes | Display name; it cannot be empty |
 | `description` | string | No | Text description |
 | `image_url` | string (url) | No | Cover image or representative visual |
-| `public_read` | boolean | No (default `false`) | Whether anyone can read the world without a credential |
+| `public_read` | boolean | No (default `false`) | Whether the world can be read by anyone, without a credential. On onlyworlds.com a key is still needed today, and only a legacy key reads without its PIN; owners can't set it yet |
 | `created_at` | string (date-time) | No (read-only) | When the world was created, as the tool holding it recorded it |
 | `updated_at` | string (date-time) | No (read-only) | When the world's own settings (name, description, image, time and units) last changed |
 
