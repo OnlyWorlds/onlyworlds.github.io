@@ -156,7 +156,7 @@ curl -s "https://www.onlyworlds.com/api/v2/character/?as=public" \
 A membership id is tried first. The answer is what that reader's own key would get: links in the bodies, `?expand` and the `characters` filter follow the same reader.
 
 - **Who.** Only a key with no member: the owner's own keys and a legacy key. A member key that sends `as` gets `403` [`view_as_owner_only`](/api/errors/#view_as_owner_only).
-- **A hidden element** is `404` [`not_found`](/api/errors/#not_found), never `410`. A deleted element is `410` [`gone`](/api/errors/#gone) only as a contributor; as a guest, a Character or the public it is `404`. The public reads no tombstones.
+- **A hidden element** is `404` [`not_found`](/api/errors/#not_found), never `410`. A deleted element is `410` [`gone`](/api/errors/#gone) as a co-builder or a contributor; as a guest, a player, a Character or the public it is `404`. The public reads no tombstones.
 - **Refused.** `as` on a route that does not take it, or a value that is not a live membership, a Character of this world or `public`, is `422` [`invalid_request`](/api/errors/#invalid_request) with `param` `as`. The route is checked before the key, so a member key sending `as` to a route that does not take it gets the `422`. The metadata routes answer their refusals in their own shape, `{"error": {"code": …, "detail": …}}`, with no `param`.
 - **The switch.** Like the rest of this page, `as` answers only while keel's hidden mark is switched on. Off, it is an unknown parameter on every route (`422`, `param` `as`), and the [OpenAPI document](https://www.onlyworlds.com/api/v2/openapi.json) declares no `as` and no `403` for it.
 
