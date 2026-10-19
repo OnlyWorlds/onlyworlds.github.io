@@ -131,6 +131,37 @@ A contributor, person or agent seat, carries the cursor a [guest](/docs/developm
 - After that, its `epoch` moves when an element it regains is unhidden, and when the member moves to or from the contributor role.
 - The owner and co-builders keep the two-part cursor and `epoch` `null`. A three-part cursor from them (a contributor made co-builder) is the same `409`.
 
+## View As
+
+The owner can read the world as another reader would, to check what a member, a Character's player or the public sees before or after a hide. Add `as` to a read:
+
+```bash
+curl -s "https://www.onlyworlds.com/api/v2/character/?as=public" \
+  -H "API-Key: {key}"
+```
+
+| Route | Takes `as` |
+|:--|:--|
+| `GET /api/v2/{type}` and `GET /api/v2/{type}/{id}` | Yes |
+| [`GET /api/v2/search`](/docs/development/api/reads#search) | Yes |
+| `GET /api/metadata/{type}/` and `GET /api/metadata/{type}/sections/` (the choice lists) | Yes |
+| Every write, `/changes`, `/members`, `/me`, `/world`, the files routes and the hidden routes | No: `422` |
+
+| Value | Reads as |
+|:--|:--|
+| A membership id of this world (a person, an agent seat or a player seat) | That member's own key, its own creations included. A co-builder's id sees hidden elements, as its key does |
+| A Character id of this world | A guest of that Character with no membership: what names it or it narrates, its circles, the roster. Nothing counts as its own creation |
+| `public` | Everything that is not hidden: no creations, no grants |
+
+A membership id is tried first. The answer is what that reader's own key would get: links in the bodies, `?expand` and the `characters` filter follow the same reader.
+
+- **Who.** Only a key with no member: the owner's own keys and a legacy key. A member key that sends `as` gets `403` [`view_as_owner_only`](/api/errors/#view_as_owner_only).
+- **A hidden element** is `404` [`not_found`](/api/errors/#not_found), never `410`. A deleted element is `410` [`gone`](/api/errors/#gone) only as a contributor; as a guest, a Character or the public it is `404`. The public reads no tombstones.
+- **Refused.** `as` on a route that does not take it, or a value that is not a live membership, a Character of this world or `public`, is `422` [`invalid_request`](/api/errors/#invalid_request) with `param` `as`. The route is checked before the key, so a member key sending `as` to a route that does not take it gets the `422`. The metadata routes answer their refusals in their own shape, `{"error": {"code": …, "detail": …}}`, with no `param`.
+- **The switch.** Like the rest of this page, `as` answers only while keel's hidden mark is switched on. Off, it is an unknown parameter on every route (`422`, `param` `as`), and the [OpenAPI document](https://www.onlyworlds.com/api/v2/openapi.json) declares no `as` and no `403` for it.
+
+On onlyworlds.com, the owner's world page has a **View as** picker (me, a player, a Character, anyone). The world page, the type lists and the element pages then show that reader's view, read-only, under a bar that says who is shown; a hidden element shows the not-found page.
+
 ## What the Mark Does Not Reach
 
 - **Published share pages.** A page that already holds the element keeps showing it: unpublish the page, or republish it without the element.

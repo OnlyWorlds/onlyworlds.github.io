@@ -220,7 +220,7 @@ A member key tried to change the world's own fields (`PATCH /api/v2/world`). The
 
 A member key sent `as` on a read that takes it (an element get or list, search, the metadata routes). Reading as another reader is the owner's: only a key with no member, the owner's own keys or a legacy key, may send it. Keel answers it only while its hidden mark is switched on; until then `as` is an unknown parameter (`422`, `param` `as`).
 
-- **How to fix:** send `as` with one of the owner's keys, or leave it out. A member key reads as itself.
+- **How to fix:** send `as` with one of the owner's keys, or leave it out. A member key reads as itself. See [View As](/docs/development/api/hidden#view-as).
 
 ### guest_not_supported
 
