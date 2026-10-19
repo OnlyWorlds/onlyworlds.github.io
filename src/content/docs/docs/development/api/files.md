@@ -5,7 +5,7 @@ description: How to attach a PDF, a text file or a world bundle to an element, l
 
 An element can carry files: a PDF, a text file or a world's own bundle, kept on onlyworlds.com beside the element. A file is not a field. It never appears in the element's body, in [`/changes`](/docs/development/api/changes), in a folder or in an export, and adding or removing one leaves the element's `change_seq` alone. A copy of a world leaves its files behind.
 
-As with [images](/docs/development/api/images), the API never handles the bytes: it issues a ticket, and the upload host takes the file. The world's owner can also add, download and remove files on an element's page on onlyworlds.com.
+As with [images](/docs/development/api/images), the API never handles the bytes: it issues a ticket, and the upload host takes the file. The world's owner can also add, download and remove files on an element's page on onlyworlds.com. In TypeScript, the [SDK](/docs/development/typescript) does both steps in one call, `uploadFile`, beside `listFiles`, `fileDownloadLink`, `removeFile` and `worldFiles` (since 4.32.0).
 
 ## What a File Can Be
 

@@ -310,7 +310,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.31.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.32.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -351,11 +351,17 @@ Generated from the types of `@onlyworlds/sdk` 4.31.0, the version these docs pin
 | `uploadImage(image, opts?)` |  | Upload one image and get its permanent public URL: a ticket from the API, then the bytes straight to the media edge (the API never sees them). | `Promise<OwUploadedImage>` |
 | `createRemovalTicket(key)` | `POST /media/remove-ticket` | permission to remove ONE image (a write key and its PIN). | `Promise<OwRemovalTicket>` |
 | `removeImage(keyOrUrl, opts?)` |  | Remove one uploaded image: a removal ticket from the API, then the removal at the edge (the API key never leaves for the edge). | `Promise<OwRemovedImage>` |
+| `listFiles(type, id)` | `GET /{type}/{id}/files` | the element's files, newest first: each with its name, kind, size in bytes, label (or null), who added it (`added_by.agent` is true when an agent did) and when. | `Promise<OwFileRow[]>` |
+| `worldFiles()` | `GET /world/files` | every file in the world this key may see, newest first, each with its element's `element_type` and `element_id`; and the world's total, `used_bytes` of `cap_bytes` (for a line like "41 MB of 250 MB"). | `Promise<OwWorldFiles>` |
+| `createFileTicket(type, id, req)` | `POST /{type}/{id}/files` | permission to upload ONE file onto this element: a write key (and its PIN) that may change the element. | `Promise<OwFileTicket>` |
+| `uploadFile(type, id, file, opts?)` |  | Attach one file to an element: a ticket from the API (createFileTicket), then the bytes straight to the upload host (the API never sees them, and the key and PIN never leave for the host). | `Promise<OwUploadedFile>` |
+| `fileDownloadLink(type, id, fileId)` | `GET /{type}/{id}/files/{fileId}/download` | a link to the file and when it stops working: `url` (the file as an attachment, from the download host), `exp` (unix seconds, 5 minutes after issue), and the file's `name`, `kind` and `size`. | `Promise<OwFileDownload>` |
+| `removeFile(type, id, fileId)` | `DELETE /{type}/{id}/files/{fileId}` | remove a file for real: it leaves the lists and the world's total at once, and its bytes are deleted from the store. | `Promise<void>` |
 | `previewJoin(code)` | `POST /join/preview` | what a join code holds, without using it: who invites, to which world, in what role, and `reader` (`person`: accept it with acceptJoin; `agent`: an AI agent redeems it at POST /join). | `Promise<OwJoinPreview>` |
 | `redeemJoin(code, opts?)` | `POST /join` | redeem a join code that needs no account: a player's (a friend reading as a guest, keel #353) or an AI agent's. | `Promise<OwJoined>` |
 | `signInWithPassword(opts)` |  | Sign in with an email address (or a username) and password, and get a new account token (`ow_a_`) for this device, named `tokenName` (say, "Lantern on iPhone"): the name the account's tokens page lists it under, where it can be revoked. | `Promise<OwSignedIn>` |
 | `acceptJoin(code)` | `POST /account/join` | accept an invite link's code as the account this client's `ow_a_` token belongs to: 201 with the new membership. | `Promise<OwJoinedMembership>` |
-| `createWorldLink(worldId, opts)` | `POST /account/worlds/{worldId}/links` | a new invite link for a world this client's `ow_a_` token owns (keel C1): `reader` is required (`person`, accepted with acceptJoin; `agent`, redeemed at POST /join; `player`, a friend with no account, redeemed with redeemJoin for a read key, keel #353); `role` defaults to contributor (a player link is guest, and refuses any other), `days` (1, 7 or 30) to 7; `withCharacter` (agent links only) to true; `character` (player links only) a Character's id or `new` (the default): whoever opens the link first reads as it, until removed. | `Promise<OwCreatedWorldLink>` |
+| `createWorldLink(worldId, opts)` | `POST /account/worlds/{worldId}/links` | a new invite link for a world this client's `ow_a_` token owns (keel C1): `reader` is required (`person`, accepted with acceptJoin; `agent`, redeemed at POST /join; `player`, a friend with no account, redeemed with redeemJoin for a read key, keel #353); `role`, when left out, is keel's default: guest for a person link, contributor for an agent link (a player link is guest, and refuses any other), `days` (1, 7 or 30) to 7; `withCharacter` (agent links only) to true; `character` (player links only) a Character's id or `new` (the default): whoever opens the link first reads as it, until removed. | `Promise<OwCreatedWorldLink>` |
 | `listWorldLinks(worldId)` | `GET /account/worlds/{worldId}/links` | the world's invite links, without their codes: each with its status (pending, used, revoked or expired) and uses. | `Promise<OwWorldLink[]>` |
 | `revokeWorldLink(worldId, linkId)` | `DELETE /account/worlds/{worldId}/links/{linkId}` | revoke a link: its code no longer works. | `Promise<void>` |
 | `createSeat(worldId, opts)` | `POST /account/worlds/{worldId}/seats` | a seat for your own AI in a world you own or are a member of: its own membership, write key and `ow_s_` secret, no join link. | `Promise<OwSeatCreated>` |
