@@ -119,9 +119,9 @@ A `PATCH` or a link operation carried `If-Match` with a `change_seq`, and the el
 
 **Type** `invalid_request` · **Status** `409`
 
-A guest's `/changes` cursor is from before a change to what the guest can see, or the cursor is not this caller's shape (a guest's has three parts, everyone else's two).
+A guest's or a contributor's `/changes` cursor is from before a change to what that key can see, or the cursor is not this caller's shape (a guest's and a contributor's have three parts, the owner's and a co-builder's two). A contributor's cursor stored before [hidden elements](/docs/development/api/hidden) arrived answers this once.
 
-- **How to fix:** pull the feed again from `since=0` and keep what your copy holds that the new walk does not name; a reset never empties a copy. See [Guests' Cursors](/docs/development/api/changes#guests-cursors).
+- **How to fix:** pull the feed again from `since=0` and keep what your copy holds that the new walk does not name; a reset never empties a copy. See [Guests' Cursors](/docs/development/api/changes#guests-cursors) and [The Contributor's Cursor](/docs/development/api/hidden#the-contributors-cursor).
 
 ### already_member
 
@@ -153,7 +153,7 @@ The owner tried to change a player seat's role: a player (no account) reads as a
 
 The owner tried to set a hidden Character as the one an agent seat or a player plays (`character` on the member's `PATCH`, or Plays on the members table; `param` `character`). A played Character is on every reader's roster, so a hidden one can never be picked, by anyone.
 
-- **How to fix:** unhide the Character first, or pick another.
+- **How to fix:** unhide the Character first, or pick another. See [Playing a Hidden Character](/docs/development/api/hidden#playing-a-hidden-character).
 
 ### removal_in_flight
 

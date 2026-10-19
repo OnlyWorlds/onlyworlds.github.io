@@ -20,7 +20,7 @@ curl -s "https://www.onlyworlds.com/api/v2/changes?limit=1" -H "API-Key: 0000000
 That is Hyperion's first page. The next call sends `?since=1:068e2e60-fc37-789e-8000-a64560195ff8`. A delete in the feed reads:
 
 ```json
-{ "op": "delete", "type": "location", "id": "…", "change_seq": 41, "deleted_at": "…", "deleted_by": null, "deleted_via": "api" }
+{ "op": "delete", "type": "location", "id": "…", "change_seq": 41, "deleted_at": "…", "deleted_by": null, "deleted_via": "api", "reason": "deleted" }
 ```
 
 | Key | Meaning |
@@ -29,9 +29,9 @@ That is Hyperion's first page. The next call sends `?since=1:068e2e60-fc37-789e-
 | `cursor` | Pass it back as `?since=` for the next page. Its shape varies (a page's cursor such as `"1:068e…"`, or a number from `?head=true`), so store it as it came |
 | `has_more` | `true` if more pages remain |
 | `head` | The world's current change sequence |
-| `epoch` | A guest's view epoch ([Guests' Cursors](#guests-cursors)); `null` for every other key |
+| `epoch` | A guest's or a contributor's view epoch ([Guests' Cursors](#guests-cursors)); `null` for the owner's and co-builders' keys |
 
-An `upsert` carries the whole element at its latest state, in the same body a [read](/docs/development/api/reads#what-an-element-carries) returns. A `delete` is a tombstone with the id, `deleted_at`, and who deleted it through which door (`deleted_by`, `deleted_via`: see [Agent Writes](/docs/development/api/writes#agent-writes)).
+An `upsert` carries the whole element at its latest state, in the same body a [read](/docs/development/api/reads#what-an-element-carries) returns. A `delete` carries the id, `deleted_at`, who deleted it through which door (`deleted_by`, `deleted_via`: see [Agent Writes](/docs/development/api/writes#agent-writes)), and why, in `reason`: `deleted` for a tombstone, `hidden` for an element [hidden](/docs/development/api/hidden#the-feed) from this key. Remove the element from your copy either way.
 
 ## Walking the Feed
 
@@ -74,7 +74,7 @@ def pull(since=None):
 
 Walking `GET /api/v2/changes` from no `since` until `has_more` is `false` gives every live element at its latest state, plus a tombstone for each delete: the whole world. Most worlds take several pages. There is no separate export route. Deletes are always explicit `delete` ops, never inferred from an element's absence.
 
-A key that may not see an element the owner or a co-builder hid walks the feed without it, and its links are left out of the bodies. A hide or an unhide writes no row in the feed yet: see [Hidden Elements](/docs/development/api/hidden#the-feed).
+A key that may not see an element the owner or a co-builder hid walks the feed without it, without a tombstone of its id, and with its links left out of the bodies. A contributor learns of a hide from a `delete` op with `reason` `hidden`; a guest's cursor is reset instead. See [Hidden Elements](/docs/development/api/hidden#the-feed).
 
 World fields (`name`, the time fields and the rest of `GET /api/v2/world`) are not in the feed. Poll `GET /api/v2/world` and compare `updated_at`; element writes never change the world's `updated_at`.
 
@@ -84,7 +84,7 @@ In normal operation a world's change sequence only moves forward. The one except
 
 ## Guests' Cursors
 
-For every key except a guest's, everything above holds. A [guest](/docs/development/api/members#guests) key walks only what it can see:
+For the owner's and co-builders' keys, everything above holds. A [guest](/docs/development/api/members#guests) key walks only what it can see:
 
 - Its cursor has three parts. It is still opaque: pass back exactly what you got.
 - It never receives `delete` ops.
@@ -94,7 +94,9 @@ For every key except a guest's, everything above holds. A [guest](/docs/developm
 - `head` in a page is still the world's change sequence.
 - `epoch`, on every page and on `?head=true`, is the guest's view epoch. It moves when the guest's view changes without the change sequence moving (a Character given or taken, a role). A tip whose `epoch` differs from the one you last applied means pull again; read it from this field, never out of the cursor.
 
-A guest that becomes a contributor (or the reverse) holds a cursor of the wrong shape, and also gets `409 resync_required`.
+A contributor carries the same three-part cursor, `epoch` and `?head=true` cursor, and the same `409` rules, but it still receives every `delete` op; a contributor's cursor stored before hidden elements arrived answers `409` once. See [The Contributor's Cursor](/docs/development/api/hidden#the-contributors-cursor).
+
+A member's move to or from the guest or the contributor role resets its cursor: its next call answers `409 resync_required`. A three-part cursor from the owner or a co-builder is the same `409`.
 
 ## The Export File
 

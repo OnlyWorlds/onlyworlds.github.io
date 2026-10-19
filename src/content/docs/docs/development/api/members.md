@@ -43,7 +43,7 @@ curl -s "https://www.onlyworlds.com/api/v2/members" -H "API-Key: {key}"
 | `id` | The membership id, which is what `created_by` holds; `null` for the owner |
 | `kind` | `owner`, `person`, `agent` or `player` |
 | `role` | `owner`, `co_builder`, `contributor` or `guest` |
-| `character` | The Character that is this member, or `null`. The owner's is the world's `owner_character` |
+| `character` | The Character that is this member, or `null`. The owner's is the world's `owner_character`. `null` too when that Character is [hidden](/docs/development/api/hidden) from the calling key |
 | `status` | `active` or `removed` |
 | `name` | Agent and player rows only: their name |
 
@@ -64,7 +64,7 @@ curl -s "https://www.onlyworlds.com/api/v2/narrative?characters={character_id}" 
   "role": "contributor", "membership": "0699…", "character": "069a…", "name": "Wren" }
 ```
 
-`scope` is `read` or `write`. `membership` is what `created_by` will hold for what this key creates. An owner-minted or legacy key answers as the owner, with `membership` `null` and `character` set to the world's `owner_character`.
+`scope` is `read` or `write`. `membership` is what `created_by` will hold for what this key creates. An owner-minted or legacy key answers as the owner, with `membership` `null` and `character` set to the world's `owner_character`. A Character [hidden](/docs/development/api/hidden) from the key reads `null`, the one its own member plays included, unless that member created it.
 
 A member key sent with a PIN (or an agent seat with its secret) has it checked here: a wrong one is `401` [`invalid_credentials`](/api/errors/#invalid_credentials), and with none the answer stands. So `/me` tests a connection before the first write. A player's key has no PIN; one it sends is ignored.
 
@@ -112,7 +112,7 @@ A code made for a person is a bad code for an AI agent, and the other way round:
 
 A **player link** lets a friend read the world with no account and no PIN, as one Character: the game-night guest. The owner makes it on the world page beside the invite links (a link for a player, no account needed), in [Atlas](/docs/tools/atlas)'s or [Lantern](/docs/tools/lantern)'s Invite someone (A player), or with `reader` `player` on the owner's [link routes](#managing-members), choosing the Character the player reads as or a fresh one. It is always a guest's, and the same single-use, expiring `/join#ow_j_…` link as an invite link. Whoever opens it first reads as that Character, until the owner removes them.
 
-Opened in a browser, `/join` offers Open in Lantern, with no sign-in. Redeemed, it makes a member with `kind` `player`: no account behind it, role `guest` for good (it cannot be promoted: `422` [`player_role_fixed`](/api/errors/#player_role_fixed)), and one `ow_r_` read key. A player reads exactly what a guest playing that Character reads ([Guests](#guests)) and writes nothing; a write with its key is `403`. The owner can change which Character the player reads as (`character` on the member's `PATCH`, or Plays on the members table), or remove them, which stops the key at once. A lost key: remove the player and make a new link. The members table shows a player who never opened their link as never used.
+Opened in a browser, `/join` offers Open in Lantern, with no sign-in. Redeemed, it makes a member with `kind` `player`: no account behind it, role `guest` for good (it cannot be promoted: `422` [`player_role_fixed`](/api/errors/#player_role_fixed)), and one `ow_r_` read key. A player reads exactly what a guest playing that Character reads ([Guests](#guests)) and writes nothing; a write with its key is `403`. The owner can change which Character the player reads as (`character` on the member's `PATCH`, or Plays on the members table; never a hidden Character: `422` [`character_hidden`](/api/errors/#character_hidden)), or remove them, which stops the key at once. A lost key: remove the player and make a new link. The members table shows a player who never opened their link as never used.
 
 A client redeems a player code with no credential:
 
@@ -152,7 +152,7 @@ Invites and memberships are managed in the [account portal](https://www.onlyworl
 | POST | `/api/v2/account/worlds/{world_id}/invites` | Invite an email address as a member (owner only) |
 | DELETE | `/api/v2/account/worlds/{world_id}/invites/{invite_id}` | Cancel an invite |
 | GET | `/api/v2/account/worlds/{world_id}/members` | Members and pending invites |
-| PATCH | `/api/v2/account/worlds/{world_id}/members/{member_id}` | Change a member's `role`, or the `character` an agent or player plays (owner only) |
+| PATCH | `/api/v2/account/worlds/{world_id}/members/{member_id}` | Change a member's `role`, or the `character` an agent or player plays (owner only; a [hidden](/docs/development/api/hidden#playing-a-hidden-character) Character is `422` [`character_hidden`](/api/errors/#character_hidden)) |
 | DELETE | `/api/v2/account/worlds/{world_id}/members/{member_id}` | Remove a member; their keys for the world are deleted (they then answer `401` [`invalid_credentials`](/api/errors/#invalid_credentials), as an unknown key does), and the AI seats they made there are removed with them |
 | POST | `/api/v2/account/worlds/{world_id}/links` | Make an [invite link](#invite-links) (owner only): `reader` (`person`, `agent` or `player`, required), `role`, `days`, `inviter_name`, `with_character`, and for a player `character` (`new` or a Character's id), and `preview` (person and player links, off when left out; `true` on an agent link is `422`, `param` `preview`); `201` with the code, the link and a line to send, shown only in this answer. A world holds at most 50 pending invites and person or player links together (`422`) |
 | GET | `/api/v2/account/worlds/{world_id}/links` | The world's links, newest first, never a code, each with `uses` and `status` (`pending`, `used`, `revoked`, `expired`) |
@@ -181,6 +181,6 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/account/worlds/{world_id}/inv
 
 - An invite answers the same `201` body whether or not an account uses that email address.
 - Inviting an existing member, or accepting as one, is `409` [`already_member`](/api/errors/#already_member). Accepting needs no account PIN; minting a write key without one is `409` [`pin_required`](/api/errors/#pin_required).
-- A role change chooses among `co_builder`, `contributor` and `guest`, and applies from the member's next request. A member made a guest keeps its roster Character only if it created it.
+- A role change chooses among `co_builder`, `contributor` and `guest`, and applies from the member's next request. A move to or from `contributor` or `guest` resets the member's [change feed](/docs/development/api/changes#guests-cursors) cursor. A member made a guest keeps its roster Character only if it created it.
 
 The bodies: an invite takes `email` and `role`; a change takes `role`, `character` (a Character's id, or `null` for an agent), or both; accepting an invite takes an optional `roster_character` (the id of an existing Character to stand for you in the roster; ignored for guests, who always get a new one); adding a watched world takes `key` (the world's `ow_r_` key).

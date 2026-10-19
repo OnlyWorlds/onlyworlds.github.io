@@ -124,7 +124,7 @@ for await (const change of client.changesAll(cursor)) {
 }
 ```
 
-To poll for news cheaply, `client.changesHead()` returns `{ head, cursor, epoch }` without reading any element (since 4.15.0; `epoch` since 4.16.0). Walk `changesAll` only when `head` has moved past the head you last applied, or when `epoch` changed: for a guest it moves when what they may see changes, even with `head` unchanged. For everyone else it is `null`.
+To poll for news cheaply, `client.changesHead()` returns `{ head, cursor, epoch }` without reading any element (since 4.15.0; `epoch` since 4.16.0). Walk `changesAll` only when `head` has moved past the head you last applied, or when `epoch` changed: for a guest or a contributor it moves when what they may see changes, even with `head` unchanged. For the owner and co-builders it is `null`. A `delete` op's `reason` is `deleted`, or `hidden` for an element [hidden](/docs/development/api/hidden#the-feed) from the key: remove it from your copy either way.
 
 Edits to the world itself (its name, calendar, `public_read`) do not enter the change feed. Poll `client.getWorld()` and compare `updated_at` for those. See [Sync with Changes](/docs/development/api/changes).
 

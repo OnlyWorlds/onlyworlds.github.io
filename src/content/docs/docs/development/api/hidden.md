@@ -3,7 +3,7 @@ title: Hidden Elements
 description: How the world's owner or a co-builder hides an element from the rest of the world, what each reader then sees, and the routes.
 ---
 
-The world's owner and its co-builders can **hide** an element: a twist the players have not reached, a villain's real allegiance, the game master's own notes. A hidden element stays in the world, unchanged. The owner, the co-builders and the member who created it still see it; to everyone else it answers as if it did not exist.
+The world's owner and its co-builders can **hide** an element: a twist the players have not reached, a villain's real allegiance, the game master's own notes. A hidden element stays in the world, unchanged. The owner, the co-builders and the member who created it still see it; to everyone else it answers as if it did not exist, and a contributor's [change feed](#the-feed) says it was hidden.
 
 The mark is a record beside the element, not a field. Hiding or unhiding leaves the element's body and its `change_seq` alone, and nothing in the body says it is hidden.
 
@@ -27,7 +27,8 @@ To a reader it is hidden from, a hidden element answers exactly as a missing one
 - `GET /api/v2/{type}/{id}` is `404` [`not_found`](/api/errors/#not_found), never `410` [`gone`](/api/errors/#gone).
 - Lists, the `characters` filter, [search](/docs/development/api/reads#search), the [MCP server](/docs/development/mcp)'s tools and world index, and every count and `has_more` leave it out. Its [files](/docs/development/api/files) answer `404`.
 - Links to it are left out of every body the reader reads: a single link reads `null`, a multi link loses the id, and `?expand` has nothing to expand. The elements that carry those links do not change: their `change_seq` stays where it was.
-- A copy the reader made before the hide keeps the element, and the link ids, until it reads them again ([The Feed](#the-feed)).
+- A hidden Character's id reads `null` on the [roster](/docs/development/api/members#the-roster) (`GET /api/v2/members`), on [`GET /api/v2/me`](/docs/development/api/members#who-am-i) and in the world's `owner_character` (`GET /api/v2/world`, and the join preview). That holds for the Character the reader's own member plays, too, unless that member created it. The world's `ETag` differs for a reader whose `owner_character` reads `null`, so a cached body does not outlive the hide.
+- A reader following [`/changes`](/docs/development/api/changes) is told in the feed: see [The Feed](#the-feed).
 
 ## Writes That Name It
 
@@ -43,6 +44,15 @@ A write by a reader it is hidden from answers as it would for an id that does no
 | A `/bulk` item with its id | `404` [`not_found`](/api/errors/#not_found) in that item's slot |
 
 A reader's write on an element that links to a hidden one keeps that link, as a guest's write keeps the links it cannot see: a `PUT` that leaves it out does not remove it.
+
+## Playing a Hidden Character
+
+A Character someone plays is on every reader's roster, so a hidden Character can never be picked to play, by anyone, the owner included:
+
+- Setting it as the Character an agent seat or a player plays (`character` on [`PATCH /api/v2/account/worlds/{world_id}/members/{member_id}`](/docs/development/api/members#managing-members), or **Plays** on the members table) is `422` [`character_hidden`](/api/errors/#character_hidden), `param` `character`. Unhide it first, or pick another.
+- Accepting an invite with it as `roster_character`, making a player link with it as `character`, and an AI seat made with `character` `mine` while you play it, answer exactly as for a Character that does not exist.
+- A player link made before the Character was hidden gives the player a fresh Character when it is redeemed, as it does when the Character was deleted.
+- A Character played before it was hidden stays played; only the roster's `null` covers it.
 
 ## Hiding and Unhiding
 
@@ -89,9 +99,37 @@ Deleting a hidden element deletes its mark with it, and deleting a world deletes
 
 ## The Feed
 
-A hide does not reach [`/changes`](/docs/development/api/changes) yet. The feed writes no row for it, and nothing tells a reader who already holds the element: its copy stays until it reads the element again and gets the `404`. From then on the element is missing from that reader's feed, lists and reads. A hide moves the feed's `head` by one, with no row at that position for any reader.
+Every `delete` op on [`/changes`](/docs/development/api/changes) says why, in `reason`: `deleted` for an element that was deleted, `hidden` for one hidden from this key. (`out_of_view` is reserved; nothing sends it yet.) A hide takes one place in the world's change sequence, so `head` moves by one.
 
-An unhide writes no row either, and the element's `change_seq` does not move. A reader following the feed from a stored cursor gets the element back at its next change, or by walking the feed again from the start.
+| Reader | When an element is hidden from it | When it is unhidden |
+|:--|:--|:--|
+| A contributor, person or agent seat | One `delete` op with `reason` `hidden`, at the place the hide took | Its next call answers `409` [`resync_required`](/api/errors/#resync_required) |
+| A guest or a player that could see it | Its next call answers `409` [`resync_required`](/api/errors/#resync_required); a guest never gets a `delete` op | `409` again |
+| A guest or a player that could not see it | Nothing | Nothing |
+| The owner, a co-builder, the member who created it | Nothing: they still see it | Nothing |
+
+The hidden row has the shape of any delete:
+
+```json
+{ "op": "delete", "type": "character", "id": "…", "change_seq": 412, "deleted_at": "…",
+  "deleted_by": "0699…", "deleted_via": "api", "reason": "hidden" }
+```
+
+`deleted_at` is when it was hidden, `deleted_by` the membership that hid it (`null` for the owner), and `deleted_via` the door it came through; a hide made on onlyworlds.com reads `server`, as every change made there does. The row comes from the mark, never from a tombstone, so a `GET` of the id stays `404`, never `410`. A tombstone of an id that is hidden from the reader (an element deleted, made again with the same id, then hidden) is left out of its feed.
+
+What a client does:
+
+- **On `reason` `hidden`:** remove the element from the local copy, as for any delete, and do not offer to keep it. A row may name an id you never held (an element made and hidden while you were not reading): drop it as you would any delete of an unknown id.
+- **On `409` `resync_required`:** pull the feed again from `since=0` and **replace** the local copy: anything the new walk does not name is out of your view.
+- A hidden row reaches a reader only for a hide made after its view last started (when it joined, or when its cursor was last reset), whatever cursor it sends. A new member, or one whose cursor was just reset, gets no row for an earlier hide; a walk from the start by a reader whose view started before the hide does carry it.
+
+### The Contributor's Cursor
+
+A contributor, person or agent seat, carries the cursor a [guest](/docs/development/api/changes#guests-cursors) carries: three parts, an `epoch` on every page and on `?head=true`, and a `?head=true` cursor to pass straight back as `since`. Unlike a guest, it still receives every `delete` op.
+
+- **Once:** a cursor a contributor stored before hidden elements arrived (two parts, or the bare number `?head=true` used to give) answers `409` [`resync_required`](/api/errors/#resync_required). Pull again from `since=0`, replace the local copy, and store the new cursor.
+- After that, its `epoch` moves when an element it regains is unhidden, and when the member moves to or from the contributor role.
+- The owner and co-builders keep the two-part cursor and `epoch` `null`. A three-part cursor from them (a contributor made co-builder) is the same `409`.
 
 ## What the Mark Does Not Reach
 
