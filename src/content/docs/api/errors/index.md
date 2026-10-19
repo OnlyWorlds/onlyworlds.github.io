@@ -410,5 +410,5 @@ The upload host, `upload.onlyworlds.com`, takes [images](/docs/development/api/i
 | `502` | `write_failed` | Nothing was stored and the ticket is still unspent: retry with the same ticket. |
 | `403` | `not_removable` | The image was not uploaded into the removal ticket's world with a ticket, so it can't be removed this way. |
 | `502` | `remove_failed` | Nothing was removed and the removal ticket is still unspent: retry with the same ticket. |
-| `503` | `ticket_lane_unconfigured` | Uploads are not configured on the host right now: retry later. |
-| `503` | `files_unconfigured` | File uploads are not configured on the host right now: nothing was stored and the ticket is unspent; retry later. |
+| `503` | `ticket_lane_unconfigured` | Uploads or removals, of images and files alike, are not configured on the host right now: nothing was stored and the ticket is unspent; retry later. |
+| `503` | `files_unconfigured` | Never met by a client: it answers only the crew's own read of a file's record, behind sign-in. |
