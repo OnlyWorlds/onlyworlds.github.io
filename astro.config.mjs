@@ -125,6 +125,7 @@ export default defineConfig({
           items: [
             { slug: 'docs/tools', label: 'Overview' },
             { slug: 'docs/tools/atlas' },
+            { slug: 'docs/tools/lantern' },
             { slug: 'docs/tools/obsidian-plugin' },
             { slug: 'docs/tools/onlyworlds-com' },
             { slug: 'docs/tools/easy-mobile' },

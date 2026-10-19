@@ -10,6 +10,7 @@ These tools all work with the same world format, so a world can move between the
 | Tool | What it does | Where |
 |---|---|---|
 | [Atlas](/docs/tools/atlas) | The main workspace: build, write, map and chart a world that lives as a folder on your disk. | [atlas.onlyworlds.com](https://atlas.onlyworlds.com) |
+| [Lantern](/docs/tools/lantern) | Your worlds on your phone, offline too: find, read and change them, and run a game at the table, where a player needs no account. | [lantern.onlyworlds.com](https://lantern.onlyworlds.com) |
 | [Obsidian Plugin](/docs/tools/obsidian-plugin) | Each element is a markdown note in your Obsidian vault, syncable with online worlds. | [GitHub](https://github.com/OnlyWorlds/obsidian-plugin) |
 | [onlyworlds.com](/docs/tools/onlyworlds-com) | Accounts, world hosting, keys and the API. | [onlyworlds.com](https://www.onlyworlds.com) |
 
