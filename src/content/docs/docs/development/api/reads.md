@@ -1,6 +1,6 @@
 ---
 title: Reads and Pagination
-description: How to list and fetch elements, page through results, filter, expand links, and read the world itself.
+description: How to list and fetch elements, page through results, filter, search a world's text, expand links, and read the world itself.
 ---
 
 Reads take the key alone: a prefixed key (`ow_w_`, `ow_r_`) never needs the PIN to read. See [Keys and PINs](/docs/getting-started/keys).
@@ -79,6 +79,35 @@ Besides these filters, a list takes the parameters `limit`, `cursor`, `expand` a
 ```
 
 **Ordering is not supported.** `?ordering=` is a `422`, and pages always come in change order. Sort on your side.
+
+## Search
+
+`GET /api/v2/search?q=` finds the elements whose name or text holds every word of `q` as a whole word, ignoring case. The text is the name, the description and each category's own prose fields, such as a Character's background or a Narrative's story; supertype, subtype and `image_url` are not searched. There is no stemming: `drip` does not find "Drippers", and `quiet valley` needs both words somewhere in the element.
+
+| Parameter | Meaning |
+|:--|:--|
+| `q` | Required: 2 to 200 characters, with at least one word of letters or digits |
+| `type` | One category slug; without it, all 22 are searched |
+| `limit` | Default 50, clamped into 1 to 200; a non-integer is a `422` |
+
+Any other parameter is a `422` [`invalid_request`](/api/errors/#invalid_request) naming the three.
+
+```bash
+curl -s "https://www.onlyworlds.com/api/v2/search?q=drippers&limit=2" -H "API-Key: 0000000001"
+```
+
+```json
+{ "query": "drippers",
+  "results": [
+    { "type": "collective", "id": "069959a3-e99e-7862-8000-f1fb6761af2c", "name": "The Drippers",
+      "supertype": "Covert", "subtype": "Cabal", "field": "name", "snippet": "The Drippers" },
+    { "type": "construct", "id": "069945ca-acf6-7764-8000-e085272bf98f", "name": "Puddle Futures",
+      "supertype": "Society", "subtype": "Economy", "field": "description",
+      "snippet": "is, well, eternal. A small group of traders called 'the Drippers' have noticed micro-fluctuations in delivery volume and are quietly buying long-term" } ],
+  "count": 2, "truncated": true }
+```
+
+Elements whose name matches come first, then the rest, each by category and then by name. `field` is where the words were found, and `snippet` is up to 160 characters of that field around the first match. `truncated` is `true` when more elements matched than `limit`; there are no further pages, so narrow the query or raise the limit. A guest key searches only what it may read. The MCP server's [`search_elements`](/docs/development/mcp#read-a-key) runs the same search.
 
 ## Expansion and Sparse Fields
 

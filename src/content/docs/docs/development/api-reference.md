@@ -47,6 +47,7 @@ A single element answers as the bare element object. Every error answers in one 
 | DELETE | `/api/v2/{type}/{id}` | Delete | [Writes](/docs/development/api/writes) |
 | POST | `/api/v2/{type}/{id}/links/{field}` | Add or remove ids on one multi-link field | [Link Fields](/docs/development/api/links) |
 | POST | `/api/v2/bulk` | Create and upsert many elements of mixed categories | [Writes](/docs/development/api/writes#bulk) |
+| GET | `/api/v2/search` | Find elements by the words in their name and text | [Reads](/docs/development/api/reads#search) |
 | GET | `/api/v2/changes` | The world's change feed, and full export | [Changes](/docs/development/api/changes) |
 | GET | `/api/v2/world` | The world named by the key | [Reads](/docs/development/api/reads#the-world) |
 | PATCH | `/api/v2/world` | Update the world's own fields (owner only; a co-builder may move the world's now) | [Writes](/docs/development/api/writes#the-world) |
@@ -87,7 +88,7 @@ There are no webhooks. To follow a world's changes, poll [`/changes`](/docs/deve
 | Page | Covers |
 |:--|:--|
 | [Keys and PINs](/docs/getting-started/keys) | Key types, the PIN, member and agent-seat keys, account tokens |
-| [Reads and Pagination](/docs/development/api/reads) | The list envelope, cursors, filters, expansion, sparse fields, the world |
+| [Reads and Pagination](/docs/development/api/reads) | The list envelope, cursors, filters, search, expansion, sparse fields, the world |
 | [Link Fields](/docs/development/api/links) | How links read and write, and the link operations route |
 | [Writes and Bulk](/docs/development/api/writes) | Create, upsert, patch, delete, idempotency, bulk |
 | [Changes and Export](/docs/development/api/changes) | The change feed, full export, guests' cursors |

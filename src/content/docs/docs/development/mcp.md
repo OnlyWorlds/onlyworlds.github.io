@@ -75,7 +75,7 @@ The tools fall into three groups by what they need. Arguments in **bold** are re
 |:--|:--|:--|
 | `list_elements` | **`type`**, `name_contains` (case-insensitive substring), `supertype` (exact match), `limit` (100, up to 1000), `offset` (0) | `{data, limit, offset, has_more}`, newest created first; each element in the full `/api/v2/` shape. |
 | `get_element` | **`type`**, **`id`** | One element, the same body as `GET /api/v2/{type}/{id}`. |
-| `search_elements` | **`query`**: a name substring, case-insensitive | `{query, results}` across every category, each result `{type, id, name, supertype, subtype}`, up to 50 per category. `get_element` gives the full body. |
+| `search_elements` | **`query`**: 2 to 200 characters, `type` (one category; all if omitted), `limit` (50, up to 200) | `{query, results, count, truncated}`: the elements whose name or text holds every word of `query` as a whole word, ignoring case, name matches first. Each result is `{type, id, name, supertype, subtype, field, snippet}`. The same search as [`GET /api/v2/search`](/docs/development/api/reads#search); `get_element` gives the full body. |
 | `get_changes` | `since_cursor` (omit or `""` to start from the beginning), `limit` (25, up to 1000) | `{cursor, changes, has_more, head, epoch}`: each change is an `upsert` with the full element or a `delete`. Pass `cursor` back as `since_cursor` for the next page. A guest key gets only what it can see and no deletes; when its view changes, the tool says to pull again from the start and replace the local copy. Mirrors [`GET /api/v2/changes`](/docs/development/api/changes). |
 
 ### Write: A Write Key and PIN
@@ -113,7 +113,7 @@ The two world resources go through the same key check and the same scoping as th
 | Paging | `limit` and `offset`; the answer is `{data, limit, offset, has_more}` | `limit` and `cursor`; the answer is `{data, has_more, next_cursor}` |
 | Name filter | `name_contains` (case-insensitive substring) | `name__icontains`, or `name` for an exact match. `offset` and `name_contains` are a `422` here |
 | Other filters | `supertype` | `supertype`, `subtype`, and `characters` on six categories ([Reads](/docs/development/api/reads#filters)) |
-| Search across categories | `search_elements` | None: filter one category at a time |
+| Search | `search_elements` | `GET /api/v2/search`, the same search ([Reads](/docs/development/api/reads#search)) |
 | Change feed | `get_changes`: `since_cursor`, 25 entries per page by default | `GET /changes`: `since`, 500 per page by default |
 | Errors | A tool error carrying the human message, without `code` or the other envelope fields | The [error envelope](/api/errors/) |
 | Retries | No `Idempotency-Key` | `Idempotency-Key` on `POST` and `/bulk` ([Writes](/docs/development/api/writes#idempotency)) |
