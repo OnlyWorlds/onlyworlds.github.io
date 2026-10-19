@@ -35,7 +35,7 @@ Treat the cursor as opaque: do not parse or build it. Pages come in change order
 
 ## Single Elements
 
-`GET /api/v2/{type}/{id}` returns the bare element object, with no `data` wrapper. An id not in this world is `404` [`not_found`](/api/errors/#not_found), and one this world deleted is `410` [`gone`](/api/errors/#gone), with the deletion's `change_seq` and `deleted_at`; a malformed id is a `422`.
+`GET /api/v2/{type}/{id}` returns the bare element object, with no `data` wrapper. An id not in this world is `404` [`not_found`](/api/errors/#not_found), and one this world deleted is `410` [`gone`](/api/errors/#gone), with the deletion's `change_seq` and `deleted_at`; a malformed id is a `422`. An element [hidden](/docs/development/api/hidden) from the key is a `404`, the same answer as an id not in this world, never a `410`.
 
 ```bash
 curl -s "https://www.onlyworlds.com/api/v2/character/{id}" -H "API-Key: {key}"
@@ -107,7 +107,7 @@ curl -s "https://www.onlyworlds.com/api/v2/search?q=drippers&limit=2" -H "API-Ke
   "count": 2, "truncated": true }
 ```
 
-Elements whose name matches come first, then the rest, each by category and then by name. `field` is where the words were found, and `snippet` is up to 160 characters of that field around the first match. `truncated` is `true` when more elements matched than `limit`; there are no further pages, so narrow the query or raise the limit. A guest key searches only what it may read. The MCP server's [`search_elements`](/docs/development/mcp#read-a-key) runs the same search.
+Elements whose name matches come first, then the rest, each by category and then by name. `field` is where the words were found, and `snippet` is up to 160 characters of that field around the first match. `truncated` is `true` when more elements matched than `limit`; there are no further pages, so narrow the query or raise the limit. A guest key searches only what it may read, and no key finds an element hidden from it. The MCP server's [`search_elements`](/docs/development/mcp#read-a-key) runs the same search.
 
 ## Expansion and Sparse Fields
 
@@ -137,4 +137,4 @@ curl -s "https://www.onlyworlds.com/api/v2/character/{id}?expand=location,instit
 
 ## Guests
 
-A key with the guest role reads only part of a world, and everything else answers as if it did not exist. See [Guests](/docs/development/api/members#guests).
+A key with the guest role reads only part of a world, and everything else answers as if it did not exist. See [Guests](/docs/development/api/members#guests). An element the owner or a co-builder hid answers the same way to every key it is hidden from: see [Hidden Elements](/docs/development/api/hidden).

@@ -107,7 +107,7 @@ Besides tools, the server offers resources, which a client can show a person to 
 | `onlyworlds://world` | A key | `{world: {id, name}, types, limit_per_type}`: the key's world and its elements by type, ids and names only, at most 100 per type by name with `has_more` beyond. Types with nothing are left out. A type's full list is `list_elements`, in its own order. |
 | `onlyworlds://element/{type}/{id}` | A key | One element, the same body as `get_element`. |
 
-The two world resources go through the same key check and the same scoping as the read tools: a guest key sees only what it may see. A URI that names nothing answers the JSON-RPC error `-32002`, resource not found.
+The two world resources go through the same key check and the same scoping as the read tools: a guest key sees only what it may see, and no key sees an element [hidden](/docs/development/api/hidden) from it, in a tool's answer or in the world index. No tool hides or unhides an element. A URI that names nothing answers the JSON-RPC error `-32002`, resource not found.
 
 ## How It Differs From REST
 

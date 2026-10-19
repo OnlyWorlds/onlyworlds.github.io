@@ -74,6 +74,8 @@ def pull(since=None):
 
 Walking `GET /api/v2/changes` from no `since` until `has_more` is `false` gives every live element at its latest state, plus a tombstone for each delete: the whole world. Most worlds take several pages. There is no separate export route. Deletes are always explicit `delete` ops, never inferred from an element's absence.
 
+A key that may not see an element the owner or a co-builder hid walks the feed without it, and its links are left out of the bodies. A hide or an unhide writes no row in the feed yet: see [Hidden Elements](/docs/development/api/hidden#the-feed).
+
 World fields (`name`, the time fields and the rest of `GET /api/v2/world`) are not in the feed. Poll `GET /api/v2/world` and compare `updated_at`; element writes never change the world's `updated_at`.
 
 ## Rewinds and `head`

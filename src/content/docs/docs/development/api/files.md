@@ -27,7 +27,7 @@ Any other kind is refused when the ticket is asked for, a `422` [`invalid_reques
 
 | To | Who |
 |:--|:--|
-| List and download | Any key that may see the element. A guest or a player sees the files of the elements it sees; a hidden element's files answer `404`, as the element does |
+| List and download | Any key that may see the element. A guest or a player sees the files of the elements it sees; the files of an element out of a key's view, or [hidden](/docs/development/api/hidden) from it, answer `404`, as the element does |
 | Add a file | Whoever may change the element, with a write key and its PIN: the same rule as a `PATCH` of it ([Roles](/docs/development/api/members#roles)). A contributor or guest on an element someone else created gets `403` [`not_author`](/api/errors/#not_author); a read key gets `403` [`permission_error`](/api/errors/#permission_error) |
 | Remove a file | The world's owner key, or whoever added the file, by account. Anyone else gets `403` [`permission_error`](/api/errors/#permission_error), a co-builder too |
 

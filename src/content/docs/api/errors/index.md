@@ -92,7 +92,7 @@ Unknown fields are a hard error, not a silent drop, so a mistyped field name fai
 
 A link field names a UUID that is not an element of the linked category in this world.
 
-- **Common cause:** linking to an element that was never created, was deleted, or whose UUID was mistyped. An id of an element of another category (a Location's id in `friends`, which holds Characters). In `/bulk`, linking to a sibling item that itself failed. For a guest key, linking to an element the guest cannot see.
+- **Common cause:** linking to an element that was never created, was deleted, or whose UUID was mistyped. An id of an element of another category (a Location's id in `friends`, which holds Characters). In `/bulk`, linking to a sibling item that itself failed. For a guest key, linking to an element the guest cannot see; for any key, linking to an element [hidden](/docs/development/api/hidden) from it.
 - **How to fix:** check that the referenced element exists and is of the category the field names (read it first, or include it in the same `/bulk` batch). Links in a batch are checked against the world **plus** the batch's surviving items, in any order, but an item that fails cannot be linked to. `param` names the link field.
 
 A single write that fails with `invalid_link` writes nothing, so after fixing the link you can retry it with the same element id. A dangling link is an explicit, named error. The Classic API's old behaviour of silently dropping it does not apply here.
@@ -252,7 +252,7 @@ Asking for a ticket to attach a file to an element (`POST /api/v2/{type}/{id}/fi
 
 The requested element or route does not exist.
 
-- **Common cause:** a read, `PATCH` or link operation on an element UUID that is not in this world, or a mistyped path: an address under `/api/` that no route matches answers this envelope too, never a web page. For a guest key, an element the guest cannot see. An agent join code that is unknown, used, revoked or expired also answers `not_found`, the same answer for every case.
+- **Common cause:** a read, `PATCH` or link operation on an element UUID that is not in this world, or a mistyped path: an address under `/api/` that no route matches answers this envelope too, never a web page. For a guest key, an element the guest cannot see; for any key, an element [hidden](/docs/development/api/hidden) from it, also on a `PUT` or a `POST` naming its id (never `id_conflict`). An agent join code that is unknown, used, revoked or expired also answers `not_found`, the same answer for every case.
 - **How to fix:** check that the UUID exists in this world and that the path is right. `DELETE` is idempotent: deleting an element that is already gone returns `204`, not `404`.
 
 ### gone
@@ -267,7 +267,7 @@ A read of one element (`GET /api/v2/{type}/{id}`) named an element this world he
 ```
 
 - **Common cause:** a local copy, a link or a bookmark that still holds the id after someone deleted the element.
-- **How to fix:** drop the element from your copy. To learn of deletes as they happen, follow the [change feed](/docs/development/api/changes), which carries each as a tombstone. An id this world never held, one deleted in another world, a guest's read and the Classic API still answer `404` [`not_found`](#not_found).
+- **How to fix:** drop the element from your copy. To learn of deletes as they happen, follow the [change feed](/docs/development/api/changes), which carries each as a tombstone. An id this world never held, one deleted in another world, a guest's read, an element [hidden](/docs/development/api/hidden) from the key and the Classic API still answer `404` [`not_found`](#not_found).
 
 ### rate_limited
 

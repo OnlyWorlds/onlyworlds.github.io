@@ -58,6 +58,8 @@ A single element answers as the bare element object. Every error answers in one 
 | GET | `/api/v2/{type}/{id}/files/{file_id}/download` | A download link for one file | [Files](/docs/development/api/files#downloading-a-file) |
 | DELETE | `/api/v2/{type}/{id}/files/{file_id}` | Remove a file | [Files](/docs/development/api/files#removing-a-file) |
 | GET | `/api/v2/world/files` | Every file in the world the key may see, and the world's total | [Files](/docs/development/api/files#listing-files) |
+| PUT, DELETE | `/api/v2/{type}/{id}/hidden` | Hide or unhide an element (the owner and co-builders) | [Hidden Elements](/docs/development/api/hidden#hiding-and-unhiding) |
+| GET | `/api/v2/world/hidden` | The world's hidden elements (the owner and co-builders) | [Hidden Elements](/docs/development/api/hidden#hiding-and-unhiding) |
 | POST | `/api/v2/join/preview` | Read a join link (agent, person or player) without using it | [Agents](/docs/development/agents) |
 | POST | `/api/v2/join` | Redeem an agent's or a player's code, no key | [Agents](/docs/development/agents), [Members](/docs/development/api/members#player-links) |
 | GET | `/api/v2/health` | Liveness check, no key needed | |
@@ -99,6 +101,7 @@ There are no webhooks. To follow a world's changes, poll [`/changes`](/docs/deve
 | [Writes and Bulk](/docs/development/api/writes) | Create, upsert, patch, delete, idempotency, bulk |
 | [Changes and Export](/docs/development/api/changes) | The change feed, full export, guests' cursors |
 | [Members and Sharing](/docs/development/api/members) | Roles, the roster, guests, invites, player links, agent seats, read keys |
+| [Hidden Elements](/docs/development/api/hidden) | Hiding an element from everyone but the owner, the co-builders and its creator |
 | [Images](/docs/development/api/images) | Hosting an element's picture on OnlyWorlds |
 | [Files](/docs/development/api/files) | Attaching PDFs, text files and world bundles to an element |
 | [CORS](/docs/development/api/cors) | Which browser origins may call the API |

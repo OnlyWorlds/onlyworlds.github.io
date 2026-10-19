@@ -18,7 +18,7 @@ Fetch the world at build time and ship it inside the game. It works offline, nee
 
 The game reads the world from the API while it runs, so a new character or a rewritten place reaches players without a patch. Fetch the world once, then ask the [changes feed](/docs/development/api/changes) for what changed since your cursor, rather than fetching everything again.
 
-A read key (`ow_r_`) is made for this: it reads, cannot write, and needs no PIN. A key inside a shipped game can be extracted, so assume your players can read the whole world. See [Keys and PINs](/docs/getting-started/keys).
+A read key (`ow_r_`) is made for this: it reads, cannot write, and needs no PIN. A key inside a shipped game can be extracted, so assume your players can read the whole world, [hidden elements](/docs/development/api/hidden) included. See [Keys and PINs](/docs/getting-started/keys).
 
 What a live read can count on:
 

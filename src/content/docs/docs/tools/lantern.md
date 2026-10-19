@@ -87,8 +87,8 @@ It is offered to anyone who can change an online world, except a player, on anyt
 
 The owner of an online world finds **Invite someone** last on its home. **Who is it for?** offers three:
 
-- **A contributor** sees the whole world and adds to it. They need a free account.
-- **A player** sees only what their Character knows, with no account: they open it in Lantern. **They play as** offers a new Character for them, or one of the world's Characters (one still waiting to send is left out).
+- **A contributor** sees the whole world, except what you [hid](/docs/development/api/hidden), and adds to it. They need a free account.
+- **A player** sees only what their Character knows, and nothing you hid, with no account: they open it in Lantern. **They play as** offers a new Character for them, or one of the world's Characters (one still waiting to send is left out).
 - **A player with an account**: the same, signed in to an account of their own.
 
 Your name, as they will see it, goes with the link, and the phone remembers it for next time. **Make the link** makes a link that works once, for 7 days. **Send it** opens the phone's share sheet; **Copy** and a QR code to scan across the table are beside it. The link is shown only then: Lantern does not keep it, and you can make another at any time. **See or take back links on onlyworlds.com** opens the world's Access pane. Making a link needs signal. A world holds only so many open invites, player links included; at the cap, take some back under Access first. Atlas's **Invite someone** makes the same three links ([Atlas](/docs/tools/atlas)).

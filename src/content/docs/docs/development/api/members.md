@@ -9,10 +9,10 @@ A world can have **members** besides its owner: people the owner invites by emai
 
 | Role | Sees | Changes |
 |:--|:--|:--|
-| `owner` | Everything | Everything, including the world's own fields |
-| `co_builder` | Everything | Every element |
-| `contributor` | Everything | Only the elements it created |
-| `guest` | What it created, what its Character is on or knows, and the roster's Characters ([Guests](#guests)) | Only the elements it created |
+| `owner` | Everything, [hidden elements](/docs/development/api/hidden) included | Everything, including the world's own fields |
+| `co_builder` | Everything, hidden elements included | Every element |
+| `contributor` | Everything except the hidden elements it did not create | Only the elements it created |
+| `guest` | What it created, what its Character is on or knows, and the roster's Characters ([Guests](#guests)), except the hidden elements it did not create | Only the elements it created |
 
 - A contributor or guest changing, replacing, relinking or deleting someone else's element gets `403` [`not_author`](/api/errors/#not_author). In `/bulk` this is reported per item.
 - Only the owner may change the world's own fields with `PATCH /api/v2/world`, except that a co-builder may move the world's now (`time_range_current` alone); any other member write there gets `403` [`owner_only`](/api/errors/#owner_only).
@@ -74,10 +74,12 @@ A guest key sees three things: the elements it created, the elements its Charact
 
 Everything else behaves exactly like a missing element, on every route, filter and expansion:
 
-- A hidden id is a `404` [`not_found`](/api/errors/#not_found).
-- A link to a hidden element is [`invalid_link`](/api/errors/#invalid_link).
-- Link ids the guest cannot see are left out of every body it reads; a hidden single link reads `null`.
+- An id out of its view is a `404` [`not_found`](/api/errors/#not_found).
+- A link to an element out of its view is [`invalid_link`](/api/errors/#invalid_link).
+- Link ids the guest cannot see are left out of every body it reads; such a single link reads `null`.
 - A guest's writes keep the links it cannot see.
+
+An element the owner or a co-builder [hid](/docs/development/api/hidden) is out of a guest's view whatever links it to the guest's Character, unless the guest created it.
 
 A guest writes elements of any category. Its Narratives are notes, narrated by its own Character:
 
@@ -131,7 +133,7 @@ Making links, joining and the join routes are on [AI Agents](/docs/development/a
 
 | To give | Use |
 |:--|:--|
-| Read access to anyone you hand it to, no account needed | An `ow_r_` read key ([Keys and PINs](/docs/getting-started/keys)) |
+| Read access to anyone you hand it to, no account needed | An `ow_r_` read key ([Keys and PINs](/docs/getting-started/keys)). It shows what you [hid](/docs/development/api/hidden): to share a world without that, use a player link or an invite with a role |
 | Open reading to everyone | The world's `public_read` flag. There is no switch for it yet (planned); until then it is set by the OnlyWorlds team on request |
 | A person who writes, with their own PIN and their own role | A member invite by email, or an [invite link](#invite-links) |
 | A friend who reads as one Character, with no account | A [player link](#player-links) |

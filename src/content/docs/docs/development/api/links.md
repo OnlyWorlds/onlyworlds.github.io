@@ -80,4 +80,4 @@ In [`/bulk`](/docs/development/api/writes#bulk), links are checked against the w
 
 ## Guests
 
-A guest key sees only part of a world. Link ids it cannot see are left out of every body it reads (a hidden single link reads `null`), a link it writes to a hidden element is `invalid_link`, and its writes keep the links it cannot see. See [Guests](/docs/development/api/members#guests).
+A guest key sees only part of a world. Link ids it cannot see are left out of every body it reads (such a single link reads `null`), a link it writes to an element out of its view is `invalid_link`, and its writes keep the links it cannot see. See [Guests](/docs/development/api/members#guests). The same holds for every key an element is [hidden](/docs/development/api/hidden) from, and the elements that link to it do not change.
