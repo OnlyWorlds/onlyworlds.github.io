@@ -54,6 +54,11 @@
     "status": 422,
     "summary": "A /bulk item passed validation but its write failed a database constraint (most often an id that already exists in another world)."
   },
+  "file_too_large": {
+    "type": "invalid_request",
+    "status": 413,
+    "summary": "A file asked to be attached to an element is over 25 MB; the message gives both sizes (`param` size)."
+  },
   "invalid_credentials": {
     "type": "authentication_error",
     "status": 401,
@@ -88,6 +93,11 @@
     "type": "permission_error",
     "status": 403,
     "summary": "The account the upload counts against has used all of its image storage."
+  },
+  "files_full": {
+    "type": "permission_error",
+    "status": 403,
+    "summary": "The world's files have no room for this one (250 MB a world); the message gives the world's use, its cap and the file's size. Remove a file, or ask the owner."
   },
   "not_found": {
     "type": "not_found",
@@ -147,7 +157,7 @@
   "media_unavailable": {
     "type": "api_error",
     "status": 503,
-    "summary": "Image upload is not configured on the server right now."
+    "summary": "Image or file upload is not configured on the server right now."
   },
   "already_reported": {
     "type": "invalid_request",

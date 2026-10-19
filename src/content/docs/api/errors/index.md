@@ -49,6 +49,7 @@ Some errors carry extra top-level keys beside `error`, named in their row: `prec
 | [`precondition_failed`](#precondition_failed) | `invalid_request` | `412` | The request carried If-Match with a change_seq, and the element has moved since; the reply's top-level `current` is the element as it is now. Nothing was written and nothing is merged: re-read `current`, then re-send or ask the user. |
 | [`player_role_fixed`](#player_role_fixed) | `invalid_request` | `422` | The owner tried to change a player seat's role: a player (no account) reads as a guest, and that role can't be changed. Remove the player instead. |
 | [`apply_failed`](#apply_failed) | `invalid_request` | `422` | A /bulk item passed validation but its write failed a database constraint (most often an id that already exists in another world). |
+| [`file_too_large`](#file_too_large) | `invalid_request` | `413` | A file asked to be attached to an element is over 25 MB; the message gives both sizes (`param` size). |
 | [`invalid_credentials`](#invalid_credentials) | `authentication_error` | `401` | The API key or PIN is missing, unrecognised or wrong. A PIN refusal names param API-Pin and says whether the PIN was missing or wrong. |
 | [`key_revoked`](#key_revoked) | `authentication_error` | `401` | The API key was recognised but has been revoked. |
 | [`permission_error`](#permission_error) | `permission_error` | `403` | The credential is valid but lacks the scope for this route (e.g. a read key on a write route). |
@@ -56,6 +57,7 @@ Some errors carry extra top-level keys beside `error`, named in their row: `prec
 | [`owner_only`](#owner_only) | `permission_error` | `403` | A member key tried to change the world's own settings (a co-builder may change time_range_current alone). |
 | [`guest_not_supported`](#guest_not_supported) | `permission_error` | `403` | A guest key called a route guests cannot use yet, or wrote a note (Narrative) without a Character of its own in the world. |
 | [`storage_full`](#storage_full) | `permission_error` | `403` | The account the upload counts against has used all of its image storage. |
+| [`files_full`](#files_full) | `permission_error` | `403` | The world's files have no room for this one (250 MB a world); the message gives the world's use, its cap and the file's size. Remove a file, or ask the owner. |
 | [`not_found`](#not_found) | `not_found` | `404` | The element or route does not exist in this world. |
 | [`gone`](#gone) | `not_found` | `410` | The element was deleted from this world; the body carries the deletion's `change_seq` and `deleted_at` beside the envelope (GET of one element only). |
 | [`rate_limited`](#rate_limited) | `rate_limited` | `429` | Too many failed PIN attempts; retry after the Retry-After header's seconds. |
@@ -67,7 +69,7 @@ Some errors carry extra top-level keys beside `error`, named in their row: `prec
 | [`ask_unavailable`](#ask_unavailable) | `api_error` | `503` | Asking your world is not switched on for this server, or is paused for the day (the server-wide cap); nothing was counted. |
 | [`server_busy`](#server_busy) | `api_error` | `503` | Every request slot stayed full for 10 seconds; retry after Retry-After. |
 | [`payload_too_large`](#payload_too_large) | `api_error` | `413` | The request body is over 2.5 MB; split a large /bulk into several calls. |
-| [`media_unavailable`](#media_unavailable) | `api_error` | `503` | Image upload is not configured on the server right now. |
+| [`media_unavailable`](#media_unavailable) | `api_error` | `503` | Image or file upload is not configured on the server right now. |
 <!-- /generated:error-codes -->
 
 ### invalid_request
@@ -217,6 +219,14 @@ A guest key called a route guests cannot use (world sharing, token status), or w
 
 - **How to fix:** no ticket is issued. Use an image hosted elsewhere (`image_url` takes any URL), or contact [info@onlyworlds.com](mailto:info@onlyworlds.com) about the cap.
 
+### files_full
+
+**Type** `permission_error` · **Status** `403`
+
+Asking for a ticket to attach a file to an element (`POST /api/v2/{type}/{id}/files`): the world's files have no room for this one. A world holds 250 MB of files, whoever uploads them. The message gives the world's use, its cap and the file's size. Files on elements aren't switched on yet, so this code can't be returned today.
+
+- **How to fix:** no ticket is issued. Remove a file from the world, or ask the world's owner to.
+
 ### not_found
 
 **Type** `not_found` · **Status** `404`
@@ -318,6 +328,14 @@ Every request slot on the server stayed full for 10 seconds.
 The request body is over 2.5 MB. The server refuses it without writing anything.
 
 - **How to fix:** send less per request: split a large `/bulk` batch into several, and upload images through [image upload](/docs/development/api/images), never inside a JSON body.
+
+### file_too_large
+
+**Type** `invalid_request` · **Status** `413` · **Param** `size`
+
+Asking for a ticket to attach a file to an element: the file is over 25 MB. The message gives both sizes. Files on elements aren't switched on yet, so this code can't be returned today.
+
+- **How to fix:** no ticket is issued. Send a smaller file, or split the document into parts.
 
 ### media_unavailable
 
