@@ -44,7 +44,7 @@ The skill files themselves sit in the repository's `skills/` folder, one folder 
 | Start | `onlyworlds-start` | The entry point: works out your situation and routes you to the right skill. |
 | Structure it | `parsing` | Turns text, files or folders (notes, novels, campaign docs, wikis) into a structured world: JSON, or a world folder Atlas opens. |
 | | `modeling` | Design help for complex systems (magic, politics, economies, tech trees) as linked elements. |
-| | `schema` | Field reference across all 22 categories: look up fields, validate structure, tell similar categories apart. |
+| | `schema` | Field reference across [every category](/docs/schema/): look up fields, validate structure, tell similar categories apart. |
 | Grow it | `survey` | Reads a world and writes a creative brief of its themes, tensions and structure. |
 | | `link` | Finds missing connections, enriches links and resolves orphaned elements. |
 | Play in it and keep it true | `context` | Designs how the right part of a world gets loaded into each AI session: fresh, scoped, sourced. |

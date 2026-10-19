@@ -3,7 +3,7 @@ title: A Worked Example
 description: One small world, Moppetopia, read through the API to show how the categories, links and timeline fit together.
 ---
 
-Moppetopia is a demo world: a civilization of felt creatures called moppets, a navy that fights in puddles and in space, and an old war its people tell in different ways. Anyone can read it with its demo key `0000000001` (read-only, no PIN). Every call on this page runs as written.
+Moppetopia is a demo world: a civilization of felt beings called moppets, a navy that fights in puddles and in space, and an old war its people tell in different ways. Anyone can read it with its demo key `0000000001` (read-only, no PIN). Every call on this page runs as written.
 
 ```bash
 curl -s "https://www.onlyworlds.com/api/v2/world" -H "API-Key: 0000000001"

@@ -5,7 +5,7 @@ description: What OnlyWorlds is, and how to make a first read and write against 
 
 This page is for developers and AI agents that read and write worlds through the API. To build a world without code, start at [onlyworlds.com/start](https://www.onlyworlds.com/start) or open [Atlas](https://atlas.onlyworlds.com).
 
-OnlyWorlds is an open standard for world data. It structures a world into 22 element categories (Characters, Locations, Events and more) with fields and typed links between them, so any tool or AI agent that speaks the standard can read and write the same worlds.
+OnlyWorlds is an open standard for world data. It structures a world into [22 element categories](/docs/schema/) (Characters, Locations, Events and more) with fields and typed links between them, so any tool or AI agent that speaks the standard can read and write the same worlds.
 
 It has four layers:
 
@@ -44,7 +44,7 @@ curl -H "API-Key: ow_r_your_key" \
 
 Lists come in an envelope: `{"data": [...], "has_more": false, "next_cursor": null}`. When `has_more` is true, pass `next_cursor` back as `?cursor=` for the next page. To try this before you have a world, use Moppetopia's demo key `0000000001` (the home page's sample world), which reads without a PIN ([Demo Keys](/docs/getting-started/keys#demo-keys) lists the others).
 
-Every one of the 22 categories has the same routes at its singular name: `/api/v2/location/`, `/api/v2/event/`, and so on. [Reads and Pagination](/docs/development/api/reads) covers filters, sparse fields and expansion.
+Every category has the same routes at its singular name: `/api/v2/location/`, `/api/v2/event/`, and so on. [Reads and Pagination](/docs/development/api/reads) covers filters, sparse fields and expansion.
 
 ### 3. Write
 
