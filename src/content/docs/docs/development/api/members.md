@@ -139,6 +139,8 @@ Making links, joining and the join routes are on [AI Agents](/docs/development/a
 
 A read key also works as a subscription: someone who holds it can follow the world's live state through [`/changes`](/docs/development/api/changes). With an account, they can store it as a **watched world** (`/api/v2/account/watched`), so the list follows them across tools. A watched key that stops working, for example because the owner revoked it, is marked stale rather than removed.
 
+Sharing is forward-only: what someone has already read is theirs to keep. A key, a role or a membership governs what they receive from now on. Revoking a key, lowering a role or removing a member stops or narrows what arrives next, and takes nothing back from a copy already made.
+
 ## Managing Members
 
 Invites and memberships are managed in the [account portal](https://www.onlyworlds.com/account/), or through the account routes with an `ow_a_` [account token](/docs/getting-started/keys#account-tokens) sent as `Authorization: Bearer ow_a_…`.
