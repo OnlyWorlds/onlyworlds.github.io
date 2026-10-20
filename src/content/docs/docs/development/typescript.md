@@ -290,12 +290,14 @@ import {
   ELEMENT_SECTIONS, // the field groups and their display order
   FIELD_SCHEMA,     // type and target of every field
   elementColor,     // the colour of a type's family
+  fieldLabel,       // a field name as the words a tool shows
 } from '@onlyworlds/sdk';
 
 elementColor('character', 'dark');
+fieldLabel('image_url'); // "Image URL"
 ```
 
-Colour marks a type's family and the icon marks the type. Always pair a colour with its icon and label, because colour alone is not accessible. The package also ships `SCHEMA.md` (every field and its meaning, generated) and `AGENTS.md` for AI agents working in a codebase that uses it.
+Colour marks a type's family and the icon marks the type. Always pair a colour with its icon and label, because colour alone is not accessible. `fieldLabel` (since 4.34.0) writes a field's label in sentence case with acronyms kept (`birth_date` is "Birth date", `image_url` is "Image URL"), the same rule Atlas, Lantern and Council use; a tool that hides an extension prefix drops it before calling it. The package also ships `SCHEMA.md` (every field and its meaning, generated) and `AGENTS.md` for AI agents working in a codebase that uses it.
 
 ## SDK or MCP?
 
@@ -310,7 +312,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.33.1, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.34.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
