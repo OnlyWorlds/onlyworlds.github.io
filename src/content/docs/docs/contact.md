@@ -1,5 +1,5 @@
 ---
-title: Contact and Resources
+title: Contact and resources
 description: Where to ask questions, report issues, learn the standard, and support OnlyWorlds.
 ---
 

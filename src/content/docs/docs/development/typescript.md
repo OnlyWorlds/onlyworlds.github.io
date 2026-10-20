@@ -126,7 +126,7 @@ for await (const change of client.changesAll(cursor)) {
 
 To poll for news cheaply, `client.changesHead()` returns `{ head, cursor, epoch }` without reading any element (since 4.15.0; `epoch` since 4.16.0). Walk `changesAll` only when `head` has moved past the head you last applied, or when `epoch` changed: for a guest or a contributor it moves when what they may see changes, even with `head` unchanged. For the owner and co-builders it is `null`. A `delete` op's `reason` is `deleted`, or `hidden` for an element [hidden](/docs/development/api/hidden#the-feed) from the key: remove it from your copy either way.
 
-Edits to the world itself (its name, calendar, `public_read`) do not enter the change feed. Poll `client.getWorld()` and compare `updated_at` for those. See [Sync with Changes](/docs/development/api/changes).
+Edits to the world itself (its name, calendar, `public_read`) do not enter the change feed. Poll `client.getWorld()` and compare `updated_at` for those. See [Sync with changes](/docs/development/api/changes).
 
 ## Sign in with a password
 
@@ -158,7 +158,7 @@ The password is never in an error.
 
 ## Invite links
 
-A world's owner can invite a person with a link (see [Invite Links](/docs/development/api/members#invite-links)). The code is the part after `#` (since 4.12.0):
+A world's owner can invite a person with a link (see [Invite links](/docs/development/api/members#invite-links)). The code is the part after `#` (since 4.12.0):
 
 ```typescript
 const invite = await client.previewJoin(code);    // who invites, which world, what role; sends no key
@@ -178,7 +178,7 @@ await account.revokeWorldLink(worldId, made.id);
 
 `reader: 'agent'` makes a link an AI agent redeems for a seat instead, with `redeemJoin`: the answer has `kind: 'agent'`, the seat's key and secret, and its `.env` lines. Anyone but the owner gets a 404.
 
-`reader: 'player'` makes a link for a friend with no account, who reads the world as a guest playing one Character and writes nothing (since 4.30.0; see [Members and Sharing](/docs/development/api/members)). The friend's side needs no key at all:
+`reader: 'player'` makes a link for a friend with no account, who reads the world as a guest playing one Character and writes nothing (since 4.30.0; see [Members and sharing](/docs/development/api/members)). The friend's side needs no key at all:
 
 ```typescript
 const link = await account.createWorldLink(worldId, { reader: 'player', character: 'new' }); // or a Character's id
@@ -190,7 +190,7 @@ const reader = new OwV2Client({ apiKey: joined.key }); // a read key, no PIN, sh
 
 The code is spent on redeem, and the answer can't be replayed: if it is lost, the owner sees the row never used, and sends a new link.
 
-One player link can also seat a whole table (since 4.39.0; see [A Table of Players](/docs/development/api/members#a-table-of-players)). Each player picks one Character from the owner's list, and a refusal spends nothing:
+One player link can also seat a whole table (since 4.39.0; see [A table of players](/docs/development/api/members#a-table-of-players)). Each player picks one Character from the owner's list, and a refusal spends nothing:
 
 ```typescript
 const table = await account.createWorldLink(worldId, { reader: 'player', maxUses: 4, characters: [aliceId, borinId] });
@@ -207,7 +207,7 @@ try {
 }
 ```
 
-Once in, a world key can ask who it is and who else is there (since 4.22.0; see [Who Am I](/docs/development/api/members#who-am-i)):
+Once in, a world key can ask who it is and who else is there (since 4.22.0; see [Who am I](/docs/development/api/members#who-am-i)):
 
 ```typescript
 const me = await client.me();          // { world, scope, kind, role, membership, character }
@@ -216,7 +216,7 @@ const roster = await client.members(); // the roster's rows: { id, kind, role, c
 
 ## A seat for your AI
 
-To let your own AI work in a world you own or belong to, make it a seat: its own membership, key and secret, with no link to pass around (see [Giving Your AI Access](/docs/development/agents#giving-your-ai-access)). With the account token (since 4.28.0):
+To let your own AI work in a world you own or belong to, make it a seat: its own membership, key and secret, with no link to pass around (see [Giving your AI access](/docs/development/agents#giving-your-ai-access)). With the account token (since 4.28.0):
 
 ```typescript
 const made = await account.createSeat(worldId, { name: 'Quill', role: 'contributor', character: 'new' });

@@ -71,7 +71,7 @@ export default defineConfig({
             { slug: 'docs/schema/conventions' },
             { slug: 'docs/schema/example' },
             {
-              label: 'Element Types',
+              label: 'Element types',
               collapsed: true,
               items: [{ autogenerate: { directory: 'docs/schema/element_categories' } }],
             },
@@ -92,7 +92,7 @@ export default defineConfig({
             { slug: 'docs/development/api/cors' },
             { slug: 'docs/development/api/classic' },
             { slug: 'api/errors' },
-            { label: 'Interactive Reference', link: 'https://www.onlyworlds.com/api/docs' },
+            { label: 'Interactive reference', link: 'https://www.onlyworlds.com/api/docs' },
           ],
         },
         {
@@ -112,7 +112,7 @@ export default defineConfig({
           ],
         },
         {
-          label: 'AI Agents',
+          label: 'AI agents',
           items: [
             { slug: 'docs/development/ai', label: 'Overview' },
             { slug: 'docs/development/mcp' },

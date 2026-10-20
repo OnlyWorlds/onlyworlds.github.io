@@ -1,11 +1,11 @@
 ---
-title: Link Fields
+title: Link fields
 description: How links between elements read and write, and how to add or remove links without rewriting a list.
 ---
 
 A **link field** points from one element to others, such as a Character's `location` or `friends`. Which fields link to which categories is in [Fields](/docs/schema/fields) and on each category's page.
 
-## One Shape, Both Directions
+## One shape, both directions
 
 A link field has one bare name and one value shape, in reads and writes alike:
 
@@ -25,7 +25,7 @@ A link field has one bare name and one value shape, in reads and writes alike:
 
 To read the linked elements' names alongside the ids, use [`?expand=`](/docs/development/api/reads#expansion-and-sparse-fields).
 
-## Setting and Clearing Links
+## Setting and clearing links
 
 On `POST`, `PUT` and `PATCH`, a link field takes the same shape it reads in. A multi-link value **replaces the whole list**. To clear:
 
@@ -40,7 +40,7 @@ curl -s -X PATCH "https://www.onlyworlds.com/api/v2/character/{id}" \
   -d '{ "location": "{time_tombs_id}", "institutions": ["{hegemony_id}"] }'
 ```
 
-## Link Two Elements
+## Link two elements
 
 1. **Find the side that holds the field.** A link is stored on one element only. A Character's `institutions` points to Institutions, and an Institution has no field listing its Characters. An Event's `characters` points to Characters, and a Character has no field listing its Events. Each category's page lists its link fields and their targets.
 2. **Set it on the new element when you can.** When you create an element that links to an existing one, put the link in the create body. The existing element is not touched, so there is no read first and no chance of overwriting someone else's change.
@@ -57,7 +57,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/character/{consul_id}/links/i
 
 A [contributor or guest](/docs/development/api/members#roles) changes only the elements it created. Linking from someone else's element, by `PATCH` or by the link operations route, is `403` [`not_author`](/api/errors/#not_author): set the link on an element you created instead.
 
-## Link Operations
+## Link operations
 
 `POST /api/v2/{type}/{id}/links/{field}` adds and removes ids on one multi-link field, with no read beforehand:
 
@@ -72,7 +72,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/character/{id}/links/friends"
 - Added ids must exist in this world (`400` [`invalid_link`](/api/errors/#invalid_link)).
 - `{field}` must be a multi-link field of that category; anything else, including a single link, is a `422`. Pin has no multi-link fields, so the route always answers `422` on Pin.
 
-## Deletes Never Leave Dangling Links
+## Deletes never leave dangling links
 
 Deleting an element removes its id from every other element's links in the same transaction. A write can never create a dangling link either: a reference to a missing element fails as `invalid_link` instead of being dropped.
 

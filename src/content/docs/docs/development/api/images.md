@@ -5,7 +5,7 @@ description: How to host an element's or the world's picture on OnlyWorlds, in t
 
 An element's or the world's `image_url` takes any URL. To host the image on OnlyWorlds instead, there are three steps. The API never handles the image itself: it issues a ticket, and a separate upload host takes the bytes.
 
-## 1. Get a Ticket
+## 1. Get a ticket
 
 `POST /api/v2/media/ticket` with a write key and its PIN, and no body. Owner, legacy, member and agent-seat keys all work.
 
@@ -28,7 +28,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/media/ticket" \
 
 A ticket is valid for 10 minutes.
 
-## 2. Upload the Bytes
+## 2. Upload the bytes
 
 ```bash
 curl -s -X POST "{upload_url}" \
@@ -40,9 +40,9 @@ The body is the raw image: webp, png, jpeg or avif. The type is read from the by
 
 An optional `X-Key` header names the object yourself. It must start with the ticket's `prefix`, and an existing key is never overwritten.
 
-The upload host is not part of the API and answers errors in its own shape: see [Upload Host Errors](/api/errors/#upload-host-errors).
+The upload host is not part of the API and answers errors in its own shape: see [Upload host errors](/api/errors/#upload-host-errors).
 
-## 3. Set the Picture
+## 3. Set the picture
 
 ```bash
 curl -s -X PATCH "https://www.onlyworlds.com/api/v2/creature/{id}" \
@@ -52,7 +52,7 @@ curl -s -X PATCH "https://www.onlyworlds.com/api/v2/creature/{id}" \
 
 For the world's own picture, `PATCH /api/v2/world` with the same body (owner only).
 
-## Removing an Image
+## Removing an image
 
 An image uploaded with a ticket can be removed by its uploader, or by the world's owner key; an agent seat answers as its sponsor. Any other key gets `403` [`permission_error`](/api/errors/#permission_error). Removal takes two calls, like the upload.
 

@@ -11,17 +11,17 @@ These tools all work with the same world format, so a world can move between the
 |---|---|---|
 | [Atlas](/docs/tools/atlas) | The main workspace: build, write, map and chart a world that lives as a folder on your disk. | [atlas.onlyworlds.com](https://atlas.onlyworlds.com) |
 | [Lantern](/docs/tools/lantern) | Your worlds on your phone, offline too: find, read and change them, and run a game at the table, where a player needs no account. | [lantern.onlyworlds.com](https://lantern.onlyworlds.com) |
-| [Obsidian Plugin](/docs/tools/obsidian-plugin) | Each element is a markdown note in your Obsidian vault, syncable with online worlds. | [GitHub](https://github.com/OnlyWorlds/obsidian-plugin) |
+| [Obsidian plugin](/docs/tools/obsidian-plugin) | Each element is a markdown note in your Obsidian vault, syncable with online worlds. | [GitHub](https://github.com/OnlyWorlds/obsidian-plugin) |
 | [onlyworlds.com](/docs/tools/onlyworlds-com) | Accounts, world hosting, keys and the API. | [onlyworlds.com](https://www.onlyworlds.com) |
 
-## Learn and Govern
+## Learn and govern
 
 | Tool | What it does | Where |
 |---|---|---|
 | [Explorer](/docs/tools/explorer) | An interactive 3D introduction to the standard and the ecosystem. | [explorer.onlyworlds.com](https://explorer.onlyworlds.com) |
 | [Council](/docs/tools/council) | Governance of the standard: motions, precedents, amendments and votes by characters from your worlds. | [council.onlyworlds.com](https://council.onlyworlds.com) |
 
-## Play and Showcase
+## Play and showcase
 
 | Tool | What it does | Where |
 |---|---|---|
@@ -36,9 +36,9 @@ These tools all work with the same world format, so a world can move between the
 | Azgaar Converter | Turns an Azgaar Fantasy Map Generator export into a world, with a map and pins. | [GitHub](https://github.com/OnlyWorlds/azgaar-converter) |
 | Unity SDK | Typed C# models and a client for worlds in the Unity engine. | [Unity SDK](/docs/development/unity) |
 
-For AI tooling see [AI Agents](/docs/development/ai), the [MCP server](/docs/development/mcp) and the [Toolkit](/docs/development/toolkit).
+For AI tooling see [AI agents](/docs/development/ai), the [MCP server](/docs/development/mcp) and the [Toolkit](/docs/development/toolkit).
 
-## Retired Tools
+## Retired tools
 
 Older tools, most still online but no longer developed, are on the [Legacy](/docs/tools/legacy) page.
 

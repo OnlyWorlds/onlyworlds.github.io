@@ -5,7 +5,7 @@ description: Which browser origins may call the OnlyWorlds API directly, and whi
 
 Browser code may call the API directly from the origins below. Requests from any other origin get no CORS headers, so the browser blocks the response. Server-side code, scripts and curl are not affected by CORS.
 
-## Allowed Origins
+## Allowed origins
 
 | Platform | Origins |
 |:--|:--|
@@ -46,5 +46,5 @@ A `503` [`server_busy`](/api/errors/#server_busy) also carries the CORS headers,
 :::caution
 A key in browser code is visible to anyone who opens the page. Ship only an `ow_r_` read key in a public page, and keep write keys and PINs out of it.
 
-The origin list is not access control: anyone can host a page on these platforms. The key decides what a request may do. See [Keeping Credentials Safe](/docs/getting-started/keys#keeping-credentials-safe).
+The origin list is not access control: anyone can host a page on these platforms. The key decides what a request may do. See [Keeping credentials safe](/docs/getting-started/keys#keeping-credentials-safe).
 :::

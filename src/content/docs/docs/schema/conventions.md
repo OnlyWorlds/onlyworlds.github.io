@@ -5,11 +5,11 @@ description: How to model a world with the categories and fields the schema alre
 
 The standard covers most worlds with the categories and fields it has. Before reaching for a new field or category, check whether one of these conventions carries the case. When none does, the [Council](https://council.onlyworlds.com) is where the standard changes.
 
-## Use Only What You Need
+## Use only what you need
 
 A world can use any subset of the categories. Only `name` is required on an element, so a world of nothing but Objects is a valid world, and most tools work with two to four categories.
 
-## Supertype and Subtype Are the World's Own Categories
+## Supertype and subtype are the world's own categories
 
 Every element has two free-text classification fields: `supertype`, the top-level category the element belongs to, and `subtype`, a further classification within it. The schema fixes no values, so each world defines its own: a Location with supertype `City` and subtype `Port`, an Institution with supertype `Guild`.
 
@@ -32,7 +32,7 @@ When the connection itself has content, make it a [Relation](/docs/schema/elemen
 
 If the Consul's ties to the Hegemony have a history and a span worth recording, they are a Relation; the Consul's current location is a link.
 
-## Choosing Between Neighbouring Categories
+## Choosing between neighbouring categories
 
 The category definitions draw these lines themselves:
 
@@ -47,19 +47,19 @@ The category definitions draw these lines themselves:
 | Event / Narrative | An Event is "a time-bound happening within the world"; Narratives are "stories told in your world, and can involve the organization or reinterpretation of Events." |
 | Location / Zone | A Location is "a distinct place within the world where activities occur and elements converge"; Zones "are not defined by geometry themselves but gain spatial presence through linked map markers." |
 
-## Zones Take Their Shape From Markers
+## Zones take their shape from Markers
 
 A Zone has no geometry of its own. Its shape on a [Map](/docs/schema/element_categories/map) is a set of [Markers](/docs/schema/element_categories/marker), each linked to the Map and the Zone, at an `x`/`y` coordinate, with an `order` that sequences them into a polygon or line (`0` is the first point). Markers are boundary points and usually carry an empty name. A [Pin](/docs/schema/element_categories/pin) places one element of any category at one point on one Map.
 
-## Time and Units
+## Time and units
 
 Dates are integers in the world's own time units, set on the [world](/docs/schema/worlds): a Character's `birth_date`, an Event's `start_date` and `end_date`, a Relation's span. Height, weight, elevation, range and speed use the world's units, named by `length_unit`, `mass_unit` and `distance_unit` on the [world](/docs/schema/worlds#units) (free text such as `cm`, `kg` or `km`). All numbers are whole, and the API truncates decimals, so choose units small enough that values come out whole.
 
-## Story and Description
+## Story and description
 
 On a [Narrative](/docs/schema/element_categories/narrative), `story` holds the content of the narrative, as told or remembered. `description`, the base field every element has, holds details about it. Put the text of a tale, a chronicle or a message in `story`, and an account of it in `description`.
 
-## Messages Between Members
+## Messages between members
 
 In-world messages are [Narratives](/docs/schema/element_categories/narrative) with supertype `Message`. The `narrator` is the Character credited with the message, and `characters` names its recipients, so a member's inbox is one filtered read:
 
@@ -69,7 +69,7 @@ GET /api/v2/narrative/?supertype=Message&characters=<character-id>
 
 `narrator` is what a message claims; the element's `created_by` is what the server recorded. [Members](/docs/development/api/members) covers the roster that joins the two.
 
-## Data the Schema Does Not Model
+## Data the schema does not model
 
 Two places hold what the categories have no field for:
 

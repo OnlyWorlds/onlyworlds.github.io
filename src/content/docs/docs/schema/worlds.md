@@ -30,7 +30,7 @@ A world is the top-level container for elements, representing a complete setting
 
 Element fields that hold a moment, such as a Character's `birth_date` or an Event's `start_date`, are integers in the world's time units.
 
-### Timeline Examples
+### Timeline examples
 
 **Fantasy world with a custom calendar:**
 - `time_format_names`: `["Sun", "Tenday", "Moon", "Turning"]`
@@ -57,7 +57,7 @@ Some element fields hold a measure: a Character's `height` and `weight`, a Creat
 
 The value is free text, written as the world means it. Recommended where one fits: `mm`, `cm`, `m`, `in`, `ft` for lengths; `g`, `kg`, `t`, `lb` for masses; `m`, `km`, `ft`, `mi` for distances. A world's own unit (`hands`, `stone`, `leagues`) is shown as written, and nothing is converted: a tool can convert what it recognises and shows the rest verbatim. Empty means not set. A number stays a bare number in the element; only the world names its unit.
 
-## Platform Fields
+## Platform fields
 
 onlyworlds.com adds one field of its own to the world it serves, part of the platform, not the standard.
 

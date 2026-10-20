@@ -1,5 +1,5 @@
 ---
-title: Getting Started
+title: Getting started
 description: What OnlyWorlds is, and how to make a first read and write against a world.
 ---
 
@@ -18,9 +18,9 @@ It has four layers:
 
 A [video introduction](https://youtu.be/1IEazx8wg4I) covers the project as a whole.
 
-## Your First Call
+## Your first call
 
-### 1. Get a Key
+### 1. Get a key
 
 Sign up at [onlyworlds.com](https://www.onlyworlds.com/accounts/signup/) and create a world. Then mint a key for it in the [account portal](https://www.onlyworlds.com/account/):
 
@@ -42,9 +42,9 @@ curl -H "API-Key: ow_r_your_key" \
   "https://www.onlyworlds.com/api/v2/character/"
 ```
 
-Lists come in an envelope: `{"data": [...], "has_more": false, "next_cursor": null}`. When `has_more` is true, pass `next_cursor` back as `?cursor=` for the next page. To try this before you have a world, use Moppetopia's demo key `0000000001` (the home page's sample world), which reads without a PIN ([Demo Keys](/docs/getting-started/keys#demo-keys) lists the others).
+Lists come in an envelope: `{"data": [...], "has_more": false, "next_cursor": null}`. When `has_more` is true, pass `next_cursor` back as `?cursor=` for the next page. To try this before you have a world, use Moppetopia's demo key `0000000001` (the home page's sample world), which reads without a PIN ([Demo keys](/docs/getting-started/keys#demo-keys) lists the others).
 
-Every category has the same routes at its singular name: `/api/v2/location/`, `/api/v2/event/`, and so on. [Reads and Pagination](/docs/development/api/reads) covers filters, sparse fields and expansion.
+Every category has the same routes at its singular name: `/api/v2/location/`, `/api/v2/event/`, and so on. [Reads and pagination](/docs/development/api/reads) covers filters, sparse fields and expansion.
 
 ### 3. Write
 
@@ -68,12 +68,12 @@ curl -X PATCH "https://www.onlyworlds.com/api/v2/character/<character-id>/" \
   -d '{"description": "Diplomat of the Hegemony.", "location": "<location-id>"}'
 ```
 
-A read key on a write route answers `403` ([`permission_error`](/api/errors/#permission_error)). [Writes and Bulk](/docs/development/api/writes) covers upserts, deletes and clearing fields; [Link Fields](/docs/development/api/links) covers adding and removing links without reading first.
+A read key on a write route answers `403` ([`permission_error`](/api/errors/#permission_error)). [Writes and bulk](/docs/development/api/writes) covers upserts, deletes and clearing fields; [Link fields](/docs/development/api/links) covers adding and removing links without reading first.
 
-## Where to Go Next
+## Where to go next
 
 - **Build an app or script**: [SDKs](/docs/development/packages) for TypeScript, Python and Unity, or the [API reference](/docs/development/api-reference).
-- **Connect an AI agent**: the [MCP server](/docs/development/mcp), agent seats, the LLM guide and the toolkit, under [AI Agents](/docs/development/ai).
+- **Connect an AI agent**: the [MCP server](/docs/development/mcp), agent seats, the LLM guide and the toolkit, under [AI agents](/docs/development/ai).
 - **Learn the data model**: [Schema](/docs/schema/), [Fields](/docs/schema/fields) and [Conventions](/docs/schema/conventions).
 - **Build a world without code**: the guide at [onlyworlds.com/start](https://www.onlyworlds.com/start) covers which tool fits how you work and how to bring in existing material. [Atlas](https://atlas.onlyworlds.com) is the recommended workspace and keeps your world as plain files on your own disk or in your browser; the [Obsidian plugin](https://github.com/OnlyWorlds/obsidian-plugin) keeps a world as markdown notes in your vault, with optional sync to onlyworlds.com. Every tool is listed under [Tools](/docs/tools/).
 - **Shape the standard**: motions and votes happen at [council.onlyworlds.com](https://council.onlyworlds.com).

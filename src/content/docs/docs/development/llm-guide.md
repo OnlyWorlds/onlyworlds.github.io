@@ -1,5 +1,5 @@
 ---
-title: LLM Guide
+title: LLM guide
 description: A single text file that teaches a chat assistant OnlyWorlds, so it can help you build a tool on the standard.
 ---
 
@@ -9,7 +9,7 @@ The LLM guide is one plain-text file, written for AI assistants, that teaches th
 
 The guide is for people building their own tools. Someone who wants to build a world can go straight to [Atlas](/docs/tools/atlas), and someone working in Claude Code is better served by the [toolkit](/docs/development/toolkit), which the guide itself points to.
 
-## Using It in a Chat
+## Using it in a chat
 
 1. Open the file and copy all of it, or download it.
 2. Paste it into a new chat (ChatGPT, Claude, or a browser builder such as Lovable, Replit, v0.dev or ChatGPT Canvas).
@@ -17,7 +17,7 @@ The guide is for people building their own tools. Someone who wants to build a w
 
 For full field definitions beyond the guide, point the assistant at the [schema](/docs/schema/) or at `FIELD_SCHEMA` in the [SDK](/docs/development/typescript).
 
-## What It Covers
+## What it covers
 
 | Part | Contents |
 |:--|:--|

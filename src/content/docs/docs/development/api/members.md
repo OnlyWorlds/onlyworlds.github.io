@@ -1,5 +1,5 @@
 ---
-title: Members and Sharing
+title: Members and sharing
 description: Who can be in a world besides its owner, what each role may see and change, guests, and the ways to share a world.
 ---
 
@@ -16,7 +16,7 @@ A world can have **members** besides its owner: people the owner invites by emai
 
 - A contributor or guest changing, replacing, relinking or deleting someone else's element gets `403` [`not_author`](/api/errors/#not_author). In `/bulk` this is reported per item.
 - Only the owner may change the world's own fields with `PATCH /api/v2/world`, except that a co-builder may move the world's now (`time_range_current` alone); any other member write there gets `403` [`owner_only`](/api/errors/#owner_only).
-- Members accept an invite in their own account and mint their own keys there. A member's key writes with the member's own account PIN ([Member Keys](/docs/getting-started/keys#member-keys)).
+- Members accept an invite in their own account and mint their own keys there. A member's key writes with the member's own account PIN ([Member keys](/docs/getting-started/keys#member-keys)).
 
 ## `created_by`
 
@@ -24,7 +24,7 @@ Every element body carries `created_by`: the id of the membership that created i
 
 Removing a member, a member leaving, or removing an agent seat keeps the membership's row, so its elements keep their `created_by`. A member who is removed or leaves takes the AI seats they made in that world with them: those seats' keys stop working at once, and their rows and what they wrote stay (the owner's own seats are untouched). Only deleting an account turns its elements' `created_by` to `null`.
 
-## The Roster
+## The roster
 
 `GET /api/v2/members` lists everyone in the world. Any key on the world may read it, without a PIN. It is not paginated.
 
@@ -55,7 +55,7 @@ A message's `narrator` is who it claims to be from; its `created_by` is who the 
 curl -s "https://www.onlyworlds.com/api/v2/narrative?characters={character_id}" -H "API-Key: {key}"
 ```
 
-## Who Am I
+## Who am I
 
 `GET /api/v2/me` answers who the calling key is, for any key and without a PIN:
 
@@ -72,13 +72,13 @@ A member key sent with a PIN (or an agent seat with its secret) has it checked h
 
 A guest key sees four things: the elements it created, the elements its Character is on or knows, the roster's Characters, and, as [stubs](#known-of), what its Character's own sheet points to. "On or knows" is decided by one link per type. For a Collective, Construct, Event, Relation or Title, the `characters` link: the element names the guest's Character. For a Narrative, its knowers: the `narrator` is the guest's Character, or one of its `collectives` is a Collective whose `characters` include it (a circle the Character is in). A Narrative's own `characters` link means who the story is about and grants a guest nothing, so a secret written about a player's Character stays hidden until a knower names them. A guest accepting an invite gets a new Character of its own (supertype `Guest`) as its roster entry.
 
-### Known Of
+### Known of
 
 A guest playing a Character also reads what that Character's own sheet points to, one step out: every element a link field on the Character names (its location, species, family, traits, the Characters it calls friends or rivals, and the rest), never further, and never an element the owner [hid](/docs/development/api/hidden). The same holds for a player, a person's own Character, a guest agent seat, and the owner's [view as](/docs/development/api/hidden#view-as) a Character.
 
 An element reached only that way is a **stub**, marked `known_of: true`. It keeps `id`, `type`, `name`, `description`, `supertype`, `subtype`, `image_url`, `created_at`, `updated_at` and `change_seq`, and its type's **public fields**, what anyone could see: for a Character, `physicality`, `height`, `weight`, `species` and `reputation`; no other type has any yet. Which fields are public is published per type in schema-dist's `presentation.json` (`public`), and the TypeScript and Python packages export them as `PUBLIC_FIELDS`. Every other field reads as unset: text `""`, numbers and single links `null`, multi-links `[]`, no extension fields, and `created_by`, `changed_by` and `changed_via` `null`. Search matches only what it keeps and marks its row `known_of: true`, and its files answer `404`. Any other grant makes it whole: it names the Character, the Character knows it, it is on the roster, or the reader made it. Without `known_of`, an element is whole.
 
-A client shows a stub as something the Character knows of (its name, picture, description and public fields), never as an empty record. Its unset fields are not values and not a deletion. Never write a stub back: `known_of` in a write body, whatever its value, is a `422` ([`known_of_not_writable`](/api/errors#known_of_not_writable)), and a stub's empties written as a whole element would blank the real one. In a world folder, a stub keeps `known_of: true`, its kept keys and the fields served with a value, and is never pushed ([Known-Of Elements](/docs/schema/folders#known-of-elements)).
+A client shows a stub as something the Character knows of (its name, picture, description and public fields), never as an empty record. Its unset fields are not values and not a deletion. Never write a stub back: `known_of` in a write body, whatever its value, is a `422` ([`known_of_not_writable`](/api/errors#known_of_not_writable)), and a stub's empties written as a whole element would blank the real one. In a world folder, a stub keeps `known_of: true`, its kept keys and the fields served with a value, and is never pushed ([Known-of elements](/docs/schema/folders#known-of-elements)).
 
 Everything else behaves exactly like a missing element, on every route, filter and expansion:
 
@@ -95,9 +95,9 @@ A guest writes elements of any category. Its Narratives are notes, narrated by i
 - `collectives` takes only the circles its Character is in. Any other Collective answers as a missing one, [`invalid_link`](/api/errors/#invalid_link).
 - A guest with no Character of its own in the world cannot create or replace a note: `403` [`guest_not_supported`](/api/errors/#guest_not_supported). Nothing in the request can fix that; ask the world's owner.
 
-A few routes (world sharing and token status) refuse guest keys with `403` [`guest_not_supported`](/api/errors/#guest_not_supported). The change feed serves a guest its slice with its own cursor rules: see [Guests' Cursors](/docs/development/api/changes#guests-cursors).
+A few routes (world sharing and token status) refuse guest keys with `403` [`guest_not_supported`](/api/errors/#guest_not_supported). The change feed serves a guest its slice with its own cursor rules: see [Guests' cursors](/docs/development/api/changes#guests-cursors).
 
-## Invite Links
+## Invite links
 
 An owner can invite a person without an email address: an **invite link** with a role, made on the world page under Access (beside the email invites; `/account/worlds/<world_id>/access` opens it, after a sign-in if one is needed), shown once with a QR code beside it, or through the owner's [link routes](#managing-members) below. It has the same form as an agent link:
 
@@ -116,7 +116,7 @@ A client can do the same two steps itself:
 
 A code made for a person is a bad code for an AI agent, and the other way round: every bad code, whatever the reason, answers the same `404`.
 
-## Player Links
+## Player links
 
 A **player link** lets a friend read the world with no account and no PIN, as one Character: the game-night guest. The owner makes it on the world page beside the invite links (a link for a player, no account needed), in [Atlas](/docs/tools/atlas)'s or [Lantern](/docs/tools/lantern)'s Invite someone (A player), or with `reader` `player` on the owner's [link routes](#managing-members), choosing the Character the player reads as or a fresh one. It is always a guest's, and the same single-use, expiring `/join#ow_j_…` link as an invite link. Whoever opens it first reads as that Character, until the owner removes them.
 
@@ -129,7 +129,7 @@ A client redeems a player code with no credential:
 | POST | `/api/v2/join/preview` | As for an invite link, with `reader` `player` |
 | POST | `/api/v2/join` | `{"code", "name"}` (`name` optional: the player's name on the owner's members list, and a fresh Character's name too; without it, the picked Character's name stands in, else `Player`): `201` with `kind` `player`, `role` `guest`, the world, the Character and the read `key`, shown only in this answer. The answer is typed by `kind`; an agent's code answers its own seat |
 
-### A Table of Players
+### A table of players
 
 One player link can seat a whole table. The owner sets how many times it works (`max_uses`, 2 to 50; `1`, the default, is a link for one) and, optionally, which Characters the players may pick (`characters`, in the order they are shown; a hidden Character is refused, `422` `param` `characters`, since it can never be picked). Each person who opens it picks one Character, once, and reads as that Character like any player. The owner's list is never the cast list: only the Characters picked for the table are offered. With no list, each player names a fresh Character after themselves. On the world page it is A table of players.
 
@@ -151,15 +151,15 @@ The player redeems with `POST /api/v2/join` and `{"code", "character"}` (the id 
 
 A world holds at most 50 players, counted as each one joins, from a table or a link for one. A table counts once against the 50 pending links while it has places left. Revoking it closes the places not yet taken; the players already seated stay. A seat that is removed frees its Character but still counts as a use.
 
-## Agent Seats
+## Agent seats
 
 An AI agent joins a world as a member with `kind` `agent`: an **agent seat**. The seat has its own Character (supertype `Agent`, unless the owner left it out), its own `ow_w_` key and its own secret for `API-Pin`. Whoever makes the seat chooses its role: the owner on an agent link (contributor by default), or a member making a seat for their AI, at most their own role.
 
-Every seat has a **human sponsor** who answers for it: for a seat a member made ([Making a Seat](/docs/development/agents#making-a-seat)), that member; for a join link, the account behind the email address the owner named when making the link, when there is one; otherwise the owner. The sponsor can remove the seat, or give it a new key, from their own account. On the owner's `GET /api/v2/account/worlds/{id}/members`, an agent row's `sponsor` is the sponsor's username when they are the owner or a member, and null for a sponsor behind an email or one who has left. On an agent row the owner also sees `may_change_character`: true when the seat may change, never delete, the Character it plays.
+Every seat has a **human sponsor** who answers for it: for a seat a member made ([Making a seat](/docs/development/agents#making-a-seat)), that member; for a join link, the account behind the email address the owner named when making the link, when there is one; otherwise the owner. The sponsor can remove the seat, or give it a new key, from their own account. On the owner's `GET /api/v2/account/worlds/{id}/members`, an agent row's `sponsor` is the sponsor's username when they are the owner or a member, and null for a sponsor behind an email or one who has left. On an agent row the owner also sees `may_change_character`: true when the seat may change, never delete, the Character it plays.
 
-Making links, joining and the join routes are on [AI Agents](/docs/development/agents).
+Making links, joining and the join routes are on [AI agents](/docs/development/agents).
 
-## Sharing a World
+## Sharing a world
 
 | To give | Use |
 |:--|:--|
@@ -173,7 +173,7 @@ A read key also works as a subscription: someone who holds it can follow the wor
 
 Sharing is forward-only: what someone has already read is theirs to keep. A key, a role or a membership governs what they receive from now on. Revoking a key, lowering a role or removing a member stops or narrows what arrives next, and takes nothing back from a copy already made.
 
-## Managing Members
+## Managing members
 
 Invites and memberships are managed in the [account portal](https://www.onlyworlds.com/account/), or through the account routes with an `ow_a_` [account token](/docs/getting-started/keys#account-tokens) sent as `Authorization: Bearer ow_a_…`.
 
@@ -187,7 +187,7 @@ Invites and memberships are managed in the [account portal](https://www.onlyworl
 | POST | `/api/v2/account/worlds/{world_id}/links` | Make an [invite link](#invite-links) (owner only): `reader` (`person`, `agent` or `player`, required), `role`, `days`, `inviter_name`, `with_character`, and for a player `character` (`new` or a Character's id) or, for a [table](#a-table-of-players), `max_uses` (2 to 50) and `characters` (a table takes no `character`), and `preview` (person and player links, off when left out; `true` on an agent link is `422`, `param` `preview`); `201` with the code, the link and a line to send, shown only in this answer. A world holds at most 50 pending invites and person or player links together (`422`) |
 | GET | `/api/v2/account/worlds/{world_id}/links` | The world's links, newest first, never a code, each with `uses` and `status` (`pending`, `used`, `revoked`, `expired`); a table's row adds `max_uses` and `characters` (`[{id, name, taken}]`, `name` `null` if deleted), its `uses` counts the seats it made, removed ones included, and it reads `used` once full |
 | DELETE | `/api/v2/account/worlds/{world_id}/links/{link_id}` | Revoke a link: `204` |
-| POST | `/api/v2/account/worlds/{world_id}/seats` | Make a seat for your own AI ([Making a Seat](/docs/development/agents#making-a-seat)): `201` with its key and secret, shown once |
+| POST | `/api/v2/account/worlds/{world_id}/seats` | Make a seat for your own AI ([Making a seat](/docs/development/agents#making-a-seat)): `201` with its key and secret, shown once |
 | GET | `/api/v2/account/worlds/{world_id}/seats` | Your seats; the owner sees every seat; never a key |
 | DELETE | `/api/v2/account/worlds/{world_id}/seats/{seat_id}` | Remove a seat (its sponsor or the owner) |
 | POST | `/api/v2/account/worlds/{world_id}/seats/{seat_id}/key` | A new key and secret for a seat; the old key answers `key_revoked` |

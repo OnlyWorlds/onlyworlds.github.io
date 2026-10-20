@@ -3,7 +3,7 @@ title: Build on OnlyWorlds
 description: Where to start for apps, scripts, games and AI agents that read and write OnlyWorlds worlds.
 ---
 
-OnlyWorlds is open source and license free. A world on [onlyworlds.com](https://www.onlyworlds.com) is reachable through a REST API, a change feed and an MCP server; every interface reads and writes the same data, scoped by a per-world key. New here? [Getting Started](/docs/getting-started/) walks through a first read and write.
+OnlyWorlds is open source and license free. A world on [onlyworlds.com](https://www.onlyworlds.com) is reachable through a REST API, a change feed and an MCP server; every interface reads and writes the same data, scoped by a per-world key. New here? [Getting started](/docs/getting-started/) walks through a first read and write.
 
 ## API
 
@@ -11,11 +11,11 @@ The REST API at `https://www.onlyworlds.com/api/v2/` serves every element catego
 
 | Page | Covers |
 | :--- | :--- |
-| [API Reference](/docs/development/api-reference) | Overview: base URL, authentication, routes |
-| [Reads and Pagination](/docs/development/api/reads) | Lists, filters, sparse fields, expansion |
-| [Link Fields](/docs/development/api/links) | Link fields and adding or removing links atomically |
-| [Writes and Bulk](/docs/development/api/writes) | Create, upsert, patch, delete, bulk |
-| [Changes and Export](/docs/development/api/changes) | The change feed, for keeping a cache or mirror in step, and the world export |
+| [API reference](/docs/development/api-reference) | Overview: base URL, authentication, routes |
+| [Reads and pagination](/docs/development/api/reads) | Lists, filters, sparse fields, expansion |
+| [Link fields](/docs/development/api/links) | Link fields and adding or removing links atomically |
+| [Writes and bulk](/docs/development/api/writes) | Create, upsert, patch, delete, bulk |
+| [Changes and export](/docs/development/api/changes) | The change feed, for keeping a cache or mirror in step, and the world export |
 | [Members](/docs/development/api/members) | Worlds shared with people and agents, and their roles |
 | [Images](/docs/development/api/images) | Uploading images |
 | [CORS](/docs/development/api/cors) | Calling the API from a browser |
@@ -33,16 +33,16 @@ The interactive reference is at [onlyworlds.com/api/docs](https://www.onlyworlds
 | [Python](/docs/development/python) | Scripts and data pipelines |
 | [Unity](/docs/development/unity) | Games: typed C# models and a client |
 
-## AI Agents
+## AI agents
 
 | Page | For |
 | :--- | :--- |
-| [AI Agents](/docs/development/ai) | Which way in fits where the agent runs |
-| [MCP Server](/docs/development/mcp) | Any MCP client, at `https://www.onlyworlds.com/mcp` |
-| [Agent Seats](/docs/development/agents) | An agent joining a world as a member, with its own key and Character |
-| [LLM Guide](/docs/development/llm-guide) | One text file that teaches the standard to a chat assistant |
+| [AI agents](/docs/development/ai) | Which way in fits where the agent runs |
+| [MCP server](/docs/development/mcp) | Any MCP client, at `https://www.onlyworlds.com/mcp` |
+| [Agent seats](/docs/development/agents) | An agent joining a world as a member, with its own key and Character |
+| [LLM guide](/docs/development/llm-guide) | One text file that teaches the standard to a chat assistant |
 | [Toolkit](/docs/development/toolkit) | A Claude Code plugin with skills to parse, model and link worlds and build tools |
 
-## The Schema for Tool Builders
+## The schema for tool builders
 
 The element categories, fields and links are documented under [Schema](/docs/schema/). Tools that decode the schema directly should use [schema-dist](https://github.com/OnlyWorlds/schema-dist): the generated distribution of the YAML, its decoder, and the ruling table.

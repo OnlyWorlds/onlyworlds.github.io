@@ -1,5 +1,5 @@
 ---
-title: Legacy Tools
+title: Legacy tools
 description: Retired OnlyWorlds tools, their status, and where their work lives now.
 ---
 
@@ -63,7 +63,7 @@ A read-only viewer for browsing, searching and exploring a world's elements and 
 - A radial connection graph, a timeline bar, and a breadcrumb trail with browser back and forward support.
 - Moppetopia pre-loaded as a demo world.
 
-## Tool History
+## Tool history
 
 Tools that have been retired and replaced:
 

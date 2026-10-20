@@ -46,7 +46,7 @@ python scripts/gen_elements.py --dist ../schema-dist --check  # exit 1 if a page
 
 ## Other generated parts
 
-- **The errors page's summary table and the contract's `floor` rows** come from keel's own list of error codes (`Error.x-ow-error-codes` in its OpenAPI), vendored as `contract/error-codes.json`. `scripts/gen_errors.mjs` runs in every build. It fails when a public code has no `### <code>` section, when a section isn't a public code, or when the Upload Host Errors table disagrees with the host rows. The sections themselves are hand-written. `--refresh` re-reads the live list; `--live` compares the snapshot with it (CI and the deploy warn on a difference).
+- **The errors page's summary table and the contract's `floor` rows** come from keel's own list of error codes (`Error.x-ow-error-codes` in its OpenAPI), vendored as `contract/error-codes.json`. `scripts/gen_errors.mjs` runs in every build. It fails when a public code has no `### <code>` section, when a section isn't a public code, or when the Upload host errors table disagrees with the host rows. The sections themselves are hand-written. `--refresh` re-reads the live list; `--live` compares the snapshot with it (CI and the deploy warn on a difference).
 - **The TypeScript page's reference** comes from the pinned `@onlyworlds/sdk` (a dev dependency): `scripts/gen_sdk_ref.mjs` reads its types with the TypeScript compiler. Bump the pin after an SDK release to move the reference.
 
 ## Contributing

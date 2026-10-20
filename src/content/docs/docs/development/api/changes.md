@@ -1,11 +1,11 @@
 ---
-title: Changes and Export
+title: Changes and export
 description: The world's ordered change feed, used to export a whole world and to keep a local copy in sync.
 ---
 
 `GET /api/v2/changes` is the world's change feed: every create, update and delete, in order. Walked from the start it is a full export; walked from a stored cursor it returns what changed since.
 
-## The Feed
+## The feed
 
 ```bash
 curl -s "https://www.onlyworlds.com/api/v2/changes?limit=1" -H "API-Key: 0000000000"
@@ -29,12 +29,12 @@ That is Hyperion's first page. The next call sends `?since=1:068e2e60-fc37-789e-
 | `cursor` | Pass it back as `?since=` for the next page. Its shape varies (a page's cursor such as `"1:068e…"`, or a number from `?head=true`), so store it as it came |
 | `has_more` | `true` if more pages remain |
 | `head` | The world's current change sequence |
-| `epoch` | A guest's or a contributor's view epoch ([Guests' Cursors](#guests-cursors)); `null` for the owner's and co-builders' keys |
-| `epoch_reason` | Why `epoch` last moved, `role` or `view` ([What a Reset Keeps](#what-a-reset-keeps)); `null` when `epoch` is |
+| `epoch` | A guest's or a contributor's view epoch ([Guests' cursors](#guests-cursors)); `null` for the owner's and co-builders' keys |
+| `epoch_reason` | Why `epoch` last moved, `role` or `view` ([What a reset keeps](#what-a-reset-keeps)); `null` when `epoch` is |
 
-An `upsert` carries the whole element at its latest state, in the same body a [read](/docs/development/api/reads#what-an-element-carries) returns. A `delete` carries the id, `deleted_at`, who deleted it through which door (`deleted_by`, `deleted_via`: see [Agent Writes](/docs/development/api/writes#agent-writes)), and why, in `reason`: `deleted` for a tombstone, `hidden` for an element [hidden](/docs/development/api/hidden#the-feed) from this key (a third value, `out_of_view`, is reserved: nothing sends it yet). Remove the element from your copy either way.
+An `upsert` carries the whole element at its latest state, in the same body a [read](/docs/development/api/reads#what-an-element-carries) returns. A `delete` carries the id, `deleted_at`, who deleted it through which door (`deleted_by`, `deleted_via`: see [Agent writes](/docs/development/api/writes#agent-writes)), and why, in `reason`: `deleted` for a tombstone, `hidden` for an element [hidden](/docs/development/api/hidden#the-feed) from this key (a third value, `out_of_view`, is reserved: nothing sends it yet). Remove the element from your copy either way.
 
-## Walking the Feed
+## Walking the feed
 
 Pass the returned `cursor` back as `?since=` until `has_more` is `false`. Store the last cursor; next time, start from it.
 
@@ -71,11 +71,11 @@ def pull(since=None):
             return ops, since
 ```
 
-## Full Export
+## Full export
 
 Walking `GET /api/v2/changes` from no `since` until `has_more` is `false` gives every live element at its latest state, plus a tombstone for each delete: the whole world. Most worlds take several pages. There is no separate export route. Deletes are always explicit `delete` ops, never inferred from an element's absence.
 
-A key that may not see an element the owner or a co-builder hid walks the feed without it, without a tombstone of its id, and with its links left out of the bodies. A contributor learns of a hide from a `delete` op with `reason` `hidden`; a guest's cursor is reset instead. See [Hidden Elements](/docs/development/api/hidden#the-feed).
+A key that may not see an element the owner or a co-builder hid walks the feed without it, without a tombstone of its id, and with its links left out of the bodies. A contributor learns of a hide from a `delete` op with `reason` `hidden`; a guest's cursor is reset instead. See [Hidden elements](/docs/development/api/hidden#the-feed).
 
 World fields (`name`, the time fields and the rest of `GET /api/v2/world`) are not in the feed. Poll `GET /api/v2/world` and compare `updated_at`; element writes never change the world's `updated_at`.
 
@@ -83,23 +83,23 @@ World fields (`name`, the time fields and the rest of `GET /api/v2/world`) are n
 
 In normal operation a world's change sequence only moves forward. The one exception is a restore from backup, which rewinds it. If your stored position is beyond the `head` in a response, a restore happened: treat your cursor as invalid and pull again from the start.
 
-## Guests' Cursors
+## Guests' cursors
 
 For the owner's and co-builders' keys, everything above holds. A [guest](/docs/development/api/members#guests) key walks only what it can see:
 
 - Its cursor has three parts. It is still opaque: pass back exactly what you got.
 - It never receives `delete` ops.
-- When the guest's view shrinks or changes wholesale (an element leaves it, an existing element enters it, the roster changes, or the guest's own role changes), the next call answers `409` [`resync_required`](/api/errors/#resync_required). Pull again from `since=0`. What happens to what your copy holds that the new walk does not name: [What a Reset Keeps](#what-a-reset-keeps); without a `reason`, keep it, since a reset never empties a copy.
+- When the guest's view shrinks or changes wholesale (an element leaves it, an existing element enters it, the roster changes, or the guest's own role changes), the next call answers `409` [`resync_required`](/api/errors/#resync_required). Pull again from `since=0`. What happens to what your copy holds that the new walk does not name: [What a reset keeps](#what-a-reset-keeps); without a `reason`, keep it, since a reset never empties a copy.
 - A guest may always start from `since=0` or with no `since`.
 - `?head=true` gives a guest a cursor it passes straight back as `since`.
 - `head` in a page is still the world's change sequence.
 - `epoch`, on every page and on `?head=true`, is the guest's view epoch. It moves when the guest's view changes without the change sequence moving (a Character given or taken, a role). A tip whose `epoch` differs from the one you last applied means pull again; read it from this field, never out of the cursor.
 
-A contributor carries the same three-part cursor, `epoch` and `?head=true` cursor, and the same `409` rules, but it still receives every `delete` op; a contributor's cursor stored before hidden elements arrived answers `409` once. See [The Contributor's Cursor](/docs/development/api/hidden#the-contributors-cursor).
+A contributor carries the same three-part cursor, `epoch` and `?head=true` cursor, and the same `409` rules, but it still receives every `delete` op; a contributor's cursor stored before hidden elements arrived answers `409` once. See [The contributor's cursor](/docs/development/api/hidden#the-contributors-cursor).
 
 A member's move to or from the guest or the contributor role resets its cursor: its next call answers `409 resync_required`. A three-part cursor from the owner or a co-builder is the same `409`.
 
-### What a Reset Keeps
+### What a reset keeps
 
 Sharing is [forward-only](/docs/development/api/members#sharing-a-world): what a reader has already read is theirs to keep, and a key or a role governs only what arrives next. The `409` says why in `reason`, inside `error`, and its message says what that reason means:
 
@@ -120,7 +120,7 @@ Every page and `?head=true` carry `epoch_reason` beside `epoch`, with the same v
 
 A `409` with no `reason` (from a server older than 2026-10-20) is kept like `role`: a reset never empties a copy.
 
-## The Export File
+## The export file
 
 The account portal's **Export world** button downloads the whole world as one JSON file, separate from the API feed. It is self-describing:
 

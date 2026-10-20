@@ -1,5 +1,5 @@
 ---
-title: Python Package
+title: Python package
 description: "The onlyworlds Python package: the world folder format and a client for the v2 API. On PyPI."
 ---
 
@@ -59,7 +59,7 @@ for op in walk:
 saved_cursor = walk.cursor  # opaque: persist it, never parse it
 ```
 
-A delete's `op["reason"]` is `deleted`, or `hidden` for an element [hidden](/docs/development/api/hidden#the-feed) from the key: remove it from your copy either way. If the feed refuses a cursor (`is_resync_required` on the error), walk again from the start and keep what your copy holds that the new walk does not name. The error's `resync_reason` says which: `"role"` (your own role or membership moved), keep it; `"view"` (something left your view), drop it. A tool never empties a copy on its own ([What a Reset Keeps](/docs/development/api/changes#what-a-reset-keeps)). See [Sync with Changes](/docs/development/api/changes).
+A delete's `op["reason"]` is `deleted`, or `hidden` for an element [hidden](/docs/development/api/hidden#the-feed) from the key: remove it from your copy either way. If the feed refuses a cursor (`is_resync_required` on the error), walk again from the start and keep what your copy holds that the new walk does not name. The error's `resync_reason` says which: `"role"` (your own role or membership moved), keep it; `"view"` (something left your view), drop it. A tool never empties a copy on its own ([What a reset keeps](/docs/development/api/changes#what-a-reset-keeps)). See [Sync with changes](/docs/development/api/changes).
 
 ## Export to OKF
 

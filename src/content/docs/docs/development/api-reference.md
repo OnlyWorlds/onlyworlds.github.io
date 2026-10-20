@@ -1,5 +1,5 @@
 ---
-title: API Reference
+title: API reference
 description: The OnlyWorlds REST API at a glance, with its base URL, authentication, list envelope and every resource.
 ---
 
@@ -23,7 +23,7 @@ curl -s "https://www.onlyworlds.com/api/v2/world" \
 
 Key types, PIN rules, member keys and account tokens are on [Keys and PINs](/docs/getting-started/keys).
 
-## Response Shapes
+## Response shapes
 
 A list answers in an envelope:
 
@@ -45,7 +45,7 @@ A single element answers as the bare element object. Every error answers in one 
 | PUT | `/api/v2/{type}/{id}` | Create or replace by id (upsert) | [Writes](/docs/development/api/writes) |
 | PATCH | `/api/v2/{type}/{id}` | Partial update | [Writes](/docs/development/api/writes) |
 | DELETE | `/api/v2/{type}/{id}` | Delete | [Writes](/docs/development/api/writes) |
-| POST | `/api/v2/{type}/{id}/links/{field}` | Add or remove ids on one multi-link field | [Link Fields](/docs/development/api/links) |
+| POST | `/api/v2/{type}/{id}/links/{field}` | Add or remove ids on one multi-link field | [Link fields](/docs/development/api/links) |
 | POST | `/api/v2/bulk` | Create and upsert many elements of mixed categories | [Writes](/docs/development/api/writes#bulk) |
 | GET | `/api/v2/search` | Find elements by the words in their name and text | [Reads](/docs/development/api/reads#search) |
 | GET | `/api/v2/changes` | The world's change feed, and full export | [Changes](/docs/development/api/changes) |
@@ -58,8 +58,8 @@ A single element answers as the bare element object. Every error answers in one 
 | GET | `/api/v2/{type}/{id}/files/{file_id}/download` | A download link for one file | [Files](/docs/development/api/files#downloading-a-file) |
 | DELETE | `/api/v2/{type}/{id}/files/{file_id}` | Remove a file | [Files](/docs/development/api/files#removing-a-file) |
 | GET | `/api/v2/world/files` | Every file in the world the key may see, and the world's total | [Files](/docs/development/api/files#listing-files) |
-| PUT, DELETE | `/api/v2/{type}/{id}/hidden` | Hide or unhide an element (the owner and co-builders) | [Hidden Elements](/docs/development/api/hidden#hiding-and-unhiding) |
-| GET | `/api/v2/world/hidden` | The world's hidden elements (the owner and co-builders) | [Hidden Elements](/docs/development/api/hidden#hiding-and-unhiding) |
+| PUT, DELETE | `/api/v2/{type}/{id}/hidden` | Hide or unhide an element (the owner and co-builders) | [Hidden elements](/docs/development/api/hidden#hiding-and-unhiding) |
+| GET | `/api/v2/world/hidden` | The world's hidden elements (the owner and co-builders) | [Hidden elements](/docs/development/api/hidden#hiding-and-unhiding) |
 | POST | `/api/v2/join/preview` | Read a join link (agent, person or player) without using it | [Agents](/docs/development/agents) |
 | POST | `/api/v2/join` | Redeem an agent's or a player's code, no key | [Agents](/docs/development/agents), [Members](/docs/development/api/members#player-links) |
 | GET | `/api/v2/health` | Liveness check, no key needed | |
@@ -91,19 +91,19 @@ There are no webhooks. To follow a world's changes, poll [`/changes`](/docs/deve
 - Error codes and field names are a contract: a client may branch on them. Error messages are not.
 - The standard's files, the TypeScript SDK, the Unity SDK, the toolkit and schema-dist are MIT-licensed.
 
-## API Pages
+## API pages
 
 | Page | Covers |
 |:--|:--|
 | [Keys and PINs](/docs/getting-started/keys) | Key types, the PIN, member and agent-seat keys, account tokens |
-| [Reads and Pagination](/docs/development/api/reads) | The list envelope, cursors, filters, search, expansion, sparse fields, the world |
-| [Link Fields](/docs/development/api/links) | How links read and write, and the link operations route |
-| [Writes and Bulk](/docs/development/api/writes) | Create, upsert, patch, delete, idempotency, bulk |
-| [Changes and Export](/docs/development/api/changes) | The change feed, full export, guests' cursors |
-| [Members and Sharing](/docs/development/api/members) | Roles, the roster, guests, invites, player links, agent seats, read keys |
-| [Hidden Elements](/docs/development/api/hidden) | Hiding an element from everyone but the owner, the co-builders and its creator |
+| [Reads and pagination](/docs/development/api/reads) | The list envelope, cursors, filters, search, expansion, sparse fields, the world |
+| [Link fields](/docs/development/api/links) | How links read and write, and the link operations route |
+| [Writes and bulk](/docs/development/api/writes) | Create, upsert, patch, delete, idempotency, bulk |
+| [Changes and export](/docs/development/api/changes) | The change feed, full export, guests' cursors |
+| [Members and sharing](/docs/development/api/members) | Roles, the roster, guests, invites, player links, agent seats, read keys |
+| [Hidden elements](/docs/development/api/hidden) | Hiding an element from everyone but the owner, the co-builders and its creator |
 | [Images](/docs/development/api/images) | Hosting an element's picture on OnlyWorlds |
 | [Files](/docs/development/api/files) | Attaching PDFs, text files and world bundles to an element |
 | [CORS](/docs/development/api/cors) | Which browser origins may call the API |
 | [Classic API](/docs/development/api/classic) | The original `/api/worldapi/` dialect |
-| [Error Reference](/api/errors/) | Every error code, its cause and its fix |
+| [Error reference](/api/errors/) | Every error code, its cause and its fix |

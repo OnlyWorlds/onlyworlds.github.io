@@ -1,5 +1,5 @@
 ---
-title: SDKs and Clients
+title: SDKs and clients
 description: Every way to call OnlyWorlds from code, by language and by where it runs.
 ---
 

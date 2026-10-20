@@ -5,7 +5,7 @@ description: The base fields every element carries, the field types, what is req
 
 Every element carries the same base fields, then the fields of its own category. Category fields are listed on each category's page, for example [Character](/docs/schema/element_categories/character).
 
-## Base Fields
+## Base fields
 
 | Field | Type | Required | Description |
 | :--- | :--- | :--- | :--- |
@@ -21,7 +21,7 @@ Ids are UUIDv7 when the server mints them, which makes them time-sortable. A cli
 
 Supertype and subtype are free text, so each world defines its own. [Conventions](/docs/schema/conventions) covers how to use them.
 
-### Server-Kept Fields
+### Server-kept fields
 
 The API adds these to every element it returns. They are platform bookkeeping, not part of the standard.
 
@@ -34,7 +34,7 @@ The API adds these to every element it returns. They are platform bookkeeping, n
 
 A write body that carries `type`, `created_at`, `updated_at` or `change_seq` is rejected with `422`. `world` and `created_by` are tolerated and ignored.
 
-## Field Types
+## Field types
 
 | Type | What it holds | On the API | Example |
 | :--- | :--- | :--- | :--- |
@@ -58,7 +58,7 @@ Numbers are integers. The API truncates a decimal instead of rejecting it (`7.9`
 
 **Units.** Dates are integers in the world's time units (see [Worlds](/docs/schema/worlds)). Some measurements name their unit kind in the schema: a Character's `height` uses the world's length units, `weight` its mass units.
 
-## What Is Required
+## What is required
 
 On every element, only `name` is required: the key must be present on create and full replace, and an empty string is accepted. Markers, which mark the boundary points of a Zone, are often unnamed.
 
@@ -66,7 +66,7 @@ That includes the map categories. A [Pin](/docs/schema/element_categories/pin) o
 
 Coordinates `x` and `y` are integers measured from the bottom left of the map; `z` is optional, for depth. A Marker's `order` is its position in the sequence when Markers define a polygon or line (`0` is the first point); without it, Markers keep the order they were made in.
 
-## Extension Fields
+## Extension fields
 
 Fields whose names start with a reserved prefix are accepted on write, stored as they are, and returned verbatim:
 

@@ -56,7 +56,7 @@ The skill files themselves sit in the repository's `skills/` folder, one folder 
 
 The orchestration agent, `ow-agent`, chains several skills for multi-step jobs, such as parsing a whole corpus and then linking and surveying it. The knowledge base covers the schema reference, the category descriptions, and decision trees for ambiguous modeling choices.
 
-## A World Folder or an Account World
+## A world folder or an account world
 
 Most of the toolkit runs on files alone, with no account:
 
@@ -67,7 +67,7 @@ Most of the toolkit runs on files alone, with no account:
 
 With an OnlyWorlds account, the same skills work on an account world over the [API](/docs/development/api-reference). `project-setup` connects the project (a `.env` you fill with your key and PIN as `OW_API_KEY` and `OW_API_PIN`, kept out of git, since toolkit 4.3.0; a folder that still holds the older `ONLYWORLDS_API_KEY` and `ONLYWORLDS_API_PIN` keeps working), and `api` and `dev` build on it. To connect an agent to a world directly, see the [MCP server](/docs/development/mcp).
 
-## Example Requests
+## Example requests
 
 ```text
 "Help me organize my worldbuilding notes"

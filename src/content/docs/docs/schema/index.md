@@ -7,7 +7,7 @@ The OnlyWorlds schema is the standard every OnlyWorlds tool and world shares. It
 
 Use as much of it as you need. Only `name` is required: the key must be present, and an empty string is accepted, on every category, Pins and Markers included. So a world of nothing but Objects is a valid world. Supertype and subtype sort a world's elements into its own kinds, `x_` fields carry data the schema doesn't model, and high-volume data can live in your own database beside the world, keyed by element id.
 
-## The 22 Categories
+## The 22 categories
 
 | Category | Definition |
 | :--- | :--- |
@@ -34,15 +34,15 @@ Use as much of it as you need. Only `name` is required: the key must be present,
 | [Marker](/docs/schema/element_categories/marker) | Groups of Markers, each at a specific coordinate, together designate a Zone in the world. |
 | [Zone](/docs/schema/element_categories/zone) | Zones represent abstract or meaningful areas within the world that hold significance due to cultural, political, environmental, or narrative reasons. |
 
-Every element also carries the same base fields (name, description, supertype, subtype, image and more). [Fields](/docs/schema/fields) lists them, with the field types and what is required. [Worlds](/docs/schema/worlds) covers the container that holds the elements and its timeline. [A Worked Example](/docs/schema/example) reads one small world through the API, link by link.
+Every element also carries the same base fields (name, description, supertype, subtype, image and more). [Fields](/docs/schema/fields) lists them, with the field types and what is required. [Worlds](/docs/schema/worlds) covers the container that holds the elements and its timeline. [A worked example](/docs/schema/example) reads one small world through the API, link by link.
 
-## Typed Links
+## Typed links
 
 Links are typed fields. A Character's `location` is a single link that holds one Location; its `friends` is a multi link that holds any number of Characters. Each link field names the category it points to, so a tool always knows what kind of element is on the other end. One field, the Pin's `element`, is a generic link that can point to an element of any category.
 
 Links point one way, from the element that holds the field. For connections that carry their own history, span or intensity, the schema has a category of its own: [Relation](/docs/schema/element_categories/relation). [Conventions](/docs/schema/conventions) covers when to use which.
 
-## Where the Schema Lives
+## Where the schema lives
 
 | What | Where |
 | :--- | :--- |

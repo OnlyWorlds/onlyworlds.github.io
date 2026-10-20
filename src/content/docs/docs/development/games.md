@@ -5,16 +5,16 @@ description: "Building a game on an OnlyWorlds world: carry it in the build, rea
 
 To a game, a world on OnlyWorlds is content: characters, creatures, locations, objects, institutions, events and more, with links between them. The world stays editable outside the game, on [onlyworlds.com](/docs/tools/onlyworlds-com), in [Atlas](/docs/tools/atlas) or in any tool built on the standard. So writers and designers can shape it without opening the engine, and the game picks up their work.
 
-## Three Ways to Use a World
+## Three ways to use a world
 
-### Bake It In
+### Bake it in
 
 Fetch the world at build time and ship it inside the game. It works offline, needs no key at runtime, and changes only when you rebuild. This fits a world that is written first and then played.
 
 - **Unity**: fill a [cache asset](/docs/development/unity#ship-a-world-with-your-game) in the Editor and reference it from your scripts.
 - **Any engine**: read a world folder (one JSON file per element, the format Atlas, the [Python package](/docs/development/python) and the Unity SDK use), or take a [full export](/docs/development/api/changes#full-export) from the API, and convert it into the engine's own data.
 
-### Read It Live
+### Read it live
 
 The game reads the world from the API while it runs, so a new character or a rewritten place reaches players without a patch. Fetch the world once, then ask the [changes feed](/docs/development/api/changes) for what changed since your cursor, rather than fetching everything again.
 
@@ -30,7 +30,7 @@ What a live read can count on:
 
 So a game that must never break should bake its world in, and read live only the content that may change.
 
-### Write Back
+### Write back
 
 The game writes its outcomes into the world: who died, which town burned, what was found. The world becomes the record of play, and every other tool on it sees the result. Writing needs a write key and the PIN, so keep it on a server or in a tool you control, not in a game you ship to players.
 
@@ -39,7 +39,7 @@ Four rules keep a write from damaging work done elsewhere:
 - **Send only the fields that changed.** A `PATCH` replaces every field it carries, so sending back an element fetched earlier undoes edits made since.
 - **Change link lists with editLinks**, which adds and removes ids on the server. A `PATCH` with a link list replaces the whole list. See [Links](/docs/development/api/links).
 - **Check every bulk response.** A bulk write answers HTTP 200 even when some items failed. See [Writes](/docs/development/api/writes).
-- **Keep game-only state in extension fields** (`x_yourgame_*`), which the server stores and returns verbatim, up to 64 KB per element. A well-behaved client carries other tools' extensions through untouched. See [Extension Fields](/docs/schema/fields#extension-fields).
+- **Keep game-only state in extension fields** (`x_yourgame_*`), which the server stores and returns verbatim, up to 64 KB per element. A well-behaved client carries other tools' extensions through untouched. See [Extension fields](/docs/schema/fields#extension-fields).
 
 ## Engines
 
@@ -60,7 +60,7 @@ curl -H "API-Key: 0000000001" \
 
 Unity is the first engine with an SDK of its own. Until another engine has one, its path is the API.
 
-## Game Content in the Standard
+## Game content in the standard
 
 The element types cover most of what a game holds. A starting point:
 
@@ -88,6 +88,6 @@ The element types cover most of what a game holds. A starting point:
 
 The line between Character and Creature is agency, not species: an intelligent monster with goals of its own can be a Character. `supertype` and `subtype` hold your game's own categories (a Creature with supertype `Boss`), so you don't need new element types for them. Where two types are close, [Conventions](/docs/schema/conventions) draws the line between them. Each type's fields are listed under [Schema](/docs/schema/).
 
-## On OnlyWorlds Today
+## On OnlyWorlds today
 
 [Tactical Tangle](https://tangle.onlyworlds.com) is a hoplite battle game in which your OnlyWorlds characters fight in the ranks of a phalanx. Everything else built on OnlyWorlds is listed under [Tools](/docs/tools/).

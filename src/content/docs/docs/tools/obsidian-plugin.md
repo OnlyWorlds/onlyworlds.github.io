@@ -1,5 +1,5 @@
 ---
-title: Obsidian Plugin
+title: Obsidian plugin
 description: The OnlyWorlds Builder plugin keeps each element as a markdown note in an Obsidian vault, with optional sync to onlyworlds.com.
 ---
 
@@ -44,13 +44,13 @@ When Save Element changes an element's name, its note is renamed to match, and l
 
 Text fields round-trip byte for byte (since 3.5.1). In a note, a line that starts with `### ` starts a new field, so a value's own `###` line, or a code fence line such as `~~~`, gains one backslash in the note (`\###`, `\~~~`) and loses it again on the way back to onlyworlds.com. Write `\###` yourself for a line that should read `###`. Inside a closed code block nothing changes. A save is refused only when a code fence left open would swallow the next heading; the notice names the field and the heading.
 
-## Saving Linked Notes
+## Saving linked notes
 
 Since version 3.5.0, **Save Element** on a note that links to notes not yet on onlyworlds.com lists them and asks first, then creates them together with the note. It creates at most 50 this way; past that it creates and saves nothing and points you to Upload World. Auto-sync never creates them.
 
 An element deleted on onlyworlds.com is never brought back without your word, even though Download keeps its note. Save Element asks "create it again?", auto-sync refuses, and Upload World asks once for all of them. A link to a deleted element is left out of what is sent and named, and the note keeps it. Since 3.5.1 an element onlyworlds.com answers as deleted is known as deleted at once, without reading the change feed.
 
-## Your OnlyWorlds Account
+## Your OnlyWorlds account
 
 Since version 3.4.0 the plugin can sign in to onlyworlds.com, so you no longer copy a key per world.
 
@@ -67,6 +67,6 @@ The token is stored in the vault's plugin data (`data.json`), which Obsidian Syn
 
 Your PIN is asked once per plugin session, unless you saved it in the settings. Reloading the plugin or Obsidian asks again.
 
-## Read-Only Worlds
+## Read-only worlds
 
 A world whose key can only read (a read key `ow_r_`, a player link, or a guest invite) is read-only in the vault. Your edits stay in your notes, and nothing is sent to onlyworlds.com. Save, Delete, Upload and Rename say so before any dialog, with no PIN prompt. Upload's and Rename's pickers list only the worlds the vault can write to, and say when they left one out. Before you join through a guest invite, its preview says the key will be a read key.

@@ -1,5 +1,5 @@
 ---
-title: Hidden Elements
+title: Hidden elements
 description: How the world's owner or a co-builder hides an element from the rest of the world, what each reader then sees, and the routes.
 ---
 
@@ -9,7 +9,7 @@ The mark is a record beside the element, not a field. Hiding or unhiding leaves 
 
 ![Who sees what in a world: owner, co-builder, contributor, guest, player and public, with the hidden mark](/assets/images/reader-ladder.svg)
 
-## Who Sees a Hidden Element
+## Who sees a hidden element
 
 | Reader | Sees |
 |:--|:--|
@@ -22,7 +22,7 @@ The mark is a record beside the element, not a field. Hiding or unhiding leaves 
 - An agent seat reads as its role, also when it plays a Character.
 - A key you mint is your own tool and shows what you hid. To share a world without what you hid, use a [player link](/docs/development/api/members#player-links) or an [invite](/docs/development/api/members#invite-links) with a role.
 
-## What Everyone Else Gets
+## What everyone else gets
 
 To a reader it is hidden from, a hidden element answers exactly as a missing one, byte for byte:
 
@@ -30,9 +30,9 @@ To a reader it is hidden from, a hidden element answers exactly as a missing one
 - Lists, the `characters` filter, [search](/docs/development/api/reads#search), the [MCP server](/docs/development/mcp)'s tools and world index, and every count and `has_more` leave it out. Its [files](/docs/development/api/files) answer `404`.
 - Links to it are left out of every body the reader reads: a single link reads `null`, a multi link loses the id, and `?expand` has nothing to expand. The elements that carry those links do not change: their `change_seq` stays where it was.
 - A hidden Character's id reads `null` on the [roster](/docs/development/api/members#the-roster) (`GET /api/v2/members`), on [`GET /api/v2/me`](/docs/development/api/members#who-am-i) and in the world's `owner_character` (`GET /api/v2/world`, and the join preview). That holds for the Character the reader's own member plays, too, unless that member created it. The world's `ETag` differs for a reader whose `owner_character` reads `null`, so a cached body does not outlive the hide.
-- A reader following [`/changes`](/docs/development/api/changes) is told in the feed: see [The Feed](#the-feed).
+- A reader following [`/changes`](/docs/development/api/changes) is told in the feed: see [The feed](#the-feed).
 
-## Writes That Name It
+## Writes that name it
 
 A write by a reader it is hidden from answers as it would for an id that does not exist:
 
@@ -47,7 +47,7 @@ A write by a reader it is hidden from answers as it would for an id that does no
 
 A reader's write on an element that links to a hidden one keeps that link, as a guest's write keeps the links it cannot see: a `PUT` that leaves it out does not remove it.
 
-## Playing a Hidden Character
+## Playing a hidden Character
 
 A Character someone plays is on every reader's roster, so a hidden Character can never be picked to play, by anyone, the owner included:
 
@@ -56,7 +56,7 @@ A Character someone plays is on every reader's roster, so a hidden Character can
 - A player link made before the Character was hidden gives the player a fresh Character when it is redeemed, as it does when the Character was deleted.
 - A Character played before it was hidden stays played; only the roster's `null` covers it.
 
-## Hiding and Unhiding
+## Hiding and unhiding
 
 | Method | Route | Key | Answer |
 |:--|:--|:--|:--|
@@ -99,7 +99,7 @@ Deleting a hidden element deletes its mark with it, and deleting a world deletes
 | `429` | [`rate_limited`](/api/errors/#rate_limited) | Too many wrong PINs on this key |
 | `429` | [`too_many_requests`](/api/errors/#too_many_requests) | Over the request budget, as on every route ([Limits](/docs/development/api-reference#limits)) |
 
-## The Feed
+## The feed
 
 Every `delete` op on [`/changes`](/docs/development/api/changes) says why, in `reason`: `deleted` for an element that was deleted, `hidden` for one hidden from this key. (`out_of_view` is reserved; nothing sends it yet.) A hide takes one place in the world's change sequence, so `head` moves by one.
 
@@ -122,10 +122,10 @@ The hidden row has the shape of any delete:
 What a client does:
 
 - **On `reason` `hidden`:** remove the element from the local copy, as for any delete, and do not offer to keep it. A row may name an id you never held (an element made and hidden while you were not reading): drop it as you would any delete of an unknown id.
-- **On `409` `resync_required`:** pull the feed again from `since=0`, then follow the error's `reason` ([What a Reset Keeps](/docs/development/api/changes#what-a-reset-keeps)): `role` (your own role or membership moved), keep what the new walk does not name; `view` (something left your view: a delete, a hide, an unhide, a Character change), drop it. When both happened since your cursor, the answer is `role`. A tool never empties a copy on its own.
+- **On `409` `resync_required`:** pull the feed again from `since=0`, then follow the error's `reason` ([What a reset keeps](/docs/development/api/changes#what-a-reset-keeps)): `role` (your own role or membership moved), keep what the new walk does not name; `view` (something left your view: a delete, a hide, an unhide, a Character change), drop it. When both happened since your cursor, the answer is `role`. A tool never empties a copy on its own.
 - A hidden row reaches a reader only for a hide made after its view last started (when it joined, or when its cursor was last reset), whatever cursor it sends. A new member, or one whose cursor was just reset, gets no row for an earlier hide; a walk from the start by a reader whose view started before the hide does carry it.
 
-### The Contributor's Cursor
+### The contributor's cursor
 
 A contributor, person or agent seat, carries the cursor a [guest](/docs/development/api/changes#guests-cursors) carries: three parts, an `epoch` on every page and on `?head=true`, and a `?head=true` cursor to pass straight back as `since`. Unlike a guest, it still receives every `delete` op.
 
@@ -134,7 +134,7 @@ A contributor, person or agent seat, carries the cursor a [guest](/docs/developm
 - Every page and `?head=true` carry `epoch_reason` beside `epoch`: why the epoch last moved, `role` or `view`. It names the last move only; the `409`'s `reason` covers every move since your cursor.
 - The owner and co-builders keep the two-part cursor and `epoch` `null`. A three-part cursor from them (a contributor made co-builder) is the same `409`.
 
-## View As
+## View as
 
 The owner can read the world as another reader would, to check what a member, a Character's player or the public sees before or after a hide. Add `as` to a read:
 
@@ -164,7 +164,7 @@ A membership id is tried first. The answer is what that reader's own key would g
 
 On onlyworlds.com, the owner's world page has a **View as** picker (me, a player, a Character, anyone). The world page, the type lists and the element pages then show that reader's view, read-only, under a bar that says who is shown; a hidden element shows the not-found page.
 
-## What the Mark Does Not Reach
+## What the mark does not reach
 
 - **Published share pages.** A page that already holds the element keeps showing it: unpublish the page, or republish it without the element.
 - **The owner's copies.** The owner's [export file](/docs/development/api/changes#the-export-file), and the owner's walk of `/changes`, carry hidden elements like any other, with nothing in the body to mark them.

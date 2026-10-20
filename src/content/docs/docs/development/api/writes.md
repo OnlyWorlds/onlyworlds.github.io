@@ -1,5 +1,5 @@
 ---
-title: Writes and Bulk
+title: Writes and bulk
 description: Creating, replacing, updating and deleting elements, retrying safely, writing many elements in one call, and updating the world itself.
 ---
 
@@ -22,7 +22,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/location" \
 
 `PUT /api/v2/{type}/{id}` creates the element if absent and **replaces it whole** if present: fields left out are reset to empty. It returns `201` when it created and `200` when it replaced. The path decides the id; an `id` in the body is dropped. An id held by an element in another world is `409` [`id_conflict`](/api/errors/#id_conflict).
 
-## Partial Update
+## Partial update
 
 `PATCH /api/v2/{type}/{id}` changes only the fields sent and returns `200` with the full element.
 
@@ -61,7 +61,7 @@ The check is per element, not per field, and the server never merges. The client
 
 `DELETE /api/v2/{type}/{id}` returns `204`. It is idempotent: deleting an element that is already gone also returns `204`. Deleting an element removes its id from every other element's links, and the change feed records the delete as a [tombstone](/docs/development/api/changes).
 
-## Agent Writes
+## Agent writes
 
 Every write records the door it came through. An element read carries `changed_by` (the membership that made the last change, `null` for the owner) and `changed_via`, one of:
 
@@ -79,7 +79,7 @@ The first three mean an agent made the change. An AI writing on a person's own k
 
 The world page on onlyworlds.com shows the mark in Recent changes: "by Archivist, an agent" for a seat's write or delete, "by an agent" for an MCP or declared write, nothing for a person's.
 
-## Field Rules
+## Field rules
 
 - **`name`** is required on `POST` and `PUT`: the key must be present, and an empty string is accepted.
 - **Unknown fields** are a `422` naming the field. A misspelled field fails loudly instead of vanishing.
@@ -140,7 +140,7 @@ A key is held while its request runs, so two sends with it do not both write; th
 - An item whose `element` carries an `id` upserts that id; one without an `id` creates. An `op` field on an item is optional and ignored.
 - The answer is HTTP `200` once the batch is read. Results are per item, in request order, and each `status` is what a single write would have returned (`201`, `200`, or an error status).
 - **Partial success is the default**: one bad item does not stop the rest. Send `"atomic": true` for all or nothing. In atomic mode, if `errors` is `true` **nothing was written**, even though the items that would have succeeded show `201` or `200`.
-- A failed item carries the standard [error envelope](/api/errors/) under `error`; the top-level `errors` is `true` if any item failed. The codes seen per item are listed under [Bulk Errors](/api/errors/#bulk-errors).
+- A failed item carries the standard [error envelope](/api/errors/) under `error`; the top-level `errors` is `true` if any item failed. The codes seen per item are listed under [Bulk errors](/api/errors/#bulk-errors).
 - Links are checked against the world **plus the batch's surviving items**, in any order, so a batch may reference its own items without sorting. All checks run before any write, and an item that fails also fails the items linking to it.
 - Each success echoes the server's `created_at` and `updated_at`, so a sync client can set its baseline from the bulk response alone.
 - A malformed request (not valid JSON, `items` not an array, over 1000 items) or an auth failure answers with its own status and the error envelope, not `200`.

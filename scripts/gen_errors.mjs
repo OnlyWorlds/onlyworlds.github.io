@@ -14,7 +14,7 @@
  * Writes: the summary table between the markers on /api/errors/, and the 'floor' rows of
  * contract/urls.tsv (one per public code: each must be an anchor on /api/errors/).
  * Checks (fail): every public code has a '### <code>' section and every section is a public code;
- * the Upload Host Errors table lists exactly the host rows, with the same statuses.
+ * the Upload host errors table lists exactly the host rows, with the same statuses.
  * The prose of each section stays hand-written; only its presence is checked.
  */
 import { readFileSync, writeFileSync } from 'node:fs';
@@ -67,9 +67,9 @@ const original = page;
 if (page.includes(BEGIN)) {
   page = page.slice(0, page.indexOf(BEGIN)) + table + page.slice(page.indexOf(END) + END.length);
 } else {
-  // first run: replace the hand-kept table under '## Error Codes'
-  const m = page.match(/## Error Codes\n\n(\| Code \| Type \| Status \|\n(?:\|.*\n)+)/);
-  if (!m) { console.error('gen_errors: no marker and no "## Error Codes" table to replace'); process.exit(2); }
+  // first run: replace the hand-kept table under '## Error codes'
+  const m = page.match(/## Error codes\n\n(\| Code \| Type \| Status \|\n(?:\|.*\n)+)/);
+  if (!m) { console.error('gen_errors: no marker and no "## Error codes" table to replace'); process.exit(2); }
   page = page.replace(m[1], table + '\n');
 }
 
@@ -77,14 +77,14 @@ if (page.includes(BEGIN)) {
 const sections = [...page.matchAll(/^### ([a-z_]+)\s*$/gm)].map((m) => m[1]);
 for (const [c] of pub) if (!sections.includes(c)) problems.push(`public code ${c} has no "### ${c}" section on the errors page`);
 for (const s of sections) if (!codes[s] || codes[s].internal || codes[s].host) problems.push(`the errors page has a section "### ${s}", which is not a public code`);
-const hostTable = page.split('## Upload Host Errors')[1] ?? '';
+const hostTable = page.split('## Upload host errors')[1] ?? '';
 const hostRows = new Map([...hostTable.matchAll(/^\| `(\d{3})` \| `([a-z_]+)` \|/gm)].map((m) => [m[2], Number(m[1])]));
-if (!hostRows.size) problems.push('no Upload Host Errors table found to check');
+if (!hostRows.size) problems.push('no Upload host errors table found to check');
 for (const [c, r] of host) {
-  if (!hostRows.has(c)) problems.push(`upload host code ${c} (${r.status}) is missing from the Upload Host Errors table`);
+  if (!hostRows.has(c)) problems.push(`upload host code ${c} (${r.status}) is missing from the Upload host errors table`);
   else if (hostRows.get(c) !== r.status) problems.push(`upload host code ${c}: the table says ${hostRows.get(c)}, keel's list says ${r.status}`);
 }
-for (const c of hostRows.keys()) if (!codes[c]?.host) problems.push(`the Upload Host Errors table lists ${c}, which keel's list does not have as a host code`);
+for (const c of hostRows.keys()) if (!codes[c]?.host) problems.push(`the Upload host errors table lists ${c}, which keel's list does not have as a host code`);
 
 // ---- the contract's floor rows -----------------------------------------------------------------
 const tsv = readFileSync(CONTRACT, 'utf8');

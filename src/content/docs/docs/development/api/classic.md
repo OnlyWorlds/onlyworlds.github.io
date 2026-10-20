@@ -3,7 +3,7 @@ title: Classic API
 description: The original OnlyWorlds API dialect at /api/worldapi/, kept unchanged for existing clients.
 ---
 
-The original API remains available and unchanged at `/api/worldapi/`. It is supported for existing clients and many older tools, guides and SDK releases use it. It is frozen: it gets no new routes or fields, it has no retirement date, and any removal would be announced six months ahead, as [Stability](/docs/development/api-reference#stability) says. **New work should use the current API** ([API Reference](/docs/development/api-reference)). The two dialects serve the same data and differ most in how link fields are named.
+The original API remains available and unchanged at `/api/worldapi/`. It is supported for existing clients and many older tools, guides and SDK releases use it. It is frozen: it gets no new routes or fields, it has no retirement date, and any removal would be announced six months ahead, as [Stability](/docs/development/api-reference#stability) says. **New work should use the current API** ([API reference](/docs/development/api-reference)). The two dialects serve the same data and differ most in how link fields are named.
 
 :::caution
 The `_ids` and `_id` suffixes on this page belong to the Classic API only. In `/api/v2/` and `/bulk`, link fields are bare names in both directions (`friends`, `location`), and sending `friends_ids` there is a `422`.
@@ -33,7 +33,7 @@ curl -s "https://www.onlyworlds.com/api/worldapi/character/{uuid}/" \
   -H "API-Key: {key}" -H "API-Pin: {pin}"
 ```
 
-## Link Fields
+## Link fields
 
 Multi-link fields use different names for reading and writing:
 
@@ -42,7 +42,7 @@ Multi-link fields use different names for reading and writing:
 | GET (read) | `characters` | The linked elements, as stub objects `{id, name, …}` |
 | POST, PATCH (write) | `characters_ids` | A list of UUIDs |
 
-Single-link fields take the `_id` suffix on write (for example `location_id`). The current API has no such asymmetry: see [Link Fields](/docs/development/api/links).
+Single-link fields take the `_id` suffix on write (for example `location_id`). The current API has no such asymmetry: see [Link fields](/docs/development/api/links).
 
 ## Errors
 

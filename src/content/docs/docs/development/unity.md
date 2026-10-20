@@ -33,7 +33,7 @@ To pin a release, add a tag from the [repository's tags](https://github.com/Only
 
 The package ships a **Quick Start** sample (Package Manager → OnlyWorlds SDK → Samples). It reads a world at runtime, from the API or from a cache asset, and shows nullable fields, link resolution and error handling.
 
-## Read a World
+## Read a world
 
 No account yet? The demo key `0000000001` reads Moppetopia, a public sample world, with no PIN. It's the same key the
 other SDKs start with, so the output matches theirs.
@@ -74,7 +74,7 @@ public class ReadWorld : MonoBehaviour
 
 **Dates on the world's own calendar.** `OWCalendar` reads a world's calendar (the `atlas_calendar` field Atlas writes) and formats and parses dates the way Atlas and the [TypeScript SDK](/docs/development/typescript) do; `OWCalendarLens.WorldCalendars` finds the calendars a world holds. A missing or malformed calendar reads as `null`. Since v0.5.0.
 
-## Ship a World With Your Game
+## Ship a world with your game
 
 A cache is a world stored as an asset in your project. Fill it in the Editor, and the build carries it: no network, no key and no waiting at runtime.
 
@@ -96,7 +96,7 @@ The same steps run from code. `OWSync.BaselineAsync(client, cache)` fetches the 
 
 **A downloaded world file.** `OWEnvelopeLoader.LoadInto(cache, path)` fills a cache from the one-file export an owner downloads from their world's page (`format: onlyworlds-world-export`), read-only: the file is a capture, with nothing to sync and no folder to write back to. `OWEnvelopeReader.Read(path)` returns what a folder read returns, plus the file's `SchemaVersion` and `ExportedAt`. A file whose `format` is anything else is refused whole. The file carries no images, members or time settings. (On `main` after v0.6.0.)
 
-## Join by a Link
+## Join by a link
 
 A friend with no account can join a world from a [player link](/docs/development/api/members#player-links), and an AI agent from an [agent link](/docs/development/agents). `OWJoin.ParseLink(text)` takes the code out of a pasted link (`…/join#ow_j_…`) or a bare code. `OWJoin.PreviewAsync(code, transport)` (no key needed: pass `new UnityWebRequestTransport()`) says who the code is for (`Reader`: `player`, `agent` or `person`), the world and the role, without using the code. `OWJoin.RedeemAsync(code, transport, name: …)` spends it: a player gets a read key (`ow_r_`, no PIN) and the Character they read as; an agent, with `agentName`, gets its seat's write key and secret. The answer is shown once, so keep `Key` (and an agent's `Pin`) before anything else. A person's link is joined with an account on onlyworlds.com, not here. Every bad code (used, expired, revoked, unknown) is the same `404`. (On `main` after v0.6.0.)
 
@@ -124,7 +124,7 @@ await edit.CommitAsync(client, "character"); // sends { "level": 12 } and nothin
 
 `OWFolderWriter` writes elements and the world into a world folder, byte for byte as the format specifies, so a folder kept in git doesn't change from one machine to the next. `OWFolderExport.ExportAsync(client, folder)` writes a whole account world into a world folder, map images included, the same files the Python package's `export_world` writes.
 
-## Common Pitfalls
+## Common pitfalls
 
 - **`""` is how a string field is unset.** The API never sends `null` for text. Test with `string.IsNullOrEmpty`, never `== null`. A single link is different: its unset value is `null`.
 - **`null` is not `0`.** Nullable numbers are `SerializableNullable<T>`, which keeps unset, a deliberate zero and absent apart. You can assign a plain `T`, but reading one makes you handle the unset case. The Inspector shows unset as `--`, never as `0`.

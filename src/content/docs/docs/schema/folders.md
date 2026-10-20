@@ -1,5 +1,5 @@
 ---
-title: World Folders
+title: World folders
 description: The folder format a world can live in on disk, and the rules a tool follows to read and write one.
 ---
 
@@ -47,7 +47,7 @@ Two keys are required: `id` (a non-empty string) and `name` (a string, which may
 }
 ```
 
-## Element Files
+## Element files
 
 An element file must hold a non-empty string `id`. The rest are the category's [fields](/docs/schema/fields), link fields under bare names holding an id or a list of ids, as in the API. Trimmed:
 
@@ -86,7 +86,7 @@ A snapshot is a frozen copy of a world at one moment, such as a chapter's end.
 
 The writer mints a fresh world id and keeps every element id; a re-capture under the same label keeps the snapshot's id. It copies `name` exactly and every `world.json` key the source had, keeps `change_seq`, `created_at`, `updated_at` and `type` as received, and writes no `.<tool>/` folder. If the change cursor moved during the walk it fails, or on an explicit override sets `snapshot_torn: true`.
 
-## Who Reads and Writes Folders
+## Who reads and writes folders
 
 | Tool | With folders |
 | :--- | :--- |
@@ -98,11 +98,11 @@ The writer mints a fresh world id and keeps every element id; a re-capture under
 | [Azgaar converter](https://github.com/OnlyWorlds/azgaar-converter) | Azgaar map in, as a folder |
 | [Foundry converter](https://github.com/OnlyWorlds/foundry-converter) | Folder out, to Foundry VTT |
 
-### Known-Of Elements
+### Known-of elements
 
-A guest's or player's export can hold elements its Character only [knows of](/docs/development/api/members#known-of): stubs marked `known_of: true`. A stub on disk keeps `known_of`, the keys a stub always keeps (`id`, `type`, `name`, `description`, `supertype`, `subtype`, `image_url`, `created_at`, `updated_at`, `change_seq`) and every other field it was served with a value, such as a Character's public fields; its unset fields are left out, never written as empty values. A reader treats such a file as known of, never whole: a missing field is unknown, not empty. A writer never pushes it. When the element later arrives whole, it is written whole and `known_of` goes. The other way round, a whole element arriving as a stub (the reader lost a grant) follows the reset that brought it: after a `view` reset the stub replaces the whole copy, since what the reader may see narrowed; after a `role` reset, or with no reset at all (a folder handed over, another server), a tool that merges into an existing folder keeps the whole copy as last known. keel's own feed always narrows a view with a `view` reset ([What a Reset Keeps](/docs/development/api/changes#what-a-reset-keeps)).
+A guest's or player's export can hold elements its Character only [knows of](/docs/development/api/members#known-of): stubs marked `known_of: true`. A stub on disk keeps `known_of`, the keys a stub always keeps (`id`, `type`, `name`, `description`, `supertype`, `subtype`, `image_url`, `created_at`, `updated_at`, `change_seq`) and every other field it was served with a value, such as a Character's public fields; its unset fields are left out, never written as empty values. A reader treats such a file as known of, never whole: a missing field is unknown, not empty. A writer never pushes it. When the element later arrives whole, it is written whole and `known_of` goes. The other way round, a whole element arriving as a stub (the reader lost a grant) follows the reset that brought it: after a `view` reset the stub replaces the whole copy, since what the reader may see narrowed; after a `role` reset, or with no reset at all (a folder handed over, another server), a tool that merges into an existing folder keeps the whole copy as last known. keel's own feed always narrows a view with a `view` reset ([What a reset keeps](/docs/development/api/changes#what-a-reset-keeps)).
 
-## Rules for Tools
+## Rules for tools
 
 **Reading**
 

@@ -1,5 +1,5 @@
 ---
-title: API Error Reference
+title: API error reference
 description: Every error code the OnlyWorlds API returns, what causes it, and how to fix it.
 ---
 
@@ -25,7 +25,7 @@ Every error from the current API (`/api/v2/`, including `/bulk` and `/changes`) 
 | `param` | The field or query parameter at fault, when there is one; otherwise `null` |
 | `doc_url` | This page, at the code's section (`#<code>`) |
 
-Each code has its own section below, and the summary table lists them all. A fetch of this page gets every section; each code's section has the id `<code>`, so `doc_url`'s `#<code>` lands on it. The same page as Markdown is at [`/api/errors.md`](/api/errors.md), where each section is the heading `### <code>`. In `/bulk`, each failed item carries this same envelope: see [Bulk Errors](#bulk-errors). MCP tools report failures as tool errors carrying the same human message, without the envelope fields.
+Each code has its own section below, and the summary table lists them all. A fetch of this page gets every section; each code's section has the id `<code>`, so `doc_url`'s `#<code>` lands on it. The same page as Markdown is at [`/api/errors.md`](/api/errors.md), where each section is the heading `### <code>`. In `/bulk`, each failed item carries this same envelope: see [Bulk errors](#bulk-errors). MCP tools report failures as tool errors carrying the same human message, without the envelope fields.
 
 :::note
 The [Classic API](/docs/development/api/classic) at `/api/worldapi/` answers in its own legacy shape, `{"detail": …}`. The codes on this page apply to `/api/v2/` only.
@@ -33,7 +33,7 @@ The [Classic API](/docs/development/api/classic) at `/api/worldapi/` answers in 
 
 Some errors carry extra top-level keys beside `error`, named in their row: `precondition_failed` carries `current`, the element as it is now, and `gone` carries the deletion's `change_seq` and `deleted_at`. Read the body whole; the envelope is not a closed shape.
 
-## Error Codes
+## Error codes
 
 <!-- generated:error-codes (scripts/gen_errors.mjs, from contract/error-codes.json) -->
 | Code | Type | Status | What happened |
@@ -126,7 +126,7 @@ A guest's or a contributor's `/changes` cursor is from before a change to what t
 
 The envelope carries `reason` beside the five fields: `role` (your own role or membership moved) or `view` (something left your view: a delete, a hide, an unhide, a Character change). When both happened since your cursor, it says `role`. A page of the feed then carries `epoch_reason` beside `epoch`: why the epoch last moved, with the same two values.
 
-- **How to fix:** pull the feed again from `since=0`. With `reason` `role`, keep what your copy holds that the new walk does not name; with `view`, drop it; with no `reason` (an older server), keep it: a reset never empties a copy. A tool never empties a copy on its own. See [What a Reset Keeps](/docs/development/api/changes#what-a-reset-keeps), [Guests' Cursors](/docs/development/api/changes#guests-cursors) and [The Contributor's Cursor](/docs/development/api/hidden#the-contributors-cursor).
+- **How to fix:** pull the feed again from `since=0`. With `reason` `role`, keep what your copy holds that the new walk does not name; with `view`, drop it; with no `reason` (an older server), keep it: a reset never empties a copy. A tool never empties a copy on its own. See [What a reset keeps](/docs/development/api/changes#what-a-reset-keeps), [Guests' cursors](/docs/development/api/changes#guests-cursors) and [The contributor's cursor](/docs/development/api/hidden#the-contributors-cursor).
 
 ### already_member
 
@@ -158,7 +158,7 @@ The owner tried to change a player seat's role: a player (no account) reads as a
 
 The owner tried to set a hidden Character as the one an agent seat or a player plays (`character` on the member's `PATCH`, or Plays on the members table; `param` `character`). A played Character is on every reader's roster, so a hidden one can never be picked, by anyone.
 
-- **How to fix:** unhide the Character first, or pick another. See [Playing a Hidden Character](/docs/development/api/hidden#playing-a-hidden-character).
+- **How to fix:** unhide the Character first, or pick another. See [Playing a hidden Character](/docs/development/api/hidden#playing-a-hidden-character).
 
 ### character_taken
 
@@ -216,7 +216,7 @@ The API key or PIN is missing, unknown or wrong.
 The API key was recognized but has been revoked.
 
 - **Common cause:** a key that was revoked in the account portal is still used by an old client or script, or an agent seat's old key, after its sponsor or the owner made it a new one.
-- **How to fix:** mint a new key in the [account portal](https://www.onlyworlds.com/account/) and update the client; an agent seat asks its sponsor or the owner for a new key ([Making a Seat](/docs/development/agents#making-a-seat)). Revocation is permanent for that key.
+- **How to fix:** mint a new key in the [account portal](https://www.onlyworlds.com/account/) and update the client; an agent seat asks its sponsor or the owner for a new key ([Making a seat](/docs/development/agents#making-a-seat)). Revocation is permanent for that key.
 
 ### permission_error
 
@@ -233,7 +233,7 @@ The credential is valid but lacks the scope for this route.
 
 A contributor or guest key changed, replaced, relinked or deleted an element someone else created. In `/bulk` it is reported per item.
 
-- **How to fix:** these roles change only their own elements (`created_by` names the creator). Ask the owner for the co-builder role, or leave the element alone. One exception: a seat the owner gave a Character to play may change it, never delete it ([After Joining](/docs/development/agents#after-joining)). See [Roles](/docs/development/api/members#roles).
+- **How to fix:** these roles change only their own elements (`created_by` names the creator). Ask the owner for the co-builder role, or leave the element alone. One exception: a seat the owner gave a Character to play may change it, never delete it ([After joining](/docs/development/agents#after-joining)). See [Roles](/docs/development/api/members#roles).
 
 ### owner_only
 
@@ -249,7 +249,7 @@ A member key tried to change the world's own fields (`PATCH /api/v2/world`). The
 
 A member key sent `as` on a read that takes it (an element get or list, search, the metadata routes). Reading as another reader is the owner's: only a key with no member, the owner's own keys or a legacy key, may send it.
 
-- **How to fix:** send `as` with one of the owner's keys, or leave it out. A member key reads as itself. See [View As](/docs/development/api/hidden#view-as).
+- **How to fix:** send `as` with one of the owner's keys, or leave it out. A member key reads as itself. See [View as](/docs/development/api/hidden#view-as).
 
 ### guest_not_supported
 
@@ -367,7 +367,7 @@ Every request slot on the server stayed full for 10 seconds.
 
 **Type** `api_error` · **Status** `502`
 
-`POST /api/v2/account/ask`: the model behind [Ask Your World](/docs/development/ai#ask-your-world-without-a-key-of-your-own) gave no answer. The question was not counted against the day's token rating.
+`POST /api/v2/account/ask`: the model behind [Ask your world](/docs/development/ai#ask-your-world-without-a-key-of-your-own) gave no answer. The question was not counted against the day's token rating.
 
 - **How to fix:** try again in a moment.
 
@@ -403,7 +403,7 @@ Image or file upload is not configured on the server right now: `POST /api/v2/me
 
 - **How to fix:** retry later, or use an image hosted elsewhere. If it persists, report it to [info@onlyworlds.com](mailto:info@onlyworlds.com).
 
-## Bulk Errors
+## Bulk errors
 
 `POST /api/v2/bulk` answers HTTP `200` once the batch is read. (A malformed request, such as bad JSON, `items` not an array or over 1000 items, or an authentication failure answers with its own status and the envelope.) Success and failure are reported **per item**, in request order, under a top-level `errors` flag:
 
@@ -437,7 +437,7 @@ The item passed validation but the write itself failed a database constraint. Th
 
 - **How to fix:** give the element a new UUID, or remove the other copy.
 
-## Upload Host Errors
+## Upload host errors
 
 The upload host, `upload.onlyworlds.com`, takes [images](/docs/development/api/images) and [files](/docs/development/api/files). It is not part of the API and answers errors in its own shape, `{"error": "<code>"}`. Its open paths are `POST https://upload.onlyworlds.com/v1/upload` and [`POST /v1/remove`](/docs/development/api/images#removing-an-image) for images, and `POST /v1/file` for a file (the `upload_url` of a file ticket); the host's root and every other path redirect to a login on purpose, and are not for browsers. A successful image upload answers `201` with `{url, key, bytes, type, etag}`, a file upload with `{key, fid, bytes, type, etag}`.
 
@@ -453,7 +453,7 @@ The upload host, `upload.onlyworlds.com`, takes [images](/docs/development/api/i
 | `405` | `method_not_allowed` | Only `POST` uploads. |
 | `409` | `exists` | An image: that `X-Key` is taken and objects are never overwritten; choose another, or omit `X-Key`. A file: its ticket was already used and the file is stored, so a retry after a success reads this as done. |
 | `413` | `too_large` | The image or file is over the ticket's `max_bytes`. |
-| `415` | `unsupported_type` | An image: send webp, png, jpeg or avif (the type is read from the bytes; no SVG). A file: its bytes are not its kind, or a zip is not a world's bundle ([What a File Can Be](/docs/development/api/files#what-a-file-can-be)); nothing was stored and the ticket is still unspent, and the `reason` field names the cause. |
+| `415` | `unsupported_type` | An image: send webp, png, jpeg or avif (the type is read from the bytes; no SVG). A file: its bytes are not its kind, or a zip is not a world's bundle ([What a file can be](/docs/development/api/files#what-a-file-can-be)); nothing was stored and the ticket is still unspent, and the `reason` field names the cause. |
 | `502` | `write_failed` | Nothing was stored and the ticket is still unspent: retry with the same ticket. |
 | `403` | `not_removable` | The image was not uploaded into the removal ticket's world with a ticket, so it can't be removed this way. |
 | `502` | `remove_failed` | Nothing was removed and the removal ticket is still unspent: retry with the same ticket. |

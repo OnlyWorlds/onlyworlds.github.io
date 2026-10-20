@@ -7,7 +7,7 @@ An element can carry files: a PDF, a text file or a world's own bundle, kept on 
 
 As with [images](/docs/development/api/images), the API never handles the bytes: it issues a ticket, and the upload host takes the file. The world's owner can also add, download and remove files on an element's page on onlyworlds.com. In TypeScript, the [SDK](/docs/development/typescript) does both steps in one call, `uploadFile`, beside `listFiles`, `fileDownloadLink`, `removeFile` and `worldFiles` (since 4.32.0).
 
-## What a File Can Be
+## What a file can be
 
 | Kind | The name ends in | The upload host checks |
 |:--|:--|:--|
@@ -23,7 +23,7 @@ Any other kind is refused when the ticket is asked for, a `422` [`invalid_reques
 - **250 MB a world** (262,144,000 bytes): all its files together, whoever added them. A file that would pass it is `403` [`files_full`](/api/errors/#files_full). Images are counted apart, against the uploading account ([Images](/docs/development/api/images#limits)).
 - **200 file tickets a world in 24 hours.** More is `429` [`quota_exceeded`](/api/errors/#quota_exceeded), with `Retry-After`. A ticket counts whether or not its upload happened.
 
-## Who May Do What
+## Who may do what
 
 | To | Who |
 |:--|:--|
@@ -45,9 +45,9 @@ An agent seat adds files with its own key and secret, as its role allows, and co
 
 Answers with a body carry `Cache-Control: no-store`. The OpenAPI document also lists `POST /api/v2/files/uploaded` and `POST /api/v2/files/removed`: those are the upload host's signed reports to the API, not routes for clients.
 
-## Adding a File
+## Adding a file
 
-### 1. Get a Ticket
+### 1. Get a ticket
 
 ```bash
 curl -s -X POST "https://www.onlyworlds.com/api/v2/character/{id}/files" \
@@ -79,7 +79,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/character/{id}/files" \
 
 This route takes no `Idempotency-Key`: the single-use ticket does that job. A header sent is ignored, and a second `POST` is a second ticket.
 
-### 2. Upload the Bytes
+### 2. Upload the bytes
 
 ```bash
 curl -s -X POST "{upload_url}" \
@@ -93,9 +93,9 @@ The body is the file's raw bytes, with a `Content-Length` header. `201`: `{key, 
 - A ticket that already uploaded answers `409` `exists`: the file is stored, so a retry after a success reads this as done.
 - A file whose bytes are not its kind answers `415` `unsupported_type`, and nothing is stored.
 
-The upload host answers errors in its own shape: see [Upload Host Errors](/api/errors/#upload-host-errors).
+The upload host answers errors in its own shape: see [Upload host errors](/api/errors/#upload-host-errors).
 
-## Listing Files
+## Listing files
 
 `GET /api/v2/{type}/{id}/files` answers `{data: [...]}`, newest first:
 
@@ -104,7 +104,7 @@ The upload host answers errors in its own shape: see [Upload Host Errors](/api/e
 | `id` | The file's id |
 | `name`, `kind`, `size` | As uploaded; `size` in bytes, as the upload host stored them |
 | `label` | The label, or `null` |
-| `added_by` | `{name, membership, agent}`: a member's or a seat's name (the owner's username for the owner's keys), the membership id (`null` for the owner's keys), and `true` when an agent added it: a seat, the MCP server, or a key that declared an agent ([Agent Writes](/docs/development/api/writes#agent-writes)) |
+| `added_by` | `{name, membership, agent}`: a member's or a seat's name (the owner's username for the owner's keys), the membership id (`null` for the owner's keys), and `true` when an agent added it: a seat, the MCP server, or a key that declared an agent ([Agent writes](/docs/development/api/writes#agent-writes)) |
 | `added_at` | When the upload host reported it stored |
 
 `GET /api/v2/world/files` lists every file the key may see, each row with its element's `element_type` and `element_id`, plus the world's total: `used_bytes` and `cap_bytes`.
@@ -117,11 +117,11 @@ curl -s "https://www.onlyworlds.com/api/v2/world/files" -H "API-Key: 0000000001"
 {"data": [], "used_bytes": 0, "cap_bytes": 262144000}
 ```
 
-## Downloading a File
+## Downloading a file
 
 `GET /api/v2/{type}/{id}/files/{file_id}/download` answers `{url, exp, name, kind, size}`. The `url` is on `files.onlyworlds.com` and needs no key: the link is the credential. It lives 5 minutes (`exp`, in Unix seconds) and may be fetched more than once, so a PDF viewer's range requests work. The host sends the file as an attachment under its `name`, never shown inside a page, and lets any origin fetch it. For a link past its time, ask for a new one.
 
-## Removing a File
+## Removing a file
 
 ```bash
 curl -s -X DELETE "https://www.onlyworlds.com/api/v2/character/{id}/files/{file_id}" \
