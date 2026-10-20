@@ -54,6 +54,16 @@
     "status": 422,
     "summary": "The owner tried to set a hidden Character as the one a seat or a player plays (`param` character): a played Character is on every reader's roster, so a hidden one can never be picked. Unhide it first, or pick another."
   },
+  "character_taken": {
+    "type": "invalid_request",
+    "status": 422,
+    "summary": "A player picked a Character from a party link's list that a live seat in the world already plays (`param` character): pick another from the list. The preview marks each listed Character `taken`."
+  },
+  "world_full": {
+    "type": "invalid_request",
+    "status": 422,
+    "summary": "A player link was opened in a world that already has its 50 live players: nothing was spent, and the link works again once the owner removes a player."
+  },
   "apply_failed": {
     "type": "invalid_request",
     "status": 422,

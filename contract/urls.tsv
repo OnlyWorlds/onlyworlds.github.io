@@ -113,6 +113,8 @@
 /api/errors#precondition_failed	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#player_role_fixed	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#character_hidden	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#character_taken	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#world_full	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#file_too_large	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#invalid_credentials	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#key_revoked	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
