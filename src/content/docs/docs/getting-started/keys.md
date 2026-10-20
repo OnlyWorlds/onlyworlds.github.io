@@ -31,7 +31,7 @@ The header names are exactly `API-Key` and `API-Pin`. The key alone determines t
 
 ## Demo Keys
 
-The legacy keys `0000000000` to `0000000009` are reserved for demo worlds. They are read-only on every route (a write is `403` [`permission_error`](/api/errors/#permission_error)) and read without a PIN. These answer today:
+The legacy keys `0000000000` to `0000000009` are reserved for demo worlds. They are read-only on every route (a write is `403` [`permission_error`](/api/errors/#permission_error)) and read without a PIN. A demo key is one of these ten on a world open to read; a world's own keys are never demo keys, even when the world is open to read (keel, 2026-10-20). These answer today:
 
 | Key | World | Try |
 |:--|:--|:--|
@@ -45,7 +45,7 @@ The rest of the range is not for public use; unassigned keys answer `401` [`inva
 The PIN is a 4-digit number (1000 to 9999) set on your account in [account settings](https://www.onlyworlds.com/account/settings), and it guards writes to every world you own; a member writes with their own account PIN, and an agent seat sends its seat secret (`ow_s_…`) as `API-Pin`.
 
 - **A world with a PIN requires it on every write.** New worlds always have one. An account without a PIN chooses it when creating its first world, and changing it in account settings changes it on every world the account owns.
-- **Reads with a prefixed key (`ow_w_`, `ow_r_`) never need the PIN.** Only a legacy 10-digit key reading a private world must send it. A PIN that is sent is checked all the same: a wrong one is refused on a read too, so a connection test learns of it at once. A demo key never checks it, and a member's key checks it only on a write.
+- **Reads with a prefixed key (`ow_w_`, `ow_r_`) never need the PIN.** Only a legacy 10-digit key (other than the demo keys) must send it, on every read of a world that has a PIN, whether or not the world is open to read. A PIN that is sent is checked all the same: a wrong one is refused on a read too, so a connection test learns of it at once. A demo key never checks it, and a member's key checks it only on a write.
 - Failed PIN attempts are throttled. Too many answer `429` [`rate_limited`](/api/errors/#rate_limited) with a `Retry-After` header, and repeated failures escalate to a temporary lockout.
 
 Creating a world through the API with an account token: an account without a PIN sends `pin` (4 digits, 1000 to 9999) with its first world; an account that has one sends `name` only, and a `pin` alongside it is a `422`.
@@ -77,7 +77,7 @@ curl -s "https://www.onlyworlds.com/api/v2/me" -H "API-Key: {key}"
 
 ### Checking the PIN
 
-Send the PIN with a read and the read checks it. `/me` and every read take the key alone (except a legacy key reading a private world), but a PIN that comes with the request is checked all the same, so `GET /api/v2/me` with the key and the PIN confirms both. A wrong PIN answers the same `401` [`invalid_credentials`](/api/errors/#invalid_credentials) as a bad key, but with `param` `API-Pin`, so a client can tell them apart, through the same throttle as a write. An empty `API-Pin` header counts as none. Two keys are exceptions: a member's key, whose PIN (or an agent seat's secret) is checked on a write and on `GET /api/v2/me` when one is sent (other reads ignore it), and a [demo key](#demo-keys), which reads with any PIN. The `message` tells the failures apart:
+Send the PIN with a read and the read checks it. `/me` and every read take the key alone (except a legacy key, which sends its PIN on every read), but a PIN that comes with the request is checked all the same, so `GET /api/v2/me` with the key and the PIN confirms both. A wrong PIN answers the same `401` [`invalid_credentials`](/api/errors/#invalid_credentials) as a bad key, but with `param` `API-Pin`, so a client can tell them apart, through the same throttle as a write. An empty `API-Pin` header counts as none. Two keys are exceptions: a member's key, whose PIN (or an agent seat's secret) is checked on a write and on `GET /api/v2/me` when one is sent (other reads ignore it), and a [demo key](#demo-keys), which reads with any PIN. The `message` tells the failures apart:
 
 | Answer | `message` | Meaning |
 |:--|:--|:--|
