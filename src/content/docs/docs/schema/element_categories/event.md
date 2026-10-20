@@ -46,7 +46,7 @@ Events are about what happens. The rest of the schema gives it meaning, context,
 
 | Field | Type | Description |
 |---|---|---|
-| `characters` | links to Character | Key characters relevant to the event |
+| `characters` | links to Character | Characters who know about the event: they were present, aware of it, or involved in it |
 | `objects` | links to Object | Objects relevant to the event |
 | `locations` | links to Location | Locations relevant to the event |
 | `species` | links to Species | Species relevant to the event |
