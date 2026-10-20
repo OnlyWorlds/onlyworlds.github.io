@@ -85,6 +85,11 @@ header.header {
 .sl-markdown-content a:not(:where(.not-content *)):hover {
   border-bottom-color: currentColor;
 }
+/* In a light aside the link reads on its tint, not on white: #0e7490 on the note's
+   blue was 3.69:1 (OW Style F-42); the deeper accent clears AA on every aside tint */
+:root[data-theme='light'] .sl-markdown-content .starlight-aside a:not(:where(.not-content *)) {
+  color: var(--sl-color-accent-high);
+}
 
 /* Headings: one weight, no shouting */
 .sl-markdown-content :is(h1, h2, h3, h4) { font-weight: 700; letter-spacing: -0.005em; }
