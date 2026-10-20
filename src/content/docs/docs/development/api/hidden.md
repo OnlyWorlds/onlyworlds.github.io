@@ -7,6 +7,8 @@ The world's owner and its co-builders can **hide** an element: a twist the playe
 
 The mark is a record beside the element, not a field. Hiding or unhiding leaves the element's body and its `change_seq` alone, and nothing in the body says it is hidden.
 
+![Who sees what in a world: owner, co-builder, contributor, guest, player and public, with the hidden mark](/assets/images/reader-ladder.svg)
+
 ## Who Sees a Hidden Element
 
 | Reader | Sees |

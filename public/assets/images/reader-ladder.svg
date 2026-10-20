@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1094" width="1600" height="1094" font-family="Segoe UI, system-ui, sans-serif">
+<defs>
+  <pattern id="hid" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" fill="#1a1405"/><line x1="0" y1="0" x2="0" y2="10" stroke="#e0a458" stroke-width="3" stroke-opacity=".75"/></pattern>
+  <style>
+    .t{font:600 34px Georgia,serif;fill:#ece4d8} .s{font:400 17px "Segoe UI",sans-serif;fill:#a39a8c}
+    .rn{font:600 24px Georgia,serif;fill:#ece4d8} .rw{font:400 14.5px "Segoe UI";fill:#a39a8c} .rh{font:400 13px "Segoe UI";fill:#7d756a}
+    .gets{font:400 16.5px/1.4 "Segoe UI",sans-serif;color:#ddd5c8} .k{font:600 12px "Segoe UI";letter-spacing:.14em;fill:#8b8378}
+    .lg{font:400 14px "Segoe UI";fill:#a39a8c} .amb{fill:#e0a458} .foot{font:400 13.5px "Segoe UI";fill:#8b8378}
+  </style>
+</defs>
+<rect width="1600" height="1094" fill="#14110f"/>
+<text x="56" y="70" class="t">Who sees what in a world</text>
+<text x="56" y="104" class="s">One rule decides, at every door. A hidden element is left out of every answer except the owner's, a co-builder's, and its own creator's.</text>
+<text x="56" y="136" class="s">Each bar is the world, left to right; the striped band is what the owner has hidden. Shapes, not shares: the bars are not to scale.</text>
+<text x="56" y="204" class="k">READER</text><text x="440" y="204" class="k">WHAT THEY SEE OF THE WORLD</text><text x="1004" y="204" class="k">WHAT THEY GET</text>
+<rect x="887.2" y="220" width="72.8" height="666" fill="url(#hid)" fill-opacity=".30"/>
+<text x="923.6" y="204" class="k amb" text-anchor="middle">HIDDEN</text>
+
+  <text x="56" y="266" class="rn">Owner</text>
+  <text x="56" y="288" class="rw">the person whose world it is</text>
+  <text x="56" y="312" class="rh">in by: the site, their own keys</text>
+  <rect x="440" y="254" width="520" height="34" fill="#1c1814" stroke="#2c2723"/>
+  <rect x="440.0" y="254" width="447.2" height="34" fill="#5cc4c0" fill-opacity=".85"/><rect x="887.2" y="254" width="72.8" height="34" fill="#5cc4c0" fill-opacity=".85"/>
+  <foreignObject x="1004" y="242" width="540" height="92"><div xmlns="http://www.w3.org/1999/xhtml" class="gets">Everything, hidden included. Sets the hidden mark.</div></foreignObject>
+  <line x1="40" x2="1560" y1="338" y2="338" stroke="#241f1b"/>
+  <text x="56" y="378" class="rn">Co-builder</text>
+  <text x="56" y="400" class="rw">a person or an AI seat</text>
+  <text x="56" y="424" class="rh">in by: an invitation</text>
+  <rect x="440" y="366" width="520" height="34" fill="#1c1814" stroke="#2c2723"/>
+  <rect x="440.0" y="366" width="447.2" height="34" fill="#5cc4c0" fill-opacity=".85"/><rect x="887.2" y="366" width="72.8" height="34" fill="#5cc4c0" fill-opacity=".85"/>
+  <foreignObject x="1004" y="354" width="540" height="92"><div xmlns="http://www.w3.org/1999/xhtml" class="gets">Everything, hidden included. Sets the hidden mark.</div></foreignObject>
+  <line x1="40" x2="1560" y1="450" y2="450" stroke="#241f1b"/>
+  <text x="56" y="490" class="rn">Contributor</text>
+  <text x="56" y="512" class="rw">a person or an AI seat</text>
+  <text x="56" y="536" class="rh">in by: an invitation</text>
+  <rect x="440" y="478" width="520" height="34" fill="#1c1814" stroke="#2c2723"/>
+  <rect x="440.0" y="478" width="447.2" height="34" fill="#5cc4c0" fill-opacity=".85"/><rect x="887.2" y="478" width="20.8" height="34" fill="#5cc4c0" fill-opacity=".85"/><rect x="908.0" y="478" width="52.0" height="34" fill="#2a2520"/>
+  <foreignObject x="1004" y="466" width="540" height="92"><div xmlns="http://www.w3.org/1999/xhtml" class="gets">Everything except what is hidden, and always what they made themselves.</div></foreignObject>
+  <line x1="40" x2="1560" y1="562" y2="562" stroke="#241f1b"/>
+  <text x="56" y="602" class="rn">Guest</text>
+  <text x="56" y="624" class="rw">a person with an account</text>
+  <text x="56" y="648" class="rh">in by: an invitation</text>
+  <rect x="440" y="590" width="520" height="34" fill="#1c1814" stroke="#2c2723"/>
+  <rect x="440.0" y="590" width="156.0" height="34" fill="#5cc4c0" fill-opacity=".85"/><rect x="596.0" y="590" width="291.2" height="34" fill="#2a2520"/><rect x="887.2" y="590" width="20.8" height="34" fill="#5cc4c0" fill-opacity=".85"/><rect x="908.0" y="590" width="52.0" height="34" fill="#2a2520"/>
+  <foreignObject x="1004" y="578" width="540" height="92"><div xmlns="http://www.w3.org/1999/xhtml" class="gets">What they made (always), what their Character is in or knows, and who is in the world. Not what is hidden.</div></foreignObject>
+  <line x1="40" x2="1560" y1="674" y2="674" stroke="#241f1b"/>
+  <text x="56" y="714" class="rn">Player</text>
+  <text x="56" y="736" class="rw">a friend with no account</text>
+  <text x="56" y="760" class="rh">in by: a player link, once</text>
+  <rect x="440" y="702" width="520" height="34" fill="#1c1814" stroke="#2c2723"/>
+  <rect x="440.0" y="702" width="124.8" height="34" fill="#5cc4c0" fill-opacity=".85"/><rect x="564.8" y="702" width="395.2" height="34" fill="#2a2520"/>
+  <foreignObject x="1004" y="690" width="540" height="92"><div xmlns="http://www.w3.org/1999/xhtml" class="gets">The guest&#x27;s view as one Character, read-only (a player never writes): &quot;You play Wrinkles. You see what Wrinkles knows.&quot;</div></foreignObject>
+  <line x1="40" x2="1560" y1="786" y2="786" stroke="#241f1b"/>
+  <text x="56" y="826" class="rn">Public</text>
+  <text x="56" y="848" class="rw">anyone, no key</text>
+  <text x="56" y="872" class="rh">in by: nothing, if the owner turns it on</text>
+  <rect x="440" y="814" width="520" height="34" fill="#1c1814" stroke="#2c2723"/>
+  <rect x="440.0" y="814" width="416.0" height="34" fill="#5cc4c0" fill-opacity=".85"/><rect x="856.0" y="814" width="104.0" height="34" fill="#2a2520"/>
+  <foreignObject x="1004" y="802" width="540" height="92"><div xmlns="http://www.w3.org/1999/xhtml" class="gets">Everything not hidden, no files in the first build. Off until the owner switches it on.</div></foreignObject>
+  <line x1="40" x2="1560" y1="898" y2="898" stroke="#241f1b"/>
+<g transform="translate(56,926)">
+  <rect width="14" height="14" y="-12" fill="#5cc4c0" fill-opacity=".85"/><text x="22" class="lg">seen</text>
+  <rect x="86" width="14" height="14" y="-12" fill="#2a2520" stroke="#2c2723"/><text x="108" class="lg">not seen</text>
+  <rect x="204" width="14" height="14" y="-12" fill="url(#hid)"/><text x="226" class="lg">hidden by the owner</text><text x="420" class="lg">The small piece inside the band, in the contributor and guest rows, is what that person made themselves: they keep seeing it.</text>
+</g>
+<foreignObject x="56" y="948" width="1480" height="60"><div xmlns="http://www.w3.org/1999/xhtml" class="gets" style="font-size:16px;color:#cfc7ba"><b>AI seats.</b> An AI seat sees what the role it has would see: a contributor seat the contributor&#x27;s row, a co-builder seat the co-builder&#x27;s. It never sees more than that.</div></foreignObject>
+<text x="56" y="1056" class="foot">Drawn by Seethe for the OnlyWorlds docs, 2026-10-20. Not to scale; a picture of the rule, not of any world.</text>
+</svg>
