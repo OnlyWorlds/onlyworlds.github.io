@@ -190,6 +190,23 @@ const reader = new OwV2Client({ apiKey: joined.key }); // a read key, no PIN, sh
 
 The code is spent on redeem, and the answer can't be replayed: if it is lost, the owner sees the row never used, and sends a new link.
 
+One player link can also seat a whole table (since 4.39.0; see [A Table of Players](/docs/development/api/members#a-table-of-players)). Each player picks one Character from the owner's list, and a refusal spends nothing:
+
+```typescript
+const table = await account.createWorldLink(worldId, { reader: 'player', maxUses: 4, characters: [aliceId, borinId] });
+// on each player's device:
+const seen = await phone.previewJoin(code);           // seen.uses_left, seen.characters: [{ id, name, image_url, taken }]
+try {
+  const joined = seen.name_required
+    ? await phone.redeemJoin(code, { name: 'Ana' })   // no list: a fresh Character named for the player
+    : await phone.redeemJoin(code, { character: seen.characters.find((c) => !c.taken).id });
+} catch (err) {
+  if (err.isCharacterTaken || err.isCharacterInvalid) { /* preview again and pick another */ }
+  else if (err.isWorldFull) { /* the world has its 50 players */ }
+  else throw err;
+}
+```
+
 Once in, a world key can ask who it is and who else is there (since 4.22.0; see [Who Am I](/docs/development/api/members#who-am-i)):
 
 ```typescript
