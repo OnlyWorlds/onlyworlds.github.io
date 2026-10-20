@@ -30,7 +30,7 @@ That is Hyperion's first page. The next call sends `?since=1:068e2e60-fc37-789e-
 | `has_more` | `true` if more pages remain |
 | `head` | The world's current change sequence |
 | `epoch` | A guest's or a contributor's view epoch ([Guests' Cursors](#guests-cursors)); `null` for the owner's and co-builders' keys |
-| `epoch_reason` | Why `epoch` last moved, `role` or `view` ([What a Reset Keeps](#what-a-reset-keeps)); `null` when `epoch` is. Only while keel's hidden mark is on |
+| `epoch_reason` | Why `epoch` last moved, `role` or `view` ([What a Reset Keeps](#what-a-reset-keeps)); `null` when `epoch` is |
 
 An `upsert` carries the whole element at its latest state, in the same body a [read](/docs/development/api/reads#what-an-element-carries) returns. A `delete` carries the id, `deleted_at`, who deleted it through which door (`deleted_by`, `deleted_via`: see [Agent Writes](/docs/development/api/writes#agent-writes)), and why, in `reason`: `deleted` for a tombstone, `hidden` for an element [hidden](/docs/development/api/hidden#the-feed) from this key. Remove the element from your copy either way.
 
@@ -101,7 +101,7 @@ A member's move to or from the guest or the contributor role resets its cursor: 
 
 ### What a Reset Keeps
 
-Sharing is [forward-only](/docs/development/api/members#sharing-a-world): what a reader has already read is theirs to keep, and a key or a role governs only what arrives next. While keel's hidden mark is on, the `409` says why in `reason`, inside `error`, and its message says what that reason means:
+Sharing is [forward-only](/docs/development/api/members#sharing-a-world): what a reader has already read is theirs to keep, and a key or a role governs only what arrives next. The `409` says why in `reason`, inside `error`, and its message says what that reason means:
 
 ```json
 { "error": { "type": "invalid_request", "code": "resync_required",
@@ -118,7 +118,7 @@ When both happened since your cursor, the answer is `role`. A `delete` op with `
 
 Every page and `?head=true` carry `epoch_reason` beside `epoch`, with the same values: why the epoch last moved (`view` for an epoch that never moved, `null` when `epoch` is `null`). It names the last move only. If your tip is more than one epoch past the one you applied, walk with your stored cursor and read the `409`'s `reason`, which covers every move since that cursor.
 
-With the hidden mark off, the `409` carries no `reason` and a page no `epoch_reason`: keep what your copy holds that the new walk does not name, since a reset never empties a copy.
+A `409` with no `reason` (from a server older than 2026-10-20) is kept like `role`: a reset never empties a copy.
 
 ## The Export File
 

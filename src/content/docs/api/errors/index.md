@@ -121,9 +121,9 @@ A `PATCH` or a link operation carried `If-Match` with a `change_seq`, and the el
 
 A guest's or a contributor's `/changes` cursor is from before a change to what that key can see, or the cursor is not this caller's shape (a guest's and a contributor's have three parts, the owner's and a co-builder's two). A contributor's cursor stored before [hidden elements](/docs/development/api/hidden) arrived answers this once.
 
-While keel's hidden mark is on, the envelope carries `reason` beside the five fields: `role` (your own role or membership moved) or `view` (something left your view: a delete, a hide, an unhide, a Character change). When both happened since your cursor, it says `role`. A page of the feed then carries `epoch_reason` beside `epoch`: why the epoch last moved, with the same two values.
+The envelope carries `reason` beside the five fields: `role` (your own role or membership moved) or `view` (something left your view: a delete, a hide, an unhide, a Character change). When both happened since your cursor, it says `role`. A page of the feed then carries `epoch_reason` beside `epoch`: why the epoch last moved, with the same two values.
 
-- **How to fix:** pull the feed again from `since=0`. With `reason` `role`, keep what your copy holds that the new walk does not name; with `view`, drop it; with no `reason` (the hidden mark off), keep it: a reset never empties a copy. A tool never empties a copy on its own. See [What a Reset Keeps](/docs/development/api/changes#what-a-reset-keeps), [Guests' Cursors](/docs/development/api/changes#guests-cursors) and [The Contributor's Cursor](/docs/development/api/hidden#the-contributors-cursor).
+- **How to fix:** pull the feed again from `since=0`. With `reason` `role`, keep what your copy holds that the new walk does not name; with `view`, drop it; with no `reason` (an older server), keep it: a reset never empties a copy. A tool never empties a copy on its own. See [What a Reset Keeps](/docs/development/api/changes#what-a-reset-keeps), [Guests' Cursors](/docs/development/api/changes#guests-cursors) and [The Contributor's Cursor](/docs/development/api/hidden#the-contributors-cursor).
 
 ### already_member
 
@@ -220,7 +220,7 @@ A member key tried to change the world's own fields (`PATCH /api/v2/world`). The
 
 **Type** `permission_error` · **Status** `403`
 
-A member key sent `as` on a read that takes it (an element get or list, search, the metadata routes). Reading as another reader is the owner's: only a key with no member, the owner's own keys or a legacy key, may send it. Keel answers it only while its hidden mark is switched on; until then `as` is an unknown parameter (`422`, `param` `as`).
+A member key sent `as` on a read that takes it (an element get or list, search, the metadata routes). Reading as another reader is the owner's: only a key with no member, the owner's own keys or a legacy key, may send it.
 
 - **How to fix:** send `as` with one of the owner's keys, or leave it out. A member key reads as itself. See [View As](/docs/development/api/hidden#view-as).
 
