@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-20
 
+- **TypeScript 4.42.1.** The calendar reader refuses what the [`atlas_calendar` profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/calendar.md) refuses: an `eras` or `intercalary` that is present but not a list (`false` threw before), an era start or end that is not whole, a `year_base` other than 0 or 1, and names that are not strings. The Unity SDK reads the same way.
 - **[Extension profiles](/docs/schema/conventions#data-the-schema-does-not-model).** A named extension field that tools agree to read the same way, published as a page in schema-dist's `profiles/` folder (serial 30). The first two: `x_identity_key`, the same being in several worlds, and `atlas_calendar`, a world's own calendar. Nothing in the schema changed.
 
 - **Schema 00.32.02.** A Narrative's `start_date` is when it is first told or recorded and its `end_date` when it stops being told (empty while it is still told); the span it recounts lives on its Events ([Narrative](/docs/schema/element_categories/narrative)). No field, type or link changed, so nothing moves on the wire. The TypeScript SDK 4.42.0 and the Python package 0.10.3 carry it. <!-- keel PR 123 -->
