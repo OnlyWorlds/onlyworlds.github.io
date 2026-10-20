@@ -17,7 +17,7 @@
   "resync_required": {
     "type": "invalid_request",
     "status": 409,
-    "summary": "A guest's, or (with the hidden mark on) a contributor's, /changes cursor predates a change to what it can see, or is not this caller's cursor shape: pull again from since=0."
+    "summary": "A guest's, or (with the hidden mark on) a contributor's, /changes cursor predates a change to what it can see, or is not this caller's cursor shape: pull again from since=0. With the hidden mark on, the envelope's `reason` says why: `role` (your own role or membership moved: keep what the new walk does not name) or `view` (what you may see moved: drop it)."
   },
   "already_member": {
     "type": "invalid_request",
