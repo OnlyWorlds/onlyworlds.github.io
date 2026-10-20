@@ -70,7 +70,15 @@ A member key sent with a PIN (or an agent seat with its secret) has it checked h
 
 ## Guests
 
-A guest key sees three things: the elements it created, the elements its Character is on or knows, and the roster's Characters. "On or knows" is decided by one link per type. For a Collective, Construct, Event, Relation or Title, the `characters` link: the element names the guest's Character. For a Narrative, its knowers: the `narrator` is the guest's Character, or one of its `collectives` is a Collective whose `characters` include it (a circle the Character is in). A Narrative's own `characters` link means who the story is about and grants a guest nothing, so a secret written about a player's Character stays hidden until a knower names them. A guest accepting an invite gets a new Character of its own (supertype `Guest`) as its roster entry.
+A guest key sees four things: the elements it created, the elements its Character is on or knows, the roster's Characters, and, as [stubs](#known-of), what its Character's own sheet points to. "On or knows" is decided by one link per type. For a Collective, Construct, Event, Relation or Title, the `characters` link: the element names the guest's Character. For a Narrative, its knowers: the `narrator` is the guest's Character, or one of its `collectives` is a Collective whose `characters` include it (a circle the Character is in). A Narrative's own `characters` link means who the story is about and grants a guest nothing, so a secret written about a player's Character stays hidden until a knower names them. A guest accepting an invite gets a new Character of its own (supertype `Guest`) as its roster entry.
+
+### Known Of
+
+A guest playing a Character also reads what that Character's own sheet points to, one step out: every element a link field on the Character names (its location, species, family, traits, the Characters it calls friends or rivals, and the rest), never further, and never an element the owner [hid](/docs/development/api/hidden). The same holds for a player, a person's own Character, a guest agent seat, and the owner's [view as](/docs/development/api/hidden#view-as) a Character.
+
+An element reached only that way is a **stub**, marked `known_of: true`. It keeps `id`, `type`, `name`, `description`, `supertype`, `subtype`, `image_url`, `created_at`, `updated_at` and `change_seq`. Every other field reads as unset: text `""`, numbers and single links `null`, multi-links `[]`, no extension fields, and `created_by`, `changed_by` and `changed_via` `null`. Search matches only its name and description, and its files answer `404`. Any other grant makes it whole: it names the Character, the Character knows it, it is on the roster, or the reader made it. Without `known_of`, an element is whole.
+
+A client shows a stub as something the Character knows of (its name, picture and description), never as an empty record. Its unset fields are not values and not a deletion. Never write a stub back: `known_of` in a write body is a `422`, and a stub's empties written as a whole element would blank the real one. In a world folder, keep `known_of: true` in the stub's file and never push it.
 
 Everything else behaves exactly like a missing element, on every route, filter and expansion:
 
