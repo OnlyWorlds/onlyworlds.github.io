@@ -123,7 +123,7 @@ A client redeems a player code with no credential:
 
 ### A Table of Players
 
-One player link can seat a whole table. The owner sets how many times it works (`max_uses`, 2 to 50) and, optionally, which Characters the players may pick (`characters`, in the order they are shown; a hidden Character is refused, `422` `param` `characters`, since it can never be picked). Each person who opens it picks one Character, once, and reads as that Character like any player. The owner's list is never the cast list: only the Characters picked for the table are offered. With no list, each player names a fresh Character after themselves. On the world page it is A table of players.
+One player link can seat a whole table. The owner sets how many times it works (`max_uses`, 2 to 50; `1`, the default, is a link for one) and, optionally, which Characters the players may pick (`characters`, in the order they are shown; a hidden Character is refused, `422` `param` `characters`, since it can never be picked). Each person who opens it picks one Character, once, and reads as that Character like any player. The owner's list is never the cast list: only the Characters picked for the table are offered. With no list, each player names a fresh Character after themselves. On the world page it is A table of players.
 
 A table code's preview carries four more keys; a link for one answers without them:
 
