@@ -121,7 +121,7 @@ A `PATCH` or a link operation carried `If-Match` with a `change_seq`, and the el
 
 A guest's `/changes` cursor is from before a change to what the guest can see, or the cursor is not this caller's shape (a guest's has three parts, everyone else's two).
 
-- **How to fix:** pull the feed again from `since=0` and replace the local copy. See [Guests' Cursors](/docs/development/api/changes#guests-cursors).
+- **How to fix:** pull the feed again from `since=0` and keep what your copy holds that the new walk does not name; a reset never empties a copy. See [Guests' Cursors](/docs/development/api/changes#guests-cursors).
 
 ### already_member
 

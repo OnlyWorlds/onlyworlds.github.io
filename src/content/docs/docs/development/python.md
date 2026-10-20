@@ -59,7 +59,7 @@ for op in walk:
 saved_cursor = walk.cursor  # opaque: persist it, never parse it
 ```
 
-If the feed refuses a cursor (`is_resync_required` on the error), walk again from the start and replace the local copy. See [Sync with Changes](/docs/development/api/changes).
+If the feed refuses a cursor (`is_resync_required` on the error), walk again from the start and keep what your copy holds that the new walk does not name. See [Sync with Changes](/docs/development/api/changes).
 
 ## Export to OKF
 

@@ -86,7 +86,7 @@ For every key except a guest's, everything above holds. A [guest](/docs/developm
 
 - Its cursor has three parts. It is still opaque: pass back exactly what you got.
 - It never receives `delete` ops.
-- When the guest's view shrinks or changes wholesale (an element leaves it, an existing element enters it, the roster changes, or the guest's own role changes), the next call answers `409` [`resync_required`](/api/errors/#resync_required). Pull again from `since=0` and **replace** the local copy: merging would keep elements the guest can no longer see.
+- When the guest's view shrinks or changes wholesale (an element leaves it, an existing element enters it, the roster changes, or the guest's own role changes), the next call answers `409` [`resync_required`](/api/errors/#resync_required). Pull again from `since=0` and keep what your copy holds that the new walk does not name: sharing is [forward-only](/docs/development/api/members#sharing-a-world), so a reset never empties a copy.
 - A guest may always start from `since=0` or with no `since`.
 - `?head=true` gives a guest a cursor it passes straight back as `since`.
 - `head` in a page is still the world's change sequence.
