@@ -171,7 +171,7 @@ A player opened a party link (a [table of players](/docs/development/api/members
 
 A player opened a player link, a [table](/docs/development/api/members#a-table-of-players) or a link for one, and the world already has its 50 players. Nothing was spent.
 
-- **How to fix:** the world's owner removes a player to free a place, then the link works again.
+- **How to fix:** the world's owner removes a player to free a place; the same link can then be tried again while it has not expired.
 
 ### removal_in_flight
 
