@@ -120,15 +120,16 @@ The hidden row has the shape of any delete:
 What a client does:
 
 - **On `reason` `hidden`:** remove the element from the local copy, as for any delete, and do not offer to keep it. A row may name an id you never held (an element made and hidden while you were not reading): drop it as you would any delete of an unknown id.
-- **On `409` `resync_required`:** pull the feed again from `since=0` and **replace** the local copy: anything the new walk does not name is out of your view.
+- **On `409` `resync_required`:** pull the feed again from `since=0`, then follow the error's `reason` ([What a Reset Keeps](/docs/development/api/changes#what-a-reset-keeps)): `role` (your own role or membership moved), keep what the new walk does not name; `view` (something left your view: a delete, a hide, an unhide, a Character change), drop it. When both happened since your cursor, the answer is `role`. A tool never empties a copy on its own.
 - A hidden row reaches a reader only for a hide made after its view last started (when it joined, or when its cursor was last reset), whatever cursor it sends. A new member, or one whose cursor was just reset, gets no row for an earlier hide; a walk from the start by a reader whose view started before the hide does carry it.
 
 ### The Contributor's Cursor
 
 A contributor, person or agent seat, carries the cursor a [guest](/docs/development/api/changes#guests-cursors) carries: three parts, an `epoch` on every page and on `?head=true`, and a `?head=true` cursor to pass straight back as `since`. Unlike a guest, it still receives every `delete` op.
 
-- **Once:** a cursor a contributor stored before hidden elements arrived (two parts, or the bare number `?head=true` used to give) answers `409` [`resync_required`](/api/errors/#resync_required). Pull again from `since=0`, replace the local copy, and store the new cursor.
-- After that, its `epoch` moves when an element it regains is unhidden, and when the member moves to or from the contributor role.
+- **Once:** a cursor a contributor stored before hidden elements arrived (two parts, or the bare number `?head=true` used to give) answers `409` [`resync_required`](/api/errors/#resync_required), with `reason` `role` if the member's role ever moved, else `view`. Pull again from `since=0`, follow the `reason`, and store the new cursor.
+- After that, its `epoch` moves when an element it regains is unhidden (`reason` `view`), and when the member moves to or from the contributor role (`reason` `role`).
+- Every page and `?head=true` carry `epoch_reason` beside `epoch`: why the epoch last moved, `role` or `view`. It names the last move only; the `409`'s `reason` covers every move since your cursor.
 - The owner and co-builders keep the two-part cursor and `epoch` `null`. A three-part cursor from them (a contributor made co-builder) is the same `409`.
 
 ## View As

@@ -121,7 +121,9 @@ A `PATCH` or a link operation carried `If-Match` with a `change_seq`, and the el
 
 A guest's or a contributor's `/changes` cursor is from before a change to what that key can see, or the cursor is not this caller's shape (a guest's and a contributor's have three parts, the owner's and a co-builder's two). A contributor's cursor stored before [hidden elements](/docs/development/api/hidden) arrived answers this once.
 
-- **How to fix:** pull the feed again from `since=0` and keep what your copy holds that the new walk does not name; a reset never empties a copy. See [Guests' Cursors](/docs/development/api/changes#guests-cursors) and [The Contributor's Cursor](/docs/development/api/hidden#the-contributors-cursor).
+While keel's hidden mark is on, the envelope carries `reason` beside the five fields: `role` (your own role or membership moved) or `view` (something left your view: a delete, a hide, an unhide, a Character change). When both happened since your cursor, it says `role`. A page of the feed then carries `epoch_reason` beside `epoch`: why the epoch last moved, with the same two values.
+
+- **How to fix:** pull the feed again from `since=0`. With `reason` `role`, keep what your copy holds that the new walk does not name; with `view`, drop it; with no `reason` (the hidden mark off), keep it: a reset never empties a copy. A tool never empties a copy on its own. See [What a Reset Keeps](/docs/development/api/changes#what-a-reset-keeps), [Guests' Cursors](/docs/development/api/changes#guests-cursors) and [The Contributor's Cursor](/docs/development/api/hidden#the-contributors-cursor).
 
 ### already_member
 

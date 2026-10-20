@@ -30,6 +30,7 @@ That is Hyperion's first page. The next call sends `?since=1:068e2e60-fc37-789e-
 | `has_more` | `true` if more pages remain |
 | `head` | The world's current change sequence |
 | `epoch` | A guest's or a contributor's view epoch ([Guests' Cursors](#guests-cursors)); `null` for the owner's and co-builders' keys |
+| `epoch_reason` | Why `epoch` last moved, `role` or `view` ([What a Reset Keeps](#what-a-reset-keeps)); `null` when `epoch` is. Only while keel's hidden mark is on |
 
 An `upsert` carries the whole element at its latest state, in the same body a [read](/docs/development/api/reads#what-an-element-carries) returns. A `delete` carries the id, `deleted_at`, who deleted it through which door (`deleted_by`, `deleted_via`: see [Agent Writes](/docs/development/api/writes#agent-writes)), and why, in `reason`: `deleted` for a tombstone, `hidden` for an element [hidden](/docs/development/api/hidden#the-feed) from this key. Remove the element from your copy either way.
 
@@ -88,7 +89,7 @@ For the owner's and co-builders' keys, everything above holds. A [guest](/docs/d
 
 - Its cursor has three parts. It is still opaque: pass back exactly what you got.
 - It never receives `delete` ops.
-- When the guest's view shrinks or changes wholesale (an element leaves it, an existing element enters it, the roster changes, or the guest's own role changes), the next call answers `409` [`resync_required`](/api/errors/#resync_required). Pull again from `since=0` and keep what your copy holds that the new walk does not name: sharing is [forward-only](/docs/development/api/members#sharing-a-world), so a reset never empties a copy.
+- When the guest's view shrinks or changes wholesale (an element leaves it, an existing element enters it, the roster changes, or the guest's own role changes), the next call answers `409` [`resync_required`](/api/errors/#resync_required). Pull again from `since=0`. What happens to what your copy holds that the new walk does not name: [What a Reset Keeps](#what-a-reset-keeps); without a `reason`, keep it, since a reset never empties a copy.
 - A guest may always start from `since=0` or with no `since`.
 - `?head=true` gives a guest a cursor it passes straight back as `since`.
 - `head` in a page is still the world's change sequence.
@@ -97,6 +98,27 @@ For the owner's and co-builders' keys, everything above holds. A [guest](/docs/d
 A contributor carries the same three-part cursor, `epoch` and `?head=true` cursor, and the same `409` rules, but it still receives every `delete` op; a contributor's cursor stored before hidden elements arrived answers `409` once. See [The Contributor's Cursor](/docs/development/api/hidden#the-contributors-cursor).
 
 A member's move to or from the guest or the contributor role resets its cursor: its next call answers `409 resync_required`. A three-part cursor from the owner or a co-builder is the same `409`.
+
+### What a Reset Keeps
+
+Sharing is [forward-only](/docs/development/api/members#sharing-a-world): what a reader has already read is theirs to keep, and a key or a role governs only what arrives next. While keel's hidden mark is on, the `409` says why in `reason`, inside `error`, and its message says what that reason means:
+
+```json
+{ "error": { "type": "invalid_request", "code": "resync_required",
+    "message": "Your view of this world changed (reason view). Pull the feed again from the start (since=0); drop what you hold that the new walk does not name.",
+    "param": "since", "doc_url": "https://onlyworlds.github.io/api/errors/#resync_required", "reason": "view" } }
+```
+
+| `reason` | What moved since your cursor | What your copy holds that the new walk does not name |
+|:--|:--|:--|
+| `role` | Your own role or membership: a role change, a seat following its sponsor down, a removal, a reactivation | Keep it. It is out of your view now, not gone |
+| `view` | What you may see: a delete, a hide, an unhide, a Character given or taken | Drop it |
+
+When both happened since your cursor, the answer is `role`. A `delete` op with `reason` `hidden` is dropped, as for `view`. A tool never empties a copy on its own.
+
+Every page and `?head=true` carry `epoch_reason` beside `epoch`, with the same values: why the epoch last moved (`view` for an epoch that never moved, `null` when `epoch` is `null`). It names the last move only. If your tip is more than one epoch past the one you applied, walk with your stored cursor and read the `409`'s `reason`, which covers every move since that cursor.
+
+With the hidden mark off, the `409` carries no `reason` and a page no `epoch_reason`: keep what your copy holds that the new walk does not name, since a reset never empties a copy.
 
 ## The Export File
 
