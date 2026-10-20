@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-20
 
+- **TypeScript 4.42.2.** A calendar's down era (a count toward a pivot, like BC) has no year zero when its pivot falls mid-year: the year holding the step just before the pivot reads `year_base`. Eras starting on the same step resolve by a stated rule: an up era over a down one, then the later in the list.
 - **TypeScript 4.42.1.** The calendar reader refuses what the [`atlas_calendar` profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/calendar.md) refuses: an `eras` or `intercalary` that is present but not a list (`false` threw before), an era start or end that is not whole, a `year_base` other than 0 or 1, and names that are not strings. The Unity SDK reads the same way.
 - **[Extension profiles](/docs/schema/conventions#data-the-schema-does-not-model).** A named extension field that tools agree to read the same way, published as a page in schema-dist's `profiles/` folder (serial 30). The first two: `x_identity_key`, the same being in several worlds, and `atlas_calendar`, a world's own calendar. Nothing in the schema changed.
 
