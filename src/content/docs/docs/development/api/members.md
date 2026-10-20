@@ -121,6 +121,28 @@ A client redeems a player code with no credential:
 | POST | `/api/v2/join/preview` | As for an invite link, with `reader` `player` |
 | POST | `/api/v2/join` | `{"code", "name"}` (`name` optional: the player's name on the owner's members list, and a fresh Character's name too; without it, the picked Character's name stands in, else `Player`): `201` with `kind` `player`, `role` `guest`, the world, the Character and the read `key`, shown only in this answer. The answer is typed by `kind`; an agent's code answers its own seat |
 
+### A Table of Players
+
+One player link can seat a whole table. The owner sets how many times it works (`max_uses`, 2 to 50) and, optionally, which Characters the players may pick (`characters`, in the order they are shown; a hidden Character is refused, `422` `param` `characters`, since it can never be picked). Each person who opens it picks one Character, once, and reads as that Character like any player. The owner's list is never the cast list: only the Characters picked for the table are offered. With no list, each player names a fresh Character after themselves. On the world page it is A table of players.
+
+A table code's preview carries four more keys; a link for one answers without them:
+
+| Key | What it is |
+|:--|:--|
+| `max_uses` | How many times the link works |
+| `uses_left` | How many places are left |
+| `name_required` | `true` when the owner listed no Characters: the player sends a `name` instead of a pick |
+| `characters` | `[{id, name, image_url, taken}]`, the owner's order. `taken` is `true` while a live seat in the world plays it, a person's included. A Character hidden or deleted since the link was made is left out |
+
+The player redeems with `POST /api/v2/join` and `{"code", "character"}` (the id of an untaken Character from the list), or `{"code", "name"}` when `name_required` is `true`. The answer is the player's `201`, as for a link for one. The refusals spend nothing:
+
+- A Character already taken: `422` [`character_taken`](/api/errors/#character_taken).
+- A pick not on the list, or hidden or deleted since the link was made: `422` [`invalid_request`](/api/errors/#invalid_request), `param` `character`.
+- The world at 50 players: `422` [`invalid_request`](/api/errors/#invalid_request).
+- The last place taken a moment before: the ordinary `404`, as for a used link.
+
+A world holds at most 50 players, counted as each one joins, from a table or a link for one. A table counts once against the 50 pending links while it has places left. Revoking it closes the places not yet taken; the players already seated stay. A seat that is removed frees its Character but still counts as a use.
+
 ## Agent Seats
 
 An AI agent joins a world as a member with `kind` `agent`: an **agent seat**. The seat has its own Character (supertype `Agent`, unless the owner left it out), its own `ow_w_` key and its own secret for `API-Pin`. Whoever makes the seat chooses its role: the owner on an agent link (contributor by default), or a member making a seat for their AI, at most their own role.
@@ -154,8 +176,8 @@ Invites and memberships are managed in the [account portal](https://www.onlyworl
 | GET | `/api/v2/account/worlds/{world_id}/members` | Members and pending invites |
 | PATCH | `/api/v2/account/worlds/{world_id}/members/{member_id}` | Change a member's `role`, or the `character` an agent or player plays (owner only; a [hidden](/docs/development/api/hidden#playing-a-hidden-character) Character is `422` [`character_hidden`](/api/errors/#character_hidden)) |
 | DELETE | `/api/v2/account/worlds/{world_id}/members/{member_id}` | Remove a member; their keys for the world are deleted (they then answer `401` [`invalid_credentials`](/api/errors/#invalid_credentials), as an unknown key does), and the AI seats they made there are removed with them |
-| POST | `/api/v2/account/worlds/{world_id}/links` | Make an [invite link](#invite-links) (owner only): `reader` (`person`, `agent` or `player`, required), `role`, `days`, `inviter_name`, `with_character`, and for a player `character` (`new` or a Character's id), and `preview` (person and player links, off when left out; `true` on an agent link is `422`, `param` `preview`); `201` with the code, the link and a line to send, shown only in this answer. A world holds at most 50 pending invites and person or player links together (`422`) |
-| GET | `/api/v2/account/worlds/{world_id}/links` | The world's links, newest first, never a code, each with `uses` and `status` (`pending`, `used`, `revoked`, `expired`) |
+| POST | `/api/v2/account/worlds/{world_id}/links` | Make an [invite link](#invite-links) (owner only): `reader` (`person`, `agent` or `player`, required), `role`, `days`, `inviter_name`, `with_character`, and for a player `character` (`new` or a Character's id) or, for a [table](#a-table-of-players), `max_uses` (2 to 50) and `characters` (a table takes no `character`), and `preview` (person and player links, off when left out; `true` on an agent link is `422`, `param` `preview`); `201` with the code, the link and a line to send, shown only in this answer. A world holds at most 50 pending invites and person or player links together (`422`) |
+| GET | `/api/v2/account/worlds/{world_id}/links` | The world's links, newest first, never a code, each with `uses` and `status` (`pending`, `used`, `revoked`, `expired`); a table's row adds `max_uses` and `characters` (`[{id, name, taken}]`, `name` `null` if deleted), its `uses` counts the seats it made, removed ones included, and it reads `used` once full |
 | DELETE | `/api/v2/account/worlds/{world_id}/links/{link_id}` | Revoke a link: `204` |
 | POST | `/api/v2/account/worlds/{world_id}/seats` | Make a seat for your own AI ([Making a Seat](/docs/development/agents#making-a-seat)): `201` with its key and secret, shown once |
 | GET | `/api/v2/account/worlds/{world_id}/seats` | Your seats; the owner sees every seat; never a key |

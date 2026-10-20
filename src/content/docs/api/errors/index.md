@@ -157,6 +157,14 @@ The owner tried to set a hidden Character as the one an agent seat or a player p
 
 - **How to fix:** unhide the Character first, or pick another. See [Playing a Hidden Character](/docs/development/api/hidden#playing-a-hidden-character).
 
+### character_taken
+
+**Type** `invalid_request` · **Status** `422`
+
+A player opened a party link (a [table of players](/docs/development/api/members#a-table-of-players)) and picked a Character that a live seat in the world already plays (`param` `character`). Nothing was spent: the place is still there.
+
+- **How to fix:** read the preview again and pick a Character it does not mark `taken`. A pick that is not on the list, or was hidden or deleted since the link was made, is `422` `invalid_request` with `param` `character` instead.
+
 ### removal_in_flight
 
 **Type** `invalid_request` · **Status** `409`
