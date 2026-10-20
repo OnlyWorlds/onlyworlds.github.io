@@ -1,9 +1,112 @@
 ---
 title: Changelog
-description: Notable changes to the OnlyWorlds docs, newest first.
+description: What changed for developers on OnlyWorlds (the API, the clients and these docs), newest first.
 ---
 
-Notable changes to these docs, newest first. Changes to the packages are in each package's own changelog: [TypeScript SDK](https://github.com/OnlyWorlds/sdk/blob/main/CHANGELOG.md), [Unity SDK](https://github.com/OnlyWorlds/unity-sdk/blob/main/Packages/com.onlyworlds.sdk/CHANGELOG.md), [Python package](https://github.com/OnlyWorlds/python-sdk/blob/main/CHANGELOG.md).
+What changed for developers, newest first: the API on onlyworlds.com, the clients and tools these docs describe, and the docs themselves. Each day lists what a page now says; every release of a package is in its own changelog: [TypeScript SDK](https://github.com/OnlyWorlds/sdk/blob/main/CHANGELOG.md), [Unity SDK](https://github.com/OnlyWorlds/unity-sdk/blob/main/Packages/com.onlyworlds.sdk/CHANGELOG.md), [Python package](https://github.com/OnlyWorlds/python-sdk/blob/main/CHANGELOG.md).
+
+## 2026-10-20
+
+- **[Hidden Elements](/docs/development/api/hidden)** is a new page. The owner or a co-builder can hide an element (`PUT` and `DELETE /api/v2/{type}/{id}/hidden`, `GET /api/v2/world/hidden`). To every other reader it answers as a missing element: `404`, never `410`, its links left out of every body, and a hidden Character's id `null` on the roster, `/me` and `owner_character`.
+- **The feed says why a delete happened.** Every `delete` op on [`/changes`](/docs/development/api/changes) carries `reason`: `deleted`, or `hidden` for an element hidden from this key. A contributor now carries a three-part cursor with an `epoch`, as a guest does; a cursor stored before this answers `409` [`resync_required`](/api/errors/#resync_required) once.
+- **A reset says what to keep.** `resync_required` carries `reason`: `role` (keep what the new walk does not name) or `view` (drop it), and every feed page carries `epoch_reason`. A tool never empties a copy on its own ([What a Reset Keeps](/docs/development/api/changes#what-a-reset-keeps)). Sharing is forward-only: revoking a key, lowering a role or removing a member takes nothing back from a copy already made ([Sharing a World](/docs/development/api/members#sharing-a-world)).
+- **View as.** The owner's keys can add `as` (a membership id, a Character id, or `public`) to element reads, search and the metadata routes, and read what that reader sees ([View As](/docs/development/api/hidden#view-as)). A member key gets `403` [`view_as_owner_only`](/api/errors/#view_as_owner_only). Picking a hidden Character for a seat or a player to play is `422` [`character_hidden`](/api/errors/#character_hidden).
+- **Link previews.** A person or player link can carry the world's id, `/join/<world_id>#ow_j_…`, and then shows the world's name and picture when pasted into a chat. It is `preview: true` on the link route, on by default in the world page's forms, and never on an agent link ([Invite Links](/docs/development/api/members#invite-links)).
+- **Keys.** A legacy 10-digit key, other than the demo keys, sends its PIN on every read of a world that has a PIN. The demo keys are the ten reserved keys `0000000000` to `0000000009`; a world's own keys are never demo keys ([Demo Keys](/docs/getting-started/keys#demo-keys)). A removed member's keys answer `401` [`invalid_credentials`](/api/errors/#invalid_credentials).
+- **TypeScript:** `fieldLabel` turns a field name into the label a tool shows (4.34.0; all-caps words kept since 4.36.0). The reference is on 4.37.0: `viewAs` on reads, `epoch_reason` on `changesHead`.
+- **[Atlas](/docs/tools/atlas)** to 1.60: the agent mark on knowledge entries and pages, an element changed on both sides of a shared world held for you to choose, and a member made a guest keeps their copy.
+
+## 2026-10-19
+
+- **[Files](/docs/development/api/files)** is a new page. An element can carry PDFs, text files and world bundles: 25 MB a file, 250 MB a world, 200 file tickets a world in 24 hours. New error sections: [`file_too_large`](/api/errors/#file_too_large) and [`files_full`](/api/errors/#files_full). The TypeScript SDK's `uploadFile` and the other file methods arrived in 4.32.0.
+- **Rate limits.** 300 requests a minute per key or account token, 60 a minute per address with neither. Every reply carries `RateLimit-Limit`, `RateLimit-Remaining` and `RateLimit-Reset`; over the budget is `429` [`too_many_requests`](/api/errors/#too_many_requests). See [Limits](/docs/development/api-reference#limits).
+- **Search.** `GET /api/v2/search?q=` finds elements by the whole words in their name and text ([Search](/docs/development/api/reads#search)). The MCP server's `search_elements` runs the same search.
+- **[Lantern](/docs/tools/lantern)** has its own page: the phone app, signing in, joining by each kind of link, a player's view, inviting, and Catch.
+- **World folders, format v0.3.9:** `world.json` can say where the folder came from (`source`) and which part of the world it holds (`exported_as`) ([World Folders](/docs/schema/folders)). The Python package's `export_world` writes both since 0.7.0.
+- **The [Classic API](/docs/development/api/classic)** is frozen, with no retirement date; a removal would be announced six months ahead. The Agents, MCP and Council pages link the [agent policy](https://www.onlyworlds.com/agents).
+- **`public_read`** keeps the standard's meaning, read without a credential. The [Worlds](/docs/schema/worlds) page says what onlyworlds.com does today: a key is still needed, and owners can't set it yet.
+- **Unity:** join by a player or agent link (`OWJoin`) and load a downloaded world file (`OWEnvelopeLoader`), on `main` after v0.6.0 ([Join by a Link](/docs/development/unity#join-by-a-link)). The Atlas page follows 1.53 to 1.57: files on an element, player links, view-only worlds.
+
+## 2026-10-18
+
+- **Agent writes.** Every element read carries `changed_by` and `changed_via`, who made the last change and through which door; `seat`, `mcp` and `declared` mean an agent did. A tombstone carries `deleted_by` and `deleted_via`. An AI on a person's own key sends `X-OW-Agent` ([Agent Writes](/docs/development/api/writes#agent-writes)).
+- **`410 gone`.** A read of one element this world deleted answers `410` [`gone`](/api/errors/#gone), with the deletion's `change_seq` and `deleted_at`; an id the world never held is still `404`. Creating a world takes an optional `key_name` ([Keys and PINs](/docs/getting-started/keys#account-tokens)).
+- **[Sign in with a password](/docs/development/typescript#sign-in-with-a-password)** (TypeScript 4.31.0): `signInWithPassword` turns an email or username and a password into an account token for the device.
+- **Seats follow their sponsor.** A member who is removed or leaves takes the AI seats they made in that world; lowering a member's role lowers their seats to it. A world holds at most 50 agents ([Agent Seats](/docs/development/agents#making-a-seat)).
+- **The Write examples run as copied.** The TypeScript and Python examples read `OW_API_KEY` and `OW_API_PIN` from the environment. The toolkit's `project-setup` writes those names since toolkit 4.3.0, and the LLM guide uses them.
+- **[Obsidian plugin](/docs/tools/obsidian-plugin)** to 3.5.1: a Sync section, text that round-trips byte for byte, renames. **Atlas** 1.52 and 1.53: sign in with email and password, and maps drawn from their own zones.
+
+## 2026-10-17
+
+- **MCP resources:** `onlyworlds://world` and `onlyworlds://element/{type}/{id}` join the schema resources, with the same key check and scoping as the read tools ([Resources](/docs/development/mcp#resources)).
+- **World folders, format v0.3.8:** one id, one file. A reader serves `elements/` when an id is in both layouts, and skips a dot-prefixed file in a category folder.
+- **Python:** 0.5.0 lists ids found in both layouts (`in_both_layouts`); 0.6.0 exports a folder as an OKF bundle ([Export to OKF](/docs/development/python#export-to-okf)).
+- **Obsidian plugin** 3.4.0 and 3.5.0: sign in with an account token ([Your OnlyWorlds Account](/docs/tools/obsidian-plugin#your-onlyworlds-account)), read-only worlds, a Bases file per world, saving linked notes.
+- **Seats:** the seat routes are listed under [Managing Members](/docs/development/api/members#managing-members). A seat's replaced key answers `401` `key_revoked`, so an AI can tell it from a wrong key.
+- **`/docs`, `/api` and `/docs/development/api`** answer with a page instead of a 404.
+
+## 2026-10-16
+
+- **A seat for your own AI.** Any member can make one on the world page or with `POST /api/v2/account/worlds/{id}/seats`, with no join link, and every seat has a human sponsor ([Making a Seat](/docs/development/agents#making-a-seat)). TypeScript: `createSeat`, `listSeats`, `rekeySeat`, `removeSeat` (4.28.0, 4.29.0).
+- **[Player links](/docs/development/api/members#player-links)** let a friend read a world as one Character, with no account and no PIN. New error: [`player_role_fixed`](/api/errors/#player_role_fixed). TypeScript: `reader: 'player'` and `redeemJoin` (4.30.0).
+- **`idempotency_in_flight`** (`409`): a retry that meets the first request still running waits `Retry-After` and resends with the same key ([`idempotency_in_flight`](/api/errors/#idempotency_in_flight)). Python 0.4.0 does this for you; in TypeScript an `idempotencyKey` makes a retried `create` or `bulk` safe.
+- **PIN refusals** name `param` `API-Pin`, and the message says whether the PIN was missing or wrong ([`invalid_credentials`](/api/errors/#invalid_credentials)).
+- **The Agent-Council**, a second chamber where agents propose and vote, addressed with `?council=agents` ([Council](/docs/tools/council)).
+- **Unity** v0.5.0: calendars, `RetryAfter`, keyed retries, the agent header, folder export. **Atlas** to 1.51: invite links made in Atlas, and Open in Atlas from the world page.
+
+## 2026-10-15
+
+- **The owner's link routes:** `POST`, `GET` and `DELETE` on `/api/v2/account/worlds/{world_id}/links` make, list and revoke invite and agent links ([Managing Members](/docs/development/api/members#managing-members)). TypeScript: `createWorldLink`, `listWorldLinks`, `revokeWorldLink` (4.24.0).
+- **No PIN to join.** Accepting an invite or a link needs no account PIN; `409` [`pin_required`](/api/errors/#pin_required) now stops only the minting of a write key.
+- **Agents narrate as themselves:** with the owner's switch on (`agent_narrator_rule` on the world), a seat's Narratives are narrated by its own Character ([Agent Seats](/docs/development/agents)).
+- **Declaring an agent:** `agent: true` in the TypeScript SDK (4.26.0) and the Python package (0.3.0) sends `X-OW-Agent` on element writes.
+- **The join page** offers Open in Lantern on a person's invitation and Open in Atlas on an agent's; the world page's Open with pane names Atlas, Lantern, Obsidian and an AI ([onlyworlds.com](/docs/tools/onlyworlds-com)).
+- **[Easy Mobile](/docs/tools/easy-mobile)** moved to Legacy Tools: online, no longer developed.
+
+## 2026-10-14
+
+- **Token rating.** Asking and sorting spend from the account's daily token rating (100,000 tokens a day to start), shared with the Council. Replies carry `tokens_remaining` and `token_rating`, and `GET /api/v2/account/allowance` reads it without spending ([AI Agents](/docs/development/ai#ask-your-world-without-a-key-of-your-own)). TypeScript: `account.allowance()` (4.21.0).
+- **A co-builder may move the world's now:** `PATCH /api/v2/world` with `time_range_current` alone. Any other member change there is `403` [`owner_only`](/api/errors/#owner_only).
+- **TypeScript:** world calendars (`worldCalendars`, `formatStep`, `parseDate`; 4.20.0) and `me()` and `members()` (4.22.0).
+- **First reads run as written.** The TypeScript and Python quickstarts use Moppetopia's demo key `0000000001`.
+- **MCP:** each tool's arguments and returns are listed. The server is stateless, and a plain `GET` answers `405`.
+- **Guests' notes:** a guest's Narratives are narrated by its own Character, with rules of their own ([Guests](/docs/development/api/members#guests)).
+
+## 2026-10-12
+
+- **[Invite links](/docs/development/api/members#invite-links)** for people: the owner invites with a single-use link instead of an email address. Routes `POST /api/v2/join/preview` and `POST /api/v2/account/join`; TypeScript `previewJoin` and `acceptJoin` (4.12.0).
+- **[Ask Your World](/docs/development/ai#ask-your-world-without-a-key-of-your-own):** `POST /api/v2/account/ask` answers a question from the elements an app sends, through OnlyWorlds' AI proxy, with no model key of the user's own. New error codes [`ask_failed`](/api/errors/#ask_failed) and [`ask_unavailable`](/api/errors/#ask_unavailable). TypeScript: `ask` and `buildAskContext` (4.13.0).
+- **[Sort Notes Into a World](/docs/development/ai#sort-notes-into-a-world):** `POST /api/v2/account/sort` turns loose notes into rows for the user to review (`make`, `add_to`, `link`, `ask`); nothing is written. TypeScript: `sort` (4.18.0).
+- **TypeScript:** `lookupWorld` finds the elements a plain question is about, with no model and no network, and `preparePhoto` shrinks a phone photo (4.11.0). `changesHead` reads the feed's tip without reading elements (4.15.0; `epoch` since 4.16.0).
+- **Checking a folder:** schema-dist's `lint_folder.py` ([World Folders](/docs/schema/folders)).
+
+## 2026-10-11
+
+- **[Only if unchanged](/docs/development/api/writes#only-if-unchanged):** send `If-Match` with an element's `change_seq` on a `PATCH` or a link operation. If the element moved, nothing is written and `412` [`precondition_failed`](/api/errors/#precondition_failed) carries `current`. TypeScript `ifMatch` (4.9.0), Python `if_match` (0.2.0).
+- **A PIN that is sent is checked on reads too.** A wrong one is refused, so `GET /api/v2/me` with the key and the PIN tests both ([Checking the PIN](/docs/getting-started/keys#checking-the-pin)).
+- **The [Python package](/docs/development/python)** is on PyPI: `pip install onlyworlds` (0.1.0).
+- **TypeScript:** `removeImage` (4.8.0), and world files with `readWorldFile` and `writeWorldFile` (4.10.0).
+- **Unity:** the editor key is stored per project since v0.4.0.
+
+## 2026-10-10
+
+- **[Removing an image](/docs/development/api/images#removing-an-image):** a removal ticket from `POST /api/v2/media/remove-ticket`, then the upload host's `remove_url`. New error codes [`removal_in_flight`](/api/errors/#removal_in_flight) and [`upload_pending`](/api/errors/#upload_pending). A cached copy can keep answering for days after removal.
+- **[Stability](/docs/development/api-reference#stability):** new fields and routes arrive without notice, and a removal is announced six months ahead. Every reply's `X-OW-Schema-Version` header names the version of the standard.
+- **`time_format_equivalents`** is a list of whole numbers, as the standard types it; strings are still accepted.
+- **[AI Agents](/docs/development/ai)** says how an agent reads both this site and onlyworlds.com as Markdown. The Obsidian plugin page covers world units (3.3.0).
+
+## 2026-10-09
+
+- **[World Folders](/docs/schema/folders)** is a new page: the format a world takes on disk, and the rules a tool follows to read and write one.
+- **World units:** `length_unit`, `mass_unit` and `distance_unit` on the world name what measure fields count in ([Units](/docs/schema/worlds#units)). The element tables say which fields use them.
+- **One request-body limit:** 2.5 MB. A larger body is `413` [`payload_too_large`](/api/errors/#payload_too_large) and nothing is written.
+- **`GET /api/` and `GET /api/v2/`** answer a small JSON index, and a path under `/api/` that no route matches answers the error envelope's `404`.
+- **Agent seats:** a seat's Character is optional, and the link expires while the seat does not. The [AI Agents](/docs/development/ai) page adds a fifth way in, with a key.
+
+## 2026-10-08
+
+- **[A Worked Example](/docs/schema/example)** is a new page: the demo world Moppetopia read through the API, link by link.
+- **Only `name` is required**, on every category, Pins and Markers included (schema 00.30.02).
 
 ## October 2026: the docs rebuilt
 

@@ -32,7 +32,7 @@ That is Hyperion's first page. The next call sends `?since=1:068e2e60-fc37-789e-
 | `epoch` | A guest's or a contributor's view epoch ([Guests' Cursors](#guests-cursors)); `null` for the owner's and co-builders' keys |
 | `epoch_reason` | Why `epoch` last moved, `role` or `view` ([What a Reset Keeps](#what-a-reset-keeps)); `null` when `epoch` is |
 
-An `upsert` carries the whole element at its latest state, in the same body a [read](/docs/development/api/reads#what-an-element-carries) returns. A `delete` carries the id, `deleted_at`, who deleted it through which door (`deleted_by`, `deleted_via`: see [Agent Writes](/docs/development/api/writes#agent-writes)), and why, in `reason`: `deleted` for a tombstone, `hidden` for an element [hidden](/docs/development/api/hidden#the-feed) from this key. Remove the element from your copy either way.
+An `upsert` carries the whole element at its latest state, in the same body a [read](/docs/development/api/reads#what-an-element-carries) returns. A `delete` carries the id, `deleted_at`, who deleted it through which door (`deleted_by`, `deleted_via`: see [Agent Writes](/docs/development/api/writes#agent-writes)), and why, in `reason`: `deleted` for a tombstone, `hidden` for an element [hidden](/docs/development/api/hidden#the-feed) from this key (a third value, `out_of_view`, is reserved: nothing sends it yet). Remove the element from your copy either way.
 
 ## Walking the Feed
 
