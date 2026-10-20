@@ -17,7 +17,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 - **Link previews.** A person or player link can carry the world's id, `/join/<world_id>#ow_j_…`, and then shows the world's name and picture when pasted into a chat. It is `preview: true` on the link route, on by default in the world page's forms, and never on an agent link ([Invite Links](/docs/development/api/members#invite-links)).
 - **Keys.** A legacy 10-digit key, other than the demo keys, sends its PIN on every read of a world that has a PIN. The demo keys are the ten reserved keys `0000000000` to `0000000009`; a world's own keys are never demo keys ([Demo Keys](/docs/getting-started/keys#demo-keys)). A removed member's keys answer `401` [`invalid_credentials`](/api/errors/#invalid_credentials).
 - **TypeScript:** `fieldLabel` turns a field name into the label a tool shows (4.34.0; all-caps words kept since 4.36.0). The reference is on 4.37.0: `viewAs` on reads, `epoch_reason` on `changesHead`.
-- **[Atlas](/docs/tools/atlas)** to 1.60: the agent mark on knowledge entries and pages, an element changed on both sides of a shared world held for you to choose, and a member made a guest keeps their copy.
+- **[Atlas](/docs/tools/atlas)** to 1.64: the agent mark on knowledge entries and pages, an element changed on both sides of a shared world held for you to choose, a member made a guest keeps their copy, an element the owner hides leaves your copy quietly (1.61), an agent's link says what it makes (1.62.1), a table's player link with its pick (1.63) and what your Character only knows of (1.64).
 
 ## 2026-10-19
 
