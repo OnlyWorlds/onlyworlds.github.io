@@ -165,6 +165,14 @@ A player opened a party link (a [table of players](/docs/development/api/members
 
 - **How to fix:** read the preview again and pick a Character it does not mark `taken`. A pick that is not on the list, or was hidden or deleted since the link was made, is `422` `invalid_request` with `param` `character` instead.
 
+### world_full
+
+**Type** `invalid_request` · **Status** `422`
+
+A player opened a player link, a [table](/docs/development/api/members#a-table-of-players) or a link for one, and the world already has its 50 players. Nothing was spent.
+
+- **How to fix:** the world's owner removes a player to free a place, then the link works again.
+
 ### removal_in_flight
 
 **Type** `invalid_request` · **Status** `409`

@@ -138,7 +138,7 @@ The player redeems with `POST /api/v2/join` and `{"code", "character"}` (the id 
 
 - A Character already taken: `422` [`character_taken`](/api/errors/#character_taken).
 - A pick not on the list, or hidden or deleted since the link was made: `422` [`invalid_request`](/api/errors/#invalid_request), `param` `character`.
-- The world at 50 players: `422` [`invalid_request`](/api/errors/#invalid_request).
+- The world at 50 players: `422` [`world_full`](/api/errors/#world_full), from a table or a link for one.
 - The last place taken a moment before: the ordinary `404`, as for a used link.
 
 A world holds at most 50 players, counted as each one joins, from a table or a link for one. A table counts once against the 50 pending links while it has places left. Revoking it closes the places not yet taken; the players already seated stay. A seat that is removed frees its Character but still counts as a use.
