@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-20
 
+- **Schema 00.32.02.** A Narrative's `start_date` is when it is first told or recorded and its `end_date` when it stops being told (empty while it is still told); the span it recounts lives on its Events ([Narrative](/docs/schema/element_categories/narrative)). No field, type or link changed, so nothing moves on the wire. <!-- keel PR 123 -->
 - **[What's new](https://www.onlyworlds.com/whats-new).** One page for every release across OnlyWorlds: the site, Atlas, the Obsidian plugin, the toolkit, both SDKs, the Python package and schema-dist, with an Atom feed (`/whats-new.xml`) and the merged list as JSON (`/whats-new.json`, a `sources` row per tool with its count and an `ok` flag). The TypeScript SDK and the Python package now publish a GitHub release for each version, which is where the page reads them ([Contact and resources](/docs/contact), [onlyworlds.com](/docs/tools/onlyworlds-com)). <!-- keel PR 120 -->
 - **Python 0.10.2.** The OKF export keeps a known-of stub's `known_of: true` in its frontmatter; it was dropped before, so a stub read as a whole element.
 
