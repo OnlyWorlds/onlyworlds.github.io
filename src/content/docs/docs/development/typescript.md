@@ -297,7 +297,7 @@ elementColor('character', 'dark');
 fieldLabel('image_url'); // "Image URL"
 ```
 
-Colour marks a type's family and the icon marks the type. Always pair a colour with its icon and label, because colour alone is not accessible. `fieldLabel` (since 4.34.0) writes a field's label in sentence case with acronyms kept (`birth_date` is "Birth date", `image_url` is "Image URL"), the same rule Atlas, Lantern and Council use; a tool that hides an extension prefix drops it before calling it. The package also ships `SCHEMA.md` (every field and its meaning, generated) and `AGENTS.md` for AI agents working in a codebase that uses it.
+Colour marks a type's family and the icon marks the type. Always pair a colour with its icon and label, because colour alone is not accessible. `fieldLabel` (since 4.34.0) writes a field's label in sentence case with acronyms kept (`birth_date` is "Birth date", `image_url` is "Image URL"), the house rule for OnlyWorlds tools; a tool that hides an extension prefix drops it before calling it. The package also ships `SCHEMA.md` (every field and its meaning, generated) and `AGENTS.md` for AI agents working in a codebase that uses it.
 
 ## SDK or MCP?
 
