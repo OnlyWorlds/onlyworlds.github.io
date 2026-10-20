@@ -145,7 +145,7 @@ A key is held while its request runs, so two sends with it do not both write; th
 - Each success echoes the server's `created_at` and `updated_at`, so a sync client can set its baseline from the bulk response alone.
 - A malformed request (not valid JSON, `items` not an array, over 1000 items) or an auth failure answers with its own status and the error envelope, not `200`.
 
-## The World
+## The world
 
 `PATCH /api/v2/world` updates the world's own fields. It takes a write key and PIN and is **owner only**, with one exception: a co-builder may send `time_range_current` alone, so a game master who isn't the owner can move the world's now. Any other member key, or a co-builder's with any other field, gets `403` [`owner_only`](/api/errors/#owner_only).
 

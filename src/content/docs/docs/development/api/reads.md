@@ -120,7 +120,7 @@ Both work on lists and on single elements.
 curl -s "https://www.onlyworlds.com/api/v2/character/{id}?expand=location,institutions" -H "API-Key: {key}"
 ```
 
-## The World
+## The world
 
 `GET /api/v2/world` returns the world named by the key:
 
