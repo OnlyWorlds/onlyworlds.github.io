@@ -49,6 +49,7 @@ Some errors carry extra top-level keys beside `error`, named in their row: `prec
 | [`precondition_failed`](#precondition_failed) | `invalid_request` | `412` | The request carried If-Match with a change_seq, and the element has moved since; the reply's top-level `current` is the element as it is now. Nothing was written and nothing is merged: re-read `current`, then re-send or ask the user. |
 | [`player_role_fixed`](#player_role_fixed) | `invalid_request` | `422` | The owner tried to change a player seat's role: a player (no account) reads as a guest, and that role can't be changed. Remove the player instead. |
 | [`character_hidden`](#character_hidden) | `invalid_request` | `422` | The owner tried to set a hidden Character as the one a seat or a player plays (`param` character): a played Character is on every reader's roster, so a hidden one can never be picked. Unhide it first, or pick another. |
+| [`known_of_not_writable`](#known_of_not_writable) | `invalid_request` | `422` | A write body carried `known_of` (`param` known_of): that key marks a stub, an element the reader knows of but does not see whole, and is never written. A stub sent back would blank every field it leaves out: drop `known_of` and send only the fields you mean to change. |
 | [`character_taken`](#character_taken) | `invalid_request` | `422` | A player picked a Character from a party link's list that a live seat in the world already plays (`param` character): pick another from the list. The preview marks each listed Character `taken`. |
 | [`world_full`](#world_full) | `invalid_request` | `422` | A player link was opened in a world that already has its 50 live players: nothing was spent, and the link works again once the owner removes a player. |
 | [`apply_failed`](#apply_failed) | `invalid_request` | `422` | A /bulk item passed validation but its write failed a database constraint (most often an id that already exists in another world). |
@@ -166,6 +167,14 @@ The owner tried to set a hidden Character as the one an agent seat or a player p
 A player opened a party link (a [table of players](/docs/development/api/members#a-table-of-players)) and picked a Character that a live seat in the world already plays (`param` `character`). Nothing was spent: the place is still there.
 
 - **How to fix:** read the preview again and pick a Character it does not mark `taken`. A pick that is not on the list, or was hidden or deleted since the link was made, is `422` `invalid_request` with `param` `character` instead.
+
+### known_of_not_writable
+
+**Type** `invalid_request` · **Status** `422`
+
+An element write carried `known_of` (`param` `known_of`), whatever its value. The key marks a [stub](/docs/development/api/members#known-of), an element the reader knows of but does not see whole; a stub sent back would blank every field it leaves out. Nothing was written.
+
+- **How to fix:** drop `known_of` and send only the fields you mean to change. Never echo a stub as a write; a tool that keeps stubs on disk never pushes them.
 
 ### world_full
 

@@ -54,6 +54,11 @@
     "status": 422,
     "summary": "The owner tried to set a hidden Character as the one a seat or a player plays (`param` character): a played Character is on every reader's roster, so a hidden one can never be picked. Unhide it first, or pick another."
   },
+  "known_of_not_writable": {
+    "type": "invalid_request",
+    "status": 422,
+    "summary": "A write body carried `known_of` (`param` known_of): that key marks a stub, an element the reader knows of but does not see whole, and is never written. A stub sent back would blank every field it leaves out: drop `known_of` and send only the fields you mean to change."
+  },
   "character_taken": {
     "type": "invalid_request",
     "status": 422,
