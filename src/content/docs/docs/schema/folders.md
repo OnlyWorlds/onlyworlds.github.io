@@ -30,7 +30,7 @@ Two keys are required: `id` (a non-empty string) and `name` (a string, which may
 | Key | Holds |
 | :--- | :--- |
 | `description`, `image_url`, timeline fields, `length_unit`, `mass_unit`, `distance_unit` | As on [Worlds](/docs/schema/worlds). The unit keys have the same spelling on disk and on the wire. The current time is `time_current` on disk, the standard's name; the API calls it `time_range_current`. |
-| `format_version` | The version of this format the folder was written against, currently `"0.3.9"`. Written only when the folder is created. |
+| `format_version` | The version of this format the folder was written against, currently `"0.3.10"`. Written only when the folder is created. |
 | `source` | Where the folder came from: `{"server", "world", "at"}`, the server's address, the world's id there and when it was exported. Written by a tool that exports from a server; absent on a folder made by hand. |
 | `exported_as` | Which part of the world this is: `{"kind", "role", "character"}`, with `kind` `owner` (the whole world), `member` (a co-builder's or contributor's view), `character` (what one Character knows, with its `{id, name}`) or `public`. A tool that cannot tell writes none. A tool that pushes refuses to push a `character` or `public` folder as the whole world. |
 | `api` | The link to a world on onlyworlds.com (`world_id`, `api_key`). Present: the folder syncs with it. Absent: a local world. |
@@ -98,6 +98,10 @@ The writer mints a fresh world id and keeps every element id; a re-capture under
 | [Azgaar converter](https://github.com/OnlyWorlds/azgaar-converter) | Azgaar map in, as a folder |
 | [Foundry converter](https://github.com/OnlyWorlds/foundry-converter) | Folder out, to Foundry VTT |
 
+### Known-Of Elements
+
+A guest's or player's export can hold elements its Character only [knows of](/docs/development/api/members#known-of): stubs marked `known_of: true`. A stub on disk keeps `known_of` and only the keys a stub keeps (`id`, `type`, `name`, `description`, `supertype`, `subtype`, `image_url`, `created_at`, `updated_at`, `change_seq`); its unset fields are left out, never written as empty values. A reader treats such a file as known of, never whole: a missing field is unknown, not empty. A writer never pushes it. When the element later arrives whole, it is written whole and `known_of` goes.
+
 ## Rules for Tools
 
 **Reading**
@@ -115,7 +119,7 @@ The writer mints a fresh world id and keeps every element id; a re-capture under
 - Write new elements under `elements/<type>/`, never `spatial/`; an element read from a file is written back to that file, so one id never sits in both layouts. SHOULD omit empty category folders.
 - Two elements with the same filename: the later ones (by ascending id) MUST use the full id, `<slug>--<id>.json`.
 - An id, once minted, MUST be kept and MUST NOT be re-derived (from a new name, say).
-- MUST NOT invent data it lacks, such as timestamps, nor drop data it has.
+- MUST NOT invent data it lacks, such as timestamps, nor drop data it has. A [known-of](#known-of-elements) stub is written with its kept keys only, and never pushed.
 - MUST preserve unknown fields and MUST NOT change another tool's prefixed field at any depth: copy it through byte for byte.
 - `format_version` only when creating a folder. MUST NOT create or edit a `.gitignore` in a folder it did not create (in your own repo, `.*/` keeps every tool folder out).
 - One writer per folder at a time; never write into another tool's `.<tool>/`.

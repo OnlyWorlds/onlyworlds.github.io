@@ -78,7 +78,7 @@ A guest playing a Character also reads what that Character's own sheet points to
 
 An element reached only that way is a **stub**, marked `known_of: true`. It keeps `id`, `type`, `name`, `description`, `supertype`, `subtype`, `image_url`, `created_at`, `updated_at` and `change_seq`. Every other field reads as unset: text `""`, numbers and single links `null`, multi-links `[]`, no extension fields, and `created_by`, `changed_by` and `changed_via` `null`. Search matches only its name and description, and its files answer `404`. Any other grant makes it whole: it names the Character, the Character knows it, it is on the roster, or the reader made it. Without `known_of`, an element is whole.
 
-A client shows a stub as something the Character knows of (its name, picture and description), never as an empty record. Its unset fields are not values and not a deletion. Never write a stub back: `known_of` in a write body is a `422`, and a stub's empties written as a whole element would blank the real one. In a world folder, keep `known_of: true` in the stub's file and never push it.
+A client shows a stub as something the Character knows of (its name, picture and description), never as an empty record. Its unset fields are not values and not a deletion. Never write a stub back: `known_of` in a write body is a `422`, and a stub's empties written as a whole element would blank the real one. In a world folder, a stub keeps `known_of: true` and only its kept keys, and is never pushed ([Known-Of Elements](/docs/schema/folders#known-of-elements)).
 
 Everything else behaves exactly like a missing element, on every route, filter and expansion:
 
