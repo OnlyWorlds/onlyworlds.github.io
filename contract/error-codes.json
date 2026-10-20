@@ -17,7 +17,7 @@
   "resync_required": {
     "type": "invalid_request",
     "status": 409,
-    "summary": "A guest's /changes cursor predates a change to what it can see, or is not this caller's cursor shape: pull again from since=0."
+    "summary": "A guest's, or (with the hidden mark on) a contributor's, /changes cursor predates a change to what it can see, or is not this caller's cursor shape: pull again from since=0."
   },
   "already_member": {
     "type": "invalid_request",
@@ -88,6 +88,11 @@
     "type": "permission_error",
     "status": 403,
     "summary": "A member key tried to change the world's own settings (a co-builder may change time_range_current alone)."
+  },
+  "view_as_owner_only": {
+    "type": "permission_error",
+    "status": 403,
+    "summary": "A member key sent `as` (view as): reading as another reader is the owner's, from a key with no member."
   },
   "guest_not_supported": {
     "type": "permission_error",

@@ -41,7 +41,7 @@ Some errors carry extra top-level keys beside `error`, named in their row: `prec
 | [`invalid_request`](#invalid_request) | `invalid_request` | `422` | The body or query is malformed: an unknown field or query parameter, a bad value, or a wrong-shaped payload; `param` names the culprit. |
 | [`invalid_link`](#invalid_link) | `invalid_request` | `400` | A link field names an element that does not exist in this world (or among a /bulk batch's surviving items). |
 | [`id_conflict`](#id_conflict) | `invalid_request` | `409` | A create supplied an id that already exists, in this world or another (element ids are unique across all worlds). |
-| [`resync_required`](#resync_required) | `invalid_request` | `409` | A guest's /changes cursor predates a change to what it can see, or is not this caller's cursor shape: pull again from since=0. |
+| [`resync_required`](#resync_required) | `invalid_request` | `409` | A guest's, or (with the hidden mark on) a contributor's, /changes cursor predates a change to what it can see, or is not this caller's cursor shape: pull again from since=0. |
 | [`already_member`](#already_member) | `invalid_request` | `409` | The invite names someone who is already a member, or the accepting account already is one. |
 | [`removal_in_flight`](#removal_in_flight) | `invalid_request` | `409` | A removal ticket for this image was issued less than 10 minutes ago and is not yet spent; use it, or retry after Retry-After. |
 | [`upload_pending`](#upload_pending) | `invalid_request` | `409` | No image is recorded under this key yet, but an upload ticket in this world is still open and unreported (the upload may have just finished); retry after Retry-After (2 s). The platform cannot tell which key an open ticket will get, so any key answers this while the caller holds one, until it expires; then not_found. |
@@ -56,6 +56,7 @@ Some errors carry extra top-level keys beside `error`, named in their row: `prec
 | [`permission_error`](#permission_error) | `permission_error` | `403` | The credential is valid but lacks the scope for this route (e.g. a read key on a write route). |
 | [`not_author`](#not_author) | `permission_error` | `403` | A contributor or guest key changed, replaced, relinked or deleted an element someone else created. |
 | [`owner_only`](#owner_only) | `permission_error` | `403` | A member key tried to change the world's own settings (a co-builder may change time_range_current alone). |
+| [`view_as_owner_only`](#view_as_owner_only) | `permission_error` | `403` | A member key sent `as` (view as): reading as another reader is the owner's, from a key with no member. |
 | [`guest_not_supported`](#guest_not_supported) | `permission_error` | `403` | A guest key called a route guests cannot use yet, or wrote a note (Narrative) without a Character of its own in the world. |
 | [`storage_full`](#storage_full) | `permission_error` | `403` | The account the upload counts against has used all of its image storage. |
 | [`files_full`](#files_full) | `permission_error` | `403` | The world's files have no room for this one (250 MB a world); the message gives the world's use, its cap and the file's size. Remove a file, or ask the owner. |
@@ -212,6 +213,14 @@ A contributor or guest key changed, replaced, relinked or deleted an element som
 A member key tried to change the world's own fields (`PATCH /api/v2/world`). The one exception: a co-builder may send `time_range_current` alone, to move the world's now.
 
 - **How to fix:** only the owner's key can do this; a co-builder can move the world's now with a body holding `time_range_current` and nothing else.
+
+### view_as_owner_only
+
+**Type** `permission_error` · **Status** `403`
+
+A member key sent `as` on a read that takes it (an element get or list, search, the metadata routes). Reading as another reader is the owner's: only a key with no member, the owner's own keys or a legacy key, may send it. Keel answers it only while its hidden mark is switched on; until then `as` is an unknown parameter (`422`, `param` `as`).
+
+- **How to fix:** send `as` with one of the owner's keys, or leave it out. A member key reads as itself.
 
 ### guest_not_supported
 
