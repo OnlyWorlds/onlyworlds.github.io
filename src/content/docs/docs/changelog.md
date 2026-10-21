@@ -7,6 +7,8 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-21
 
+- **[Folder format](/docs/schema/folders) 0.3.12.** A folder's `records/RECORDS.json`, where it has one, is a plain list of producer entries. Writers now stamp `"0.3.12"`: the Python package 0.10.4 (nothing else in it changed).
+- **[Unity SDK](/docs/development/unity) 0.7.0 to 0.9.0.** Join by a link, a table of players with a pick, the downloaded world file read and written as a folder, an export that says where it came from and which slice it is, a world as one `.owworld` file, and the calendar reader on the `atlas_calendar` profile.
 - **TypeScript 4.42.3.** `parseDate` reads a down era's date back to the step it was written from when the era's pivot falls mid-year; since 4.42.2 such dates parsed one year early.
 - **[Keys](/docs/getting-started/keys).** A world's owner can retire its legacy 10-digit key for good from the world page; a retired key answers `401` on every door. Demo keys can't be retired. <!-- keel PR 141 -->
 

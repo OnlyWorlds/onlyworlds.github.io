@@ -30,7 +30,7 @@ Two keys are required: `id` (a non-empty string) and `name` (a string, which may
 | Key | Holds |
 | :--- | :--- |
 | `description`, `image_url`, timeline fields, `length_unit`, `mass_unit`, `distance_unit` | As on [Worlds](/docs/schema/worlds). The unit keys have the same spelling on disk and on the wire. The current time is `time_current` on disk, the standard's name; the API calls it `time_range_current`. |
-| `format_version` | The version of this format the folder was written against, currently `"0.3.11"`. Written only when the folder is created. |
+| `format_version` | The version of this format the folder was written against, currently `"0.3.12"`. Written only when the folder is created. |
 | `source` | Where the folder came from: `{"server", "world", "at"}`, the server's address, the world's id there and when it was exported. Written by a tool that exports from a server; absent on a folder made by hand. |
 | `exported_as` | Which part of the world this is: `{"kind", "role", "character"}`, with `kind` `owner` (the whole world), `member` (a co-builder's or contributor's view), `character` (what one Character knows, with its `{id, name}`) or `public`. A tool that cannot tell writes none. A tool that pushes refuses to push a `character` or `public` folder as the whole world. |
 | `api` | The link to a world on onlyworlds.com (`world_id`, `api_key`). Present: the folder syncs with it. Absent: a local world. |
@@ -94,7 +94,7 @@ The writer mints a fresh world id and keeps every element id; a re-capture under
 | [Obsidian plugin](/docs/tools/obsidian-plugin) | Exports a world as a folder; imports a folder into notes |
 | [Toolkit](/docs/development/toolkit) | Reads a folder in place of the API; parsing writes new ones |
 | [Python package](/docs/development/python) | Reads and writes folders (`read_folder`, `write_folder`); `export_world` writes an account world as a folder; exports a folder to an OKF bundle |
-| [Unity SDK](/docs/development/unity) | Reads a folder into a world cache; writes elements, and exports an account world as a folder |
+| [Unity SDK](/docs/development/unity) | Reads a folder, or a whole folder zipped as one `.owworld` file, into a world cache; writes elements, and exports an account world as a folder |
 | [Azgaar converter](https://github.com/OnlyWorlds/azgaar-converter) | Azgaar map in, as a folder |
 | [Foundry converter](https://github.com/OnlyWorlds/foundry-converter) | Folder out, to Foundry VTT |
 
