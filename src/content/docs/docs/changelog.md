@@ -5,6 +5,12 @@ description: What changed for developers on OnlyWorlds (the API, the clients and
 
 What changed for developers, newest first: the API on onlyworlds.com, the clients and tools these docs describe, and the docs themselves. Each day lists what a page now says; every release of a package is in its own changelog: [TypeScript SDK](https://github.com/OnlyWorlds/sdk/blob/main/CHANGELOG.md), [Unity SDK](https://github.com/OnlyWorlds/unity-sdk/blob/main/Packages/com.onlyworlds.sdk/CHANGELOG.md), [Python package](https://github.com/OnlyWorlds/python-sdk/blob/main/CHANGELOG.md). Everything that shipped across OnlyWorlds, for everyone, is on [What's new](https://www.onlyworlds.com/whats-new); this page stays the developer log.
 
+## 2026-10-22
+
+- **[Members and sharing](/docs/development/api/members): an invite link for people takes Uses.** `max_uses` 1 to 50 on a person link lets in that many accounts, each joining once with the link's role; the link stops when every use is taken, it expires or it is revoked, and who already joined stays. <!-- keel PR 150 -->
+- **[Members and sharing](/docs/development/api/members): change who made an element.** `POST /api/v2/{type}/{id}/adopt` with `{"member"}` (a membership id, or `owner`) sets `created_by`, for the owner or a co-builder; a contributor's key is `403 not_author`. The write takes a new `change_seq`, so the feed carries it. On the site, an Author card on the element page. <!-- keel PR 151 -->
+- **[TypeScript SDK](/docs/development/typescript) 4.43.0.** `adopt(type, id, member)` for the route above; `createWorldLink`'s `maxUses` documented for person links.
+
 ## 2026-10-21
 
 - **[Python](/docs/development/python) 0.12.0: the doctor's packet.** `python -m onlyworlds.doctor PATH --packet` prints the findings as work packets in the `packet` extension profile (schema-dist dist.36): a Relation with supertype `Work item`, one entry per element with its reason under `x_packet_elements`, the same ids on the typed links, source and producer lines; empty when clean. Under [Check a world](/docs/development/python#check-a-world).

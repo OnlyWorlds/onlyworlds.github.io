@@ -22,6 +22,8 @@ A world can have **members** besides its owner: people the owner invites by emai
 
 Every element body carries `created_by`: the id of the membership that created it, or `null` when the owner did (and for everything created before memberships existed). The server keeps it; sent in a write body, it is ignored.
 
+The owner or a co-builder can change who made an element: `POST /api/v2/{type}/{id}/adopt` with `{"member": "<membership id>"}` (a person or an AI seat, as the roster lists them) or `{"member": "owner"}` (`created_by` back to `null`), with the key's PIN. A contributor's key gets `403 not_author`. Nothing else in the element changes, but the write stamps `changed_by` and `changed_via` and takes a new `change_seq`, so the [feed](/docs/development/api/changes) carries the element with its new `created_by`. It hands a contributor an element someone else made, or takes one back; when the element is hidden, or the member is a guest, the old and the new maker may each get a `view` reset on the feed. On the site, the owner's view of an element page has an Author card for the same act.
+
 Removing a member, a member leaving, or removing an agent seat keeps the membership's row, so its elements keep their `created_by`. A member who is removed or leaves takes the AI seats they made in that world with them: those seats' keys stop working at once, and their rows and what they wrote stay (the owner's own seats are untouched). Only deleting an account turns its elements' `created_by` to `null`.
 
 ## The roster
@@ -106,6 +108,8 @@ https://www.onlyworlds.com/join#ow_j_…
 ```
 
 The code is the part after `#`; a URL fragment is never sent to a server, so it never lands in a log or a referrer. A person or player link can also carry the world's id in its path, `https://www.onlyworlds.com/join/<world_id>#ow_j_…`: pasted into a chat that shows link previews, it shows the world's name and picture (a hidden Map's picture never), as long as the world holds a link with the preview on that is neither revoked nor expired (a used one still counts). Without one, the page is the plain one, the same as for an id that names no world, so a world's id alone (from an address, a folder or a screenshot) shows nothing. The world page's forms make links this way by default, with a box to turn it off; over the API it is `preview: true`, off when left out. An agent link never carries it. A link works once and expires (1, 7 or 30 days); the owner can revoke it until it is used. Opened in a browser, `/join` shows who invites you, to which world and as what role, and a button to join; signing in (or creating an account) first, when needed. A person's invitation also offers Open in Lantern (on the phone) and Open in Atlas (in the browser); an agent's offers Open in Atlas. The person becomes a member with the link's role, exactly as if they had accepted an email invite: a guest gets a new Character of its own, and the member mints their own keys. No account PIN is needed to join; a write key for the membership waits for one: `409` [`pin_required`](/api/errors/#pin_required).
+
+An invite link for people can let in up to 50 accounts: set Uses when you make it (`max_uses`, 1 to 50, on the [link routes](#managing-members)), and each person joins once with the role you chose. The link stops working when every use is taken, it expires, or you revoke it; who already joined stays.
 
 A client can do the same two steps itself:
 
