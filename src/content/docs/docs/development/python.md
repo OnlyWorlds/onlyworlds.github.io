@@ -72,6 +72,18 @@ python -m onlyworlds.okf my-world my-world-okf
 
 Each element becomes one markdown file: its fields and links in the frontmatter, its text under headings, its links again as markdown links (in-prose `ow://` references included). The World becomes `world.md` (without its `api` block), and there is an index per type and one for the bundle. A [known-of](/docs/schema/folders#known-of-elements) stub keeps `known_of: true` in its frontmatter (since 0.10.2), so it never reads as a whole element. The same folder always gives the same bytes, and anything left out is listed in the report (on stderr from the command line). A bundle is a copy to read elsewhere, never a folder to sync: it carries no `change_seq`, no record of who wrote what, and not the world's key.
 
+## Check a world
+
+The doctor (since 0.11.0) reads a world and reports what its keeper should look at, each finding with the element and the reason. It never writes: no file, no API write; its only product is the report.
+
+```bash
+python -m onlyworlds.doctor PATH/TO/WORLD-FOLDER          # a folder
+OW_API_KEY=... OW_API_PIN=... python -m onlyworlds.doctor --api   # an account world; a read key needs no PIN
+python -m onlyworlds.doctor PATH --json                   # the same report for a tool
+```
+
+What it checks: a link to an element that is not there; an Event ending before it starts; an element with no links in or out; two elements whose names collide once folded (within one type); a known-of stub never filled, and an element with no text in any of its type's text fields (a Law's text is in `declaration` and `purpose`, a Narrative's in `story`, so `description` alone is never read); a charter untouched after many changes (through the API); and, on a folder, a stale `format_version` and a key committed in a tracked `world.json`. Each flag says how much it could compare, and a flag that cannot run on that door is listed with its reason, never counted as clean. Findings on messages and room things (supertype `Message`, `Board`, `Work item` and the like) are listed apart and kept out of the headline count. Exit code 0 when clean, 1 with findings, 2 when nothing could be read. The judgement half, re-reading a claim against its source, is a separate recipe that takes the doctor's findings as its targets.
+
 ## What it covers
 
 - **World folders**: `read_folder` and `write_folder` implement the folder format (v0.3.12, `FORMAT_VERSION`) and pass its shared conformance fixture. Since 0.9.0 a [known-of](/docs/schema/folders#known-of-elements) stub is written without its unset fields (since 0.10.0 with every field it was served with a value, such as a Character's public fields; `PUBLIC_FIELDS` lists them per type), flagged on read (`folder.known_of`, `is_known_of`), never pushed (`PushPlan.known_of` lists it), and refused by the client's writes before anything is sent. The reader never changes a folder. It skips a file that is not JSON, not an object or has no `id`, and since 0.5.1 a dot-prefixed file in a type folder (a tool's litter, not an element); `folder.skipped` lists each with the reason. An element found in both the current `elements/` layout and Atlas's older `spatial/` one is served from `elements/`, and `folder.in_both_layouts` lists it (since 0.5.0).
