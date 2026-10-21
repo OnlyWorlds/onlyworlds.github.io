@@ -25,6 +25,7 @@ The header names are exactly `API-Key` and `API-Pin`. The key alone determines t
 
 - Each world key (`ow_w_`, `ow_r_`, legacy) is scoped to one world.
 - Legacy 10-digit keys keep working and stay valid. New ones are no longer issued: mint a prefixed key instead.
+- The one exception is your own act: the world page on onlyworlds.com can retire a world's legacy key for good. From then on it answers `401` [`invalid_credentials`](/api/errors/#invalid_credentials) on every door (this API, the Classic API, MCP and worldsync), as an unknown key would. Demo keys can't be retired.
 - A new key is shown once, when it is minted. Key lists afterwards show only its last four characters.
 - `ow_r_` keys are made for sharing: hand one to readers and they can read the whole world without any second secret. A key you mint is your own tool and shows what you [hid](/docs/development/api/hidden). To share a world without what you hid, use a [player link](/docs/development/api/members#player-links) (a friend reads as one Character, with no account) or an [invite](/docs/development/api/members#invite-links) with a role.
 - Both the current API and the [Classic API](/docs/development/api/classic) accept prefixed and legacy keys.

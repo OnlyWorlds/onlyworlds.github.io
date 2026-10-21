@@ -5,6 +5,11 @@ description: What changed for developers on OnlyWorlds (the API, the clients and
 
 What changed for developers, newest first: the API on onlyworlds.com, the clients and tools these docs describe, and the docs themselves. Each day lists what a page now says; every release of a package is in its own changelog: [TypeScript SDK](https://github.com/OnlyWorlds/sdk/blob/main/CHANGELOG.md), [Unity SDK](https://github.com/OnlyWorlds/unity-sdk/blob/main/Packages/com.onlyworlds.sdk/CHANGELOG.md), [Python package](https://github.com/OnlyWorlds/python-sdk/blob/main/CHANGELOG.md). Everything that shipped across OnlyWorlds, for everyone, is on [What's new](https://www.onlyworlds.com/whats-new); this page stays the developer log.
 
+## 2026-10-21
+
+- **TypeScript 4.42.3.** `parseDate` reads a down era's date back to the step it was written from when the era's pivot falls mid-year; since 4.42.2 such dates parsed one year early.
+- **[Keys](/docs/getting-started/keys).** A world's owner can retire its legacy 10-digit key for good from the world page; a retired key answers `401` on every door. Demo keys can't be retired. <!-- keel PR 141 -->
+
 ## 2026-10-20
 
 - **TypeScript 4.42.2.** A calendar's down era (a count toward a pivot, like BC) has no year zero when its pivot falls mid-year: the year holding the step just before the pivot reads `year_base`. Eras starting on the same step resolve by a stated rule: an up era over a down one, then the later in the list.
