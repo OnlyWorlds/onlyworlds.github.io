@@ -43,6 +43,7 @@ Pass the returned `cursor` back as `?since=` until `has_more` is `false`. Store 
 | `since` | The cursor to continue from. Omit it to start from the beginning |
 | `limit` | Ops per page: default 500, at most 1000. A value out of range or not an integer is a `422` |
 | `head` | `?head=true` returns only the current tip (`head`, and a `cursor` to follow from), with no elements |
+| `after` | An ISO 8601 time (`2026-10-21T09:00:00Z`; no offset means UTC; send a `+` offset as `%2B`): only the changes made at or after it, an upsert by its `updated_at`, a delete by its `deleted_at`. A filter, not a position: the order, `cursor`, `has_more` and `head` are as without it, so read the whole window by passing the cursor back as `since` with the same `after` until `has_more` is false. Anything that is not a date and time is a `422` naming `after` |
 
 - **Treat the cursor as opaque.** Pass back exactly what you received.
 - **The continuation parameter is `since`.** Any other parameter, such as `cursor=`, is a `422`, never silently ignored.

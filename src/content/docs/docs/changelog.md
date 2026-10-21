@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-22
 
+- **[Change feed](/docs/development/api/changes): `?after=<ISO time>`.** Only the changes made at or after a time, a filter on the same feed with the same order and cursor; the [AI page](/docs/development/ai)'s "since yesterday" names it. Python 0.13.0 `changes(after=)` and `walk_changes(after=)`, SDK 4.44.0 `changes({ after })` and `changesAll(since, { after })`. <!-- keel PR 152 -->
 - **[Members and sharing](/docs/development/api/members): an invite link for people takes Uses.** `max_uses` 1 to 50 on a person link lets in that many accounts, each joining once with the link's role; the link stops when every use is taken, it expires or it is revoked, and who already joined stays. <!-- keel PR 150 -->
 - **[Members and sharing](/docs/development/api/members): change who made an element.** `POST /api/v2/{type}/{id}/adopt` with `{"member"}` (a membership id, or `owner`) sets `created_by`, for the owner or a co-builder; a contributor's key is `403 not_author`. The write takes a new `change_seq`, so the feed carries it. On the site, an Author card on the element page. <!-- keel PR 151 -->
 - **[TypeScript SDK](/docs/development/typescript) 4.43.0.** `adopt(type, id, member)` for the route above; `createWorldLink`'s `maxUses` documented for person links.

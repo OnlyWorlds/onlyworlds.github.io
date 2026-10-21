@@ -86,7 +86,7 @@ for row in rows:
     print(row["op"], row["type"], row["id"], who)
 ```
 
-The same walk over MCP is the `get_changes` tool, and in the npm package `changes()` with the cursor passed back as `since`. Treat the cursor as opaque; it never expires. "Since yesterday" by the clock is not a parameter of the feed: a kept cursor is the honest form, because it names exactly what you have and have not seen.
+The same walk over MCP is the `get_changes` tool, and in the npm package `changes()` with the cursor passed back as `since`. Treat the cursor as opaque; it never expires. "Since yesterday" by the clock is `?after=<ISO time>` on the same feed (keel #514): the rows made at or after that time, in the same order with the same cursor, so a window is walked by passing the cursor back as `since` with the same `after`; in Python `walk_changes(after=...)`, in the npm package `changesAll(since, { after })`. A kept cursor is still the exact form, because it names what you have and have not seen; `after` answers a clock, and a change made twice in the window shows once, at its latest state.
 
 ## Ask your world, without a key of your own
 
