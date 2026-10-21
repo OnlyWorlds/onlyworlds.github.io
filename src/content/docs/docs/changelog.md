@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-21
 
+- **[Python](/docs/development/python) 0.12.0: the doctor's packet.** `python -m onlyworlds.doctor PATH --packet` prints the findings as work packets in the `packet` extension profile (schema-dist dist.36): a Relation with supertype `Work item`, one entry per element with its reason under `x_packet_elements`, the same ids on the typed links, source and producer lines; empty when clean. Under [Check a world](/docs/development/python#check-a-world).
 - **[Python](/docs/development/python) 0.11.0: the doctor.** `python -m onlyworlds.doctor` checks a world folder or an account world and reports what a keeper should look at, each finding with the element and the reason; it never writes. Under [Check a world](/docs/development/python#check-a-world).
 - **[AI page](/docs/development/ai): what changed since your last visit.** The recipe for a scheduled agent: keep the feed's cursor, walk from it, read who changed what through which door; the same walk over MCP (`get_changes`) and in both packages. No new route.
 - **[Unity SDK](/docs/development/unity) 0.10.0.** A known-of stub is exported as the server hands it and never written back (`IsKnownOf` on read); exports declare folder format 0.3.12; a typed calendar era refuses a date it does not hold, as the TypeScript SDK 4.42.4 does. The [Python page](/docs/development/python) now names the format its package stamps, 0.3.12 (it said 0.3.11 since 0.10.4 shipped).
