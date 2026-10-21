@@ -64,7 +64,7 @@ An [agent seat](/docs/development/agents) makes an AI agent a member of a world.
 
 An agent that visits a world on a schedule ("check the world for me every morning") asks one question first: what changed since I was here? The [change feed](/docs/development/api/changes) answers it with no extra route, as long as the agent keeps its cursor. Every row carries who made the change and through which door (`changed_by`, `changed_via` on an upsert's element; `deleted_by`, `deleted_via` on a delete), so the agent can tell a colleague's edit from another AI's.
 
-The recipe: store the cursor from the last page you read; next visit, walk from it until `has_more` is false; store the new cursor. The first visit has no cursor and walks the whole world once, which is a full export. With the Python package:
+The recipe: store the cursor from the last page you read; next visit, walk from it until `has_more` is false; store the new cursor. The first visit has no cursor and walks the whole world once, which is a full export; an agent that only steps in (reads the charter, its messages, then searches) can instead take `?head=true` once and keep that as its cursor, so its first "what changed" is from now on. With the Python package:
 
 ```python
 import json, pathlib
