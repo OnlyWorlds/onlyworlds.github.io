@@ -11,12 +11,39 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 - **[Unity SDK](/docs/development/unity) 0.7.0 to 0.9.0.** Join by a link, a table of players with a pick, the downloaded world file read and written as a folder, an export that says where it came from and which slice it is, a world as one `.owworld` file, and the calendar reader on the `atlas_calendar` profile.
 - **TypeScript 4.42.3.** `parseDate` reads a down era's date back to the step it was written from when the era's pivot falls mid-year; since 4.42.2 such dates parsed one year early.
 - **[Keys](/docs/getting-started/keys).** A world's owner can retire its legacy 10-digit key for good from the world page; a retired key answers `401` on every door. Demo keys can't be retired. <!-- keel PR 141 -->
+- **[Changelog](https://www.onlyworlds.com/changelog).** The shared What's new page is now the Changelog, back to the beginning; its old paths redirect ([onlyworlds.com](/docs/tools/onlyworlds-com), [Contact](/docs/contact)). <!-- keel PR 125 -->
+- **[The world export file](/docs/development/api/changes#the-export-file).** The owner's download now carries the provenance lines, `world.source` and `world.exported_as`. Its `schema_version` has named the standard's version since 2026-10-18; this page said the envelope's until today. <!-- keel PR 133 -->
+- **[Handing a seat over](/docs/development/agents#the-human-sponsor).** The owner can give an agent seat to another member with `sponsor` on the member's `PATCH`; the seat then follows that member's role and leaves with them, and keeps its key, Character and work. <!-- keel PR 121 -->
+<!-- keel PR 132: no docs change -->
+<!-- keel PR 142: no docs change -->
+<!-- keel PR 145: no docs change -->
+<!-- keel PR 109: no docs change -->
+<!-- keel PR 112: no docs change -->
+<!-- keel PR 114: no docs change -->
+<!-- keel PR 115: no docs change -->
+<!-- keel PR 116: no docs change -->
+<!-- keel PR 118: no docs change -->
+<!-- keel PR 119: no docs change -->
+<!-- keel PR 122: no docs change -->
+<!-- keel PR 126: no docs change -->
+<!-- keel PR 127: no docs change -->
+<!-- keel PR 130: no docs change -->
+<!-- keel PR 131: no docs change -->
+<!-- keel PR 134: no docs change -->
+<!-- keel PR 135: no docs change -->
+<!-- keel PR 136: no docs change -->
+<!-- keel PR 137: no docs change -->
+<!-- keel PR 138: no docs change -->
+<!-- keel PR 139: no docs change -->
+<!-- keel PR 140: no docs change -->
+<!-- keel PR 143: no docs change -->
+<!-- keel PR 144: no docs change -->
 
 ## 2026-10-20
 
 - **TypeScript 4.42.2.** A calendar's down era (a count toward a pivot, like BC) has no year zero when its pivot falls mid-year: the year holding the step just before the pivot reads `year_base`. Eras starting on the same step resolve by a stated rule: an up era over a down one, then the later in the list.
 - **TypeScript 4.42.1.** The calendar reader refuses what the [`atlas_calendar` profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/calendar.md) refuses: an `eras` or `intercalary` that is present but not a list (`false` threw before), an era start or end that is not whole, a `year_base` other than 0 or 1, and names that are not strings. The Unity SDK reads the same way.
-- **[Extension profiles](/docs/schema/conventions#data-the-schema-does-not-model).** A named extension field that tools agree to read the same way, published as a page in schema-dist's `profiles/` folder (serial 30). The first two: `x_identity_key`, the same being in several worlds, and `atlas_calendar`, a world's own calendar. Nothing in the schema changed.
+- **[Extension profiles](/docs/schema/conventions#data-the-schema-does-not-model).** A named extension field that tools agree to read the same way, published as a page in schema-dist's `profiles/` folder (serial 30). The first two: `x_identity_key`, the same being in several worlds, and `atlas_calendar`, a world's own calendar. Nothing in the schema changed. <!-- keel PR 124 -->
 
 - **Schema 00.32.02.** A Narrative's `start_date` is when it is first told or recorded and its `end_date` when it stops being told (empty while it is still told); the span it recounts lives on its Events ([Narrative](/docs/schema/element_categories/narrative)). No field, type or link changed, so nothing moves on the wire. The TypeScript SDK 4.42.0 and the Python package 0.10.3 carry it. <!-- keel PR 123 -->
 - **[What's new](https://www.onlyworlds.com/whats-new).** One page for every release across OnlyWorlds: the site, Atlas, the Obsidian plugin, the toolkit, both SDKs, the Python package and schema-dist, with an Atom feed (`/whats-new.xml`) and the merged list as JSON (`/whats-new.json`, a `sources` row per tool with its count and an `ok` flag). The TypeScript SDK and the Python package now publish a GitHub release for each version, which is where the page reads them ([Contact and resources](/docs/contact), [onlyworlds.com](/docs/tools/onlyworlds-com)). <!-- keel PR 120 -->

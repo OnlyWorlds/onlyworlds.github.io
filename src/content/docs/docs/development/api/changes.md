@@ -127,9 +127,13 @@ The account portal's **Export world** button downloads the whole world as one JS
 ```json
 {
   "format": "onlyworlds-world-export",
-  "schema_version": "…",
+  "schema_version": "00.32.02",
   "exported_at": "…",
-  "world": { "id": "…", "name": "Hyperion", "created_at": "…", "updated_at": "…" },
+  "world": {
+    "id": "…", "name": "Hyperion", "created_at": "…", "updated_at": "…",
+    "source": { "server": "https://www.onlyworlds.com", "world": "…", "at": "…" },
+    "exported_as": { "kind": "owner", "role": "owner", "character": null }
+  },
   "elements": {
     "character": [ { "id": "…", "type": "character", "name": "The Consul" } ],
     "institution": [ { "id": "…", "type": "institution", "name": "The Hegemony" } ]
@@ -137,8 +141,9 @@ The account portal's **Export world** button downloads the whole world as one JS
 }
 ```
 
-- `format` is always the literal `"onlyworlds-world-export"`; a reader should reject a file without it.
+- `format` is always the literal `"onlyworlds-world-export"`; a reader should reject a file without it. The envelope's shape is keyed by `format` alone: a breaking change would change it.
 - `elements` is keyed by lowercase category slug, each an array ordered by `created_at`. Only categories with at least one element appear.
 - Element bodies are exactly what the API returns, extension fields included.
 - `world.id` is the world's identity: an importer should keep it rather than mint a new one.
-- `schema_version` versions this envelope, not the schema or the world. Readers ignore keys they do not know.
+- `schema_version` is the version of the standard the elements follow (the value `X-OW-Schema-Version` carries); it is information, not a gate. Files from before 2026-10-18 carry `0.30.00` there. Readers ignore keys they do not know.
+- `world.source` and `world.exported_as` are the [folder format's provenance lines](/docs/schema/folders#worldjson): where the file came from, and that it is the owner's whole world. A tool that writes the file out as a folder carries both into `world.json` as they are. A file without them predates 2026-10-20.
