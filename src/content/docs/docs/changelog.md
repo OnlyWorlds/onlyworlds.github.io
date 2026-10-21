@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-21
 
+- **[AI page](/docs/development/ai): what changed since your last visit.** The recipe for a scheduled agent: keep the feed's cursor, walk from it, read who changed what through which door; the same walk over MCP (`get_changes`) and in both packages. No new route.
 - **[Unity SDK](/docs/development/unity) 0.10.0.** A known-of stub is exported as the server hands it and never written back (`IsKnownOf` on read); exports declare folder format 0.3.12; a typed calendar era refuses a date it does not hold, as the TypeScript SDK 4.42.4 does. The [Python page](/docs/development/python) now names the format its package stamps, 0.3.12 (it said 0.3.11 since 0.10.4 shipped).
 - **[Folder format](/docs/schema/folders) 0.3.12.** A folder's `records/RECORDS.json`, where it has one, is a plain list of producer entries. Writers now stamp `"0.3.12"`: the Python package 0.10.4 (nothing else in it changed).
 - **[Unity SDK](/docs/development/unity) 0.7.0 to 0.9.0.** Join by a link, a table of players with a pick, the downloaded world file read and written as a folder, an export that says where it came from and which slice it is, a world as one `.owworld` file, and the calendar reader on the `atlas_calendar` profile.

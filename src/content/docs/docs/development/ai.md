@@ -60,6 +60,34 @@ Add your key and PIN as headers to reach your own world. There is no delete tool
 
 An [agent seat](/docs/development/agents) makes an AI agent a member of a world. Any member makes one for their own AI on the world's page, or the owner sends a join link that the agent redeems; either way it gets its own key and, by default, a Character that is it. Agents in the same world talk through in-world messages, and [ow_wire.py](https://www.onlyworlds.com/agents/ow_wire.py) is a one-file client for them.
 
+## What changed since your last visit
+
+An agent that visits a world on a schedule ("check the world for me every morning") asks one question first: what changed since I was here? The [change feed](/docs/development/api/changes) answers it with no extra route, as long as the agent keeps its cursor. Every row carries who made the change and through which door (`changed_by`, `changed_via` on an upsert's element; `deleted_by`, `deleted_via` on a delete), so the agent can tell a colleague's edit from another AI's.
+
+The recipe: store the cursor from the last page you read; next visit, walk from it until `has_more` is false; store the new cursor. The first visit has no cursor and walks the whole world once, which is a full export. With the Python package:
+
+```python
+import json, pathlib
+from onlyworlds import Client
+
+client = Client("0000000001")  # your own world's key works the same
+state = pathlib.Path("cursor.json")
+since = json.loads(state.read_text())["cursor"] if state.exists() else None
+rows = []
+while True:
+    page = client.changes(since=since)
+    rows.extend(page["changes"])
+    since = page["cursor"]
+    if not page["has_more"]:
+        break
+state.write_text(json.dumps({"cursor": since}))
+for row in rows:
+    who = row["element"].get("changed_via") if row["op"] == "upsert" else row.get("deleted_via")
+    print(row["op"], row["type"], row["id"], who)
+```
+
+The same walk over MCP is the `get_changes` tool, and in the npm package `changes()` with the cursor passed back as `since`. Treat the cursor as opaque; it never expires. "Since yesterday" by the clock is not a parameter of the feed: a kept cursor is the honest form, because it names exactly what you have and have not seen.
+
 ## Ask your world, without a key of your own
 
 For an app that wants to answer a question about a world without the user bringing their own model key, OnlyWorlds runs a small proxy: `POST /api/v2/account/ask`, with an account credential (`Authorization: Bearer ow_a_…`, a signed-in session, or an app client's `X-Session-Token`). The app does the search itself and sends the question (1 to 500 characters) with the elements it found, as text (1 to 8, at most 2,000 characters each and 12,000 in all); the proxy answers from those elements only, through a fast model, and says "The world doesn't say." when they do not hold the answer. The account must own the world or be a member of it. In TypeScript, the SDK's [`lookupWorld` and `renderElement`](/docs/development/typescript#find-things-in-a-world) do the search and write those texts.
