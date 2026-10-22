@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-22
 
+- **[Python](/docs/development/python) 0.19.0: import from Notion.** A Markdown & CSV export becomes a world folder: typed databases into elements, columns into fields by name, relations into links, pages into Narratives, everything unplaced kept as an extension and reported by name; `--plan` first. No AI, no account.
 - **The standard 00.33.00: [Zone](/docs/schema/element_categories/zone) gains `shape`.** A string in Scope beside `role`: `polygon` or `line`, lowercase; empty, absent or any other value means not stated, and a reader draws a polygon. An additive change (a minor step), shipped as a schema update. The element page regenerated with schema-dist serial 43; [TypeScript SDK](/docs/development/typescript) 4.54.0 (`ZoneV2.shape`, `FIELD_SCHEMA`) and [Python](/docs/development/python) 0.18.0 carry the pin.
 - **[TypeScript SDK](/docs/development/typescript) 4.53.3 and [Python](/docs/development/python) 0.17.1: schema pin on schema-dist serial 42.** The `.owworld` conformance set gains `fail-OW-6-marker-bom` (a byte order mark before the media type is other bytes); both readers refuse it, and the set runs as each package's own test.
 - **[Writes](/docs/development/api/writes#agent-writes): every edit the site makes records the `site` door.** Taking a picture down or changing an element's author on onlyworlds.com now reads "through the site", as a hide already did. <!-- keel PR 164 -->
