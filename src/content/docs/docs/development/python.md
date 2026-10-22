@@ -76,6 +76,18 @@ python -m onlyworlds.okf my-world my-world-okf
 
 Each element becomes one markdown file: its fields and links in the frontmatter, its text under headings, its links again as markdown links (in-prose `ow://` references included). The World becomes `world.md` (without its `api` block), and there is an index per type and one for the bundle. A [known-of](/docs/schema/folders#known-of-elements) stub keeps `known_of: true` in its frontmatter (since 0.10.2), so it never reads as a whole element. The same folder always gives the same bytes, and anything left out is listed in the report (on stderr from the command line). A bundle is a copy to read elsewhere, never a folder to sync: it carries no `change_seq`, no record of who wrote what, and not the world's key.
 
+## The Markdown pack
+
+Since 0.25.0 a world can be packed as a few merged Markdown files for an AI notebook that caps its sources: NotebookLM (50 sources a notebook, 500,000 words a source) and Claude Projects (30 MB a file). No extra is needed.
+
+```bash
+python -m onlyworlds.pack my-world my-world-pack                     # a world folder
+OW_API_KEY=... python -m onlyworlds.pack --api my-world-pack         # an account world; a read key needs no PIN
+python -m onlyworlds.pack my-world OUT --rooms --extensions          # keep room elements and x_ fields
+```
+
+`00-world.md` holds the world's own fields and an index of every element by type (name, supertype and subtype, the first sentence of the description); then one file per element type present, in schema order, each element a `## Name` section with its id, its fields in schema order as `**Field:**` paragraphs, and every link written as the name and type of the element it points to, so a reader needs no other file to follow it. Prose is escaped so a line inside a field never reads as a heading. A [known-of](/docs/schema/folders#known-of-elements) stub carries one line saying that only the fields shown are known. [Room](/docs/schema/conventions#data-the-schema-does-not-model) elements are left out unless `--rooms`, and `x_*`, `atlas_*` and `shadow_*` fields unless `--extensions`; the command's sentence counts both. A file past `--words` (400,000) or `--bytes` (25,000,000) splits at element boundaries into numbered parts; when the parts would pass `--files` (50), the smallest adjacent whole files merge into one named by their types; an element larger than a cap is written alone and named, never cut or dropped. Only a pack that cannot meet `--files` exits 1, and every file is still written. The same world gives the same bytes. Beside it: an [OKF bundle](#export-to-okf) is one file per element with frontmatter and links as paths, for a knowledge tool that follows links; the pack is merged prose for a notebook that reads it whole.
+
 ## Check a world
 
 The doctor (since 0.11.0) reads a world and reports what its keeper should look at, each finding with the element and the reason. It never writes: no file, no API write; its only product is the report.
