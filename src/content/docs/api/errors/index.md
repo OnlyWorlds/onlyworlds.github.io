@@ -52,6 +52,9 @@ Some errors carry extra top-level keys beside `error`, named in their row: `prec
 | [`known_of_not_writable`](#known_of_not_writable) | `invalid_request` | `422` | A write body carried `known_of` (`param` known_of): that key marks a stub, an element the reader knows of but does not see whole, and is never written. A stub sent back would blank every field it leaves out: drop `known_of` and send only the fields you mean to change. |
 | [`character_taken`](#character_taken) | `invalid_request` | `422` | A player picked a Character from a party link's list that a live seat in the world already plays (`param` character): pick another from the list. The preview marks each listed Character `taken`. |
 | [`world_full`](#world_full) | `invalid_request` | `422` | A player link was opened in a world that already has its 50 live players: nothing was spent, and the link works again once the owner removes a player. |
+| [`field_not_visible`](#field_not_visible) | `invalid_request` | `422` | A proposal named a field the proposer's own view of the element does not hold (`param` names it): the element reaches this reader only as a stub (known_of), and a proposal changes only what its proposer can read. |
+| [`too_many_open`](#too_many_open) | `invalid_request` | `422` | A proposer already has 5 open proposals on this element, or 50 in this world: wait for a keeper to decide, or withdraw one. A lapsed proposal no longer counts. |
+| [`stale_proposal`](#stale_proposal) | `invalid_request` | `409` | An accept found that a field the proposal names has moved since it was made. Beside the envelope, `conflicts` lists each moved field with its `base` and `current` values, and `current` is the element as it is now. Nothing was written and the proposal stays open; the proposer proposes again on the current text. |
 | [`apply_failed`](#apply_failed) | `invalid_request` | `422` | A /bulk item passed validation but its write failed a database constraint (most often an id that already exists in another world). |
 | [`invalid_grant`](#invalid_grant) | `invalid_request` | `400` | Sign in with OnlyWorlds: the code cannot be exchanged (POST /api/v2/auth/token). It is unknown, already used, expired (a code lives 60 seconds), or was issued for another client, another redirect_uri or another code_verifier. One answer for every case, byte for byte, and the code is spent either way: start the sign-in again. |
 | [`file_too_large`](#file_too_large) | `invalid_request` | `413` | A file asked to be attached to an element is over 25 MB; the message gives both sizes (`param` size). |
@@ -62,6 +65,8 @@ Some errors carry extra top-level keys beside `error`, named in their row: `prec
 | [`owner_only`](#owner_only) | `permission_error` | `403` | A member key tried to change the world's own settings (a co-builder may change time_range_current alone). |
 | [`view_as_owner_only`](#view_as_owner_only) | `permission_error` | `403` | A member key sent `as` (view as): reading as another reader is the owner's, from a key with no member. |
 | [`guest_not_supported`](#guest_not_supported) | `permission_error` | `403` | A guest key called a route guests cannot use yet, or wrote a note (Narrative) without a Character of its own in the world. |
+| [`proposed_only`](#proposed_only) | `permission_error` | `403` | The world takes an agent seat's writes as proposals (its owner's setting), and this act has no proposal form: a seat deleting an element it did not create, or accepting or declining a proposal. Propose instead, or ask a keeper. |
+| [`own_proposal`](#own_proposal) | `permission_error` | `403` | A keeper tried to accept their own proposal: another keeper (the world's owner or a co-builder) decides it. |
 | [`storage_full`](#storage_full) | `permission_error` | `403` | The account the upload counts against has used all of its image storage. |
 | [`files_full`](#files_full) | `permission_error` | `403` | The world's files have no room for this one (250 MB a world); the message gives the world's use, its cap and the file's size. Remove a file, or ask the owner. |
 | [`not_found`](#not_found) | `not_found` | `404` | The element or route does not exist in this world. |
@@ -127,6 +132,47 @@ A `PATCH` or a link operation carried `If-Match` with a `change_seq`, and the el
 
 - **Common cause:** an edit made offline or from a stale copy, while another client (Atlas, a plugin, an agent) changed the same element.
 - **How to fix:** read `current`. If the fields you changed are not the ones that moved, re-send your `PATCH` with `current.change_seq` in `If-Match`. If the same field moved on both sides, ask the user which version to keep. See [Only if unchanged](/docs/development/api/writes#only-if-unchanged).
+
+### stale_proposal
+
+**Type** `invalid_request` · **Status** `409`
+
+An accept of a [proposal](/docs/development/api/proposals) found that a field the proposal would set has changed since the proposal was made. Nothing was written. The reply carries `conflicts`, one `{field, base, current}` per moved proposed field, and the element under a top-level `current`. A change elsewhere on the element does not cause this: only a proposed field that moved.
+
+- **Common cause:** the element was edited, or another proposal on the same field was accepted, between the proposal and its accept.
+- **How to fix:** read `conflicts`. Decline the row, or ask the proposer for a fresh one made against the element as it is now.
+
+### own_proposal
+
+**Type** `forbidden` · **Status** `403`
+
+A keeper tried to accept their own proposal. A proposal is accepted by someone other than its proposer: the owner or a co-builder who did not make it.
+
+- **How to fix:** another keeper accepts it, or the proposer writes the change directly with their own write key.
+
+### proposed_only
+
+**Type** `forbidden` · **Status** `403`
+
+Under the world's **AI seats propose, a person accepts** switch, an agent seat tried to delete an element it did not create, or to accept or decline a proposal. A seat under the switch proposes; a person decides.
+
+- **How to fix:** leave the decision to a person's key, or propose the change and let a keeper accept it.
+
+### too_many_open
+
+**Type** `invalid_request` · **Status** `422`
+
+The proposer already has five open proposals on this element, or the world already holds fifty open proposals. Lapsed rows do not count.
+
+- **How to fix:** wait for a keeper to decide the open rows, or withdraw one of your own (`DELETE .../proposals/{pid}`).
+
+### field_not_visible
+
+**Type** `invalid_request` · **Status** `422`
+
+A proposal would set a field the caller cannot see: one a [known-of](/docs/schema/folders#known-of-elements) stub withholds from this key. `param` names the field.
+
+- **How to fix:** propose only the fields the element shows you.
 
 ### resync_required
 

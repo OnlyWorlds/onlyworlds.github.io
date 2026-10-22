@@ -229,6 +229,20 @@ await account.removeSeat(worldId, made.seat.id);
 
 `role` is at most your own; `character` is `new` (a Character of its own), `none`, or `mine` (it plays the Character you play). None of these sends an `Idempotency-Key`, so a key is never stored for a replay: if an answer is lost, `listSeats` shows the seat, and `rekeySeat` gives it a new key.
 
+## Proposed changes
+
+Since 4.58.0 a member can [propose a change](/docs/development/api/proposals) for a keeper to accept instead of writing it, and a world's owner can make every agent seat work that way.
+
+```typescript
+const row = await client.propose('character', id, { fields: { reputation: 'Feared' }, evidence: 'Chapter 12', expires: 30 });
+const queue = await client.worldProposals({ state: 'open' });        // newest first; keepers see every row, others their own
+const { proposal, element } = await client.acceptProposal('character', id, row.id); // the keeper's own write, one feed row
+await client.declineProposal('character', id, row.id, { reason: 'not yet' });
+await client.withdrawProposal('character', id, row.id);               // the proposer's
+```
+
+With **AI seats propose, a person accepts** on for the world (`agent_writes_proposed` on `getWorld()`, read-only; `patchWorld` strips it), an agent seat's `patch`, `upsert` or `editLinks` on an existing element answers `202` and the client throws `OwProposedError` (`err.isProposed`, `err.proposal`) rather than returning a body that is not the element; a `bulk` slot with `status: 202` stays in the result, typed. An accept that finds a proposed field moved throws `OwStaleProposalError` (409, `err.isStaleProposal`, `err.conflicts`, `err.current`); the other codes are `isOwnProposal`, `isProposedOnly`, `isTooManyOpen` and `isFieldNotVisible`. Nothing about a proposal reaches the change feed: poll the queue to learn of new ones.
+
 ## Find things in a world
 
 With a world's elements in memory, `lookupWorld` finds the ones a plain question is about. It uses no model and no network, and runs in a few milliseconds (since 4.11.0).
@@ -297,6 +311,8 @@ No calendar, or a broken one, gives null: show the bare number.
 ## Errors
 
 Every non-2xx answer throws `OwApiError` with the platform's error envelope: `.status`, `.type`, `.code`, `.param` (the field that failed, or `API-Pin` when a PIN was refused) and `.docUrl`, which links to the code on [the errors page](/api/errors). Show `docUrl` to your users. Transport failures throw `OwNetworkError`. `err.isValidationError` covers the common case. A write sent with `ifMatch` that found the element moved throws `OwPreconditionFailedError` (412, `err.isPreconditionFailed`), an `OwApiError` that also carries `current`. `signInWithPassword` throws `OwSignInError` instead, which is not an `OwApiError`: its `reason` says why, `status` and `code` are keel's answer when one came back, and `retryAfter` comes with a rate limit.
+
+A write a world's switch turned into a [proposal](#proposed-changes) throws `OwProposedError` (202, `err.isProposed`, `err.proposal`) since 4.58.0, and an accept on a moved field `OwStaleProposalError` (409, `err.isStaleProposal`, `err.conflicts`, `err.current`).
 
 ## Schema constants
 

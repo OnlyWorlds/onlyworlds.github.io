@@ -69,6 +69,21 @@
     "status": 422,
     "summary": "A player link was opened in a world that already has its 50 live players: nothing was spent, and the link works again once the owner removes a player."
   },
+  "field_not_visible": {
+    "type": "invalid_request",
+    "status": 422,
+    "summary": "A proposal named a field the proposer's own view of the element does not hold (`param` names it): the element reaches this reader only as a stub (known_of), and a proposal changes only what its proposer can read."
+  },
+  "too_many_open": {
+    "type": "invalid_request",
+    "status": 422,
+    "summary": "A proposer already has 5 open proposals on this element, or 50 in this world: wait for a keeper to decide, or withdraw one. A lapsed proposal no longer counts."
+  },
+  "stale_proposal": {
+    "type": "invalid_request",
+    "status": 409,
+    "summary": "An accept found that a field the proposal names has moved since it was made. Beside the envelope, `conflicts` lists each moved field with its `base` and `current` values, and `current` is the element as it is now. Nothing was written and the proposal stays open; the proposer proposes again on the current text."
+  },
   "apply_failed": {
     "type": "invalid_request",
     "status": 422,
@@ -118,6 +133,16 @@
     "type": "permission_error",
     "status": 403,
     "summary": "A guest key called a route guests cannot use yet, or wrote a note (Narrative) without a Character of its own in the world."
+  },
+  "proposed_only": {
+    "type": "permission_error",
+    "status": 403,
+    "summary": "The world takes an agent seat's writes as proposals (its owner's setting), and this act has no proposal form: a seat deleting an element it did not create, or accepting or declining a proposal. Propose instead, or ask a keeper."
+  },
+  "own_proposal": {
+    "type": "permission_error",
+    "status": 403,
+    "summary": "A keeper tried to accept their own proposal: another keeper (the world's owner or a co-builder) decides it."
   },
   "storage_full": {
     "type": "permission_error",

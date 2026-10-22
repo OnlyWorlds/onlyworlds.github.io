@@ -76,6 +76,21 @@ python -m onlyworlds.okf my-world my-world-okf
 
 Each element becomes one markdown file: its fields and links in the frontmatter, its text under headings, its links again as markdown links (in-prose `ow://` references included). The World becomes `world.md` (without its `api` block), and there is an index per type and one for the bundle. A [known-of](/docs/schema/folders#known-of-elements) stub keeps `known_of: true` in its frontmatter (since 0.10.2), so it never reads as a whole element. The same folder always gives the same bytes, and anything left out is listed in the report (on stderr from the command line). A bundle is a copy to read elsewhere, never a folder to sync: it carries no `change_seq`, no record of who wrote what, and not the world's key.
 
+## Proposed changes
+
+Since 0.26.0 a member can [propose a change](/docs/development/api/proposals) for a keeper to accept instead of writing it, and a world's owner can make every agent seat work that way.
+
+```python
+row = client.propose("character", cid, {"reputation": "Feared"}, evidence="Chapter 12", expires=None)
+page = client.world_proposals(state="open")              # newest first; keepers see every row, others their own
+for p in client.walk_world_proposals(state="open"): ...  # every page
+accepted = client.accept_proposal("character", cid, row["id"])   # {"proposal", "element"}: the keeper's own write, one feed row
+client.decline_proposal("character", cid, row["id"], reason="not yet")
+client.withdraw_proposal("character", cid, row["id"])   # the proposer's
+```
+
+`propose` cleans its fields as `patch` does and always sends an `Idempotency-Key`; `accept_proposal` sends none, as the document declares none. With **AI seats propose, a person accepts** on for the world (`agent_writes_proposed` on `get_world()`, read-only; `patch_world` drops it), an agent seat's `patch`, `upsert` or link edit answers `202` and the client raises `ProposedError` (`err.is_proposed`, `err.proposal`) rather than returning a body that is not the element; a `bulk` slot with `status` 202 stays in the result, listed on `BulkResult.proposed`; `push` counts a 202 as `proposed`, never as pushed, and never files the same proposal twice. An accept that finds a proposed field moved raises `StaleProposal` (409, `.conflicts`, `.current`); the other codes are `is_own_proposal`, `is_proposed_only`, `is_too_many_open` and `is_field_not_visible`. The [doctor](#check-a-world)'s flag 12 reports the queue's open and lapsed rows through the API.
+
 ## The Markdown pack
 
 Since 0.25.0 a world can be packed as a few merged Markdown files for an AI notebook that caps its sources: NotebookLM (50 sources a notebook, 500,000 words a source) and Claude Projects (30 MB a file). No extra is needed.

@@ -1,0 +1,53 @@
+---
+title: Proposed changes
+description: How a member proposes a change to an element for a keeper to accept, how an AI seat's writes become proposals under the world's switch, and the routes.
+---
+
+A **proposal** is a change to an element that waits for a keeper's word. Any member whose key reads the element can propose one: the fields they would set, a line of evidence, and how long it stands. The element does not change. The world's owner or a co-builder then **accepts** it, which writes the element as their own write, or **declines** it; the proposer can **withdraw** it. Nothing about a proposal reaches the [change feed](/docs/development/api/changes): only the accept's write does, as one row by the keeper.
+
+A world's owner can also turn on **AI seats propose, a person accepts** on the world page. Under that switch every change an [agent seat](/docs/development/api/members#agent-seats) makes to an existing element becomes a proposal instead of a write, and the seat's new elements carry a mark saying they are proposed. A person's key is never held by the switch.
+
+## Propose
+
+`POST /api/v2/{type}/{id}/proposals` with `{"fields": {...}, "evidence": "...", "expires": 30}`. Any member key that reads the element may call it, a read key included; the owner uses the world's write key and PIN. The answer is `201 {"proposal": {...}}`; the element is unchanged.
+
+A proposal carries `id`, `element_type`, `element_id`, `state` (`open`, `lapsed`, `accepted`, `declined`), `fields` (what it would set), `base` (the element's values for those fields when it was made) and `base_seq` (the element's `change_seq` then), `evidence`, `expires`, `by` (a membership id, or `"owner"`), `via` and `client` (the [door](/docs/development/api/writes#agent-writes) it came through), `decided_by`, `decided_at`, `decline_reason`, `created_at`, `updated_at`.
+
+- `evidence` is 1 to 2,000 characters. `expires` is 1 to 365 days, default 30; a row past its date reads as `lapsed` on every read and can still be accepted or declined.
+- `fields` follows the element's own [field rules](/docs/development/api/writes#field-rules). A field the caller cannot see (one a [known-of](/docs/schema/folders#known-of-elements) stub withholds) is `422 field_not_visible`. A link to an id the world does not hold is `400 invalid_link`, as on any write.
+- Five open proposals per element per proposer and fifty per world: past either, `422 too_many_open`. Lapsed rows do not count.
+- `Idempotency-Key` is honoured as on a create.
+- An element the caller cannot see, and the keyless public view, answer `404`; a read key that belongs to no member answers `403`.
+
+`GET /api/v2/{type}/{id}/proposals` lists an element's proposals: keepers see every row, other members their own.
+
+## Accept, decline, withdraw
+
+- **Accept**: `POST /api/v2/{type}/{id}/proposals/{pid}/accept`, by the owner or a co-builder with the PIN. The answer is `200 {"proposal": {...}, "element": {...}}`. The write is the keeper's own: `changed_by` names the keeper, the element takes one new `change_seq`, and the feed gets one row. A keeper cannot accept their own proposal (`403 own_proposal`). If a proposed field moved since the proposal was made, nothing is written: `409 stale_proposal` with `conflicts: [{"field", "base", "current"}]` and the element under `current` beside the envelope; only a moved proposed field counts, so a change elsewhere on the element does not block an accept. A link that died in the meantime is `400 invalid_link` and the row stays open.
+- **Decline**: `POST .../proposals/{pid}/decline` with an optional `{"reason": "..."}`, by the owner or a co-builder: `200` with the row.
+- **Withdraw**: `DELETE .../proposals/{pid}` by the proposer: `204`. A keeper on another member's row is `403`; anyone else `404`.
+- Deciding a row already decided is `422 invalid_request`. Deleting an element drops its undecided rows and keeps the decided ones.
+
+## The queue
+
+`GET /api/v2/world/proposals?state=open&since=&element=&limit=&cursor=` answers `{"data": [...], "has_more": ..., "next_cursor": ...}`, newest first. `state` is `open` (the default), `lapsed`, `accepted`, `declined` or `all`; `since` filters on `updated_at`; `element` on one element's id. Keepers see every row, other members their own.
+
+The queue carries an `ETag` of `"<newest updated_at>:<open count>"`; send it back as `If-None-Match` and an unchanged queue answers `304` with no body, refunded against your [request budget](/docs/development/api-reference#limits) as the [head poll](/docs/development/api/changes#walking-the-feed) is. Poll the queue, not the feed, to learn of new proposals: no proposal act writes a feed row.
+
+## The switch
+
+`agent_writes_proposed` on [`GET /world`](/docs/development/api/reads#the-world) is `true` when the owner has turned on **AI seats propose, a person accepts** on the world page. It is read-only on the API and off by default; a `PATCH /world` carrying it is refused like `public_read`.
+
+With it on, for an [agent seat](/docs/development/api/members#agent-seats)'s key only:
+
+- `PATCH`, `PUT` and a [link edit](/docs/development/api/links) on an existing element answer `202 {"proposal": {...}}` instead of writing. `If-Match` is checked first: a stale one is still `412`. The proposal's evidence is the seat's client name, or else its door.
+- A `/bulk` item answers a slot `{"status": 202, "id": ..., "proposal": {...}}`.
+- The MCP's `update_element`, `edit_links` and `bulk_apply` answer `{"proposed": true, "proposal": {...}}`.
+- A new element is created and carries `x_review_proposed` (`{by, evidence, expires}`, the [review profile](/docs/schema/conventions#data-the-schema-does-not-model)'s mark), so a keeper can find it.
+- A seat deletes only what it created; deleting anything else, and a seat's accept or decline, answer `403 proposed_only`.
+
+Not held by the switch: adopt, hide and unhide, and files. A `PUT` proposal is a whole replace: schema fields the body leaves out are proposed empty, and extension keys are merged at accept. A guest's proposal keeps the links it cannot see.
+
+## In the clients
+
+The TypeScript SDK and the Python package carry the six calls and type the `202`: a write that was turned into a proposal is raised as its own error (`OwProposedError` with `isProposed`; `ProposedError` with `is_proposed`) carrying the proposal, never returned as if the element had changed; a `/bulk` slot keeps its `202` as the document shapes it. See [TypeScript](/docs/development/typescript) and [Python](/docs/development/python).

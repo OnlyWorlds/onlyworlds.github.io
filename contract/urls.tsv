@@ -61,6 +61,7 @@
 /docs/development/ai	page	200	source docs/development/ai.md
 /docs/development/api/draught	page	200	source docs/development/api/draught.md (new 2026-10-22, keel PR 155 and 159)
 /docs/development/api/signin	page	200	source docs/development/api/signin.md (new 2026-10-22, keel PR 154 and 157)
+/docs/development/api/proposals	page	200	source docs/development/api/proposals.md (new 2026-10-22, keel PR 180)
 /docs/development/schema	page	200	source docs/development/schema.md
 /docs/getting-started/	page	200	source docs/getting-started/index.md
 /docs/schema/element_categories	page	200	source docs/schema/element_categories.md
@@ -118,6 +119,9 @@
 /api/errors#known_of_not_writable	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#character_taken	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#world_full	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#field_not_visible	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#too_many_open	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#stale_proposal	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#invalid_grant	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#file_too_large	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#invalid_credentials	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
@@ -127,6 +131,8 @@
 /api/errors#owner_only	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#view_as_owner_only	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#guest_not_supported	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#proposed_only	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#own_proposal	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#storage_full	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#files_full	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#not_found	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
