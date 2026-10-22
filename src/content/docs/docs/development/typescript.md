@@ -274,7 +274,7 @@ const world = readWorldFile(bytes); // a Uint8Array
 const zip = writeWorldFile(world.files, 'hollow-reach-0192a000'); // one top-level folder
 ```
 
-The reader refuses a file before returning anything: a path that could land outside the folder, more than 1 GiB or 200,000 files uncompressed, no `world.json` with an `id`, or more than one world. `err.reason` on the `OwWorldFileError` says which. Both functions remove `world.json`'s `api` block, so the world's link and key never travel in a file.
+From 4.49.0 both follow the folder format's archive section (§4.7, the `.owworld` file) and give its verdict on every fixture of its conformance set. The reader checks the archive's directory before it inflates anything and refuses a file before returning anything: a path that could land outside the folder (`unsafe_path`), more than 2 GiB or 500,000 files uncompressed, or an entry that inflates past the size it declares (`too_big`, `too_many`), no `world.json` with an `id` (`not_a_world`), more than one world (`more_than_one`; a `world.json` under `records/` is a producer's data, not a second world), two entries with one name (`duplicate`) or two names that are one after NFC and simple case folding (`collision`), a link or device entry (`link`), an encrypted, spanned or otherwise compressed entry (`method`), a name with a device name, a trailing dot or space, a forbidden character or no UTF-8 flag on non-ASCII (`name`), or a `mimetype` marker whose bytes are not `application/vnd.onlyworlds.world+zip` (`marker`; the marker is never required). Files beside the world's folder are ignored. `err.reason` on the `OwWorldFileError` says which, and `files` come back in code point order. The writer gives one set of bytes for one input: the marker first and stored, entries ordered by the UTF-8 bytes of their names, every entry stamped 1980-01-01, and only `world.json`, `elements/`, `spatial/`, `media/`, `records/` and a tool's dot-folder it is handed. Both functions remove `world.json`'s `api` block, so the world's link and key never travel in a file.
 
 ## World calendars
 
@@ -329,7 +329,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.48.1, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.49.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
