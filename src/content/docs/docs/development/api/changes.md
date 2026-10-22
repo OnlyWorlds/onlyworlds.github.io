@@ -131,7 +131,9 @@ The account portal's **Export world** button downloads the whole world as one JS
   "schema_version": "00.32.02",
   "exported_at": "…",
   "world": {
-    "id": "…", "name": "Hyperion", "created_at": "…", "updated_at": "…",
+    "id": "…", "name": "Hyperion", "description": "…", "time_basic_unit": "Year",
+    "time_range_current": 0, "length_unit": "", "public_read": false,
+    "created_at": "…", "updated_at": "…",
     "source": { "server": "https://www.onlyworlds.com", "world": "…", "at": "…" },
     "exported_as": { "kind": "owner", "role": "owner", "character": null }
   },
@@ -146,5 +148,6 @@ The account portal's **Export world** button downloads the whole world as one JS
 - `elements` is keyed by lowercase category slug, each an array ordered by `created_at`. Only categories with at least one element appear.
 - Element bodies are exactly what the API returns, extension fields included.
 - `world.id` is the world's identity: an importer should keep it rather than mint a new one.
+- `world` is the World whole (since 2026-10-23, keel #516): every key [`GET /api/v2/world`](/docs/development/api/reads#the-world) serves, its description, time settings, units, switches, `slug` and `public_page` included, beside `source` and `exported_as`. A file from before carries the id, the name, the dates and the provenance lines only.
 - `schema_version` is the version of the standard the elements follow (the value `X-OW-Schema-Version` carries); it is information, not a gate. Files from before 2026-10-18 carry `0.30.00` there. Readers ignore keys they do not know.
 - `world.source` and `world.exported_as` are the [folder format's provenance lines](/docs/schema/folders#worldjson): where the file came from, and that it is the owner's whole world. A tool that writes the file out as a folder carries both into `world.json` as they are. A file without them predates 2026-10-20.
