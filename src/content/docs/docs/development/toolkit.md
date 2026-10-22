@@ -53,6 +53,7 @@ The skill files themselves sit in the repository's `skills/` folder, one folder 
 | | `dev` | SDK integration, project scaffolding, credentials and deployment. |
 | | `council` | Browse and draft motions to change the standard, when its categories don't fit. |
 | | `project-setup` | Connects a project to an OnlyWorlds account world: credentials and a local cache. Runs when another skill needs it. |
+| Set it up for work | `setup` | Sets up a world for work rather than fiction (a company, an AI's own home, a council, a workshop, a software project) from a starter pack: a charter, a world skill, the first elements and the invites. |
 
 The orchestration agent, `ow-agent`, chains several skills for multi-step jobs, such as parsing a whole corpus and then linking and surveying it. The knowledge base covers the schema reference, the category descriptions, and decision trees for ambiguous modeling choices.
 
