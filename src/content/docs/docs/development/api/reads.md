@@ -81,6 +81,8 @@ Besides these filters, a list takes the parameters `limit`, `cursor`, `expand` a
   "param": "foo", "doc_url": "https://onlyworlds.github.io/api/errors#invalid_request" } }
 ```
 
+The [TypeScript SDK](/docs/development/typescript) sends these under `filter`: `client.list('character', { filter: { name__icontains: 'consul' } })`. A filter written at the top level of the parameters instead, or any key `list` does not know, is a `TypeError` before anything is sent (since 4.51.0; until then the key was dropped without a word and the list came back whole).
+
 **Ordering is not supported.** `?ordering=` is a `422`, and pages always come in change order. Sort on your side.
 
 ## Search
