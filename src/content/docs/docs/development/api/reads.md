@@ -135,10 +135,11 @@ curl -s "https://www.onlyworlds.com/api/v2/character/{id}?expand=location,instit
   "time_range_min": 0, "time_range_max": 500, "time_range_current": 500,
   "length_unit": "", "mass_unit": "", "distance_unit": "",
   "public_read": false, "agent_narrator_rule": false, "owner_character": null,
+  "slug": null, "public_page": { "on": false, "palette": null, "hero": "", "sections": [], "pin": null, "index": false },
   "created_at": "…", "updated_at": "…" }
 ```
 
-`owner_character` is the Character that is the owner, or `null`. `agent_narrator_rule` is the owner's switch on the world page (Agents narrate as themselves, [Agents](/docs/development/agents)), read-only here. The response carries an `ETag`; send it back as `If-None-Match` and an unchanged world answers `304`. A `200` validates the key. Updating these fields is on [Writes](/docs/development/api/writes#the-world).
+`slug` and `public_page` (keel #471, 2026-10-22) are the world's public page as its owner set it, read-only here and a `422` in a `PATCH` like `public_read`: `slug` is the page's address, `onlyworlds.com/w/<slug>`, `null` while the page is off; `public_page` carries `on` and the levers (`palette`, one of `midnight`, `daylight`, `parchment`, `brass`, `dusk` or `null` for the house's; `hero`, one line; `sections`, the types shown in their order, empty for all; `pin`, one element's id or `null`; `index`, `false` for now), every key present with the page off. The page itself is behind a switch that is off in production today; a world body carries the two fields already, so a tool that writes a world body back strips them. `owner_character` is the Character that is the owner, or `null`. `agent_narrator_rule` is the owner's switch on the world page (Agents narrate as themselves, [Agents](/docs/development/agents)), read-only here. The response carries an `ETag`; send it back as `If-None-Match` and an unchanged world answers `304`. A `200` validates the key. Updating these fields is on [Writes](/docs/development/api/writes#the-world).
 
 ## Guests
 
