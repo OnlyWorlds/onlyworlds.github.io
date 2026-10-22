@@ -25,7 +25,7 @@ for character in client.iter_elements("character"):
     print(character["name"])
 ```
 
-This runs as written. A write key also takes a PIN: `Client(key, pin)`. The PIN is a 4-digit number (1000 to 9999) set on your account in account settings, and it guards writes to every world you own. A member writes with their own account PIN, and an agent seat sends its seat secret (`ow_s_…`) as the PIN.
+This runs as written. A write key also takes a PIN: `Client(key, pin)`. The PIN is a 4-digit number (1000 to 9999) set on your account in account settings, and it guards writes to every world you own. A member writes with their own account PIN, and an agent seat sends its seat secret (`ow_s_…`) as the PIN. The client sends it only where the server checks it (since 0.27.0): on writes, on `me()`, and on every call with a 10-digit legacy key; a prefixed key's reads go without it.
 
 Elements are plain dicts. Two demo keys read public sample worlds: `0000000000` (Hyperion) and `0000000001` (Moppetopia).
 

@@ -52,7 +52,7 @@ const ranger = await writer.create('character', { name: 'Ilse the Ranger' });
 console.log('made', ranger.name, ranger.id);
 ```
 
-That makes one Character; open the world in Atlas and it is there. Links and edits go the same way:
+That makes one Character; open the world in Atlas and it is there. The client sends the PIN only where the server checks it (since 4.59.0): on writes, on `me()`, and on every call with a 10-digit legacy key; a prefixed key's reads go without it, which spares the server a verification per read. Links and edits go the same way:
 
 ```typescript
 const peak = await writer.create('location', { name: 'Dragon Peak' });
@@ -347,7 +347,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.58.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.59.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -356,7 +356,7 @@ Generated from the types of `@onlyworlds/sdk` 4.58.0, the version these docs pin
 | Option | Type | Notes |
 |---|---|---|
 | `apiKey` | `string` | The key: an ow_w_ (write) or ow_r_ (read) world key, an ow_a_ account token (sent as a Bearer token, for the account routes), or a 10-digit legacy key. |
-| `apiPin` | `string` | The PIN, needed for writes when the world has one, and for legacy-key reads of private worlds. |
+| `apiPin` | `string` | The PIN (or an agent seat's `ow_s_` secret), needed for writes when the world has one, and for legacy-key reads of a world with a PIN. |
 | `baseUrl` | `string` | The API's base URL, default https://www.onlyworlds.com/api/v2. |
 | `pageSize` | `number` | Page size for element lists, default 100 (the server's default; at most 1000). |
 | `changesPageSize` | `number` | Page size for /changes pulls, default 100. |
