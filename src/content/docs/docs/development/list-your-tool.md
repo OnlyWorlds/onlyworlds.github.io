@@ -21,7 +21,7 @@ A tool climbs in that order: nothing is signed in that is not listed, and nothin
 
 1. **It is what it says.** The URL serves the tool. The source is public, or your submission says why not.
 2. **Keys stay with the person.** The key and PIN someone gives your tool are kept on their device or in their own environment, never on your server.
-3. **It names itself.** Your writes send a client name (`X-OW-Client`, see [Writes](/docs/development/api/writes#agent-writes)), your own fields sit under an `x_<tool>_` prefix, and folders you make carry the `producer` line.
+3. **It names itself.** Your writes send a client name (`X-OW-Client`, see [Writes](/docs/development/api/writes#agent-writes)), your own fields sit under an `x_<tool>_` prefix (Atlas keeps its older `atlas_`, which the server keeps as written), and folders you make carry the `producer` line.
 4. **It speaks the wire.** Your calls are ones the [API document](https://www.onlyworlds.com/api/docs) describes; a folder you write passes the folder lint; an `.owworld` file you write opens in the reference reader.
 5. **It says what leaves the machine.** One sentence: what world data goes where (your server, a model provider, nowhere).
 6. **The host answers.** Read from outside, signed out: https and its certificate, no dangling domain, the other hosts your first page loads from. We never go past the first click.
