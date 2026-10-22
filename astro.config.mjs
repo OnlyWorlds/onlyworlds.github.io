@@ -87,6 +87,8 @@ export default defineConfig({
             { slug: 'docs/development/api/changes' },
             { slug: 'docs/development/api/members' },
             { slug: 'docs/development/api/hidden' },
+            { slug: 'docs/development/api/draught' },
+            { slug: 'docs/development/api/signin' },
             { slug: 'docs/development/api/images' },
             { slug: 'docs/development/api/files' },
             { slug: 'docs/development/api/cors' },

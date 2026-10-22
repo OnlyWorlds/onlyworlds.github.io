@@ -53,6 +53,7 @@ Some errors carry extra top-level keys beside `error`, named in their row: `prec
 | [`character_taken`](#character_taken) | `invalid_request` | `422` | A player picked a Character from a party link's list that a live seat in the world already plays (`param` character): pick another from the list. The preview marks each listed Character `taken`. |
 | [`world_full`](#world_full) | `invalid_request` | `422` | A player link was opened in a world that already has its 50 live players: nothing was spent, and the link works again once the owner removes a player. |
 | [`apply_failed`](#apply_failed) | `invalid_request` | `422` | A /bulk item passed validation but its write failed a database constraint (most often an id that already exists in another world). |
+| [`invalid_grant`](#invalid_grant) | `invalid_request` | `400` | Sign in with OnlyWorlds: the code cannot be exchanged (POST /api/v2/auth/token). It is unknown, already used, expired (a code lives 60 seconds), or was issued for another client, another redirect_uri or another code_verifier. One answer for every case, byte for byte, and the code is spent either way: start the sign-in again. |
 | [`file_too_large`](#file_too_large) | `invalid_request` | `413` | A file asked to be attached to an element is over 25 MB; the message gives both sizes (`param` size). |
 | [`invalid_credentials`](#invalid_credentials) | `authentication_error` | `401` | The API key or PIN is missing, unrecognised or wrong. A PIN refusal names param API-Pin and says whether the PIN was missing or wrong. |
 | [`key_revoked`](#key_revoked) | `authentication_error` | `401` | The API key was recognised but has been revoked. |
@@ -65,7 +66,7 @@ Some errors carry extra top-level keys beside `error`, named in their row: `prec
 | [`files_full`](#files_full) | `permission_error` | `403` | The world's files have no room for this one (250 MB a world); the message gives the world's use, its cap and the file's size. Remove a file, or ask the owner. |
 | [`not_found`](#not_found) | `not_found` | `404` | The element or route does not exist in this world. |
 | [`gone`](#gone) | `not_found` | `410` | The element was deleted from this world; the body carries the deletion's `change_seq` and `deleted_at` beside the envelope (GET of one element only). |
-| [`rate_limited`](#rate_limited) | `rate_limited` | `429` | Too many failed PIN attempts; retry after the Retry-After header's seconds. |
+| [`rate_limited`](#rate_limited) | `rate_limited` | `429` | Too many failed PIN attempts, or too many sign-in attempts from one address (the password sign-in and POST /api/v2/auth/token share one count); retry after the Retry-After header's seconds. |
 | [`quota_exceeded`](#quota_exceeded) | `rate_limited` | `429` | A daily limit is used up (the world's image upload tickets, its file upload tickets, or the account's token rating for AI); retry after Retry-After. |
 | [`too_many_requests`](#too_many_requests) | `rate_limited` | `429` | Over the request budget: 300 requests a minute per key or account token, 60 a minute per address for a request with neither, reads and writes together (a /bulk call is one request); retry after Retry-After. Every reply carries RateLimit-Limit, RateLimit-Remaining and RateLimit-Reset. |
 | [`idempotency_error`](#idempotency_error) | `idempotency_error` | `409` | An Idempotency-Key was reused with a different request body. |
@@ -99,6 +100,15 @@ A link field names a UUID that is not an element of the linked category in this 
 - **How to fix:** check that the referenced element exists and is of the category the field names (read it first, or include it in the same `/bulk` batch). Links in a batch are checked against the world **plus** the batch's surviving items, in any order, but an item that fails cannot be linked to. `param` names the link field.
 
 A single write that fails with `invalid_link` writes nothing, so after fixing the link you can retry it with the same element id. A dangling link is an explicit, named error. The Classic API's old behaviour of silently dropping it does not apply here.
+
+### invalid_grant
+
+**Type** `invalid_request` · **Status** `400`
+
+[Sign in with OnlyWorlds](/docs/development/api/signin): the code cannot be exchanged at `POST /api/v2/auth/token`. It is unknown, already used, expired, or was issued for another `client_id`, `redirect_uri` or `code_verifier`. The body is the same for every case, byte for byte, and the code is spent either way.
+
+- **Common cause:** a page reload that sent the code a second time; a code older than 60 seconds; a `redirect_uri` that differs from the authorize request's by a trailing slash or a query; a verifier from another sign-in.
+- **How to fix:** start the sign-in again from the tool's button. Take `code` out of the address bar before the exchange, and send the exchange once, before any other request. A code sent a second time also revokes the token its first exchange minted.
 
 ### id_conflict
 
@@ -302,7 +312,7 @@ A read of one element (`GET /api/v2/{type}/{id}`) named an element this world he
 
 **Type** `rate_limited` · **Status** `429`
 
-Too many failed authentication attempts, such as repeated wrong PINs.
+Too many failed authentication attempts, such as repeated wrong PINs, or too many sign-in attempts from one address: the password sign-in and the code exchange of [Sign in with OnlyWorlds](/docs/development/api/signin) share one count, 40 in 5 minutes.
 
 - **Common cause:** a script retrying with a wrong PIN in a tight loop.
 - **How to fix:** wait the number of seconds in the `Retry-After` header. Repeated failures escalate to a temporary lockout, so fix the credential before retrying.

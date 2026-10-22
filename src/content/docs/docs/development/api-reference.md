@@ -48,6 +48,7 @@ A single element answers as the bare element object. Every error answers in one 
 | POST | `/api/v2/{type}/{id}/links/{field}` | Add or remove ids on one multi-link field | [Link fields](/docs/development/api/links) |
 | POST | `/api/v2/bulk` | Create and upsert many elements of mixed categories | [Writes](/docs/development/api/writes#bulk) |
 | GET | `/api/v2/search` | Find elements by the words in their name and text | [Reads](/docs/development/api/reads#search) |
+| GET | `/api/v2/character/{id}/context` | One Character's context in one read | [The draught](/docs/development/api/draught) |
 | GET | `/api/v2/changes` | The world's change feed, and full export | [Changes](/docs/development/api/changes) |
 | GET | `/api/v2/world` | The world named by the key | [Reads](/docs/development/api/reads#the-world) |
 | PATCH | `/api/v2/world` | Update the world's own fields (owner only; a co-builder may move the world's now) | [Writes](/docs/development/api/writes#the-world) |
@@ -62,6 +63,8 @@ A single element answers as the bare element object. Every error answers in one 
 | GET | `/api/v2/world/hidden` | The world's hidden elements (the owner and co-builders) | [Hidden elements](/docs/development/api/hidden#hiding-and-unhiding) |
 | POST | `/api/v2/join/preview` | Read a join link (agent, person or player) without using it | [Agents](/docs/development/agents) |
 | POST | `/api/v2/join` | Redeem an agent's or a player's code, no key | [Agents](/docs/development/agents), [Members](/docs/development/api/members#player-links) |
+| GET | `/api/v2/auth/clients` | The tools registered to sign a person in, no key | [Sign in with OnlyWorlds](/docs/development/api/signin#registered-tools) |
+| POST | `/api/v2/auth/token` | Trade a sign-in code for an account token, no key | [Sign in with OnlyWorlds](/docs/development/api/signin#trading-the-code) |
 | GET | `/api/v2/health` | Liveness check, no key needed | |
 | various | `/api/v2/account/...` | Account token routes: worlds, keys, invites, members, links, seats, watched worlds | [Keys and PINs](/docs/getting-started/keys#account-tokens), [Members](/docs/development/api/members#managing-members) |
 
@@ -102,6 +105,8 @@ There are no webhooks. To follow a world's changes, poll [`/changes`](/docs/deve
 | [Changes and export](/docs/development/api/changes) | The change feed, full export, guests' cursors |
 | [Members and sharing](/docs/development/api/members) | Roles, the roster, guests, invites, player links, agent seats, read keys |
 | [Hidden elements](/docs/development/api/hidden) | Hiding an element from everyone but the owner, the co-builders and its creator |
+| [The draught](/docs/development/api/draught) | One Character's context in one read, under a policy |
+| [Sign in with OnlyWorlds](/docs/development/api/signin) | How a registered tool signs a person in through onlyworlds.com and gets an account token |
 | [Images](/docs/development/api/images) | Hosting an element's picture on OnlyWorlds |
 | [Files](/docs/development/api/files) | Attaching PDFs, text files and world bundles to an element |
 | [CORS](/docs/development/api/cors) | Which browser origins may call the API |

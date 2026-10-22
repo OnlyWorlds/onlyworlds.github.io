@@ -74,6 +74,11 @@
     "status": 422,
     "summary": "A /bulk item passed validation but its write failed a database constraint (most often an id that already exists in another world)."
   },
+  "invalid_grant": {
+    "type": "invalid_request",
+    "status": 400,
+    "summary": "Sign in with OnlyWorlds: the code cannot be exchanged (POST /api/v2/auth/token). It is unknown, already used, expired (a code lives 60 seconds), or was issued for another client, another redirect_uri or another code_verifier. One answer for every case, byte for byte, and the code is spent either way: start the sign-in again."
+  },
   "file_too_large": {
     "type": "invalid_request",
     "status": 413,
@@ -137,7 +142,7 @@
   "rate_limited": {
     "type": "rate_limited",
     "status": 429,
-    "summary": "Too many failed PIN attempts; retry after the Retry-After header's seconds."
+    "summary": "Too many failed PIN attempts, or too many sign-in attempts from one address (the password sign-in and POST /api/v2/auth/token share one count); retry after the Retry-After header's seconds."
   },
   "quota_exceeded": {
     "type": "rate_limited",

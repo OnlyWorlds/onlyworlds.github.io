@@ -65,6 +65,8 @@ Fields under the extension namespaces `atlas_*`, `shadow_*` and `x_*` appear inl
 | `supertype` | Exact supertype |
 | `subtype` | Exact subtype |
 | `characters` | On the six categories with a `characters` link (collective, construct, event, narrative, relation, title): the elements whose `characters` contain that Character id |
+| `ids` | Comma-separated ids, 1 to 200: only these elements, in the list's own order. An id the key cannot see, or that names nothing of this category, is simply absent. More than 200, or a malformed id, is a `422` with `param` `ids` |
+| `created_by` | A membership id, as [`GET /api/v2/members`](/docs/development/api/members#the-roster) lists them: the elements that member created. `owner` selects the owner's own writes (`created_by` `null`). An element the key knows only as [known-of](/docs/development/api/members#known-of) never matches. Anything else is a `422` with `param` `created_by` |
 
 ```bash
 curl -s "https://www.onlyworlds.com/api/v2/character?name__icontains=consul" -H "API-Key: {key}"
