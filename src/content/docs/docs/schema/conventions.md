@@ -76,10 +76,11 @@ Two places hold what the categories have no field for:
 - **Extension fields** (`x_*`) on the element itself, for small amounts of tool-specific data. They are stored and returned verbatim, up to 64 KB per element. See [Fields](/docs/schema/fields#extension-fields).
 - **Your own database**, beside the world, for high-volume data such as logs, statistics or simulation state. Key each row by the element's `id`.
 
-Data in either place travels only to the tools that read it. Anything another tool should understand belongs in the schema's own fields, or in a published extension profile: a named extension field that tools agree to read the same way. Two are published, each a page in schema-dist's [`profiles/`](https://github.com/OnlyWorlds/schema-dist/tree/main/profiles) folder:
+Data in either place travels only to the tools that read it. Anything another tool should understand belongs in the schema's own fields, or in a published extension profile: a named extension field that tools agree to read the same way. Profiles are published, each a page in schema-dist's [`profiles/`](https://github.com/OnlyWorlds/schema-dist/tree/main/profiles) folder:
 
 - **[`x_identity_key`](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/identity.md)**: the same being in several worlds. Two Characters or Creatures carrying the same UUID are one being; a value that is not a UUID means nothing, and a tool that lets people add their own fields reserves the `x_identity_` prefix.
 - **[`atlas_calendar`](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/calendar.md)**: a world's own calendar, the names it gives its time line. It changes no date. Read by Atlas and by the TypeScript and Unity SDKs; it keeps its name from before the profile grammar.
+- **[`x_room_of`](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/room.md)** (serial 45): marks an element as part of a parlor's room, the world's or a sitting's id; with one of eight type-and-supertype pairs it makes a room element, which a lore view leaves out unless asked, and the TypeScript and Python SDKs export `ROOM_PAIRS` and `isRoomElement` / `is_room_element`.
 
 A new profile's field is named `x_<profile>_<field>`.
 
