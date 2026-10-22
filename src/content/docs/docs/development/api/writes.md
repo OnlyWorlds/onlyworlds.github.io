@@ -74,11 +74,11 @@ Every write records the door it came through. An element read carries `changed_b
 | `v1` | The v1 API |
 | `sync` | The mobile app's sync |
 | `server` | The server, on its own behalf |
-| `site` | The owner, signed in on onlyworlds.com (today a hide made on an element's page). In the TypeScript SDK's door type from 4.50.0 |
+| `site` | The owner, signed in on onlyworlds.com: a hide, a picture taken down, an element's author changed (every edit the site makes to an element from keel PR 164 on). In the TypeScript SDK's door type from 4.50.0 |
 
 The first three mean an agent made the change. An AI writing on a person's own key says so with `X-OW-Agent` (any non-empty value; it is never stored) on the element writes: create, upsert, partial update, delete, the link operations route and `/bulk`. A seat's key and MCP are recorded as an agent's without it. A tool people use leaves the header off. A delete's tombstone in the [change feed](/docs/development/api/changes) carries the same pair as `deleted_by` and `deleted_via`. All four are `null` for anything last written before 2026-10-15, and they are ignored when sent in a write body.
 
-The world page on onlyworlds.com shows both in Recent changes: who made each change, with an AI badge for a seat, and the door in words ("through the MCP server", "through the API, sent by an agent"). A hide made on the site reads "through the site". A change by someone whose membership has ended (removed, left, or their account deleted) reads "a former member · through" its door: a `changed_by` id whose [roster](/docs/development/api/members#the-roster) row has `status` `removed` is a former member's, never the owner's.
+The world page on onlyworlds.com shows both in Recent changes: who made each change, with an AI badge for a seat, and the door in words ("through the MCP server", "through the API, sent by an agent"). An edit made on the site (a hide, a picture taken down, an author changed) reads "through the site". Since keel PR 162 an element made inside the window reads "added" rather than "changed", a hidden one is marked hidden for the readers who see it, a deleted one says its name is not kept, and viewing as the public shows no writer. A change by someone whose membership has ended (removed, left, or their account deleted) reads "a former member · through" its door: a `changed_by` id whose [roster](/docs/development/api/members#the-roster) row has `status` `removed` is a former member's, never the owner's.
 
 ## Field rules
 
