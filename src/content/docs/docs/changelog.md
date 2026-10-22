@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-22
 
+- **[Python](/docs/development/python) 0.14.2: the doctor finds a charter on any type.** A charter filed as a Construct with supertype Charter is still the charter for the staleness check, and gets its own finding, since onlyworlds.com reads a Law with supertype Charter. 0.14.1 and TypeScript SDK 4.48.1 repin both packages to schema-dist dist.37 (no type moved).
 - **[TypeScript SDK](/docs/development/typescript) 4.48.0: `listHidden()`.** The world's [hidden elements](/docs/development/api/hidden#hiding-and-unhiding) as rows, for a host that marks what it hid.
 - **The draught: `GET /api/v2/character/{id}/context`.** One Character's context in one read, what she holds, her Events and Narratives, everything that names her, her sheet, what changed around her and who plays whom, under a seven-key policy; `ids=` and `created_by=` on every list. SDK 4.47.0 `draught()` and `list({ ids, createdBy })`, Python 0.14.0 `draught()` and `list_page(ids=, created_by=)`. <!-- keel PR 155 -->
 - **[TypeScript SDK](/docs/development/typescript) 4.46.0: Sign in with OnlyWorlds.** `signInWithOnlyWorlds` starts the OAuth code flow with PKCE from a registered tool's page and `completeSignIn` trades the code on the callback page for an account token the tool keeps; the SDK stores nothing. <!-- keel PR 154 -->
