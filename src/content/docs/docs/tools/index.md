@@ -3,7 +3,7 @@ title: Tools
 description: The tools that read and write OnlyWorlds worlds, with a link to each.
 ---
 
-These tools all work with the same world format, so a world can move between them: as a folder on disk, or through the [API](/docs/development/api-reference). The live directory is at [onlyworlds.com/tools](https://www.onlyworlds.com/tools).
+These tools all work with the same world format, so a world can move between them: as a folder on disk, or through the [API](/docs/development/api-reference). The live directory is at [onlyworlds.com/tools](https://www.onlyworlds.com/tools). Built one yourself? [List your tool](/docs/development/list-your-tool).
 
 ## Build
 
