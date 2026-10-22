@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-22
 
+- **[Python](/docs/development/python#the-markdown-pack) 0.31.0: the Markdown pack in a world's own words.** A world with an `x_names` map is packed as "Employees (Character)": the world's word first, the standard's in brackets for the AI reading it.
 - **[Conventions](/docs/schema/conventions#data-the-schema-does-not-model): the names profile** (schema-dist serial 48, OW Council #567). A world can carry its own words for the types, `x_names` on the World: Character shown as *Employee* in a work world. Nothing in the standard changes. [TypeScript SDK](/docs/development/typescript) 4.62.0 `typeWord`, [Python](/docs/development/python) 0.30.0 `type_word`.
 - **[Python](/docs/development/python) 0.29.1: `health()` sends no credential.** `GET /health` needs no key, and the client sent its key there on every pulse; it now sends none, as the [TypeScript SDK](/docs/development/typescript) does.
 - **[Writes](/docs/development/api/writes#delete): `DELETE` takes `If-Match`** (keel #563, PR 183), as `PATCH` does: a stale tag is `412` [`precondition_failed`](/api/errors/#precondition_failed) with `current` and nothing deleted, an absent element still `204`; a delete is never a proposal. [TypeScript SDK](/docs/development/typescript) 4.61.0 `delete(type, id, { ifMatch })`, [Python](/docs/development/python) 0.29.0 `delete(..., if_match=)`. <!-- keel PR 183 -->
