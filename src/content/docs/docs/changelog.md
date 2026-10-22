@@ -5,6 +5,11 @@ description: What changed for developers on OnlyWorlds (the API, the clients and
 
 What changed for developers, newest first: the API on onlyworlds.com, the clients and tools these docs describe, and the docs themselves. Each day lists what a page now says; every release of a package is in its own changelog: [TypeScript SDK](https://github.com/OnlyWorlds/sdk/blob/main/CHANGELOG.md), [Unity SDK](https://github.com/OnlyWorlds/unity-sdk/blob/main/Packages/com.onlyworlds.sdk/CHANGELOG.md), [Python package](https://github.com/OnlyWorlds/python-sdk/blob/main/CHANGELOG.md). Everything that shipped across OnlyWorlds, for everyone, is on [What's new](https://www.onlyworlds.com/whats-new); this page stays the developer log.
 
+## 2026-10-23
+
+- **[Folder format](/docs/schema/folders#folders-and-onlyworldscom) v0.3.15: private records stay home.** A producer may mark its `records/` directory `"private": true` in `RECORDS.json`; an export, a share or a snapshot leaves that directory out whole unless asked, and keeps `RECORDS.json` as it is, so a reader learns a producer was left out. A writer that cannot read the manifest refuses or the caller asks. schema-dist serial 49 carries the case on both sides (the archive set at 85). The Folders page now shows `records/` in the layout.
+- **[TypeScript SDK](/docs/development/typescript#world-files) 4.63.0 and [Python](/docs/development/python) 0.32.0: the writers follow it.** `writeWorldFile(files, top, { includePrivateRecords })` and `write_world_file(..., include_private_records=)`: private records left out by default, the producer's name matched to its folder after NFC and simple case folding, a manifest that cannot be read refused unless asked; both pinned to schema-dist serial 49 and the 85-case set.
+
 ## 2026-10-22
 
 - **[List your tool](/docs/development/list-your-tool) (new page): how a tool built on OnlyWorlds gets listed.** Three rungs (built, listed, signed in), the seven lines we read (among them: keys stay with the person, the tool names itself, its core is open and free), and the form at [OnlyWorlds/tools](https://github.com/OnlyWorlds/tools), whose `tools.json` holds each listed row with what was read and when. The [Tools](/docs/tools) page links it.
