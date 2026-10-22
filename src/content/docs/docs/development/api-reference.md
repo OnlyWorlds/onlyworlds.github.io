@@ -54,6 +54,7 @@ A single element answers as the bare element object. Every error answers in one 
 | PATCH | `/api/v2/world` | Update the world's own fields (owner only; a co-builder may move the world's now) | [Writes](/docs/development/api/writes#the-world) |
 | GET | `/api/v2/members` | The world's roster | [Members](/docs/development/api/members) |
 | GET | `/api/v2/me` | Who the calling key is | [Members](/docs/development/api/members) |
+| PUT | `/api/v2/me/character` | A person member picks the Character that is them | [Members](/docs/development/api/members#picking-your-character) |
 | POST | `/api/v2/media/ticket` | A ticket for one image upload | [Images](/docs/development/api/images) |
 | GET, POST | `/api/v2/{type}/{id}/files` | An element's files; a ticket for one file upload | [Files](/docs/development/api/files) |
 | GET | `/api/v2/{type}/{id}/files/{file_id}/download` | A download link for one file | [Files](/docs/development/api/files#downloading-a-file) |

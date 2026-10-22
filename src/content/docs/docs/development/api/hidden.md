@@ -5,7 +5,7 @@ description: How the world's owner or a co-builder hides an element from the res
 
 The world's owner and its co-builders can **hide** an element: a twist the players have not reached, a villain's real allegiance, the game master's own notes. A hidden element stays in the world, unchanged. The owner, the co-builders and the member who created it still see it; to everyone else it answers as if it did not exist, and a contributor's [change feed](#the-feed) says it was hidden.
 
-The mark is a record beside the element, not a field. Hiding or unhiding leaves the element's body and its `change_seq` alone, and nothing in the body says it is hidden.
+The mark is a record beside the element, not a field. Hiding or unhiding leaves the element's fields and its `change_seq` alone; a reader who still sees it is told by [`hidden: true`](#the-hidden-flag) on its body.
 
 ![Who sees what in a world: owner, co-builder, contributor, guest, player and public, with the hidden mark](/assets/images/reader-ladder.svg)
 
@@ -21,6 +21,10 @@ The mark is a record beside the element, not a field. Hiding or unhiding leaves 
 - Hiding wins over every way a guest is given sight: an element that names its Character, a Narrative its Character narrates or one of its circles holds, a Character on the roster. Only having created the element gives it back.
 - An agent seat reads as its role, also when it plays a Character.
 - A key you mint is your own tool and shows what you hid. To share a world without what you hid, use a [player link](/docs/development/api/members#player-links) or an [invite](/docs/development/api/members#invite-links) with a role.
+
+### The hidden flag
+
+Every reader who still sees a hidden element gets `hidden: true` at the top level of its body: the owner, a co-builder, a key the owner minted, and the member who made it. It is there on `GET /api/v2/{type}/{id}`, on lists, on the [change feed](/docs/development/api/changes)'s upserts and in the [MCP server](/docs/development/mcp)'s reads, whatever `fields=` asked for. On every other body it is absent, never `false`. It is read-only: sent in a write, it is ignored, so a body sent back never hides or unhides anything. The owner's [export file](/docs/development/api/changes#the-export-file), world sync and the [Classic API](/docs/development/api/classic) never carry it. The [TypeScript SDK](/docs/development/typescript)'s element types carry it as an optional `hidden: true`, from 4.50.0.
 
 ## What everyone else gets
 
@@ -119,7 +123,7 @@ The hidden row has the shape of any delete:
   "deleted_by": "0699…", "deleted_via": "api", "reason": "hidden" }
 ```
 
-`deleted_at` is when it was hidden, `deleted_by` the membership that hid it (`null` for the owner), and `deleted_via` the door it came through; a hide made on onlyworlds.com reads `server`, as every change made there does. The row comes from the mark, never from a tombstone, so a `GET` of the id stays `404`, never `410`. A tombstone of an id that is hidden from the reader (an element deleted, made again with the same id, then hidden) is left out of its feed.
+`deleted_at` is when it was hidden, `deleted_by` the membership that hid it (`null` for the owner), and `deleted_via` the door it came through; a hide made on onlyworlds.com reads `site`, the owner's act. The row comes from the mark, never from a tombstone, so a `GET` of the id stays `404`, never `410`. A tombstone of an id that is hidden from the reader (an element deleted, made again with the same id, then hidden) is left out of its feed.
 
 What a client does:
 
@@ -169,6 +173,6 @@ On onlyworlds.com, the owner's world page has a **View as** picker (me, a player
 ## What the mark does not reach
 
 - **Published share pages.** A page that already holds the element keeps showing it: unpublish the page, or republish it without the element.
-- **The owner's copies.** The owner's [export file](/docs/development/api/changes#the-export-file), and the owner's walk of `/changes`, carry hidden elements like any other, with nothing in the body to mark them.
+- **The owner's copies.** The owner's [export file](/docs/development/api/changes#the-export-file) carries hidden elements like any other, with nothing in the body to mark them. The owner's walk of `/changes` carries them too, each upsert with [`hidden: true`](#the-hidden-flag).
 
 On onlyworlds.com, the owner hides and unhides from the element's page: see [onlyworlds.com](/docs/tools/onlyworlds-com).

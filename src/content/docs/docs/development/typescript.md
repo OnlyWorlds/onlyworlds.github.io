@@ -329,7 +329,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.49.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.50.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -352,7 +352,8 @@ Generated from the types of `@onlyworlds/sdk` 4.49.0, the version these docs pin
 | `health()` | `GET /health` | unauthenticated liveness pulse. | `Promise<unknown>` |
 | `getWorld()` | `GET /world` | world meta (name, calendar/time fields, public_read). | `Promise<OwWorldMeta>` |
 | `patchWorld(partial)` | `PATCH /world` | partial world-meta update. | `Promise<OwWorldMeta>` |
-| `me()` | `GET /me` | who this world key is: the world, read or write scope, the kind (owner, person, agent, player), the role, the membership id (what `created_by` holds for what this key creates; null for the owner) and the member's Character. | `Promise<OwMe>` |
+| `setMyCharacter(character)` | `PUT /me/character` | pick the roster Character that is you in this world, or none (keel PR 160, #533). | `Promise<OwMe>` |
+| `me()` |  |  | `Promise<OwMe>` |
 | `members()` | `GET /members` | the world's roster: each member's id (null for the owner), kind, role, Character and status (`removed` rows stay, so their elements keep `created_by`). | `Promise<OwMember[]>` |
 | `list(type, params?)` | `GET /{type}/` | one cursor page. | `Promise<OwPage>` |
 | `draught(characterId, policy?)` | `GET /character/{id}/context` | the draught (keel PR 155, D143): what one Character knows, as the recorded world holds it, in one read: her element, what she holds and sits in, her open work, how she works, the Events she was in, the Narratives she knows, everything else that names her, her sheet, what changed around her (`since`), and who plays whom; the world's name and calendar beside. | `Promise<OwDraught>` |

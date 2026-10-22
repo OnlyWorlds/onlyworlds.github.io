@@ -24,7 +24,7 @@ Every element body carries `created_by`: the id of the membership that created i
 
 The owner or a co-builder can change who made an element: `POST /api/v2/{type}/{id}/adopt` with `{"member": "<membership id>"}` (a person or an AI seat, as the roster lists them) or `{"member": "owner"}` (`created_by` back to `null`), with the key's PIN. A contributor's key gets `403 not_author`. Nothing else in the element changes, but the write stamps `changed_by` and `changed_via` and takes a new `change_seq`, so the [feed](/docs/development/api/changes) carries the element with its new `created_by`. It hands a contributor an element someone else made, or takes one back; when the element is hidden, or the member is a guest, the old and the new maker may each get a `view` reset on the feed. On the site, the owner's view of an element page has an Author card for the same act.
 
-Removing a member, a member leaving, or removing an agent seat keeps the membership's row, so its elements keep their `created_by`. A member who is removed or leaves takes the AI seats they made in that world with them: those seats' keys stop working at once, and their rows and what they wrote stay (the owner's own seats are untouched). Only deleting an account turns its elements' `created_by` to `null`.
+A membership's row is never deleted. Removing a member, a member leaving, removing an agent seat, and deleting the account behind a membership (or the account answering for a seat) all keep it, as a removed row on [the roster](#the-roster), so its elements keep their `created_by` and `changed_by`. An id whose roster row has `status` `removed` is a former member's, never the owner's: the owner is always `null`. A member who is removed or leaves takes the AI seats they made in that world with them: those seats' keys stop working at once, and their rows and what they wrote stay (the owner's own seats are untouched). A Character the member made and nobody touched (a name and a supertype only, last written by the member, linked from nothing) is deleted with the membership; any other stays.
 
 ## The roster
 
@@ -49,7 +49,7 @@ curl -s "https://www.onlyworlds.com/api/v2/members" -H "API-Key: {key}"
 | `status` | `active` or `removed` |
 | `name` | Agent and player rows only: their name |
 
-The owner row comes first, then active members in the order they joined, then removed members. Removed members keep their row so every `created_by` resolves. The roster never carries usernames or email addresses: a Character is the public face.
+The owner row comes first, then active members in the order they joined, then removed members. Removed members keep their row so every `created_by` and `changed_by` resolves: a member who was removed, who left, or whose account was deleted. A removed row whose account was deleted carries nothing that names the person. The roster never carries usernames or email addresses: a Character is the public face.
 
 A message's `narrator` is who it claims to be from; its `created_by` is who the server recorded; the roster joins the two. To find what is addressed to a Character, filter on it:
 
@@ -69,6 +69,31 @@ curl -s "https://www.onlyworlds.com/api/v2/narrative?characters={character_id}" 
 `scope` is `read` or `write`. `membership` is what `created_by` will hold for what this key creates. An owner-minted or legacy key answers as the owner, with `membership` `null` and `character` set to the world's `owner_character`. A Character [hidden](/docs/development/api/hidden) from the key reads `null`, the one its own member plays included, unless that member created it.
 
 A member key sent with a PIN (or an agent seat with its secret) has it checked here: a wrong one is `401` [`invalid_credentials`](/api/errors/#invalid_credentials), and with none the answer stands. So `/me` tests a connection before the first write. A player's key has no PIN; one it sends is ignored.
+
+### Picking your Character
+
+A person who is a member picks the Character that is them in this world, the `character` on their roster row and on `/me`, with `PUT /api/v2/me/character`. It takes the person's own write key and account PIN, and can be changed again at any time:
+
+```bash
+curl -s -X PUT "https://www.onlyworlds.com/api/v2/me/character" \
+  -H "API-Key: {key}" -H "API-Pin: {pin}" -H "Content-Type: application/json" \
+  -d '{ "character": "069a…" }'
+```
+
+The body is exactly `{"character": <id>}`, or `{"character": null}` for none. The answer is `200` with the same body as `GET /api/v2/me`. Any Character the key can see may be picked, except that a guest picks only a Character it made itself. Picking one gives nothing beyond what the member's role already allows with it. A guest following the [change feed](/docs/development/api/changes#guests-cursors) resyncs once, as for any roster change.
+
+Only a person's key can pick. An agent seat's Character and a player's are set by the owner (Plays on the members table), and the owner's own is the world's `owner_character`, set with `PATCH /api/v2/world`.
+
+| Status | Code | When |
+|:--|:--|:--|
+| `401` | [`invalid_credentials`](/api/errors/#invalid_credentials) | A missing or wrong key, or a wrong PIN |
+| `403` | [`permission_error`](/api/errors/#permission_error) | A read key, an agent seat's or a player's key, or the owner's keys |
+| `404` | [`not_found`](/api/errors/#not_found) | The Character is not one this key can see |
+| `422` | [`character_hidden`](/api/errors/#character_hidden) | The owner or a co-builder hid it, even when it is your own: a played Character is on every reader's roster |
+| `422` | [`invalid_request`](/api/errors/#invalid_request) | The body is not exactly `{"character"}`; a guest named a Character it did not make; or the Character is the owner's, or one another member plays. `param` names it |
+| `429` | [`rate_limited`](/api/errors/#rate_limited) | Too many wrong PINs on this key |
+
+In the [TypeScript SDK](/docs/development/typescript), `setMyCharacter(characterId)` (or `null`) returns the `/me` body, from 4.50.0. The Python package has no call for it yet.
 
 ## Guests
 
