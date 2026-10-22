@@ -9,6 +9,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 - **[Folder format](/docs/schema/folders#folders-and-onlyworldscom) v0.3.15: private records stay home.** A producer may mark its `records/` directory `"private": true` in `RECORDS.json`; an export, a share or a snapshot leaves that directory out whole unless asked, and keeps `RECORDS.json` as it is, so a reader learns a producer was left out. A writer that cannot read the manifest refuses or the caller asks. schema-dist serial 49 carries the case on both sides (the archive set at 85). The Folders page now shows `records/` in the layout.
 - **[TypeScript SDK](/docs/development/typescript#world-files) 4.63.0 and [Python](/docs/development/python) 0.32.0: the writers follow it.** `writeWorldFile(files, top, { includePrivateRecords })` and `write_world_file(..., include_private_records=)`: private records left out by default, the producer's name matched to its folder after NFC and simple case folding, a manifest that cannot be read refused unless asked; both pinned to schema-dist serial 49 and the 85-case set.
+- **[Toolkit](/docs/development/toolkit) 4.7.1: the world-folder knowledge on 0.3.15.** Its folder guide carries the private-records rule and the one-way element reference, and the `setup` skill's writer stamps `0.3.15`.
 
 ## 2026-10-22
 
