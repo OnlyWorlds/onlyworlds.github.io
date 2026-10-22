@@ -347,7 +347,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.57.2, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.58.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -412,6 +412,12 @@ Generated from the types of `@onlyworlds/sdk` 4.57.2, the version these docs pin
 | `hide(type, id)` | `PUT /{type}/{id}/hidden` | hide an element (keel #421). | `Promise<void>` |
 | `unhide(type, id)` | `DELETE /{type}/{id}/hidden` | clear the mark; an element that is not hidden stays as it is. | `Promise<void>` |
 | `listHidden()` | `GET /world/hidden` | every hidden element of the world, newest first: `{type, id, set_at, set_by}` each (`set_by` null when the owner hid it). | `Promise<OwHiddenRow[]>` |
+| `propose(type, id, input, opts?)` | `POST /{type}/{id}/proposals` | propose a change to an element without making it. | `Promise<OwProposal>` |
+| `listProposals(type, id, opts?)` | `GET /{type}/{id}/proposals` | one element's proposals, newest first: every row for the owner's and a co-builder's keys, a member's own for any other. | `Promise<OwProposalList>` |
+| `worldProposals(opts?)` | `GET /world/proposals` | the world's queue, newest first: every proposal for the owner's and a co-builder's keys, a member's own for any other. | `Promise<OwProposalList>` |
+| `acceptProposal(type, id, pid)` | `POST /{type}/{id}/proposals/{pid}/accept` | write the proposal's fields to the element as one ordinary write by this key (`changed_by` is the keeper, a new change_seq, a /changes row), and the row turns accepted. | `Promise<OwProposalAccepted>` |
+| `declineProposal(type, id, pid, opts?)` | `POST /{type}/{id}/proposals/{pid}/decline` | the row turns declined, with an optional `reason` (at most 2,000 characters); the element does not change. | `Promise<OwProposal>` |
+| `withdrawProposal(type, id, pid)` | `DELETE /{type}/{id}/proposals/{pid}` | the proposer takes back its own undecided proposal, with any of its keys: the row goes. | `Promise<void>` |
 | `listAccountWorlds()` | `GET /account/worlds` | every world the account owns or is a member of, with its keys by name and last four (a member sees only their own keys on a shared world). | `Promise<OwAccountWorld[]>` |
 | `mintWorldKey(worldId, opts?)` | `POST /account/worlds/{id}/keys` | mint a world key, `scope` `'write'` (the default) or `'read'`, `name` as the key list shows it (at most 255 characters). | `Promise<OwMintedKey>` |
 | `signInWithOnlyWorlds(opts)` |  | Start Sign in with OnlyWorlds from a tool's page: mint `state` and a PKCE verifier, keep them under `clientId` in `storage` (sessionStorage by default; in Node pass one), and send the browser to `https://www.onlyworlds.com/signin/authorize` (or only return the URL with `navigate: false`). | `Promise<OwSignInBegun>` |
