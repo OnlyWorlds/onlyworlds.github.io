@@ -55,7 +55,7 @@ A reader's write on an element that links to a hidden one keeps that link, as a 
 
 A Character someone plays is on every reader's roster, so a hidden Character can never be picked to play, by anyone, the owner included:
 
-- Setting it as the Character an agent seat or a player plays (`character` on [`PATCH /api/v2/account/worlds/{world_id}/members/{member_id}`](/docs/development/api/members#managing-members), or **Plays** on the members table) is `422` [`character_hidden`](/api/errors/#character_hidden), `param` `character`. Unhide it first, or pick another.
+- Setting it as the Character an agent seat or a player plays (`character` on [`PATCH /api/v2/account/worlds/{world_id}/members/{member_id}`](/docs/development/api/members#managing-members), or **Change** on its row under Members on the world page) is `422` [`character_hidden`](/api/errors/#character_hidden), `param` `character`. Unhide it first, or pick another.
 - Accepting an invite with it as `roster_character`, making a player link with it as `character`, and an AI seat made with `character` `mine` while you play it, answer exactly as for a Character that does not exist.
 - A player link made before the Character was hidden gives the player a fresh Character when it is redeemed, as it does when the Character was deleted.
 - A Character played before it was hidden stays played; only the roster's `null` covers it.

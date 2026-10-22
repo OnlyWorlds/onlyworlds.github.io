@@ -212,7 +212,7 @@ The owner tried to change a player seat's role: a player (no account) reads as a
 
 **Type** `invalid_request` · **Status** `422`
 
-The owner tried to set a hidden Character as the one an agent seat or a player plays (`character` on the member's `PATCH`, or Plays on the members table; `param` `character`). A played Character is on every reader's roster, so a hidden one can never be picked, by anyone.
+The owner tried to set a hidden Character as the one an agent seat or a player plays (`character` on the member's `PATCH`, or Change on its row under Members on the world page; `param` `character`). A played Character is on every reader's roster, so a hidden one can never be picked, by anyone.
 
 - **How to fix:** unhide the Character first, or pick another. See [Playing a hidden Character](/docs/development/api/hidden#playing-a-hidden-character).
 
