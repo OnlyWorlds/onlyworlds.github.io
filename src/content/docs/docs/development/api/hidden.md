@@ -86,6 +86,8 @@ curl -s -X PUT "https://www.onlyworlds.com/api/v2/character/{id}/hidden" \
 | `set_at` | When it was hidden |
 | `set_by` | The membership that hid it, or `null` when the owner did (as in [`created_by`](/docs/development/api/members#created_by)) |
 
+In the [TypeScript SDK](/docs/development/typescript), `listHidden()` returns these rows (from 4.48.0).
+
 Deleting a hidden element deletes its mark with it, and deleting a world deletes all of its marks. The [MCP server](/docs/development/mcp) has no tool to hide or unhide.
 
 ## Errors
