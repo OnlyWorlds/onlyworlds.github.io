@@ -128,7 +128,7 @@ A `POST` supplied an `id` that already exists, or a `PUT` named an id held by an
 
 **Type** `invalid_request` · **Status** `412`
 
-A `PATCH` or a link operation carried `If-Match` with a `change_seq`, and the element has changed since. Nothing was written and nothing is merged. The reply carries, beside the error, a top-level `current`: the element as it is now, as this caller sees it.
+A `PATCH`, a link operation or a `DELETE` carried `If-Match` with a `change_seq`, and the element has changed since. Nothing was written and nothing is merged. The reply carries, beside the error, a top-level `current`: the element as it is now, as this caller sees it.
 
 - **Common cause:** an edit made offline or from a stale copy, while another client (Atlas, a plugin, an agent) changed the same element.
 - **How to fix:** read `current`. If the fields you changed are not the ones that moved, re-send your `PATCH` with `current.change_seq` in `If-Match`. If the same field moved on both sides, ask the user which version to keep. See [Only if unchanged](/docs/development/api/writes#only-if-unchanged).

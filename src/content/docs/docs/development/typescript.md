@@ -347,7 +347,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.60.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.61.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -381,7 +381,7 @@ Generated from the types of `@onlyworlds/sdk` 4.60.0, the version these docs pin
 | `create(type, element, opts?)` | `POST /{type}/` | create one element, minting an id on the client when you leave id out. | `Promise<OwElement>` |
 | `upsert(type, id, element)` | `PUT /{type}/{id}/` | The local-first write primitive. | `Promise<OwElement>` |
 | `patch(type, id, partial, opts?)` | `PATCH /{type}/{id}/` | DESTRUCTIVE on sent fields: arrays replace wholesale, omitted fields stay untouched. | `Promise<OwElement>` |
-| `delete(type, id)` | `DELETE /{type}/{id}/` | idempotent (204 on absent). | `Promise<void>` |
+| `delete(type, id, opts?)` | `DELETE /{type}/{id}/` | idempotent (204 on absent). | `Promise<void>` |
 | `editLinks(type, id, field, edit, opts?)` | `POST /{type}/{id}/links/{field} with {add, remove}` | atomic link merge. | `Promise<OwElement>` |
 | `adopt(type, id, member)` | `POST /{type}/{id}/adopt with {member}` | change who made an element (keel #427, D141). | `Promise<OwElement>` |
 | `bulk(items, opts?)` | `POST /bulk` | up to ~1000 items. | `Promise<OwBulkResponse>` |

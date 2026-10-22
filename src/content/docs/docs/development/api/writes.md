@@ -55,11 +55,11 @@ If the element is still at change_seq 41 the update applies and the reply's `cha
  "current": {"type": "character", "id": "…", "change_seq": 44, "name": "…", "...": "..."}}
 ```
 
-The check is per element, not per field, and the server never merges. The client decides: when the fields it changed are not the ones that moved, re-send with the new `change_seq`; when the same field changed on both sides, ask the user which to keep. To know what moved, keep the copy you edited from beside the edit, not only the new values. A conditional write answered `404` means the element was deleted meanwhile. `*` or no header means unconditional, as before. The [link operations route](/docs/development/api/links#link-operations) takes the same header; `PUT`, `DELETE` and `/bulk` do not. A deleted element's id is scrubbed from the elements that linked to it, and each of those takes a new `change_seq`, so a stale token is refused there too.
+The check is per element, not per field, and the server never merges. The client decides: when the fields it changed are not the ones that moved, re-send with the new `change_seq`; when the same field changed on both sides, ask the user which to keep. To know what moved, keep the copy you edited from beside the edit, not only the new values. A conditional write answered `404` means the element was deleted meanwhile. `*` or no header means unconditional, as before. The [link operations route](/docs/development/api/links#link-operations) and [`DELETE`](#delete) take the same header; `PUT` and `/bulk` do not. A deleted element's id is scrubbed from the elements that linked to it, and each of those takes a new `change_seq`, so a stale token is refused there too.
 
 ## Delete
 
-`DELETE /api/v2/{type}/{id}` returns `204`. It is idempotent: deleting an element that is already gone also returns `204`. Deleting an element removes its id from every other element's links, and the change feed records the delete as a [tombstone](/docs/development/api/changes).
+`DELETE /api/v2/{type}/{id}` returns `204`. It is idempotent: deleting an element that is already gone also returns `204`. Deleting an element removes its id from every other element's links, and the change feed records the delete as a [tombstone](/docs/development/api/changes). With `If-Match` (since 2026-10-22, keel #563) the delete lands only if the element is unchanged since you read it: a moved element answers `412` [`precondition_failed`](/api/errors/#precondition_failed) with `current`, and nothing is deleted; on an element already gone the tag is no matter and the answer is the same `204`. Under a world's [proposals switch](/docs/development/api/proposals) a delete is never turned into a proposal.
 
 ## Agent writes
 
