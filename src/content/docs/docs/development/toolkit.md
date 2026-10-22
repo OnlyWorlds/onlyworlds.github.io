@@ -48,6 +48,7 @@ The skill files themselves sit in the repository's `skills/` folder, one folder 
 | Grow it | `survey` | Reads a world and writes a creative brief of its themes, tensions and structure. |
 | | `link` | Finds missing connections, enriches links and resolves orphaned elements. |
 | Play in it and keep it true | `context` | Designs how the right part of a world gets loaded into each AI session: fresh, scoped, sourced. |
+| | `consistency` | Finds where a world contradicts itself (dates, places, names, links): a script flags the structural contradictions, the model reads only what it flagged, and you rule on each fix. |
 | | `resolve` | Designs how a finished session (notes, recap, transcript) gets written back into the world, so canon holds. |
 | Build on it | `api` | Reads, creates, updates and deletes elements through natural language, handling auth, endpoints and field mapping. |
 | | `dev` | SDK integration, project scaffolding, credentials and deployment. |
