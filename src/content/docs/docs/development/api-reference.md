@@ -37,7 +37,7 @@ A single element answers as the bare element object. Every error answers in one 
 
 ## Resources
 
-`{type}` is one of the 22 element categories, addressed by its singular lowercase slug: `ability`, `character`, `collective`, `construct`, `creature`, `event`, `family`, `institution`, `language`, `law`, `location`, `map`, `marker`, `narrative`, `object`, `phenomenon`, `pin`, `relation`, `species`, `title`, `trait`, `zone`. The URL names the category; the key names the world.
+`{type}` is one of the [22 element categories](/docs/schema/), by its name in lowercase: `character`, `location`, and so on (the OpenAPI document enumerates them). The URL names the category; the key names the world.
 
 | Method | Route | Purpose | Page |
 |:--|:--|:--|:--|

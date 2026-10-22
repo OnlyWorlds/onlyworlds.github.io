@@ -3,9 +3,9 @@ title: Schema
 description: The OnlyWorlds standard, its 22 element categories, typed links, and where the schema is defined and governed.
 ---
 
-The OnlyWorlds schema is the standard every OnlyWorlds tool and world shares. It defines 22 element **categories**, the fields each one carries, and typed links between them. An **element** is one record in a world: a Character, a Location, a Law.
+The standard defines 22 element **categories**, the fields each one carries, and typed links between them. An **element** is one record in a world: a Character, a Location, a Law.
 
-Use as much of it as you need. Only `name` is required: the key must be present, and an empty string is accepted, on every category, Pins and Markers included. So a world of nothing but Objects is a valid world. Supertype and subtype sort a world's elements into its own kinds, `x_` fields carry data the schema doesn't model, and high-volume data can live in your own database beside the world, keyed by element id.
+Use as much of it as you need. Only `name` is required: the key must be present, and an empty string is accepted, on every category, Pins and Markers included. So a world of nothing but Objects is a valid world. Supertype and subtype sort a world's elements into its own kinds, `x_` fields carry data the standard doesn't model, and high-volume data can live in your own database beside the world, keyed by element id.
 
 ## The 22 categories
 
@@ -40,7 +40,7 @@ Every element also carries the same base fields (name, description, supertype, s
 
 Links are typed fields. A Character's `location` is a single link that holds one Location; its `friends` is a multi link that holds any number of Characters. Each link field names the category it points to, so a tool always knows what kind of element is on the other end. One field, the Pin's `element`, is a generic link that can point to an element of any category.
 
-Links point one way, from the element that holds the field. For connections that carry their own history, span or intensity, the schema has a category of its own: [Relation](/docs/schema/element_categories/relation). [Conventions](/docs/schema/conventions) covers when to use which.
+Links point one way, from the element that holds the field. For connections that carry their own history, span or intensity, the standard has a category of its own: [Relation](/docs/schema/element_categories/relation). [Conventions](/docs/schema/conventions) covers when to use which.
 
 ## Where the schema lives
 

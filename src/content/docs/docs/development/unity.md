@@ -3,9 +3,7 @@ title: "Unity SDK"
 description: "The OnlyWorlds Unity SDK: typed C# models for the 22 element types, a client for the v2 API, and a world cache that lives in your project as an asset."
 ---
 
-This SDK brings an OnlyWorlds world into Unity. A world lives on [onlyworlds.com](https://www.onlyworlds.com) or as a world folder on disk, and is edited there or in any tool built on the standard, so the people who write it never open the engine. For what that gives a game, see [Games](/docs/development/games).
-
-`com.onlyworlds.sdk` reads and writes those worlds from Unity. It has three parts:
+`com.onlyworlds.sdk` reads and writes OnlyWorlds worlds from Unity, on [onlyworlds.com](https://www.onlyworlds.com) or in a world folder on disk. For what that gives a game, see [Games](/docs/development/games). It has three parts:
 
 | Part | Assembly | What it is |
 |---|---|---|
