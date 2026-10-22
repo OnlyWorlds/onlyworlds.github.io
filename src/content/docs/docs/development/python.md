@@ -50,6 +50,8 @@ writer.edit_links("location", peak["id"], "founders", add=[ranger["id"]])
 
 If your script is an AI agent, say so: `Client("ow_w_...", "1234", agent=True)` (since 0.3.0) sends `X-OW-Agent` on its element writes, and OnlyWorlds records your writes as agent-made. A tool people use leaves it off. Each element read carries `changed_by` and `changed_via`, the last write's member and door (`seat`, `mcp` and `declared` are agent-made). See [Agents](/docs/development/agents).
 
+Name your tool: `Client("ow_w_...", "1234", client="atlas")` (since 0.21.0) sends `X-OW-Client` on every write, and OnlyWorlds keeps the name on the element as `changed_client` ([a write can name its client](/docs/development/api/writes#agent-writes)). The default is `python`; a name outside lower case letters, digits and hyphens, 1 to 32 characters, is a `ValueError` at construction. `changed_client` and a tombstone's `deleted_client` are read-only and never pushed.
+
 ## Follow changes
 
 ```python
