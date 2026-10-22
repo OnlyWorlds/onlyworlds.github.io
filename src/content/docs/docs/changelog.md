@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-22
 
+- **The draught: `GET /api/v2/character/{id}/context`.** One Character's context in one read, what she holds, her Events and Narratives, everything that names her, her sheet, what changed around her and who plays whom, under a seven-key policy; `ids=` and `created_by=` on every list. SDK 4.47.0 `draught()` and `list({ ids, createdBy })`, Python 0.14.0 `draught()` and `list_page(ids=, created_by=)`. <!-- keel PR 155 -->
 - **[TypeScript SDK](/docs/development/typescript) 4.46.0: Sign in with OnlyWorlds.** `signInWithOnlyWorlds` starts the OAuth code flow with PKCE from a registered tool's page and `completeSignIn` trades the code on the callback page for an account token the tool keeps; the SDK stores nothing. <!-- keel PR 154 -->
 - **[TypeScript SDK](/docs/development/typescript) 4.45.0.** `hide` and `unhide` (the hidden mark's writes), `listAccountWorlds` and `mintWorldKey` (the account's worlds and a new key on one), for the parlor and Atlas.
 - **[Change feed](/docs/development/api/changes): `?after=<ISO time>`.** Only the changes made at or after a time, a filter on the same feed with the same order and cursor; the [AI page](/docs/development/ai)'s "since yesterday" names it. Python 0.13.0 `changes(after=)` and `walk_changes(after=)`, SDK 4.44.0 `changes({ after })` and `changesAll(since, { after })`. <!-- keel PR 152 -->
