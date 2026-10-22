@@ -72,6 +72,8 @@ public class ReadWorld : MonoBehaviour
 
 **Dates on the world's own calendar.** `OWCalendar` reads a world's calendar (the `atlas_calendar` field Atlas writes) and formats and parses dates the way Atlas and the [TypeScript SDK](/docs/development/typescript) do; `OWCalendarLens.WorldCalendars` finds the calendars a world holds. A missing or malformed calendar reads as `null`. Since v0.5.0; since v0.8.0 it follows the [`atlas_calendar` profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/calendar.md) and passes the profile's conformance fixture, as the TypeScript SDK does.
 
+**A world's own words for the types.** `OWNames.TypeWord(world, type, supertype, many)` reads the World's `x_names` (the [names profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/names.md)) and returns the word to show for a type, *Employee* for a Character in a work world, or `null` for the standard's name; the supertype's word comes first, and `many` asks for the plural. A display lookup only: routes, folders and field names keep the standard's. Since v0.14.0, on the profile's 23-case fixture.
+
 ## Ship a world with your game
 
 A cache is a world stored as an asset in your project. Fill it in the Editor, and the build carries it: no network, no key and no waiting at runtime.
