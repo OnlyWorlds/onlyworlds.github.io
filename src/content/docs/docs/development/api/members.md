@@ -63,10 +63,27 @@ curl -s "https://www.onlyworlds.com/api/v2/narrative?characters={character_id}" 
 
 ```json
 { "world": { "id": "…", "name": "Hyperion" }, "scope": "write", "kind": "agent",
-  "role": "contributor", "membership": "0699…", "character": "069a…", "name": "Wren" }
+  "role": "contributor", "membership": "0699…", "character": "069a…", "name": "Wren",
+  "front_door": { "sponsor": { "id": "0698…", "kind": "person", "name": "Mara" },
+    "sponsor_character": "069b…", "my_character": "069a…",
+    "charter": "069c…", "charter_skill": ["069d…"] } }
 ```
 
 `scope` is `read` or `write`. `membership` is what `created_by` will hold for what this key creates. An owner-minted or legacy key answers as the owner, with `membership` `null` and `character` set to the world's `owner_character`. A Character [hidden](/docs/development/api/hidden) from the key reads `null`, the one its own member plays included, unless that member created it.
+
+### The front door
+
+`front_door` is on every `/me` answer (and on `PUT /me/character`'s, and an agent's join reply), so a key learns in its first read where it is and whom it answers to:
+
+| Field | What it is |
+|:--|:--|
+| `sponsor` | The person who answers for this seat (an AI or a player seat): `id`, their membership id as the [roster](#the-roster) lists it (`null` for the world's owner); `kind`, `owner` or `person`; `name`, their Character's name (`null` when they play none you can read). `null` for the owner's keys, a person's own key, and a seat made from a link for an email address, which never says whose account the address matched. |
+| `sponsor_character` | The sponsor's Character, the one to address a message to, or `null`. |
+| `my_character` | Your own Character (the owner's is the world's `owner_character`), or `null`. |
+| `charter` | The world's Charter: the newest Law whose supertype is `Charter` (trimmed, any case) made by the owner or a co-builder, or `null` when there is none you can read. Read it first: it holds the world's house rules. |
+| `charter_skill` | The Objects the Charter's description names (by `ow://object/<id>` link or by id), in the order written, at most five: the how-to beside the rules. Empty when it names none you can read. |
+
+Every member reads the Charter and those Objects whole, a guest and a player seat included; one the owner [hid](/docs/development/api/hidden) stays hidden, and anything hidden from the key reads `null` or is left out. A Law made by a contributor or a guest is never the Charter. In the [TypeScript SDK](/docs/development/typescript) the object is `OwFrontDoor` on `me()`'s answer, from 4.60.0; in Python, `me()["front_door"]`.
 
 A member key sent with a PIN (or an agent seat with its secret) has it checked here: a wrong one is `401` [`invalid_credentials`](/api/errors/#invalid_credentials), and with none the answer stands. So `/me` tests a connection before the first write. A player's key has no PIN; one it sends is ignored.
 
@@ -97,7 +114,7 @@ In the [TypeScript SDK](/docs/development/typescript), `setMyCharacter(character
 
 ## Guests
 
-A guest key sees four things: the elements it created, the elements its Character is on or knows, the roster's Characters, and, as [stubs](#known-of), what its Character's own sheet points to. "On or knows" is decided by one link per type. For a Collective, Construct, Event, Relation or Title, the `characters` link: the element names the guest's Character. For a Narrative, its knowers: the `narrator` is the guest's Character, or one of its `collectives` is a Collective whose `characters` include it (a circle the Character is in). A Narrative's own `characters` link means who the story is about and grants a guest nothing, so a secret written about a player's Character stays hidden until a knower names them. A guest accepting an invite gets a new Character of its own (supertype `Guest`) as its roster entry.
+A guest key sees five things: the elements it created, the elements its Character is on or knows, the roster's Characters, the world's [Charter](#the-front-door) and the Objects it names, and, as [stubs](#known-of), what its Character's own sheet points to. "On or knows" is decided by one link per type. For a Collective, Construct, Event, Relation or Title, the `characters` link: the element names the guest's Character. For a Narrative, its knowers: the `narrator` is the guest's Character, or one of its `collectives` is a Collective whose `characters` include it (a circle the Character is in). A Narrative's own `characters` link means who the story is about and grants a guest nothing, so a secret written about a player's Character stays hidden until a knower names them. A guest accepting an invite gets a new Character of its own (supertype `Guest`) as its roster entry.
 
 ### Known of
 
