@@ -135,9 +135,11 @@ if (!flag('--no-links')) {
       const u = m[0].replace(/[.,;:]+$/, '');
       // API addresses need a key or a method (401, 405 by design): the routes check covers them; so does a wildcard or a placeholder.
       // The image edge's bare root is a prefix in the text (a key follows it), and the edge serves no root page: 404 by design.
+      // A join link, the sign-in handoff's pages and the account's pages answer 400 or 404 without their code, parameters or session (by design;
+      // the text shows their shape with a placeholder the URL scan stops at, `<world_id>`): Boss's signin-host gate and the live walks cover them.
       if (u === 'https://media.onlyworlds.com/') continue;
       if (!/^https?:\/\/(localhost|127\.|example\.|onlyworlds\.github\.io|upload\.onlyworlds\.com)/.test(u)
-        && !/^https:\/\/www\.onlyworlds\.com\/(api\/|mcp)/.test(u) && !/[*{[]/.test(u) && !urls.has(u)) urls.set(u, rel(f));
+        && !/^https:\/\/www\.onlyworlds\.com\/(api\/|mcp|join\/|signin\/|account\/)/.test(u) && !/^https:\/\/atlas\.onlyworlds\.com\/signin\//.test(u) && !/[*{[]/.test(u) && !urls.has(u)) urls.set(u, rel(f));
     }
   }
   const list = [...urls.entries()];
