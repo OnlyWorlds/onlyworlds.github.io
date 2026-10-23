@@ -109,6 +109,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/narrative" \
 - **One step.** The mark is written in the create's own transaction, at the element's first `change_seq`. A contributor's [feed](#the-feed) gets one `delete` row with `reason` `hidden` at that place and never the body; a guest gets nothing; the owner and co-builders get the upsert with `hidden: true`.
 - **Only a create.** On a `PUT` that replaces an existing element, and on a `PATCH`, `hidden` is ignored: an existing element is hidden and unhidden only through `PUT` and `DELETE /api/v2/{type}/{id}/hidden`.
 - **MCP.** `create_element` takes `hidden` (boolean, off by default), or `hidden: true` in its `element`, on the same terms.
+- **Python.** From 0.43.0 the [package](/docs/development/python)'s `create`, `upsert` and `bulk` send `hidden` as the element carries it (before, they stripped it, so a folder's hidden element was created visible), and `ApiError.is_hidden_not_allowed` names the `403`. Its `push` creates nothing and never sends the mark.
 
 ## Errors
 
