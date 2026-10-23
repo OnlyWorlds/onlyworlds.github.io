@@ -62,7 +62,7 @@ Some errors carry extra top-level keys beside `error`, named in their row: `prec
 | [`key_revoked`](#key_revoked) | `authentication_error` | `401` | The API key was recognised but has been revoked. |
 | [`permission_error`](#permission_error) | `permission_error` | `403` | The credential is valid but lacks the scope for this route (e.g. a read key on a write route). |
 | [`not_author`](#not_author) | `permission_error` | `403` | A contributor or guest key changed, replaced, relinked or deleted an element someone else created. |
-| [`owner_only`](#owner_only) | `permission_error` | `403` | A member key tried to change the world's own settings (a co-builder may change time_range_current alone). |
+| [`owner_only`](#owner_only) | `permission_error` | `403` | A member key tried to change the world's own settings (a co-builder may change time_range_current, the extension keys, source and producer, and nothing else). |
 | [`view_as_owner_only`](#view_as_owner_only) | `permission_error` | `403` | A member key sent `as` (view as): reading as another reader is the owner's, from a key with no member. |
 | [`guest_not_supported`](#guest_not_supported) | `permission_error` | `403` | A guest key called a route guests cannot use yet, or wrote a note (Narrative) without a Character of its own in the world. |
 | [`proposed_only`](#proposed_only) | `permission_error` | `403` | The world takes an agent seat's writes as proposals (its owner's setting), and this act has no proposal form: a seat deleting an element it did not create, or accepting or declining a proposal. Propose instead, or ask a keeper. |
@@ -295,9 +295,9 @@ A contributor or guest key changed, replaced, relinked or deleted an element som
 
 **Type** `permission_error` · **Status** `403`
 
-A member key tried to change the world's own fields (`PATCH /api/v2/world`). The one exception: a co-builder may send `time_range_current` alone, to move the world's now.
+A member key tried to change the world's own fields (`PATCH /api/v2/world`). The one exception: a co-builder may send `time_range_current` (to move the world's now), the world's extension keys, `source` and `producer`, with nothing else beside them.
 
-- **How to fix:** only the owner's key can do this; a co-builder can move the world's now with a body holding `time_range_current` and nothing else.
+- **How to fix:** only the owner's key can do this; a co-builder's body may hold only `time_range_current`, extension keys, `source` and `producer`.
 
 ### view_as_owner_only
 

@@ -122,7 +122,7 @@
   "owner_only": {
     "type": "permission_error",
     "status": 403,
-    "summary": "A member key tried to change the world's own settings (a co-builder may change time_range_current alone)."
+    "summary": "A member key tried to change the world's own settings (a co-builder may change time_range_current, the extension keys, source and producer, and nothing else)."
   },
   "view_as_owner_only": {
     "type": "permission_error",

@@ -136,8 +136,13 @@ curl -s "https://www.onlyworlds.com/api/v2/character/{id}?expand=location,instit
   "length_unit": "", "mass_unit": "", "distance_unit": "",
   "public_read": false, "agent_narrator_rule": false, "agent_writes_proposed": false, "owner_character": null,
   "slug": null, "public_page": { "on": false, "palette": null, "hero": "", "sections": [], "pin": null, "index": false },
+  "origin": { "source": null, "producer": null },
   "created_at": "…", "updated_at": "…" }
 ```
+
+`origin` (keel #571, 2026-10-23) is where the world first came from: `{source, producer}`, both keys always present, each the [folder format's provenance line](/docs/schema/folders#worldjson) as the tool that made the world from a folder gave it, or `null`. It is read-only under that name (`origin` in a `PATCH` is a `422`); a tool sets it by sending `source` and `producer` ([Writes](/docs/development/api/writes#the-world)).
+
+**Extension keys** (keel #571): a World carries keys starting `x_`, `atlas_` or `shadow_` at the top level of its body, as an element does: a tool's own settings on the world, any JSON value, kept as given. What a key means is its profile's; the first published one is [`x_names`](/docs/schema/conventions), a world's own words for the types. Values come back equal, but the keys inside an object may come back in another order than they were sent.
 
 `agent_writes_proposed` (keel #519, 2026-10-22) is the world's **AI seats propose, a person accepts** switch as its owner set it on the world page: read-only here, a `422` in a `PATCH` like `public_read`, `false` by default; with it `true`, an agent seat's changes to existing elements become [proposals](/docs/development/api/proposals) a keeper accepts.
 
