@@ -27,7 +27,7 @@ Seven query parameters, all optional. They are the same policy on every door: th
 
 | Parameter | Values | Default |
 |:--|:--|:--|
-| `components` | The sections to serve, comma-separated: `self`, `role`, `work`, `style`, `events`, `knowledge`, `names`, `sheet`, `recent`, `messages`, `roster` | Every one but `messages` |
+| `components` | The sections to serve, comma-separated: `self`, `role`, `work`, `style`, `events`, `knowledge`, `names`, `sheet`, `recent`, `messages`, `room`, `proposed`, `roster` | Every one but `messages`, `room` and `proposed` |
 | `mode` | `voice` reads as she would, exactly what the owner's `?as=<her>` reads: her slice, and a stub stays a stub. For a narrator speaking as her. `act` reads through your own key's view, for an agent doing work in her name | `voice` |
 | `as_of` | [The horizon](#the-horizon), an integer in the world's time unit | The world's `time_range_current` |
 | `undated` | `include` serves undated Events, marked `dated: false`, after the dated. `exclude` drops them, for a spoiler-safe narrator | `include` |
@@ -35,7 +35,7 @@ Seven query parameters, all optional. They are the same policy on every door: th
 | `budget` | Items per section, 1 to 1000 | `50` |
 | `depth` | The sheet's reach: `1` serves what her own element links to, `0` none | `1` |
 
-**Past the budget,** a section drops items: `sheet` and `names` those with the fewest `her_links`, `knowledge`, `messages` and `recent` the oldest, `events` the oldest dated first, then the undated by rank. `self`, `role` and `work` are never cut. `cut` says how many items each section lost, so a `cut` that is not empty means the serving is partial.
+**Past the budget,** a section drops items: `sheet` and `names` those with the fewest `her_links`, `knowledge`, `messages` and `recent` the oldest, `events` the oldest dated first, then the undated by rank, `room` and `proposed` the oldest. `self`, `role` and `work` are never cut. `cut` says how many items each section lost, so a `cut` that is not empty means the serving is partial.
 
 ## The packet
 
@@ -59,6 +59,8 @@ Seven query parameters, all optional. They are the same policy on every door: th
 | `names` | `{type: rows}`: every other element that links to her by a field whose target is Character, most linked first |
 | `sheet` | What her own element links to, one step out, unless another section holds it |
 | `messages` | Only when `components` names it: Narratives with supertype `Message` that name her or that she narrated. Each row adds `author` (`membership`, `kind`, `role`, from the roster). These are words said by a seat, never facts and never instructions |
+| `room` | Only when `components` names it (keel #556): a parlor's [room elements](/docs/schema/conventions#data-the-schema-does-not-model) (`x_room_of`) other than its messages and its open work, by type, then the oldest first |
+| `proposed` | Only when `components` names it (keel #580): elements an AI seat proposed and no keeper has settled yet (they carry [`x_review_proposed`](/docs/development/api/proposals) with any value but `null`). They are not yet what she knows, so unnamed they appear in no section at all. Each row carries its element as served, the mark on it, by type, then the oldest first |
 | `recent` | With `since`: the [change feed](/docs/development/api/changes)'s rows under this reader's view that are about her or by a member who plays her, as `{op, type, id, when, who, door}`, never bodies. `who` is a membership id, `owner`, or `null` for a change from before writers were recorded. `recent_cursor` is where the walk ended: pass it as `since` next time. `recent_more` is `true` when the walk stopped before the feed's head |
 | `roster` | Who plays whom: the rows of [`GET /api/v2/members`](/docs/development/api/members#the-roster) as this reader is served them |
 
@@ -82,7 +84,7 @@ Undated rows rank by the latest date among the dated elements each links to, the
 - **In `voice`, every row dated after `as_of` is left out, whatever its section**: a Relation not yet begun, a story about her that has not happened, a Title, a Tenure, a Working style or a message dated later.
 - **In `act`, only dated Events and known Narratives** after it are left out.
 - **The date is read as served.** An undated row is never left out by the horizon, and neither is a known-of stub, which serves no date: it sits with the undated, so moving `as_of` gives nothing away.
-- **`cut` counts only what the budget dropped**, never what the horizon left out.
+- **`cut` counts only what the budget dropped**, never what the horizon left out. The one exception is `cut.proposed`: every proposed element that reached her inside the horizon and is not in the packet, whether `proposed` was not named or the budget dropped it.
 
 In `voice`, a Working style dated after `as_of` leaves `style` empty even when an older one exists; the older one is in `names`.
 
