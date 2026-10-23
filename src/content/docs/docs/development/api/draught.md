@@ -109,5 +109,5 @@ Two list filters came with the draught, on every category: `ids=` (up to 200 ids
 ## MCP and the SDKs
 
 - **[MCP server](/docs/development/mcp):** `get_draught` takes `id` and `policy`, one JSON object with the same keys, and answers the same packet.
-- **[TypeScript SDK](/docs/development/typescript), from 4.47.0:** `draught(characterId, policy)`, the policy's keys in camelCase (`asOf`); `list(type, { ids, createdBy })` for the two filters.
+- **[TypeScript SDK](/docs/development/typescript), from 4.47.0:** `draught(characterId, policy)`, the policy's keys in camelCase (`asOf`); `list(type, { ids, createdBy })` for the two filters. Since 4.67.0 `OwDraughtComponent` names `room` and `proposed`, and each row is typed as keel serves it, `{via, her_links, grade, element}`, the element under `element`; before, the type spread the element onto the row, so `row.name` compiled and read `undefined`.
 - **[Python](/docs/development/python), from 0.14.0:** `draught(character_id, mode=…, as_of=…)`, the seven keys as keyword arguments (`components` a list); `list_page(type, ids=…, created_by=…)` for the two filters.
