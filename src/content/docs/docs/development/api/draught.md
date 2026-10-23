@@ -23,7 +23,7 @@ A Character the key cannot see answers `404` [`not_found`](/api/errors/#not_foun
 
 ## The policy
 
-Seven query parameters, all optional. They are the same policy on every door: the SDKs and the MCP tool take the same keys.
+Eight query parameters, all optional. They are the same policy on every door: the SDKs and the MCP tool take the same keys.
 
 | Parameter | Values | Default |
 |:--|:--|:--|
@@ -34,6 +34,7 @@ Seven query parameters, all optional. They are the same policy on every door: th
 | `since` | For `recent`: a cursor from [`/changes`](/docs/development/api/changes), or an ISO 8601 date and time, as `/changes` takes `after` | None: `recent` is empty |
 | `budget` | Items per section, 1 to 1000 | `50` |
 | `depth` | The sheet's reach: `1` serves what her own element links to, `0` none | `1` |
+| `compact` | `true` leaves out every empty section and an empty `cut` ([Compact](#compact)); `false` serves the fixed shape | `false` |
 
 **Past the budget,** a section drops items: `sheet` and `names` those with the fewest `her_links`, `knowledge`, `messages` and `recent` the oldest, `events` the oldest dated first, then the undated by rank, `room` and `proposed` the oldest. `self`, `role` and `work` are never cut. `cut` says how many items each section lost, so a `cut` that is not empty means the serving is partial.
 
@@ -77,6 +78,20 @@ Every row in the element sections carries four fields:
 
 Undated rows rank by the latest date among the dated elements each links to, then by `her_links`, then by how many links it has, then by its last edit. They are never given a guessed date.
 
+## Compact
+
+By default the packet keeps its fixed shape: every section is there, empty or not. `compact=true` (keel #585) leaves out every empty array section (`role`, `work`, `events`, `knowledge`, `sheet`, `recent`, `messages`, `room`, `proposed`, `roster`), `names` when it is empty and `cut` when nothing was cut. An absent section means nothing in it, never that it was not read: `policy.components` says what was read, and `policy.compact` which shape you got.
+
+```bash
+curl -s "https://www.onlyworlds.com/api/v2/character/{id}/context?compact=true" \
+  -H "API-Key: {key}"
+```
+
+- **Always there:** `world`, `calendar`, `as_of`, `now`, `mode` and `policy`, whatever they hold.
+- **A null that is an answer stays:** `character` null means she is hidden from this reader, `style` null that she has no style element, `recent_cursor` null that the read had no `since`. `recent_more` is a boolean and stays.
+- **The value** is `true` or `false` (in any case, in the query); anything else is `422` [`invalid_request`](/api/errors/#invalid_request) with `param` `compact`.
+- **The MCP tool's default is the other way:** `get_draught` serves the compact packet unless told `compact: false`. This route's default is `false`.
+
 ## The horizon
 
 `as_of` is the moment the packet is drawn at, in the world's time unit. It defaults to the world's now, `time_range_current`. Rows dated after it are left out:
@@ -108,6 +123,6 @@ Two list filters came with the draught, on every category: `ids=` (up to 200 ids
 
 ## MCP and the SDKs
 
-- **[MCP server](/docs/development/mcp):** `get_draught` takes `id` and `policy`, one JSON object with the same keys, and answers the same packet.
-- **[TypeScript SDK](/docs/development/typescript), from 4.47.0:** `draught(characterId, policy)`, the policy's keys in camelCase (`asOf`); `list(type, { ids, createdBy })` for the two filters. Since 4.67.0 `OwDraughtComponent` names `room` and `proposed`, and each row is typed as keel serves it, `{via, her_links, grade, element}`, the element under `element`; before, the type spread the element onto the row, so `row.name` compiled and read `undefined`.
-- **[Python](/docs/development/python), from 0.14.0:** `draught(character_id, mode=…, as_of=…)`, the seven keys as keyword arguments (`components` a list); `list_page(type, ids=…, created_by=…)` for the two filters.
+- **[MCP server](/docs/development/mcp):** `get_draught` takes `id` and `policy`, one JSON object with the same keys, and answers the same packet. It also takes `compact` as an argument of its own, true unless the caller says false, so it serves the [compact](#compact) packet by default; a `compact` inside `policy` wins when both are sent.
+- **[TypeScript SDK](/docs/development/typescript), from 4.47.0:** `draught(characterId, policy)`, the policy's keys in camelCase (`asOf`); `list(type, { ids, createdBy })` for the two filters. Since 4.67.0 `OwDraughtComponent` names `room` and `proposed`, and each row is typed as keel serves it, `{via, her_links, grade, element}`, the element under `element`; before, the type spread the element onto the row, so `row.name` compiled and read `undefined`. From 4.69.0, `draught(characterId, { compact: true })` asks for the [compact](#compact) packet, typed `OwDraughtCompact` (`cut` optional); without `compact`, or with `compact: false`, the answer is the fixed `OwDraught`.
+- **[Python](/docs/development/python), from 0.14.0:** `draught(character_id, mode=…, as_of=…)`, the first seven keys as keyword arguments (`components` a list; `compact` is not taken yet); `list_page(type, ids=…, created_by=…)` for the two filters.

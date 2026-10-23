@@ -53,7 +53,7 @@ Besides its category's fields (see [the schema](/docs/schema/)), every element r
 | `change_seq` | The world's change sequence at this element's last write |
 | `created_by` | The membership that created the element, or `null` when the owner did ([Members](/docs/development/api/members)) |
 | `changed_by`, `changed_via`, `changed_client` | Who made the last change, through which door, and the name the client gave in `X-OW-Client` (`null` when none); `seat`, `mcp` and `declared` mean an agent did ([Agent writes](/docs/development/api/writes#agent-writes)) |
-| `hidden` | `true` when the element is [hidden](/docs/development/api/hidden#the-hidden-flag) and this reader still sees it; absent otherwise, never `false`. Read-only: ignored in a write |
+| `hidden` | `true` when the element is [hidden](/docs/development/api/hidden#the-hidden-flag) and this reader still sees it; absent otherwise, never `false`. Ignored in an update; on a create, `true` [creates the element hidden](/docs/development/api/hidden#creating-an-element-hidden) |
 
 Fields under the extension namespaces `atlas_*`, `shadow_*` and `x_*` appear inline, exactly as they were written. Links read as bare UUIDs: see [Link fields](/docs/development/api/links). Files attached to an element are never in its body: they have their own routes ([Files](/docs/development/api/files)).
 

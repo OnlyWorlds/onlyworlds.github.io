@@ -24,7 +24,7 @@ The mark is a record beside the element, not a field. Hiding or unhiding leaves 
 
 ### The hidden flag
 
-Every reader who still sees a hidden element gets `hidden: true` at the top level of its body: the owner, a co-builder, a key the owner minted, and the member who made it. It is there on `GET /api/v2/{type}/{id}`, on lists, on the [change feed](/docs/development/api/changes)'s upserts and in the [MCP server](/docs/development/mcp)'s reads, whatever `fields=` asked for. On every other body it is absent, never `false`. It is read-only: sent in a write, it is ignored, so a body sent back never hides or unhides anything. The owner's [export file](/docs/development/api/changes#the-export-file), world sync and the [Classic API](/docs/development/api/classic) never carry it. The [TypeScript SDK](/docs/development/typescript)'s element types carry it as an optional `hidden: true`, from 4.50.0.
+Every reader who still sees a hidden element gets `hidden: true` at the top level of its body: the owner, a co-builder, a key the owner minted, and the member who made it. It is there on `GET /api/v2/{type}/{id}`, on lists, on the [change feed](/docs/development/api/changes)'s upserts and in the [MCP server](/docs/development/mcp)'s reads, whatever `fields=` asked for. On every other body it is absent, never `false`. Sent back in an update (`PATCH`, or a `PUT` that replaces), it is ignored, so a body sent back never hides or unhides anything. Sent on a create, `hidden: true` [creates the element hidden](#creating-an-element-hidden). The owner's [export file](/docs/development/api/changes#the-export-file), world sync and the [Classic API](/docs/development/api/classic) never carry it. The [TypeScript SDK](/docs/development/typescript)'s element types carry it as an optional `hidden: true`, from 4.50.0.
 
 ## What everyone else gets
 
@@ -92,7 +92,23 @@ curl -s -X PUT "https://www.onlyworlds.com/api/v2/character/{id}/hidden" \
 
 In the [TypeScript SDK](/docs/development/typescript), `listHidden()` returns these rows (from 4.48.0).
 
-Deleting a hidden element deletes its mark with it, and deleting a world deletes all of its marks. The [MCP server](/docs/development/mcp) has no tool to hide or unhide.
+Deleting a hidden element deletes its mark with it, and deleting a world deletes all of its marks. The [MCP server](/docs/development/mcp) has no tool to hide or unhide an existing element; its `create_element` can [create one hidden](#creating-an-element-hidden).
+
+### Creating an element hidden
+
+A create can carry the mark (keel #587), so what a source kept private never shows, even for a moment, to a reader who cannot see hidden elements. Send `hidden: true` in the body of `POST /api/v2/{type}`, of a `PUT /api/v2/{type}/{id}` that creates, or of a [`/bulk`](/docs/development/api/writes#bulk) item that creates:
+
+```bash
+curl -s -X POST "https://www.onlyworlds.com/api/v2/narrative" \
+  -H "API-Key: {key}" -H "API-Pin: {pin}" -H "Content-Type: application/json" \
+  -d '{ "name": "Why the Time Tombs open", "hidden": true }'
+```
+
+- **Who.** The same keys as the hidden routes: the owner's, and a co-builder's, a person's or an agent seat's. Any other key gets `403` [`hidden_not_allowed`](/api/errors/#hidden_not_allowed) and nothing is created; in `/bulk` the error is in that item's slot.
+- **The value.** `false`, `null` or absent creates a visible element, as ever. A value that is not a boolean or `null` is `422` [`invalid_request`](/api/errors/#invalid_request) with `param` `hidden`. Where the server has the hidden mark switched off, `true` is a `422` with `param` `hidden` too, and nothing is created.
+- **One step.** The mark is written in the create's own transaction, at the element's first `change_seq`. A contributor's [feed](#the-feed) gets one `delete` row with `reason` `hidden` at that place and never the body; a guest gets nothing; the owner and co-builders get the upsert with `hidden: true`.
+- **Only a create.** On a `PUT` that replaces an existing element, and on a `PATCH`, `hidden` is ignored: an existing element is hidden and unhidden only through `PUT` and `DELETE /api/v2/{type}/{id}/hidden`.
+- **MCP.** `create_element` takes `hidden` (boolean, off by default), or `hidden: true` in its `element`, on the same terms.
 
 ## Errors
 

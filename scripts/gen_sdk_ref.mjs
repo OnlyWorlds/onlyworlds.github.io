@@ -58,14 +58,22 @@ const cfgRows = cfg.members.filter(ts.isPropertySignature).map((m) => {
 // ---- OwV2Client --------------------------------------------------------------------------------
 const cls = find(ts.SyntaxKind.ClassDeclaration, 'OwV2Client');
 const isPublic = (m) => !(ts.getCombinedModifierFlags(m) & (ts.ModifierFlags.Private | ts.ModifierFlags.Protected));
-const methodRows = cls.members.filter((m) => ts.isMethodDeclaration(m) && isPublic(m)).map((m) => {
+// An overloaded method is one row: the first signature's parameters and doc comment, and every
+// signature's return type (draught's compact overload, SDK 4.69.0, came out as a bare second row).
+const methods = [];
+for (const m of cls.members.filter((m) => ts.isMethodDeclaration(m) && isPublic(m))) {
   const name = m.name.getText(sf);
-  const params = m.parameters.map((p) => p.name.getText(sf) + (p.questionToken ? '?' : '')).join(', ');
   const ret = m.type?.getText(sf) ?? '';
+  const last = methods[methods.length - 1];
+  if (last && last.name === name) { if (!last.rets.includes(ret)) last.rets.push(ret); continue; }
+  methods.push({ name, m, rets: [ret] });
+}
+const methodRows = methods.map(({ name, m, rets }) => {
+  const params = m.parameters.map((p) => p.name.getText(sf) + (p.questionToken ? '?' : '')).join(', ');
   const doc = docOf(m);
   const route = doc.match(/^((?:GET|POST|PUT|PATCH|DELETE)\s+\S+(?:\s+with\s+\{[^}]*\})?)\s+--\s+(.*)$/);
   const what = route ? route[2] : doc;
-  return `| ${code(`${name}(${params})`)} | ${route ? code(route[1]) : ''} | ${esc(firstSentence(what))} | ${code(ret)} |`;
+  return `| ${code(`${name}(${params})`)} | ${route ? code(route[1]) : ''} | ${esc(firstSentence(what))} | ${rets.map(code).join(' or ')} |`;
 });
 
 const body = [

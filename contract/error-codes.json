@@ -124,6 +124,11 @@
     "status": 403,
     "summary": "A contributor or guest key changed, replaced, relinked or deleted an element someone else created."
   },
+  "hidden_not_allowed": {
+    "type": "permission_error",
+    "status": 403,
+    "summary": "A create (POST, a PUT of a new id, a /bulk item that creates) carried `hidden: true` from a key that may not hide: only the world's owner and its co-builders (person or seat) may. Nothing was created. Leave `hidden` out, or ask a keeper."
+  },
   "owner_only": {
     "type": "permission_error",
     "status": 403,

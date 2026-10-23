@@ -32,6 +32,8 @@ for await (const character of client.listAll('character')) { // every page
 
 For your own world, use its read-only key (`ow_r_`), which needs no PIN. The other demo key, `0000000000`, reads Hyperion. See [Keys and PINs](/docs/getting-started/keys) for the key types.
 
+One Character's context in one read is `draught(characterId, policy)` ([The draught](/docs/development/api/draught)). From 4.69.0, `draught(id, { compact: true })` leaves out the packet's empty sections and is typed `OwDraughtCompact` (`cut` optional); without `compact` the answer is the fixed `OwDraught`.
+
 ## Write
 
 Keep the write key and PIN out of the code, in a `.env` file beside it:
@@ -359,7 +361,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.68.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.69.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -387,7 +389,7 @@ Generated from the types of `@onlyworlds/sdk` 4.68.0, the version these docs pin
 | `me()` |  |  | `Promise<OwMe>` |
 | `members()` | `GET /members` | the world's roster: each member's id (null for the owner), kind, role, Character and status (`removed` rows stay, so their elements keep `created_by`). | `Promise<OwMember[]>` |
 | `list(type, params?)` | `GET /{type}/` | one cursor page. | `Promise<OwPage>` |
-| `draught(characterId, policy?)` | `GET /character/{id}/context` | the draught (keel PR 155, D143): what one Character knows, as the recorded world holds it, in one read: her element, what she holds and sits in, her open work, how she works, the Events she was in, the Narratives she knows, everything else that names her, her sheet, what changed around her (`since`), and who plays whom; the world's name and calendar beside; the room's messages (`messages`), its other elements (`room`, keel #556) and elements written as proposed (`proposed`, keel #580) only when `components` names them. | `Promise<OwDraught>` |
+| `draught(characterId, policy?)` | `GET /character/{id}/context` | the draught (keel PR 155, D143): what one Character knows, as the recorded world holds it, in one read: her element, what she holds and sits in, her open work, how she works, the Events she was in, the Narratives she knows, everything else that names her, her sheet, what changed around her (`since`), and who plays whom; the world's name and calendar beside; the room's messages (`messages`), its other elements (`room`, keel #556) and elements written as proposed (`proposed`, keel #580) only when `components` names them. | `Promise<OwDraught>` or `Promise<OwDraughtCompact>` |
 | `listAll(type, params?)` |  | Cursor-walk every page of a type. | `AsyncGenerator<OwElement>` |
 | `get(type, id, opts?)` | `GET /{type}/{id}/` | optional one-level stub expansion / sparse fields, and `viewAs` (keel #421: the owner reads as another reader; see ListParams.viewAs). | `Promise<OwElement>` |
 | `create(type, element, opts?)` | `POST /{type}/` | create one element, minting an id on the client when you leave id out. | `Promise<OwElement>` |

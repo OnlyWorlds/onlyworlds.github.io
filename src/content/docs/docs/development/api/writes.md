@@ -17,10 +17,11 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/location" \
 
 - You may supply an `id`: any RFC 4122 UUID is accepted, and UUIDv7 is recommended. Omit it and the server mints a UUIDv7.
 - An `id` that already exists is `409` [`id_conflict`](/api/errors/#id_conflict). Element ids are unique across all worlds, so the message says which case it is: the id exists in this world (use `PUT` to upsert), or in another world (mint a new id).
+- `hidden: true` creates the element [hidden](/docs/development/api/hidden#creating-an-element-hidden) from its first moment. Only the owner's keys and a co-builder's may send it; any other key is `403` [`hidden_not_allowed`](/api/errors/#hidden_not_allowed) and nothing is created.
 
 ## Upsert
 
-`PUT /api/v2/{type}/{id}` creates the element if absent and **replaces it whole** if present: fields left out are reset to empty. It returns `201` when it created and `200` when it replaced. The path decides the id; an `id` in the body is dropped. An id held by an element in another world is `409` [`id_conflict`](/api/errors/#id_conflict).
+`PUT /api/v2/{type}/{id}` creates the element if absent and **replaces it whole** if present: fields left out are reset to empty. It returns `201` when it created and `200` when it replaced. The path decides the id; an `id` in the body is dropped. An id held by an element in another world is `409` [`id_conflict`](/api/errors/#id_conflict). A `PUT` that creates takes `hidden: true` as `POST` does; one that replaces ignores `hidden`.
 
 ## Partial update
 
@@ -143,6 +144,7 @@ A key is held while its request runs, so two sends with it do not both write; th
 ```
 
 - An item whose `element` carries an `id` upserts that id; one without an `id` creates. An `op` field on an item is optional and ignored.
+- An item that creates may carry `hidden: true` in its `element`, as `POST` does; from a key that may not hide, that item fails `403` [`hidden_not_allowed`](/api/errors/#hidden_not_allowed).
 - The answer is HTTP `200` once the batch is read. Results are per item, in request order, and each `status` is what a single write would have returned (`201`, `200`, or an error status).
 - **Partial success is the default**: one bad item does not stop the rest. Send `"atomic": true` for all or nothing. In atomic mode, if `errors` is `true` **nothing was written**, even though the items that would have succeeded show `201` or `200`.
 - A failed item carries the standard [error envelope](/api/errors/) under `error`; the top-level `errors` is `true` if any item failed. The codes seen per item are listed under [Bulk errors](/api/errors/#bulk-errors).

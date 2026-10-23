@@ -63,6 +63,7 @@ Some errors carry extra top-level keys beside `error`, named in their row: `prec
 | [`key_revoked`](#key_revoked) | `authentication_error` | `401` | The API key was recognised but has been revoked. |
 | [`permission_error`](#permission_error) | `permission_error` | `403` | The credential is valid but lacks the scope for this route (e.g. a read key on a write route). |
 | [`not_author`](#not_author) | `permission_error` | `403` | A contributor or guest key changed, replaced, relinked or deleted an element someone else created. |
+| [`hidden_not_allowed`](#hidden_not_allowed) | `permission_error` | `403` | A create (POST, a PUT of a new id, a /bulk item that creates) carried `hidden: true` from a key that may not hide: only the world's owner and its co-builders (person or seat) may. Nothing was created. Leave `hidden` out, or ask a keeper. |
 | [`owner_only`](#owner_only) | `permission_error` | `403` | A member key tried to change the world's own settings (a co-builder may change time_range_current, the extension keys, source and producer, and nothing else). |
 | [`view_as_owner_only`](#view_as_owner_only) | `permission_error` | `403` | A member key sent `as` (view as): reading as another reader is the owner's, from a key with no member. |
 | [`guest_not_supported`](#guest_not_supported) | `permission_error` | `403` | A guest key called a route guests cannot use yet, or wrote a note (Narrative) without a Character of its own in the world. |
@@ -300,6 +301,14 @@ A contributor or guest key changed, replaced, relinked or deleted an element som
 
 - **How to fix:** these roles change only their own elements (`created_by` names the creator). Ask the owner for the co-builder role, or leave the element alone. One exception: a seat the owner gave a Character to play may change it, never delete it ([After joining](/docs/development/agents#after-joining)). See [Roles](/docs/development/api/members#roles).
 
+### hidden_not_allowed
+
+**Type** `permission_error` · **Status** `403`
+
+A create (`POST`, a `PUT` of a new id, a `/bulk` item that creates) carried `hidden: true` from a key that may not hide. Nothing was created. In `/bulk` it is reported per item.
+
+- **How to fix:** leave `hidden` out, or ask a keeper: only the world's owner and its co-builders, a person or a seat, may create an element hidden. See [Creating an element hidden](/docs/development/api/hidden#creating-an-element-hidden).
+
 ### owner_only
 
 **Type** `permission_error` · **Status** `403`
@@ -490,7 +499,7 @@ Image or file upload is not configured on the server right now: `POST /api/v2/me
 ```
 
 - `errors` is `true` if any item failed, `false` if all succeeded.
-- Each item's `error` uses the same envelope as above. The codes seen per item are [`invalid_request`](#invalid_request) (unknown field, wrong shape), [`invalid_link`](#invalid_link) (a reference to a missing element), [`not_author`](#not_author) (`403`, a contributor or guest touching someone else's element) and [`apply_failed`](#apply_failed).
+- Each item's `error` uses the same envelope as above. The codes seen per item are [`invalid_request`](#invalid_request) (unknown field, wrong shape), [`invalid_link`](#invalid_link) (a reference to a missing element), [`not_author`](#not_author) (`403`, a contributor or guest touching someone else's element), [`hidden_not_allowed`](#hidden_not_allowed) (`403`, an item that creates with `hidden: true` from a key that may not hide) and [`apply_failed`](#apply_failed).
 - Each item's `status` is what a single write would have returned: `201` created, `200` replaced, or `400`, `403` or `422` for the errors above.
 - Partial success is the default: one bad item does not stop the batch. Send `"atomic": true` for all or nothing. See [Bulk](/docs/development/api/writes#bulk).
 

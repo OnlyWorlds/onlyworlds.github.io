@@ -130,6 +130,7 @@
 /api/errors#key_revoked	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#permission_error	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#not_author	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
+/api/errors#hidden_not_allowed	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#owner_only	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#view_as_owner_only	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
 /api/errors#guest_not_supported	load-bearing	floor	keel's error-code list (contract/error-codes.json; Keel #82)
