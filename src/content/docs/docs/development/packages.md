@@ -13,6 +13,8 @@ Every client below speaks the same REST API v2. Pick by language, or by where yo
 | [MCP server](/docs/development/mcp) | AI assistants and agents | nothing to install: `https://www.onlyworlds.com/mcp` | live |
 | Plain REST | any other language or engine | none | live |
 
+**A world's origin, in every client.** A client's world patch call (`patchWorld`, `patch_world`, `PatchWorldAsync`) sends `source` and `producer` when you name them, as given; a call that accepts a folder's `world.json` leaves that file's own pair out, since there it names the folder's maker; and setting a world's `origin` from a folder is a push's first-fill step (only when the world's `origin` is empty and the folder was not exported from that same world), never the plain patch call's.
+
 The TypeScript, Python and Unity clients generate their element types and fields from [schema-dist](https://github.com/OnlyWorlds/schema-dist), the published copy of the schema. For other engines, see [Games](/docs/development/games).
 
 ## Plain REST
