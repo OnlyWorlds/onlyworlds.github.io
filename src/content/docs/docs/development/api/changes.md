@@ -123,7 +123,7 @@ A `409` with no `reason` (from a server older than 2026-10-20) is kept like `rol
 
 ## The export file
 
-The account portal's **Export world** button downloads the whole world as one JSON file, separate from the API feed. It is self-describing:
+The world page's **Download JSON** button (Access, **This world as a file**; the owner's) downloads the whole world as one JSON file, separate from the API feed. It is self-describing:
 
 ```json
 {
@@ -151,3 +151,7 @@ The account portal's **Export world** button downloads the whole world as one JS
 - `world` is the World whole (since 2026-10-23, keel #516): every key [`GET /api/v2/world`](/docs/development/api/reads#the-world) serves, its description, time settings, units, switches, `slug` and `public_page` included, beside `source` and `exported_as`. A file from before carries the id, the name, the dates and the provenance lines only.
 - `schema_version` is the version of the standard the elements follow (the value `X-OW-Schema-Version` carries); it is information, not a gate. Files from before 2026-10-18 carry `0.30.00` there. Readers ignore keys they do not know.
 - `world.source` and `world.exported_as` are the [folder format's provenance lines](/docs/schema/folders#worldjson): where the file came from, and that it is the owner's whole world. A tool that writes the file out as a folder carries both into `world.json` as they are. A file without them predates 2026-10-20.
+
+## Restores in the feed
+
+A world's owner can [restore it to a day](/docs/tools/onlyworlds-com#features) from the world page, from the daily files onlyworlds.com keeps for 90 days. A restore reaches the API as ordinary writes, never a rewind: every element in that day's file arrives as an `upsert`, every element made since as a `delete`, each with a new `change_seq` above the head, so `head` never goes back and a stored cursor stays good. The writes carry the `site` door with `changed_by` `null`, the owner's. A restore re-hides any element the world had hidden that comes back without its mark, and moves every guest's view epoch with `reason` `view`, so a guest's next feed read answers `409 resync_required`: [walk again from `0`](#guests-cursors). Memberships, keys, seats, files and proposals are left as they are, except what a delete always takes with its element (its marks, files and proposals). World settings go back too, which the feed never carries: poll `GET /api/v2/world`.
