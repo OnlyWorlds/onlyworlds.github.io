@@ -1,0 +1,117 @@
+---
+title: Public worlds
+description: How a world's owner opens it to everyone, gives it a public page at onlyworlds.com/w/<address>, what a visitor sees, and the keyless reads for developers.
+---
+
+A world's owner can open the world to everyone. Anyone can then read it with no key and no account: through the API, through tools that read worlds, and, if the owner gives it one, on a **public page** at `onlyworlds.com/w/<address>`. Both are off for every world until its owner turns them on.
+
+Opening a world never shows what its owner [hid](/docs/development/api/hidden). The public reads every element that is not hidden, with its fields, links and pictures; hidden elements, the links to them and their counts are missing.
+
+## Turning it on
+
+The owner turns it on in the **Settings** pane of the world's page on onlyworlds.com, in the card **Who can see this world**:
+
+1. **See it as the public first.** **View as the public** shows the world exactly as a stranger gets it ([View as](/docs/development/api/hidden#view-as)).
+2. The card lists what a stranger would get: the elements you have not hidden, with their fields and links; their pictures, "which anyone with the link can already open"; not their files ("for now"), not the roster of who plays whom, and not the elements you hid, "and every link and count that would show them". With nothing hidden, it warns instead: "You have hidden nothing yet, so every element would be public."
+3. Pick one of two:
+   - **Only people you invite**: "No one else can read this world." The default.
+   - **Anyone can read it, with no account**: "Through Atlas, the API and tools that read worlds. It has no page."
+4. Under the second, tick **Give it a page at onlyworlds.com/w/…** and type its address. The card says **Free** or **Taken** as you type, and **Save** checks again.
+
+A page is public reading with a face: ticking the page turns public reading on in the same save, and choosing **Only people you invite** closes the page too ("This also closes the page."). Turning either off works at once ("Turn it off any time and the door closes at once."): no public answer is cached anywhere on the way.
+
+The demo worlds (Moppetopia, Hyperion and the others read with a [demo key](/docs/getting-started/keys)) are not their owner's to open or close: their world page has no such card, so they have no public page. Moppetopia is open to read, so the examples below use it.
+
+### The address
+
+- 3 to 40 characters: lowercase letters, numbers and hyphens, with no hyphen at either end and never two in a row.
+- Unique across onlyworlds.com, first come first served.
+- Not one of the site's own words (`about`, `start`, `tools`, `develop`, `docs`, `join`, `worlds`, `api`, `admin`, `static`, `account`, `w`, `agents`, `privacy`, `whatsnew`) and not an element category's name (`character`, `location` and the rest); not a value that reads as a world id.
+- The page also answers at `onlyworlds.com/w/<world id>`, always, whatever the address. That address cannot be taken or changed.
+- An address exists only while the page is on. Turning the page off frees it, and turning it back on asks for one again; "A name given up before may be taken by now." Changing the address frees the old one at once, with no redirect from it.
+
+### The look
+
+While the page is on, the card has a second form, **Look of the page**, all of it optional:
+
+| Setting | What it does |
+|:--|:--|
+| **Palette** | One of five: Midnight (black and cyan, the default), Daylight, Parchment, Brass or Dusk |
+| **Hero line** | One plain sentence under the world's name, at most 120 characters |
+| **Sections** | Which categories show and in what order: tick a category and number it. Untouched, every category with something public shows, maps first, then Characters and Locations. A category with nothing public never shows. Pins, Markers and Zones are parts of a map, never a section |
+| **Pinned element** | One element's id, shown in a card at the top. A pinned element that is later hidden or deleted drops off the page quietly, and the card tells the owner |
+
+Search engines are kept off: every public page carries `noindex`, and there is no setting for it yet.
+
+## What a visitor sees
+
+The page is plain HTML with no script and no sign-in, read on the same terms as the [keyless API](#the-keyless-reads): everything not hidden, nothing of the world's members.
+
+- **The world page**, `/w/<address>`: the world's picture, its name, the hero line and description, a row of links to each category with its count, the pinned element, then each category with its first four elements as cards and the full count beside the heading. A category with one or two elements goes in a short list under **Also here**. The footer says when the world last changed, and the top bar links **Made with OnlyWorlds** to onlyworlds.com.
+- **An element's page**, `/w/<address>/<category>/<element id>`: its picture, its name, its category, supertype and subtype, its description, **Details** (for a Character: physicality, mentality, background, motivations, reputation, height, weight, birth date) and **Connected to**, its links to other public elements (species, location, birthplace, friends, rivals, institutions, objects, family, languages, traits, abilities). A link to a hidden element is not there.
+- **Never shown**: hidden elements and the links and counts that would show them; a parlor's [room elements](/docs/schema/conventions#data-the-schema-does-not-model) (`x_room_of`); files; the roster; deleted elements.
+
+Every address that answers nothing gets the same page, status `404`: a mistyped address, a world whose page is off, a private world, and a hidden, deleted or unknown element. It reads "This world has no public page. The address may be mistyped, or the owner has not turned the page on. If someone sent you this link, ask them to check it.", so it says nothing about whether a world or an element exists.
+
+Every answer, the `404` included, carries `Cache-Control: no-store` and `X-Robots-Tag: noindex`. A link shared in a chat unfurls with the world's or element's name and the hero line (else the description's first sentence); the canonical address is the one with the page's address when it has one. Page reads count against the same budget as keyless API reads: 60 a minute per address ([Limits](/docs/development/api-reference#limits)), over it a `429`.
+
+## The keyless reads
+
+A request with no `API-Key` header and `?world=<world id>` reads an open world as the public:
+
+| Method | Route |
+|:--|:--|
+| GET | `/api/v2/{type}` and `/api/v2/{type}/{id}` ([Reads](/docs/development/api/reads)) |
+| GET | `/api/v2/search` ([Search](/docs/development/api/reads#search)) |
+| GET | `/api/v2/world` ([The world](/docs/development/api/reads#the-world)) |
+| GET | `/api/metadata/{type}/` and its sections, and the same under `/api/worldapi/metadata/` |
+
+```bash
+curl -s "https://www.onlyworlds.com/api/v2/character?world=0695db52-5433-7332-8000-db7fe10da375&limit=5"
+```
+
+That is Moppetopia. The answer is what the owner's own key gets with [`?as=public`](/docs/development/api/hidden#view-as):
+
+- **Hidden elements are missing.** A list leaves them out, a `GET` of one is `404` [`not_found`](/api/errors/#not_found), and links to them are left out of every body. Room elements are left out the same way.
+- **A deleted element is `404`**, never `410`: the public reads no tombstones.
+- **`image_url` is served** as any field is: a picture is public by its own link.
+- **The query parameters work as with a key**: filters, `limit`, `cursor`, `?expand=`, `?fields=`.
+
+### The world, keyless
+
+`GET /api/v2/world?world=<id>` carries the world's own fields, with `owner_character` always `null` (the public gets no roster) and `counts` beside them, counted as the public reads them:
+
+```json
+{ "id": "0695db52-…", "name": "Moppetopia", "public_read": true, "owner_character": null,
+  "slug": null, "public_page": { "on": false, "palette": null, "hero": "", "sections": [], "pin": null, "index": false },
+  "counts": { "total": 310, "types": { "ability": 1, "character": 23, "location": 32, "marker": 131 } } }
+```
+
+(Shortened.) Here `world` may also be the page's address: an id is tried first, any other value as an address, which names a world only while its page is on. The element, search and metadata routes take the id only.
+
+### What it does not serve
+
+- `/changes`, `/members`, `/me`, files, the hidden routes, [the draught](/docs/development/api/draught), the [MCP server](/docs/development/mcp) and every write answer a keyless request as before: `401` [`invalid_credentials`](/api/errors/#invalid_credentials). The [proposals](/docs/development/api/proposals) lists answer it `404`. A follower who wants the live feed needs a read key.
+- A keyless request without `?world=` is the `401` it always was.
+- `as` on a keyless read is `422` [`invalid_request`](/api/errors/#invalid_request), `param` `as`: view as is the owner's.
+
+### Answers
+
+- **One `404` for every closed door.** A world that is not open to read, an unknown id and a value that is no id at all answer the same `404` [`not_found`](/api/errors/#not_found), "World not found.", so the answer never tells whether a world exists.
+- **With a key**, `world` naming the key's own world is ignored, and any other value, an address included, is `422` [`invalid_request`](/api/errors/#invalid_request) with `param` `world`: a key reads its own world only.
+- **`Cache-Control: no-store`** on every keyless answer, errors included, so turning public reading off closes the door at once. `ETag` and `If-None-Match` work as with a key.
+- **The budget**: 60 a minute per address, shared with the public pages ([Limits](/docs/development/api-reference#limits)).
+
+The TypeScript and Python SDKs send a key on every read and have no keyless call yet; a keyless read is a plain HTTP `GET`.
+
+## On the wire
+
+[`GET /api/v2/world`](/docs/development/api/reads#the-world) carries three keys for all of this, with a key or without:
+
+| Key | Meaning |
+|:--|:--|
+| `public_read` | `true` when the owner chose **Anyone can read it** |
+| `slug` | The page's address, `onlyworlds.com/w/<slug>`, or `null` while the page is off |
+| `public_page` | The page as the owner set it: `on`, `palette`, `hero`, `sections`, `pin`, and `index` (always `false`). Every key is present while the page is off |
+
+All three are the owner's to set on the world page and are read-only on the API: a `PATCH /api/v2/world` carrying any of them is `422` [`invalid_request`](/api/errors/#invalid_request), like any field it cannot write. A tool that writes a world body back strips them. No tool can open a world or give it a page.

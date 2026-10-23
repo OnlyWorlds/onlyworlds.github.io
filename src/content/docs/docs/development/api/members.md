@@ -210,7 +210,7 @@ A world's owner can hold every seat's changes for a person's word: with **AI sea
 | To give | Use |
 |:--|:--|
 | Read access to anyone you hand it to, no account needed | An `ow_r_` read key ([Keys and PINs](/docs/getting-started/keys)). It shows what you [hid](/docs/development/api/hidden): to share a world without that, use a player link or an invite with a role |
-| Open reading to everyone | The world's `public_read` flag. There is no switch for it yet (planned); until then it is set by the OnlyWorlds team on request |
+| Open reading to everyone, with no key or account, and a public page if you want one | **Anyone can read it, with no account** under **Who can see this world** on the world page's Settings. See [Public worlds](/docs/development/api/public) |
 | A person who writes, with their own PIN and their own role | A member invite by email, or an [invite link](#invite-links) |
 | A friend who reads as one Character, with no account | A [player link](#player-links) |
 | An AI agent with its own seat | A [seat for your AI](/docs/development/agents#making-a-seat), or an [agent link](/docs/development/agents#the-join-link) |

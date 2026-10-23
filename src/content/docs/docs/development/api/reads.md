@@ -127,7 +127,7 @@ curl -s "https://www.onlyworlds.com/api/v2/character/{id}?expand=location,instit
 
 ## The world
 
-`GET /api/v2/world` returns the world named by the key:
+`GET /api/v2/world` returns the world named by the key. A world its owner opened to everyone is also read with no key, as `?world=<id>`, and then carries `counts` and an `owner_character` of `null` ([Public worlds](/docs/development/api/public#the-world-keyless)):
 
 ```json
 { "id": "…", "name": "Hyperion", "description": "…", "image_url": "",
@@ -146,7 +146,7 @@ curl -s "https://www.onlyworlds.com/api/v2/character/{id}?expand=location,instit
 
 `agent_writes_proposed` (keel #519, 2026-10-22) is the world's **AI seats propose, a person accepts** switch as its owner set it on the world page: read-only here, a `422` in a `PATCH` like `public_read`, `false` by default; with it `true`, an agent seat's changes to existing elements become [proposals](/docs/development/api/proposals) a keeper accepts.
 
-`slug` and `public_page` (keel #471, 2026-10-22) are the world's public page as its owner set it, read-only here and a `422` in a `PATCH` like `public_read`: `slug` is the page's address, `onlyworlds.com/w/<slug>`, `null` while the page is off; `public_page` carries `on` and the levers (`palette`, one of `midnight`, `daylight`, `parchment`, `brass`, `dusk` or `null` for the house's; `hero`, one line; `sections`, the types shown in their order, empty for all; `pin`, one element's id or `null`; `index`, `false` for now), every key present with the page off. The page itself is behind a switch that is off in production today; a world body carries the two fields already, so a tool that writes a world body back strips them. `owner_character` is the Character that is the owner, or `null`. `agent_narrator_rule` is the owner's switch on the world page (Agents narrate as themselves, [Agents](/docs/development/agents)), read-only here. The response carries an `ETag`; send it back as `If-None-Match` and an unchanged world answers `304`. A `200` validates the key. Updating these fields is on [Writes](/docs/development/api/writes#the-world).
+`slug` and `public_page` (keel #471, 2026-10-22) are the world's public page as its owner set it, read-only here and a `422` in a `PATCH` like `public_read`: `slug` is the page's address, `onlyworlds.com/w/<slug>`, `null` while the page is off; `public_page` carries `on` and the levers (`palette`, one of `midnight`, `daylight`, `parchment`, `brass`, `dusk` or `null` for the house's; `hero`, one line; `sections`, the types shown in their order, empty for all; `pin`, one element's id or `null`; `index`, `false` for now), every key present with the page off. The page is live since 2026-10-23, and each owner turns on their own world's: see [Public worlds](/docs/development/api/public). A tool that writes a world body back strips the two fields. `owner_character` is the Character that is the owner, or `null`. `agent_narrator_rule` is the owner's switch on the world page (Agents narrate as themselves, [Agents](/docs/development/agents)), read-only here. The response carries an `ETag`; send it back as `If-None-Match` and an unchanged world answers `304`. A `200` validates the key. Updating these fields is on [Writes](/docs/development/api/writes#the-world).
 
 ## Guests
 

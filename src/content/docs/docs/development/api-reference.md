@@ -16,7 +16,7 @@ A tool that watches the document reads it like this: ask for gzip (it is 2 MB pl
 
 ## Authentication
 
-Every request carries a world key in the `API-Key` header. Writes also carry the PIN in `API-Pin`. The key alone decides the world: no world id goes in a path or a body.
+Every request carries a world key in the `API-Key` header. Writes also carry the PIN in `API-Pin`. The key alone decides the world: no world id goes in a path or a body. The one exception is a world its owner opened to everyone: its reads take no key and name the world as `?world=<id>` ([Public worlds](/docs/development/api/public#the-keyless-reads)).
 
 ```bash
 curl -s "https://www.onlyworlds.com/api/v2/world" \
