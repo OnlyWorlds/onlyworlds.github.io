@@ -3,7 +3,7 @@ title: List your tool
 description: How a tool built on OnlyWorlds gets listed, what we read, and the free-core rule.
 ---
 
-Anyone can build a tool on OnlyWorlds now, with no sign-up: the [API](/docs/development/api-reference), the [SDKs](/docs/development/packages) and these docs are public. Being **listed** is a step further: we read your tool against seven lines, and its row in [the list](https://github.com/OnlyWorlds/tools/blob/master/tools.json) says what we read and when.
+Anyone can build a tool on OnlyWorlds now, with no sign-up: the [API](/docs/development/api-reference), the [SDKs](/docs/development/packages) and these docs are public. Being **listed** is a step further: we read your tool against seven lines, and its row in [the list](https://github.com/OnlyWorlds/tools/blob/master/tools.json) says what we read and when. Listed rows show on [onlyworlds.com/tools](https://www.onlyworlds.com/tools), under Tools others build, with their listed date.
 
 **[Submit your tool](https://github.com/OnlyWorlds/tools/issues/new?template=list-a-tool.yml)**: a form on GitHub, public, like the answer it gets. Never put a key, a PIN or a world's data in it.
 
