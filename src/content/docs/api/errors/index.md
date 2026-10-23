@@ -55,6 +55,7 @@ Some errors carry extra top-level keys beside `error`, named in their row: `prec
 | [`field_not_visible`](#field_not_visible) | `invalid_request` | `422` | A proposal named a field the proposer's own view of the element does not hold (`param` names it): the element reaches this reader only as a stub (known_of), and a proposal changes only what its proposer can read. |
 | [`too_many_open`](#too_many_open) | `invalid_request` | `422` | A proposer already has 5 open proposals on this element, or 50 in this world: wait for a keeper to decide, or withdraw one. A lapsed proposal no longer counts. |
 | [`stale_proposal`](#stale_proposal) | `invalid_request` | `409` | An accept found that a field the proposal names has moved since it was made. Beside the envelope, `conflicts` lists each moved field with its `base` and `current` values, and `current` is the element as it is now. Nothing was written and the proposal stays open; the proposer proposes again on the current text. |
+| [`not_proposed`](#not_proposed) | `invalid_request` | `422` | A review (accept or decline of a new element written as proposed) named an element that carries no `x_review_proposed` mark: nothing to settle. A change to an existing element is proposed and decided through its proposals instead. |
 | [`apply_failed`](#apply_failed) | `invalid_request` | `422` | A /bulk item passed validation but its write failed a database constraint (most often an id that already exists in another world). |
 | [`invalid_grant`](#invalid_grant) | `invalid_request` | `400` | Sign in with OnlyWorlds: the code cannot be exchanged (POST /api/v2/auth/token). It is unknown, already used, expired (a code lives 60 seconds), or was issued for another client, another redirect_uri or another code_verifier. One answer for every case, byte for byte, and the code is spent either way: start the sign-in again. |
 | [`file_too_large`](#file_too_large) | `invalid_request` | `413` | A file asked to be attached to an element is over 25 MB; the message gives both sizes (`param` size). |
@@ -65,7 +66,7 @@ Some errors carry extra top-level keys beside `error`, named in their row: `prec
 | [`owner_only`](#owner_only) | `permission_error` | `403` | A member key tried to change the world's own settings (a co-builder may change time_range_current, the extension keys, source and producer, and nothing else). |
 | [`view_as_owner_only`](#view_as_owner_only) | `permission_error` | `403` | A member key sent `as` (view as): reading as another reader is the owner's, from a key with no member. |
 | [`guest_not_supported`](#guest_not_supported) | `permission_error` | `403` | A guest key called a route guests cannot use yet, or wrote a note (Narrative) without a Character of its own in the world. |
-| [`proposed_only`](#proposed_only) | `permission_error` | `403` | The world takes an agent seat's writes as proposals (its owner's setting), and this act has no proposal form: a seat deleting an element it did not create, or accepting or declining a proposal. Propose instead, or ask a keeper. |
+| [`proposed_only`](#proposed_only) | `permission_error` | `403` | The world takes an agent seat's writes as proposals (its owner's setting), and this act has no proposal form: a seat deleting an element it did not create, or accepting or declining a proposal. Propose instead, or ask a keeper. Also, on any world, a member accepting or declining a new element its own mark proposed: a keeper settles it. |
 | [`own_proposal`](#own_proposal) | `permission_error` | `403` | A keeper tried to accept their own proposal: another keeper (the world's owner or a co-builder) decides it. |
 | [`storage_full`](#storage_full) | `permission_error` | `403` | The account the upload counts against has used all of its image storage. |
 | [`files_full`](#files_full) | `permission_error` | `403` | The world's files have no room for this one (250 MB a world); the message gives the world's use, its cap and the file's size. Remove a file, or ask the owner. |
@@ -150,11 +151,19 @@ A keeper tried to accept their own proposal. A proposal is accepted by someone o
 
 - **How to fix:** another keeper accepts it, or the proposer writes the change directly with their own write key.
 
+### not_proposed
+
+**Type** `invalid_request` · **Status** `422`
+
+A review (`POST /api/v2/{type}/{id}/review`, a keeper accepting or declining a new element a seat made under the switch) named an element that carries no `x_review_proposed` mark: there is nothing to settle. A change to an existing element is decided through its [proposals](/docs/development/api/proposals#accept-decline-withdraw) instead.
+
+- **How to fix:** read the queue (`GET /api/v2/world/proposals`) and review only its `new_element` rows; an element whose mark was already cleared is settled.
+
 ### proposed_only
 
 **Type** `forbidden` · **Status** `403`
 
-Under the world's **AI seats propose, a person accepts** switch, an agent seat tried to delete an element it did not create, or to accept or decline a proposal. A seat under the switch proposes; a person decides.
+Under the world's **AI seats propose, a person accepts** switch, an agent seat tried to delete an element it did not create, or to accept or decline a proposal; and on any world, the member a new element's mark names tried to review it (keel #565). A seat under the switch proposes; a person decides.
 
 - **How to fix:** leave the decision to a person's key, or propose the change and let a keeper accept it.
 

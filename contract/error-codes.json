@@ -84,6 +84,11 @@
     "status": 409,
     "summary": "An accept found that a field the proposal names has moved since it was made. Beside the envelope, `conflicts` lists each moved field with its `base` and `current` values, and `current` is the element as it is now. Nothing was written and the proposal stays open; the proposer proposes again on the current text."
   },
+  "not_proposed": {
+    "type": "invalid_request",
+    "status": 422,
+    "summary": "A review (accept or decline of a new element written as proposed) named an element that carries no `x_review_proposed` mark: nothing to settle. A change to an existing element is proposed and decided through its proposals instead."
+  },
   "apply_failed": {
     "type": "invalid_request",
     "status": 422,
@@ -137,7 +142,7 @@
   "proposed_only": {
     "type": "permission_error",
     "status": 403,
-    "summary": "The world takes an agent seat's writes as proposals (its owner's setting), and this act has no proposal form: a seat deleting an element it did not create, or accepting or declining a proposal. Propose instead, or ask a keeper."
+    "summary": "The world takes an agent seat's writes as proposals (its owner's setting), and this act has no proposal form: a seat deleting an element it did not create, or accepting or declining a proposal. Propose instead, or ask a keeper. Also, on any world, a member accepting or declining a new element its own mark proposed: a keeper settles it."
   },
   "own_proposal": {
     "type": "permission_error",
