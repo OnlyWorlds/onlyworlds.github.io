@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-23
 
+- **[onlyworlds.com](/docs/tools/onlyworlds-com#features): a restore puts the World's tool keys back** (keel #574, PR 191). Restore to a day now makes the World's `x_`, `atlas_` and `shadow_` keys exactly what that day's file holds, removing one a tool added since, and never touches the world's `origin`. A file whose keys are over the 64 KB cap is refused before anything moves. See [Restores in the feed](/docs/development/api/changes#restores-in-the-feed). <!-- keel PR 191 -->
 - **[TypeScript SDK](/docs/development/typescript#a-world-on-the-account) 4.66.0 and [Python](/docs/development/python) 0.35.0 follow keel #565.** Both read the queue's two kinds of row and settle a seat's new element (`reviewNewElement`, `review_new_element`), and know `not_proposed`. The SDK adds `createAccountWorld` (an account token makes a world, with `keyName`, `source` and `producer`); Python's `patch_world` takes `source=` and `producer=`. The [SDKs page](/docs/development/packages) states the one origin rule for all three clients.
 - **onlyworlds.com's Recent changes leaves a hidden room's deletes out** and counts them with the room (keel #569, PR 189): a site change, the feed untouched. <!-- keel PR 189 -->
 - **[Proposed changes](/docs/development/api/proposals), round 2** (keel #565, PR 188). A proposal stores its diff: `fields` only what differs, `omitted` what a `PUT` left empty, and an accept writes exactly `fields`; a proposal of nothing new is a `422`. The queue lists a seat's marked new elements beside proposals (`kind`: `proposal` or `new_element`), the cursor opaque, the `ETag` three parts; a keeper settles a mark with `POST /{type}/{id}/review`, and an unmarked element answers `422 not_proposed`. <!-- keel PR 188 -->
@@ -23,6 +24,9 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 - **[Unity SDK](/docs/development/unity#write) v0.16.0: caught up with the TypeScript SDK through 4.63.0.** The client's name on writes (`X-OW-Client`, default `unity-sdk`; `ChangedClient`, `DeletedClient`), `ifMatch` on delete, patch and links, the conditional head poll (`Unchanged` on a `304`), the PIN only where keel checks it, `OWFrontDoor`, `OWRoom.IsRoomElement`, the proposal calls, and a sync that keeps its copy on a `role` or reasonless `409`, dropping only on `view`; folder format 0.3.15.
 - **[Unity SDK](/docs/development/unity#ship-a-world-with-your-game) v0.15.0: `Pack` leaves private records out unless asked** (`includePrivateRecords`), `RECORDS.json` kept byte for byte; the pin at schema-dist serial 49.
 - **[Toolkit](/docs/development/toolkit) 4.7.1: the world-folder knowledge on 0.3.15.** Its folder guide carries the private-records rule and the one-way element reference, and the `setup` skill's writer stamps `0.3.15`.
+
+<!-- keel PR 187: no docs change (the restore confirm's count and Recent changes' room Hide link, site only) -->
+<!-- keel PR 190: no docs change (two CSS fixes on the tools page and footer) -->
 
 ## 2026-10-22
 
