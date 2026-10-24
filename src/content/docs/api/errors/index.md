@@ -165,7 +165,7 @@ A review (`POST /api/v2/{type}/{id}/review`, a keeper accepting or declining a n
 
 **Type** `forbidden` · **Status** `403`
 
-Under the world's **AI seats propose, a person accepts** switch, an agent seat tried to delete an element it did not create, or to accept or decline a proposal; and on any world, the member a new element's mark names tried to review it (keel #565). A seat under the switch proposes; a person decides.
+Under the world's **AI seats propose, a person accepts** switch, an agent seat tried to delete an element it did not create, or to accept or decline a proposal; and on any world, the member a new element's mark names tried to review it (since 2026-10-23). A seat under the switch proposes; a person decides.
 
 - **How to fix:** leave the decision to a person's key, or propose the change and let a keeper accept it.
 

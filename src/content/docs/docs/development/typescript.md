@@ -253,7 +253,7 @@ await client.withdrawProposal('character', id, row.id);               // the pro
 for (const r of queue.data) if (r.kind === 'new_element') await client.reviewNewElement(r.element_type, r.element_id, { decision: 'accept' }); // a seat's new element: accept clears the mark, decline deletes it
 ```
 
-Since 4.66.0 (keel #565) the queue holds two kinds of row, `OwProposal` (`kind: 'proposal'`, its `fields` only what differs and `omitted` what an upsert left empty) and `OwProposedNewElement` (`kind: 'new_element'`): narrow on `kind` before reading a proposal's own keys. `next_cursor` is opaque. `reviewNewElement` settles a new element a seat made under the switch; an element with no mark throws with `err.isNotProposed`.
+Since 4.66.0 the queue holds two kinds of row, `OwProposal` (`kind: 'proposal'`, its `fields` only what differs and `omitted` what an upsert left empty) and `OwProposedNewElement` (`kind: 'new_element'`): narrow on `kind` before reading a proposal's own keys. `next_cursor` is opaque. `reviewNewElement` settles a new element a seat made under the switch; an element with no mark throws with `err.isNotProposed`.
 
 With **AI seats propose, a person accepts** on for the world (`agent_writes_proposed` on `getWorld()`, read-only; `patchWorld` strips it), an agent seat's `patch`, `upsert` or `editLinks` on an existing element answers `202` and the client throws `OwProposedError` (`err.isProposed`, `err.proposal`) rather than returning a body that is not the element; a `bulk` slot with `status: 202` stays in the result, typed. An accept that finds a proposed field moved throws `OwStaleProposalError` (409, `err.isStaleProposal`, `err.conflicts`, `err.current`); the other codes are `isOwnProposal`, `isProposedOnly`, `isTooManyOpen` and `isFieldNotVisible`. Nothing about a proposal reaches the change feed: poll the queue to learn of new ones.
 
@@ -365,7 +365,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.72.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.72.1, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 

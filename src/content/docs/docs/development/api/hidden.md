@@ -96,7 +96,7 @@ Deleting a hidden element deletes its mark with it, and deleting a world deletes
 
 ### Creating an element hidden
 
-A create can carry the mark (keel #587), so what a source kept private never shows, even for a moment, to a reader who cannot see hidden elements. Send `hidden: true` in the body of `POST /api/v2/{type}`, of a `PUT /api/v2/{type}/{id}` that creates, or of a [`/bulk`](/docs/development/api/writes#bulk) item that creates:
+A create can carry the mark (since 2026-10-23), so what a source kept private never shows, even for a moment, to a reader who cannot see hidden elements. Send `hidden: true` in the body of `POST /api/v2/{type}`, of a `PUT /api/v2/{type}/{id}` that creates, or of a [`/bulk`](/docs/development/api/writes#bulk) item that creates:
 
 ```bash
 curl -s -X POST "https://www.onlyworlds.com/api/v2/narrative" \

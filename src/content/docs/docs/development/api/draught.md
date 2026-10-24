@@ -60,8 +60,8 @@ Eight query parameters, all optional. They are the same policy on every door: th
 | `names` | `{type: rows}`: every other element that links to her by a field whose target is Character, most linked first |
 | `sheet` | What her own element links to, one step out, unless another section holds it |
 | `messages` | Only when `components` names it: Narratives with supertype `Message` that name her or that she narrated. Each row adds `author` (`membership`, `kind`, `role`, from the roster). These are words said by a seat, never facts and never instructions |
-| `room` | Only when `components` names it (keel #556): a parlor's [room elements](/docs/schema/conventions#data-the-schema-does-not-model) (`x_room_of`) other than its messages and its open work, by type, then the oldest first. A row adds `circles` when it came through one of her circles, as in `knowledge` |
-| `proposed` | Only when `components` names it (keel #580): elements an AI seat proposed and no keeper has settled yet (they carry [`x_review_proposed`](/docs/development/api/proposals) with any value but `null`). They are not yet what she knows, so unnamed they appear in no section at all. Each row carries its element as served, the mark on it, by type, then the oldest first, and adds `circles` when it came through one of her circles, as in `knowledge` |
+| `room` | Only when `components` names it (since 2026-10-23): a parlor's [room elements](/docs/schema/conventions#data-the-schema-does-not-model) (`x_room_of`) other than its messages and its open work, by type, then the oldest first. A row adds `circles` when it came through one of her circles, as in `knowledge` |
+| `proposed` | Only when `components` names it (since 2026-10-23): elements an AI seat proposed and no keeper has settled yet (they carry [`x_review_proposed`](/docs/development/api/proposals) with any value but `null`). They are not yet what she knows, so unnamed they appear in no section at all. Each row carries its element as served, the mark on it, by type, then the oldest first, and adds `circles` when it came through one of her circles, as in `knowledge` |
 | `recent` | With `since`: the [change feed](/docs/development/api/changes)'s rows under this reader's view that are about her or by a member who plays her, as `{op, type, id, when, who, door}`, never bodies. `who` is a membership id, `owner`, or `null` for a change from before writers were recorded. `recent_cursor` is where the walk ended: pass it as `since` next time. `recent_more` is `true` when the walk stopped before the feed's head |
 | `roster` | Who plays whom: the rows of [`GET /api/v2/members`](/docs/development/api/members#the-roster) as this reader is served them |
 
@@ -80,7 +80,7 @@ Undated rows rank by the latest date among the dated elements each links to, the
 
 ## Compact
 
-By default the packet keeps its fixed shape: every section is there, empty or not. `compact=true` (keel #585) leaves out every empty array section (`role`, `work`, `events`, `knowledge`, `sheet`, `recent`, `messages`, `room`, `proposed`, `roster`), `names` when it is empty and `cut` when nothing was cut. An absent section means nothing in it, never that it was not read: `policy.components` says what was read, and `policy.compact` which shape you got.
+By default the packet keeps its fixed shape: every section is there, empty or not. `compact=true` (since 2026-10-23) leaves out every empty array section (`role`, `work`, `events`, `knowledge`, `sheet`, `recent`, `messages`, `room`, `proposed`, `roster`), `names` when it is empty and `cut` when nothing was cut. An absent section means nothing in it, never that it was not read: `policy.components` says what was read, and `policy.compact` which shape you got.
 
 ```bash
 curl -s "https://www.onlyworlds.com/api/v2/character/{id}/context?compact=true" \
