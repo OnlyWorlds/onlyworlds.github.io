@@ -11,6 +11,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 - **[World folders](/docs/schema/folders#rules-for-tools): the folder checker names the format version it knows** and warns once on a `world.json` stamped newer, never counting it as a problem (schema-dist serial 61).
 - **[Conventions](/docs/schema/conventions): the room profile's eight type-and-supertype pairs are listed**, not only counted.
 - **[Atlas](/docs/tools/atlas#features) 1.88.3: a world file named `.owworld` opens**, from Data and from Open a world file, as other tools write it; under any other name but `.json`, a world file opens by what it holds. Atlas still saves `.zip`.
+- **[Toolkit](/docs/development/toolkit) 5.2.0: the folder check says where its checker comes from**: a fresh copy of schema-dist in a scratch directory, never one found on the disk; the skills keep their names. [World folders](/docs/schema/folders#rules-for-tools) says the same.
 - **[Toolkit](/docs/development/toolkit) 5.1.0: every skill ends on what its answer owes you**, one list drawn from its steps; the eleven skills keep their names.
 <!-- keel PR 230: no docs change -->
 <!-- keel PR 231: no docs change -->
