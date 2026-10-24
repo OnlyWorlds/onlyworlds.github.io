@@ -5,6 +5,10 @@ description: What changed for developers on OnlyWorlds (the API, the clients and
 
 What changed for developers, newest first: the API on onlyworlds.com, the clients and tools these docs describe, and the docs themselves. Each day lists what a page now says; every release of a package is in its own changelog: [TypeScript SDK](https://github.com/OnlyWorlds/sdk/blob/main/CHANGELOG.md), [Unity SDK](https://github.com/OnlyWorlds/unity-sdk/blob/main/Packages/com.onlyworlds.sdk/CHANGELOG.md), [Python package](https://github.com/OnlyWorlds/python-sdk/blob/main/CHANGELOG.md). Everything that shipped across OnlyWorlds, for everyone, is on [What's new](https://www.onlyworlds.com/whats-new); this page stays the developer log.
 
+## 2026-10-25
+
+- **[Python](/docs/development/python#what-it-covers) 0.50.0: the spine reader reads `x_spine_retires`**, the retired row's id as given, and replays the spine profile's 44 cases at schema-dist serial 61; the doctor names a malformed one on its Event. **[TypeScript SDK](/docs/development/typescript) 4.72.3** is on serial 61 too, with no type changed. Since serial 61 the distribution's `schema.json` carries the advisory number ranges of the 15 integer fields that have them, for display only: the API enforces none.
+
 ## 2026-10-24
 
 - **[Unity](/docs/development/unity#ship-a-world-with-your-game) 0.19.1: the `.owworld` reader agrees with every other reader**: a deflate stream that does not end at its declared size is refused, names fold with Unicode 15.1's NFC from Unicode's own files, and all 96 cases of the conformance set read at serial 60.
