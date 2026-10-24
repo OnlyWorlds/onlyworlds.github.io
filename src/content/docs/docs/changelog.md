@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-24
 
+- **[Python](/docs/development/python#what-it-covers) 0.44.1: the spine reader on serial 56.** Each entry in `SpineRead.dropped` is now `{"key", "value"}`, with the value exactly as the element held it, where 0.44.0 wrote a string. The profile compares these as JSON values, so no language's JSON formatting matters. A non-string `x_spine_truth` or `x_spine_probe` is now named there too. The fixture's 40 cases are the package's test. This changes code that read the strings.
 - **[Python](/docs/development/python#what-it-covers) 0.44.0: the spine profile's first reader.** `read_spine_element(type, element)` reads one element of a world that maps a software ecosystem, under the [spine profile](/docs/schema/conventions#data-the-schema-does-not-model) (schema-dist serial 55): its kind from the closed list of supertypes, each `x_spine_*` key as read or not stated, and every value it left out, named. All 34 of the profile's fixture cases are the package's test. Schema pin on serial 55; no other API change.
 
 ## 2026-10-23
