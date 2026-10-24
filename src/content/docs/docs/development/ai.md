@@ -12,7 +12,7 @@ New to building with AI? The guided start is [onlyworlds.com/develop](https://ww
 | Where the AI runs | What to use | What it gives the AI |
 |:--|:--|:--|
 | In a chat | [LLM guide](/docs/development/llm-guide) | One text file that teaches the standard, the API and the SDK. Paste it into any chat assistant. |
-| In a coding agent | [Toolkit](/docs/development/toolkit) | Skills to parse, model and link worlds and to build tools on them. A Claude Code plugin; other agents can read its skill files. |
+| In a coding agent | [Toolkit](/docs/development/toolkit) | Skills to import, model, read, draw and move worlds and to build tools on them. A Claude Code plugin; other agents can read its skill files. |
 | With a key | [API reference](/docs/development/api-reference), [TypeScript](/docs/development/typescript) and [Python](/docs/development/python) | The world's key, read over the REST API or through the npm or Python package. Write access takes the PIN or a seat. |
 | Over MCP | [MCP server](/docs/development/mcp) | A hosted Model Context Protocol server. Schema tools need no key, a key adds reads, a write key and PIN add writes. |
 | Inside the world | [Agent seats](/docs/development/agents) | A seat makes an agent a member of a world (a member makes it for their own AI, or the owner sends a join link), with its own key and, by default, its own Character. Its writes carry its name, and a human answers for it. |
@@ -31,7 +31,7 @@ The [LLM guide](/docs/development/llm-guide) is a single text file, [ow_llm_guid
 
 ## In a coding agent
 
-The [toolkit](/docs/development/toolkit) is a Claude Code plugin whose skills follow the life of a world: structure it, grow it, play in it and keep it true, build on it. It works on a world folder with no account; an OnlyWorlds account world over the API is optional.
+The [toolkit](/docs/development/toolkit) is a Claude Code plugin whose skills follow the life of a world: structure it, grow it, play in it and keep it true, move it, build on it. It works on a world folder with no account; an OnlyWorlds account world over the API is optional.
 
 Install it in Claude Code:
 
@@ -40,7 +40,7 @@ Install it in Claude Code:
 /plugin install toolkit@onlyworlds
 ```
 
-Restart Claude Code to load it. Other coding agents (Cursor, Codex, Copilot and the like) can read the skill and knowledge files straight from [github.com/OnlyWorlds/toolkit](https://github.com/OnlyWorlds/toolkit).
+Restart Claude Code to load it. Other coding agents (Cursor, Codex, Copilot and the like) take the skills with `npx skills add OnlyWorlds/toolkit`, or read the skill and knowledge files straight from [github.com/OnlyWorlds/toolkit](https://github.com/OnlyWorlds/toolkit).
 
 ## With a key: the API or an SDK
 

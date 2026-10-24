@@ -41,7 +41,7 @@ The interactive reference is at [onlyworlds.com/api/docs](https://www.onlyworlds
 | [MCP server](/docs/development/mcp) | Any MCP client, at `https://www.onlyworlds.com/mcp` |
 | [Agent seats](/docs/development/agents) | An agent joining a world as a member, with its own key and Character |
 | [LLM guide](/docs/development/llm-guide) | One text file that teaches the standard to a chat assistant |
-| [Toolkit](/docs/development/toolkit) | A Claude Code plugin with skills to parse, model and link worlds and build tools |
+| [Toolkit](/docs/development/toolkit) | A Claude Code plugin with skills to import, model, read, draw and move worlds and build tools |
 
 ## The schema for tool builders
 

@@ -97,7 +97,7 @@ The writer mints a fresh world id and keeps every element id; a re-capture under
 | :--- | :--- |
 | [Atlas](/docs/tools/atlas) | Reference implementation; stores every world as a folder. Folder mode needs a Chromium browser. Worlds sit inside `onlyworlds-atlas/<name>-<id-prefix>/`: point other tools at the world's own folder. |
 | [Obsidian plugin](/docs/tools/obsidian-plugin) | Exports a world as a folder; imports a folder into notes |
-| [Toolkit](/docs/development/toolkit) | Reads a folder in place of the API; parsing writes new ones |
+| [Toolkit](/docs/development/toolkit) | Reads a folder in place of the API; import writes new ones; carry packs a folder into an `.owworld` file and back and converts other apps' exports into one |
 | [Python package](/docs/development/python) | Reads and writes folders (`read_folder`, `write_folder`); `export_world` writes an account world as a folder; exports a folder to an OKF bundle |
 | [Unity SDK](/docs/development/unity) | Reads a folder, or a whole folder zipped as one `.owworld` file, into a world cache; writes elements, and exports an account world as a folder |
 | [Azgaar converter](https://github.com/OnlyWorlds/azgaar-converter) | Azgaar map in, as a folder |
