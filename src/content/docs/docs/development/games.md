@@ -47,7 +47,7 @@ Four rules keep a write from damaging work done elsewhere:
 |---|---|
 | **Unity** | The [Unity SDK](/docs/development/unity): typed C# models, a v2 client, a world cache that ships as an asset, and a world browser in the Editor. |
 | **Browser games** (JavaScript, TypeScript) | The [TypeScript SDK](/docs/development/typescript). |
-| **Godot, Unreal and other engines** | The [REST API](/docs/development/api-reference) directly: HTTPS and JSON, with the key in a header (the call below). Generate a client from the [OpenAPI document](https://www.onlyworlds.com/api/v2/openapi.json), and a class per element type from [schema-dist](https://github.com/OnlyWorlds/schema-dist) (its decoder, the walk, is Python today). |
+| **Godot, Unreal and other engines** | A [world folder or `.owworld` file](/docs/schema/folders) read straight from disk, with no key and no network: one JSON file per element. Or the [REST API](/docs/development/api-reference) directly: HTTPS and JSON, with the key in a header (the call below). Generate a client from the [OpenAPI document](https://www.onlyworlds.com/api/v2/openapi.json), and a class per element type from [schema-dist](https://github.com/OnlyWorlds/schema-dist) (its decoder, the walk, is Python today). A reader of the archive of your own is graded by schema-dist's `fixtures/owworld/`. |
 | **Build pipelines and tools** | The [Python package](/docs/development/python) reads and writes world folders and talks to the API. |
 
 Every path ends in the same call. This one finds Admiral Fluffington in Moppetopia, a public sample world, with its
@@ -58,7 +58,7 @@ curl -H "API-Key: 0000000001" \
   "https://www.onlyworlds.com/api/v2/character/?fields=id,name&name__icontains=fluffington"
 ```
 
-Unity is the first engine with an SDK of its own. Until another engine has one, its path is the API.
+Unity is the first engine with an SDK of its own. Until another engine has one, its path is the folder or the API. In Claude Code, the [toolkit](/docs/development/toolkit)'s `develop` skill carries these paths for a game, the map's coordinates included.
 
 ## Game content in the standard
 
