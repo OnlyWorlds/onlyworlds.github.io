@@ -43,8 +43,13 @@ jobs:
           npm ci
           pip install pyyaml
       - name: Element pages from schema-dist
+        # The newest published serial (a v*-dist.* tag), never main: a tag's MANIFEST.json matches its
+        # files, and main can move between serials (a README edit on 2026-10-24 failed every deploy).
         run: |
-          git clone --depth 1 https://github.com/OnlyWorlds/schema-dist "$RUNNER_TEMP/schema-dist"
+          TAG=$(git ls-remote --tags --refs https://github.com/OnlyWorlds/schema-dist 'v*-dist.*' | awk '{print $2}' | sed 's#refs/tags/##' | sort -V | tail -1)
+          test -n "$TAG" || { echo "::error::no v*-dist.* tag on schema-dist"; exit 1; }
+          echo "schema-dist $TAG"
+          git clone --depth 1 --branch "$TAG" https://github.com/OnlyWorlds/schema-dist "$RUNNER_TEMP/schema-dist"
           python scripts/gen_elements.py --dist "$RUNNER_TEMP/schema-dist"
       - name: Error codes against the live API (report only)
         run: |
