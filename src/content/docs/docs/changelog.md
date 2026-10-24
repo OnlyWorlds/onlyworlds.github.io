@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-24
 
+- **[Contact](/docs/contact#questions-and-bugs): onlyworlds.com publishes its security route** (keel #661). `www.onlyworlds.com/.well-known/security.txt` names the standard repository's private reporting as the contact and this page as its policy, so a vulnerability in onlyworlds.com or its API has a published private route beside the docs' own. <!-- keel PR 218 -->
 - **[Contact](/docs/contact#questions-and-bugs): where a bug, a question and a vulnerability go.** A bug or a question goes to the issues of the package or tool's repository; a vulnerability goes privately through GitHub's private reporting, now on for every public OnlyWorlds repository in use, each with a `SECURITY.md` saying what counts. The docs publish the route at `/.well-known/security.txt` (RFC 9116).
 - **[Python](/docs/development/python#write) 0.45.3: `push` leaves Atlas's word on the hidden mark at home.** Atlas 1.86.2 keeps `atlas_hidden_shown_online` in an element file it pushed, a local-only field it never sends; the Python push now leaves it out too, as it does Atlas's other local-only fields.
 - **[Python](/docs/development/python#check-a-world) 0.45.2: on a spine world the doctor counts a dependency as a link.** An element whose only edge is `x_spine_depends_on`, or that another depends on, is no longer reported as having no links in or out. Other worlds are unchanged.
