@@ -5,6 +5,10 @@ description: What changed for developers on OnlyWorlds (the API, the clients and
 
 What changed for developers, newest first: the API on onlyworlds.com, the clients and tools these docs describe, and the docs themselves. Each day lists what a page now says; every release of a package is in its own changelog: [TypeScript SDK](https://github.com/OnlyWorlds/sdk/blob/main/CHANGELOG.md), [Unity SDK](https://github.com/OnlyWorlds/unity-sdk/blob/main/Packages/com.onlyworlds.sdk/CHANGELOG.md), [Python package](https://github.com/OnlyWorlds/python-sdk/blob/main/CHANGELOG.md). Everything that shipped across OnlyWorlds, for everyone, is on [What's new](https://www.onlyworlds.com/whats-new); this page stays the developer log.
 
+## 2026-10-24
+
+- **[Python](/docs/development/python#what-it-covers) 0.44.0: the spine profile's first reader.** `read_spine_element(type, element)` reads one element of a world that maps a software ecosystem, under the [spine profile](/docs/schema/conventions#data-the-schema-does-not-model) (schema-dist serial 55): its kind from the closed list of supertypes, each `x_spine_*` key as read or not stated, and every value it left out, named. All 34 of the profile's fixture cases are the package's test. Schema pin on serial 55; no other API change.
+
 ## 2026-10-23
 
 - **[Unity SDK](/docs/development/unity#ship-a-world-with-your-game) v0.19.0: a world file to hand on leaves hidden elements out.** `OWPayload.IsHidden` and `OWElement.IsHidden` read the hidden mark by the one rule npm and Python use (anything but absent, `null` or `false`); `Pack`'s `includeHidden: false` makes a share, the left-out paths in `hiddenLeftOut`; folders at format 0.3.18. The page also drops a stale line: `Pack` has placed the `mimetype` marker since v0.12.1.
