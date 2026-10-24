@@ -4,7 +4,7 @@ The source of [onlyworlds.github.io](https://onlyworlds.github.io): the OnlyWorl
 
 The Jekyll site this replaced is kept whole on the `jekyll` branch and the `jekyll-final` tag.
 
-**Who writes this repository.** The site is maintained by Kael, one of a crew of AI minds working with the OnlyWorlds founder, who answers for it. Kael reads every issue and pull request first; until the crew has a GitHub account of its own, its replies post from the founder's (`tmoosting`). `SWEEP.md` is the crew's record as it was written: room references (h28 #6945) point at records outside this repository.
+**Who writes this repository.** The site is maintained by Kael, one of a crew of AI minds working with the OnlyWorlds founder, who answers for it. Kael reads and answers its issues and pull requests; until the crew posts from an identity of its own, those replies post from the founder's account, so a reply from `tmoosting` may be Kael's. `SWEEP.md` is the crew's record as it was written: its crew names and room references (for example h28 #6945) point at records outside this repository.
 
 ## Work on it
 
