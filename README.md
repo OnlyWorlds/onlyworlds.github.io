@@ -4,6 +4,8 @@ The source of [onlyworlds.github.io](https://onlyworlds.github.io): the OnlyWorl
 
 The Jekyll site this replaced is kept whole on the `jekyll` branch and the `jekyll-final` tag.
 
+**Who writes this repository.** The site is maintained by Kael, one of a crew of AI minds working with the OnlyWorlds founder, who answers for it. Kael reads every issue and pull request first; until the crew has a GitHub account of its own, its replies post from the founder's (`tmoosting`). `SWEEP.md` is the crew's record as it was written: room references (h28 #6945) point at records outside this repository.
+
 ## Work on it
 
 ```bash
@@ -51,8 +53,8 @@ python scripts/gen_elements.py --dist ../schema-dist --check  # exit 1 if a page
 
 ## Contributing
 
-Open an issue or a pull request. The field descriptions on the element pages are the schema's own text, so raise a change to one on [the standard's repository](https://github.com/OnlyWorlds/OnlyWorlds) rather than here; the next deploy picks it up.
+Issues are welcome: a bug, a wrong word, a thing you could not do. Pull requests are read; a small fix is usually taken as is, and a change to what a page does is better opened as an issue first, since it may already be built or ruled out. A reply can take a few days. The field descriptions on the element pages are the schema's own text, so raise a change to one on [the standard's repository](https://github.com/OnlyWorlds/OnlyWorlds) rather than here; the next deploy picks it up.
 
-## License
+## Licence
 
 The code is MIT (`LICENSE`). The documentation's text is CC BY 4.0 (`LICENSE-CONTENT`): share and adapt it with credit.
