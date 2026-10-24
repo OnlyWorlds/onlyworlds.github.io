@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-24
 
+- **[Python](/docs/development/python#what-it-covers) 0.49.0: the Kanka import on a second real export.** A tag's Narrative links the elements that carry it, never a hidden one from a visible tag; Kanka's `gallery/` is read as its image store, so an element names its picture as `x_kanka_image` and the report lists the pictures not imported (a picture not visible to all keeps its name off a visible element).
 - **[Public worlds](/docs/development/api/public#what-a-visitor-sees): a world with a public page has a graph beside it**, `onlyworlds.com/w/<address>/graph`, linked as Graph on the page's bar: every public element and the links between them, Maps, Pins, Markers and Zones left out. It is the one public page with a script. <!-- keel PR 222 --> <!-- keel PR 225 -->
 <!-- keel PR 217: no docs change -->
 <!-- keel PR 219: no docs change -->
