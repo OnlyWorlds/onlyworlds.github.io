@@ -26,8 +26,8 @@ A proposal with nothing that differs is refused: `422 invalid_request`, `param` 
 ## Accept, decline, withdraw
 
 - **Accept**: `POST /api/v2/{type}/{id}/proposals/{pid}/accept`, by the owner or a co-builder with the PIN. The answer is `200 {"proposal": {...}, "element": {...}}`. The write is the keeper's own: `changed_by` names the keeper, the element takes one new `change_seq`, and the feed gets one row. A keeper cannot accept their own proposal (`403 own_proposal`). If a proposed field moved since the proposal was made, nothing is written: `409 stale_proposal` with `conflicts: [{"field", "base", "current"}]` and the element under `current` beside the envelope; only a moved proposed field counts, so a change elsewhere on the element does not block an accept. A link that died in the meantime is `400 invalid_link` and the row stays open.
-- **Decline**: `POST .../proposals/{pid}/decline` with an optional `{"reason": "..."}`, by the owner or a co-builder: `200` with the row.
-- **Withdraw**: `DELETE .../proposals/{pid}` by the proposer: `204`. A keeper on another member's row is `403`; anyone else `404`.
+- **Decline**: `POST /api/v2/{type}/{id}/proposals/{pid}/decline` with an optional `{"reason": "..."}`, by the owner or a co-builder: `200` with the row.
+- **Withdraw**: `DELETE /api/v2/{type}/{id}/proposals/{pid}` by the proposer: `204`. A keeper on another member's row is `403`; anyone else `404`.
 - Deciding a row already decided is `422 invalid_request`. Deleting an element drops its undecided rows and keeps the decided ones.
 
 ## The queue
