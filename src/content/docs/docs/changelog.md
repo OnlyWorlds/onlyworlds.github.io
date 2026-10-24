@@ -16,6 +16,11 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 <!-- keel PR 221: no docs change -->
 <!-- keel PR 224: no docs change -->
 <!-- keel PR 226: no docs change -->
+<!-- keel PR 223: no docs change -->
+<!-- keel PR 227: no docs change -->
+<!-- keel PR 228: no docs change -->
+<!-- keel PR 229: no docs change -->
+<!-- keel PR 146: no docs change -->
 - **[TypeScript](/docs/development/typescript#reference) SDK 4.72.2: `hidden`'s type description says what a create does with it.** In the package's types (what an editor shows), a create carrying `hidden: true` creates the element hidden, from the owner's keys or a co-builder's, as [Hidden elements](/docs/development/api/hidden#creating-an-element-hidden) says; every other write ignores it. The SDK already sent the mark; only its description was wrong. The Reference's method descriptions now name no internal tracker numbers.
 - **[Python](/docs/development/python#check-a-world) 0.48.0: the doctor follows the spine profile's eight new readings.** A Retirement Event names the row it retires in `x_spine_retires` (the profile's thirteenth key) and links it where the type has a field, so a Law's retirement is checked too; a row still at `gone` is a finding; on a projection only the projection's checks run, and its mark's `source` (a world's UUID) and `at` (an ISO time) are checked. Schema pin on schema-dist serial 60.
 - **[Python](/docs/development/python#what-it-covers) 0.47.0: the Notion import reads the layouts real exports use.** A database's rows in a folder named by its title alone, or a flat export with every page and table in one folder, now pair each row with its own page, so no row comes in twice and a relation to a row (a Character's `location`) becomes a link. Read on two real free-account exports, now the import's test fixtures.
