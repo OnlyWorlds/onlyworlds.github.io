@@ -9,18 +9,11 @@
 import { readdirSync, readFileSync, statSync, existsSync } from 'node:fs';
 import { join, dirname, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
+// The list itself lives in public-words.mjs, shared with other public pages' checks. The item
+// pointer is checked everywhere except where listed below.
+import { WORDS, ITEM_POINTER } from './public-words.mjs';
 
 const DIST = join(dirname(fileURLToPath(import.meta.url)), '..', 'dist');
-const WORDS = [
-  [/\bh\d{1,3} #\d+/g, 'a room pointer'],
-  [/\b(?:the )?Captain\b(?! [A-Z][a-z])/g, 'Captain'],
-  [/\b(?:the Deck|Carrier)\b/g, 'the crew\'s ship'],
-  [/\b(?:Armature|Orrery|Hangar|Hatchery|Assembly bay|Forge bay)\b/g, 'a bay name'],
-  [/allthecarriercrew/g, 'the crew email'],
-];
-
-// An item pointer: a tracker's name and a number. Checked everywhere except where listed below.
-const ITEM_POINTER = [/\b(?:[Kk]eel|OW [A-Z][a-z]+) #\d+/g, 'an item pointer'];
 
 // Built paths (relative to dist/, forward slashes) that may still carry item pointers, and why.
 // `from` null: the whole file is exempt; a string: exempt from the first occurrence of that
