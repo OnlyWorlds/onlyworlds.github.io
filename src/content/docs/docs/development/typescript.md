@@ -365,7 +365,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.72.1, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.72.2, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -380,7 +380,7 @@ Generated from the types of `@onlyworlds/sdk` 4.72.1, the version these docs pin
 | `changesPageSize` | `number` | Page size for /changes pulls, default 100. |
 | `fetch` | `typeof globalThis.fetch` | A fetch implementation to use instead of globalThis.fetch (for tests and other runtimes). |
 | `agent` | `boolean` | Declare this client an AI agent: every element write (create, upsert, patch, delete, editLinks, bulk) carries `X-OW-Agent`, the operations keel declares it on, and keel records its writes as agent-made (`changed_via: 'declared'`; keel stores that the header was there, never its value). |
-| `client` | `string` | This client's own name, sent as `X-OW-Client` on every element write (create, upsert, patch, delete, editLinks, bulk, adopt) and on no read (keel #520). |
+| `client` | `string` | This client's own name, sent as `X-OW-Client` on every element write (create, upsert, patch, delete, editLinks, bulk, adopt) and on no read. |
 
 ### Methods
 
@@ -389,19 +389,19 @@ Generated from the types of `@onlyworlds/sdk` 4.72.1, the version these docs pin
 | `health()` | `GET /health` | unauthenticated liveness pulse. | `Promise<unknown>` |
 | `getWorld()` | `GET /world` | world meta (name, calendar/time fields, public_read). | `Promise<OwWorldMeta>` |
 | `patchWorld(partial)` | `PATCH /world` | partial world-meta update. | `Promise<OwWorldMeta>` |
-| `setMyCharacter(character)` | `PUT /me/character` | pick the roster Character that is you in this world, or none (keel PR 160, #533). | `Promise<OwMe>` |
+| `setMyCharacter(character)` | `PUT /me/character` | pick the roster Character that is you in this world, or none. | `Promise<OwMe>` |
 | `me()` |  |  | `Promise<OwMe>` |
 | `members()` | `GET /members` | the world's roster: each member's id (null for the owner), kind, role, Character and status (`removed` rows stay, so their elements keep `created_by`). | `Promise<OwMember[]>` |
 | `list(type, params?)` | `GET /{type}/` | one cursor page. | `Promise<OwPage>` |
-| `draught(characterId, policy?)` | `GET /character/{id}/context` | the draught (keel PR 155, D143): what one Character knows, as the recorded world holds it, in one read: her element, what she holds and sits in, her open work, how she works, the Events she was in, the Narratives she knows, everything else that names her, her sheet, what changed around her (`since`), and who plays whom; the world's name and calendar beside; the room's messages (`messages`), its other elements (`room`, keel #556) and elements written as proposed (`proposed`, keel #580) only when `components` names them. | `Promise<OwDraught>` or `Promise<OwDraughtCompact>` |
+| `draught(characterId, policy?)` | `GET /character/{id}/context` | the draught (keel PR 155, D143): what one Character knows, as the recorded world holds it, in one read: her element, what she holds and sits in, her open work, how she works, the Events she was in, the Narratives she knows, everything else that names her, her sheet, what changed around her (`since`), and who plays whom; the world's name and calendar beside; the room's messages (`messages`), its other elements (`room`) and elements written as proposed (`proposed`) only when `components` names them. | `Promise<OwDraught>` or `Promise<OwDraughtCompact>` |
 | `listAll(type, params?)` |  | Cursor-walk every page of a type. | `AsyncGenerator<OwElement>` |
-| `get(type, id, opts?)` | `GET /{type}/{id}/` | optional one-level stub expansion / sparse fields, and `viewAs` (keel #421: the owner reads as another reader; see ListParams.viewAs). | `Promise<OwElement>` |
+| `get(type, id, opts?)` | `GET /{type}/{id}/` | optional one-level stub expansion / sparse fields, and `viewAs` (the owner reads as another reader; see ListParams.viewAs). | `Promise<OwElement>` |
 | `create(type, element, opts?)` | `POST /{type}/` | create one element, minting an id on the client when you leave id out. | `Promise<OwElement>` |
 | `upsert(type, id, element)` | `PUT /{type}/{id}/` | The local-first write primitive. | `Promise<OwElement>` |
 | `patch(type, id, partial, opts?)` | `PATCH /{type}/{id}/` | DESTRUCTIVE on sent fields: arrays replace wholesale, omitted fields stay untouched. | `Promise<OwElement>` |
 | `delete(type, id, opts?)` | `DELETE /{type}/{id}/` | idempotent (204 on absent). | `Promise<void>` |
 | `editLinks(type, id, field, edit, opts?)` | `POST /{type}/{id}/links/{field} with {add, remove}` | atomic link merge. | `Promise<OwElement>` |
-| `adopt(type, id, member)` | `POST /{type}/{id}/adopt with {member}` | change who made an element (keel #427, D141). | `Promise<OwElement>` |
+| `adopt(type, id, member)` | `POST /{type}/{id}/adopt with {member}` | change who made an element. | `Promise<OwElement>` |
 | `bulk(items, opts?)` | `POST /bulk` | up to ~1000 items. | `Promise<OwBulkResponse>` |
 | `changes(opts?)` | `GET /changes` | one page of the world's ordered change feed. | `Promise<OwChangesPage>` |
 | `changesHead()` | `GET /changes?head=true` | where the feed is now, without a page: no element is read. | `Promise<{ head: number; cursor: string; epoch: number | null; unchanged: boolean; epoch_reason?: OwResyncReason | null; }>` |
@@ -417,26 +417,26 @@ Generated from the types of `@onlyworlds/sdk` 4.72.1, the version these docs pin
 | `fileDownloadLink(type, id, fileId)` | `GET /{type}/{id}/files/{fileId}/download` | a link to the file and when it stops working: `url` (the file as an attachment, from the download host), `exp` (unix seconds, 5 minutes after issue), and the file's `name`, `kind` and `size`. | `Promise<OwFileDownload>` |
 | `removeFile(type, id, fileId)` | `DELETE /{type}/{id}/files/{fileId}` | remove a file for real: it leaves the lists and the world's total at once, and its bytes are deleted from the store. | `Promise<void>` |
 | `previewJoin(code)` | `POST /join/preview` | what a join code holds, without using it: who invites, to which world, in what role, and `reader` (`person`: accept it with acceptJoin; `agent`: an AI agent redeems it at POST /join). | `Promise<OwJoinPreview>` |
-| `redeemJoin(code, opts?)` | `POST /join` | redeem a join code that needs no account: a player's (a friend reading as a guest, keel #353) or an AI agent's. | `Promise<OwJoined>` |
+| `redeemJoin(code, opts?)` | `POST /join` | redeem a join code that needs no account: a player's (a friend reading as a guest) or an AI agent's. | `Promise<OwJoined>` |
 | `signInWithPassword(opts)` |  | Sign in with an email address (or a username) and password, and get a new account token (`ow_a_`) for this device, named `tokenName` (say, "Lantern on iPhone"): the name the account's tokens page lists it under, where it can be revoked. | `Promise<OwSignedIn>` |
 | `acceptJoin(code)` | `POST /account/join` | accept an invite link's code as the account this client's `ow_a_` token belongs to: 201 with the new membership. | `Promise<OwJoinedMembership>` |
-| `createWorldLink(worldId, opts)` | `POST /account/worlds/{worldId}/links` | a new invite link for a world this client's `ow_a_` token owns (keel C1): `reader` is required (`person`, accepted with acceptJoin; `agent`, redeemed at POST /join; `player`, a friend with no account, redeemed with redeemJoin for a read key, keel #353); `role`, when left out, is keel's default: guest for a person link, contributor for an agent link (a player link is guest, and refuses any other), `days` (1, 7 or 30) to 7; `withCharacter` (agent links only) to true; `character` (player links only) a Character's id or `new` (the default): whoever opens the link first reads as it, until removed. | `Promise<OwCreatedWorldLink>` |
+| `createWorldLink(worldId, opts)` | `POST /account/worlds/{worldId}/links` | a new invite link for a world this client's `ow_a_` token owns (keel C1): `reader` is required (`person`, accepted with acceptJoin; `agent`, redeemed at POST /join; `player`, a friend with no account, redeemed with redeemJoin for a read key); `role`, when left out, is keel's default: guest for a person link, contributor for an agent link (a player link is guest, and refuses any other), `days` (1, 7 or 30) to 7; `withCharacter` (agent links only) to true; `character` (player links only) a Character's id or `new` (the default): whoever opens the link first reads as it, until removed. | `Promise<OwCreatedWorldLink>` |
 | `listWorldLinks(worldId)` | `GET /account/worlds/{worldId}/links` | the world's invite links, without their codes: each with its status (pending, used, revoked or expired) and uses. | `Promise<OwWorldLink[]>` |
 | `revokeWorldLink(worldId, linkId)` | `DELETE /account/worlds/{worldId}/links/{linkId}` | revoke a link: its code no longer works. | `Promise<void>` |
 | `createSeat(worldId, opts)` | `POST /account/worlds/{worldId}/seats` | a seat for your own AI in a world you own or are a member of: its own membership, write key and `ow_s_` secret, no join link. | `Promise<OwSeatCreated>` |
 | `listSeats(worldId)` | `GET /account/worlds/{worldId}/seats` | the live agent seats you can see: your own AI's, or, as the world's owner, every seat. | `Promise<OwSeat[]>` |
 | `rekeySeat(worldId, seatId)` | `POST /account/worlds/{worldId}/seats/{seatId}/key` | a new key and secret for a seat whose AI lost its own: its sponsor or the world's owner may. | `Promise<OwSeatCreated>` |
 | `removeSeat(worldId, seatId)` | `DELETE /account/worlds/{worldId}/seats/{seatId}` | remove an agent seat: its sponsor or the world's owner may. | `Promise<void>` |
-| `hide(type, id)` | `PUT /{type}/{id}/hidden` | hide an element (keel #421). | `Promise<void>` |
+| `hide(type, id)` | `PUT /{type}/{id}/hidden` | hide an element. | `Promise<void>` |
 | `unhide(type, id)` | `DELETE /{type}/{id}/hidden` | clear the mark; an element that is not hidden stays as it is. | `Promise<void>` |
 | `listHidden()` | `GET /world/hidden` | every hidden element of the world, newest first: `{type, id, set_at, set_by}` each (`set_by` null when the owner hid it). | `Promise<OwHiddenRow[]>` |
 | `propose(type, id, input, opts?)` | `POST /{type}/{id}/proposals` | propose a change to an element without making it. | `Promise<OwProposal>` |
 | `listProposals(type, id, opts?)` | `GET /{type}/{id}/proposals` | one element's proposals, newest first: every row for the owner's and a co-builder's keys, a member's own for any other. | `Promise<OwProposalList>` |
-| `worldProposals(opts?)` | `GET /world/proposals` | the world's queue, newest first by created_at, two kinds of row told apart by `kind` (keel #565): `proposal`, a proposed change to an element (OwProposal), and `new_element`, an element written as proposed, carrying `x_review_proposed` (OwProposedNewElement: settle it with reviewNewElement). | `Promise<OwWorldProposalList>` |
+| `worldProposals(opts?)` | `GET /world/proposals` | the world's queue, newest first by created_at, two kinds of row told apart by `kind`: `proposal`, a proposed change to an element (OwProposal), and `new_element`, an element written as proposed, carrying `x_review_proposed` (OwProposedNewElement: settle it with reviewNewElement). | `Promise<OwWorldProposalList>` |
 | `acceptProposal(type, id, pid)` | `POST /{type}/{id}/proposals/{pid}/accept` | write the proposal's fields to the element as one ordinary write by this key (`changed_by` is the keeper, a new change_seq, a /changes row), and the row turns accepted. | `Promise<OwProposalAccepted>` |
 | `declineProposal(type, id, pid, opts?)` | `POST /{type}/{id}/proposals/{pid}/decline` | the row turns declined, with an optional `reason` (at most 2,000 characters); the element does not change. | `Promise<OwProposal>` |
 | `withdrawProposal(type, id, pid)` | `DELETE /{type}/{id}/proposals/{pid}` | the proposer takes back its own undecided proposal, with any of its keys: the row goes. | `Promise<void>` |
-| `reviewNewElement(type, id, opts)` | `POST /{type}/{id}/review` | settle a new element written as proposed, one carrying `x_review_proposed` (the queue's `new_element` row, keel #565). | `Promise<OwReviewed>` |
+| `reviewNewElement(type, id, opts)` | `POST /{type}/{id}/review` | settle a new element written as proposed, one carrying `x_review_proposed` (the queue's `new_element` row). | `Promise<OwReviewed>` |
 | `listAccountWorlds()` | `GET /account/worlds` | every world the account owns or is a member of, with its keys by name and last four (a member sees only their own keys on a shared world). | `Promise<OwAccountWorld[]>` |
 | `createAccountWorld(opts)` | `POST /account/worlds` | make a world on the account, with its one write key. | `Promise<OwCreatedAccountWorld>` |
 | `mintWorldKey(worldId, opts?)` | `POST /account/worlds/{id}/keys` | mint a world key, `scope` `'write'` (the default) or `'read'`, `name` as the key list shows it (at most 255 characters). | `Promise<OwMintedKey>` |

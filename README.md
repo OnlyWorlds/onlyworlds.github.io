@@ -53,7 +53,7 @@ python scripts/gen_elements.py --dist ../schema-dist --check  # exit 1 if a page
 
 ## Contributing
 
-Issues are welcome: a bug, a wrong word, a thing you could not do. Pull requests are read; a small fix is usually taken as is, and a change to what a page does is better opened as an issue first, since it may already be built or ruled out. A reply can take a few days. A vulnerability goes privately, never in an issue: `SECURITY.md`. The field descriptions on the element pages are the schema's own text, so raise a change to one on [the standard's repository](https://github.com/OnlyWorlds/OnlyWorlds) rather than here; the next deploy picks it up.
+Issues are welcome: a bug, a wrong word, a thing you could not do. Pull requests are read; a small fix is usually taken as is, and a change to what a page does is better opened as an issue first, since it may already be built or ruled out. A reply can take a few days. A vulnerability goes privately, never in an issue: `SECURITY.md`. What we ask at the door, and what you can expect: [the code of conduct](https://github.com/OnlyWorlds/OnlyWorlds/blob/main/CODE_OF_CONDUCT.md). The field descriptions on the element pages are the schema's own text, so raise a change to one on [the standard's repository](https://github.com/OnlyWorlds/OnlyWorlds) rather than here; the next deploy picks it up.
 
 ## Licence
 

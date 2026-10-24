@@ -29,8 +29,6 @@ const ITEM_POINTER = [/\b(?:[Kk]eel|OW [A-Z][a-z]+) #\d+/g, 'an item pointer'];
 const ITEM_EXEMPT = [
   { why: 'the changelog is the dated record and is kept as it was written. It is exempted whole: an entry of 2026-10-24 (before the ruling reached it) still carries one, and a date cut-off would refuse that line',
     files: [['docs/changelog.html', null], ['docs/changelog.md', null]] },
-  { why: 'the TypeScript page\'s Reference is generated from the SDK\'s doc comments (scripts/gen_sdk_ref.mjs); clean at the release after 4.72.1. The page\'s prose above the Reference is checked',
-    files: [['docs/development/typescript.html', 'id="reference"'], ['docs/development/typescript.md', '\n## Reference\n']] },
 ];
 // The aggregate text files repeat every page, with their own line breaks and link syntax; a pointer
 // in one is exempt only when the same pointer, with up to 24 letters and digits before it on its line, sits in an
