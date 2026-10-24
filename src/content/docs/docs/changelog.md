@@ -10,6 +10,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 - **[Python](/docs/development/python#what-it-covers) 0.50.0: the spine reader reads `x_spine_retires`**, the retired row's id as given, and replays the spine profile's 44 cases at schema-dist serial 61; the doctor names a malformed one on its Event. **[TypeScript SDK](/docs/development/typescript) 4.72.3** is on serial 61 too, with no type changed. Since serial 61 the distribution's `schema.json` carries the advisory number ranges of the 15 integer fields that have them, for display only: the API enforces none. <!-- keel PR 232 -->
 - **[World folders](/docs/schema/folders#rules-for-tools): the folder checker names the format version it knows** and warns once on a `world.json` stamped newer, never counting it as a problem (schema-dist serial 61).
 - **[Conventions](/docs/schema/conventions): the room profile's eight type-and-supertype pairs are listed**, not only counted.
+- **[Atlas](/docs/tools/atlas#features) 1.88.3: a world file named `.owworld` opens**, from Data and from Open a world file, as other tools write it; under any other name but `.json`, a world file opens by what it holds. Atlas still saves `.zip`.
 - **[Toolkit](/docs/development/toolkit) 5.1.0: every skill ends on what its answer owes you**, one list drawn from its steps; the eleven skills keep their names.
 <!-- keel PR 230: no docs change -->
 <!-- keel PR 231: no docs change -->
