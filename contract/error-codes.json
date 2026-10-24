@@ -132,7 +132,12 @@
   "owner_only": {
     "type": "permission_error",
     "status": 403,
-    "summary": "A member key tried to change the world's own settings (a co-builder may change time_range_current, the extension keys, source and producer, and nothing else)."
+    "summary": "A member key tried to change the world's own settings (a co-builder may change every writable field but owner_character, and nothing the route does not take: the public switch stays the owner's)."
+  },
+  "not_co_builder": {
+    "type": "permission_error",
+    "status": 403,
+    "summary": "A key that is not a co-builder's (a contributor's, a guest's, a player's, or the owner's own keys) called /links: the world's invite links over a world key are a co-builder's; the owner mints them through the account."
   },
   "view_as_owner_only": {
     "type": "permission_error",

@@ -64,7 +64,8 @@ Some errors carry extra top-level keys beside `error`, named in their row: `prec
 | [`permission_error`](#permission_error) | `permission_error` | `403` | The credential is valid but lacks the scope for this route (e.g. a read key on a write route). |
 | [`not_author`](#not_author) | `permission_error` | `403` | A contributor or guest key changed, replaced, relinked or deleted an element someone else created. |
 | [`hidden_not_allowed`](#hidden_not_allowed) | `permission_error` | `403` | A create (POST, a PUT of a new id, a /bulk item that creates) carried `hidden: true` from a key that may not hide: only the world's owner and its co-builders (person or seat) may. Nothing was created. Leave `hidden` out, or ask a keeper. |
-| [`owner_only`](#owner_only) | `permission_error` | `403` | A member key tried to change the world's own settings (a co-builder may change time_range_current, the extension keys, source and producer, and nothing else). |
+| [`owner_only`](#owner_only) | `permission_error` | `403` | A member key tried to change the world's own settings (a co-builder may change every writable field but owner_character, and nothing the route does not take: the public switch stays the owner's). |
+| [`not_co_builder`](#not_co_builder) | `permission_error` | `403` | A key that is not a co-builder's (a contributor's, a guest's, a player's, or the owner's own keys) called /links: the world's invite links over a world key are a co-builder's; the owner mints them through the account. |
 | [`view_as_owner_only`](#view_as_owner_only) | `permission_error` | `403` | A member key sent `as` (view as): reading as another reader is the owner's, from a key with no member. |
 | [`guest_not_supported`](#guest_not_supported) | `permission_error` | `403` | A guest key called a route guests cannot use yet, or wrote a note (Narrative) without a Character of its own in the world. |
 | [`proposed_only`](#proposed_only) | `permission_error` | `403` | The world takes an agent seat's writes as proposals (its owner's setting), and this act has no proposal form: a seat deleting an element it did not create, or accepting or declining a proposal. Propose instead, or ask a keeper. Also, on any world, a member accepting or declining a new element its own mark proposed: a keeper settles it. |
@@ -313,9 +314,17 @@ A create (`POST`, a `PUT` of a new id, a `/bulk` item that creates) carried `hid
 
 **Type** `permission_error` · **Status** `403`
 
-A member key tried to change the world's own fields (`PATCH /api/v2/world`). The one exception: a co-builder may send `time_range_current` (to move the world's now), the world's extension keys, `source` and `producer`, with nothing else beside them.
+A key that may not change the world's own fields sent `PATCH /api/v2/world`: a contributor's or a guest's, or a co-builder's that sent `owner_character`. A co-builder may change every other writable field.
 
-- **How to fix:** only the owner's key can do this; a co-builder's body may hold only `time_range_current`, extension keys, `source` and `producer`.
+- **How to fix:** use the owner's key or a co-builder's; leave `owner_character` to the owner.
+
+### not_co_builder
+
+**Type** `permission_error` · **Status** `403`
+
+A key that is not a co-builder's called the world's invite links (`/api/v2/links`): a contributor's, a guest's, a player's, or one of the owner's own world keys.
+
+- **How to fix:** a co-builder's key (a person's with its PIN, or an agent seat's with its secret) makes guest and contributor links here. The owner makes links through the account routes, `/api/v2/account/worlds/{world_id}/links` ([Invite links](/docs/development/api/members#a-co-builders-links)).
 
 ### view_as_owner_only
 

@@ -15,7 +15,8 @@ A world can have **members** besides its owner: people the owner invites by emai
 | `guest` | What it created, what its Character is on or knows, and the roster's Characters ([Guests](#guests)), except the hidden elements it did not create | Only the elements it created |
 
 - A contributor or guest changing, replacing, relinking or deleting someone else's element gets `403` [`not_author`](/api/errors/#not_author). In `/bulk` this is reported per item.
-- Only the owner may change the world's own fields with `PATCH /api/v2/world`, except that a co-builder may move the world's now (`time_range_current`) and send the world's extension keys, `source` and `producer`, with nothing else beside them; any other member write there gets `403` [`owner_only`](/api/errors/#owner_only).
+- The world's own fields (`PATCH /api/v2/world`) are the owner's and a co-builder's: a co-builder may change every writable field but `owner_character`. A contributor's or guest's key there, or a co-builder's sending `owner_character`, gets `403` [`owner_only`](/api/errors/#owner_only). The public switch stays the owner's, on the world page.
+- A co-builder may also make, list and revoke the world's guest and contributor [invite links](#invite-links) with its world key; co-builder links stay the owner's.
 - Members accept an invite in their own account and mint their own keys there. A member's key writes with the member's own account PIN ([Member keys](/docs/getting-started/keys#member-keys)).
 
 ## `created_by`
@@ -161,6 +162,18 @@ A client can do the same two steps itself:
 | POST | `/api/v2/account/join` | `{"code"}`, with an account credential (`Authorization: Bearer ow_a_…`, or the `X-Session-Token` of a signed-in app client): `201` with the new membership (the same body as accepting an invite) |
 
 A code made for a person is a bad code for an AI agent, and the other way round: every bad code, whatever the reason, answers the same `404`.
+
+### A co-builder's links
+
+A co-builder makes, lists and revokes the world's invite links with its own world key (a person's write key with its PIN, or an agent seat's key with its secret), through the same body and answers as the owner's account routes:
+
+| Method | Route | What it does |
+|:--|:--|:--|
+| POST | `/api/v2/links` | Make a person, agent or player link: the owner's body (`reader`, `role`, `days`, `max_uses`, …). `role` may be `contributor` or `guest`; `co_builder` is `422`, param `role` |
+| GET | `/api/v2/links` | Every link made for the world, by the owner or a co-builder, newest first, each with its state. No codes |
+| DELETE | `/api/v2/links/{link_id}` | Revoke a guest or contributor link, whoever made it. A co-builder link is `422`, param `link_id`, and stays as it was |
+
+The co-builder answers for what its link lets in: an agent co-builder's sponsor answers for it, and a link it made stops working when it stops being a co-builder. Any other key gets `403` [`not_co_builder`](/api/errors/#not_co_builder), the owner's own world keys included: the owner uses the account routes.
 
 ## Player links
 
