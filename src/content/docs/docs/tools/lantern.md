@@ -43,7 +43,7 @@ Changes to an online world need your account's four-digit [PIN](/docs/getting-st
 
 ### World files
 
-A world file is one `.zip` holding a world folder, the way Atlas keeps a world. **Open a world file** (on Your worlds, or **I have a world file** on the first screen) opens one a friend sent as a world on this phone only. A world already on the phone is not opened twice. **Save a copy**, under a phone-only world, hands the file to the phone's share sheet (Save to Files, say) or downloads it. Atlas opens the copy too.
+A world file is one `.zip` or `.owworld` holding a world folder, the way Atlas keeps a world. **Open a world file** (on Your worlds, or **I have a world file** on the first screen) opens one a friend sent as a world on this phone only; a damaged file is refused in plain words, never half opened. A world already on the phone is not opened twice. **Save a copy**, under a phone-only world, hands the file to the phone's share sheet (Save to Files, say) or downloads it. Atlas opens the copy too.
 
 ## Catch and Unsorted
 
