@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-24
 
+- **[TypeScript SDK](/docs/development/typescript#find-things-in-a-world) 4.72.0: the ask context leaves out what a world holds back.** `buildAskContext` no longer sends proposed, hidden or room elements to the AI proxy unless asked (`includeProposed`, `includeHidden`, `includeRoom`), lists them in `leftOut`, labels an included proposed element `[proposed, not yet reviewed]`, and drops a link's name when the link points at an element left out. A caller that passed such elements gets fewer sent. `OwWorldLink` gains `minted_by`, the co-builder who made a link (keel PR 215).
 - **A co-builder makes invite links and changes the world's settings.** With its own world key, a co-builder makes, lists and revokes the world's guest and contributor links at `/api/v2/links`, with the owner's body and answers ([A co-builder's links](/docs/development/api/members#a-co-builders-links)); a co-builder link stays the owner's. `PATCH /api/v2/world` takes every writable field from a co-builder but `owner_character` ([Writes](/docs/development/api/writes)). A key that isn't a co-builder's on `/links` gets the new `403` [`not_co_builder`](/api/errors/#not_co_builder). <!-- keel PR 215 -->
 <!-- keel PR 216: the .owworld fixture set at 93 (serial 57's source), followed on the TypeScript and Python lines above -->
 <!-- keel PR 214: no docs change (the spine profile's serial 56 source; the Python line above) -->
