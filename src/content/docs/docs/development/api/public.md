@@ -5,7 +5,7 @@ description: How a world's owner opens it to everyone, gives it a public page at
 
 A world's owner can open the world to everyone. Anyone can then read it with no key and no account: through the API, through tools that read worlds, and, if the owner gives it one, on a **public page** at `onlyworlds.com/w/<address>`. Both are off for every world until its owner turns them on.
 
-Opening a world never shows what its owner [hid](/docs/development/api/hidden). The public reads every element that is not hidden, with its fields, links and pictures; hidden elements, the links to them and their counts are missing.
+Opening a world never shows what its owner [hid](/docs/development/api/hidden). The public reads every element that is not hidden and not [still proposed](/docs/development/api/proposals#the-switch), with its fields, links and pictures; hidden elements, the links to them and their counts are missing, and so is a new element an AI seat proposed, until a keeper settles it.
 
 ## Turning it on
 
@@ -39,17 +39,17 @@ While the page is on, the card has a second form, **Look of the page**, all of i
 | **Palette** | One of five: Midnight (black and cyan, the default), Daylight, Parchment, Brass or Dusk |
 | **Hero line** | One plain sentence under the world's name, at most 120 characters |
 | **Sections** | Which categories show and in what order: tick a category and number it. Untouched, every category with something public shows, maps first, then Characters and Locations. A category with nothing public never shows. Pins, Markers and Zones are parts of a map, never a section |
-| **Pinned element** | One element, shown in a card at the top, picked from a list by name: the elements the public reads, of every category the page can show, as "Name (Category)", sorted by name. A hidden element is never listed. A world with more than 300 such elements lists the first 300 by name and keeps a field for an element's id beside the list. A pinned element that is later hidden or deleted drops off the page quietly, and the card tells the owner |
+| **Pinned element** | One element, shown in a card at the top, picked from a list by name: the elements the public reads, of every category the page can show, as "Name (Category)", sorted by name. A hidden element is never listed. A world with more than 300 such elements lists the first 300 by name and keeps a field for an element's id beside the list. A pinned element that is later hidden, deleted or still proposed drops off the page quietly, and the card tells the owner |
 
 Search engines are kept off: every public page carries `noindex`, and there is no setting for it yet.
 
 ## What a visitor sees
 
-The page is plain HTML with no script and no sign-in, read on the same terms as the [keyless API](#the-keyless-reads): everything not hidden, nothing of the world's members.
+The page is plain HTML with no script and no sign-in, read on the same terms as the [keyless API](#the-keyless-reads): everything not hidden or still proposed, nothing of the world's members.
 
 - **The world page**, `/w/<address>`: the world's picture, its name, the hero line and description, a row of links to each section with its count, the pinned element, then each category with its first four elements as cards and the full count beside the heading. A category with one or two elements goes in a short list under **Also here**. A map has a section of its own however few there are. The row of links shows only when the page has two or more sections of their own, and links only to those, never to **Also here**; on a phone it wraps. The pinned element shows once, in its card: its category's section and **Also here** leave it out, and the next element takes its place. The footer says when the world last changed, and the top bar links **Made with OnlyWorlds** to onlyworlds.com.
 - **An element's page**, `/w/<address>/<category>/<element id>`: its picture, its name, its category, supertype and subtype, its description, **Details** (for a Character: physicality, mentality, background, motivations, reputation, height, weight, birth date) and **Connected to**, its links to other public elements (species, location, birthplace, friends, rivals, institutions, objects, family, languages, traits, abilities). A link to a hidden element is not there. The path above it, back to the world's page and its category's section, shows only when the world page has two or more sections of their own and its category is one of them.
-- **Never shown**: hidden elements and the links and counts that would show them; a parlor's [room elements](/docs/schema/conventions#data-the-schema-does-not-model) (`x_room_of`); files; the roster; deleted elements.
+- **Never shown**: hidden elements and the links and counts that would show them; a parlor's [room elements](/docs/schema/conventions#data-the-schema-does-not-model) (`x_room_of`); elements still proposed (`x_review_proposed` with any value but `null`) until a keeper settles them; files; the roster; deleted elements.
 
 Every world address that answers nothing gets the same page, status `404`: a mistyped address, a world whose page is off, and a private world. It reads "This world has no public page. The address may be mistyped, or the owner has not turned the page on. If someone sent you this link, ask them to check it.", so it says nothing about whether a world exists.
 
@@ -74,7 +74,7 @@ curl -s "https://www.onlyworlds.com/api/v2/character?world=0695db52-5433-7332-80
 
 That is Moppetopia. The answer is what the owner's own key gets with [`?as=public`](/docs/development/api/hidden#view-as):
 
-- **Hidden elements are missing.** A list leaves them out, a `GET` of one is `404` [`not_found`](/api/errors/#not_found), and links to them are left out of every body. Room elements are left out the same way.
+- **Hidden elements are missing.** A list leaves them out, a `GET` of one is `404` [`not_found`](/api/errors/#not_found), and links to them are left out of every body. Room elements are left out the same way, and so are elements still proposed (`x_review_proposed` with any value but `null`) until a keeper settles them: nothing says one is missing.
 - **A deleted element is `404`**, never `410`: the public reads no tombstones.
 - **`image_url` is served** as any field is: a picture is public by its own link.
 - **The query parameters work as with a key**: filters, `limit`, `cursor`, `?expand=`, `?fields=`.

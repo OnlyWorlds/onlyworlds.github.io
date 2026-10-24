@@ -177,7 +177,7 @@ curl -s "https://www.onlyworlds.com/api/v2/character/?as=public" \
 |:--|:--|
 | A membership id of this world (a person, an agent seat or a player seat) | That member's own key, its own creations included. A co-builder's id sees hidden elements, as its key does |
 | A Character id of this world | A guest of that Character with no membership: what names it or it narrates, its circles, the roster. Nothing counts as its own creation |
-| `public` | Everything that is not hidden: no creations, no grants |
+| `public` | Everything that is not hidden, not a room element and not still proposed: no creations, no grants |
 
 A membership id is tried first. The answer is what that reader's own key would get: links in the bodies, `?expand` and the `characters` filter follow the same reader.
 
@@ -185,7 +185,7 @@ A membership id is tried first. The answer is what that reader's own key would g
 - **A hidden element** is `404` [`not_found`](/api/errors/#not_found), never `410`. A deleted element is `410` [`gone`](/api/errors/#gone) as a co-builder or a contributor; as a guest, a player, a Character or the public it is `404`. The public reads no tombstones.
 - **Refused.** `as` on a route that does not take it, or a value that is not a live membership, a Character of this world or `public`, is `422` [`invalid_request`](/api/errors/#invalid_request) with `param` `as`. The route is checked before the key, so a member key sending `as` to a route that does not take it gets the `422`. The metadata routes answer their refusals in their own shape, `{"error": {"code": …, "detail": …}}`, with no `param`.
 
-On onlyworlds.com, the owner's world page has a **View as** picker (me, a player, a Character, anyone). The world page, the type lists and the element pages then show that reader's view, read-only, under a bar that says who is shown; a hidden element shows the not-found page.
+On onlyworlds.com, the owner's world page has a **View as** picker (me, a player, a Character, anyone). The world page, the type lists and the element pages then show that reader's view, read-only, under a bar that says who is shown; a hidden element shows the not-found page, and so, viewed as the public, does an element still proposed.
 
 ## What the mark does not reach
 
