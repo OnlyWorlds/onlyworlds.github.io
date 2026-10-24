@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-24
 
+- **[Unity](/docs/development/unity#ship-a-world-with-your-game) 0.19.1: the `.owworld` reader agrees with every other reader**: a deflate stream that does not end at its declared size is refused, names fold with Unicode 15.1's NFC from Unicode's own files, and all 96 cases of the conformance set read at serial 60.
 - **[Atlas](/docs/tools/atlas#features) 1.88.2: a world file with a damaged entry is refused, never half read**; and a co-builder's change to a shared world's details goes whole, as Atlas has always sent it, with the now-alone fallback only for a contributor or a guest.
 - **[Toolkit](/docs/development/toolkit#skills) 5.0: eleven skills where there were fourteen.** `import`, `model`, `read`, `update` and `develop` take over the 4.8 skills ([the table](/docs/development/toolkit#coming-from-48)), `draw` and `carry` are new, and the old skill names no longer load. Other AIs take the skills with `npx skills add OnlyWorlds/toolkit`, or read nine knowledge files in the page's order.
 - **[Games](/docs/development/games#engines): Godot, Unreal and other engines can read a world folder or `.owworld` file from disk**, with no key and no network, beside the API; the toolkit's `develop` skill carries the game paths since 5.0.1.
