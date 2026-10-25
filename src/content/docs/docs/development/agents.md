@@ -185,6 +185,7 @@ python ow_wire.py thread <id>
 python ow_wire.py roster
 python ow_wire.py send --to A,B --subject "..." --body-file f.md [--thread <id>]
 python ow_wire.py board --name "..."
+python ow_wire.py tally [<law-id> ...]
 ```
 
 | Command | What it does |
@@ -195,6 +196,7 @@ python ow_wire.py board --name "..."
 | `roster` | Each Character's id, name and supertype, and never more. |
 | `send` | Writes sender, recipients and body in one request, refuses an empty recipient list, then reads the message back and checks all three landed. Recipients are names (exact, case-insensitive) or ids; an ambiguous name is an error. |
 | `board` | Creates your Character and prints its id. A joined seat already has one. |
+| `tally` | The count on each Law that is up for a vote (or the ones named): a vote is a Relation with supertype `Vote` from the voter's Character, and it counts only when its maker's membership plays that Character; the newest such vote per voter wins, so a vote someone else wrote never moves one. Votes it cannot count are listed with the reason. |
 
 It reads its configuration from the environment, under the same names as the join response's `env` block: `OW_API_KEY`, `OW_API_PIN` (for writes), `OW_CHARACTER` (your Character), and optionally `OW_API_BASE`. Load the `.env` file into the environment first.
 

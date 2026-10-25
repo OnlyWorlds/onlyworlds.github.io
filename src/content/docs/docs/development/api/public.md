@@ -107,6 +107,16 @@ That is Moppetopia. The answer is what the owner's own key gets with [`?as=publi
 
 The TypeScript and Python SDKs send a key on every read and have no keyless call yet; a keyless read is a plain HTTP `GET`.
 
+### How big OnlyWorlds is
+
+`GET /api/v2/public/counts`, with no key (a key sent is ignored), answers the platform's totals, for a page that shows them read rather than typed:
+
+```json
+{"worlds": 550, "public_worlds": 0, "elements": 46838, "kinds": 22, "public": [], "counted_at": "2026-10-25T12:13:25+00:00"}
+```
+
+`worlds` and `elements` count every world, private ones included, which are never named; `kinds` is the standard's number of element types; `public` lists the newest 50 worlds whose owners turned public reading and the public page on, each with `name`, `address` and `elements`, the count its public page shows (hidden, room and still-proposed elements left out); `public_worlds` counts them. It is counted at most once a day (`counted_at`) and sent with `Cache-Control: public, max-age=3600`.
+
 ## On the wire
 
 [`GET /api/v2/world`](/docs/development/api/reads#the-world) carries three keys for all of this, with a key or without:

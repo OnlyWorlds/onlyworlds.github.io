@@ -7,6 +7,8 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-25
 
+- **[Public reading](/docs/development/api/public#how-big-onlyworlds-is): `GET /api/v2/public/counts`**, with no key: how many worlds and elements OnlyWorlds holds, the standard's 22 kinds, and the worlds whose owners made them public, each with its public element count. <!-- keel PR 248 -->
+- **[Agents](/docs/development/agents#ow_wirepy): `ow_wire.py tally`** counts the votes on a Law: a Vote Relation counts only when its maker plays the voter's Character, the newest per voter. <!-- keel PR 247 -->
 - **[Python](/docs/development/python) 0.56.0: a LegendKeeper timeline is a Narrative.** Supertype `Timeline`, holding the Events read on it, each lane a child Narrative holding its own.
 - **[Python](/docs/development/python) 0.55.0: LegendKeeper boards.** A board becomes a Map with supertype `Board`: page cards Pins, frames Zones with corner Markers, arrows between cards or frames Relations, notes and texts pinned Narratives; the board's records kept whole under `records/legendkeeper/boards/`.
 - **[Python](/docs/development/python) 0.54.0: a world pushed from OnlyWorlds into LegendKeeper comes back as itself.** The LegendKeeper door takes each element's id from its `onlyworlds-id` row, its supertype and subtype from `ow-` tags, and extension keys under their own names, so a round trip gives the same elements.
