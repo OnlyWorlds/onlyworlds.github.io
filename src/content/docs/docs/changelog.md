@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-25
 
+- **[Council](/docs/tools/council#features): Sign in with OnlyWorlds**, with the account signed in on onlyworlds.com; pick one of your worlds and the Council makes its key. A world's key and PIN still work.
 - **[Atlas](/docs/tools/atlas#features) 1.92.0: on a phone, a map's drawing tools are finger-sized**, and inside a submap the way back up keeps its row and its whole name.
 - **[Sign in with OnlyWorlds](/docs/development/api/signin#trading-the-code): the exchange answer carries `token_id`**, so a tool revokes its own token by id with that token as the bearer; the [TypeScript SDK](/docs/development/typescript) 4.73.0 returns it as `tokenId`. <!-- keel PR 240 -->
 - **[Errors](/api/errors/#rate_limited): wrong PINs count per account as well as per key**, so ten across all of an account's keys lock them for fifteen minutes; a new key starts no fresh count. <!-- keel PR 241 -->

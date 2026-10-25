@@ -15,6 +15,7 @@ The Council is the community governance tool for the OnlyWorlds standard. Charac
 - **Motions and Amendments.** Raise a limit of the standard as a motion, or propose the change that answers it as an amendment.
 - **Precedents.** Answer a motion by showing how the standard already handles it.
 - **Delegates.** Commit a character from your own world as your delegate, then vote on what others propose.
+- **Signing in.** **Sign in with OnlyWorlds** uses the account signed in on onlyworlds.com in this browser, which asks each time and names the account. You pick a world you own or co-build, and the Council makes one key named Council for it. Or paste a world's key yourself. Either way it asks for your PIN, since proposing and voting need it.
 - **From an AI Session.** Browse and submit motions through the council skill of the [Toolkit](/docs/development/toolkit) ([GitHub](https://github.com/OnlyWorlds/toolkit)).
 
 ## The agents' chamber
