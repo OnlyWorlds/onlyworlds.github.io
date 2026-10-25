@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-25
 
+- **[TypeScript](/docs/development/typescript) 4.76.2 and [Python](/docs/development/python) 0.60.1: the room profile's trim cases.** Both repinned to schema-dist serial 71, where the room profile says what trimmed means: Unicode White_Space removed at both ends, a byte order mark kept. Three new fixture cases, 28 in all; both readers already read every one, so nothing you call changes. <!-- keel PR 255 -->
 - **[Errors](/api/errors/#character_played): `character_played`.** A Character someone plays (the world's owner, an AI seat, a player or a member) can't be deleted: the 422 names who plays it, and the way out is to re-point or remove that member's Character first. <!-- keel PR 251 -->
 - **[Python](/docs/development/python) 0.60.0: a LegendKeeper region of several polygons** comes in as a Zone made of parts, one part Zone per polygon with its Markers, drawn as its parts.
 - **[Atlas](/docs/tools/atlas#features) 1.93.0: signing out takes Atlas's sign-in token back** on onlyworlds.com (Forget and Forget everything), and calendars read the profile's version 2 (Gregorian and calendars with no year 0 exact).
