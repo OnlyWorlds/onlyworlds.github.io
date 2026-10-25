@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-25
 
+- **[Python](/docs/development/python) 0.53.0: LegendKeeper maps through the API.** `python -m onlyworlds.legendkeeper --project ID` now makes each map a Map and its pins Pins, as the export file does, from the map's bounds and its pins; on LegendKeeper's tutorial map both roads put the same pins on the same pixels. Boards are still named and not imported.
 - **[Obsidian plugin](/docs/tools/obsidian-plugin#features) 3.12.1: a dependency shows its real name** in the Depends on list where a file name cannot hold it (`@onlyworlds/sdk`), through an alias; a name that fits is linked as before.
 - **[MCP](/docs/development/mcp): the opening instructions carry a parlor room's two rules**, `x_room_of` with its pair on a write and `include_room` on a read, and `create_element`'s description the first. <!-- keel PR 246 -->
 - **[Toolkit](/docs/development/toolkit) 5.3.2: an AI that sits in a parlor by API or MCP** writes the room's mark with its pair and reads with `include_room`, on the principles page every skill loads.
