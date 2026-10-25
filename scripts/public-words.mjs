@@ -24,7 +24,7 @@ export const WORDS = [
   [/github\.com\/tmoosting\b/g, "the founder's own repository address (the organisation's, or nothing)"],
   [/\bh\d{1,3}(?= \d{4}-\d{2}-\d{2})/g, 'a room beside a date'],
   [/(?<![\w-])h\d{2,3}(?=\s*[(·,])/g, 'a room id'],
-  [new RegExp(String.raw`(?<![\w.])${NUM}\s+of\s+${NUM}\s?${CUR}|[$€£]\s?${NUM}|(?<![\w.])${NUM}\s?(?:${CUR}|[€£])|\b(?:USD|EUR|GBP)\s?${NUM}`, 'g'),
+  [new RegExp(String.raw`(?<![\w.])${NUM}\s+of\s+${NUM}\s?${CUR}|[$€£]\s?(?!\d(?![\d,]|\.\d))${NUM}|(?<![\w.])${NUM}\s?(?:${CUR}|[€£])|\b(?:USD|EUR|GBP)\s?${NUM}`, 'g'),
     'a spend figure (money is the owner\'s, never public)'],
 ];
 
@@ -41,7 +41,7 @@ export const KEEL_ROWS = [
   ['e2b8e03c6a', 'taken: an item pointer (ITEM_POINTER)'],
   ['6281fb040b', 'left out: every changelog date is an anchor (#2026-10-08)'],
   ['f33a2c9b3e', 'taken: a room beside a date'],
-  ['0faa026b09', 'taken: a spend figure'],
+  ['a7df1a778d', 'taken: a spend figure (a sign before one bare digit, $1 in a regex or a shell line, passes, as keel PR 250 has it)'],
   ['56dc0c6331', "left out: the Unity package's parts are an Assembly and a Bridge; the narrower bay row above is kept"],
   ['4340fc2d94', 'taken: the crew email'],
   ['56ca4875fe', 'left out: the API pages tell a developer about loopback sign-in'],

@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-25
 
+- **[Unity SDK](/docs/development/unity#read-a-world) v0.20.0: calendar version 2.** `OWCalendar` reads a leap rule's `except` and `offset`, so Gregorian and Harptos read exact, and an era with no end runs to the next counting-up era; a hide's or an unhide's feed row says when, by whom and through which door (`OWChange.ChangedAt`, `ChangedBy`, `ChangedVia`, `OWWriteDoor.Site`); the room profile counts a Relation `Take`; pinned to schema-dist serial 68.
 - **[Python](/docs/development/python) 0.58.0: the LegendKeeper import offers the import map.** LegendKeeper's common tags (`city`, `organization`, `artifact`) type pages as the 22 types, applied only on your yes (`--import-map`). <!-- keel PR 249 -->
 <!-- keel PR 250: no docs change -->
 - **[Python](/docs/development/python) 0.57.0: LegendKeeper timelines get dates.** A calendar a timeline names becomes a Construct; when the calendar profile can say it exactly (five of LegendKeeper's six preset calendars), the Events get `start_date` and `end_date` in days.
