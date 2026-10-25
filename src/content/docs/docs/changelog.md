@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-25
 
+- **[Obsidian plugin](/docs/tools/obsidian-plugin#features) 3.12.0: dependencies in the graph.** A world whose elements carry `x_spine_depends_on` downloads with a Depends on section of links on each such note, never sent; a line you write under it is kept and named at save.
 - **[Conventions](/docs/schema/conventions): the room profile's ninth pair, Relation `Take`**, one member's take on a work item, with `x_room_item` naming the item (schema-dist serial 66); the [TypeScript SDK](/docs/development/typescript) 4.75.0 and the [Python package](/docs/development/python) 0.52.0 carry it in `ROOM_PAIRS`.
 - **[Hidden elements](/docs/development/api/hidden#the-feed): a hide reaches the readers who still see the element as a row on `/changes`**: the owner's keys, co-builders and the member who made it get an `upsert` at the hide's place, its body with `hidden: true`, carrying `changed_at`, `changed_by` and `changed_via`; an unhide takes a place too and gives the same row without `hidden`. The [TypeScript SDK](/docs/development/typescript) 4.74.0 names the three fields. <!-- keel PR 243 -->
 - **[Council](/docs/tools/council#features): Sign in with OnlyWorlds**, with the account signed in on onlyworlds.com; pick one of your worlds and the Council makes its key. A world's key and PIN still work.
