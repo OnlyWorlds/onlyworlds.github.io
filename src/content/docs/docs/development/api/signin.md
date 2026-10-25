@@ -67,10 +67,10 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/auth/token" \
 | `client_id`, `redirect_uri` | Exactly as the authorize request sent them |
 
 ```json
-{ "token": "ow_a_…", "token_type": "bearer", "account": { "id": "…", "username": "…" } }
+{ "token": "ow_a_…", "token_id": "…", "token_type": "bearer", "account": { "id": "…", "username": "…" } }
 ```
 
-The answer is sent `Cache-Control: no-store`. `token` is shown only here: the tool keeps it and sends it as `Authorization: Bearer ow_a_…` on the [account routes](/docs/getting-started/keys#account-tokens), such as [managing members](/docs/development/api/members#managing-members). On the person's account page, under Account tokens, it is listed by the tool's name and the browser (`Atlas on Firefox`), and they can revoke it there.
+The answer is sent `Cache-Control: no-store`. `token` is shown only here: the tool keeps it and sends it as `Authorization: Bearer ow_a_…` on the [account routes](/docs/getting-started/keys#account-tokens), such as [managing members](/docs/development/api/members#managing-members). On the person's account page, under Account tokens, it is listed by the tool's name and the browser (`Atlas on Firefox`), and they can revoke it there. `token_id` (since 2026-10-25) is the token's id: a tool done with the token revokes it with `DELETE /api/v2/account/tokens/{token_id}`, sending the token itself as the bearer. That revoke withdraws the tool's consent too ([Consent and revoking](#consent-and-revoking)).
 
 **A code lives 60 seconds and is spent by its first exchange,** whether that succeeds or fails. A code sent again is refused and also revokes the token its first exchange minted: a replayed code is treated as a stolen one. So take `code` out of the address bar before the exchange, and send the exchange before any other request: a reload would spend the code on a refusal.
 
@@ -99,6 +99,6 @@ What ties a token to its tool is how it was minted, never its name. Revoking a t
 The [TypeScript SDK](/docs/development/typescript) has both halves, from 4.46.0, on a client with no key (`new OwV2Client()`):
 
 - **`signInWithOnlyWorlds({ clientId, redirectUri, resume, storage })`** mints `state` and the verifier, keeps them under the client id in `storage`, and sends the browser to the authorize page (`navigate: false` only returns the URL). `redirectUri` is the registered address as a string, `https:` only, never built from `location.origin`. `resume` is small JSON the tool wants back after the redirect, such as an open link or a pending join code.
-- **`completeSignIn({ clientId })`** runs on the return page. It checks `state` and that the page is the registered address, takes `code` and `state` out of the address bar, trades the code, and returns `{ token, tokenType, account, resume }`. A refusal is an `OwSignInError` whose `reason` is `state_mismatch` (nothing was sent), `invalid_grant`, `rate_limited`, `offline` or `failed`.
+- **`completeSignIn({ clientId })`** runs on the return page. It checks `state` and that the page is the registered address, takes `code` and `state` out of the address bar, trades the code, and returns `{ token, tokenId, tokenType, account, resume }` (`tokenId` since 4.73.0, null from a server that does not send it). A refusal is an `OwSignInError` whose `reason` is `state_mismatch` (nothing was sent), `invalid_grant`, `rate_limited`, `offline` or `failed`.
 
 `storage` is any object with `get`, `set` and `remove`. It defaults to the browser's `sessionStorage`; in Node it must be passed. The SDK keeps no token: the pending record is cleared on success and on refusal, and the token is the tool's to store. The [Python package](/docs/development/python) has no sign-in calls: a local tool needs the loopback kind of client, which is not registered yet.

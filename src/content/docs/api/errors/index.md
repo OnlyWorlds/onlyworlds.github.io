@@ -388,7 +388,7 @@ A read of one element (`GET /api/v2/{type}/{id}`) named an element this world he
 Too many failed authentication attempts, such as repeated wrong PINs, or too many sign-in attempts from one address: the password sign-in and the code exchange of [Sign in with OnlyWorlds](/docs/development/api/signin) share one count, 40 in 5 minutes.
 
 - **Common cause:** a script retrying with a wrong PIN in a tight loop.
-- **How to fix:** wait the number of seconds in the `Retry-After` header. Repeated failures escalate to a temporary lockout, so fix the credential before retrying.
+- **How to fix:** wait the number of seconds in the `Retry-After` header. Repeated failures escalate to a temporary lockout, so fix the credential before retrying. Wrong PINs count on the key and, since 2026-10-25, on the account whose PIN it is (the owner's for a world's keys, the member's for a member's key), so a new key does not start a fresh count: ten across all of an account's keys lock them all for fifteen minutes, and the right PIN clears the count.
 
 ### quota_exceeded
 
