@@ -49,6 +49,7 @@ Some errors carry extra top-level keys beside `error`, named in their row: `prec
 | [`precondition_failed`](#precondition_failed) | `invalid_request` | `412` | The request carried If-Match with a change_seq, and the element has moved since; the reply's top-level `current` is the element as it is now. Nothing was written and nothing is merged: re-read `current`, then re-send or ask the user. |
 | [`player_role_fixed`](#player_role_fixed) | `invalid_request` | `422` | The owner tried to change a player seat's role: a player (no account) reads as a guest, and that role can't be changed. Remove the player instead. |
 | [`character_hidden`](#character_hidden) | `invalid_request` | `422` | The owner tried to set a hidden Character as the one a seat or a player plays (`param` character): a played Character is on every reader's roster, so a hidden one can never be picked. Unhide it first, or pick another. |
+| [`character_played`](#character_played) | `invalid_request` | `422` | A delete named a Character someone plays on the roster: the world's owner_character or a live member's Character (`param` id); the message says who, never by email or username. Nothing was deleted. Re-point that member to another Character, or remove the member, then delete. |
 | [`known_of_not_writable`](#known_of_not_writable) | `invalid_request` | `422` | A write body carried `known_of` (`param` known_of): that key marks a stub, an element the reader knows of but does not see whole, and is never written. A stub sent back would blank every field it leaves out: drop `known_of` and send only the fields you mean to change. |
 | [`character_taken`](#character_taken) | `invalid_request` | `422` | A player picked a Character from a party link's list that a live seat in the world already plays (`param` character): pick another from the list. The preview marks each listed Character `taken`. |
 | [`world_full`](#world_full) | `invalid_request` | `422` | A player link was opened in a world that already has its 50 live players: nothing was spent, and the link works again once the owner removes a player. |
@@ -74,7 +75,7 @@ Some errors carry extra top-level keys beside `error`, named in their row: `prec
 | [`files_full`](#files_full) | `permission_error` | `403` | The world's files have no room for this one (250 MB a world); the message gives the world's use, its cap and the file's size. Remove a file, or ask the owner. |
 | [`not_found`](#not_found) | `not_found` | `404` | The element or route does not exist in this world. |
 | [`gone`](#gone) | `not_found` | `410` | The element was deleted from this world; the body carries the deletion's `change_seq` and `deleted_at` beside the envelope (GET of one element only). |
-| [`rate_limited`](#rate_limited) | `rate_limited` | `429` | Too many failed PIN attempts, or too many sign-in attempts from one address (the password sign-in and POST /api/v2/auth/token share one count); retry after the Retry-After header's seconds. |
+| [`rate_limited`](#rate_limited) | `rate_limited` | `429` | Too many failed PIN attempts, counted on the key and across every key of the account whose PIN it is (a world's PIN is its owner's; a member's key takes the member's own), or too many sign-in attempts from one address (the password sign-in and POST /api/v2/auth/token share one count); retry after the Retry-After header's seconds. |
 | [`quota_exceeded`](#quota_exceeded) | `rate_limited` | `429` | A daily limit is used up (the world's image upload tickets, its file upload tickets, or the account's token rating for AI); retry after Retry-After. |
 | [`too_many_requests`](#too_many_requests) | `rate_limited` | `429` | Over the request budget: 300 requests a minute per key or account token, 60 a minute per address for a request with neither, reads and writes together (a /bulk call is one request); retry after Retry-After. Every reply carries RateLimit-Limit, RateLimit-Remaining and RateLimit-Reset. |
 | [`idempotency_error`](#idempotency_error) | `idempotency_error` | `409` | An Idempotency-Key was reused with a different request body. |
@@ -226,6 +227,14 @@ The owner tried to change a player seat's role: a player (no account) reads as a
 The owner tried to set a hidden Character as the one an agent seat or a player plays (`character` on the member's `PATCH`, or Change on its row under Members on the world page; `param` `character`). A played Character is on every reader's roster, so a hidden one can never be picked, by anyone.
 
 - **How to fix:** unhide the Character first, or pick another. See [Playing a hidden Character](/docs/development/api/hidden#playing-a-hidden-character).
+
+### character_played
+
+**Type** `invalid_request` · **Status** `422`
+
+A delete named a Character that someone plays: the world's own Character (`owner_character`), or the Character of a live member, an AI seat or a player (`param` `id`). The message says who plays it (the world's owner, the AI seat by its name, a player, a member), never an email or a username. Nothing was deleted. The rule holds on every door, the v1 API's DELETE included, and a restore that would delete such a Character is refused with the same sentence.
+
+- **How to fix:** point the player at another Character, or remove them, then delete: the owner's own with `owner_character` on `PATCH /world`, a seat's or a player's by the owner with `character` on the member's `PATCH`, a person's own with `PUT /me/character`.
 
 ### character_taken
 

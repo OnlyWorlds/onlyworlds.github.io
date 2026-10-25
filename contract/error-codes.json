@@ -54,6 +54,11 @@
     "status": 422,
     "summary": "The owner tried to set a hidden Character as the one a seat or a player plays (`param` character): a played Character is on every reader's roster, so a hidden one can never be picked. Unhide it first, or pick another."
   },
+  "character_played": {
+    "type": "invalid_request",
+    "status": 422,
+    "summary": "A delete named a Character someone plays on the roster: the world's owner_character or a live member's Character (`param` id); the message says who, never by email or username. Nothing was deleted. Re-point that member to another Character, or remove the member, then delete."
+  },
   "known_of_not_writable": {
     "type": "invalid_request",
     "status": 422,
@@ -182,7 +187,7 @@
   "rate_limited": {
     "type": "rate_limited",
     "status": 429,
-    "summary": "Too many failed PIN attempts, or too many sign-in attempts from one address (the password sign-in and POST /api/v2/auth/token share one count); retry after the Retry-After header's seconds."
+    "summary": "Too many failed PIN attempts, counted on the key and across every key of the account whose PIN it is (a world's PIN is its owner's; a member's key takes the member's own), or too many sign-in attempts from one address (the password sign-in and POST /api/v2/auth/token share one count); retry after the Retry-After header's seconds."
   },
   "quota_exceeded": {
     "type": "rate_limited",
