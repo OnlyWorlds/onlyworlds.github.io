@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-25
 
+- **[Atlas](/docs/tools/atlas#features) 1.91.0: a world from a link whose download did not finish stays in your list**, not downloaded yet; selecting it downloads it with nothing more spent from the link.
 - **[Atlas](/docs/tools/atlas#features) 1.90.0: a world file of a world already in Atlas opens beside it as a copy to read**, named with the file's day when it says one and never online; a `world.json` that says `writable: false` opens view only ([World folders](/docs/schema/folders#snapshots) names it beside the Unity SDK).
 - **[Python](/docs/development/python#what-it-covers) 0.50.0: the spine reader reads `x_spine_retires`**, the retired row's id as given, and replays the spine profile's 44 cases at schema-dist serial 61; the doctor names a malformed one on its Event. **[TypeScript SDK](/docs/development/typescript) 4.72.3** is on serial 61 too, with no type changed. Since serial 61 the distribution's `schema.json` carries the advisory number ranges of the 15 integer fields that have them, for display only: the API enforces none. <!-- keel PR 232 -->
 - **[World folders](/docs/schema/folders#rules-for-tools): the folder checker names the format version it knows** and warns once on a `world.json` stamped newer, never counting it as a problem (schema-dist serial 61).
