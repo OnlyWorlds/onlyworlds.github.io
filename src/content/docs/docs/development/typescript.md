@@ -341,7 +341,7 @@ import {
   ELEMENT_LABELS,   // plural display labels
   ELEMENT_SECTIONS, // the field groups and their display order
   FIELD_SCHEMA,     // type and target of every field
-  ROOM_PAIRS,       // the eight type-and-supertype pairs a parlor keeps in a world (since 4.55.0)
+  ROOM_PAIRS,       // the nine type-and-supertype pairs a parlor keeps in a world (since 4.55.0; Take since 4.75.0)
   elementColor,     // the colour of a type's family
   fieldLabel,       // a field name as the words a tool shows
 } from '@onlyworlds/sdk';
@@ -365,7 +365,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.74.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.75.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
