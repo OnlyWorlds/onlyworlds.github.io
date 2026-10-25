@@ -92,6 +92,8 @@ The Continue page appears once per account and tool. After that, the tool's sign
 - **Revoking the tool's token.** Revoking a token a tool got through Sign in with OnlyWorlds, on the account page or with `DELETE /api/v2/account/tokens/{token_id}`, withdraws that tool's consent: its next sign-in shows the Continue page again. The revoke a replayed code causes does the same.
 - **A tool taken off the registry.** It loses every person's consent at the next deploy of onlyworlds.com. If it is ever listed again, each person is asked again.
 
+So a tool that revokes its token after each sign-in (one that needs the token only to mint a world key, as the [Council](/docs/tools/council) does) shows the Continue page every time, and the page says so: asked once, and again whenever the tool's last token was revoked.
+
 What ties a token to its tool is how it was minted, never its name. Revoking a token you minted by hand on the account page changes no consent, even when it is named like a tool's. Revoking a token that is already revoked withdraws nothing.
 
 ## In the SDK
