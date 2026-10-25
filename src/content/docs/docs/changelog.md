@@ -16,6 +16,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 - **[Toolkit](/docs/development/toolkit) 5.2.0: the folder check says where its checker comes from**: a fresh copy of schema-dist in a scratch directory, never one found on the disk; the skills keep their names. [World folders](/docs/schema/folders#rules-for-tools) says the same.
 - **[Toolkit](/docs/development/toolkit) 5.1.0: every skill ends on what its answer owes you**, one list drawn from its steps; the eleven skills keep their names.
 <!-- keel PR 230: no docs change -->
+<!-- keel PR 235: no docs change -->
 <!-- keel PR 231: no docs change -->
 <!-- keel PR 233: no docs change -->
 <!-- keel PR 234: no docs change -->
