@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-25
 
+- **[Conventions](/docs/schema/conventions): the checks profile's fixture tests the known-of stub rule** with two cases (schema-dist serial 64); the [Python package](/docs/development/python) 0.51.1 replays them.
 - **[Toolkit](/docs/development/toolkit) 5.3.0: the folder check is `python -m onlyworlds.lint` after `pip install onlyworlds`**, in carry, import and setup; a fresh copy of schema-dist is the way without pip, and a checker found on the disk is still never run ([World folders](/docs/schema/folders#rules-for-tools)).
 - **[Python](/docs/development/python#check-a-world) 0.51.0: `python -m onlyworlds.lint` checks a world folder's shape** with schema-dist's own folder checker, carried in the package, so it needs no YAML library and no copy of the repository; [World folders](/docs/schema/folders#rules-for-tools) names it beside the dist's command. The package and the [TypeScript SDK](/docs/development/typescript) 4.72.4 are on schema-dist serial 63, whose checker can be loaded by a program with no side effect.
 - **[Atlas](/docs/tools/atlas#features) 1.91.0: a world from a link whose download did not finish stays in your list**, not downloaded yet; selecting it downloads it with nothing more spent from the link.
