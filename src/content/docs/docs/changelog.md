@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-25
 
+- **[Python](/docs/development/python) 0.55.0: LegendKeeper boards.** A board becomes a Map with supertype `Board`: page cards Pins, frames Zones with corner Markers, arrows between cards or frames Relations, notes and texts pinned Narratives; the board's records kept whole under `records/legendkeeper/boards/`.
 - **[Python](/docs/development/python) 0.54.0: a world pushed from OnlyWorlds into LegendKeeper comes back as itself.** The LegendKeeper door takes each element's id from its `onlyworlds-id` row, its supertype and subtype from `ow-` tags, and extension keys under their own names, so a round trip gives the same elements.
 - **[Python](/docs/development/python) 0.53.0: LegendKeeper maps through the API.** `python -m onlyworlds.legendkeeper --project ID` now makes each map a Map and its pins Pins, as the export file does, from the map's bounds and its pins; on LegendKeeper's tutorial map both roads put the same pins on the same pixels. Boards are still named and not imported.
 - **[Obsidian plugin](/docs/tools/obsidian-plugin#features) 3.12.1: a dependency shows its real name** in the Depends on list where a file name cannot hold it (`@onlyworlds/sdk`), through an alias; a name that fits is linked as before.
