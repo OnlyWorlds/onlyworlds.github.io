@@ -87,7 +87,7 @@ A snapshot is a frozen copy of a world at one moment, such as a chapter's end.
 | `snapshot_change_seq` | The source's change cursor at capture |
 | `snapshot_counts` | Optional: files written per category. A receipt; the files are the truth. |
 | `snapshot_torn` | `true` only on a capture known to be inconsistent |
-| `writable` | `false`. Advisory: a tool may still write. The Unity SDK opens such a folder read-only and refuses to sync into it. |
+| `writable` | `false`. Advisory: a tool may still write. The Unity SDK opens such a folder read-only and refuses to sync into it; Atlas opens it view only (since 1.90.0). |
 
 The writer mints a fresh world id and keeps every element id; a re-capture under the same label keeps the snapshot's id. It copies `name` exactly and every `world.json` key the source had, keeps `change_seq`, `created_at`, `updated_at` and `type` as received, and writes no `.<tool>/` folder. If the change cursor moved during the walk it fails, or on an explicit override sets `snapshot_torn: true`.
 
