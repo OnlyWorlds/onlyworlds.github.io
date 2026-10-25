@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-25
 
+- **[Python](/docs/development/python) 0.58.0: the LegendKeeper import offers the import map.** LegendKeeper's common tags (`city`, `organization`, `artifact`) type pages as the 22 types, applied only on your yes (`--import-map`).
 - **[Python](/docs/development/python) 0.57.0: LegendKeeper timelines get dates.** A calendar a timeline names becomes a Construct; when the calendar profile can say it exactly (five of LegendKeeper's six preset calendars), the Events get `start_date` and `end_date` in days.
 - **[Obsidian plugin](/docs/tools/obsidian-plugin) 3.13.0: links in custom properties.** A property holding element ids downloads as links the graph view draws, and saves back as the ids; links to ordinary notes still save as text.
 - **[TypeScript](/docs/development/typescript#world-calendars) 4.76.0: calendar version 2.** A leap rule with exceptions and an offset (Gregorian: every 4, not every 100, yet every 400, counted from year 1), from the [calendar profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/calendar.md)'s serial 68; an era with no end runs to the next up era, whatever the list order.
