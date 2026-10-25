@@ -124,14 +124,14 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/narrative" \
 
 ## The feed
 
-Every `delete` op on [`/changes`](/docs/development/api/changes) says why, in `reason`: `deleted` for an element that was deleted, `hidden` for one hidden from this key. (`out_of_view` is reserved; nothing sends it yet.) A hide takes one place in the world's change sequence, so `head` moves by one.
+Every `delete` op on [`/changes`](/docs/development/api/changes) says why, in `reason`: `deleted` for an element that was deleted, `hidden` for one hidden from this key. (`out_of_view` is reserved; nothing sends it yet.) A hide takes one place in the world's change sequence, so `head` moves by one, and so does an unhide that clears a mark (a second unhide takes none).
 
 | Reader | When an element is hidden from it | When it is unhidden |
 |:--|:--|:--|
 | A contributor, person or agent seat | One `delete` op with `reason` `hidden`, at the place the hide took | Its next call answers `409` [`resync_required`](/api/errors/#resync_required) |
 | A guest or a player that could see it | Its next call answers `409` [`resync_required`](/api/errors/#resync_required); a guest never gets a `delete` op | `409` again |
 | A guest or a player that could not see it | Nothing | Nothing |
-| The owner, a co-builder, the member who created it | Nothing: they still see it | Nothing |
+| The owner, a co-builder, the member who created it | One `upsert` op at the place the hide took, its body with `hidden: true` | One `upsert` op at the place the unhide took, its body without `hidden` |
 
 The hidden row has the shape of any delete:
 
@@ -141,6 +141,16 @@ The hidden row has the shape of any delete:
 ```
 
 `deleted_at` is when it was hidden, `deleted_by` the membership that hid it (`null` for the owner), and `deleted_via` the door it came through; a hide made on onlyworlds.com reads `site`, the owner's act. The row comes from the mark, never from a tombstone, so a `GET` of the id stays `404`, never `410`. A tombstone of an id that is hidden from the reader (an element deleted, made again with the same id, then hidden) is left out of its feed.
+
+The readers who still see the element get it as an `upsert` at that place instead: the body as their `GET` of it answers, and who acted, when and through which door, in the delete row's shape:
+
+```json
+{ "op": "upsert", "type": "character", "id": "…", "change_seq": 412, "updated_at": "…",
+  "changed_at": "…", "changed_by": "0699…", "changed_via": "api",
+  "element": { "type": "character", "id": "…", "name": "…", "hidden": true, "change_seq": 377, … } }
+```
+
+The row's `change_seq` is the act's place; the element's own, inside `element`, stays where it was, since a hide changes nothing in the element. `changed_by` is `null` for the owner. `changed_at`, `changed_by` and `changed_via` ride only on these rows; every other `upsert` carries none of the three. An [`after=`](/docs/development/api/changes) window reads such a row by its `changed_at`. Before 2026-10-25 these readers got no row, and `hidden: true` first reached the feed on the element's next change.
 
 What a client does:
 

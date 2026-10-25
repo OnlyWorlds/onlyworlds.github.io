@@ -32,7 +32,7 @@ That is Hyperion's first page. The next call sends `?since=1:068e2e60-fc37-789e-
 | `epoch` | A guest's or a contributor's view epoch ([Guests' cursors](#guests-cursors)); `null` for the owner's and co-builders' keys |
 | `epoch_reason` | Why `epoch` last moved, `role` or `view` ([What a reset keeps](#what-a-reset-keeps)); `null` when `epoch` is |
 
-An `upsert` carries the whole element at its latest state, in the same body a [read](/docs/development/api/reads#what-an-element-carries) returns. A `delete` carries the id, `deleted_at`, who deleted it through which door and which client (`deleted_by`, `deleted_via`, `deleted_client`: see [Agent writes](/docs/development/api/writes#agent-writes)), and why, in `reason`: `deleted` for a tombstone, `hidden` for an element [hidden](/docs/development/api/hidden#the-feed) from this key (a third value, `out_of_view`, is reserved: nothing sends it yet). Remove the element from your copy either way.
+An `upsert` carries the whole element at its latest state, in the same body a [read](/docs/development/api/reads#what-an-element-carries) returns. The upsert a hide or an unhide gives the readers who still see the element also says when, who and through which door (`changed_at`, `changed_by`, `changed_via`; see [Hidden elements](/docs/development/api/hidden#the-feed)); no other upsert carries them. A `delete` carries the id, `deleted_at`, who deleted it through which door and which client (`deleted_by`, `deleted_via`, `deleted_client`: see [Agent writes](/docs/development/api/writes#agent-writes)), and why, in `reason`: `deleted` for a tombstone, `hidden` for an element [hidden](/docs/development/api/hidden#the-feed) from this key (a third value, `out_of_view`, is reserved: nothing sends it yet). Remove the element from your copy either way.
 
 ## Walking the feed
 
@@ -76,7 +76,7 @@ def pull(since=None):
 
 Walking `GET /api/v2/changes` from no `since` until `has_more` is `false` gives every live element at its latest state, plus a tombstone for each delete: the whole world. Most worlds take several pages. There is no separate export route. Deletes are always explicit `delete` ops, never inferred from an element's absence.
 
-A key that may not see an element the owner or a co-builder hid walks the feed without it, without a tombstone of its id, and with its links left out of the bodies. A contributor learns of a hide from a `delete` op with `reason` `hidden`; a guest's cursor is reset instead. See [Hidden elements](/docs/development/api/hidden#the-feed).
+A key that may not see an element the owner or a co-builder hid walks the feed without it, without a tombstone of its id, and with its links left out of the bodies. A contributor learns of a hide from a `delete` op with `reason` `hidden`; a guest's cursor is reset instead. The owner, a co-builder and the member who made it get an `upsert` at the hide's place, its body with `hidden: true`, and another at an unhide's place, without it. See [Hidden elements](/docs/development/api/hidden#the-feed).
 
 World fields (`name`, the time fields and the rest of `GET /api/v2/world`) are not in the feed. Poll `GET /api/v2/world` and compare `updated_at`; element writes never change the world's `updated_at`.
 

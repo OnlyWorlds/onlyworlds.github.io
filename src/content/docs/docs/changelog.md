@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-25
 
+- **[Hidden elements](/docs/development/api/hidden#the-feed): a hide reaches the readers who still see the element as a row on `/changes`**: the owner's keys, co-builders and the member who made it get an `upsert` at the hide's place, its body with `hidden: true`, carrying `changed_at`, `changed_by` and `changed_via`; an unhide takes a place too and gives the same row without `hidden`. The [TypeScript SDK](/docs/development/typescript) 4.74.0 names the three fields. <!-- keel PR 243 -->
 - **[Council](/docs/tools/council#features): Sign in with OnlyWorlds**, with the account signed in on onlyworlds.com; pick one of your worlds and the Council makes its key. A world's key and PIN still work.
 - **[Atlas](/docs/tools/atlas#features) 1.92.0: on a phone, a map's drawing tools are finger-sized**, and inside a submap the way back up keeps its row and its whole name.
 - **[Sign in with OnlyWorlds](/docs/development/api/signin#trading-the-code): the exchange answer carries `token_id`**, so a tool revokes its own token by id with that token as the bearer; the [TypeScript SDK](/docs/development/typescript) 4.73.0 returns it as `tokenId`. <!-- keel PR 240 -->
