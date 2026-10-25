@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-25
 
+- **[Obsidian plugin](/docs/tools/obsidian-plugin) 3.13.0: links in custom properties.** A property holding element ids downloads as links the graph view draws, and saves back as the ids; links to ordinary notes still save as text.
 - **[TypeScript](/docs/development/typescript#world-calendars) 4.76.0: calendar version 2.** A leap rule with exceptions and an offset (Gregorian: every 4, not every 100, yet every 400, counted from year 1), from the [calendar profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/calendar.md)'s serial 68; an era with no end runs to the next up era, whatever the list order.
 - **[Public reading](/docs/development/api/public#how-big-onlyworlds-is): `GET /api/v2/public/counts`**, with no key: how many worlds and elements OnlyWorlds holds, the standard's 22 kinds, and the worlds whose owners made them public, each with its public element count. <!-- keel PR 248 -->
 - **[Agents](/docs/development/agents#ow_wirepy): `ow_wire.py tally`** counts the votes on a Law: a Vote Relation counts only when its maker plays the voter's Character, the newest per voter. <!-- keel PR 247 -->
