@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-25
 
+- **[Python](/docs/development/python) 0.60.0: a LegendKeeper region of several polygons** comes in as a Zone made of parts, one part Zone per polygon with its Markers, drawn as its parts.
 - **[Atlas](/docs/tools/atlas#features) 1.93.0: signing out takes Atlas's sign-in token back** on onlyworlds.com (Forget and Forget everything), and calendars read the profile's version 2 (Gregorian and calendars with no year 0 exact).
 - **[TypeScript](/docs/development/typescript#world-calendars) 4.76.1: the calendar fixture's Leap Day steps.** Repinned to schema-dist serial 69: the Gregorian case gains twelve days around Leap Day in 1900, 2000 and 2100, each checked against LegendKeeper's own reading.
 - **[Python](/docs/development/python) 0.59.0: LegendKeeper map regions and paths become Zones.** Each region or path is a Zone with `shape` `polygon` or `line` and a Marker at each point in order, so a map pushed from OnlyWorlds comes back with its zones' shapes; a leap day's `day` no longer keeps a calendar from being exact; Events before a calendar's first era are counted in the report.
