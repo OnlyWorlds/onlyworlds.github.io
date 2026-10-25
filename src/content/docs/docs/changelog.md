@@ -7,6 +7,8 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-25
 
+- **[TypeScript](/docs/development/typescript#world-calendars) 4.76.1: the calendar fixture's Leap Day steps.** Repinned to schema-dist serial 69: the Gregorian case gains twelve days around Leap Day in 1900, 2000 and 2100, each checked against LegendKeeper's own reading.
+- **[Python](/docs/development/python) 0.59.0: LegendKeeper map regions and paths become Zones.** Each region or path is a Zone with `shape` `polygon` or `line` and a Marker at each point in order, so a map pushed from OnlyWorlds comes back with its zones' shapes; a leap day's `day` no longer keeps a calendar from being exact; Events before a calendar's first era are counted in the report.
 - **[Unity SDK](/docs/development/unity#read-a-world) v0.20.0: calendar version 2.** `OWCalendar` reads a leap rule's `except` and `offset`, so Gregorian and Harptos read exact, and an era with no end runs to the next counting-up era; a hide's or an unhide's feed row says when, by whom and through which door (`OWChange.ChangedAt`, `ChangedBy`, `ChangedVia`, `OWWriteDoor.Site`); the room profile counts a Relation `Take`; pinned to schema-dist serial 68.
 - **[Python](/docs/development/python) 0.58.0: the LegendKeeper import offers the import map.** LegendKeeper's common tags (`city`, `organization`, `artifact`) type pages as the 22 types, applied only on your yes (`--import-map`). <!-- keel PR 249 -->
 <!-- keel PR 250: no docs change -->
