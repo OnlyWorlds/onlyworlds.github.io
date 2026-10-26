@@ -17,8 +17,7 @@
  *            can judge a sentence.
  *
  * The procedure (what to read, what to stamp) is SWEEP.md. Exit 1 when a CHECK is STALE. A run
- * reports to the Deck's gates badge (docs-sweep, weekly), which goes red by itself when a week and
- * a week more pass without one.
+ * reports its verdict to the command in sweep.local.json, if one is set (--no-deck skips it).
  */
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
@@ -27,7 +26,10 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const OW = resolve(ROOT, '..');
-const CARRIER = 'C:/Users/Titus/Carrier';
+// Per-machine settings, gitignored: checkouts that are not siblings of this folder, and a command each
+// run reports its verdict to. sweep.local.json: {"repos": {"Atlas": "<dir>", "Unity SDK": "<dir>"},
+// "report": ["<program>", "<arg>", ...]}; the run appends --exit <code> --line <verdict> to "report".
+const LOCAL = (() => { try { return JSON.parse(readFileSync(join(ROOT, 'sweep.local.json'), 'utf8')); } catch { return {}; } })();
 const argv = process.argv.slice(2);
 const flag = (f) => argv.includes(f);
 const arg = (k, d) => { const i = argv.indexOf(k); return i >= 0 ? argv[i + 1] : d; };
@@ -36,11 +38,11 @@ const OPENAPI = 'https://www.onlyworlds.com/api/v2/openapi.json';
 const stale = [];
 let deckLine = 'crashed before a verdict';
 process.on('exit', (code) => {
-  if (flag('--no-deck') || deckLine === null) return;
+  if (flag('--no-deck') || deckLine === null || !Array.isArray(LOCAL.report) || !LOCAL.report.length) return;
   try {
-    execFileSync('python', [`${CARRIER}/Comms/deck/bell.py`, 'gate', 'docs-sweep', '--as', 'Kael', '--exit', String(code),
-      '--line', deckLine, '--cadence', '7d', '--for', 'Kael'], { stdio: 'ignore', timeout: 10000 });
-  } catch { /* the badge mirrors the gate; never a reason to fail */ }
+    const [cmd, ...rest] = LOCAL.report;
+    execFileSync(cmd, [...rest, '--exit', String(code), '--line', deckLine], { stdio: 'ignore', timeout: 10000 });
+  } catch { /* the report mirrors the verdict; never a reason to fail */ }
 });
 const pass = (m) => console.log(`  PASS   ${m}`);
 const bad = (m) => { stale.push(m); console.log(`  STALE  ${m}`); };
@@ -169,8 +171,8 @@ const repos = [
   ['schema-dist', `${OW}/schema-dist`, []],
   ['@onlyworlds/sdk', `${OW}/sdk`, []],
   ['python package', `${OW}/onlyworlds-python`, []],
-  ['Atlas', `${CARRIER}/Forge/tools/atlas`, ['--', 'src/changelog']],
-  ['Unity SDK', `${CARRIER}/Armature/projects/ow-sdk`, ['--', 'Packages']],
+  ['Atlas', LOCAL.repos?.['Atlas'] ?? `${OW}/atlas`, ['--', 'src/changelog']],
+  ['Unity SDK', LOCAL.repos?.['Unity SDK'] ?? `${OW}/unity-sdk`, ['--', 'Packages']],
   ['Obsidian plugin', `${OW}/obsidian-plugin`, []],
 ];
 for (const [name, dir, extra] of repos) {

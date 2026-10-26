@@ -8,7 +8,7 @@
  *        node scripts/gen_errors.mjs --live     compare the snapshot with the live list; exit 1 if they differ
  *
  * Source: components.schemas.Error.x-ow-error-codes in https://www.onlyworlds.com/api/v2/openapi.json
- * (Keel #82), vendored as contract/error-codes.json so a build never depends on the API being up.
+ * vendored as contract/error-codes.json so a build never depends on the API being up.
  * Rows marked internal are skipped; rows with a host are the upload host's (no doc_url, no anchors).
  *
  * Writes: the summary table between the markers on /api/errors/, and the 'floor' rows of
@@ -91,7 +91,7 @@ const tsv = readFileSync(CONTRACT, 'utf8');
 // Drop only the rows this script writes (status column exactly 'floor'); a row found in a repo that
 // links an anchor keeps its own row and sources, marked 'floor; <its status>' in place.
 const kept = tsv.split('\n').filter((l) => l !== '' && l.split('\t')[2] !== 'floor');
-const floor = pub.map(([c]) => `/api/errors#${c}\tload-bearing\tfloor\tkeel's error-code list (contract/error-codes.json; Keel #82)`);
+const floor = pub.map(([c]) => `/api/errors#${c}\tload-bearing\tfloor\tkeel's error-code list (contract/error-codes.json)`);
 const linked = new Set(kept.map((l) => l.split('\t')[0]));
 const marked = kept.map((l) => {
   const [url, cls, today, ...rest] = l.split('\t');

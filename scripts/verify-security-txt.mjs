@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // verify-security-txt.mjs: the built /.well-known/security.txt (RFC 9116) has a Contact and an Expires
 // at least 30 days ahead. RFC 9116 makes a file past its Expires stale, and nothing else would say so
-// (the file was written 2026-10-24 for a year; OW Porch #633). Reads dist/, so it runs after a build,
+// (the file was written 2026-10-24 for a year). Reads dist/, so it runs after a build,
 // in `npm run verify`. Move Expires forward a year when this fails.
 import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';

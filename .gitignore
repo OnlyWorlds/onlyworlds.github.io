@@ -3,6 +3,7 @@ dist/
 .astro/
 __pycache__/
 install.log
+sweep.local.json
 
 # local-only working material (kept out of the site, as before)
 CLAUDE.md

@@ -1,6 +1,6 @@
 // The OnlyWorlds docs (onlyworlds.github.io), built with Starlight.
 //
-// URL law (OW Infra #81): every path in contract/urls.tsv marked load-bearing serves its real
+// URL law: every path in contract/urls.tsv marked load-bearing serves its real
 // content, 200, on this host. So pages keep their old paths and the sidebar carries the new
 // structure; the navigation and the URLs are independent on purpose.
 // build.format 'file' writes page.html, which GitHub Pages serves as /page and /page.html (both
