@@ -257,7 +257,9 @@ Since 4.66.0 the queue holds two kinds of row, `OwProposal` (`kind: 'proposal'`,
 
 With **AI seats propose, a person accepts** on for the world (`agent_writes_proposed` on `getWorld()`, read-only; `patchWorld` strips it), an agent seat's `patch`, `upsert` or `editLinks` on an existing element answers `202` and the client throws `OwProposedError` (`err.isProposed`, `err.proposal`) rather than returning a body that is not the element; a `bulk` slot with `status: 202` stays in the result, typed. An accept that finds a proposed field moved throws `OwStaleProposalError` (409, `err.isStaleProposal`, `err.conflicts`, `err.current`); the other codes are `isOwnProposal`, `isProposedOnly`, `isTooManyOpen` and `isFieldNotVisible`. Nothing about a proposal reaches the change feed: poll the queue to learn of new ones.
 
-## Find things in a world
+<a id="find-things-in-a-world"></a>
+
+## Find elements in a world
 
 With a world's elements in memory, `lookupWorld` finds the ones a plain question is about. It uses no model and no network, and runs in a few milliseconds (since 4.11.0).
 

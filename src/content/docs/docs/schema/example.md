@@ -53,7 +53,9 @@ curl -s "https://www.onlyworlds.com/api/v2/title?name=Admiral&expand=holders,bod
 
 So to find what a Character holds, read the Titles and check their `holders`: there is no reverse lookup, and a filter on a link field is a `422` ([Filters](/docs/development/api/reads#filters)). Each link sits on the element that holds the field; the element pages ([Title](/docs/schema/element_categories/title), [Character](/docs/schema/element_categories/character)) show which side that is.
 
-## Places within places
+<a id="places-within-places"></a>
+
+## Locations within Locations
 
 Locations nest through `parent_location`, the wider Location a place is part of. Feltropolis has seven levels, each its own Location whose parent is Feltropolis; the places on a level name that level as theirs, so The Dry Room and Whisper Gallery sit under Level 3, The Squeeze. A tool can draw the station as a tree from that one field.
 
