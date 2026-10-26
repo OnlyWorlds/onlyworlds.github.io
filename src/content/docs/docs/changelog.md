@@ -7,6 +7,13 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-26
 
+- **[Agents](/docs/development/agents#ow_wirepy): `ow_wire.py` 0.3.0 reads messages by the [message profile](/docs/schema/conventions#messages-between-members).** `mail` lists the messages addressed to everyone (no recipients) beside yours, a message the owner wrote verifies, and one that names no narrator is `unverifiable`, from nobody. <!-- keel PR 263 -->
+- **[Sign in with OnlyWorlds](/docs/development/api/signin#consent-and-revoking): Tactical Tangle asks for consent on every sign-in,** as the Council does: any revoke of one of its tokens ends the consent. <!-- keel PR 263 -->
+<!-- keel PR 262: no docs change (the message profile's source and fixture, published in schema-dist; the Messages between members line below) -->
+- **[Character context](/docs/development/api/draught#the-packet): in `voice`, `messages` carries the Messages addressed to her,** not only those she narrated: one that lists her among its `characters` or names her `protagonist` or `antagonist`, when your key can read it. One hidden from her stays out. <!-- keel PR 260 -->
+- **[Members](/docs/development/api/members#the-front-door): `front_door.my_seats`** on `GET /me`, `PUT /me/character` and an agent's join reply: the AI and player seats you answer for, each with the Character it plays, so a tool reading with your key can tell which Character is your AI. <!-- keel PR 259 -->
+<!-- keel PR 261: no docs change (the Dashboard joins the sign-in registry, which GET /api/v2/auth/clients serves; no page lists the registered tools) -->
+<!-- keel PR 258: no docs change (Tactical Tangle joins the sign-in registry, which GET /api/v2/auth/clients serves; its asks-each-time mark is the line above) -->
 - **[TypeScript](/docs/development/typescript#messages) 4.81.0 and [Python](/docs/development/python) 0.64.0: `isToEveryone` / `is_to_everyone`**, whether a message is addressed to every member, told apart from a recipients list that names no valid id (addressed to nobody).
 - **[Messages between members](/docs/schema/conventions#messages-between-members): the message profile** (schema-dist serials 72 and 73), the one definition of who a message is for (an empty `characters` is every member, so an inbox is not one filtered read), whether its sender is proved, what a reader has read and a thread. [TypeScript](/docs/development/typescript#messages) 4.80.0 and [Python](/docs/development/python) 0.63.0 carry the readers.
 - **[TypeScript](/docs/development/typescript) 4.79.0: `revokeWorldKey` takes `signal` and `keepalive`**, passed to `fetch`, so a page can revoke its key on Sign out and still close at once, with a time limit if it wants one.
@@ -16,6 +23,8 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-25
 
+- **[Sign in with OnlyWorlds](/docs/development/api/signin#consent-and-revoking): revoking a tool's token revokes that token only.** The tool's consent ends when its last live token is revoked (at any revoke, for a tool that asks each time), so a tool can replace its token without the Continue page. [Disconnect](/docs/development/api/signin#disconnecting-a-tool), on the account page or `DELETE /api/v2/account/clients/{client_id}`, revokes every token a tool holds and ends its consent. <!-- keel PR 257 -->
+<!-- keel PR 256: no docs change (schema-dist's publisher refuses a build behind its main branch and verifies a copied tree; no page describes the publisher) -->
 - **[Agents](/docs/development/agents#ow_wirepy): `ow_wire.py tally` lists two more votes with their reason** instead of failing or misnaming them: a vote by a Character no longer in the world, and a vote by a Character whose name another Character shares. <!-- keel PR 254 -->
 - **[TypeScript](/docs/development/typescript) 4.76.2 and [Python](/docs/development/python) 0.60.1: the room profile's trim cases.** Both repinned to schema-dist serial 71, where the room profile says what trimmed means: Unicode White_Space removed at both ends, a byte order mark kept. Three new fixture cases, 28 in all; both readers already read every one, so nothing you call changes. <!-- keel PR 255 -->
 - **[Errors](/api/errors/#character_played): `character_played`.** A Character someone plays (the world's owner, an AI seat, a player or a member) can't be deleted: the 422 names who plays it, and the way out is to re-point or remove that member's Character first. <!-- keel PR 251 -->

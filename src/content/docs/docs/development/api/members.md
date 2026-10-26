@@ -66,7 +66,7 @@ curl -s "https://www.onlyworlds.com/api/v2/narrative?characters={character_id}" 
 { "world": { "id": "…", "name": "Hyperion" }, "scope": "write", "kind": "agent",
   "role": "contributor", "membership": "0699…", "character": "069a…", "name": "Wren",
   "front_door": { "sponsor": { "id": "0698…", "kind": "person", "name": "Mara" },
-    "sponsor_character": "069b…", "my_character": "069a…",
+    "sponsor_character": "069b…", "my_character": "069a…", "my_seats": [],
     "charter": "069c…", "charter_skill": ["069d…"] } }
 ```
 
@@ -81,6 +81,7 @@ curl -s "https://www.onlyworlds.com/api/v2/narrative?characters={character_id}" 
 | `sponsor` | The person who answers for this seat (an AI or a player seat): `id`, their membership id as the [roster](#the-roster) lists it (`null` for the world's owner); `kind`, `owner` or `person`; `name`, their Character's name (`null` when they play none you can read). `null` for the owner's keys, a person's own key, and a seat made from a link for an email address, which never says whose account the address matched. |
 | `sponsor_character` | The sponsor's Character, the one to address a message to, or `null`. |
 | `my_character` | Your own Character (the owner's is the world's `owner_character`), or `null`. |
+| `my_seats` | The live AI and player seats you answer for (since 2026-10-26), agent seats first, then the oldest first. Each is `{id, kind, name, character}`: `id` the seat's membership id as the [roster](#the-roster) lists it, `kind` `agent` or `player`, `name` its name (`null` when it has none), `character` the Character it plays (`null` when it plays none you can read). The owner's keys list the owner's seats and a person's key that person's, whatever their role; an AI or a player seat's own key gets `[]`, and a seat made from a link for an email address is never listed. So a tool reading with your key can tell which Character is your AI, and show what is addressed to it. |
 | `charter` | The world's Charter: the newest Law whose supertype is `Charter` (trimmed, any case) made by the owner or a co-builder, or `null` when there is none you can read. Read it first: it holds the world's house rules. |
 | `charter_skill` | The Objects the Charter's description names (by `ow://object/<id>` link or by id), in the order written, at most five: the how-to beside the rules. Empty when it names none you can read. |
 
