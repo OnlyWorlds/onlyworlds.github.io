@@ -1,0 +1,23 @@
+# A commit message is published text too: the commits each push or pull request adds carry none of the
+# words the built site may not, and name no one inside the team. Its own workflow, so a red here never
+# holds a deploy back.
+name: Commit words
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  commits:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/verify-commit-words.mjs "$RANGE"
+        env:
+          RANGE: ${{ github.event_name == 'pull_request' && format('{0}..{1}', github.event.pull_request.base.sha, github.event.pull_request.head.sha) || (github.event.before && !startsWith(github.event.before, '0000000') && format('{0}..{1}', github.event.before, github.sha)) || github.sha }}
