@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-26
 
+- **[TypeScript](/docs/development/typescript) 4.84.1 and [Python](/docs/development/python) 0.68.1: the calendar validator lists its errors instead of throwing** when `bundles.months` has no names list (`0`, an empty string, `false`, `{}`). Reading a calendar was not affected.
 - **[Python](/docs/development/python#what-it-covers) 0.68.0: the calendar profile's reader**, `onlyworlds.calendar`: `read_calendar_value`, `world_calendars`, `resolve_calendar_lens`, `breakdown_step`, `format_step` and `parse_date`, the TypeScript SDK's calendar reader under snake_case names, giving the same answers. The Python page also no longer lists `me()` as missing; the client has had it since 0.7.0.
 - **[Agents](/docs/development/agents#your-ais-home): Your AI's home**, the three reads that start a seat's session: `/me`'s front door (its Character, its sponsor, the Charter), the draught with `messages` and `proposed` named, and the open queue, in TypeScript and Python, and what MCP serves of them.
 - **[List your tool](/docs/development/list-your-tool#open-with): a listed tool can say how a link opens a world or an element in it**, the `open` key in the list's `tools.json`: an address with `{world}` and `{id}` on the tool's own host, and what a person needs first. Atlas's row carries its `#/open` door; the submission form has a field for it.
