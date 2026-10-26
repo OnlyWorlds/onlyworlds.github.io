@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-26
 
+- **[The draught](/docs/development/api/draught#compact): `compact` also leaves out each element body's empty fields** (`id`, `type` and `name` always stay), and **a Message is placed by the ordinary Narrative rules unless `messages` is named**, when it is in that section and no other; a room-marked Message is in `messages` or nowhere. The MCP tool `get_draught` serves the same. <!-- keel PR 270 -->
 - **[Sign in with OnlyWorlds](/docs/development/api/signin#disconnecting-a-tool): Disconnect also revokes the world keys a tool minted with its sign-in**, answered as `keys_revoked` beside `tokens_revoked`; keys minted by hand, on the site or by another tool stay. <!-- keel PR 267 -->
 - **[Members](/docs/development/api/members#guests): a guest sees a message addressed to their Character**, or to every member, by the message profile's addressing; any other Narrative's `characters` still grants nothing. <!-- keel PR 268 -->
 <!-- keel PR 269: no docs change (serial 74's source in keel: the distribution's README and the profiles' text) -->
