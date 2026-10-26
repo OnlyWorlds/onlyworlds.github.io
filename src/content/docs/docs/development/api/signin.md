@@ -90,7 +90,7 @@ The authorize page's refusals are pages, not API errors: see [Sending the person
 The Continue page appears once per account and tool. After that, the tool's sign-ins pass with no page until the consent ends, which happens in three ways:
 
 - **The tool's last token revoked.** Revoking a token a tool got through Sign in with OnlyWorlds, on the account page or with `DELETE /api/v2/account/tokens/{token_id}`, revokes that token only (since 2026-10-25). The consent ends when the person holds no other live token from that tool's sign-ins; then its next sign-in shows the Continue page again. So a tool can replace its token, signing in again and revoking the old one, without being asked again. The revoke a replayed code causes counts the same way.
-- **Disconnect.** The account page lists, under Tools you signed in to, every tool with a consent or a live token, with its count of live tokens and a Disconnect button. Disconnect revokes every live token the tool's sign-ins hold for the account and ends the consent; tokens minted by hand and other tools are untouched. With an account token it is `DELETE /api/v2/account/clients/{client_id}` ([below](#disconnecting-a-tool)).
+- **Disconnect.** The account page lists, under Tools you signed in to, every tool with a consent or a live token, with its count of live tokens and a Disconnect button. Disconnect revokes every live token the tool's sign-ins hold for the account and ends the consent, and every live world key the tool minted with those tokens (2026-10-26); tokens and keys minted by hand, on the site or by other tools are untouched. Revoking one token leaves the keys it minted. With an account token it is `DELETE /api/v2/account/clients/{client_id}` ([below](#disconnecting-a-tool)).
 - **A tool taken off the registry.** It loses every person's consent at the next deploy of onlyworlds.com. If it is ever listed again, each person is asked again.
 
 **A tool that asks each time.** The [Council](/docs/tools/council) and [Tactical Tangle](https://tangle.onlyworlds.com) need their token only to mint a world key, then revoke it, and the registry marks them as asking each time: any revoke of one of their tokens ends the consent, so a token left behind (a tab that closed first) never keeps it. They show the Continue page on every sign-in, and the page says so. The mark is the registry's own; `GET /api/v2/auth/clients` does not serve it.
@@ -105,10 +105,10 @@ curl -s -X DELETE "https://www.onlyworlds.com/api/v2/account/clients/atlas" \
 ```
 
 ```json
-{ "client_id": "atlas", "tokens_revoked": 2 }
+{ "client_id": "atlas", "tokens_revoked": 2, "keys_revoked": 1 }
 ```
 
-`200` with how many live tokens it revoked, `0` on a repeat: it is safe to send twice. `client_id` is the tool's `id` as [the registry](#registered-tools) lists it; one that cannot be an id (lowercase letters, digits and dashes, at most 40) is `422` [`invalid_request`](/api/errors/#invalid_request). The bearer may be one of the tool's own tokens, so a tool can disconnect itself: that token is revoked with the rest.
+`200` with how many live tokens and world keys it revoked, `0` and `0` on a repeat: it is safe to send twice. `client_id` is the tool's `id` as [the registry](#registered-tools) lists it; one that cannot be an id (lowercase letters, digits and dashes, at most 40) is `422` [`invalid_request`](/api/errors/#invalid_request). The bearer may be one of the tool's own tokens, so a tool can disconnect itself: that token is revoked with the rest.
 
 ## In the SDK
 

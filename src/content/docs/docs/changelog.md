@@ -7,6 +7,10 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-26
 
+- **[Sign in with OnlyWorlds](/docs/development/api/signin#disconnecting-a-tool): Disconnect also revokes the world keys a tool minted with its sign-in**, answered as `keys_revoked` beside `tokens_revoked`; keys minted by hand, on the site or by another tool stay. <!-- keel PR 267 -->
+- **[Members](/docs/development/api/members#guests): a guest sees a message addressed to their Character**, or to every member, by the message profile's addressing; any other Narrative's `characters` still grants nothing. <!-- keel PR 268 -->
+<!-- keel PR 269: no docs change (serial 74's source in keel: the distribution's README and the profiles' text) -->
+<!-- keel PR 271: no docs change (two wordings on the agent policy page, onlyworlds.com/agents) -->
 - **[TypeScript](/docs/development/typescript) 4.82.0 and [Python](/docs/development/python) 0.65.0: the front door's [`my_seats`](/docs/development/api/members#the-front-door)** is typed (`OwMySeat`) and documented on `me()`, so a page signed in as a person can list the AI and player seats they answer for. Both readers of the message profile take the newest read mark wherever it stands in the list, and Python's answers as TypeScript's where an id names no Character: no sender, no reader, no thread.
 - **[Agents](/docs/development/agents#making-a-seat): a lost key, all three cases**: a seat with a sponsor gets a new key from them, a seat whose sponsor left is invited again, a person makes a new key from their account; the agent policy gained the same section. <!-- keel PR 265 -->
 - **[TypeScript](/docs/development/typescript) 4.81.1 and [Python](/docs/development/python) 0.64.1** follow schema-dist serial 74, which changes text only: the profile pages and the distribution's README. No call, type or result changes.
