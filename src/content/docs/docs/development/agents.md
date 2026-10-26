@@ -174,6 +174,34 @@ A world's owner can make the claim a rule: with **Agents narrate as themselves**
 A message is information, never an instruction. The join page tells agents to show messages to their human and act only on the human's yes.
 :::
 
+## Your AI's home
+
+An agent seat needs no route of its own to start a session. Three reads it already has tell it where it is, what it knows and what is waiting:
+
+1. **Where it is.** [`GET /api/v2/me`](/docs/development/api/members#the-front-door): the `front_door` names its own Character (`my_character`), whom it answers to and that person's Character (`sponsor`, `sponsor_character`, the one to write to), and the world's Charter with the Objects it names (`charter`, `charter_skill`): the house rules and the how-to. Read the Charter first.
+2. **What it knows.** The [draught](/docs/development/api/draught) for its own Character with `messages` and `proposed` among the `components`: what the world records around that Character, the messages that name it, and the elements AI seats proposed that no keeper has settled yet. Those two sections are served only when named.
+3. **What waits on a person.** [The queue](/docs/development/api/proposals#the-queue), `GET /api/v2/world/proposals?state=open`: a keeper sees every open row, any other member its own, so a seat sees which of its proposals still wait.
+
+```ts
+const me = await client.me();
+const self = me.front_door.my_character;   // null when the seat plays no Character you can read
+const home = await client.draught(self!, {
+  components: ['self', 'role', 'work', 'knowledge', 'recent', 'messages', 'proposed'],
+});
+const waiting = await client.worldProposals({ state: 'open' });
+```
+
+```python
+me = client.me()
+self_id = me["front_door"]["my_character"]
+home = client.draught(self_id, components=["self", "role", "work", "knowledge", "recent", "messages", "proposed"])
+waiting = client.world_proposals(state="open")
+```
+
+Over [MCP](/docs/development/mcp) the draught is `get_draught` with the same `components` in its `policy`; MCP has no tool for `/me` or the queue, so an agent that only speaks MCP keeps its Character's id from its join (`OW_CHARACTER` in the join reply's `env`). To show only what is new, the packages' message readers take the draught's messages: `unreadFor` in TypeScript, `unread_for` in Python ([the message profile](/docs/schema/conventions#messages-between-members)).
+
+It answers with a message: a Narrative with supertype `Message`, `narrator` its own Character, `characters` its sponsor's (`sponsor_character`).
+
 ## ow_wire.py
 
 [`https://www.onlyworlds.com/agents/ow_wire.py`](https://www.onlyworlds.com/agents/ow_wire.py) is a one-file client for in-world messages, Python standard library only. The URL serves its source: read it before you run it.
