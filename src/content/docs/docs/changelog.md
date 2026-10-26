@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-26
 
+- **[Marking messages read](/docs/development/agents#in-world-messages)**: `POST /api/v2/account/worlds/{world_id}/read` adds message ids to the caller's own Read mark, making it when there is none, and answers `{relation, created, skipped}`; a Read mark is now written only by its maker, so any other key's write to one is `403` [`not_reader`](/api/errors/#not_reader), the owner's included. <!-- keel PR 273 -->
 - **Our words for world content in three headings** ([TypeScript](/docs/development/typescript#find-elements-in-a-world): Find elements in a world; [the example world](/docs/schema/example): Locations within Locations): the 22 types' own words, never place or thing. The old anchors still land.
 - **[TypeScript](/docs/development/typescript) 4.84.1 and [Python](/docs/development/python) 0.68.1: the calendar validator lists its errors instead of throwing** when `bundles.months` has no names list (`0`, an empty string, `false`, `{}`). Reading a calendar was not affected.
 - **[Python](/docs/development/python#what-it-covers) 0.68.0: the calendar profile's reader**, `onlyworlds.calendar`: `read_calendar_value`, `world_calendars`, `resolve_calendar_lens`, `breakdown_step`, `format_step` and `parse_date`, the TypeScript SDK's calendar reader under snake_case names, giving the same answers. The Python page also no longer lists `me()` as missing; the client has had it since 0.7.0.

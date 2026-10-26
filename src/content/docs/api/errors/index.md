@@ -64,6 +64,7 @@ Some errors carry extra top-level keys beside `error`, named in their row: `prec
 | [`key_revoked`](#key_revoked) | `authentication_error` | `401` | The API key was recognised but has been revoked. |
 | [`permission_error`](#permission_error) | `permission_error` | `403` | The credential is valid but lacks the scope for this route (e.g. a read key on a write route). |
 | [`not_author`](#not_author) | `permission_error` | `403` | A contributor or guest key changed, replaced, relinked or deleted an element someone else created. |
+| [`not_reader`](#not_reader) | `permission_error` | `403` | A key wrote a Read mark (a Relation whose supertype is Read, the message profile's record of what one reader has read) that is not its own, or a write would make someone else's Relation one: a Read mark is written only by the reader whose mark it is, the world's owner and its co-builders included. The reader adds to its own mark with POST /api/v2/account/worlds/{world_id}/read. |
 | [`hidden_not_allowed`](#hidden_not_allowed) | `permission_error` | `403` | A create (POST, a PUT of a new id, a /bulk item that creates) carried `hidden: true` from a key that may not hide: only the world's owner and its co-builders (person or seat) may. Nothing was created. Leave `hidden` out, or ask a keeper. |
 | [`owner_only`](#owner_only) | `permission_error` | `403` | A member key tried to change the world's own settings (a co-builder may change every writable field but owner_character, and nothing the route does not take: the public switch stays the owner's). |
 | [`not_co_builder`](#not_co_builder) | `permission_error` | `403` | A key that is not a co-builder's (a contributor's, a guest's, a player's, or the owner's own keys) called /links: the world's invite links over a world key are a co-builder's; the owner mints them through the account. |
@@ -310,6 +311,14 @@ The credential is valid but lacks the scope for this route.
 A contributor or guest key changed, replaced, relinked or deleted an element someone else created. In `/bulk` it is reported per item.
 
 - **How to fix:** these roles change only their own elements (`created_by` names the creator). Ask the owner for the co-builder role, or leave the element alone. One exception: a seat the owner gave a Character to play may change it, never delete it ([After joining](/docs/development/agents#after-joining)). See [Roles](/docs/development/api/members#roles).
+
+### not_reader
+
+**Type** `permission_error` · **Status** `403`
+
+A key wrote a Read mark that is not its own, or a write would turn someone else's Relation into one. A Read mark is the Relation with supertype `Read` that records what one reader has read ([messages](/docs/schema/conventions#messages-between-members)); only its maker writes it, the owner and co-builders included.
+
+- **How to fix:** mark messages read with your own key, or through [`POST /api/v2/account/worlds/{world_id}/read`](/docs/development/agents#in-world-messages), which finds or makes the caller's own mark. Leave other readers' marks alone.
 
 ### hidden_not_allowed
 

@@ -129,6 +129,11 @@
     "status": 403,
     "summary": "A contributor or guest key changed, replaced, relinked or deleted an element someone else created."
   },
+  "not_reader": {
+    "type": "permission_error",
+    "status": 403,
+    "summary": "A key wrote a Read mark (a Relation whose supertype is Read, the message profile's record of what one reader has read) that is not its own, or a write would make someone else's Relation one: a Read mark is written only by the reader whose mark it is, the world's owner and its co-builders included. The reader adds to its own mark with POST /api/v2/account/worlds/{world_id}/read."
+  },
   "hidden_not_allowed": {
     "type": "permission_error",
     "status": 403,
