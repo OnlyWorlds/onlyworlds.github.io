@@ -316,10 +316,10 @@ From 4.49.0 both follow the folder format's archive section (§4.7, the `.owworl
 A world's time is an integer line: the world's now (`time_range_current`) and an Event's `start_date` are points on it. A calendar names those points with months, days and eras. Atlas keeps a calendar on an element in its `atlas_calendar` field, and the SDK reads it with its calendar code, which Atlas uses too (since 4.20.0). Atlas owns that field: read it, never write it (the Python package's LegendKeeper import writes one from a source calendar, by Atlas's rules).
 
 ```typescript
-import { worldCalendars, resolveCalendarLens, formatStep, parseDate } from '@onlyworlds/sdk';
+import { worldCalendars, resolveCalendar, formatStep, parseDate } from '@onlyworlds/sdk';
 
 const calendars = worldCalendars(elements); // every element with a valid atlas_calendar
-const cal = resolveCalendarLens(elements, chosenId, { fallbackToOnly: true }); // one calendar: used
+const cal = resolveCalendar(elements, chosenId, { fallbackToOnly: true }); // one calendar: used
 if (cal) {
   formatStep(cal.config, 400);               // "4 Alturiak, 1 DR" (Harptos, from Atlas's tests)
   parseDate(cal.config, '4 Alturiak, 1 DR'); // { step: 400 }
@@ -391,7 +391,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.84.1, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.85.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
