@@ -328,6 +328,26 @@ No calendar, or a broken one, gives null: show the bare number.
 
 Since 4.76.0 the SDK reads the calendar profile's version 2: a leap day's rule can carry `except`, divisors that flip it in order, and `offset`, added to the year index before the rule (1 for a calendar with no year 0). Gregorian is `every_years: 4, except: [100, 400], offset: 1`. A reader that knows only version 1 gives null for a version-2 calendar, so it shows the bare number, never a wrong date. An era with no `end` runs to the next up era's start, whatever order the eras are listed in.
 
+## Messages
+
+Messages between members follow the [message profile](/docs/schema/conventions#messages-between-members) (since 4.80.0): who a message is for, whether its sender is proved, what is unread, and a thread.
+
+```typescript
+import { isMessage, isAddressedTo, senderStatus, readMarkOf, unreadFor } from '@onlyworlds/sdk';
+
+const messages = (await Array.fromAsync(client.listAll('narrative', { filter: { supertype: 'Message' } }))).filter(isMessage);
+const members = await client.members();
+const marks = await Array.fromAsync(client.listAll('relation', { filter: { supertype: 'Read' } }));
+const mark = readMarkOf(marks, myCharacter, members);   // only a mark in my own hand counts
+for (const m of unreadFor(messages, myCharacter, mark)) {
+  const { status, claimed, writtenBy } = senderStatus(m, members);
+  // 'verified': show the sender; 'mismatch': "claims to be from <claimed>, written by <writtenBy>'s key";
+  // 'unverifiable': "claims to be from <claimed>" (or "from nobody" when claimed is null)
+}
+```
+
+`isAddressedTo(m, id)` is true for a message to everyone (an empty `characters`); `threadOf(messages, rootId)` lists a thread in order.
+
 ## Errors
 
 Every non-2xx answer throws `OwApiError` with the platform's error envelope: `.status`, `.type`, `.code`, `.param` (the field that failed, or `API-Pin` when a PIN was refused) and `.docUrl`, which links to the code on [the errors page](/api/errors). Show `docUrl` to your users. Transport failures throw `OwNetworkError`. `err.isValidationError` covers the common case. A write sent with `ifMatch` that found the element moved throws `OwPreconditionFailedError` (412, `err.isPreconditionFailed`), an `OwApiError` that also carries `current`. `signInWithPassword` throws `OwSignInError` instead, which is not an `OwApiError`: its `reason` says why, `status` and `code` are keel's answer when one came back, and `retryAfter` comes with a rate limit.
@@ -367,7 +387,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.79.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.80.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 

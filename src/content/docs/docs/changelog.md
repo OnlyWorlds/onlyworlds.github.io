@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-26
 
+- **[Messages between members](/docs/schema/conventions#messages-between-members): the message profile** (schema-dist serials 72 and 73), the one definition of who a message is for (an empty `characters` is every member, so an inbox is not one filtered read), whether its sender is proved, what a reader has read and a thread. [TypeScript](/docs/development/typescript#messages) 4.80.0 and [Python](/docs/development/python) 0.63.0 carry the readers.
 - **[TypeScript](/docs/development/typescript) 4.79.0: `revokeWorldKey` takes `signal` and `keepalive`**, passed to `fetch`, so a page can revoke its key on Sign out and still close at once, with a time limit if it wants one.
 - **[TypeScript](/docs/development/typescript) 4.78.0: `revokeWorldKey(worldId, keyId)`** revokes a world key by the id `mintWorldKey` returned, so a tool that mints a key when someone signs in can revoke it when they sign out. A second revoke answers the same 204.
 - **[Python](/docs/development/python) 0.62.0: the World Anvil door keeps an uploaded portrait** as the element's `image_url`, names any picture it reads past, and links a field such as Birthplace that World Anvil gives as a place's name, when one element has that name. Read on a real World Anvil page.
