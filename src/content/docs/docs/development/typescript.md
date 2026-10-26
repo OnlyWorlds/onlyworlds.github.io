@@ -339,7 +339,7 @@ const messages = (await Array.fromAsync(client.listAll('narrative', { filter: { 
 const members = await client.members();
 const marks = await Array.fromAsync(client.listAll('relation', { filter: { supertype: 'Read' } }));
 const mark = readMarkOf(marks, myCharacter, members);   // only a mark in my own hand counts
-for (const m of unreadFor(messages, myCharacter, mark)) {
+for (const m of unreadFor(messages, myCharacter, mark, members)) {   // members: only a verified sender makes a message mine
   const { status, claimed, writtenBy } = senderStatus(m, members);
   // 'verified': show the sender; 'mismatch': "claims to be from <claimed>, written by <writtenBy>'s key";
   // 'unverifiable': "claims to be from <claimed>" (or "from nobody" when claimed is null)
@@ -389,7 +389,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.83.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.84.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
