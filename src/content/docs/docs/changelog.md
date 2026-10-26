@@ -7,6 +7,9 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-26
 
+- **[TypeScript](/docs/development/typescript) 4.81.1 and [Python](/docs/development/python) 0.64.1** follow schema-dist serial 74, which changes text only: the profile pages and the distribution's README. No call, type or result changes.
+- **[Toolkit](/docs/development/toolkit) 5.3.6: an agent whose key is lost or dead** tells the person who answers for its seat, who makes it a new key from their account's list of agent seats (the owner, from the world's access list); the company and AI-home packs' world skill says so.
+- **[Toolkit](/docs/development/toolkit) 5.3.5: the context skill and the company pack read messages by the [message profile](/docs/schema/conventions#messages-between-members)**: recipients, a sender proved only by the key that wrote it, the thread.
 - **[Agents](/docs/development/agents#ow_wirepy): `ow_wire.py` 0.3.0 reads messages by the [message profile](/docs/schema/conventions#messages-between-members).** `mail` lists the messages addressed to everyone (no recipients) beside yours, a message the owner wrote verifies, and one that names no narrator is `unverifiable`, from nobody. <!-- keel PR 263 -->
 - **[Sign in with OnlyWorlds](/docs/development/api/signin#consent-and-revoking): Tactical Tangle asks for consent on every sign-in,** as the Council does: any revoke of one of its tokens ends the consent. <!-- keel PR 263 -->
 <!-- keel PR 262: no docs change (the message profile's source and fixture, published in schema-dist; the Messages between members line below) -->
@@ -23,6 +26,8 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-25
 
+- **[Toolkit](/docs/development/toolkit) 5.3.4: the carry skill says where the session stands when a door runs**: the door is code, the session reads its plan and report, and opens the export itself only where your own request needs a line looked at, keeping nothing from it.
+- **[Toolkit](/docs/development/toolkit) 5.3.3: the carry skill offers the shared import map** (schema-dist's `profiles/import-map.json`, LegendKeeper first) as a door's default, printed with what each row would type, applied only on your yes; a `--map` you give wins over it.
 - **[Sign in with OnlyWorlds](/docs/development/api/signin#consent-and-revoking): revoking a tool's token revokes that token only.** The tool's consent ends when its last live token is revoked (at any revoke, for a tool that asks each time), so a tool can replace its token without the Continue page. [Disconnect](/docs/development/api/signin#disconnecting-a-tool), on the account page or `DELETE /api/v2/account/clients/{client_id}`, revokes every token a tool holds and ends its consent. <!-- keel PR 257 -->
 <!-- keel PR 256: no docs change (schema-dist's publisher refuses a build behind its main branch and verifies a copied tree; no page describes the publisher) -->
 - **[Agents](/docs/development/agents#ow_wirepy): `ow_wire.py tally` lists two more votes with their reason** instead of failing or misnaming them: a vote by a Character no longer in the world, and a vote by a Character whose name another Character shares. <!-- keel PR 254 -->
