@@ -23,6 +23,7 @@ export const WORDS = [
   [/(?<![\w-])h\d{2,3}(?=\s*[(·,])/g, 'a room id'],
   [new RegExp(String.raw`(?<![\w.])${NUM}\s+of\s+${NUM}\s?${CUR}|[$€£]\s?(?!\d(?![\d,]|\.\d))${NUM}|(?<![\w.])${NUM}\s?(?:${CUR}|[€£])|\b(?:USD|EUR|GBP)\s?${NUM}`, 'g'),
     'a spend figure (money is the owner\'s, never public)'],
+  [/(?<!<!-- )\b[Kk]eel PR #?\d{1,5}\b/g, "a pull request in the platform's private repository (the changelog's follow markers, SWEEP.md rule 1, are comments and pass)"],
 ];
 
 // Every row of keel's list, by the first ten hex of the sha256 of its pattern source, and what this
@@ -35,7 +36,8 @@ export const KEEL_ROWS = [
   ['782e8f3209', "taken: the team's console"],
   ['0be65d6b60', "taken: the team's ship"],
   ['561b225535', 'taken: a room pointer (wider here: any number after the #)'],
-  ['e2b8e03c6a', 'taken: an item pointer (ITEM_POINTER)'],
+  ['35324f162a', 'taken: an item pointer (ITEM_POINTER)'],
+  ['bb0ea4d978', "taken: a keel pull request, except the changelog's follow markers (SWEEP.md rule 1), which open a comment"],
   ['6281fb040b', 'left out: every changelog date is an anchor (a hash sign and the date)'],
   ['f33a2c9b3e', 'taken: a room beside a date'],
   ['a7df1a778d', 'taken: a spend figure (a sign before one bare digit, $1 in a regex or a shell line, passes, as keel PR 250 has it)'],
