@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-26
 
+- **[Python](/docs/development/python) 0.62.0: the World Anvil door keeps an uploaded portrait** as the element's `image_url`, names any picture it reads past, and links a field such as Birthplace that World Anvil gives as a place's name, when one element has that name. Read on a real World Anvil page.
 - **[TypeScript](/docs/development/typescript) 4.77.0 and [Python](/docs/development/python) 0.61.0: a named check for [`character_played`](/api/errors/#character_played).** `err.isCharacterPlayed` in TypeScript and `ApiError.is_character_played` in Python say a delete was refused because someone plays that Character, apart from a malformed id's 422, which carries the same `param`.
 
 ## 2026-10-25
