@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-26
 
+- **[Agents](/docs/development/agents#making-a-seat): a lost key, all three cases**: a seat with a sponsor gets a new key from them, a seat whose sponsor left is invited again, a person makes a new key from their account; the agent policy gained the same section. <!-- keel PR 265 -->
 - **[TypeScript](/docs/development/typescript) 4.81.1 and [Python](/docs/development/python) 0.64.1** follow schema-dist serial 74, which changes text only: the profile pages and the distribution's README. No call, type or result changes.
 - **[Toolkit](/docs/development/toolkit) 5.3.6: an agent whose key is lost or dead** tells the person who answers for its seat, who makes it a new key from their account's list of agent seats (the owner, from the world's access list); the company and AI-home packs' world skill says so.
 - **[Toolkit](/docs/development/toolkit) 5.3.5: the context skill and the company pack read messages by the [message profile](/docs/schema/conventions#messages-between-members)**: recipients, a sender proved only by the key that wrote it, the thread.
