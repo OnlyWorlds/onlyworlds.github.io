@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 // verify-public-words.mjs: the built site carries none of the crew's own words. From 2026-10-24
 // (the founder's ruling: avoid it from now on, no scrub of what was out) public text names no room
-// pointer (h58 #11968), no item pointer (keel #571, OW Infra #666: the server's repository is
-// private, a stranger cannot follow them), no Captain, Deck or Carrier, no bay, no crew email: a
+// pointer, no item pointer (the server's repository is private, a stranger cannot follow
+// them), no founder's title, no name of the team's console or ship, no bay, no crew email: a
 // ruling says what it rules and when. A pointer is replaced by what it was there to say, usually
-// the date the thing shipped. "Captain" followed by a capitalised name is a character (Moppetopia's Captain
-// Snoot) and passes. Reads dist/, so it runs after a build, in `npm run verify`.
+// the date the thing shipped. The founder's title followed by a capitalised name is a character
+// and passes. Reads dist/, so it runs after a build, in `npm run verify`.
 import { readdirSync, readFileSync, statSync, existsSync } from 'node:fs';
 import { join, dirname, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
