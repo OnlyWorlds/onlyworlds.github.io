@@ -122,6 +122,43 @@ In `voice`, a Working style dated after `as_of` leaves `style` empty even when a
 
 Two list filters came with the draught, on every category: `ids=` (up to 200 ids, one call for the elements a packet names) and `created_by=` (what one member created). See [Filters](/docs/development/api/reads#filters).
 
+## As text
+
+Both packages turn a packet into plain text to paste into a prompt or a note: `draughtText(draught)` in the [TypeScript SDK](/docs/development/typescript) from 4.86.0, `draught_text(draught)` in [Python](/docs/development/python) from 0.70.0. The two give the same bytes for the same packet, full or compact, and are held to it by one shared set of cases. The text reads the packet alone and looks nothing up: a link to an element the packet does not hold is counted as "not in this draught".
+
+An excerpt of the real text for Admiral Fluffington at Year 300 on the demo world Moppetopia. Square brackets mark the cuts, and the two Names rows' descriptions are left out here:
+
+```
+# Admiral Fluffington, in Moppetopia
+What the record holds around Admiral Fluffington, dated up to Year 300 (the world's now: Year 453). Read as the Character's own view.
+
+## Admiral Fluffington
+Character · Military / Admiral
+  [the description and twelve more fields]
+  rivals: Captain Snoot
+
+## Names
+- We Sail Where the Puddles Flow (Construct · Society / Tradition) · via characters · undated
+- Year Zero Anniversary (Construct · Society / Ritual) · via characters · Year 250
+
+## Sheet
+- Puddleton (Location · Settlement / City) · via birthplace · known of
+  Capital city of moppet civilization. A water-based metropolis built around the Eternal Drip.
+- USS Fuzzball (Object · Vessel / Naval) · via objects · known of
+  Flagship of the Puddle Navy commanded by Admiral Fluffington.
+  [nine more rows]
+
+## Members
+- owner
+- co_builder · Atlas seat · plays a Character not in this draught · removed
+
+Nothing in: role, work, style, events, knowledge, recent.
+
+Left out by the budget: nothing.
+```
+
+The title says what the record holds up to the [horizon](#the-horizon), never what the Character knew: rows dated after it are not in the packet, so the text does not count them. The last line counts only what the budget dropped (`cut`). Every row says how it was reached (`via`), its grade or date, and the marks hidden and proposed. One difference between a full and a compact read: the compact packet drops an empty `x_review_proposed` (`""`, `[]`, `{}`), which the full packet counts as proposed.
+
 ## MCP and the SDKs
 
 - **[MCP server](/docs/development/mcp):** `get_draught` takes `id` and `policy`, one JSON object with the same keys, and answers the same packet. It also takes `compact` as an argument of its own, true unless the caller says false, so it serves the [compact](#compact) packet by default; a `compact` inside `policy` wins when both are sent.
