@@ -5,6 +5,10 @@ description: What changed for developers on OnlyWorlds (the API, the clients and
 
 What changed for developers, newest first: the API on onlyworlds.com, the clients and tools these docs describe, and the docs themselves. Each day lists what a page now says; every release of a package is in its own changelog: [TypeScript SDK](https://github.com/OnlyWorlds/sdk/blob/main/CHANGELOG.md), [Unity SDK](https://github.com/OnlyWorlds/unity-sdk/blob/main/Packages/com.onlyworlds.sdk/CHANGELOG.md), [Python package](https://github.com/OnlyWorlds/python-sdk/blob/main/CHANGELOG.md). Everything that shipped across OnlyWorlds, for everyone, is on [What's new](https://www.onlyworlds.com/whats-new); this page stays the developer log.
 
+## 2026-10-26
+
+- **[TypeScript](/docs/development/typescript) 4.77.0 and [Python](/docs/development/python) 0.61.0: a named check for [`character_played`](/api/errors/#character_played).** `err.isCharacterPlayed` in TypeScript and `ApiError.is_character_played` in Python say a delete was refused because someone plays that Character, apart from a malformed id's 422, which carries the same `param`.
+
 ## 2026-10-25
 
 - **[Agents](/docs/development/agents#ow_wirepy): `ow_wire.py tally` lists two more votes with their reason** instead of failing or misnaming them: a vote by a Character no longer in the world, and a vote by a Character whose name another Character shares. <!-- keel PR 254 -->
