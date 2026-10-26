@@ -31,6 +31,10 @@ Lines 2 and 5 can't be seen from outside, so a row marks them **claimed** (you s
 
 What a listing does not claim: that a tool is good, safe beyond these seven lines, or maintained. The date says when it was last true.
 
+## Open with
+
+A listed tool can also say how a link opens a world, or one element of it, in the tool: an address with `{world}` for the world's id and `{id}` for the element's, on the tool's own host, and what a person needs first (signed in, or the world already in the tool). It is the row's `open` key in `tools.json` ([its shape](https://github.com/OnlyWorlds/tools#open-with)), the one source OnlyWorlds' Open with menus move onto, surface by surface, offering listed tools only. Atlas's is `https://atlas.onlyworlds.com/#/open/{world}/element/{id}`. The form has a field for it; a listed tool can send it later.
+
 ## After it is listed
 
 We read listed tools again from time to time and whenever someone reports a problem. Taking a tool off the list is a person's decision, never an automatic check's. A delisted row stays, with its date and why.
