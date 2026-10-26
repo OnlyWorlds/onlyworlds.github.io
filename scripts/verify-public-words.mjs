@@ -11,7 +11,7 @@ import { join, dirname, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 // The list itself lives in public-words.mjs, shared with other public pages' checks. The item
 // pointer is checked everywhere except where listed below.
-import { WORDS, ITEM_POINTER } from './public-words.mjs';
+import { WORDS, ITEM_POINTER, teamWords } from './public-words.mjs';
 
 const DIST = join(dirname(fileURLToPath(import.meta.url)), '..', 'dist');
 
@@ -19,10 +19,9 @@ const DIST = join(dirname(fileURLToPath(import.meta.url)), '..', 'dist');
 // `from` null: the whole file is exempt; a string: exempt from the first occurrence of that
 // marker to the end of the file (the text above it is still checked). A marker that is missing
 // is a CANNOT SEE, never a silent pass. Nothing else is exempt: add a path here only with a reason.
-const ITEM_EXEMPT = [
-  { why: 'the changelog is the dated record and is kept as it was written. It is exempted whole: an entry of 2026-10-24 (before the ruling reached it) still carries one, and a date cut-off would refuse that line',
-    files: [['docs/changelog.html', null], ['docs/changelog.md', null]] },
-];
+// None since 2026-10-26: the changelog's item pointers were taken out with the rest (Titus's word that
+// public pages point into no private tracker), so it is checked like every page.
+const ITEM_EXEMPT = [];
 // The aggregate text files repeat every page, with their own line breaks and link syntax; a pointer
 // in one is exempt only when the same pointer, with up to 24 letters and digits before it on its line, sits in an
 // exempt region of a page above (compared with punctuation, spacing and link targets taken out).
@@ -66,6 +65,10 @@ for (const f of files) {
       bad++;
       if (bad <= 20) console.log(`  FOUND  ${relative(DIST, f)}: ${what}: "${text.slice(Math.max(0, m.index - 30), m.index + m[0].length + 20).replace(/\s+/g, ' ')}"`);
     }
+  }
+  for (const { index, length, what } of teamWords(text)) {
+    bad++;
+    if (bad <= 20) console.log(`  FOUND  ${relative(DIST, f)}: ${what}: "${text.slice(Math.max(0, index - 30), index + length + 20).replace(/\s+/g, ' ')}"`);
   }
 }
 if (bad) { console.log(`FAIL: ${bad} crew word(s) or item pointer(s) in the built site`); process.exit(1); }

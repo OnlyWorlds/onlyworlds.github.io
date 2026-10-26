@@ -12,15 +12,13 @@
 // after `#`, since every changelog date is an anchor (`#2026-10-08`). Its repository-address and
 // two room-id rows were taken on 2026-10-25 (0 hits over the built site). KEEL_ROWS below holds
 // the account, row by row.
+import { createHash } from 'node:crypto';
+
 const NUM = String.raw`\d+(?:,\d{3})*(?:\.\d+)?`;
 const CUR = String.raw`(?:USD|EUR|GBP|[Dd][Oo][Ll][Ll][Aa][Rr][Ss]?|[Ee][Uu][Rr][Oo][Ss]?)\b`;
 
 export const WORDS = [
   [/\bh\d{1,3} #\d+/g, 'a room pointer'],
-  [/\b(?:the )?Captain\b(?! [A-Z][a-z])/g, 'Captain'],
-  [/\b(?:the Deck|Carrier)\b/g, 'the crew\'s ship'],
-  [/\b(?:Armature|Orrery|Hangar|Hatchery|Assembly bay|Forge bay)\b/g, 'a bay name'],
-  [/allthecarriercrew/g, 'the crew email'],
   [/github\.com\/tmoosting\b/g, "the founder's own repository address (the organisation's, or nothing)"],
   [/\bh\d{1,3}(?= \d{4}-\d{2}-\d{2})/g, 'a room beside a date'],
   [/(?<![\w-])h\d{2,3}(?=\s*[(·,])/g, 'a room id'],
@@ -51,3 +49,36 @@ export const KEEL_ROWS = [
 
 // An item pointer: a tracker's name and a number, with the numbers that follow it in a list.
 export const ITEM_POINTER = [/\b(?:[Kk]eel|OW [A-Z][a-z]+|Council|Spine|Porch|Infra|Collab|Journey|Story|Industry|Market|Parlor|Sikelia|Constellation|Rapid Deploys|items?) #\d{1,5}\b(?:(?:,|,? and|,? or) #\d{1,5}\b)*/g, 'an item pointer'];
+
+// The team's own words, held as the first 12 hex of each word's sha256, so this list does not publish
+// what it refuses (2026-10-26; the npm and Python packages hold the same rows). A row is one word, or
+// two ("the" before it, or "bay" after it). "Captain" followed by a capitalised name is a character
+// (Moppetopia's Captain Snoot) and passes.
+const TEAM_WORDS = new Map([
+  ['2e786c488b83', 'Captain'],
+  ['9dd2ca99ffc9', "the crew's ship"],
+  ['271c535631ff', "the crew's ship"],
+  ['4340fc2d9418', 'the crew email'],
+  ...['d97084040035', 'b372644b8fec', '0c6874e447ef', '66ada4d485d7', '40f62620904e', '11f5dda40f92'].map((h) => [h, 'a bay name']),
+]);
+const hash12 = (w) => createHash('sha256').update(w).digest('hex').slice(0, 12);
+
+// Every team word in a text: [{ index, length, what }].
+export function teamWords(text) {
+  const out = [];
+  const tokens = [...text.matchAll(/[A-Za-z][A-Za-z0-9]*/g)];
+  tokens.forEach((m, i) => {
+    const prev = tokens[i - 1];
+    const next = tokens[i + 1];
+    const tries = [[m.index, m[0]]];
+    if (prev && prev[0] === 'the' && text.slice(prev.index + 3, m.index) === ' ') tries.push([prev.index, `the ${m[0]}`]);
+    if (next && next[0] === 'bay' && text.slice(m.index + m[0].length, next.index) === ' ') tries.push([m.index, `${m[0]} bay`]);
+    for (const [index, w] of tries) {
+      const what = TEAM_WORDS.get(hash12(w));
+      if (!what) continue;
+      if (what === 'Captain' && /^ [A-Z][a-z]/.test(text.slice(m.index + m[0].length, m.index + m[0].length + 3))) continue;
+      out.push({ index, length: w.length, what });
+    }
+  });
+  return out;
+}
