@@ -92,5 +92,9 @@ Two more mark work on a world:
 - **[`x_packet_*`](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/packet.md)**: a packet of work about a world, a Relation with supertype `Work item` listing elements with a reason each (`x_packet_elements`), the world they belong to (`x_packet_source`) and the tool that made it (`x_packet_producer`); the Relation's own link fields carry the same elements, and the subtype is its state (`open`, `taken`, `done`). The [Python doctor](/docs/development/python#check-a-world)'s `--packet` prints its findings in this shape.
 - **[`x_review_*`](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/review.md)**: two marks on any element. `x_review_proposed` (`by`, `evidence`, `expires`) on a new element written as proposed, shown apart from settled elements until a keeper acts; `x_review_checked` (`by`, `at`, `against`) records who last confirmed it true, when, and against what. A proposed change to an existing element is a [proposal](/docs/development/api/proposals) beside it, not this mark.
 
+One more is not a field at all, but a table a door reads when it brings a world in from another tool:
+
+- **[The import map](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/import-map.md)** (serial 67): for each source tool, the words its users write for their own categories, each mapped to one of the 22 types (`city` to Location, `organization` to Institution). LegendKeeper's table is the first. A door offers the table and applies it only on the user's yes; it never types anything silently. The [Python package](/docs/development/python)'s LegendKeeper door reads it since 0.58.0.
+
 A new profile's field is named `x_<profile>_<field>`.
 
