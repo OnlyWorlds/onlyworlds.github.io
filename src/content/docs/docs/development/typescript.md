@@ -346,7 +346,7 @@ for (const m of unreadFor(messages, myCharacter, mark)) {
 }
 ```
 
-`isAddressedTo(m, id)` is true for a message to everyone (an empty `characters`); `threadOf(messages, rootId)` lists a thread in order.
+`isAddressedTo(m, id)` is true for a message to everyone (an empty `characters`), and `isToEveryone(m)` (since 4.81.0) asks only that; `threadOf(messages, rootId)` lists a thread in order.
 
 ## Errors
 
@@ -387,7 +387,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.80.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.81.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
