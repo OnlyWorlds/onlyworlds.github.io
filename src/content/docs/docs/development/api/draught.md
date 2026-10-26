@@ -150,14 +150,15 @@ Character · Military / Admiral
 
 ## Members
 - owner
-- co_builder · Atlas seat · plays a Character not in this draught · removed
+- co_builder · Atlas seat · plays a Character not in this draught · removed from the world
 
 Nothing in: role, work, style, events, knowledge, recent.
 
+Not listed: rows dated after Year 300.
 Left out by the budget: nothing.
 ```
 
-The title says what the record holds up to the [horizon](#the-horizon), never what the Character knew: rows dated after it are not in the packet, so the text does not count them. The last line counts only what the budget dropped (`cut`). Every row says how it was reached (`via`), its grade or date, and the marks hidden and proposed. One difference between a full and a compact read: the compact packet drops an empty `x_review_proposed` (`""`, `[]`, `{}`), which the full packet counts as proposed.
+The title says what the record holds up to the [horizon](#the-horizon), never what the Character knew. From 4.87.0 and 0.71.0 a `Not listed` line names what the horizon left out: every row dated after it in the Character's own view (`voice`), or only Events, Knowledge and proposed Events or Narratives in the caller's (`act`). The packet does not count those rows, so the line gives no number. The last line counts only what the budget dropped (`cut`). Every row says how it was reached (`via`), its grade or date, and the marks hidden and proposed. One difference between a full and a compact read: the compact packet drops an empty `x_review_proposed` (`""`, `[]`, `{}`), which the full packet counts as proposed.
 
 ## MCP and the SDKs
 
