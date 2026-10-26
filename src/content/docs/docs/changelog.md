@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-26
 
+- **[TypeScript](/docs/development/typescript) 4.83.0 and [Python](/docs/development/python) 0.66.0: the [review profile](/docs/schema/conventions)'s readers.** `proposedMarkOf` / `proposed_mark_of` give a proposed element's mark as a viewer shows it (who proposed it, when it lapses, whether it has), and `handsOnAsProposed` / `hands_on_as_proposed` say what a reader that hands a world on leaves out, a malformed mark included.
 - **[TypeScript](/docs/development/typescript) 4.82.1 and [Python](/docs/development/python) 0.65.1: `draught()`'s words follow [the draught](/docs/development/api/draught#compact)'s compact bodies and where a Message lands.** No call, type or result changed.
 - **[The draught](/docs/development/api/draught#compact): `compact` also leaves out each element body's empty fields** (`id`, `type` and `name` always stay), and **a Message is placed by the ordinary Narrative rules unless `messages` is named**, when it is in that section and no other; a room-marked Message is in `messages` or nowhere. The MCP tool `get_draught` serves the same. <!-- keel PR 270 -->
 - **[Sign in with OnlyWorlds](/docs/development/api/signin#disconnecting-a-tool): Disconnect also revokes the world keys a tool minted with its sign-in**, answered as `keys_revoked` beside `tokens_revoked`; keys minted by hand, on the site or by another tool stay. <!-- keel PR 267 -->
