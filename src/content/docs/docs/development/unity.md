@@ -5,7 +5,7 @@ description: "The OnlyWorlds Unity SDK: typed C# models for the 22 element types
 
 `com.onlyworlds.sdk` reads and writes OnlyWorlds worlds from Unity, on [onlyworlds.com](https://www.onlyworlds.com) or in a world folder on disk. For what that gives a game, see [Games](/docs/development/games). It has three parts:
 
-| Part | Assembly | What it is |
+| Part | C# assembly | What it is |
 |---|---|---|
 | **Bridge** | `OnlyWorlds.Sdk` | Typed models for the 22 element types, a client for the REST API v2, and sync from the changes feed. This is what game code links against. |
 | **Cache** | `OnlyWorlds.Sdk` | A world as a `ScriptableObject` asset: inspectable, offline, and kept across domain reloads. Filled from the API or from a world folder on disk. |

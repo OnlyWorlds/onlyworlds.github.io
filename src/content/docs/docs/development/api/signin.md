@@ -26,7 +26,7 @@ curl -s "https://www.onlyworlds.com/api/v2/auth/clients"
 | `name` | The tool's name, as the Continue page and the token's name show it |
 | `redirect_uris` | The exact return addresses: a `redirect_uri` must equal one of them byte for byte |
 
-The answer is sent `Cache-Control: public, max-age=60`, so a removed address stops being served within a minute. The list is kept by OnlyWorlds; no route adds to it. Every return address is `https://`. Tools that run on your own machine with a loopback address (`http://127.0.0.1`) are a later kind of client, not registered yet.
+The answer is sent `Cache-Control: public, max-age=60`, so a removed address stops being served within a minute. The list is kept by OnlyWorlds; no route adds to it. Every return address is `https://`. Tools that run on your own machine with a loopback address are a later kind of client, not registered yet.
 
 ## Sending the person to sign in
 
