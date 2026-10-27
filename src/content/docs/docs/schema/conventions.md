@@ -97,6 +97,8 @@ A lens is a saved way of reading a world: which elements, how far from a startin
 
 The TypeScript and Python SDKs read a lens over a world snapshot (`resolveLens`, `resolve_lens`).
 
+**A world as a graph** (the profile's graph section): the elements a reader sees are the nodes, and each link between them is an edge, one per link field and target. A link held on both ends is two edges, and a Relation is a node with an edge to each party. Room elements, hidden and proposed elements, and map space (Maps, Pins, Markers, Zones) are left out unless the reader asks for each by name. `hidden` and `proposed` are the owner's alone, and a public reader asks for nothing. With a lens, the nodes are exactly what the lens kept, and no flag adds to them. A link to an element that is not a node is counted by the reason it is not there, never dropped silently. `outside_lens` counts a link from a kept element to one the reader can see but the lens did not reach, so a tool can draw "3 more links" at the lens's edge. The SDKs read it as `worldGraph` and `world_graph`.
+
 **On the API**, the server reads the same profile:
 
 - `GET /api/v2/world/{world_id}/lenses` lists every lens in the world you can see, templates marked, each with its recipe filled in, the Titles it is the default for and whether you chose it. With `resolve=true` it adds each lens's reading for you: the kept rows, the cut by reason, the mail part. The owner may read as another reader with `read_as` (`guest`, `contributor`, `co-builder`, `public`, or a membership id). Never keyless. SDK `worldLenses`, Python `world_lenses`.

@@ -355,6 +355,15 @@ const link = elementAddress({ form: 'human', world: worldId, type: 'character', 
 
 Since 4.91.0 the [lens profile](/docs/schema/conventions#lenses) has its reader: `resolveLens(world, lens, reader, { asOf, clock })` reads a world snapshot through a lens for one reader and returns the kept elements in order, the cut counted by reason, and the mail part when the lens names one; it never writes. `isLens(el)` and `isTemplate(el)` say what an element is; `lensesInUse(membership, xLensUses)` gives a seat's chosen lenses (the membership's choice first, else a folder Character's `x_lens_uses`). The reading's date is `asOf`, else the world's own now; the mail rule's thirty days run on `clock`, the wall clock.
 
+Since 4.93.0 the profile's graph section has its reader: `worldGraph(world, reader, options)` reads the same snapshot, for the same reader, as nodes and edges. It returns `nodes` (`{ id, type, name, family, icon }`, by id), `edges` (`{ source, field, target, index }`, one per link), `edgesCut` (links to elements that are not nodes, counted by reason), `cut`, and `unreadable` (the `x_lens` key a lens could not be read by, else null). Room elements, hidden and proposed elements, and map space are left out unless `rooms`, `hidden`, `proposed` or `mapSpace` brings them back. `hidden` and `proposed` are the owner's alone, and a public reader takes no flag: a refused flag throws, naming it, before anything is read. With `{ lens }` the nodes are exactly what the lens kept, and `outside_lens` counts the links from them to elements the reader sees but the lens did not reach.
+
+```typescript
+import { worldGraph } from '@onlyworlds/sdk';
+
+const g = worldGraph({ elements }, { rung: 'owner' }, { rooms: true });
+g.nodes; g.edges; g.edgesCut; // e.g. { map_space: 2, hidden: 1 }
+```
+
 ## Messages
 
 Messages between members follow the [message profile](/docs/schema/conventions#messages-between-members) (since 4.80.0): who a message is for, whether its sender is proved, what is unread, and a thread.
