@@ -358,10 +358,11 @@ Since 4.91.0 the [lens profile](/docs/schema/conventions#lenses) has its reader:
 Since 4.93.0 the profile's graph section has its reader: `worldGraph(world, reader, options)` reads the same snapshot, for the same reader, as nodes and edges. It returns `nodes` (`{ id, type, name, family, icon }`, by id), `edges` (`{ source, field, target, index }`, one per link), `edgesCut` (links to elements that are not nodes, counted by reason), `cut`, and `unreadable` (the `x_lens` key a lens could not be read by, else null). Room elements, hidden and proposed elements, and map space are left out unless `rooms`, `hidden`, `proposed` or `mapSpace` brings them back. `hidden` and `proposed` are the owner's alone, and a public reader takes no flag: a refused flag throws, naming it, before anything is read. With `{ lens }` the nodes are exactly what the lens kept, and `outside_lens` counts the links from them to elements the reader sees but the lens did not reach.
 
 ```typescript
-import { worldGraph } from '@onlyworlds/sdk';
+import { degreeOf, worldGraph } from '@onlyworlds/sdk';
 
 const g = worldGraph({ elements }, { rung: 'owner' }, { rooms: true });
 g.nodes; g.edges; g.edgesCut; // e.g. { map_space: 2, hidden: 1 }
+degreeOf(g); // since 4.95.0: each node's edges, in or out, { [id]: count }
 ```
 
 ## Messages
@@ -427,7 +428,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.94.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.95.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
