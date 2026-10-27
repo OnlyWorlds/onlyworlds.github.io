@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-27
 
+- **[TypeScript](/docs/development/typescript#messages) 4.89.1 and [Python](/docs/development/python) 0.73.1**: a Character's line (`noteOf`, `note_of`) leaves out a Note carrying any hidden mark, as every other reader does (it read only `true`).
 - **[TypeScript](/docs/development/typescript#addresses) 4.89.0 and [Python](/docs/development/python) 0.73.0: [addresses](/docs/schema/conventions#addresses).** `parseOwLink` and `elementAddress` (`parse_ow_link`, `element_address`) read and write an element's link in its three spellings, with a moment and a lens, refusing by the profile's reasons.
 - **[TypeScript](/docs/development/typescript#a-world-on-the-account) 4.88.0: an account token, or no key, reads the world it names.** `new OwV2Client({ apiKey, world })`: `list`, `listAll`, `get` and `getWorld` read with `world=<id>`, every other world call a `TypeError` before sending; a `signal` on those reads; `isRateLimited` and `isServedTrimmedNotWritable`.
 - **[TypeScript](/docs/development/typescript#messages) 4.88.0 and [Python](/docs/development/python) 0.72.0: [the message profile at serial 76](/docs/schema/conventions#messages-between-members)**: a list trimmed for its reader (unseen recipients, an unseen sender, never "to everyone" without a key), `editedBy`, and Notes, which are never messages. <!-- keel PR 281 -->
