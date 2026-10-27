@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-27
 
+<!-- keel PR 300: no docs change (an unlisted page's engine) -->
 - **[Worlds](/docs/schema/worlds#timeline-examples): the fantasy calendar example fixed.** It counted its now in years while its basic unit is the Sun; it now shows the Suns, and its step equivalents.
 - **[Getting started](/docs/getting-started) names every key kind in one table** (what each reads, what each writes), and [Keys and PINs](/docs/getting-started/keys) corrects the 10-digit key: its reads need the PIN when the world has one, whether the world is open to the public or not; only the demo keys read with the key alone.
 - **[TypeScript](/docs/development/typescript#lenses) 4.96.1 and [Python](/docs/development/python) 0.79.1: the lens and graph readers read the world's now as the API serves it** (`time_range_current`, beside a folder's `time_current`), so a World body passed straight from `GET /world` fences a lens as it should.
