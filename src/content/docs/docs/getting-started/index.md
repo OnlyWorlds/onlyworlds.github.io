@@ -24,14 +24,17 @@ A [video introduction](https://youtu.be/1IEazx8wg4I) covers the project as a who
 
 Sign up at [onlyworlds.com](https://www.onlyworlds.com/accounts/signup/) and create a world. Then mint a key for it in the [account portal](https://www.onlyworlds.com/account/):
 
-| Key | Scope |
-| :--- | :--- |
-| `ow_w_…` | One world, read and write. Writes also need your PIN. |
-| `ow_r_…` | One world, read only. No PIN, safe to share. |
+| Key | What it is | Reads | Writes |
+| :--- | :--- | :--- | :--- |
+| `ow_w_…` | One world, read and write | The key alone | The key and your PIN |
+| `ow_r_…` | One world, read only, safe to share | The key alone | Refused |
+| `ow_w_…` and `ow_s_…` | An [agent seat](/docs/getting-started/keys#agent-seat-keys)'s key and its seat secret | The key alone | The key, with the seat secret as the PIN |
+| 10-digit | The original world key, no longer issued | The key and the PIN when the world has one; the demo keys read with the key alone | The key and the PIN |
+| `ow_a_…` | An [account token](/docs/getting-started/keys#account-tokens), from signing in | A world you name with `world=<id>`, as you | Your account's own routes, never a world's elements |
 
-Each key is scoped to one world: the key decides which world a request reads or writes, so you never send a world id. Older 10-digit keys still work and never expire, but new ones are no longer issued. [Keys and PINs](/docs/getting-started/keys) covers every key kind, the PIN and account tokens.
+Each world key decides which world a request reads or writes, so you never send a world id. Older 10-digit keys still work and never expire. [Keys and PINs](/docs/getting-started/keys) covers each kind in full.
 
-Send the key as the `API-Key` header, and the PIN as `API-Pin` on writes. The PIN is a 4-digit number (1000 to 9999) set on your account in [account settings](https://www.onlyworlds.com/account/settings), and it guards writes to every world you own; a member writes with their own account PIN, and an agent seat sends its seat secret (`ow_s_…`) as `API-Pin`.
+Send the key as the `API-Key` header, and the PIN as `API-Pin`. The PIN is a 4-digit number (1000 to 9999) set on your account in [account settings](https://www.onlyworlds.com/account/settings), and it guards writes to every world you own; a member writes with their own account PIN.
 
 ### 2. Read
 
