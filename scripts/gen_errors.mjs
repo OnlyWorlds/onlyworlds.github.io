@@ -14,8 +14,9 @@
  * Writes: the summary table between the markers on /api/errors/, and the 'floor' rows of
  * contract/urls.tsv (one per public code: each must be an anchor on /api/errors/).
  * Checks (fail): every public code has a '### <code>' section and every section is a public code;
+ * each section opens with the code's own Type and Status;
  * the Upload host errors table lists exactly the host rows, with the same statuses.
- * The prose of each section stays hand-written; only its presence is checked.
+ * The rest of each section's prose stays hand-written and unchecked.
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -77,6 +78,17 @@ if (page.includes(BEGIN)) {
 const sections = [...page.matchAll(/^### ([a-z_]+)\s*$/gm)].map((m) => m[1]);
 for (const [c] of pub) if (!sections.includes(c)) problems.push(`public code ${c} has no "### ${c}" section on the errors page`);
 for (const s of sections) if (!codes[s] || codes[s].internal || codes[s].host) problems.push(`the errors page has a section "### ${s}", which is not a public code`);
+// Each section's first line states its Type and Status, which must be the code's own (two were
+// wrong on 2026-10-27, with nothing to say so).
+let typed = 0;
+for (const m of page.matchAll(/^### ([a-z_]+)\s*\n\s*\n\*\*Type\*\* `([a-z_]+)` · \*\*Status\*\* `(\d{3})`/gm)) {
+  const [, c, type, status] = m, want = codes[c];
+  typed++;
+  if (!want || want.internal || want.host) continue;   // named above
+  if (type !== want.type) problems.push(`### ${c} says Type ${type}; the code's type is ${want.type}`);
+  if (Number(status) !== want.status) problems.push(`### ${c} says Status ${status}; the code's status is ${want.status}`);
+}
+if (typed !== sections.length) problems.push(`${sections.length - typed} section(s) do not open with "**Type** \`…\` · **Status** \`…\`", so their type and status were not checked`);
 const hostTable = page.split('## Upload host errors')[1] ?? '';
 const hostRows = new Map([...hostTable.matchAll(/^\| `(\d{3})` \| `([a-z_]+)` \|/gm)].map((m) => [m[2], Number(m[1])]));
 if (!hostRows.size) problems.push('no Upload host errors table found to check');
