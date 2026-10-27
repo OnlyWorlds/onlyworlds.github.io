@@ -86,6 +86,17 @@ Every tool names an element by one triple: the world's id, the type word and the
 
 A world by itself is `https://www.onlyworlds.com/w/<world id>` or `ow://<world id>`. An address may end in a moment, `@<step>` on its last path segment, and a lens, `?lens=<id>`. Addresses are written in lowercase and never percent-decoded; a reader refuses what the profile refuses, by the profile's own reason (`uppercase`, `segments`, `unknown_type`, `bad_id` and the rest). The TypeScript and Python SDKs carry the reader and the writer (`parseOwLink`, `elementAddress`, and their snake-case twins).
 
+## Lenses
+
+A lens is a saved way of reading a world: which elements, how far from a starting set, how much of each. It is a [Construct](/docs/schema/element_categories/construct) with supertype `Lens`, defined by the [lens profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/lens.md). A lens only narrows: it reads inside what the reader may already see, never more.
+
+- **The anchors** are the lens's own links (its characters, locations, institutions and the rest), and nothing else. A lens that links other lenses through `constructs` is an umbrella of them; `titles` names the Titles it is the default for.
+- **The recipe** sits in one extension field, `x_lens`: `depth` (0 the anchors only, 1 also what links to or from them, the default), `types`, a window back from the reading's date (`window`, or `from` and `to`), `undated`, `show` (`full`, `first_line`, `name`), `budget` (1 to 1000, default 50), `mail` and `notes` (a sentence per anchor). A value outside the profile's table makes the lens unreadable, the key named.
+- **A template** is a lens with subtype `Template` and no anchors: it reads nothing until it is copied into a world and pointed at that world's things.
+- **Reading one**: visibility comes first (a hidden or proposed element is not there to hop through), a hop reaches both ways, a Relation is crossed as an edge, a hop never crosses into or out of the room, and a date compares at the precision it states. What the budget or a rule leaves out is counted by reason, never dropped silently.
+
+The TypeScript and Python SDKs read a lens over a world snapshot (`resolveLens`, `resolve_lens`).
+
 ## Data the schema does not model
 
 Two places hold what the categories have no field for:
