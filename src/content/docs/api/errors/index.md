@@ -60,6 +60,7 @@ Some errors carry extra top-level keys beside `error`, named in their row: `prec
 | [`not_proposed`](#not_proposed) | `invalid_request` | `422` | A review (accept or decline of a new element written as proposed) named an element that carries no `x_review_proposed` mark: nothing to settle. A change to an existing element is proposed and decided through its proposals instead. |
 | [`apply_failed`](#apply_failed) | `invalid_request` | `422` | A /bulk item passed validation but its write failed a database constraint (most often an id that already exists in another world). |
 | [`invalid_grant`](#invalid_grant) | `invalid_request` | `400` | Sign in with OnlyWorlds: the code cannot be exchanged (POST /api/v2/auth/token). It is unknown, already used, expired (a code lives 60 seconds), or was issued for another client, another redirect_uri or another code_verifier. One answer for every case, byte for byte, and the code is spent either way: start the sign-in again. |
+| [`one_credential`](#one_credential) | `invalid_request` | `400` | A read sent both an API-Key and an account token (`Authorization: Bearer ow_a_...`). Send one: the key reads its own world, the token reads the world `world` names as your own access there. |
 | [`file_too_large`](#file_too_large) | `invalid_request` | `413` | A file asked to be attached to an element is over 25 MB; the message gives both sizes (`param` size). |
 | [`invalid_credentials`](#invalid_credentials) | `authentication_error` | `401` | The API key or PIN is missing, unrecognised or wrong. A PIN refusal names param API-Pin and says whether the PIN was missing or wrong. |
 | [`key_revoked`](#key_revoked) | `authentication_error` | `401` | The API key was recognised but has been revoked. |
@@ -120,6 +121,15 @@ A single write that fails with `invalid_link` writes nothing, so after fixing th
 
 - **Common cause:** a page reload that sent the code a second time; a code older than 60 seconds; a `redirect_uri` that differs from the authorize request's by a trailing slash or a query; a verifier from another sign-in.
 - **How to fix:** start the sign-in again from the tool's button. Take `code` out of the address bar before the exchange, and send the exchange once, before any other request. A code sent a second time also revokes the token its first exchange minted.
+
+### one_credential
+
+**Type** `invalid_request` · **Status** `400`
+
+A read sent both an `API-Key` and an account token (`Authorization: Bearer ow_a_…`). The server picks neither: a world key reads its own world, and an account token [reads the world `world` names](/docs/getting-started/keys#reading-a-world-with-an-account-token) as your own access there.
+
+- **Common cause:** a client that sets a default `API-Key` header on every request and adds the user's account token after they sign in.
+- **How to fix:** send one. Drop the `API-Key` to read as the signed-in account, or drop the `Authorization` header to read with the key.
 
 ### id_conflict
 

@@ -128,6 +128,7 @@
 /api/errors#stale_proposal	load-bearing	floor	keel's error-code list (contract/error-codes.json)
 /api/errors#not_proposed	load-bearing	floor	keel's error-code list (contract/error-codes.json)
 /api/errors#invalid_grant	load-bearing	floor	keel's error-code list (contract/error-codes.json)
+/api/errors#one_credential	load-bearing	floor	keel's error-code list (contract/error-codes.json)
 /api/errors#file_too_large	load-bearing	floor	keel's error-code list (contract/error-codes.json)
 /api/errors#invalid_credentials	load-bearing	floor	keel's error-code list (contract/error-codes.json)
 /api/errors#key_revoked	load-bearing	floor	keel's error-code list (contract/error-codes.json)

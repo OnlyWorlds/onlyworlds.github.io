@@ -109,6 +109,11 @@
     "status": 400,
     "summary": "Sign in with OnlyWorlds: the code cannot be exchanged (POST /api/v2/auth/token). It is unknown, already used, expired (a code lives 60 seconds), or was issued for another client, another redirect_uri or another code_verifier. One answer for every case, byte for byte, and the code is spent either way: start the sign-in again."
   },
+  "one_credential": {
+    "type": "invalid_request",
+    "status": 400,
+    "summary": "A read sent both an API-Key and an account token (`Authorization: Bearer ow_a_...`). Send one: the key reads its own world, the token reads the world `world` names as your own access there."
+  },
   "file_too_large": {
     "type": "invalid_request",
     "status": 413,
