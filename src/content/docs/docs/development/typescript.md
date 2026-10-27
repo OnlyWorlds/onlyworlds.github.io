@@ -240,6 +240,14 @@ const acct = new OwV2Client({ apiKey: 'ow_a_…' });
 const made = await acct.createAccountWorld({ name: 'Hyperion', keyName: 'my tool', producer: { tool: 'my-tool', version: '1.0.0', input: 'bare' } });
 ```
 
+Since 4.88.0 the token also [reads a world](/docs/getting-started/keys#reading-a-world-with-an-account-token) with no key minted: give the client the world's id as `world`, and `list`, `listAll`, `get` and `getWorld` read it as the account's own access there. The account calls keep working on the same client. With no key at all, the same option is the [public reader](/docs/development/api/public#the-keyless-reads), and `getWorld()` then carries `counts`. Any other world call on such a client (a write, `changes`, `draught`, `me`, files) is a `TypeError` before anything is sent.
+
+```typescript
+const reader = new OwV2Client({ apiKey: 'ow_a_…', world: worldId });
+for await (const el of reader.listAll('character', { signal })) { /* … */ }
+const open = new OwV2Client({ world: worldId });   // no key: what the public reads
+```
+
 ## Proposed changes
 
 Since 4.58.0 a member can [propose a change](/docs/development/api/proposals) for a keeper to accept instead of writing it, and a world's owner can make every agent seat work that way.
@@ -350,6 +358,8 @@ for (const m of unreadFor(messages, myCharacter, mark, members)) {   // members:
 
 `isAddressedTo(m, id)` is true for a message to everyone (an empty `characters`), and `isToEveryone(m)` (since 4.81.0) asks only that; `threadOf(messages, rootId)` lists a thread in order.
 
+Since 4.88.0 (schema-dist serial 76) the readers know a message the server trimmed for its reader (`x_served_trimmed`): an empty `characters` with the mark is to someone you cannot see, never to everyone; `hasUnseenRecipients(m)` says so; a hidden sender is `senderStatus` `'unseen'` ("from someone you cannot see"). A body read with no credential carries no mark, so pass `{ keyless: true }` to `isToEveryone` and `hasUnseenRecipients` there: the first is then false, the second `null` (unknown). `editedBy(m, members)` says whether a later hand changed a message, and whose. A Note (supertype `Note`) is a member's own line, never a message: `isNote(el)`, and `noteOf(narratives, characterId, members)` gives the id of that Character's newest Note in its own hand.
+
 An element an AI seat wrote as [proposed](/docs/development/api/proposals) follows the [review profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/review.md) (since 4.83.0): `proposedMarkOf(el)` gives its mark as a viewer shows it, `{ by, expires, lapsed }`, or `null` for a settled element, and `handsOnAsProposed(el)` is what a reader that hands a world on (a context for an AI, a share) leaves out, a malformed mark included. `buildAskContext` reads the same function.
 
 ## Errors
@@ -391,7 +401,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.87.1, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.88.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -399,7 +409,7 @@ Generated from the types of `@onlyworlds/sdk` 4.87.1, the version these docs pin
 
 | Option | Type | Notes |
 |---|---|---|
-| `apiKey` | `string` | The key: an ow_w_ (write) or ow_r_ (read) world key, an ow_a_ account token (sent as a Bearer token, for the account routes), or a 10-digit legacy key. |
+| `apiKey` | `string` | The key: an ow_w_ (write) or ow_r_ (read) world key, an ow_a_ account token (sent as a Bearer token, for the account routes, and with `world` set for that world's reads), or a 10-digit legacy key. |
 | `apiPin` | `string` | The PIN (or an agent seat's `ow_s_` secret), needed for writes when the world has one, and for legacy-key reads of a world with a PIN. |
 | `baseUrl` | `string` | The API's base URL, default https://www.onlyworlds.com/api/v2. |
 | `pageSize` | `number` | Page size for element lists, default 100 (the server's default; at most 1000). |
@@ -407,13 +417,14 @@ Generated from the types of `@onlyworlds/sdk` 4.87.1, the version these docs pin
 | `fetch` | `typeof globalThis.fetch` | A fetch implementation to use instead of globalThis.fetch (for tests and other runtimes). |
 | `agent` | `boolean` | Declare this client an AI agent: every element write (create, upsert, patch, delete, editLinks, bulk) carries `X-OW-Agent`, the operations keel declares it on, and keel records its writes as agent-made (`changed_via: 'declared'`; keel stores that the header was there, never its value). |
 | `client` | `string` | This client's own name, sent as `X-OW-Client` on every element write (create, upsert, patch, delete, editLinks, bulk, adopt) and on no read. |
+| `world` | `string` | A world's id, for a client that holds an account token (`ow_a_`) or no key. |
 
 ### Methods
 
 | Method | Route | What it does | Returns |
 |---|---|---|---|
 | `health()` | `GET /health` | unauthenticated liveness pulse. | `Promise<unknown>` |
-| `getWorld()` | `GET /world` | world meta (name, calendar/time fields, public_read). | `Promise<OwWorldMeta>` |
+| `getWorld(opts?)` | `GET /world` | world meta (name, calendar/time fields, public_read). | `Promise<OwWorldMeta>` |
 | `patchWorld(partial)` | `PATCH /world` | partial world-meta update. | `Promise<OwWorldMeta>` |
 | `setMyCharacter(character)` | `PUT /me/character` | pick the roster Character that is you in this world, or none. | `Promise<OwMe>` |
 | `me()` |  |  | `Promise<OwMe>` |

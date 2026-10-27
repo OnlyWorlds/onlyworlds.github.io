@@ -7,6 +7,8 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-27
 
+- **[TypeScript](/docs/development/typescript#a-world-on-the-account) 4.88.0: an account token, or no key, reads the world it names.** `new OwV2Client({ apiKey, world })`: `list`, `listAll`, `get` and `getWorld` read with `world=<id>`, every other world call a `TypeError` before sending; a `signal` on those reads; `isRateLimited` and `isServedTrimmedNotWritable`.
+- **[TypeScript](/docs/development/typescript#messages) 4.88.0 and [Python](/docs/development/python) 0.72.0: [the message profile at serial 76](/docs/schema/conventions#messages-between-members)**: a list trimmed for its reader (unseen recipients, an unseen sender, never "to everyone" without a key), `editedBy`, and Notes, which are never messages. <!-- keel PR 281 -->
 - **[Reading a world with an account token](/docs/getting-started/keys#reading-a-world-with-an-account-token)**: element lists and reads, search, metadata and the world take `Authorization: Bearer ow_a_…` with `world=<id>`, read only, as your own access in that world; a tool that signs you in needs no key per world. Both credentials on one request is [`one_credential`](/api/errors/#one_credential). <!-- keel PR 280 -->
 - **Words in the toolkit page**: a system to model is named "a political order", in words that are no stand-in for an element type ([Toolkit](/docs/development/toolkit)).
 <!-- keel PR 278: no docs change -->
