@@ -118,6 +118,7 @@ A body the server trimmed for a key that may not see every linked element carrie
 - MUST read every `*.json` in a category folder and key on the inner `id`; MUST NOT parse filenames. SHOULD skip a dot-prefixed file there: it is a tool's litter, not an element.
 - MUST treat a missing category folder as empty, and MUST NOT require any `.<tool>/` folder.
 - SHOULD also read `spatial/{map,pin,zone,marker}/` (older Atlas). An id found in both layouts: serve the `elements/` copy, and SHOULD log the duplicate.
+- Visit the files of a layout by name, compared by code point, the same on every platform. An id found twice within one layout keeps the first file in that order. Never use the system's own path sort: on Windows it ignores case, so two readers would keep different files.
 - Accept both spellings: `map`/`map_id`, `zone`/`zone_id`, `time_current`/`time_range_current`.
 - MUST NOT rewrite a file's key spellings as a side effect of opening it.
 - A tool holding several worlds MUST key storage by source and world id, never world id alone.
