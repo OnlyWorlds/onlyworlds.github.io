@@ -122,9 +122,9 @@ curl -s "https://www.onlyworlds.com/api/v2/character/?world=<world_id>" \
   -H "Authorization: Bearer ow_a_…"
 ```
 
-- **Where**: an element list and an element read (`/api/v2/{type}/` and `/api/v2/{type}/{id}`), [search](/docs/development/api/reads#search), the metadata routes (`/api/metadata/{type}/`) and `GET /api/v2/world` (which also takes a public page's address as `world`). These are the routes the [keyless public reader](/docs/development/api/public#the-keyless-reads) uses.
+- **Where**: an element list and an element read (`/api/v2/{type}/` and `/api/v2/{type}/{id}`), [search](/docs/development/api/reads#search), the metadata routes (`/api/metadata/{type}/`), `GET /api/v2/world` (which also takes a public page's address as `world`) and [the draught](/docs/development/api/draught). These are the routes the [keyless public reader](/docs/development/api/public#the-keyless-reads) uses.
 - **As whom**: your own access in that world. The owner reads it whole, hidden elements included. A member reads what their own member key reads, by their role. An account with no access there reads what the public reads, and a world that is not open to the public is the same `404` a keyless request gets.
-- **What it doesn't do**: a write, `/changes`, `/members`, `/me`, files, [the draught](/docs/development/api/draught) and the MCP server answer the token with the `401` they always gave a request without an `API-Key`. View as (`?as=`) stays the owner's: a member's or a stranger's token gets [`view_as_owner_only`](/api/errors/#view_as_owner_only).
+- **What it doesn't do**: a write, `/changes`, `/members`, `/me`, files and the MCP server answer the token with the `401` they always gave a request without an `API-Key`. View as (`?as=`) stays the owner's: a member's or a stranger's token gets [`view_as_owner_only`](/api/errors/#view_as_owner_only).
 - **One credential**: a request with both an `API-Key` and the token is a `400`, [`one_credential`](/api/errors/#one_credential).
 - **Budget**: these reads count against the token's 300 requests a minute, not the 60 a minute of a request with no credential.
 

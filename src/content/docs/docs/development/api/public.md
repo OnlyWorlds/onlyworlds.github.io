@@ -68,6 +68,7 @@ A request with no `API-Key` header and `?world=<world id>` reads an open world a
 | GET | `/api/v2/search` ([Search](/docs/development/api/reads#search)) |
 | GET | `/api/v2/world` ([The world](/docs/development/api/reads#the-world)) |
 | GET | `/api/metadata/{type}/` and its sections, and the same under `/api/worldapi/metadata/` |
+| GET | `/api/v2/character/{id}/context` ([The draught](/docs/development/api/draught)): what the public may read about her, never her messages or the roster |
 
 ```bash
 curl -s "https://www.onlyworlds.com/api/v2/character?world=0695db52-5433-7332-8000-db7fe10da375&limit=5"
@@ -94,7 +95,7 @@ That is Moppetopia. The answer is what the owner's own key gets with [`?as=publi
 
 ### What it does not serve
 
-- `/changes`, `/members`, `/me`, files, the hidden routes, [the draught](/docs/development/api/draught), the [MCP server](/docs/development/mcp) and every write answer a keyless request as before: `401` [`invalid_credentials`](/api/errors/#invalid_credentials). The [proposals](/docs/development/api/proposals) lists answer it `404`. A follower who wants the live feed needs a read key.
+- `/changes`, `/members`, `/me`, files, the hidden routes, the [MCP server](/docs/development/mcp) and every write answer a keyless request as before: `401` [`invalid_credentials`](/api/errors/#invalid_credentials). The [proposals](/docs/development/api/proposals) lists answer it `404`. A follower who wants the live feed needs a read key.
 - A keyless request without `?world=` is the `401` it always was.
 - `as` on a keyless read is `422` [`invalid_request`](/api/errors/#invalid_request), `param` `as`: view as is the owner's.
 

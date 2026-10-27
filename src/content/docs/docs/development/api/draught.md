@@ -18,6 +18,8 @@ curl -s "https://www.onlyworlds.com/api/v2/character/{id}/context?mode=voice&bud
 |:--|:--|
 | The owner's keys, a co-builder's, a contributor's | Any Character the key can see |
 | A player seat, a guest, a guest agent seat | Its own Character only. Any other id is `404` |
+| An [account token](/docs/getting-started/keys#reading-a-world-with-an-account-token), with `world=<id>` | As you: any Character in a world you own, or what your own member key reads in a world you are a member of |
+| No credential, with `world=<id>`, on a world [open to anyone](/docs/development/api/public) | What the public may read: her public sheet, what names her and what changed as the public sees it, a lens read as the public. Never her messages and never the roster |
 
 A Character the key cannot see answers `404` [`not_found`](/api/errors/#not_found), as a missing one does. What is [hidden](/docs/development/api/hidden) from the reader is in no section. The answer is sent `Cache-Control: private, no-store`: never cache it shared.
 
@@ -100,7 +102,7 @@ curl -s "https://www.onlyworlds.com/api/v2/character/{id}/context?compact=true" 
 
 - **In `voice`, every row dated after `as_of` is left out, whatever its section**: a Relation not yet begun, a story about her that has not happened, a Title, a Tenure, a Working style or a message dated later.
 - **In `act`, only dated Events and known Narratives** after it are left out.
-- **The date is read as served.** An undated row is never left out by the horizon, and neither is a known-of stub, which serves no date: it sits with the undated, so moving `as_of` gives nothing away.
+- **The date is read as served.** An undated row is never left out by the horizon. A known-of stub serves no date, so the horizon reads the element's own date and leaves the stub out when that is after `as_of`, still serving it as a stub when it stays (the lens profile's rule 8, so a lens and the packet agree). Which field dates each type is the [lens profile's date table](/docs/schema/conventions#lenses).
 - **`cut` counts only what the budget dropped**, never what the horizon left out. The one exception is `cut.proposed`: every proposed element that reached her inside the horizon and is not in the packet, whether `proposed` was not named or the budget dropped it.
 
 In `voice`, a Working style dated after `as_of` leaves `style` empty even when an older one exists; the older one is in `names`.

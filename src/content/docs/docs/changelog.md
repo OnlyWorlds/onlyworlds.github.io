@@ -7,6 +7,9 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-27
 
+- **[The draught](/docs/development/api/draught) reads with an account token and on a world open to anyone**: a signed-in tool reads it as you, and a keyless request with `world=<id>` reads what the public may read, never her messages or the roster ([keys](/docs/getting-started/keys#reading-a-world-with-an-account-token), [public reads](/docs/development/api/public)). The horizon now leaves out a known-of stub by the element's own date, as a lens does. <!-- keel PR 298 -->
+- **[The Lenses page](/docs/schema/conventions#lenses)**: a Library of templates, Copy to another world, Publish as a template, and a second reading in the browser that says whether it agrees with the site's. <!-- keel PR 297 -->
+<!-- keel PR 299: no docs change (the Lenses page's words) -->
 - **[TypeScript](/docs/development/typescript#lenses) 4.96.0 and [Python](/docs/development/python) 0.79.0: `DATE_FIELD` and `dateOf`, `date_of`**, the [lens profile](/docs/schema/conventions#lenses)'s date table and an element's date as it reads it, so a timeline dates elements the way a lens does.
 - **[The Lenses page](/docs/schema/conventions#lenses)**: a world's page on onlyworlds.com lists its lenses, opens one to change and read it (what it keeps, and what it cut by reason), and on a world open to everyone reads a lens signed out. <!-- keel PR 295 -->
 - **[TypeScript](/docs/development/typescript#lenses) 4.95.0 and [Python](/docs/development/python) 0.78.0: `degreeOf` and `degree_of`**, each element's count of links in a [world graph](/docs/schema/conventions#lenses) as the reader sees it, the "most linked" a search ranks by.
