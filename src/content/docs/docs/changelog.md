@@ -7,6 +7,13 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-27
 
+- **[The keys a sign-in token minted](/docs/development/api/signin#consent-and-revoking)** go with it when it is revoked, unless another live token of the tool remains; a key minted with `keep: true` outlives it, and so do the keys of a token made by hand or through a password sign-in, and of a tool that asks each time. `GET /api/v2/account/tokens` lists `keys_minted`. <!-- keel PR 279 --> <!-- keel PR 286 -->
+- **[TypeScript](/docs/development/typescript#a-world-on-the-account) 4.90.0**: `mintWorldKey(worldId, { keep: true })`, and `kept` on the answer.
+- **[Sending a message as yourself](/docs/development/agents#in-world-messages)** takes an `Idempotency-Key`: a retry with the same key and body arrives once. <!-- keel PR 283 -->
+<!-- keel PR 282: no docs change -->
+<!-- keel PR 285: no docs change -->
+<!-- keel PR 288: no docs change -->
+<!-- keel PR 284: no docs change -->
 - **[TypeScript](/docs/development/typescript#messages) 4.89.1 and [Python](/docs/development/python) 0.73.1**: a Character's line (`noteOf`, `note_of`) leaves out a Note carrying any hidden mark, as every other reader does (it read only `true`).
 - **[TypeScript](/docs/development/typescript#addresses) 4.89.0 and [Python](/docs/development/python) 0.73.0: [addresses](/docs/schema/conventions#addresses).** `parseOwLink` and `elementAddress` (`parse_ow_link`, `element_address`) read and write an element's link in its three spellings, with a moment and a lens, refusing by the profile's reasons.
 - **[TypeScript](/docs/development/typescript#a-world-on-the-account) 4.88.0: an account token, or no key, reads the world it names.** `new OwV2Client({ apiKey, world })`: `list`, `listAll`, `get` and `getWorld` read with `world=<id>`, every other world call a `TypeError` before sending; a `signal` on those reads; `isRateLimited` and `isServedTrimmedNotWritable`.

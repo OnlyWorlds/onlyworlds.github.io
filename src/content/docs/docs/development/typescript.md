@@ -242,6 +242,8 @@ const made = await acct.createAccountWorld({ name: 'Hyperion', keyName: 'my tool
 
 Since 4.88.0 the token also [reads a world](/docs/getting-started/keys#reading-a-world-with-an-account-token) with no key minted: give the client the world's id as `world`, and `list`, `listAll`, `get` and `getWorld` read it as the account's own access there. The account calls keep working on the same client. With no key at all, the same option is the [public reader](/docs/development/api/public#the-keyless-reads), and `getWorld()` then carries `counts`. Any other world call on such a client (a write, `changes`, `draught`, `me`, files) is a `TypeError` before anything is sent.
 
+A tool that stores a world key on the device mints it with `mintWorldKey(worldId, { keep: true })` (since 4.90.0), so signing out keeps the key; without `keep`, revoking the token revokes the keys it minted.
+
 ```typescript
 const reader = new OwV2Client({ apiKey: 'ow_a_…', world: worldId });
 for await (const el of reader.listAll('character', { signal })) { /* … */ }
@@ -412,7 +414,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.89.1, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.90.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 

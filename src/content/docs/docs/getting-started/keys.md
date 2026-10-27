@@ -137,10 +137,10 @@ curl -s "https://www.onlyworlds.com/api/v2/character/?world=<world_id>" \
 | GET | `/api/v2/account/worlds/{world_id}/keys` | List a world's keys (last four characters only) |
 | DELETE | `/api/v2/account/worlds/{world_id}/keys/{key_id}` | Revoke a world key |
 | POST | `/api/v2/account/tokens` | Mint an account token, shown once. A client that signed in through the login API (`/api/v2/auth/app/v1/auth/login`) may send its `X-Session-Token` here instead of a Bearer token, which is how an app on a phone gets a token of its own after sign-in |
-| GET | `/api/v2/account/tokens` | List your account tokens (last four characters only) |
-| DELETE | `/api/v2/account/tokens/{token_id}` | Revoke an account token |
+| GET | `/api/v2/account/tokens` | List your account tokens (last four characters only), each with `keys_minted`: the live world keys it minted |
+| DELETE | `/api/v2/account/tokens/{token_id}` | Revoke an account token, and the world keys a sign-in token minted unless they were minted with `keep` ([which keys outlive a token](/docs/development/api/signin#consent-and-revoking)) |
 
-Minting a world key takes `scope` (`"read"` or `"write"`, default `"write"`) and an optional `name`, a label such as `"atlas · my laptop"` that is echoed back in the key list. A `name` over 255 characters is a `422`; the same limit applies to account token names.
+Minting a world key takes `scope` (`"read"` or `"write"`, default `"write"`), an optional `keep` (`true` keeps the key when the token that minted it is revoked; the answer says `kept`) and an optional `name`, a label such as `"atlas · my laptop"` that is echoed back in the key list. A `name` over 255 characters is a `422`; the same limit applies to account token names.
 
 ```bash
 curl -s -X POST "https://www.onlyworlds.com/api/v2/account/worlds/{world_id}/keys" \
