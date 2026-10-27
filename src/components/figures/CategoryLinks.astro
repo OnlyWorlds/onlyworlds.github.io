@@ -289,12 +289,12 @@ const sentences = linkSentences(data, plural, (n: string) => `<code>${n}</code>`
       clr.style.visibility = sel ? 'visible' : 'hidden';
       if (!cur) { cap.textContent = 'The standard has 22 categories. Select one to see which others its fields link to.'; return; }
       cap.textContent = caption(cur);
-      B.forEach((l: any, i: number) => {   // under the forward lines, still, in lanes of their own
+      if (B.length) {   // one path in one lane, under the forward lines: the dark lines run together into a trunk instead of stacking
         const p = document.createElementNS(NS, 'path');
         p.setAttribute('class', 'back');
-        p.setAttribute('d', rounded(route(pos[l.from], pos[cur], i + L.length)));
+        p.setAttribute('d', B.map((l: any) => rounded(route(pos[l.from], pos[cur], L.length))).join(' '));
         paths.appendChild(p);
-      });
+      }
       L.forEach((l: any, i: number) => {
         const p = document.createElementNS(NS, 'path');
         p.setAttribute('d', rounded(route(pos[cur], pos[l.to], i)));
