@@ -7,6 +7,9 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-27
 
+- **[A world's counts for every reader](/docs/development/api/reads)**: `GET /api/v2/world` carries `counts` for every key and token, counted as that reader may read, not only for the keyless read. <!-- keel PR 289 -->
+- **[Agent links from a script](/docs/development/agents)** take the form's fields, `label` and `for_email`. <!-- keel PR 291 -->
+<!-- keel PR 292: no docs change (serial 79's source; its folder format and Note cases are followed above) -->
 - **[Lenses on the API](/docs/schema/conventions#lenses)**: the world's lenses resolved for you (`GET /api/v2/world/{world_id}/lenses`), the lenses you start with (`PUT /api/v2/me/lenses`, shown on `GET /me` and `GET /members`), and the [draught](/docs/development/api/draught)'s `lens`. In [TypeScript](/docs/development/typescript) 4.92.0 and [Python](/docs/development/python) 0.76.0, beside schema-dist serial 80. <!-- keel PR 290 -->
 - **[Python](/docs/development/python) 0.75.1**: a folder is read in one order on every platform (file names by code point), so a duplicate id keeps the same file on Windows as elsewhere.
 - **[TypeScript](/docs/development/typescript) 4.91.1 and [Python](/docs/development/python) 0.75.0: schema-dist serial 79.** Four message cases on Notes (addressed to nobody, never in a thread, never unread; any hidden mark leaves one out), which both readers already answer. Python writes folders at [v0.3.19](/docs/schema/folders), and `onlyworlds.lint` is the dist's checker at serial 79.

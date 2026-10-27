@@ -127,7 +127,7 @@ curl -s "https://www.onlyworlds.com/api/v2/character/{id}?expand=location,instit
 
 ## The world
 
-`GET /api/v2/world` returns the world named by the key. A world its owner opened to everyone is also read with no key, as `?world=<id>`, and then carries `counts` and an `owner_character` of `null` ([Public worlds](/docs/development/api/public#the-world-keyless)):
+`GET /api/v2/world` returns the world named by the key, with `counts` beside its fields: how many elements that reader may read, counted as that reader reads them (every reader since 2026-10-27; before, the keyless read only). A world its owner opened to everyone is also read with no key, as `?world=<id>`, and then carries an `owner_character` of `null` ([Public worlds](/docs/development/api/public#the-world-keyless)):
 
 ```json
 { "id": "…", "name": "Hyperion", "description": "…", "image_url": "",
