@@ -46,7 +46,8 @@ const rows = new Set();
 for (const k of ELEMENT_TYPES) {
   const page = read(`docs/schema/element_categories/${k}.html`);
   // A row's first two cells: <td><code>field</code> (required)?</td><td>link(s) to X | id of an element of that type</td>
-  for (const r of page.matchAll(/<td><code[^>]*>([a-z0-9_]+)<\/code>[^<]*<\/td>\s*<td>([^<]*)<\/td>/g)) {
+  // Any case: Character's ability scores (STR to CHA) are uppercase, and a link field could be too.
+  for (const r of page.matchAll(/<td><code[^>]*>([A-Za-z0-9_]+)<\/code>[^<]*<\/td>\s*<td>([^<]*)<\/td>/g)) {
     const [, field, type] = r;
     const t = type.match(/^links? to ([A-Z][a-z]+)$/);
     if (t) rows.add(key(k, t[1].toLowerCase(), field));

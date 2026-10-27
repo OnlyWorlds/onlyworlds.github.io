@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-27
 
+- **[The draught](/docs/development/api/draught#the-policy)**: the SDKs take its nine keys; the MCP tool `get_draught` takes eight, not `lens`. **[Worlds](/docs/schema/worlds)** names every writable field of the world, its extension keys and `source` and `producer` included.
 - **[Errors](/api/errors/#own_proposal): `own_proposal` and `proposed_only` are type `permission_error`**, as the summary table says. A list also takes `ids`, `created_by`, `as` and `world` ([invalid_request](/api/errors/#invalid_request), [Reads](/docs/development/api/reads#filters), the [LLM guide](/docs/development/llm-guide)).
 - **[Proposed changes](/docs/development/api/proposals#propose): `expires` is a date-time 1 to 365 days out**, never a number of days; the [TypeScript](/docs/development/typescript#proposed-changes) example sends a date.
 - **[Changes and export](/docs/development/api/changes#the-feed)**: the feed example carries `epoch_reason`, the [export file](/docs/development/api/changes#the-export-file) shows `schema_version` `00.33.00`, and [only a restore of the whole platform's database rewinds](/docs/development/api/changes#rewinds-and-head) the change sequence, never an owner's restore to a day.

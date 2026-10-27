@@ -72,5 +72,5 @@ onlyworlds.com adds fields of its own to the world it serves, part of the platfo
 | `origin` | object | Where the world first came from, `{source, producer}` |
 | `counts` | object | How many elements the reader may read, in all and by category |
 
-The world named by a key is `GET /api/v2/world/`. Its owner changes it with `PATCH`; the writable fields are `name`, `description`, `image_url`, the timeline fields, the three unit settings and `owner_character`. A co-builder may send every writable field but `owner_character`. `public_read` and `agent_narrator_rule` (the platform's switch holding agent seats to their own narrator, set on the world page) cannot be changed through the API.
+The world named by a key is `GET /api/v2/world/`. Its owner changes it with `PATCH`; the writable fields are `name`, `description`, `image_url`, the timeline fields, the three unit settings, `owner_character`, the world's extension keys (`x_`, `atlas_`, `shadow_`) and the provenance lines `source` and `producer` ([the world's writable fields](/docs/development/api/writes#the-world)). A co-builder may send every writable field but `owner_character`. `public_read` and `agent_narrator_rule` (the platform's switch holding agent seats to their own narrator, set on the world page) cannot be changed through the API.
 

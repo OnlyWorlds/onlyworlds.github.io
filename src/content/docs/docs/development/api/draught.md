@@ -25,7 +25,7 @@ A Character the key cannot see answers `404` [`not_found`](/api/errors/#not_foun
 
 ## The policy
 
-Nine query parameters, all optional. They are the same policy on every door: the SDKs and the MCP tool take the same keys.
+Nine query parameters, all optional. The SDKs take the same nine. The MCP tool `get_draught` takes the first eight in one `policy` object; it does not take `lens` yet.
 
 | Parameter | Values | Default |
 |:--|:--|:--|
