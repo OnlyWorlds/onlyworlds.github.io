@@ -54,6 +54,21 @@
     "status": 422,
     "summary": "The owner tried to set a hidden Character as the one a seat or a player plays (`param` character): a played Character is on every reader's roster, so a hidden one can never be picked. Unhide it first, or pick another."
   },
+  "not_a_lens": {
+    "type": "invalid_request",
+    "status": 422,
+    "summary": "A seat chose a Construct that is no lens (`param` lenses): a lens is a Construct with supertype Lens (the lens profile, profiles/lens.md)."
+  },
+  "lens_is_template": {
+    "type": "invalid_request",
+    "status": 422,
+    "summary": "A seat chose a template (`param` lenses): a lens with subtype Template reads nothing until it is copied and pointed. Choose a lens with anchors."
+  },
+  "lens_hidden": {
+    "type": "invalid_request",
+    "status": 422,
+    "summary": "A seat chose a hidden lens (`param` lenses): a seat's lenses are on the members list every reader of the world reads, so a hidden one can never be chosen. Unhide it first."
+  },
   "character_played": {
     "type": "invalid_request",
     "status": 422,
@@ -67,7 +82,7 @@
   "served_trimmed_not_writable": {
     "type": "invalid_request",
     "status": 422,
-    "summary": "A write body carried `x_served_trimmed` (`param` x_served_trimmed): the server adds that key to a message it serves with recipients or a sender hidden from the reader, and it is never written. Drop it and send only the fields you mean to change."
+    "summary": "A write body carried `x_served_trimmed` (`param` x_served_trimmed): the server adds that key to a message it serves with recipients or a sender hidden from the reader, and to a lens it serves with an anchor hidden from the reader, and it is never written. Drop it and send only the fields you mean to change."
   },
   "character_taken": {
     "type": "invalid_request",
@@ -158,6 +173,11 @@
     "type": "permission_error",
     "status": 403,
     "summary": "A key that is not a co-builder's (a contributor's, a guest's, a player's, or the owner's own keys) called /links: the world's invite links over a world key are a co-builder's; the owner mints them through the account."
+  },
+  "read_as_owner_only": {
+    "type": "permission_error",
+    "status": 403,
+    "summary": "A key or token that is not the owner's sent `read_as` to GET /world/{world_id}/lenses: reading a lens as another reader is the owner's."
   },
   "view_as_owner_only": {
     "type": "permission_error",
