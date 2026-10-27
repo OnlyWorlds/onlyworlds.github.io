@@ -25,7 +25,7 @@ A Character the key cannot see answers `404` [`not_found`](/api/errors/#not_foun
 
 ## The policy
 
-Eight query parameters, all optional. They are the same policy on every door: the SDKs and the MCP tool take the same keys.
+Nine query parameters, all optional. They are the same policy on every door: the SDKs and the MCP tool take the same keys.
 
 | Parameter | Values | Default |
 |:--|:--|:--|

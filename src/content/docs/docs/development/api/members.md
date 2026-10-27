@@ -37,8 +37,8 @@ curl -s "https://www.onlyworlds.com/api/v2/members" -H "API-Key: {key}"
 
 ```json
 { "data": [
-    { "id": null, "kind": "owner", "role": "owner", "character": "0695…", "status": "active" },
-    { "id": "0699…", "kind": "agent", "role": "contributor", "character": "069a…", "status": "active", "name": "Wren" } ] }
+    { "id": null, "kind": "owner", "role": "owner", "character": "0695…", "status": "active", "lenses": [] },
+    { "id": "0699…", "kind": "agent", "role": "contributor", "character": "069a…", "status": "active", "name": "Wren", "lenses": [] } ] }
 ```
 
 | Field | Meaning |
@@ -49,6 +49,8 @@ curl -s "https://www.onlyworlds.com/api/v2/members" -H "API-Key: {key}"
 | `character` | The Character that is this member, or `null`. The owner's is the world's `owner_character`. `null` too when that Character is [hidden](/docs/development/api/hidden) from the calling key |
 | `status` | `active` or `removed` |
 | `name` | Agent and player rows only: their name |
+| `lenses` | The [lenses](/docs/schema/conventions#lenses) the row chose, lens ids in its order (the owner row: the owner's own); `[]` for none. A lens the calling key cannot see is left out |
+| `x_served_trimmed` | Present only when `lenses` was served with a lens left out: then it names `lenses` ([A list trimmed for its reader](/docs/schema/folders#a-list-trimmed-for-its-reader)) |
 
 The owner row comes first, then active members in the order they joined, then removed members. Removed members keep their row so every `created_by` and `changed_by` resolves: a member who was removed, who left, or whose account was deleted. A removed row whose account was deleted carries nothing that names the person. The roster never carries usernames or email addresses: a Character is the public face.
 
@@ -64,13 +66,13 @@ curl -s "https://www.onlyworlds.com/api/v2/narrative?characters={character_id}" 
 
 ```json
 { "world": { "id": "…", "name": "Hyperion" }, "scope": "write", "kind": "agent",
-  "role": "contributor", "membership": "0699…", "character": "069a…", "name": "Wren",
+  "role": "contributor", "membership": "0699…", "character": "069a…", "lenses": [], "name": "Wren",
   "front_door": { "sponsor": { "id": "0698…", "kind": "person", "name": "Mara" },
     "sponsor_character": "069b…", "my_character": "069a…", "my_seats": [],
     "charter": "069c…", "charter_skill": ["069d…"] } }
 ```
 
-`scope` is `read` or `write`. `membership` is what `created_by` will hold for what this key creates. An owner-minted or legacy key answers as the owner, with `membership` `null` and `character` set to the world's `owner_character`. A Character [hidden](/docs/development/api/hidden) from the key reads `null`, the one its own member plays included, unless that member created it.
+`scope` is `read` or `write`. `membership` is what `created_by` will hold for what this key creates. `lenses` are the lenses you chose (`PUT /api/v2/me/lenses`), with `x_served_trimmed` as on the roster. An owner-minted or legacy key answers as the owner, with `membership` `null` and `character` set to the world's `owner_character`. A Character [hidden](/docs/development/api/hidden) from the key reads `null`, the one its own member plays included, unless that member created it.
 
 ### The front door
 
@@ -242,7 +244,7 @@ Invites and memberships are managed in the [account portal](https://www.onlyworl
 | POST | `/api/v2/account/worlds/{world_id}/invites` | Invite an email address as a member (owner only) |
 | DELETE | `/api/v2/account/worlds/{world_id}/invites/{invite_id}` | Cancel an invite |
 | GET | `/api/v2/account/worlds/{world_id}/members` | Members and pending invites |
-| PATCH | `/api/v2/account/worlds/{world_id}/members/{member_id}` | Change a member's `role`, or the `character` an agent or player plays (owner only; a [hidden](/docs/development/api/hidden#playing-a-hidden-character) Character is `422` [`character_hidden`](/api/errors/#character_hidden)) |
+| PATCH | `/api/v2/account/worlds/{world_id}/members/{member_id}` | Change a member's `role`, the `character` an agent or player plays, or who answers for an agent seat, `sponsor` (a person who is a member, or `owner`) (owner only; a [hidden](/docs/development/api/hidden#playing-a-hidden-character) Character is `422` [`character_hidden`](/api/errors/#character_hidden)). `lenses` sent alone sets a row's lenses, the one change a member makes here on its own row or a seat it answers for |
 | DELETE | `/api/v2/account/worlds/{world_id}/members/{member_id}` | Remove a member; their keys for the world are deleted (they then answer `401` [`invalid_credentials`](/api/errors/#invalid_credentials), as an unknown key does), and the AI seats they made there are removed with them |
 | POST | `/api/v2/account/worlds/{world_id}/links` | Make an [invite link](#invite-links) (owner only): `reader` (`person`, `agent` or `player`, required), `role`, `days`, `inviter_name`, `with_character`, and for a player `character` (`new` or a Character's id) or, for a [table](#a-table-of-players), `max_uses` (2 to 50) and `characters` (a table takes no `character`), and `preview` (person and player links, off when left out; `true` on an agent link is `422`, `param` `preview`); `201` with the code, the link and a line to send, shown only in this answer. A world holds at most 50 pending invites and person or player links together (`422`) |
 | GET | `/api/v2/account/worlds/{world_id}/links` | The world's links, newest first, never a code, each with `uses` and `status` (`pending`, `used`, `revoked`, `expired`); a table's row adds `max_uses` and `characters` (`[{id, name, taken}]`, `name` `null` if deleted), its `uses` counts the seats it made, removed ones included, and it reads `used` once full |

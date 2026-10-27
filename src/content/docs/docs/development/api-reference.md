@@ -12,7 +12,7 @@ The OnlyWorlds API reads and writes world data on onlyworlds.com over HTTPS, in 
 
 **Interactive reference**: [onlyworlds.com/api/docs](https://www.onlyworlds.com/api/docs) · **OpenAPI document**: [onlyworlds.com/api/v2/openapi.json](https://www.onlyworlds.com/api/v2/openapi.json)
 
-A tool that watches the document reads it like this: ask for gzip (it is 2 MB plain, under 200 KB compressed), keep the `ETag` the answer carries, and send it back on the next read in `If-None-Match` exactly as received (it may arrive weak, `W/"…"`; keel accepts either). An unchanged document answers `304` with no body; it also serves `Cache-Control: public, max-age=300`, so nothing is gained by reading it more often than every five minutes.
+A tool that watches the document reads it like this: ask for gzip (it is about 3 MB plain, about 300 KB compressed), keep the `ETag` the answer carries, and send it back on the next read in `If-None-Match` exactly as received (it may arrive weak, `W/"…"`; keel accepts either). An unchanged document answers `304` with no body; it also serves `Cache-Control: public, max-age=300`, so nothing is gained by reading it more often than every five minutes.
 
 ## Authentication
 

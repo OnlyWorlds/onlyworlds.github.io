@@ -102,7 +102,7 @@ Some errors carry extra top-level keys beside `error`, named in their row: `prec
 The request body or query is malformed: an unknown field, a server-managed field in a write, an unknown query parameter, a value that fails validation, text over its length limit, extension fields over the size cap, a malformed id, or a wrong-shaped payload.
 
 - **Common cause:** a misspelled field name (`freinds`); a `_ids` or `_id` suffix carried over from the [Classic API](/docs/development/api/classic) (the current API uses bare link names); an unknown query parameter, such as a mistyped filter (`nmae__icontains`) or `?ordering=`; sending a read body back with `type`, `created_at`, `updated_at` or `change_seq` still in it; a bulk request whose `items` is not an array.
-- **How to fix:** read `param`: it names the field or parameter at fault. Correct the spelling, drop the suffix or the server field, or remove the parameter. The list filters are `name`, `name__icontains`, `supertype` and `subtype`, plus `characters` on the six categories with that link; the other accepted parameters are `limit`, `cursor`, `expand` and `fields`. Any other query parameter is rejected, never ignored.
+- **How to fix:** read `param`: it names the field or parameter at fault. Correct the spelling, drop the suffix or the server field, or remove the parameter. The list filters are `name`, `name__icontains`, `supertype`, `subtype`, `ids` and `created_by`, plus `characters` on the six categories with that link; the other accepted parameters are `limit`, `cursor`, `expand`, `fields`, `as` and `world`. Any other query parameter is rejected, never ignored.
 
 Unknown fields are a hard error, not a silent drop, so a mistyped field name fails loudly instead of vanishing. Fields under the extension namespaces `atlas_*`, `shadow_*` and `x_*` are the exception: they are stored as written.
 
@@ -196,7 +196,7 @@ An accept of a [proposal](/docs/development/api/proposals) found that a field th
 
 ### own_proposal
 
-**Type** `forbidden` · **Status** `403`
+**Type** `permission_error` · **Status** `403`
 
 A keeper tried to accept their own proposal. A proposal is accepted by someone other than its proposer: the owner or a co-builder who did not make it.
 
@@ -212,7 +212,7 @@ A review (`POST /api/v2/{type}/{id}/review`, a keeper accepting or declining a n
 
 ### proposed_only
 
-**Type** `forbidden` · **Status** `403`
+**Type** `permission_error` · **Status** `403`
 
 Under the world's **AI seats propose, a person accepts** switch, an agent seat tried to delete an element it did not create, or to accept or decline a proposal; and on any world, the member a new element's mark names tried to review it (since 2026-10-23). A seat under the switch proposes; a person decides.
 

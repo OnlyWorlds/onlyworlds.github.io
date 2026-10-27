@@ -9,11 +9,11 @@ A world's owner can also turn on **AI seats propose, a person accepts** on the w
 
 ## Propose
 
-`POST /api/v2/{type}/{id}/proposals` with `{"fields": {...}, "evidence": "...", "expires": 30}`. Any member key that reads the element may call it, a read key included; the owner uses the world's write key and PIN. The answer is `201 {"proposal": {...}}`; the element is unchanged.
+`POST /api/v2/{type}/{id}/proposals` with `{"fields": {...}, "evidence": "...", "expires": "2026-12-31"}`. Any member key that reads the element may call it, a read key included; the owner uses the world's write key and PIN. The answer is `201 {"proposal": {...}}`; the element is unchanged.
 
 A proposal carries `kind` (`"proposal"`), `id`, `element_type`, `element_id`, `state` (`open`, `lapsed`, `accepted`, `declined`), `fields` (what it would set: since 2026-10-23, only the fields whose proposed value differs from the element's), `omitted` (the fields a `PUT` left out that were not empty on the element: proposed empty, so a card can say "left empty by this replace"; `[]` for a `PATCH`, a link edit or this route), `base` (the element's values for the fields the write named when it was made) and `base_seq` (the element's `change_seq` then), `evidence`, `expires`, `by` (a membership id, or `"owner"`), `via` and `client` (the [door](/docs/development/api/writes#agent-writes) it came through), `decided_by`, `decided_at`, `decline_reason`, `created_at`, `updated_at`.
 
-- `evidence` is 1 to 2,000 characters. `expires` is 1 to 365 days, default 30; a row past its date reads as `lapsed` on every read and can still be accepted or declined.
+- `evidence` is 1 to 2,000 characters. `expires` is a date-time (ISO 8601, UTC when it has no offset; a date alone is its midnight UTC) 1 to 365 days from now, default 30 days; a number is a `422`; a row past its date reads as `lapsed` on every read and can still be accepted or declined.
 - `fields` follows the element's own [field rules](/docs/development/api/writes#field-rules). A field the caller cannot see (one a [known-of](/docs/schema/folders#known-of-elements) stub withholds) is `422 field_not_visible`. A link to an id the world does not hold is `400 invalid_link`, as on any write.
 - Five open proposals per element per proposer and fifty per world: past either, `422 too_many_open`. Lapsed rows do not count.
 - `Idempotency-Key` is honoured as on a create.

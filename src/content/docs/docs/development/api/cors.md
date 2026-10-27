@@ -37,8 +37,8 @@ For a custom domain, contact [info@onlyworlds.com](mailto:info@onlyworlds.com).
 
 ## Headers
 
-- **Request headers** a browser may send include `API-Key`, `API-Pin`, `Idempotency-Key`, `If-Match`, `Content-Type`, `Authorization`, `X-Session-Token` and `X-OW-Agent`.
-- **Response headers** a browser may read, besides the standard ones: `Retry-After`, `Idempotent-Replay`, `X-OW-Schema-Version` (the version of the standard the server speaks; the API's own version is the `v2` in the path), and `RateLimit-Limit`, `RateLimit-Remaining` and `RateLimit-Reset`, so a page can pace itself ([Limits](/docs/development/api-reference#limits)).
+- **Request headers** a browser may send include `API-Key`, `API-Pin`, `Idempotency-Key`, `If-Match`, `Content-Type`, `Authorization`, `X-Session-Token`, `X-OW-Agent`, `X-OW-Client` and `If-None-Match`.
+- **Response headers** a browser may read, besides the standard ones: `Retry-After`, `Idempotent-Replay`, `X-OW-Schema-Version` (the version of the standard the server speaks; the API's own version is the `v2` in the path), `RateLimit-Limit`, `RateLimit-Remaining` and `RateLimit-Reset`, so a page can pace itself ([Limits](/docs/development/api-reference#limits)), and `ETag`, so a page can send it back as `If-None-Match` ([Walking the feed](/docs/development/api/changes#walking-the-feed)).
 - **Credentials** (cookies) are not allowed. The API authenticates by header, so no browser client needs them.
 - Preflight answers may be cached for a day.
 

@@ -12,7 +12,7 @@ curl -s "https://www.onlyworlds.com/api/v2/changes?limit=1" -H "API-Key: 0000000
 ```
 
 ```json
-{ "cursor": "1:068e2e60-fc37-789e-8000-a64560195ff8", "has_more": true, "head": 124, "epoch": null, "changes": [
+{ "cursor": "1:068e2e60-fc37-789e-8000-a64560195ff8", "has_more": true, "head": 124, "epoch": null, "epoch_reason": null, "changes": [
     { "op": "upsert", "type": "ability", "id": "068e2e60-fc37-789e-8000-a64560195ff8", "change_seq": 1,
       "updated_at": "2025-10-05T21:41:35.764549+00:00", "element": { "type": "ability", "name": "Piano Playing", "…": "…" } } ] }
 ```
@@ -82,7 +82,7 @@ World fields (`name`, the time fields and the rest of `GET /api/v2/world`) are n
 
 ## Rewinds and `head`
 
-In normal operation a world's change sequence only moves forward. The one exception is a restore from backup, which rewinds it. If your stored position is beyond the `head` in a response, a restore happened: treat your cursor as invalid and pull again from the start.
+In normal operation a world's change sequence only moves forward. The one exception is a restore of the whole platform's database from backup after a disaster, which rewinds it. Restoring one world, an owner's [restore to a day](#restores-in-the-feed) included, arrives as ordinary writes and never rewinds. If your stored position is beyond the `head` in a response, a restore happened: treat your cursor as invalid and pull again from the start.
 
 ## Guests' cursors
 
@@ -128,7 +128,7 @@ The world page's **Download JSON** button (Access, **This world as a file**; the
 ```json
 {
   "format": "onlyworlds-world-export",
-  "schema_version": "00.32.02",
+  "schema_version": "00.33.00",
   "exported_at": "…",
   "world": {
     "id": "…", "name": "Hyperion", "description": "…", "time_basic_unit": "Year",
