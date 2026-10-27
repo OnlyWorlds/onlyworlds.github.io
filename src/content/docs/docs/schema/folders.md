@@ -126,7 +126,7 @@ A body the server trimmed for a key that may not see every linked element carrie
 
 - UTF-8 without BOM, LF endings, 2-space indent, one trailing newline, keys in received order (never sorted), `1` not `1.0`.
 - Write new elements under `elements/<type>/`, never `spatial/`; an element read from a file is written back to that file, so one id never sits in both layouts. SHOULD omit empty category folders.
-- Two elements with the same filename: the later ones (by ascending id) MUST use the full id, `<slug>--<id>.json`.
+- Two elements with the same filename: the later ones (by ascending id, compared by code point, the order archive entries use) MUST use the full id, `<slug>--<id>.json`.
 - An id, once minted, MUST be kept and MUST NOT be re-derived (from a new name, say).
 - MUST NOT invent data it lacks, such as timestamps, nor drop data it has. A [known-of](#known-of-elements) stub is written with its kept keys and served values only, and never pushed.
 - MUST preserve unknown fields and MUST NOT change another tool's prefixed field at any depth: copy it through byte for byte.
