@@ -2,7 +2,7 @@
 // postbuild.mjs: put folder pages back at folder paths.
 //
 // build.format 'file' writes every page as <slug>.html. The old site served its section pages
-// (docs/x/index.md, and /api/errors/) as folders: /docs/x 301s to /docs/x/ on the same host.
+// (docs/x/index.md(x), and /api/errors/) as folders: /docs/x 301s to /docs/x/ on the same host.
 // This step moves each <dir>.html written for a src/content/docs/<dir>/index.md(x) to
 // <dir>/index.html, so the old forms keep answering. It never leaves both forms: if a page
 // exists at both paths it stops, since which one GitHub Pages serves is not something we rely on.
@@ -12,6 +12,7 @@ import { fileURLToPath } from 'node:url';
 import { FIELD_SCHEMA, ELEMENT_TYPES, ELEMENT_LABELS } from '@onlyworlds/sdk';
 import { categoryLinksMarkdown } from '../src/components/figures/links.mjs';
 import { fourNounsMarkdown } from '../src/components/figures/four-nouns.mjs';
+import { errorFamiliesMarkdown } from '../src/components/figures/errors.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const CONTENT = join(ROOT, 'src', 'content', 'docs');
@@ -100,6 +101,7 @@ for (const file of walk(DIST)) {
 const FIGURE_TEXT = {
   CategoryLinks: () => categoryLinksMarkdown(FIELD_SCHEMA, ELEMENT_TYPES, ELEMENT_LABELS),
   FourNouns: fourNounsMarkdown,
+  ErrorFamilies: () => errorFamiliesMarkdown(JSON.parse(readFileSync(join(ROOT, 'contract', 'error-codes.json'), 'utf8'))),
 };
 let figureTexts = 0;
 for (const file of walk(DIST)) {
@@ -112,7 +114,12 @@ for (const file of walk(DIST)) {
     }
     figureTexts++;
     return FIGURE_TEXT[name]();
-  });
+  })
+    // An MDX page's own comments ({/* … */} on a line of their own, the errors table's markers)
+    // and its escaped braces (\{world_id\}, which MDX needs and Markdown does not) are source,
+    // not text: the twin drops the one and unescapes the other.
+    .replace(/^\{\/\*.*\*\/\}\n/gm, '')
+    .replace(/\\([{}])/g, '$1');
   if (next !== md) writeFileSync(file, next);
 }
 // A code block's lines are block <div class="ec-line"> with no newline between them, so a reader

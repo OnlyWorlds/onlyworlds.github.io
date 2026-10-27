@@ -1,0 +1,153 @@
+---
+// The API's public error codes in their families (the envelope's type), each family's codes
+// grouped by status, the codes whose answer carries Retry-After ringed and marked. Built at build
+// time from keel's list (contract/error-codes.json, through errors.mjs), the same list the summary
+// table under it is generated from. It is HTML text: every code is a list item linking to its
+// section, so the figure is its own text version. The theme is the docs' own (Starlight's colour
+// variables follow the light/dark switch).
+import codes from '../../../contract/error-codes.json';
+import { errorFamilies, errorWords, statusList } from './errors.mjs';
+
+const data = errorFamilies(codes);
+const w = errorWords(data, (s: string) => `<code>${s}</code>`, (t: string, id: string) => `<a href="#${id}">${t}</a>`);
+---
+
+<figure class="ow-fig ow-err not-content" data-ow-figure="error-families" data-total={data.total}>
+  <p class="ow-err-lead"><strong>{w.head}</strong> <Fragment set:html={w.lead} /></p>
+  {
+    data.families.map((f) => (
+      <div class="ow-err-fam" data-family={f.type}>
+        <p class="ow-err-name">
+          <code>{f.type}</code>
+          <span>
+            {f.count} {f.count === 1 ? 'code' : 'codes'}{f.says && ` · ${f.says}`} · {statusList(f.statuses.map((s) => s.status))}
+          </span>
+        </p>
+        <div class="ow-err-groups">
+          {f.statuses.map((s) => (
+            <div class="ow-err-grp" data-status={s.status}>
+              <span class={s.status >= 500 ? 'ow-err-st ow-err-5xx' : 'ow-err-st'}>{s.status}</span>
+              <ul>
+                {s.codes.map((c) => (
+                  <li class={c.retry ? 'retry' : undefined} data-code={c.code}>
+                    <a href={`#${c.code}`}>{c.code}</a>
+                    {c.retry && <span class="ow-err-mark" aria-hidden="true">↻</span>}
+                    {c.retry && <span class="sr-only"> (answers with Retry-After)</span>}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    ))
+  }
+  <p class="ow-err-key">
+    <span><i class="ow-err-swatch retry" aria-hidden="true">↻</i><Fragment set:html={w.retry} /></span>
+    <span><b class="ow-err-st">4xx</b> fix the request · <b class="ow-err-st ow-err-5xx">5xx</b> on our side</span>
+  </p>
+  <p class="ow-err-host" data-host-count={data.host.count}><Fragment set:html={w.host} /></p>
+  <figcaption>{w.caption}</figcaption>
+</figure>
+
+<style>
+  .ow-err {
+    container-type: inline-size;
+    margin: 1.5rem 0 1.25rem;
+    font-size: 0.9375rem;
+    line-height: 1.45;
+    color: var(--sl-color-gray-2);
+  }
+  .ow-err p { margin: 0; }
+  .ow-err code { font-family: var(--sl-font-mono); }
+  .ow-err .ow-err-lead { color: var(--sl-color-white); margin-bottom: 10px; }
+  .ow-err-lead code { font-size: 0.875em; }
+  .ow-err-fam {
+    display: grid;
+    grid-template-columns: 13rem minmax(0, 1fr);
+    gap: 6px 16px;
+    padding: 12px 0;
+    border-top: 1px solid var(--sl-color-gray-5);
+  }
+  .ow-err-name code {
+    display: inline-block;
+    max-width: 100%;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--sl-color-white);
+    overflow-wrap: anywhere;
+  }
+  .ow-err-name span { display: block; font-size: 0.8125rem; color: var(--sl-color-gray-3); }
+  .ow-err-groups { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .ow-err-grp { display: flex; gap: 10px; align-items: baseline; min-width: 0; }
+  .ow-err-st {
+    flex: none;
+    width: 2.6em;
+    text-align: right;
+    font: 600 0.8125rem var(--sl-font-mono);
+    color: var(--sl-color-accent-high);
+  }
+  .ow-err-5xx { color: var(--sl-color-red-high); }
+  .ow-err ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px 6px;
+    min-width: 0;
+  }
+  .ow-err li {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 4px;
+    max-width: 100%;
+    background: var(--sl-color-gray-6);
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 6px;
+    padding: 1px 8px;
+    font: 0.78125rem/1.5 var(--sl-font-mono);
+  }
+  .ow-err li a {
+    color: var(--sl-color-white);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  .ow-err li a:hover,
+  .ow-err li a:focus-visible { color: var(--sl-color-accent-high); text-decoration: underline; }
+  .ow-err li.retry { border: 1.5px solid var(--sl-color-orange); }
+  .ow-err-mark { color: var(--sl-color-orange-high); font-weight: 700; }
+  .ow-err-key {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    padding-top: 12px;
+    border-top: 1px solid var(--sl-color-gray-5);
+    font-size: 0.8125rem;
+  }
+  .ow-err-key .ow-err-st { width: auto; }
+  .ow-err-swatch {
+    display: inline-block;
+    font-style: normal;
+    text-align: center;
+    width: 1.9em;
+    margin-right: 6px;
+    border-radius: 5px;
+    background: var(--sl-color-gray-6);
+    border: 1.5px solid var(--sl-color-orange);
+    color: var(--sl-color-orange-high);
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  .ow-err-key code, .ow-err-host code { font-size: 0.8125rem; color: var(--sl-color-white); }
+  .ow-err .ow-err-host { margin-top: 10px; font-size: 0.875rem; }
+  .ow-err-host a { color: var(--sl-color-text-accent); }
+  .ow-err figcaption {
+    margin-top: 10px;
+    color: var(--sl-color-gray-3);
+    font-size: 0.8125rem;
+  }
+  @container (max-width: 560px) {
+    .ow-err-fam { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

@@ -3,6 +3,8 @@ title: API error reference
 description: Every error code the OnlyWorlds API returns, what causes it, and how to fix it.
 ---
 
+import ErrorFamilies from '../../../../components/figures/ErrorFamilies.astro';
+
 Every error from the current API (`/api/v2/`, including `/bulk` and `/changes`) answers in one envelope. A response with a non-2xx status has this body:
 
 ```json
@@ -35,7 +37,11 @@ Some errors carry extra top-level keys beside `error`, named in their row: `prec
 
 ## Error codes
 
-<!-- generated:error-codes (scripts/gen_errors.mjs, from contract/error-codes.json) -->
+Each code belongs to one family, its `type`, and a family's codes do not share one status or one fix: the figure groups them, and the table under it says what each one means.
+
+<ErrorFamilies />
+
+{/* generated:error-codes (scripts/gen_errors.mjs, from contract/error-codes.json) */}
 | Code | Type | Status | What happened |
 |:--|:--|:--|:--|
 | [`invalid_request`](#invalid_request) | `invalid_request` | `422` | The body or query is malformed: an unknown field or query parameter, a bad value, or a wrong-shaped payload; `param` names the culprit. |
@@ -69,11 +75,11 @@ Some errors carry extra top-level keys beside `error`, named in their row: `prec
 | [`key_revoked`](#key_revoked) | `authentication_error` | `401` | The API key was recognised but has been revoked. |
 | [`permission_error`](#permission_error) | `permission_error` | `403` | The credential is valid but lacks the scope for this route (e.g. a read key on a write route). |
 | [`not_author`](#not_author) | `permission_error` | `403` | A contributor or guest key changed, replaced, relinked or deleted an element someone else created. |
-| [`not_reader`](#not_reader) | `permission_error` | `403` | A key wrote a Read mark (a Relation whose supertype is Read, the message profile's record of what one reader has read) that is not its own, or a write would make someone else's Relation one: a Read mark is written only by the reader whose mark it is, the world's owner and its co-builders included. The reader adds to its own mark with POST /api/v2/account/worlds/{world_id}/read. |
+| [`not_reader`](#not_reader) | `permission_error` | `403` | A key wrote a Read mark (a Relation whose supertype is Read, the message profile's record of what one reader has read) that is not its own, or a write would make someone else's Relation one: a Read mark is written only by the reader whose mark it is, the world's owner and its co-builders included. The reader adds to its own mark with POST /api/v2/account/worlds/\{world_id\}/read. |
 | [`hidden_not_allowed`](#hidden_not_allowed) | `permission_error` | `403` | A create (POST, a PUT of a new id, a /bulk item that creates) carried `hidden: true` from a key that may not hide: only the world's owner and its co-builders (person or seat) may. Nothing was created. Leave `hidden` out, or ask a keeper. |
 | [`owner_only`](#owner_only) | `permission_error` | `403` | A member key tried to change the world's own settings (a co-builder may change every writable field but owner_character, and nothing the route does not take: the public switch stays the owner's). |
 | [`not_co_builder`](#not_co_builder) | `permission_error` | `403` | A key that is not a co-builder's (a contributor's, a guest's, a player's, or the owner's own keys) called /links: the world's invite links over a world key are a co-builder's; the owner mints them through the account. |
-| [`read_as_owner_only`](#read_as_owner_only) | `permission_error` | `403` | A key or token that is not the owner's sent `read_as` to GET /world/{world_id}/lenses: reading a lens as another reader is the owner's. |
+| [`read_as_owner_only`](#read_as_owner_only) | `permission_error` | `403` | A key or token that is not the owner's sent `read_as` to GET /world/\{world_id\}/lenses: reading a lens as another reader is the owner's. |
 | [`view_as_owner_only`](#view_as_owner_only) | `permission_error` | `403` | A member key sent `as` (view as): reading as another reader is the owner's, from a key with no member. |
 | [`guest_not_supported`](#guest_not_supported) | `permission_error` | `403` | A guest key called a route guests cannot use yet, or wrote a note (Narrative) without a Character of its own in the world. |
 | [`proposed_only`](#proposed_only) | `permission_error` | `403` | The world takes an agent seat's writes as proposals (its owner's setting), and this act has no proposal form: a seat deleting an element it did not create, or accepting or declining a proposal. Propose instead, or ask a keeper. Also, on any world, a member accepting or declining a new element its own mark proposed: a keeper settles it. |
@@ -93,7 +99,7 @@ Some errors carry extra top-level keys beside `error`, named in their row: `prec
 | [`server_busy`](#server_busy) | `api_error` | `503` | Every request slot stayed full for 10 seconds; retry after Retry-After. |
 | [`payload_too_large`](#payload_too_large) | `api_error` | `413` | The request body is over 2.5 MB; split a large /bulk into several calls. |
 | [`media_unavailable`](#media_unavailable) | `api_error` | `503` | Image or file upload is not configured on the server right now. |
-<!-- /generated:error-codes -->
+{/* /generated:error-codes */}
 
 ### invalid_request
 

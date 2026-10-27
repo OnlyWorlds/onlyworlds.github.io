@@ -51,7 +51,7 @@ python scripts/gen_elements.py --dist ../schema-dist --check  # exit 1 if a page
 
 ## Figures
 
-A figure is an Astro component in `src/components/figures/`, placed in a page's MDX (`<CategoryLinks />` on the schema page, `<FourNouns />` on Conventions). Each one keeps to five rules:
+A figure is an Astro component in `src/components/figures/`, placed in a page's MDX (`<CategoryLinks />` on the schema page, `<FourNouns />` on Conventions, `<ErrorFamilies />` on the errors page: the public error codes by family and status, from `contract/error-codes.json` through `errors.mjs`, held by `verify-figures.mjs` to the summary table on the same page and its Retry-After marks to the API's own document). Each one keeps to five rules:
 
 - **Its data comes from a source at build time, never drawn by hand.** The link map reads the SDK's `FIELD_SCHEMA` (`links.mjs`); words that no source holds sit in one module (`four-nouns.mjs`) that the component and the text version both read.
 - **It has a text version.** The page carries it (a list under the figure, or the figure is itself HTML text), and `scripts/postbuild.mjs` writes it into the page's Markdown twin in place of the component's tag (`FIGURE_TEXT`; a tag with no text there fails the build).

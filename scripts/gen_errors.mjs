@@ -24,11 +24,12 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SNAP = join(ROOT, 'contract', 'error-codes.json');
-const PAGE = join(ROOT, 'src', 'content', 'docs', 'api', 'errors', 'index.md');
+const PAGE = join(ROOT, 'src', 'content', 'docs', 'api', 'errors', 'index.mdx');
 const CONTRACT = join(ROOT, 'contract', 'urls.tsv');
 const OPENAPI = 'https://www.onlyworlds.com/api/v2/openapi.json';
-const BEGIN = '<!-- generated:error-codes (scripts/gen_errors.mjs, from contract/error-codes.json) -->';
-const END = '<!-- /generated:error-codes -->';
+// MDX comments: an HTML comment is a parse error in MDX. postbuild.mjs drops them from the twin.
+const BEGIN = '{/* generated:error-codes (scripts/gen_errors.mjs, from contract/error-codes.json) */}';
+const END = '{/* /generated:error-codes */}';
 const args = new Set(process.argv.slice(2));
 const problems = [];
 
@@ -54,7 +55,11 @@ const host = Object.entries(codes).filter(([, r]) => r.host);
 if (pub.length < 10) { console.error(`gen_errors: only ${pub.length} public codes in the snapshot; refusing to write`); process.exit(2); }
 
 // ---- the summary table -------------------------------------------------------------------------
-const cell = (s) => String(s ?? '').replace(/\|/g, '\\|').replace(/\s+/g, ' ').trim();
+// The page is MDX (it holds a figure), where { and < outside code start an expression or a tag:
+// a summary's /world/{world_id}/ would fail the build. Outside its code spans they are escaped,
+// which Markdown reads as the plain character too (the page's twin).
+const mdx = (s) => s.split(/(`[^`]*`)/).map((p, i) => (i % 2 ? p : p.replace(/[{}<]/g, '\\$&'))).join('');
+const cell = (s) => mdx(String(s ?? '').replace(/\|/g, '\\|').replace(/\s+/g, ' ').trim());
 const table = [
   BEGIN,
   '| Code | Type | Status | What happened |',

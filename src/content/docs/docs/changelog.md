@@ -5,6 +5,10 @@ description: What changed for developers on OnlyWorlds (the API, the clients and
 
 What changed for developers, newest first: the API on onlyworlds.com, the clients and tools these docs describe, and the docs themselves. Each day lists what a page now says; every release of a package is in its own changelog: [TypeScript SDK](https://github.com/OnlyWorlds/sdk/blob/main/CHANGELOG.md), [Unity SDK](https://github.com/OnlyWorlds/unity-sdk/blob/main/Packages/com.onlyworlds.sdk/CHANGELOG.md), [Python package](https://github.com/OnlyWorlds/python-sdk/blob/main/CHANGELOG.md). Everything that shipped across OnlyWorlds, for everyone, is on [What's new](https://www.onlyworlds.com/whats-new); this page stays the developer log.
 
+## 2026-10-28
+
+- **[Errors](/api/errors/#error-codes) draws every code by family and status** above the summary table, from the same list: the codes that answer with `Retry-After` are marked, and the upload host's own codes are counted on one line.
+
 ## 2026-10-27
 
 - **[The draught](/docs/development/api/draught#the-policy)**: the SDKs take its nine keys; the MCP tool `get_draught` takes eight, not `lens`. **[Worlds](/docs/schema/worlds)** names every writable field of the world, its extension keys and `source` and `producer` included.
