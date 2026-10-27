@@ -35,6 +35,7 @@ Eight query parameters, all optional. They are the same policy on every door: th
 | `budget` | Items per section, 1 to 1000 | `50` |
 | `depth` | The sheet's reach: `1` serves what her own element links to, `0` none | `1` |
 | `compact` | `true` leaves out every empty section and an empty `cut` ([Compact](#compact)); `false` serves the fixed shape | `false` |
+| `lens` | A [lens](/docs/schema/conventions#lenses) id: the packet adds `lenses`, one frame with that lens read for your own view. The lens carries its own reach and limit, so `lens` beside `depth` or `budget` is a 422; a lens you cannot see is the 404. Without it, and with no policy parameter but `compact`, the packet adds one frame per lens you chose (`PUT /api/v2/me/lenses`) | none |
 
 **Past the budget,** a section drops items: `sheet` and `names` those with the fewest `her_links`, `knowledge`, `messages` and `recent` the oldest, `events` the oldest dated first, then the undated by rank, `room` and `proposed` the oldest. `self`, `role` and `work` are never cut. `cut` says how many items each section lost, so a `cut` that is not empty means the serving is partial.
 

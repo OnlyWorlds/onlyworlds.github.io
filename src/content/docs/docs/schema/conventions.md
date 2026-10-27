@@ -97,6 +97,12 @@ A lens is a saved way of reading a world: which elements, how far from a startin
 
 The TypeScript and Python SDKs read a lens over a world snapshot (`resolveLens`, `resolve_lens`).
 
+**On the API**, the server reads the same profile:
+
+- `GET /api/v2/world/{world_id}/lenses` lists every lens in the world you can see, templates marked, each with its recipe filled in, the Titles it is the default for and whether you chose it. With `resolve=true` it adds each lens's reading for you: the kept rows, the cut by reason, the mail part. The owner may read as another reader with `read_as` (`guest`, `contributor`, `co-builder`, `public`, or a membership id). Never keyless. SDK `worldLenses`, Python `world_lenses`.
+- `PUT /api/v2/me/lenses` sets the lenses you start with, `{"lenses": [ids]}`, 0 to 20 in your order, an empty list a choice too; each must be a lens you can see. `GET /me` and `GET /members` show each holder's `lenses`. SDK `setMyLenses`, Python `set_my_lenses`.
+- The [draught](/docs/development/api/draught) takes `lens=<id>` and adds `lenses`, one frame with that lens read for your own view. With no lens and no policy parameter but `compact`, it adds one frame per lens you chose, in your order.
+
 ## Data the schema does not model
 
 Two places hold what the categories have no field for:

@@ -49,9 +49,12 @@ Some errors carry extra top-level keys beside `error`, named in their row: `prec
 | [`precondition_failed`](#precondition_failed) | `invalid_request` | `412` | The request carried If-Match with a change_seq, and the element has moved since; the reply's top-level `current` is the element as it is now. Nothing was written and nothing is merged: re-read `current`, then re-send or ask the user. |
 | [`player_role_fixed`](#player_role_fixed) | `invalid_request` | `422` | The owner tried to change a player seat's role: a player (no account) reads as a guest, and that role can't be changed. Remove the player instead. |
 | [`character_hidden`](#character_hidden) | `invalid_request` | `422` | The owner tried to set a hidden Character as the one a seat or a player plays (`param` character): a played Character is on every reader's roster, so a hidden one can never be picked. Unhide it first, or pick another. |
+| [`not_a_lens`](#not_a_lens) | `invalid_request` | `422` | A seat chose a Construct that is no lens (`param` lenses): a lens is a Construct with supertype Lens (the lens profile, profiles/lens.md). |
+| [`lens_is_template`](#lens_is_template) | `invalid_request` | `422` | A seat chose a template (`param` lenses): a lens with subtype Template reads nothing until it is copied and pointed. Choose a lens with anchors. |
+| [`lens_hidden`](#lens_hidden) | `invalid_request` | `422` | A seat chose a hidden lens (`param` lenses): a seat's lenses are on the members list every reader of the world reads, so a hidden one can never be chosen. Unhide it first. |
 | [`character_played`](#character_played) | `invalid_request` | `422` | A delete named a Character someone plays on the roster: the world's owner_character or a live member's Character (`param` id); the message says who, never by email or username. Nothing was deleted. Re-point that member to another Character, or remove the member, then delete. |
 | [`known_of_not_writable`](#known_of_not_writable) | `invalid_request` | `422` | A write body carried `known_of` (`param` known_of): that key marks a stub, an element the reader knows of but does not see whole, and is never written. A stub sent back would blank every field it leaves out: drop `known_of` and send only the fields you mean to change. |
-| [`served_trimmed_not_writable`](#served_trimmed_not_writable) | `invalid_request` | `422` | A write body carried `x_served_trimmed` (`param` x_served_trimmed): the server adds that key to a message it serves with recipients or a sender hidden from the reader, and it is never written. Drop it and send only the fields you mean to change. |
+| [`served_trimmed_not_writable`](#served_trimmed_not_writable) | `invalid_request` | `422` | A write body carried `x_served_trimmed` (`param` x_served_trimmed): the server adds that key to a message it serves with recipients or a sender hidden from the reader, and to a lens it serves with an anchor hidden from the reader, and it is never written. Drop it and send only the fields you mean to change. |
 | [`character_taken`](#character_taken) | `invalid_request` | `422` | A player picked a Character from a party link's list that a live seat in the world already plays (`param` character): pick another from the list. The preview marks each listed Character `taken`. |
 | [`world_full`](#world_full) | `invalid_request` | `422` | A player link was opened in a world that already has its 50 live players: nothing was spent, and the link works again once the owner removes a player. |
 | [`field_not_visible`](#field_not_visible) | `invalid_request` | `422` | A proposal named a field the proposer's own view of the element does not hold (`param` names it): the element reaches this reader only as a stub (known_of), and a proposal changes only what its proposer can read. |
@@ -70,6 +73,7 @@ Some errors carry extra top-level keys beside `error`, named in their row: `prec
 | [`hidden_not_allowed`](#hidden_not_allowed) | `permission_error` | `403` | A create (POST, a PUT of a new id, a /bulk item that creates) carried `hidden: true` from a key that may not hide: only the world's owner and its co-builders (person or seat) may. Nothing was created. Leave `hidden` out, or ask a keeper. |
 | [`owner_only`](#owner_only) | `permission_error` | `403` | A member key tried to change the world's own settings (a co-builder may change every writable field but owner_character, and nothing the route does not take: the public switch stays the owner's). |
 | [`not_co_builder`](#not_co_builder) | `permission_error` | `403` | A key that is not a co-builder's (a contributor's, a guest's, a player's, or the owner's own keys) called /links: the world's invite links over a world key are a co-builder's; the owner mints them through the account. |
+| [`read_as_owner_only`](#read_as_owner_only) | `permission_error` | `403` | A key or token that is not the owner's sent `read_as` to GET /world/{world_id}/lenses: reading a lens as another reader is the owner's. |
 | [`view_as_owner_only`](#view_as_owner_only) | `permission_error` | `403` | A member key sent `as` (view as): reading as another reader is the owner's, from a key with no member. |
 | [`guest_not_supported`](#guest_not_supported) | `permission_error` | `403` | A guest key called a route guests cannot use yet, or wrote a note (Narrative) without a Character of its own in the world. |
 | [`proposed_only`](#proposed_only) | `permission_error` | `403` | The world takes an agent seat's writes as proposals (its owner's setting), and this act has no proposal form: a seat deleting an element it did not create, or accepting or declining a proposal. Propose instead, or ask a keeper. Also, on any world, a member accepting or declining a new element its own mark proposed: a keeper settles it. |
@@ -122,6 +126,30 @@ A single write that fails with `invalid_link` writes nothing, so after fixing th
 - **Common cause:** a page reload that sent the code a second time; a code older than 60 seconds; a `redirect_uri` that differs from the authorize request's by a trailing slash or a query; a verifier from another sign-in.
 - **How to fix:** start the sign-in again from the tool's button. Take `code` out of the address bar before the exchange, and send the exchange once, before any other request. A code sent a second time also revokes the token its first exchange minted.
 
+### lens_hidden
+
+**Type** `invalid_request` · **Status** `422`
+
+A seat chose a hidden lens (`param` `lenses`) in `PUT /api/v2/me/lenses` or the account member route. A seat's [lenses](/docs/schema/conventions#lenses) are on the members list every reader of the world reads, so a hidden lens can never be chosen. Nothing was written.
+
+- **How to fix:** unhide the lens first, or choose another.
+
+### lens_is_template
+
+**Type** `invalid_request` · **Status** `422`
+
+A seat chose a template (`param` `lenses`): a lens with subtype `Template` has no anchors and reads nothing until it is copied and pointed at this world's things ([lenses](/docs/schema/conventions#lenses)). Nothing was written.
+
+- **How to fix:** copy the template into a lens with anchors, and choose that one.
+
+### not_a_lens
+
+**Type** `invalid_request` · **Status** `422`
+
+A seat chose an id that is no lens (`param` `lenses`): a lens is a Construct with supertype `Lens` ([lenses](/docs/schema/conventions#lenses)). Nothing was written.
+
+- **How to fix:** send only lens ids; `GET /api/v2/world/{world_id}/lenses` lists the ones you can see.
+
 ### one_credential
 
 **Type** `invalid_request` · **Status** `400`
@@ -148,6 +176,14 @@ A `PATCH`, a link operation or a `DELETE` carried `If-Match` with a `change_seq`
 
 - **Common cause:** an edit made offline or from a stale copy, while another client (Atlas, a plugin, an agent) changed the same element.
 - **How to fix:** read `current`. If the fields you changed are not the ones that moved, re-send your `PATCH` with `current.change_seq` in `If-Match`. If the same field moved on both sides, ask the user which version to keep. See [Only if unchanged](/docs/development/api/writes#only-if-unchanged).
+
+### read_as_owner_only
+
+**Type** `permission_error` · **Status** `403`
+
+A key or token that is not the owner's sent `read_as` to `GET /api/v2/world/{world_id}/lenses`: reading a lens as another reader is the owner's.
+
+- **How to fix:** leave `read_as` out; the answer is then your own reading.
 
 ### stale_proposal
 
