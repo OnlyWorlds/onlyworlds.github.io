@@ -47,7 +47,7 @@ A write body that carries `type`, `created_at`, `updated_at` or `change_seq` is 
 
 Link fields use their bare names in both directions: `location`, `friends`. There is no `_id` or `_ids` suffix on the v2 API.
 
-**Bounded numbers.** Most numbers are open. These carry a range in the schema, as a hint for display (a slider's range). The range is advisory: the API does not enforce it, and a tool accepts any integer.
+**Bounded numbers.** Most numbers are open. These carry a range in the schema, as a hint for display (a slider's range). The range is advisory: the API does not enforce it.
 
 | Range | Fields |
 | :--- | :--- |

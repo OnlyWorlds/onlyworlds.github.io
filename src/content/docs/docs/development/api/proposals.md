@@ -9,7 +9,7 @@ A world's owner can also turn on **AI seats propose, a person accepts** on the w
 
 ## Propose
 
-`POST /api/v2/{type}/{id}/proposals` with `{"fields": {...}, "evidence": "...", "expires": "2026-12-31"}`. Any member key that reads the element may call it, a read key included; the owner uses the world's write key and PIN. The answer is `201 {"proposal": {...}}`; the element is unchanged.
+`POST /api/v2/{type}/{id}/proposals` with `{"fields": {...}, "evidence": "..."}`. Any member key that reads the element may call it, a read key included; the owner uses the world's write key and PIN. The answer is `201 {"proposal": {...}}`; the element is unchanged.
 
 A proposal carries `kind` (`"proposal"`), `id`, `element_type`, `element_id`, `state` (`open`, `lapsed`, `accepted`, `declined`), `fields` (what it would set: since 2026-10-23, only the fields whose proposed value differs from the element's), `omitted` (the fields a `PUT` left out that were not empty on the element: proposed empty, so a card can say "left empty by this replace"; `[]` for a `PATCH`, a link edit or this route), `base` (the element's values for the fields the write named when it was made) and `base_seq` (the element's `change_seq` then), `evidence`, `expires`, `by` (a membership id, or `"owner"`), `via` and `client` (the [door](/docs/development/api/writes#agent-writes) it came through), `decided_by`, `decided_at`, `decline_reason`, `created_at`, `updated_at`.
 

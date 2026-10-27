@@ -255,7 +255,7 @@ const open = new OwV2Client({ world: worldId });   // no key: what the public re
 Since 4.58.0 a member can [propose a change](/docs/development/api/proposals) for a keeper to accept instead of writing it, and a world's owner can make every agent seat work that way.
 
 ```typescript
-const row = await client.propose('character', id, { fields: { reputation: 'Feared' }, evidence: 'Chapter 12', expires: '2026-12-31' });
+const row = await client.propose('character', id, { fields: { reputation: 'Feared' }, evidence: 'Chapter 12', expires: new Date(Date.now() + 14 * 86_400_000).toISOString() });
 const queue = await client.worldProposals({ state: 'open' });        // newest first; keepers see every row, others their own
 const { proposal, element } = await client.acceptProposal('character', id, row.id); // the keeper's own write, one feed row
 await client.declineProposal('character', id, row.id, { reason: 'not yet' });
