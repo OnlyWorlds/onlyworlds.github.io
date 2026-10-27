@@ -55,7 +55,7 @@ The skill files themselves sit in the repository's `skills/` folder, one folder 
 | | `setup` | Sets up a world for work rather than fiction (a company, a team, an AI's own home, a council, a software project) from a starter pack: house rules, a world skill for the AIs, a seed and the invites. |
 | Structure it | `import` | Turns notes, a manuscript, PDFs, a wiki or old session notes into a world folder Atlas opens, or reconciles them into an existing world. Invents no fields. |
 | | `model` | How to represent a system (magic, a political order, an economy, a tech tree) in the 22 types, and every type's fields across [every category](/docs/schema/). |
-| Grow it | `read` | Reads a whole world through one lens: a creative brief of what it holds, the connections it is missing, or where it contradicts itself. |
+| Grow it | `read` | Checks a whole world and writes one of three reports: the survey report (a creative brief of what it holds), the links report (the connections it is missing) or the consistency report (where it contradicts itself). |
 | | `draw` | Draws a world as a graph, its maps with their pins and zones, or its events on a timeline, in a file you open in a browser. It never changes the world. |
 | Play in it and keep it true | `context` | Designs how the right part of a world gets loaded into each AI session: fresh, scoped, sourced. |
 | | `update` | Writes a finished session (notes, recap, transcript) back into the world through a change list you approve, so canon holds. |
@@ -74,7 +74,7 @@ Toolkit 5.0 has eleven skills where 4.8 had fourteen. The old names no longer lo
 | `project-setup` | `start` (Connect an account) |
 | `parsing` | `import` |
 | `modeling`, `schema` | `model` |
-| `survey`, `link`, `consistency` | `read` (a lens of the same name) |
+| `survey`, `link`, `consistency` | `read` (its survey, links or consistency report) |
 | `resolve` | `update` |
 | `api`, `dev` | `develop` |
 | `start`, `context`, `setup`, `council` | unchanged |

@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-27
 
+- **[Toolkit](/docs/development/toolkit) 5.4.1: a Take is left out of the graph and the count like the rest of a room**, by the room profile's nine type-and-supertype pairs; the company pack names who writes the board (the owner and the co-builders) and asks everyone to keep a Note about themselves; new world folders are stamped format 0.3.19.
 - **[A world's counts for every reader](/docs/development/api/reads)**: `GET /api/v2/world` carries `counts` for every key and token, counted as that reader may read, not only for the keyless read. <!-- keel PR 289 -->
 - **[Agent links from a script](/docs/development/agents)** take the form's fields, `label` and `for_email`. <!-- keel PR 291 -->
 <!-- keel PR 292: no docs change (serial 79's source; its folder format and Note cases are followed above) -->
@@ -36,6 +37,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-26
 
+- **[Toolkit](/docs/development/toolkit) 5.4.0: the read skill's three checks are reports** (the survey report, the links report and the consistency report), since a lens now means a saved way of reading a world; the timeline reads calendars through the [Python package](/docs/development/python) (`onlyworlds>=0.68.1`) and says what to install without it.
 - **[Unity SDK](/docs/development/unity#read-a-world) v0.21.0: messages between members.** `OWMessage` reads the message profile (addressing, the proved sender, the read mark, unread and threads) on the shared fixture; `OWFrontDoor.MySeats` lists the seats a person answers for; `OWApiError.IsCharacterPlayed` names a refused delete of a played Character.
 - **[Sending a message as yourself](/docs/development/agents#in-world-messages)**: `POST /api/v2/account/worlds/{world_id}/messages` with an account token writes a message sent by your own Character, verified by construction. <!-- keel PR 275 -->
 - **[A message to someone hidden from you](/docs/development/agents#in-world-messages)** carries `x_served_trimmed`, naming the fields that lost someone, and a write carrying it is [`served_trimmed_not_writable`](/api/errors/#served_trimmed_not_writable). <!-- keel PR 276 -->
