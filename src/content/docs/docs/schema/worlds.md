@@ -34,8 +34,9 @@ Element fields that hold a moment, such as a Character's `birth_date` or an Even
 
 **Fantasy world with a custom calendar:**
 - `time_format_names`: `["Sun", "Tenday", "Moon", "Turning"]`
+- `time_format_equivalents`: `[1, 10, 30, 360]` (a Tenday is 10 Suns, a Moon 30, a Turning 360)
 - `time_basic_unit`: `"Sun"`
-- `time_range_current`: `1247` (year 1247 of the Third Age)
+- `time_range_current`: `448560` (the first Sun of Turning 1247, counting Turning 1 from 0: 1,246 × 360 Suns). Every date counts in the basic unit, so a world that only tracks years makes its basic unit the year.
 
 **Science fiction setting with stardates:**
 - `time_format_names`: `["Cycle", "Rotation", "Orbit", "Epoch"]`
