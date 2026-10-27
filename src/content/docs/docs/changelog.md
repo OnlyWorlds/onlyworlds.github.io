@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-27
 
+- **[Folder format](/docs/schema/folders#a-list-trimmed-for-its-reader) v0.3.19**: a file keeps `x_served_trimmed` exactly as served; a reader reads the field it names as trimmed, never as empty; a push never sends it.
 - **[The keys a sign-in token minted](/docs/development/api/signin#consent-and-revoking)** go with it when it is revoked, unless another live token of the tool remains; a key minted with `keep: true` outlives it, and so do the keys of a token made by hand or through a password sign-in, and of a tool that asks each time. `GET /api/v2/account/tokens` lists `keys_minted`. <!-- keel PR 279 --> <!-- keel PR 286 -->
 - **[TypeScript](/docs/development/typescript#a-world-on-the-account) 4.90.0**: `mintWorldKey(worldId, { keep: true })`, and `kept` on the answer.
 - **[Sending a message as yourself](/docs/development/agents#in-world-messages)** takes an `Idempotency-Key`: a retry with the same key and body arrives once. <!-- keel PR 283 -->
