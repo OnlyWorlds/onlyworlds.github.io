@@ -57,6 +57,16 @@ for (const k of ELEMENT_TYPES) {
 if (rows.size === 0) blind('no link rows read from the element pages (has the table format moved?)');
 for (const d of drawn) if (!rows.has(d)) fails.push(`drawn but on no element page: ${d}`);
 for (const r of rows) if (!drawn.has(r)) fails.push(`on its element page but not drawn: ${r}`);
+// The back-references (drawn dark) are their own derivation, so they meet the pages too: every
+// link to k from another category's page is in incoming[k], and nothing else is.
+if (!fig.incoming) fails.push('the link map carries no back-references (incoming)');
+else {
+  const back = new Set();
+  for (const k of fig.order) for (const l of fig.incoming[k] ?? []) for (const f of l.fields) back.add(key(l.from, k, f));
+  const want = new Set([...rows].filter((r) => { const [, from, to] = r.match(/^(\w+) -> (\w+) via/); return to !== 'any' && to !== from; }));
+  for (const b of back) if (!want.has(b)) fails.push(`drawn as a back-reference but on no element page: ${b}`);
+  for (const w of want) if (!back.has(w)) fails.push(`a link the back-references leave out: ${w}`);
+}
 const tiles = new Set([...schema.matchAll(/<button\b[^>]*\bclass="ow-links-tile\b[^"]*"[^>]*\bdata-k="([a-z]+)"|<button\b[^>]*\bdata-k="([a-z]+)"[^>]*\bclass="ow-links-tile\b/g)].map((t) => t[1] || t[2]));
 if (tiles.size !== fig.order.length) fails.push(`the map draws ${tiles.size} tiles for ${fig.order.length} categories`);
 const text = schema.match(/<details class="ow-fig-text\b[^"]*"[^>]*>([\s\S]*?)<\/details>/);

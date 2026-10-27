@@ -35,7 +35,8 @@ const sentences = linkSentences(data, plural, (n: string) => `<code>${n}</code>`
   </div>
   <figcaption>
     Generated from the schema: a category is lit when one of the selected category's own link fields
-    points at it. Links to the same category, and Pin's link to any element, are named in the line above.
+    points at it, and drawn dark and dashed when its own fields point at the selected one. Links to the
+    same category, and Pin's link to any element, are named in the line above.
   </figcaption>
   <script type="application/json" class="ow-fig-data" set:html={JSON.stringify({ ...data, plural })} />
 </figure>
@@ -43,7 +44,14 @@ const sentences = linkSentences(data, plural, (n: string) => `<code>${n}</code>`
 <details class="ow-fig-text">
   <summary>The same links as text</summary>
   <ul>
-    {sentences.map(({ k, text }) => <li><strong>{categoryLabel(k)}</strong> links to <Fragment set:html={text} />.</li>)}
+    {
+      sentences.map(({ k, text, back }) => (
+        <li>
+          <strong>{categoryLabel(k)}</strong> links to <Fragment set:html={text} />.
+          {back && <Fragment set:html={` Linked from ${back}.`} />}
+        </li>
+      ))
+    }
   </ul>
 </details>
 
@@ -58,7 +66,7 @@ const sentences = linkSentences(data, plural, (n: string) => `<code>${n}</code>`
     display: flex;
     gap: 12px;
     align-items: flex-start;
-    min-height: 3.2em; /* room for two lines of caption, so the tiles never shift when its words change */
+    min-height: 4.4em; /* room for three lines of caption, so the tiles never shift when its words change */
     margin-bottom: 10px;
   }
   .ow-links-cap {
@@ -102,7 +110,7 @@ const sentences = linkSentences(data, plural, (n: string) => `<code>${n}</code>`
     }
   }
   @container (max-width: 500px) {
-    .ow-links-bar { min-height: 6em; }
+    .ow-links-bar { min-height: 7.4em; }
     .ow-links-stage {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       grid-template-rows: repeat(11, 48px);
@@ -124,6 +132,12 @@ const sentences = linkSentences(data, plural, (n: string) => `<code>${n}</code>`
     stroke-width: 2;
     stroke-linecap: round;
     stroke-opacity: 0.85;
+  }
+  .ow-links-paths :global(path.back) {
+    stroke: var(--sl-color-gray-3);
+    stroke-width: 1.25;
+    stroke-dasharray: 4 4;
+    stroke-opacity: 0.6;
   }
   .ow-links-tile {
     display: flex;
@@ -154,6 +168,7 @@ const sentences = linkSentences(data, plural, (n: string) => `<code>${n}</code>`
     text-overflow: ellipsis;
   }
   .ow-links-tile.dim { opacity: 0.3; }
+  .ow-links-tile.src { opacity: 0.6; border-style: dashed; border-color: var(--sl-color-gray-4); }
   .ow-links-tile.cur { border-width: 2px; border-color: var(--sl-color-accent); background: var(--sl-color-accent-low); }
   .ow-links-tile.cur .material-symbols-outlined { color: var(--sl-color-accent); }
   .ow-links-tile.tgt { border-color: var(--sl-color-accent-high); }
@@ -244,25 +259,42 @@ const sentences = linkSentences(data, plural, (n: string) => `<code>${n}</code>`
         : `${label(k)} has no fields that link to another category.`;
       if (D.self[k].length) s += ` And to other ${D.plural[k]}, through ${list(D.self[k])}.`;
       if (D.generic[k].length) s += ` And to any element, through ${list(D.generic[k])}.`;
+      const b = backOf(k).length;
+      if (b) s += ` ${b} more ${b === 1 ? 'category links' : 'categories link'} to ${label(k)}, drawn dark.`;
       return s;
     }
+    // The categories whose own fields point at k and that k does not already link to (the forward
+    // link wins: a category linked both ways stays lit, and the text version names both).
+    const backOf = (k: string) => {
+      const fwd = new Set(D.links[k].map((l: any) => l.to));
+      return D.incoming[k].filter((l: any) => !fwd.has(l.from));
+    };
+    const short = (fields: string[]) => fields.slice(0, 3).join(', ') + (fields.length > 3 ? '…' : '');
     function paint() {
       const cur = sel || hov;
       paths.replaceChildren();
       const L = cur ? D.links[cur] : [], tg = new Set(L.map((l: any) => l.to));
+      const B = cur ? backOf(cur) : [], src = new Set(B.map((l: any) => l.from));
       for (const [k, o] of Object.entries(tiles)) {
-        const on = !cur || k === cur || tg.has(k);
+        const on = !cur || k === cur || tg.has(k) || src.has(k);
         o.el.classList.toggle('dim', !on);
         o.el.classList.toggle('cur', k === cur);
         o.el.classList.toggle('tgt', tg.has(k));
+        o.el.classList.toggle('src', src.has(k));
         o.el.setAttribute('aria-pressed', String(k === sel));
-        const l = L.find((l: any) => l.to === k);
-        o.fl.textContent = l ? l.fields.slice(0, 3).join(', ') + (l.fields.length > 3 ? '…' : '') : '';
-        o.el.title = l ? l.fields.join(', ') : '';
+        const l = L.find((l: any) => l.to === k), b = B.find((l: any) => l.from === k);
+        o.fl.textContent = l ? short(l.fields) : b ? '← ' + short(b.fields) : '';
+        o.el.title = l ? l.fields.join(', ') : b ? b.fields.join(', ') : '';
       }
       clr.style.visibility = sel ? 'visible' : 'hidden';
       if (!cur) { cap.textContent = 'The standard has 22 categories. Select one to see which others its fields link to.'; return; }
       cap.textContent = caption(cur);
+      B.forEach((l: any, i: number) => {   // under the forward lines, still, in lanes of their own
+        const p = document.createElementNS(NS, 'path');
+        p.setAttribute('class', 'back');
+        p.setAttribute('d', rounded(route(pos[l.from], pos[cur], i + L.length)));
+        paths.appendChild(p);
+      });
       L.forEach((l: any, i: number) => {
         const p = document.createElementNS(NS, 'path');
         p.setAttribute('d', rounded(route(pos[cur], pos[l.to], i)));
