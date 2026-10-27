@@ -10,10 +10,12 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 - **[Reading a world with an account token](/docs/getting-started/keys#reading-a-world-with-an-account-token)**: element lists and reads, search, metadata and the world take `Authorization: Bearer ow_a_…` with `world=<id>`, read only, as your own access in that world; a tool that signs you in needs no key per world. Both credentials on one request is [`one_credential`](/api/errors/#one_credential). <!-- keel PR 280 -->
 - **Words in the toolkit page**: a system to model is named "a political order", in words that are no stand-in for an element type ([Toolkit](/docs/development/toolkit)).
 <!-- keel PR 278: no docs change -->
+- **[Unity SDK](/docs/development/unity#read-a-world) v0.22.0**: `OWMessage.IsReadMark` tells a read mark from other Relations.
 - **[Atlas](/docs/tools/atlas) 1.94.0 and 1.95.0**: signing in again revokes the token Atlas made before, and the graph marks elements waiting for review or hidden.
 
 ## 2026-10-26
 
+- **[Unity SDK](/docs/development/unity#read-a-world) v0.21.0: messages between members.** `OWMessage` reads the message profile (addressing, the proved sender, the read mark, unread and threads) on the shared fixture; `OWFrontDoor.MySeats` lists the seats a person answers for; `OWApiError.IsCharacterPlayed` names a refused delete of a played Character.
 - **[Sending a message as yourself](/docs/development/agents#in-world-messages)**: `POST /api/v2/account/worlds/{world_id}/messages` with an account token writes a message sent by your own Character, verified by construction. <!-- keel PR 275 -->
 - **[A message to someone hidden from you](/docs/development/agents#in-world-messages)** carries `x_served_trimmed`, naming the fields that lost someone, and a write carrying it is [`served_trimmed_not_writable`](/api/errors/#served_trimmed_not_writable). <!-- keel PR 276 -->
 - **[CORS](/docs/development/api/cors#allowed-origins)**: a page served from GitHub Codespaces (`https://*.app.github.dev`) may call the API. <!-- keel PR 277 -->
