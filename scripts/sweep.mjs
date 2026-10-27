@@ -10,7 +10,9 @@
  *
  *   CHECKS   things that can be measured, each PASS or STALE: the SDK pin the reference is generated
  *            from against npm; the error-code snapshot against keel's live list; the routes in the
- *            API reference against keel's OpenAPI; every external link; words the docs must not use.
+ *            API reference against keel's OpenAPI; every external link; words the docs must not use;
+ *            every release since the last sweep (the packages, the Unity SDK, the plugin, the toolkit,
+ *            schema-dist's serials) against the changelog.
  *   MOVED    what changed in the sources since the last sweep (SWEEP.md's "Last swept"): commit
  *            subjects from keel, schema-dist, the SDK, the Python package, Atlas, the Unity SDK and
  *            the Obsidian plugin. These are for reading against the pages that state them; no script
@@ -162,6 +164,42 @@ if (!flag('--no-links')) {
   if (failures.length) { for (const x of failures) bad(`link: ${x}`); }
   else pass(`${list.length} external links answer`);
 } else note('external links skipped (--no-links)');
+
+// ---- 6: every release since the last sweep has its changelog line ---------------------------------------
+// A tag ships without a commit the MOVED list makes stand out (Unity 0.21.0 and 0.23.0 were missed that way,
+// 2026-10-27). Read from each repository's published releases, never a checkout. A release is followed when a
+// changelog line links its page and names its version, or a marker says it moved no claim:
+// <!-- <repo> <tag>: no docs change -->. Schema-dist serials are named by number ("serial 78").
+{
+  const changelog = readFileSync(join(ROOT, 'src', 'content', 'docs', 'docs', 'changelog.md'), 'utf8');
+  const lines = changelog.split(/\r?\n/);
+  const released = [
+    ['sdk', '/docs/development/typescript'],
+    ['python-sdk', '/docs/development/python'],
+    ['unity-sdk', '/docs/development/unity'],
+    ['obsidian-plugin', '/docs/tools/obsidian-plugin'],
+    ['toolkit', '/docs/development/toolkit'],
+    ['schema-dist', null],
+  ];
+  let read = 0;
+  for (const [repo, page] of released) {
+    const out = sh('gh', ['release', 'list', '-R', `OnlyWorlds/${repo}`, '--limit', '40', '--json', 'tagName,publishedAt']);
+    if (out === null) { bad(`releases: could not read OnlyWorlds/${repo}'s releases (gh): not checked`); continue; }
+    for (const { tagName, publishedAt } of JSON.parse(out)) {
+      if (!publishedAt || publishedAt.slice(0, 10) < SINCE) continue;
+      read++;
+      const version = tagName.replace(/^v/, '');
+      const serial = repo === 'schema-dist' ? tagName.match(/dist\.(\d+)$/)?.[1] : undefined;
+      const lined = serial
+        ? lines.some((l) => l.includes(`serial ${serial}`))
+        : lines.some((l) => l.includes(page) && l.includes(version));
+      if (!lined && !changelog.includes(`<!-- ${repo} ${tagName}: no docs change -->`)) {
+        bad(`releases: ${repo} ${tagName} (${publishedAt.slice(0, 16)}Z) has no changelog line ${serial ? `naming serial ${serial}` : `linking ${page} with ${version}`}, and no marker`);
+      }
+    }
+  }
+  if (!stale.some((m) => m.startsWith('releases:'))) pass(`releases: ${read} since ${SINCE}, each with its changelog line or marker`);
+}
 
 // ---- what moved ----------------------------------------------------------------------------------------------------------
 console.log('');
