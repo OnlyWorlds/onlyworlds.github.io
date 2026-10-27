@@ -11,6 +11,7 @@ Browser code may call the API directly from the origins below. Requests from any
 |:--|:--|
 | OnlyWorlds | `onlyworlds.com`, `www.onlyworlds.com`, `https://*.onlyworlds.com`, `https://onlyworlds.github.io` |
 | GitHub Pages | `https://*.github.io` |
+| GitHub Codespaces | `https://*.app.github.dev` (a forwarded port's page) |
 | GitLab Pages | `https://*.gitlab.io` |
 | Cloudflare Pages | `https://*.pages.dev`, including branch previews (`https://*.*.pages.dev`) |
 | Vercel | `https://*.vercel.app`, `https://*.now.sh` |

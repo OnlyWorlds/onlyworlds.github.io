@@ -51,6 +51,7 @@ Some errors carry extra top-level keys beside `error`, named in their row: `prec
 | [`character_hidden`](#character_hidden) | `invalid_request` | `422` | The owner tried to set a hidden Character as the one a seat or a player plays (`param` character): a played Character is on every reader's roster, so a hidden one can never be picked. Unhide it first, or pick another. |
 | [`character_played`](#character_played) | `invalid_request` | `422` | A delete named a Character someone plays on the roster: the world's owner_character or a live member's Character (`param` id); the message says who, never by email or username. Nothing was deleted. Re-point that member to another Character, or remove the member, then delete. |
 | [`known_of_not_writable`](#known_of_not_writable) | `invalid_request` | `422` | A write body carried `known_of` (`param` known_of): that key marks a stub, an element the reader knows of but does not see whole, and is never written. A stub sent back would blank every field it leaves out: drop `known_of` and send only the fields you mean to change. |
+| [`served_trimmed_not_writable`](#served_trimmed_not_writable) | `invalid_request` | `422` | A write body carried `x_served_trimmed` (`param` x_served_trimmed): the server adds that key to a message it serves with recipients or a sender hidden from the reader, and it is never written. Drop it and send only the fields you mean to change. |
 | [`character_taken`](#character_taken) | `invalid_request` | `422` | A player picked a Character from a party link's list that a live seat in the world already plays (`param` character): pick another from the list. The preview marks each listed Character `taken`. |
 | [`world_full`](#world_full) | `invalid_request` | `422` | A player link was opened in a world that already has its 50 live players: nothing was spent, and the link works again once the owner removes a player. |
 | [`field_not_visible`](#field_not_visible) | `invalid_request` | `422` | A proposal named a field the proposer's own view of the element does not hold (`param` names it): the element reaches this reader only as a stub (known_of), and a proposal changes only what its proposer can read. |
@@ -252,6 +253,14 @@ A player opened a party link (a [table of players](/docs/development/api/members
 An element write carried `known_of` (`param` `known_of`), whatever its value. The key marks a [stub](/docs/development/api/members#known-of), an element the reader knows of but does not see whole; a stub sent back would blank every field it leaves out. Nothing was written.
 
 - **How to fix:** drop `known_of` and send only the fields you mean to change. Never echo a stub as a write; a tool that keeps stubs on disk never pushes them.
+
+### served_trimmed_not_writable
+
+**Type** `invalid_request` · **Status** `422`
+
+A write body carried `x_served_trimmed` (`param` `x_served_trimmed`). The server adds the key to a message it serves with recipients or a sender hidden from the reader ([a message to someone hidden from you](/docs/development/agents#in-world-messages)); it is never stored. Nothing was written.
+
+- **How to fix:** drop `x_served_trimmed` and send only the fields you mean to change. Sending the trimmed `characters` back is safe: the ids hidden from you are kept.
 
 ### world_full
 

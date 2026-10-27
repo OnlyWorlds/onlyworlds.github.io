@@ -120,6 +120,7 @@
 /api/errors#character_hidden	load-bearing	floor	keel's error-code list (contract/error-codes.json)
 /api/errors#character_played	load-bearing	floor	keel's error-code list (contract/error-codes.json)
 /api/errors#known_of_not_writable	load-bearing	floor	keel's error-code list (contract/error-codes.json)
+/api/errors#served_trimmed_not_writable	load-bearing	floor	keel's error-code list (contract/error-codes.json)
 /api/errors#character_taken	load-bearing	floor	keel's error-code list (contract/error-codes.json)
 /api/errors#world_full	load-bearing	floor	keel's error-code list (contract/error-codes.json)
 /api/errors#field_not_visible	load-bearing	floor	keel's error-code list (contract/error-codes.json)

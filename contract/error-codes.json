@@ -64,6 +64,11 @@
     "status": 422,
     "summary": "A write body carried `known_of` (`param` known_of): that key marks a stub, an element the reader knows of but does not see whole, and is never written. A stub sent back would blank every field it leaves out: drop `known_of` and send only the fields you mean to change."
   },
+  "served_trimmed_not_writable": {
+    "type": "invalid_request",
+    "status": 422,
+    "summary": "A write body carried `x_served_trimmed` (`param` x_served_trimmed): the server adds that key to a message it serves with recipients or a sender hidden from the reader, and it is never written. Drop it and send only the fields you mean to change."
+  },
   "character_taken": {
     "type": "invalid_request",
     "status": 422,

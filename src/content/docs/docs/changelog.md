@@ -5,8 +5,19 @@ description: What changed for developers on OnlyWorlds (the API, the clients and
 
 What changed for developers, newest first: the API on onlyworlds.com, the clients and tools these docs describe, and the docs themselves. Each day lists what a page now says; every release of a package is in its own changelog: [TypeScript SDK](https://github.com/OnlyWorlds/sdk/blob/main/CHANGELOG.md), [Unity SDK](https://github.com/OnlyWorlds/unity-sdk/blob/main/Packages/com.onlyworlds.sdk/CHANGELOG.md), [Python package](https://github.com/OnlyWorlds/python-sdk/blob/main/CHANGELOG.md). Everything that shipped across OnlyWorlds, for everyone, is on [What's new](https://www.onlyworlds.com/whats-new); this page stays the developer log.
 
+## 2026-10-27
+
+- **Words in the toolkit page**: a system to model is named "a political order", in words that are no stand-in for an element type ([Toolkit](/docs/development/toolkit)).
+<!-- keel PR 278: no docs change -->
+- **[Atlas](/docs/tools/atlas) 1.94.0 and 1.95.0**: signing in again revokes the token Atlas made before, and the graph marks elements waiting for review or hidden.
+
 ## 2026-10-26
 
+- **[Sending a message as yourself](/docs/development/agents#in-world-messages)**: `POST /api/v2/account/worlds/{world_id}/messages` with an account token writes a message sent by your own Character, verified by construction. <!-- keel PR 275 -->
+- **[A message to someone hidden from you](/docs/development/agents#in-world-messages)** carries `x_served_trimmed`, naming the fields that lost someone, and a write carrying it is [`served_trimmed_not_writable`](/api/errors/#served_trimmed_not_writable). <!-- keel PR 276 -->
+- **[CORS](/docs/development/api/cors#allowed-origins)**: a page served from GitHub Codespaces (`https://*.app.github.dev`) may call the API. <!-- keel PR 277 -->
+- **[TypeScript](/docs/development/typescript) 4.87.1**: the draught's recent rows declare `door`, which the server has always sent.
+- **[TypeScript](/docs/development/typescript) 4.87.0 and [Python](/docs/development/python) 0.71.0: the draught as text names what the date left out** ([As text](/docs/development/api/draught#as-text)): a `Not listed` line above the budget line, and a removed member reads "removed from the world".
 - **[TypeScript](/docs/development/typescript) 4.86.0 and [Python](/docs/development/python) 0.70.0: a draught as plain text** ([As text](/docs/development/api/draught#as-text)): `draughtText` and `draught_text` give one Character's context packet as text to paste into a prompt or a note, the same bytes from both packages, full or compact. The title says what the record holds up to the horizon, and the last line counts only what the budget left out.
 - **[TypeScript](/docs/development/typescript#world-calendars) 4.85.0 and [Python](/docs/development/python) 0.69.0: `resolveCalendar` and `resolve_calendar`** are the new names of `resolveCalendarLens` and `resolve_calendar_lens`, with the same answers; a lens now names a cut of a world, not a chosen calendar. The old names still work, deprecated: TypeScript keeps it until 5.0, and Python warns.
 - **[Marking messages read](/docs/development/agents#in-world-messages)**: `POST /api/v2/account/worlds/{world_id}/read` adds message ids to the caller's own Read mark, making it when there is none, and answers `{relation, created, skipped}`; a Read mark is now written only by its maker, so any other key's write to one is `403` [`not_reader`](/api/errors/#not_reader), the owner's included. <!-- keel PR 273 -->

@@ -39,7 +39,7 @@ Or point the assistant at the knowledge files, in this order. A world is a folde
 2. [world-folder.md](https://raw.githubusercontent.com/OnlyWorlds/toolkit/main/knowledge/world-folder.md): the world as files, and keeping its history
 3. [element-types.md](https://raw.githubusercontent.com/OnlyWorlds/toolkit/main/knowledge/element-types.md): the 22 types, and when to create each
 4. [decision-trees.md](https://raw.githubusercontent.com/OnlyWorlds/toolkit/main/knowledge/decision-trees.md): choosing between the types that get confused
-5. [modeling-patterns.md](https://raw.githubusercontent.com/OnlyWorlds/toolkit/main/knowledge/modeling-patterns.md): translating a system (magic, factions, an economy) into the types
+5. [modeling-patterns.md](https://raw.githubusercontent.com/OnlyWorlds/toolkit/main/knowledge/modeling-patterns.md): translating a system (magic, a political order, an economy) into the types
 6. [common-errors.md](https://raw.githubusercontent.com/OnlyWorlds/toolkit/main/knowledge/common-errors.md): the mistakes an import makes most, with examples
 7. [schema-reference.md](https://raw.githubusercontent.com/OnlyWorlds/toolkit/main/knowledge/schema-reference.md): every field of every type, generated from the standard
 8. [world-memory.md](https://raw.githubusercontent.com/OnlyWorlds/toolkit/main/knowledge/world-memory.md): loading a world into AI sessions and writing each session back
@@ -54,7 +54,7 @@ The skill files themselves sit in the repository's `skills/` folder, one folder 
 | Start | `start` | The entry point: works out your situation, routes you to the right skill, and connects a folder to your onlyworlds.com account when you want one. |
 | | `setup` | Sets up a world for work rather than fiction (a company, a team, an AI's own home, a council, a software project) from a starter pack: house rules, a world skill for the AIs, a seed and the invites. |
 | Structure it | `import` | Turns notes, a manuscript, PDFs, a wiki or old session notes into a world folder Atlas opens, or reconciles them into an existing world. Invents no fields. |
-| | `model` | How to represent a system (magic, factions, an economy, a tech tree) in the 22 types, and every type's fields across [every category](/docs/schema/). |
+| | `model` | How to represent a system (magic, a political order, an economy, a tech tree) in the 22 types, and every type's fields across [every category](/docs/schema/). |
 | Grow it | `read` | Reads a whole world through one lens: a creative brief of what it holds, the connections it is missing, or where it contradicts itself. |
 | | `draw` | Draws a world as a graph, its maps with their pins and zones, or its events on a timeline, in a file you open in a browser. It never changes the world. |
 | Play in it and keep it true | `context` | Designs how the right part of a world gets loaded into each AI session: fresh, scoped, sourced. |
