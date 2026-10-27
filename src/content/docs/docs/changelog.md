@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-27
 
+- **[TypeScript](/docs/development/typescript#lenses) 4.96.1 and [Python](/docs/development/python) 0.79.1: the lens and graph readers read the world's now as the API serves it** (`time_range_current`, beside a folder's `time_current`), so a World body passed straight from `GET /world` fences a lens as it should.
 - **[The draught](/docs/development/api/draught) reads with an account token and on a world open to anyone**: a signed-in tool reads it as you, and a keyless request with `world=<id>` reads what the public may read, never her messages or the roster ([keys](/docs/getting-started/keys#reading-a-world-with-an-account-token), [public reads](/docs/development/api/public)). The horizon now leaves out a known-of stub by the element's own date, as a lens does. <!-- keel PR 298 -->
 - **[The Lenses page](/docs/schema/conventions#lenses)**: a Library of templates, Copy to another world, Publish as a template, and a second reading in the browser that says whether it agrees with the site's. <!-- keel PR 297 -->
 <!-- keel PR 299: no docs change (the Lenses page's words) -->
