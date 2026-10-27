@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-27
 
+- **[The draught](/docs/development/api/draught#the-policy)'s `components` names her own element `self`**, the section the packet serves as `character`; the page now says so at both, since `components=character` is a 422.
 - **[Schema](/docs/schema#what-links-to-what) draws what links to what**: select a category to see the categories its link fields point at, with the fields named, generated from the SDK's field table at each build and checked against the element pages; each element page opens it on itself. [Conventions](/docs/schema/conventions#lenses) shows a world, a lens, a picture and an address in one figure.
 <!-- keel PR 300: no docs change (an unlisted page's engine) -->
 - **[Worlds](/docs/schema/worlds#timeline-examples): the fantasy calendar example fixed.** It counted its now in years while its basic unit is the Sun; it now shows the Suns, and its step equivalents.

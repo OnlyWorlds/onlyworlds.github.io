@@ -20,14 +20,14 @@ const edges = [[0, 1], [1, 2], [2, 3], [0, 4], [4, 5], [5, 2]];
       <p class="ow-noun-name">{world.name}</p>
       <p class="ow-noun-says">{world.says}</p>
     </div>
-    <p class="ow-nouns-arrow ow-how" aria-hidden="true">reads</p>
+    <p class="ow-nouns-arrow ow-how" aria-hidden="true">read through</p>
     <div class="ow-noun ow-noun-lens">
       <p class="ow-noun-name">{lens.name}</p>
       <p class="ow-noun-says">{lens.says}</p>
       <ul>{lens.parts.map((s) => <li>{s}</li>)}</ul>
       <p class="ow-noun-small">{lens.small}</p>
     </div>
-    <p class="ow-nouns-arrow ow-pic" aria-hidden="true">draws</p>
+    <p class="ow-nouns-arrow ow-pic" aria-hidden="true">drawn as</p>
     <div class="ow-noun ow-noun-picture">
       <svg viewBox="0 0 124 92" aria-hidden="true">
         {edges.map(([a, b]) => <line x1={pic[a][0]} y1={pic[a][1]} x2={pic[b][0]} y2={pic[b][1]} />)}
@@ -91,6 +91,7 @@ const edges = [[0, 1], [1, 2], [2, 3], [0, 4], [4, 5], [5, 2]];
   .ow-nouns-arrow {
     font-size: 0.875rem;
     text-align: center;
+    max-width: 5.5em; /* "read through" wraps over its arrow in the row, so the three boxes keep their width */
   }
   .ow-nouns-arrow::after { content: ' →'; }
   .ow-how { color: var(--how); }

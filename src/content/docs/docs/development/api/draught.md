@@ -29,7 +29,7 @@ Eight query parameters, all optional. They are the same policy on every door: th
 
 | Parameter | Values | Default |
 |:--|:--|:--|
-| `components` | The sections to serve, comma-separated: `self`, `role`, `work`, `style`, `events`, `knowledge`, `names`, `sheet`, `recent`, `messages`, `room`, `proposed`, `roster` | Every one but `messages`, `room` and `proposed` |
+| `components` | The sections to serve, comma-separated: `self` (the packet's `character`), `role`, `work`, `style`, `events`, `knowledge`, `names`, `sheet`, `recent`, `messages`, `room`, `proposed`, `roster` | Every one but `messages`, `room` and `proposed` |
 | `mode` | `voice` reads as she would, exactly what the owner's `?as=<her>` reads: her slice, and a stub stays a stub. For a narrator speaking as her. `act` reads through your own key's view, for an agent doing work in her name | `voice` |
 | `as_of` | [The horizon](#the-horizon), an integer in the world's time unit | The world's `time_range_current` |
 | `undated` | `include` serves undated Events, marked `dated: false`, after the dated. `exclude` drops them, for a spoiler-safe narrator | `include` |
@@ -54,7 +54,7 @@ Eight query parameters, all optional. They are the same policy on every door: th
 
 | Section | Holds |
 |:--|:--|
-| `character` | Her own element, with `self: true` and its `grade`: the voice, where every other section is what that voice may mention. `null` when, read as her, her own element is hidden from her |
+| `character` | Her own element, with `self: true` and its `grade`: the voice, where every other section is what that voice may mention. `null` when, read as her, her own element is hidden from her. Named `self` in `components` (`components=character` is a 422) |
 | `role` | Titles whose `holders` name her, Collectives whose `characters` name her, and Relations whose `actor` is her with supertype `Tenure` or `Membership` |
 | `work` | Relations whose `actor` is her with supertype `Work item` and subtype `open` or `taken`. Each row adds `packet`, the item's `x_packet_elements` (`[]` when it has none) |
 | `style` | The Construct with supertype `Working style` whose `characters` name her (the most recently edited), or `null` |
