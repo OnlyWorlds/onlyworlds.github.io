@@ -56,9 +56,10 @@ Cursor, Copilot or similar. Beginners can start in the browser and move later.
 
 IF THE USER HAS CLAUDE CODE: point them to the OnlyWorlds toolkit instead of this
 guide. It is a Claude Code plugin with skills covering the whole
-life of a world: structure it (parsing, modeling, schema), grow it (link,
-survey), play in it and keep it true (context, resolve), build on it (dev, api,
-council, project-setup), plus an entry skill that routes.
+life of a world: start it (start, the entry skill that routes; setup),
+structure it (import, model), grow it (read, draw), play in it and keep it
+true (context, update), move it (carry), build on it (develop, council).
+Each skill's full name is onlyworlds-<skill>.
   /plugin marketplace add OnlyWorlds/toolkit
   /plugin install toolkit@onlyworlds
 Other assistants can read its markdown files directly:
@@ -206,9 +207,9 @@ Run: `npx tsx --env-file=.env test.ts` (Node 20.6+ reads .env this way)
 
 OW_API_KEY, OW_API_PIN and OW_WORLD (the world's id) are the names to use: the
 SDK examples and an agent seat's join response use them (the join response
-adds OW_CHARACTER and OW_API_BASE). The toolkit's project setup writes them
-too (since toolkit 4.3.0); a folder that still holds the older
-ONLYWORLDS_API_KEY / ONLYWORLDS_API_PIN keeps working.
+adds OW_CHARACTER and OW_API_BASE). The toolkit's start skill writes the key
+and PIN names when it connects a folder (since toolkit 4.3.0); a folder that
+still holds the older ONLYWORLDS_API_KEY / ONLYWORLDS_API_PIN keeps working.
 
 ============================================================
 PART 4: SDK AND API REFERENCE
@@ -264,7 +265,10 @@ relation and title.
 ```typescript
 await client.list('character', { filter: { name__icontains: 'fluff', supertype: 'Admiral' } });
 ```
-limit, cursor, expand and fields are parameters, not filters. Any other query
+limit, cursor, expand, fields, ids (comma-separated, up to 200), created_by
+(a membership id, or owner), as (view as, the owner's keys) and world (the world to
+read, with no key or an account token) are parameters, not filters (in the
+SDK: ids, createdBy and viewAs beside filter, and world on the client). Any other query
 parameter returns a 422 naming it. Never write back a body read with expand:
 its links hold stubs, and writes take ids.
 
@@ -392,10 +396,12 @@ Community: discord.gg/twCjqvVBwb
 
 ============================================================
 
-Last updated: 2026-10-16
+Last updated: 2026-10-27
 SDK: 4.x (OwV2Client, v2 API)
 
 Changelog:
+- v11: the toolkit's skills by their 5.x names; every parameter a list
+      takes (ids, created_by, as, world).
 - v10: one set of environment variable names, OW_API_KEY, OW_API_PIN,
       OW_WORLD (the toolkit's older ONLYWORLDS_ names keep working).
 - v9: PLAIN HTTP block (headers, routes, the {"error": ...} wrapper); the

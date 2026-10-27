@@ -7,12 +7,12 @@ sidebar:
 
 <img src="/icons/marker.png" alt="" width="48" height="48" class="ow-type-icon" />
 
-A Marker is a special Map element. Groups of Markers, each at a specific coordinate, together designate a Zone in the world. Zones can be either lines or polygons (through supertype).
+A Marker is a special Map element. Groups of Markers, each at a specific coordinate, together designate a Zone in the world. Zones can be either lines or polygons (through the Zone's `shape` field).
 
 Markers are for painting the Zones of your world. They interact with:
 
 - **Maps** (Markers exist on only one map at a time)
-- **Zones** (A minimum of three Markers together defines one Zone)
+- **Zones** (A Zone's Markers, joined in their `order`, draw it)
 
 They are distinct from:
 

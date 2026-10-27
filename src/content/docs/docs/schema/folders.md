@@ -47,7 +47,7 @@ Two keys are required: `id` (a non-empty string) and `name` (a string, which may
   "time_basic_unit": "Year",
   "time_range_min": 0,
   "time_range_max": 500,
-  "time_current": 500
+  "time_current": 453
 }
 ```
 

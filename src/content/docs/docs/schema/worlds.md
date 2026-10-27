@@ -60,11 +60,17 @@ The value is free text, written as the world means it. Recommended where one fit
 
 ## Platform fields
 
-onlyworlds.com adds one field of its own to the world it serves, part of the platform, not the standard.
+onlyworlds.com adds fields of its own to the world it serves, part of the platform, not the standard. Each is described with the [world read](/docs/development/api/reads#the-world).
 
 | Field | Type | Description |
 | :--- | :--- | :--- |
 | `owner_character` | string (uuid) or null | The owner's own Character in this world ("this Character is me"), or null |
+| `agent_narrator_rule` | boolean | The switch holding agent seats to their own narrator |
+| `agent_writes_proposed` | boolean | The switch under which an agent seat's changes become [proposals](/docs/development/api/proposals) |
+| `slug` | string or null | The address of the world's public page, null while the page is off |
+| `public_page` | object | The public page's settings |
+| `origin` | object | Where the world first came from, `{source, producer}` |
+| `counts` | object | How many elements the reader may read, in all and by category |
 
-The world named by a key is `GET /api/v2/world/`. Its owner changes it with `PATCH`; the writable fields are `name`, `description`, `image_url`, the timeline fields, the three unit settings and `owner_character`. A co-builder may send `time_range_current` alone, to move the world's now. `public_read` and `agent_narrator_rule` (the platform's switch holding agent seats to their own narrator, set on the world page) cannot be changed through the API.
+The world named by a key is `GET /api/v2/world/`. Its owner changes it with `PATCH`; the writable fields are `name`, `description`, `image_url`, the timeline fields, the three unit settings and `owner_character`. A co-builder may send every writable field but `owner_character`. `public_read` and `agent_narrator_rule` (the platform's switch holding agent seats to their own narrator, set on the world page) cannot be changed through the API.
 
