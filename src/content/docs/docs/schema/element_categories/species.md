@@ -27,6 +27,8 @@ They are distinct from:
 
 ## Fields
 
+Drawn with the other categories: [what Species links to](/docs/schema/?kind=species#what-links-to-what).
+
 ### Biology
 
 | Field | Type | Description |

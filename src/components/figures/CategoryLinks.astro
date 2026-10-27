@@ -1,0 +1,297 @@
+---
+// The schema's link map: the 22 categories A to Z, and for the one selected, a line to each
+// category its link fields point at, the fields named on the tile. Built from the SDK's field
+// table at build time (links.mjs); the text version under it is the same data as a list.
+// ?kind=<category> opens it on one category. The theme is the docs' own (Starlight's colour
+// variables follow the light/dark switch).
+import { FIELD_SCHEMA, ELEMENT_TYPES, ELEMENT_ICONS, ELEMENT_LABELS } from '@onlyworlds/sdk';
+import { categoryLinks, categoryLabel, linkSentences } from './links.mjs';
+
+const data = categoryLinks(FIELD_SCHEMA, ELEMENT_TYPES);
+const plural = Object.fromEntries(data.order.map((k) => [k, ELEMENT_LABELS[k]]));
+const sentences = linkSentences(data, plural, (n: string) => `<code>${n}</code>`);
+---
+
+<figure class="ow-fig ow-links not-content" data-ow-figure="category-links">
+  <div class="ow-links-bar">
+    <p class="ow-links-cap" aria-live="polite">
+      The standard has 22 categories. Select one to see which others its fields link to.
+    </p>
+    <button class="ow-links-clear" type="button">Clear</button>
+  </div>
+  <div class="ow-links-stage">
+    <svg class="ow-links-paths" aria-hidden="true"></svg>
+    {
+      data.order.map((k) => (
+        <button type="button" class="ow-links-tile" data-k={k} aria-pressed="false">
+          <span class="material-symbols-outlined" aria-hidden="true">{ELEMENT_ICONS[k]}</span>
+          <span class="ow-links-tx">
+            <span class="ow-links-nm">{categoryLabel(k)}</span>
+            <span class="ow-links-fl" />
+          </span>
+        </button>
+      ))
+    }
+  </div>
+  <figcaption>
+    Generated from the schema: a category is lit when one of the selected category's own link fields
+    points at it. Links to the same category, and Pin's link to any element, are named in the line above.
+  </figcaption>
+  <script type="application/json" class="ow-fig-data" set:html={JSON.stringify({ ...data, plural })} />
+</figure>
+
+<details class="ow-fig-text">
+  <summary>The same links as text</summary>
+  <ul>
+    {sentences.map(({ k, text }) => <li><strong>{categoryLabel(k)}</strong> links to <Fragment set:html={text} />.</li>)}
+  </ul>
+</details>
+
+<style>
+  .ow-links {
+    container-type: inline-size;
+    margin: 1.5rem 0 0.75rem;
+    font-size: 0.9375rem;
+    line-height: 1.45;
+  }
+  .ow-links-bar {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    min-height: 3.2em; /* room for two lines of caption, so the tiles never shift when its words change */
+    margin-bottom: 10px;
+  }
+  .ow-links-cap {
+    flex: 1;
+    margin: 0;
+    color: var(--sl-color-gray-2);
+  }
+  .ow-links-clear {
+    font: inherit;
+    font-size: 0.8125rem;
+    color: var(--sl-color-gray-2);
+    background: none;
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 999px;
+    padding: 3px 12px;
+    cursor: pointer;
+    visibility: hidden;
+  }
+  .ow-links-clear:hover,
+  .ow-links-clear:focus-visible {
+    color: var(--sl-color-white);
+    border-color: var(--sl-color-accent);
+    outline: none;
+  }
+  .ow-links-stage {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: repeat(6, 52px);
+    grid-auto-flow: column; /* A to Z down each column, as the routes expect */
+    column-gap: 40px;
+    row-gap: 14px;
+  }
+  /* The docs' content column is about 630px beside the sidebar and the page outline: three columns there */
+  @container (max-width: 760px) {
+    .ow-links-stage {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-rows: repeat(8, 50px);
+      column-gap: 38px;
+      row-gap: 12px;
+    }
+  }
+  @container (max-width: 500px) {
+    .ow-links-bar { min-height: 6em; }
+    .ow-links-stage {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: repeat(11, 48px);
+      column-gap: 36px;
+    }
+  }
+  .ow-links-paths {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: visible;
+  }
+  .ow-links-paths :global(path) {
+    fill: none;
+    stroke: var(--sl-color-accent);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-opacity: 0.85;
+  }
+  .ow-links-tile {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    padding: 5px 10px;
+    border-radius: 10px;
+    border: 1.5px solid var(--sl-color-gray-5);
+    background: var(--sl-color-gray-6);
+    color: var(--sl-color-white);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: opacity 0.35s, border-color 0.35s, background 0.35s;
+  }
+  .ow-links-tile:hover { border-color: var(--sl-color-gray-4); }
+  .ow-links-tile:focus-visible { outline: 2px solid var(--sl-color-accent); outline-offset: 2px; }
+  .ow-links-tile .material-symbols-outlined { font-size: 22px; flex: none; color: var(--sl-color-gray-2); }
+  .ow-links-tx { display: flex; flex-direction: column; min-width: 0; line-height: 1.25; }
+  .ow-links-nm { font-weight: 600; font-size: 0.875rem; }
+  .ow-links-fl {
+    font-size: 0.71875rem;
+    color: var(--sl-color-gray-3);
+    font-family: var(--sl-font-mono);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .ow-links-tile.dim { opacity: 0.3; }
+  .ow-links-tile.cur { border-width: 2px; border-color: var(--sl-color-accent); background: var(--sl-color-accent-low); }
+  .ow-links-tile.cur .material-symbols-outlined { color: var(--sl-color-accent); }
+  .ow-links-tile.tgt { border-color: var(--sl-color-accent-high); }
+  .ow-links figcaption {
+    margin-top: 12px;
+    color: var(--sl-color-gray-3);
+    font-size: 0.8125rem;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ow-links-tile { transition: none; }
+  }
+</style>
+
+<script>
+  // Lines run through the gutters between columns and the gaps between rows, never over a tile
+  // (the routing is the Studio's design). Tiles never move: the grid is laid out by CSS, and the
+  // script only reads where each tile sits.
+  const NS = 'http://www.w3.org/2000/svg';
+  const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const HOVER = matchMedia('(hover: hover)').matches;
+
+  for (const fig of document.querySelectorAll<HTMLElement>('[data-ow-figure="category-links"]')) {
+    const D = JSON.parse(fig.querySelector('.ow-fig-data')!.textContent!);
+    const stage = fig.querySelector<HTMLElement>('.ow-links-stage')!;
+    const paths = fig.querySelector<SVGSVGElement>('.ow-links-paths')!;
+    const cap = fig.querySelector<HTMLElement>('.ow-links-cap')!;
+    const clr = fig.querySelector<HTMLButtonElement>('.ow-links-clear')!;
+    const label = (k: string) => k[0].toUpperCase() + k.slice(1);
+    const tiles: Record<string, { el: HTMLButtonElement; fl: HTMLElement }> = {};
+    let sel: string | null = null, hov: string | null = null, touched = false;
+    let pos: Record<string, { x: number; y: number; w: number; h: number; c: number; r: number }> = {};
+    let G = { cols: 4, rows: 6, colW: 0, g: 40, gap: 14 };
+
+    for (const el of fig.querySelectorAll<HTMLButtonElement>('.ow-links-tile')) {
+      const k = el.dataset.k!;
+      tiles[k] = { el, fl: el.querySelector<HTMLElement>('.ow-links-fl')! };
+      el.addEventListener('click', () => { touched = true; sel = sel === k ? null : k; paint(); });
+      el.addEventListener('mouseenter', () => { if (!HOVER || sel) return; touched = true; hov = k; paint(); });
+      el.addEventListener('mouseleave', () => { if (hov) { hov = null; paint(); } });
+    }
+    const q = new URLSearchParams(location.search).get('kind');
+    if (q && tiles[q]) { sel = q; touched = true; }
+
+    function measure() {
+      const cs = getComputedStyle(stage);
+      const cols = cs.gridTemplateColumns.split(' ').length;
+      const rows = Math.ceil(D.order.length / cols);
+      pos = {};
+      D.order.forEach((k: string, i: number) => {
+        const t = tiles[k].el;
+        pos[k] = { x: t.offsetLeft, y: t.offsetTop, w: t.offsetWidth, h: t.offsetHeight, c: Math.floor(i / rows), r: i % rows };
+      });
+      const a = pos[D.order[0]], b = pos[D.order[rows]];
+      G = { cols, rows, colW: a.w, g: b ? b.x - a.x - a.w : 40, gap: parseFloat(cs.rowGap) || 14 };
+    }
+    function route(a: any, b: any, i: number) {
+      const k = i % 8, sy = a.y + a.h / 2, ey = b.y + b.h / 2;
+      const R = (c: number) => c * (G.colW + G.g) + G.colW, L = (c: number) => c * (G.colW + G.g);
+      const lane = (base: number, dir: number) => base + dir * (8 + k * 3);
+      if (a.c === b.c) {
+        const right = a.c < G.cols - 1, sx = right ? a.x + a.w : a.x, bx = right ? lane(R(a.c), 1) : lane(L(a.c), -1);
+        return [[sx, sy], [bx, sy], [bx, ey], [sx, ey]];
+      }
+      const dir = b.c > a.c ? 1 : -1, sx = dir > 0 ? a.x + a.w : a.x, ex = dir > 0 ? b.x : b.x + b.w;
+      if (Math.abs(b.c - a.c) === 1) {
+        const mx = dir > 0 ? lane(R(a.c), 1) : lane(L(a.c), -1);
+        return [[sx, sy], [mx, sy], [mx, ey], [ex, ey]];
+      }
+      const x1 = dir > 0 ? lane(R(a.c), 1) : lane(L(a.c), -1), x2 = dir > 0 ? lane(L(b.c), -1) : lane(R(b.c), 1);
+      const ly = (b.r === 0 ? b.y + b.h + G.gap / 2 : b.y - G.gap / 2) + ((k % 3) - 1) * 3;
+      return [[sx, sy], [x1, sy], [x1, ly], [x2, ly], [x2, ey], [ex, ey]];
+    }
+    function rounded(pts: number[][], r = 7) {
+      let d = 'M' + pts[0].join(',');
+      for (let j = 1; j < pts.length - 1; j++) {
+        const [x0, y0] = pts[j - 1], [x1, y1] = pts[j], [x2, y2] = pts[j + 1];
+        const l1 = Math.hypot(x1 - x0, y1 - y0), l2 = Math.hypot(x2 - x1, y2 - y1), rr = Math.min(r, l1 / 2, l2 / 2);
+        if (rr < 0.5) { d += ` L${x1},${y1}`; continue; }
+        d += ` L${x1 - ((x1 - x0) / l1) * rr},${y1 - ((y1 - y0) / l1) * rr} Q${x1},${y1} ${x1 + ((x2 - x1) / l2) * rr},${y1 + ((y2 - y1) / l2) * rr}`;
+      }
+      return d + ' L' + pts[pts.length - 1].join(',');
+    }
+    const list = (names: string[]) => names.join(', ');
+    function caption(k: string) {
+      const n = D.links[k].length;
+      let s = n
+        ? `${label(k)} links to ${n} other ${n === 1 ? 'category' : 'categories'}, through the fields named on each.`
+        : `${label(k)} has no fields that link to another category.`;
+      if (D.self[k].length) s += ` And to other ${D.plural[k]}, through ${list(D.self[k])}.`;
+      if (D.generic[k].length) s += ` And to any element, through ${list(D.generic[k])}.`;
+      return s;
+    }
+    function paint() {
+      const cur = sel || hov;
+      paths.replaceChildren();
+      const L = cur ? D.links[cur] : [], tg = new Set(L.map((l: any) => l.to));
+      for (const [k, o] of Object.entries(tiles)) {
+        const on = !cur || k === cur || tg.has(k);
+        o.el.classList.toggle('dim', !on);
+        o.el.classList.toggle('cur', k === cur);
+        o.el.classList.toggle('tgt', tg.has(k));
+        o.el.setAttribute('aria-pressed', String(k === sel));
+        const l = L.find((l: any) => l.to === k);
+        o.fl.textContent = l ? l.fields.slice(0, 3).join(', ') + (l.fields.length > 3 ? '…' : '') : '';
+        o.el.title = l ? l.fields.join(', ') : '';
+      }
+      clr.style.visibility = sel ? 'visible' : 'hidden';
+      if (!cur) { cap.textContent = 'The standard has 22 categories. Select one to see which others its fields link to.'; return; }
+      cap.textContent = caption(cur);
+      L.forEach((l: any, i: number) => {
+        const p = document.createElementNS(NS, 'path');
+        p.setAttribute('d', rounded(route(pos[cur], pos[l.to], i)));
+        paths.appendChild(p);
+        if (REDUCE) return;
+        const len = p.getTotalLength();
+        p.style.strokeDasharray = String(len);
+        p.style.strokeDashoffset = String(len);
+        p.getBoundingClientRect();
+        p.style.transition = `stroke-dashoffset .6s ${i * 0.05}s ease-out`;
+        requestAnimationFrame(() => { p.style.strokeDashoffset = '0'; });
+      });
+    }
+    clr.addEventListener('click', () => { sel = null; paint(); });
+    fig.addEventListener('keydown', (e) => { if (e.key === 'Escape') { sel = null; paint(); } });
+    let lastW = 0;
+    const relayout = () => { if (stage.clientWidth !== lastW) { lastW = stage.clientWidth; measure(); paint(); } };
+    new ResizeObserver(relayout).observe(stage); // a width change only: a phone's address bar hiding must not restart the lines
+    relayout();
+    // Once, when the figure first scrolls into view, Character is shown for a few seconds so the
+    // figure explains itself; any touch or hover from the reader ends it.
+    if (!REDUCE && !touched && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver((es) => {
+        if (!es[0].isIntersecting || touched) return;
+        io.disconnect();
+        sel = 'character'; paint();
+        setTimeout(() => { if (!touched && sel === 'character') { sel = null; paint(); } }, 5000);
+      }, { threshold: 0.6 });
+      io.observe(stage);
+    }
+  }
+</script>

@@ -26,6 +26,8 @@ They are distinct from:
 
 ## Fields
 
+Drawn with the other categories: [what Institution links to](/docs/schema/?kind=institution#what-links-to-what).
+
 ### Foundation
 
 | Field | Type | Description |

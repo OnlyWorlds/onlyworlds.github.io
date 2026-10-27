@@ -28,6 +28,8 @@ They are distinct from:
 
 ## Fields
 
+Drawn with the other categories: [what Phenomenon links to](/docs/schema/?kind=phenomenon#what-links-to-what).
+
 ### Mechanics
 
 | Field | Type | Description |

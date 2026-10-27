@@ -31,6 +31,8 @@ Events are about what happens. The rest of the schema gives it meaning, context,
 
 ## Fields
 
+Drawn with the other categories: [what Event links to](/docs/schema/?kind=event#what-links-to-what).
+
 ### Nature
 
 | Field | Type | Description |

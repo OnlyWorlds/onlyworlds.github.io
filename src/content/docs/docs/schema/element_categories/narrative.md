@@ -28,6 +28,8 @@ They are distinct from:
 
 ## Fields
 
+Drawn with the other categories: [what Narrative links to](/docs/schema/?kind=narrative#what-links-to-what).
+
 ### Context
 
 | Field | Type | Description |

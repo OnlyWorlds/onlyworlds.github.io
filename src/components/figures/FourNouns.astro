@@ -1,0 +1,120 @@
+---
+// Four things, one job each: a world, a lens that reads it, a picture that draws the reading,
+// and an address that says where it all is. The Studio's design, built as HTML so its words
+// are the page's own text (readable at any width, and by a screen reader or an agent).
+// The words live in four-nouns.mjs, which the Markdown twin reads too.
+import { ADDRESS as address, NOUNS, CAPTION } from './four-nouns.mjs';
+const { world, lens, picture, address: where } = NOUNS;
+const dots = [[14, 22], [44, 12], [74, 26], [104, 16], [24, 52], [58, 48], [90, 58], [118, 42], [14, 84], [46, 80], [80, 90], [110, 80]];
+const lit = new Set([1, 2, 5, 6, 9, 10]);
+const pic = [[12, 40], [42, 22], [80, 40], [112, 28], [30, 74], [72, 70]];
+const edges = [[0, 1], [1, 2], [2, 3], [0, 4], [4, 5], [5, 2]];
+---
+
+<figure class="ow-fig ow-nouns not-content" data-ow-figure="four-nouns">
+  <div class="ow-nouns-row">
+    <div class="ow-noun ow-noun-world">
+      <svg viewBox="0 0 132 100" aria-hidden="true">
+        {dots.map(([x, y], i) => <circle cx={x} cy={y} r={lit.has(i) ? 6.5 : 5} class={lit.has(i) ? 'on' : 'off'} />)}
+      </svg>
+      <p class="ow-noun-name">{world.name}</p>
+      <p class="ow-noun-says">{world.says}</p>
+    </div>
+    <p class="ow-nouns-arrow ow-how" aria-hidden="true">reads</p>
+    <div class="ow-noun ow-noun-lens">
+      <p class="ow-noun-name">{lens.name}</p>
+      <p class="ow-noun-says">{lens.says}</p>
+      <ul>{lens.parts.map((s) => <li>{s}</li>)}</ul>
+      <p class="ow-noun-small">{lens.small}</p>
+    </div>
+    <p class="ow-nouns-arrow ow-pic" aria-hidden="true">draws</p>
+    <div class="ow-noun ow-noun-picture">
+      <svg viewBox="0 0 124 92" aria-hidden="true">
+        {edges.map(([a, b]) => <line x1={pic[a][0]} y1={pic[a][1]} x2={pic[b][0]} y2={pic[b][1]} />)}
+        {pic.map(([x, y]) => <circle cx={x} cy={y} r="6" />)}
+      </svg>
+      <p class="ow-noun-name">{picture.name}</p>
+      <p class="ow-noun-says">{picture.says}</p>
+    </div>
+  </div>
+  <div class="ow-noun ow-noun-address">
+    <p class="ow-noun-name">{where.name}</p>
+    <p class="ow-noun-says">{where.says}</p>
+    <code data-ow-address={address}>{address}</code>
+  </div>
+  <figcaption>{CAPTION}</figcaption>
+</figure>
+
+<style>
+  .ow-nouns {
+    container-type: inline-size;
+    margin: 1.5rem 0 1rem;
+    --how: var(--sl-color-accent);
+    --where: #e0b25a;
+    --pic: #b9a2ff;
+    font-size: 0.9375rem;
+    line-height: 1.45;
+  }
+  :global(:root[data-theme='light']) .ow-nouns {
+    --where: #8a5a00;
+    --pic: #5a3fc0;
+  }
+  .ow-nouns p, .ow-nouns ul { margin: 0; }
+  .ow-nouns-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1.15fr auto 1fr;
+    align-items: center;
+    gap: 10px;
+  }
+  .ow-noun {
+    border-radius: 12px;
+    padding: 12px 14px;
+    color: var(--sl-color-gray-2);
+  }
+  .ow-noun-name {
+    font-weight: 600;
+    font-size: 1.0625rem;
+    color: var(--sl-color-white);
+  }
+  .ow-noun-says { font-size: 0.875rem; }
+  .ow-noun svg { display: block; width: 100%; max-width: 140px; height: auto; margin-bottom: 8px; }
+  .ow-noun-world circle.on { fill: var(--how); }
+  .ow-noun-world circle.off { fill: var(--sl-color-gray-4); opacity: 0.55; }
+  .ow-noun-lens { border: 2px dashed var(--how); }
+  .ow-noun-lens .ow-noun-name { color: var(--how); }
+  .ow-noun-lens ul { padding-left: 1.1em; margin: 6px 0; font-size: 0.875rem; }
+  .ow-noun-small { font-size: 0.8125rem; color: var(--sl-color-gray-3); }
+  .ow-noun-picture { border: 2px solid var(--pic); background: var(--sl-color-gray-6); }
+  .ow-noun-picture .ow-noun-name { color: var(--pic); }
+  .ow-noun-picture line { stroke: var(--pic); stroke-width: 1.6; opacity: 0.8; }
+  .ow-noun-picture circle { fill: var(--pic); }
+  .ow-nouns-arrow {
+    font-size: 0.875rem;
+    text-align: center;
+  }
+  .ow-nouns-arrow::after { content: ' →'; }
+  .ow-how { color: var(--how); }
+  .ow-pic { color: var(--pic); }
+  .ow-noun-address {
+    margin-top: 14px;
+    border: 2px solid var(--where);
+  }
+  .ow-noun-address .ow-noun-name { color: var(--where); }
+  .ow-noun-address code {
+    display: block;
+    margin-top: 6px;
+    font-family: var(--sl-font-mono);
+    font-size: 0.8125rem;
+    color: var(--sl-color-gray-2);
+    overflow-wrap: anywhere;
+  }
+  .ow-nouns figcaption {
+    margin-top: 12px;
+    color: var(--sl-color-gray-3);
+    font-size: 0.8125rem;
+  }
+  @container (max-width: 520px) {
+    .ow-nouns-row { grid-template-columns: 1fr; }
+    .ow-nouns-arrow::after { content: ' ↓'; }
+  }
+</style>

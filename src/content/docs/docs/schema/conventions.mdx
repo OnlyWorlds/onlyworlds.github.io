@@ -3,6 +3,8 @@ title: Conventions
 description: How to model a world with the categories and fields the schema already has.
 ---
 
+import FourNouns from '../../../../components/figures/FourNouns.astro';
+
 The standard covers most worlds with the categories and fields it has. Before reaching for a new field or category, check whether one of these conventions carries the case. When none does, the [Council](https://council.onlyworlds.com) is where the standard changes.
 
 ## Use only what you need
@@ -89,6 +91,8 @@ A world by itself is `https://www.onlyworlds.com/w/<world id>` or `ow://<world i
 ## Lenses
 
 A lens is a saved way of reading a world: which elements, how far from a starting set, how much of each. It is a [Construct](/docs/schema/element_categories/construct) with supertype `Lens`, defined by the [lens profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/lens.md). A lens only narrows: it reads inside what the reader may already see, never more.
+
+<FourNouns />
 
 - **The anchors** are the lens's own links (its characters, locations, institutions and the rest), and nothing else. A lens that links other lenses through `constructs` is an umbrella of them; `titles` names the Titles it is the default for.
 - **The recipe** sits in one extension field, `x_lens`: `depth` (0 the anchors only, 1 also what links to or from them, the default), `types`, a window back from the reading's date (`window`, or `from` and `to`), `undated`, `show` (`full`, `first_line`, `name`), `budget` (1 to 1000, default 50), `mail` and `notes` (a sentence per anchor). A value outside the profile's table makes the lens unreadable, the key named.

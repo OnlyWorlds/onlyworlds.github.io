@@ -27,6 +27,8 @@ They are distinct from:
 
 ## Fields
 
+Drawn with the other categories: [what Location links to](/docs/schema/?kind=location#what-links-to-what).
+
 ### Setting
 
 | Field | Type | Description |

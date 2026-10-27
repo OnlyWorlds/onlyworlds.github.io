@@ -28,6 +28,8 @@ They are distinct from:
 
 ## Fields
 
+Drawn with the other categories: [what Relation links to](/docs/schema/?kind=relation#what-links-to-what).
+
 ### Nature
 
 | Field | Type | Description |

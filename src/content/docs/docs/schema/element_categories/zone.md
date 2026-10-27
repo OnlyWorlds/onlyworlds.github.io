@@ -28,6 +28,8 @@ They are distinct from:
 
 ## Fields
 
+Drawn with the other categories: [what Zone links to](/docs/schema/?kind=zone#what-links-to-what).
+
 ### Scope
 
 | Field | Type | Description |

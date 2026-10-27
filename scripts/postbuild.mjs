@@ -9,6 +9,9 @@
 import { readdirSync, statSync, existsSync, renameSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, relative, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { FIELD_SCHEMA, ELEMENT_TYPES, ELEMENT_LABELS } from '@onlyworlds/sdk';
+import { categoryLinksMarkdown } from '../src/components/figures/links.mjs';
+import { fourNounsMarkdown } from '../src/components/figures/four-nouns.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const CONTENT = join(ROOT, 'src', 'content', 'docs');
@@ -91,6 +94,27 @@ for (const file of walk(DIST)) {
   const next = html.replace('</head>', `<link rel="alternate" type="text/markdown" href="/${twin}"></head>`);
   if (next !== html) { writeFileSync(file, next); alternates++; }
 }
+// A figure is a component in the page's MDX, and page-actions writes the twin from the source, so
+// the twin would carry the bare tag (<CategoryLinks />). Each tag becomes the figure's text, from
+// the same module the figure draws from. A component tag with no text here fails the build.
+const FIGURE_TEXT = {
+  CategoryLinks: () => categoryLinksMarkdown(FIELD_SCHEMA, ELEMENT_TYPES, ELEMENT_LABELS),
+  FourNouns: fourNounsMarkdown,
+};
+let figureTexts = 0;
+for (const file of walk(DIST)) {
+  if (!file.endsWith('.md')) continue;
+  const md = readFileSync(file, 'utf8');
+  const next = md.replace(/^<([A-Z][A-Za-z]*) \/>$/gm, (tag, name) => {
+    if (!FIGURE_TEXT[name]) {
+      console.error(`postbuild: ${relative(DIST, file)} carries ${tag}, and FIGURE_TEXT has no text for it`);
+      process.exit(1);
+    }
+    figureTexts++;
+    return FIGURE_TEXT[name]();
+  });
+  if (next !== md) writeFileSync(file, next);
+}
 // A code block's lines are block <div class="ec-line"> with no newline between them, so a reader
 // that takes the page's text (an agent's fetch, a tag-stripper) gets each block as one line.
 // A hidden newline between lines costs the browser nothing and keeps the breaks in the text.
@@ -152,4 +176,4 @@ if (!html404.includes('data-ow-slash')) {
   if (next === html404) { console.error('postbuild: 404.html has no </head> for the trailing-slash script'); process.exit(1); }
   writeFileSync(page404, next);
 }
-console.log(`postbuild: ${moved} folder page(s) moved to <dir>/index.html; ${rewrites} link(s) to them rewritten to <dir>/; ${alternates} page(s) name their Markdown twin; ${codeBreaks} code line break(s) kept in the text; ${dirIndexes} directory index(es) copied; 404.html sends a trailing slash on`);
+console.log(`postbuild: ${moved} folder page(s) moved to <dir>/index.html; ${rewrites} link(s) to them rewritten to <dir>/; ${alternates} page(s) name their Markdown twin; ${figureTexts} figure(s) written into their twin as text; ${codeBreaks} code line break(s) kept in the text; ${dirIndexes} directory index(es) copied; 404.html sends a trailing slash on`);

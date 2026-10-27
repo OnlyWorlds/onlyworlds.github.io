@@ -24,6 +24,8 @@ Every field below is optional. The TTRPG group (`level`, `hit_points` and six ab
 
 ## Fields
 
+Drawn with the other categories: [what Character links to](/docs/schema/?kind=character#what-links-to-what).
+
 ### Constitution
 
 | Field | Type | Description |

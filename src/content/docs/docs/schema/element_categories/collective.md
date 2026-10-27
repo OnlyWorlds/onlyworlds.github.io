@@ -28,6 +28,8 @@ They are distinct from:
 
 ## Fields
 
+Drawn with the other categories: [what Collective links to](/docs/schema/?kind=collective#what-links-to-what).
+
 ### Formation
 
 | Field | Type | Description |

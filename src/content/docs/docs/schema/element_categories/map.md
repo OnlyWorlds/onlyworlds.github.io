@@ -27,6 +27,8 @@ They are distinct from:
 
 ## Fields
 
+Drawn with the other categories: [what Map links to](/docs/schema/?kind=map#what-links-to-what).
+
 ### Details
 
 | Field | Type | Description |

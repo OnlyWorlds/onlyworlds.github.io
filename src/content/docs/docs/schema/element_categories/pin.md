@@ -24,6 +24,8 @@ They are distinct from:
 
 ## Fields
 
+Drawn with the other categories: [what Pin links to](/docs/schema/?kind=pin#what-links-to-what).
+
 ### Details
 
 | Field | Type | Description |

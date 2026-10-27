@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-27
 
+- **[Schema](/docs/schema#what-links-to-what) draws what links to what**: select a category to see the categories its link fields point at, with the fields named, generated from the SDK's field table at each build and checked against the element pages; each element page opens it on itself. [Conventions](/docs/schema/conventions#lenses) shows a world, a lens, a picture and an address in one figure.
 <!-- keel PR 300: no docs change (an unlisted page's engine) -->
 - **[Worlds](/docs/schema/worlds#timeline-examples): the fantasy calendar example fixed.** It counted its now in years while its basic unit is the Sun; it now shows the Suns, and its step equivalents.
 - **[Getting started](/docs/getting-started) names every key kind in one table** (what each reads, what each writes), and [Keys and PINs](/docs/getting-started/keys) corrects the 10-digit key: its reads need the PIN when the world has one, whether the world is open to the public or not; only the demo keys read with the key alone.

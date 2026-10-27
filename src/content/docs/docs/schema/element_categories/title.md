@@ -28,6 +28,8 @@ They are distinct from:
 
 ## Fields
 
+Drawn with the other categories: [what Title links to](/docs/schema/?kind=title#what-links-to-what).
+
 ### Mandate
 
 | Field | Type | Description |

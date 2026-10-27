@@ -56,8 +56,12 @@ def cell(s: str) -> str:
     return s.replace("|", "\\|").replace("\n", " ").strip()
 
 
-def render(fields: list[dict]) -> str:
+def render(fields: list[dict], slug: str) -> str:
     out = ["## Fields", ""]
+    if any(f["kind"] in ("single", "multi", "generic") for f in fields):
+        # The schema page's link map opens on this category (its ?kind= parameter).
+        out += [f"Drawn with the other categories: [what {slug.capitalize()} links to]"
+                f"(/docs/schema/?kind={slug}#what-links-to-what).", ""]
     section = None
     for f in fields:
         if f.get("section") != section:
@@ -100,7 +104,7 @@ def main() -> int:
         doc = walk.load_yaml(a.dist / "schema", slug)
         fields = walk.flatten_fields(doc, slug, note=notes.append,
                                      include_required=True, include_desc=True, include_sections=True)
-        new = head + MARKER + "\n\n" + render(fields)
+        new = head + MARKER + "\n\n" + render(fields, slug)
         if new != text:
             stale.append(page.name)
             if not a.check:

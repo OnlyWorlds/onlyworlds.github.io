@@ -28,6 +28,8 @@ They are distinct from:
 
 ## Fields
 
+Drawn with the other categories: [what Creature links to](/docs/schema/?kind=creature#what-links-to-what).
+
 ### Biology
 
 | Field | Type | Description |

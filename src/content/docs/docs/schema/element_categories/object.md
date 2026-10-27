@@ -28,6 +28,8 @@ They are distinct from:
 
 ## Fields
 
+Drawn with the other categories: [what Object links to](/docs/schema/?kind=object#what-links-to-what).
+
 ### Form
 
 | Field | Type | Description |

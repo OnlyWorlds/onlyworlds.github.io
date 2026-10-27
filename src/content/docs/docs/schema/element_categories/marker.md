@@ -24,6 +24,8 @@ They are distinct from:
 
 ## Fields
 
+Drawn with the other categories: [what Marker links to](/docs/schema/?kind=marker#what-links-to-what).
+
 ### Details
 
 | Field | Type | Description |

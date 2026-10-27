@@ -26,6 +26,8 @@ They are distinct from:
 
 ## Fields
 
+Drawn with the other categories: [what Trait links to](/docs/schema/?kind=trait#what-links-to-what).
+
 ### Qualitative
 
 | Field | Type | Description |

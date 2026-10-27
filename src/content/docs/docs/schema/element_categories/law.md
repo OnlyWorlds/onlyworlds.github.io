@@ -28,6 +28,8 @@ They are distinct from:
 
 ## Fields
 
+Drawn with the other categories: [what Law links to](/docs/schema/?kind=law#what-links-to-what).
+
 ### Code
 
 | Field | Type | Description |

@@ -26,6 +26,8 @@ They are distinct from:
 
 ## Fields
 
+Drawn with the other categories: [what Language links to](/docs/schema/?kind=language#what-links-to-what).
+
 ### Structure
 
 | Field | Type | Description |

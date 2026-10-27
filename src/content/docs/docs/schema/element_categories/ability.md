@@ -28,6 +28,8 @@ They are distinct from:
 
 ## Fields
 
+Drawn with the other categories: [what Ability links to](/docs/schema/?kind=ability#what-links-to-what).
+
 ### Mechanics
 
 | Field | Type | Description |

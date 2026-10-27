@@ -49,6 +49,16 @@ python scripts/gen_elements.py --dist ../schema-dist --check  # exit 1 if a page
 - **The errors page's summary table and the contract's `floor` rows** come from keel's own list of error codes (`Error.x-ow-error-codes` in its OpenAPI), vendored as `contract/error-codes.json`. `scripts/gen_errors.mjs` runs in every build. It fails when a public code has no `### <code>` section, when a section isn't a public code, or when the Upload host errors table disagrees with the host rows. The sections themselves are hand-written. `--refresh` re-reads the live list; `--live` compares the snapshot with it (CI and the deploy warn on a difference).
 - **The TypeScript page's reference** comes from the pinned `@onlyworlds/sdk` (a dev dependency): `scripts/gen_sdk_ref.mjs` reads its types with the TypeScript compiler. Bump the pin after an SDK release to move the reference.
 
+## Figures
+
+A figure is an Astro component in `src/components/figures/`, placed in a page's MDX (`<CategoryLinks />` on the schema page, `<FourNouns />` on Conventions). Each one keeps to five rules:
+
+- **Its data comes from a source at build time, never drawn by hand.** The link map reads the SDK's `FIELD_SCHEMA` (`links.mjs`); words that no source holds sit in one module (`four-nouns.mjs`) that the component and the text version both read.
+- **It has a text version.** The page carries it (a list under the figure, or the figure is itself HTML text), and `scripts/postbuild.mjs` writes it into the page's Markdown twin in place of the component's tag (`FIGURE_TEXT`; a tag with no text there fails the build).
+- **It takes the docs' theme**, through Starlight's colour variables, so it follows the light and dark switch.
+- **Its height fits its width**, with no inner scroll: it lays out by its own width (a container query), from the phone to the content column.
+- **A check holds it to its source.** `scripts/verify-figures.mjs`, first in `npm run verify`, reads the built pages: the link map against the element pages (generated from schema-dist, a second source), and the address the four nouns show parsed by the SDK's `parseOwLink`. A new figure adds its check there, watched failing on a planted error before it is trusted.
+
 ## Contributing
 
 Issues are welcome: a bug, a wrong word, a thing you could not do. Pull requests are read; a small fix is usually taken as is, and a change to what a page does is better opened as an issue first, since it may already be built or ruled out. A reply can take a few days. A vulnerability goes privately, never in an issue: `SECURITY.md`. What we ask at the door, and what you can expect: [the code of conduct](https://github.com/OnlyWorlds/OnlyWorlds/blob/main/CODE_OF_CONDUCT.md). The field descriptions on the element pages are the schema's own text, so raise a change to one on [the standard's repository](https://github.com/OnlyWorlds/OnlyWorlds) rather than here; the next deploy picks it up.

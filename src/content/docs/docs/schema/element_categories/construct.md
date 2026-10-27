@@ -28,6 +28,8 @@ They are distinct from:
 
 ## Fields
 
+Drawn with the other categories: [what Construct links to](/docs/schema/?kind=construct#what-links-to-what).
+
 ### Nature
 
 | Field | Type | Description |
