@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-27
 
+- **[Python](/docs/development/python) 0.74.1**: the pack and the OKF export read an in-prose reference in every address form (a moment, a lens, the world's own id), so one in another form to a hidden element no longer keeps its label and id.
 - **[Lenses](/docs/schema/conventions#lenses)**: the lens profile (schema-dist serial 78), a saved way of reading a world, and its reader in [TypeScript](/docs/development/typescript#lenses) 4.91.0 and [Python](/docs/development/python) 0.74.0 (`resolveLens`, `resolve_lens`). <!-- keel PR 287 -->
 - **[Folder format](/docs/schema/folders#a-list-trimmed-for-its-reader) v0.3.19**: a file keeps `x_served_trimmed` exactly as served; a reader reads the field it names as trimmed, never as empty; a push never sends it.
 - **[The keys a sign-in token minted](/docs/development/api/signin#consent-and-revoking)** go with it when it is revoked, unless another live token of the tool remains; a key minted with `keep: true` outlives it, and so do the keys of a token made by hand or through a password sign-in, and of a tool that asks each time. `GET /api/v2/account/tokens` lists `keys_minted`. <!-- keel PR 279 --> <!-- keel PR 286 -->
