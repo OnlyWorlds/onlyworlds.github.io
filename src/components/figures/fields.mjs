@@ -10,14 +10,10 @@
 // single or a multi link. A generic link is held in the table as a pair, `<x>_type` (text) and
 // `<x>_id` (a link to any element), and counts once, as the one link `<x>`: a Pin's `element`.
 
-// What each family is about, in a few words: no source holds these. A family the SDK adds that is
-// not named here is drawn last, without words.
-export const FAMILIES = {
-  agents: 'who acts',
-  world: 'where things are, and what they are',
-  abstract: 'rules, skills and ideas',
-  temporal: 'what happens, and when',
-};
+// The groups are the colour sets the SDK and Atlas draw categories in: a visual aid, not part of the
+// standard, so the figure gives them no words of its own (no source holds any) and never calls them
+// a classification. A group the SDK adds is drawn last.
+export const FAMILIES = {};
 
 export const label = (k) => k[0].toUpperCase() + k.slice(1);
 const byName = (a, b) => (a < b ? -1 : a > b ? 1 : 0);
@@ -115,11 +111,11 @@ export function fieldWords(data, code = (s) => `\`${s}\``, link = (text, href) =
   const g = data.generic.map(({ k, field }) =>
     ` A ${label(k)}'s ${code(field)} link counts as one field; on the wire it is two, ${code(`${field}_type`)} and ${code(`${field}_id`)}.`);
   return {
-    head: `${data.total} categories in ${say(data.families.length)} families.`,
+    head: `${data.total} categories.`,
     lead: `From ${label(fewest.k)}'s ${fewest.fields} fields to ${label(most.k)}'s ${most.fields}. ${label(linked.k)} is the most linked: ${linked.links} of its ${linked.fields} fields are links to other elements.`,
     link: 'a link to other elements',
     value: 'a value (text or a number)',
-    caption: `Generated from the schema. Each category's own fields: the ${link('base fields', '/docs/schema/fields')} every element carries are not counted.${g.join('')}`,
+    caption: `Generated from the schema. The categories are grouped by the colours the SDK and Atlas draw them in: a visual aid, not part of the standard, which has 22 independent categories and no layer above them. Each category's own fields: the ${link('base fields', '/docs/schema/fields')} every element carries are not counted.${g.join('')}`,
   };
 }
 

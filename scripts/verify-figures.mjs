@@ -356,7 +356,7 @@ const fewest = best((c, w) => c.fields < w.fields), most = best((c, w) => c.fiel
 const linked = best((c, w) => c.links * w.fields > w.links * c.fields);
 const WORD = ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
 const kfLead = strip(cf[1].match(/<p\b[^>]*class="ow-kf-lead\b[^>]*>([\s\S]*?)<\/p>/)?.[1] ?? '');
-const leadWant = `${az.length} categories in ${WORD[famWant.length] ?? famWant.length} families. From ${cap(fewest)}'s ${onPage[fewest].fields} fields to ${cap(most)}'s ${onPage[most].fields}. ${cap(linked)} is the most linked: ${onPage[linked].links} of its ${onPage[linked].fields} fields are links to other elements.`;
+const leadWant = `${az.length} categories. From ${cap(fewest)}'s ${onPage[fewest].fields} fields to ${cap(most)}'s ${onPage[most].fields}. ${cap(linked)} is the most linked: ${onPage[linked].links} of its ${onPage[linked].fields} fields are links to other elements.`;
 if (kfLead !== leadWant) fails.push(`category fields: the lead reads "${kfLead}"; the element pages give "${leadWant}"`);
 // The caption names each generic link the element pages show as two rows.
 const kfCap = strip(cf[1].match(/<figcaption\b[^>]*>([\s\S]*?)<\/figcaption>/)?.[1] ?? '');
@@ -378,7 +378,7 @@ if (!kfText) fails.push('category fields: no text version under the figure');
 else { const d = differ('the text version', listed(strip(kfText[1]))); if (d) fails.push(d); }
 if (/^<CategoryFields \/>$/m.test(twin)) fails.push('category fields: the Markdown twin carries the bare tag, not the text');
 else if (differ('the Markdown twin', listed(twin))) fails.push(differ('the Markdown twin', listed(twin)));
-else if (!twin.includes(leadWant.replace(/^(.*? families\.)/, '**$1**'))) fails.push('category fields: the Markdown twin does not carry the lead');
+else if (!twin.includes(leadWant.replace(/^(\d+ categories\.)/, '**$1**'))) fails.push('category fields: the Markdown twin does not carry the lead');
 // The bars' colours as painted (the figure's own style attribute), against the page's background in
 // each theme as ow.css sets it: every family's link half clears CONTRAST.link and its value half
 // CONTRAST.value, in both themes.
