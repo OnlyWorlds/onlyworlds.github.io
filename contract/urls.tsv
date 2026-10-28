@@ -131,8 +131,18 @@
 /docs/development/typescript	load-bearing	200	sdk:README.md
 /docs/development/unity	page	200	source docs/development/unity.md
 /docs/getting-started/keys	page	200	source docs/getting-started/keys.md
+/docs/lenses	page	200	source docs/lenses.mdx (new 2026-10-28, from the conventions page)
+/docs/lenses/api	page	200	source docs/lenses/api.md (new 2026-10-28, from the conventions page)
+/docs/lenses/graph	page	200	source docs/lenses/graph.md (new 2026-10-28, from the conventions page)
 /docs/schema/conventions	load-bearing	200	toolkit:knowledge/atlas-conventions.md; toolkit:skills/onlyworlds-context/knowledge/atlas-conventions.md; toolkit:skills/onlyworlds-import/knowledge/atlas-conventions.md; toolkit:skills/onlyworlds-read/knowledge/atlas-conventions.md; toolkit:skills/onlyworlds-update/knowledge/atlas-conventions.md
+/docs/schema/conventions#messages-between-members	page	200	kept anchor: its section moved to /docs/schema/profiles/messages (2026-10-28); one paragraph points on, for bookmarks and old links
+/docs/schema/conventions#addresses	page	200	kept anchor: its section moved to /docs/schema/profiles/addresses (2026-10-28); one paragraph points on, for bookmarks and old links
+/docs/schema/conventions#lenses	page	200	kept anchor: its section moved to /docs/lenses (2026-10-28); one paragraph points on, for bookmarks and old links
+/docs/schema/conventions#data-the-schema-does-not-model	page	200	kept anchor: the section stays, its profile list moved to /docs/schema/profiles (2026-10-28)
 /docs/schema/example	page	200	source docs/schema/example.md
+/docs/schema/profiles	page	200	source docs/schema/profiles.md (new 2026-10-28, from the conventions page)
+/docs/schema/profiles/addresses	page	200	source docs/schema/profiles/addresses.md (new 2026-10-28, from the conventions page)
+/docs/schema/profiles/messages	page	200	source docs/schema/profiles/messages.md (new 2026-10-28, from the conventions page)
 /docs/tools/legacy	page	200	source docs/tools/legacy.md
 /api/errors#id_conflict	load-bearing	floor	keel's error-code list (contract/error-codes.json)
 /api/errors#resync_required	load-bearing	floor	keel's error-code list (contract/error-codes.json)

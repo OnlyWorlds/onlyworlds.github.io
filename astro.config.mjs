@@ -69,12 +69,28 @@ export default defineConfig({
             { slug: 'docs/schema/folders' },
             { slug: 'docs/schema/fields' },
             { slug: 'docs/schema/conventions' },
+            {
+              label: 'Profiles',
+              items: [
+                { slug: 'docs/schema/profiles', label: 'Overview' },
+                { slug: 'docs/schema/profiles/messages' },
+                { slug: 'docs/schema/profiles/addresses' },
+              ],
+            },
             { slug: 'docs/schema/example' },
             {
               label: 'Element types',
               collapsed: true,
               items: [{ autogenerate: { directory: 'docs/schema/element_categories' } }],
             },
+          ],
+        },
+        {
+          label: 'Lenses',
+          items: [
+            { slug: 'docs/lenses', label: 'Overview' },
+            { slug: 'docs/lenses/graph' },
+            { slug: 'docs/lenses/api', label: 'On the API' },
           ],
         },
         {
@@ -171,7 +187,8 @@ export default defineConfig({
           ].join('\n'),
           customSets: [
             { label: 'API', description: 'the REST API v2: reads, links, writes, changes, members, hidden elements, public worlds and keyless reads, images, files, CORS, v1 migration and errors', paths: ['docs/development/api-reference', 'docs/development/api/**', 'api/errors', 'docs/getting-started/keys'] },
-            { label: 'Schema', description: 'the 22 element types, their fields and the conventions for using them', paths: ['docs/schema/**', 'docs/schema'] },
+            { label: 'Schema', description: 'the 22 element types, their fields, the conventions for using them and the extension profiles', paths: ['docs/schema/**', 'docs/schema'] },
+            { label: 'Lenses', description: 'the lens profile: a saved way of reading a world, a world read as a graph, and the lens routes on the API', paths: ['docs/lenses', 'docs/lenses/**'] },
             { label: 'AI agents', description: 'the MCP server, agent seats, the LLM guide and the toolkit', paths: ['docs/development/ai', 'docs/development/mcp', 'docs/development/agents', 'docs/development/llm-guide', 'docs/development/toolkit'] },
           ],
           // llms-small keeps asides and line breaks: the reader found notes like "no delete tool, by design" dropped
