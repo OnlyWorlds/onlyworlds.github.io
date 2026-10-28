@@ -57,6 +57,19 @@
 // failed (the sweep fails on it; refresh the same hour), an unreachable document is CANNOT SEE for that half only. It takes the document's word: it
 // does not judge whether keel's code accepts what the document lists (a legacy key's reads need
 // its PIN, as the key line says).
+//
+// The sign-in steps (/docs/development/api/signin, SigninSteps): built from the API document through
+// the snapshot contract/signin.json (gen_signin.mjs); this reads each hop of the built figure (its
+// two ends, its route, its parameters or fields) and holds it to the snapshot: the authorize page's
+// path and parameters with S256 as the method's value, the query a code comes back with, the code's
+// lifetime, the token route and its "no credential" to the route's security, the body to the
+// document's required fields, the answer's fields and the token's prefix. Then to the page's own
+// words, read from its Markdown twin: the parameter and body tables row by row, the address and the
+// count of parameters, the grant_type and S256 rows, the exchange example's route, the answer
+// example's keys, the code's lifetime, the Cancel's error, the prefix and the refused page's status;
+// the twin's text of the figure the same. Then the snapshot against the live document, fact by
+// fact, printed STALE, never failed, as the credentials snapshot is. What keel's code does beyond
+// the document (the 302, the 400 page, the Cancel's error) gen_signin.mjs holds to keel, locally.
 import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -815,9 +828,159 @@ if (doc) {
 }
 }
 
+// ---- the sign-in steps ----
+// Read here with code of its own (not signin.mjs): each hop's ends, route, parameters and fields
+// from the built figure, against the snapshot and against the page's own words around it. In a
+// block of its own: its names stay its own.
+{
+const sPage = read('docs/development/api/signin.html');
+const sTwin = read('docs/development/api/signin.md');
+const sf = sPage.match(/<figure\b[^>]*\bdata-ow-figure="signin"[^>]*>([\s\S]*?)<\/figure>/);
+if (!sf) blind('the sign-in page carries no sign-in figure (data-ow-figure="signin")');
+const sSnap = JSON.parse(readFileSync(join(DIST, '..', 'contract', 'signin.json'), 'utf8'));
+const sa = sSnap.authorize, st = sSnap.token;
+if (!sa?.params?.length || !st?.body?.length || !st?.answer?.length) blind('contract/signin.json holds no authorize parameters, token fields or answer');
+const bad = (m) => fails.push(`sign-in: ${m}`);
+const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+const authPath = new URL(sa.url).pathname;
+// a hop: its own tag, and its body up to the next hop, box or step (a field is an <li> too)
+const hop = (name) => {
+  const at = sf[1].search(new RegExp(`<div\\b[^>]*\\bdata-hop="${name}"`));
+  if (at < 0) { bad(`the figure draws no ${name} hop`); return { tag: '', body: '', codes: [] }; }
+  const rest = sf[1].slice(at);
+  const end = rest.slice(1).search(/<div\b[^>]*\bclass="ow-sig-(?:hop|box)\b|<li\b[^>]*\bclass="ow-sig-step\b|<\/ol>/);
+  const body = end < 0 ? rest : rest.slice(0, end + 1);
+  const codes = [...body.matchAll(/<code\b([^>]*)>([\s\S]*?)<\/code>/g)].map((c) => ({ at: c[1], text: strip(c[2]) }));
+  return { tag: body.match(/^<div\b[^>]*>/)[0], body, codes };
+};
+const ends = (h, name, from, to) => { if (attr(h.tag, 'data-from') !== from || attr(h.tag, 'data-to') !== to) bad(`the ${name} hop runs ${attr(h.tag, 'data-from')} → ${attr(h.tag, 'data-to')}, not ${from} → ${to}`); };
+const routeOf = (h, name, want) => {
+  const declared = unescape(attr(h.tag, 'data-route') ?? '');
+  const shown = h.codes.find((c) => /\bclass="ow-sig-route\b/.test(c.at))?.text;
+  if (declared !== want) bad(`the ${name} hop declares ${declared || 'no route'}; ${want} is the snapshot's`);
+  if (shown !== declared) bad(`the ${name} hop shows ${shown} and declares ${declared}`);
+};
+const ticks = (s) => [...(s ?? '').matchAll(/`([^`]+)`/g)].map((m) => m[1]);
+const listed = (h, key) => h.codes.filter((c) => attr(c.at, key) !== undefined).map((c) => ({ name: attr(c.at, key), value: attr(c.at, 'data-value'), prefix: attr(c.at, 'data-prefix'), text: c.text }));
+
+ends(hop('send'), 'send', 'tool', 'browser');
+const auth = hop('authorize');
+ends(auth, 'authorize', 'browser', 'site');
+routeOf(auth, 'authorize', `GET ${authPath}`);
+const params = listed(auth, 'data-param');
+if (!same(params.map((p) => p.name), sa.params)) bad(`the authorize hop names ${params.map((p) => p.name).join(', ')}; the snapshot's parameters are ${sa.params.join(', ')}`);
+for (const p of params) {
+  const value = p.name === 'code_challenge_method' ? sa.method : undefined;
+  if (p.value !== value) bad(`the authorize hop gives ${p.name} the value ${p.value}; the snapshot gives ${value}`);
+  if (p.text !== (value ? `${p.name}=${value}` : p.name)) bad(`the authorize hop shows "${p.text}" for ${p.name}`);
+}
+const redirect = hop('redirect');
+ends(redirect, 'redirect', 'site', 'browser');
+if (redirect.codes.find((c) => attr(c.at, 'data-status'))?.text !== '302') bad('the redirect hop does not show its 302');
+const back = hop('return');
+ends(back, 'return', 'browser', 'tool');
+const backCode = back.codes.find((c) => attr(c.at, 'data-back') !== undefined);
+if (!backCode || attr(backCode.at, 'data-back') !== sa.back.join(' ') || backCode.text !== `redirect_uri?${sa.back.map((k) => `${k}=…`).join('&')}`) bad(`the return hop shows ${backCode?.text}; the snapshot's query is ${sa.back.join(', ')}`);
+const cancel = back.codes.find((c) => attr(c.at, 'data-error') !== undefined);
+const cancelErr = cancel && attr(cancel.at, 'data-error');
+if (!cancel || cancel.text !== `redirect_uri?error=${cancelErr}&state=…`) bad(`the Cancel address reads "${cancel?.text}" for the error ${cancelErr}`);
+const lifeTag = back.body.match(/<p\b[^>]*\bdata-seconds="(\d+)"[^>]*>([\s\S]*?)<\/p>/);
+if (!lifeTag || Number(lifeTag[1]) !== st.code_seconds || !strip(lifeTag[2]).includes(`${st.code_seconds} seconds`)) bad(`the code's lifetime reads "${lifeTag ? strip(lifeTag[2]) : 'nothing'}" (${lifeTag?.[1]}); the snapshot gives ${st.code_seconds} seconds`);
+if (Number(attr(sf[0].match(/^<figure\b[^>]*>/)[0], 'data-seconds')) !== st.code_seconds) bad(`the figure is marked ${attr(sf[0], 'data-seconds')} seconds; the snapshot gives ${st.code_seconds}`);
+const tok = hop('token');
+ends(tok, 'token', 'tool', 'site');
+routeOf(tok, 'token', `${st.method} ${st.path}`);
+// "no credential": the operation lists no security, or only the empty alternative
+const takesNone = Array.isArray(st.security) && st.security.every((alt) => !Object.keys(alt ?? {}).length);
+if ((attr(tok.tag, 'data-credential') === 'none') !== takesNone || /data-mark="no-credential"/.test(tok.body) !== takesNone) bad(`the token hop ${takesNone ? 'does not say it takes no credential' : 'says it takes no credential'}; the snapshot's security is ${JSON.stringify(st.security)}`);
+const body = listed(tok, 'data-field');
+if (!same(body.map((f) => f.name), st.body) || body.some((f) => f.text !== f.name)) bad(`the token hop posts ${body.map((f) => f.text).join(', ')}; the snapshot's body is ${st.body.join(', ')}`);
+if (!same([...st.required].sort(), [...st.body].sort())) bad(`the figure draws every body field as sent; the document requires only ${st.required.join(', ')}`);
+const ans = hop('answer');
+ends(ans, 'answer', 'site', 'tool');
+if (ans.codes.find((c) => attr(c.at, 'data-status'))?.text !== '200') bad('the answer hop does not show its 200');
+const answer = listed(ans, 'data-field');
+if (!same(answer.map((f) => f.name), st.answer) || answer.some((f) => f.text !== f.name)) bad(`the answer hop shows ${answer.map((f) => f.text).join(', ')}; the snapshot's answer is ${st.answer.join(', ')}`);
+const tokenField = answer.find((f) => f.name === 'token');
+if (tokenField?.prefix !== st.prefix || !ans.codes.some((c) => c.text === `${st.prefix}…`)) bad(`the token shows the prefix ${tokenField?.prefix}; the snapshot gives ${st.prefix}`);
+const refused = sf[1].match(/<p\b[^>]*\bclass="ow-sig-refused\b[^>]*\bdata-status="(\d+)"[^>]*>([\s\S]*?)<\/p>/);
+if (!refused || !strip(refused[2]).includes(`a ${refused[1]} page`)) bad(`the refused note reads "${refused ? strip(refused[2]) : 'nothing'}"`);
+
+// The page's own words, from its Markdown twin (the same source, unrendered).
+const section = (head, next) => { const at = sTwin.indexOf(`\n## ${head}\n`); return at < 0 ? '' : sTwin.slice(at, next ? sTwin.indexOf(`\n## ${next}\n`, at) : undefined); };
+const sending = section('Sending the person to sign in', 'Trading the code');
+const trading = section('Trading the code', 'Errors');
+if (!sending || !trading) bad('the twin has no "Sending the person to sign in" or "Trading the code" section');
+const firstCells = (s, head) => {
+  const at = s.indexOf(head);
+  if (at < 0) return [];
+  return s.slice(at).split('\n').slice(2).filter((l) => l.startsWith('|')).map((l) => l.split('|')[1].trim());
+};
+const pageParams = firstCells(sending, '| Parameter | Meaning |');
+if (!same(pageParams, sa.params.map((p) => `\`${p}\``))) bad(`the page's parameter table lists ${pageParams.join(', ') || 'nothing'}; the figure and the snapshot name ${sa.params.join(', ')}`);
+const intro = sending.match(/sends the browser to `([^`]+)` with (\w+) query parameters/);
+if (!intro || intro[1] !== sa.url || intro[2] !== (WORD[sa.params.length] ?? String(sa.params.length))) bad(`the page sends the browser to ${intro?.[1]} with ${intro?.[2]} parameters; the snapshot gives ${sa.url} with ${sa.params.length}`);
+if (!new RegExp(`^\\| \`code_challenge_method\` \\| \`${sa.method}\`\\.`, 'm').test(sending)) bad(`the page's code_challenge_method row does not give \`${sa.method}\` first`);
+const pageFields = firstCells(trading, '| Field | Meaning |').flatMap((c) => c.split(', '));
+if (!same(pageFields, st.body.map((f) => `\`${f}\``))) bad(`the page's body table lists ${pageFields.join(', ') || 'nothing'}; the figure and the snapshot post ${st.body.join(', ')}`);
+if (!new RegExp(`^\\| \`grant_type\` \\| \`${st.grant_type}\` \\|$`, 'm').test(trading)) bad(`the page's grant_type row does not read \`${st.grant_type}\``);
+const curl = trading.match(/curl -s -X (\w+) "https:\/\/www\.onlyworlds\.com([^"]+)"/);
+if (!curl || `${curl[1]} ${curl[2]}` !== `${st.method} ${st.path}`) bad(`the page's exchange example sends ${curl ? `${curl[1]} ${curl[2]}` : 'nothing'}; the snapshot's route is ${st.method} ${st.path}`);
+if (trading.includes(`\`${st.method} ${st.path}\`, as JSON, with no credential`) !== takesNone) bad(`the page ${takesNone ? 'does not say' : 'says'} the exchange takes no credential; the snapshot's security is ${JSON.stringify(st.security)}`);
+let example = null;
+try { example = JSON.parse(trading.match(/```json\n(\{ "token"[\s\S]*?)\n```/)?.[1] ?? 'null'); } catch { /* reported below */ }
+if (!example || !same(Object.keys(example), st.answer) || !String(example.token).startsWith(st.prefix)) bad(`the page's answer example has ${example ? Object.keys(example).join(', ') : 'no JSON'}; the snapshot's answer is ${st.answer.join(', ')}, the token ${st.prefix}…`);
+const life = sTwin.match(/\*\*A code lives (\d+) seconds and is spent by its first exchange,\*\*/);
+if (!life || Number(life[1]) !== st.code_seconds) bad(`the page says a code lives ${life?.[1]} seconds; the snapshot gives ${st.code_seconds}`);
+const pageCancel = sTwin.match(/Cancel sends `redirect_uri\?error=([a-z_]+)&state=…`/)?.[1];
+if (pageCancel !== cancelErr) bad(`the page's Cancel goes back with ${pageCancel}; the figure's with ${cancelErr}`);
+const pagePrefix = sTwin.match(/trades the code once for an `(ow_[a-z]+_)` \[account token\]/)?.[1];
+if (pagePrefix !== st.prefix) bad(`the page's opening names the token ${pagePrefix}; the snapshot ${st.prefix}`);
+if (refused && !sending.includes(`answers a \`${refused[1]}\` page on onlyworlds.com`)) bad(`the figure's refused request gets a ${refused[1]} page; the page does not say so`);
+// The twin carries the figure as text: the same route, parameters and fields.
+if (/^<SigninSteps \/>$/m.test(sTwin)) bad('the Markdown twin carries the bare tag, not the text');
+else {
+  const t1 = sTwin.match(/^1\. \*\*Send\.\*\* .*? to `GET ([^`]+)` on \S+ with (.*)\.$/m);
+  const t4 = sTwin.match(/^4\. \*\*Trade\.\*\* The tool posts (.*?) to `(\w+ [^`]+)`, no credential\. The answer, `200`: (.*)\.$/m);
+  if (!t1 || t1[1] !== authPath || !same(ticks(t1[2]).map((p) => p.split('=')[0]), sa.params)) bad(`the twin's step 1 reads ${t1?.[0] ?? 'nothing'}`);
+  if (!t4 || t4[2] !== `${st.method} ${st.path}` || !same(ticks(t4[1]), st.body) || !same(ticks(t4[3]).filter((f) => !f.endsWith('…')), st.answer)) bad(`the twin's step 4 reads ${t4?.[0] ?? 'nothing'}`);
+}
+console.log(`sign-in: ${params.length} authorize parameters, ${body.length} body fields and ${answer.length} answer fields drawn from contract/signin.json (read ${sSnap.read_at}), a ${st.code_seconds}-second code; held to the page's tables, its answer example and its words, the twin the same`);
+// the snapshot against the live document (fetched above for the Retry-After check)
+if (doc) {
+  const drift = [];
+  const lt = doc.paths?.[st.path]?.[st.method.toLowerCase()];
+  const lb = lt?.requestBody?.content?.['application/json']?.schema;
+  const la = lt?.responses?.['200']?.content?.['application/json']?.schema;
+  const lw = (doc.paths?.['/api/v2/auth/clients']?.get?.description ?? '').replace(/\s+/g, ' ');
+  const lu = lw.match(/sends the browser to `([^`]+)` with (.*?);/);
+  const live = {
+    url: lu?.[1],
+    params: ticks(lu?.[2]).map((p) => p.split('=')[0]),
+    method: ticks(lu?.[2]).find((p) => p.startsWith('code_challenge_method='))?.split('=')[1],
+    back: (lw.match(/back to `redirect_uri\?([^`]+)`/)?.[1] ?? '').split('&').map((kv) => kv.split('=')[0]),
+    security: lt?.security ?? doc.security ?? null,
+    body: Object.keys(lb?.properties ?? {}),
+    required: lb?.required ?? [],
+    grant_type: lb?.properties?.grant_type?.const,
+    code_seconds: Number(lb?.properties?.code?.description?.match(/valid for (\d+) seconds/)?.[1]),
+    answer: Object.keys(la?.properties ?? {}),
+    prefix: la?.properties?.token?.description?.match(/`(ow_[a-z]+_)`/)?.[1],
+  };
+  const held = { url: sa.url, params: sa.params, method: sa.method, back: sa.back, security: st.security, body: st.body, required: st.required, grant_type: st.grant_type, code_seconds: st.code_seconds, answer: st.answer, prefix: st.prefix };
+  if (!lt) drift.push(`${st.method} ${st.path} is not in the live document`);
+  else for (const k of Object.keys(held)) if (!same(live[k], held[k])) drift.push(`${k} is ${JSON.stringify(live[k])} live, ${JSON.stringify(held[k])} in the snapshot`);
+  // Printed, never failed, as the credentials snapshot's: the sweep's check 2d fails on it.
+  for (const d of drift) console.log(`  STALE  sign-in snapshot (node scripts/gen_signin.mjs --refresh): ${d}`);
+  console.log(`sign-in: the snapshot held to the live API document, ${Object.keys(held).length - drift.length} of ${Object.keys(held).length} facts the same`);
+} else {
+  console.log('CANNOT SEE: the live API document (see above); the sign-in snapshot was not compared with it');
+}
+}
+
 if (fails.length) {
   for (const f of fails) console.log(`  FAIL  ${f}`);
   console.log(`\nFAIL — ${fails.length} figure claim(s) differ from their source.`);
   process.exit(1);
 }
-console.log('\nPASS — the link map draws exactly the element pages\' link rows, the four nouns\' address parses as it reads, the error families draw exactly the errors table\'s codes and marks, the category fields draw each element page\'s field and link counts under the SDK\'s families, the page palettes paint keel\'s colours with the ratios they print, the world folder draws the example\'s folders and files, each named by the page\'s rule, and the credentials figure draws every operation under the credentials the API document lists for it.');
+console.log('\nPASS — the link map draws exactly the element pages\' link rows, the four nouns\' address parses as it reads, the error families draw exactly the errors table\'s codes and marks, the category fields draw each element page\'s field and link counts under the SDK\'s families, the page palettes paint keel\'s colours with the ratios they print, the world folder draws the example\'s folders and files, each named by the page\'s rule, the credentials figure draws every operation under the credentials the API document lists for it, and the sign-in steps draw the API document\'s route, parameters and fields as the page\'s own tables give them.');

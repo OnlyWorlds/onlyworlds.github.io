@@ -60,7 +60,7 @@
 /docs/contact	page	200	source docs/contact.md
 /docs/development/ai	page	200	source docs/development/ai.md
 /docs/development/api/draught	page	200	source docs/development/api/draught.md (new 2026-10-22, keel PR 155 and 159)
-/docs/development/api/signin	page	200	source docs/development/api/signin.md (new 2026-10-22, keel PR 154 and 157)
+/docs/development/api/signin	page	200	source docs/development/api/signin.mdx (new 2026-10-22, keel PR 154 and 157)
 /docs/development/api/proposals	page	200	source docs/development/api/proposals.md (new 2026-10-22, keel PR 180)
 /docs/development/api/public	page	200	source docs/development/api/public.mdx (new 2026-10-23, keel PR 105, 173 and 176)
 /docs/development/schema	page	200	source docs/development/schema.md

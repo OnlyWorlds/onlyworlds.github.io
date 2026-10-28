@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-28
 
+- **[Sign in with OnlyWorlds](/docs/development/api/signin) draws its four steps** as hops between the tool, the browser and onlyworlds.com, with the authorize page's parameters, the token route's fields and answer and the code's lifetime from the API's own document. The page's refused requests now name every check (a `code_challenge` that is not 43 characters, a `state` over 1024), its pages are sent `Referrer-Policy: same-origin`, not `no-referrer`, and a rate-limited exchange leaves the code unspent.
 - **[The Lenses page](/docs/schema/conventions#lenses)**: Start from finds elements by a word, the most linked first, and offers a world's Domains as packages of starting points. <!-- keel PR 306 -->
 - **[A new key](/docs/getting-started/keys)**: the message for your AI also has it keep the `.env` file out of version control. <!-- keel PR 309 -->
 - **[API overview](/docs/development/api-reference#which-credential-each-route-takes) draws which credential each route takes**: every operation of the API by route family, counted under no key, a key alone, a key and its PIN or an account token as the API's own document lists them, with each route under the credentials it takes; generated from that document when the docs are built, its keyless reads held to the list on [Public worlds](/docs/development/api/public#the-keyless-reads), and the docs' check fails when the document moves until the figure follows.

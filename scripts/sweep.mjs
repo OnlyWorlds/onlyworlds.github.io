@@ -11,7 +11,8 @@
  *   CHECKS   things that can be measured, each PASS or STALE: the SDK pin the reference is generated
  *            from against npm; the error-code snapshot against keel's live list; the palettes
  *            snapshot against keel's palette table (on a machine with keel); the credentials
- *            snapshot against the API document's security; the routes in the
+ *            snapshot against the API document's security; the sign-in snapshot against the API
+ *            document and keel's code (on a machine with keel); the routes in the
  *            API reference against keel's OpenAPI; every external link; words the docs must not use;
  *            every release since the last sweep (the packages, the Unity SDK, the plugin, the toolkit,
  *            schema-dist's serials) against the changelog.
@@ -107,6 +108,17 @@ console.log('CHECKS');
   if (code === 0) pass('the credentials snapshot matches the live API document');
   else if (code === 1) bad('the credentials snapshot differs from the live API document (node scripts/gen_callers.mjs says which routes; --refresh)');
   else note('could not read the live API document (node scripts/gen_callers.mjs says why): the credentials snapshot was not checked');
+}
+
+// ---- 2d: the sign-in figure's snapshot against the API document, and the document's words against
+// keel's code on origin/main (exit 2 from the reader is BLIND: either unreadable, never a pass) -------
+{
+  let code = 0;
+  try { execFileSync('node', ['scripts/gen_signin.mjs'], { cwd: ROOT, timeout: 60000, stdio: 'ignore' }); }
+  catch (e) { code = e.status ?? 2; }
+  if (code === 0) pass('the sign-in snapshot matches the live API document, and keel\'s code says the same');
+  else if (code === 1) bad('the sign-in snapshot differs from the live API document, or the document from keel\'s code (node scripts/gen_signin.mjs says which)');
+  else note('could not read the live API document or keel\'s code (node scripts/gen_signin.mjs says why): the sign-in snapshot was not checked');
 }
 
 // ---- 3: the API reference against keel's OpenAPI ---------------------------------------------------------

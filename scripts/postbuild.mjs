@@ -17,6 +17,7 @@ import { errorFamiliesMarkdown } from '../src/components/figures/errors.mjs';
 import { pagePalettesMarkdown } from '../src/components/figures/palettes.mjs';
 import { folderExampleMarkdown } from '../src/components/figures/folders.mjs';
 import { apiCallersMarkdown } from '../src/components/figures/callers.mjs';
+import { signinMarkdown } from '../src/components/figures/signin.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const CONTENT = join(ROOT, 'src', 'content', 'docs');
@@ -110,6 +111,7 @@ const FIGURE_TEXT = {
   PagePalettes: () => pagePalettesMarkdown(JSON.parse(readFileSync(join(ROOT, 'contract', 'palettes.json'), 'utf8'))),
   FolderExample: () => folderExampleMarkdown(JSON.parse(readFileSync(join(ROOT, 'contract', 'folder-example.json'), 'utf8'))),
   ApiCallers: () => apiCallersMarkdown(JSON.parse(readFileSync(join(ROOT, 'contract', 'callers.json'), 'utf8')), ELEMENT_TYPES),
+  SigninSteps: () => signinMarkdown(JSON.parse(readFileSync(join(ROOT, 'contract', 'signin.json'), 'utf8'))),
 };
 let figureTexts = 0;
 for (const file of walk(DIST)) {

@@ -1,0 +1,274 @@
+---
+// Sign in with OnlyWorlds as four steps of hops between the tool, the person's browser and
+// onlyworlds.com: a sequence diagram built as HTML, so its words are the page's own text
+// (an ordered list a screen reader or an agent reads, each hop saying who sends to whom). The
+// routes, parameters, fields, the code's lifetime and the token's prefix come from the API's own
+// document through contract/signin.json (scripts/gen_signin.mjs) and signin.mjs, which the twin
+// reads too. Wide, three lanes with arrows between them; narrow (a container query), one column
+// with each hop's sender and receiver written out. The theme is the docs' own.
+import snap from '../../../contract/signin.json';
+import { LANES, signinSteps, signinWords, who } from './signin.mjs';
+
+const data = signinSteps(snap);
+const w = signinWords(data, (s: string) => `<code>${s}</code>`);
+const col = (k: string) => LANES.findIndex((l) => l.key === k);
+const place = (h: { from: string; to: string }) => {
+  const a = col(h.from), b = col(h.to);
+  const lo = Math.min(a, b), hi = Math.max(a, b);
+  return {
+    style: `grid-column: ${lo + 2} / ${hi + 3}`,
+    cls: `ow-sig-hop ow-sig-span${hi - lo + 1} ${b > a ? 'ow-sig-right' : 'ow-sig-left'}`,
+  };
+};
+// a box sits in its lane, or from another lane's middle across to it
+const laneAt = (b: { lane: string; from?: string }) => `grid-column: ${col(b.from ?? b.lane) + 2} / ${col(b.lane) + 3}`;
+---
+
+<figure class="ow-fig ow-sig not-content" data-ow-figure="signin" data-read-at={data.readAt} data-seconds={data.seconds}>
+  <div class="ow-sig-lanes" aria-hidden="true">
+    {LANES.map((l) => <span class={`ow-sig-lane ow-sig-lane-${l.key}`}>{l.label}</span>)}
+  </div>
+  <ol class="ow-sig-steps" aria-label="Sign in with OnlyWorlds, step by step">
+    {
+      data.steps.map((s, i) => (
+        <li class="ow-sig-step" data-step={s.name}>
+          <p class="ow-sig-num"><b>{i + 1}</b><span>{s.name}</span></p>
+          {s.hops?.map((h: any) => {
+            const p = place(h);
+            return (
+              <div class={p.cls} style={p.style} data-hop={h.hop} data-from={h.from} data-to={h.to}
+                data-route={h.path ? `${h.method} ${h.path}` : undefined} data-credential={h.credential}>
+                <p class="ow-sig-who">{who(h)}</p>
+                <p class="ow-sig-label">
+                  {h.status && <code class="ow-sig-status" data-status={h.status}>{h.status}</code>}
+                  {h.say && <span>{h.say}</span>}
+                  {h.path && <code class="ow-sig-route">{h.method} {h.path}</code>}
+                  {h.credential === 'none' && <span class="ow-sig-tag" data-mark="no-credential">{w.noCredential}</span>}
+                  {h.address && <code class="ow-sig-back" data-back={h.back.join(' ')}>{h.address}</code>}
+                </p>
+                <i class="ow-sig-arrow" aria-hidden="true" />
+                {h.params && (
+                  <ul class="ow-sig-fields">
+                    {h.params.map((q: any) => <li><code data-param={q.name} data-value={q.value}>{q.value ? `${q.name}=${q.value}` : q.name}</code></li>)}
+                  </ul>
+                )}
+                {h.fields && (
+                  <ul class="ow-sig-fields">
+                    {h.fields.map((f: string) => (
+                      <li>
+                        <code data-field={f} data-prefix={f === 'token' && h.prefix ? h.prefix : undefined}>{f}</code>
+                        {f === 'token' && h.prefix && <span class="ow-sig-x"><code>{h.prefix}…</code></span>}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {h.cancel && (
+                  <p class="ow-sig-note">Cancel: <code data-error={h.cancel.error}>{h.cancel.address}</code></p>
+                )}
+                {h.cancel && <p class="ow-sig-note" data-seconds={data.seconds}>{w.life}</p>}
+              </div>
+            );
+          })}
+          {s.box && (
+            <div class={`ow-sig-box ow-sig-in-${s.box.lane}`} style={laneAt(s.box)} data-lane={s.box.lane}>
+              <p class="ow-sig-who">{LANES[col(s.box.lane)].short}</p>
+              {s.box.lines?.map((t: string) => <p>{t}</p>)}
+              {s.box.check && <p>checks <code data-check={s.box.check}>{s.box.check}</code></p>}
+            </div>
+          )}
+          {s.refused && (
+            <p class="ow-sig-refused" style={laneAt(s.box)} data-status={s.refused.status}>
+              Refused: a <code>{s.refused.status}</code> {s.refused.say}
+            </p>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+  <figcaption><Fragment set:html={w.caption} /></figcaption>
+</figure>
+
+<style>
+  .ow-sig {
+    container-type: inline-size;
+    margin: 1.5rem 0 1.25rem;
+    font-size: 0.875rem;
+    line-height: 1.45;
+    color: var(--sl-color-gray-2);
+    --sig-line: var(--sl-color-gray-5);
+    --sig-how: var(--sl-color-accent);
+    --sig-ok: var(--sl-color-green);
+    --sig-where: var(--sl-color-orange-high);
+    --sig-num: 3.75rem;
+  }
+  :global(:root[data-theme='light']) .ow-sig { --sig-ok: var(--sl-color-green-high); }
+  .ow-sig p, .ow-sig ol, .ow-sig ul { margin: 0; }
+  .ow-sig code { font-family: var(--sl-font-mono); font-size: 0.8125rem; color: var(--sl-color-white); }
+  .ow-sig-lanes, .ow-sig-step {
+    display: grid;
+    grid-template-columns: var(--sig-num) repeat(3, minmax(0, 1fr));
+    align-items: start;
+  }
+  .ow-sig-lanes > :first-child { grid-column: 2; }
+  .ow-sig-lane {
+    justify-self: center;
+    text-align: center;
+    font-weight: 600;
+    color: var(--sl-color-white);
+    background: var(--sl-color-gray-6);
+    border: 1px solid var(--sig-line);
+    border-radius: 10px;
+    padding: 6px 12px;
+    margin: 0 6px;
+  }
+  .ow-sig-lane-site { color: var(--sig-where); border: 2px solid var(--sig-where); }
+  /* the three lifelines, under every step, at the middle of each lane */
+  .ow-sig-steps {
+    list-style: none;
+    padding: 0;
+    --sig-lane: calc((100% - var(--sig-num)) / 3);
+    background:
+      repeating-linear-gradient(to bottom, var(--sig-line) 0 4px, transparent 4px 10px) no-repeat calc(var(--sig-num) + var(--sig-lane) * 0.5) 0 / 2px 100%,
+      repeating-linear-gradient(to bottom, var(--sig-line) 0 4px, transparent 4px 10px) no-repeat calc(var(--sig-num) + var(--sig-lane) * 1.5) 0 / 2px 100%,
+      repeating-linear-gradient(to bottom, var(--sig-line) 0 4px, transparent 4px 10px) no-repeat calc(var(--sig-num) + var(--sig-lane) * 2.5) 0 / 2px 100%;
+  }
+  .ow-sig-step { row-gap: 10px; padding: 16px 0 10px; margin: 0; }
+  .ow-sig-step + .ow-sig-step { border-top: 1px dashed var(--sig-line); }
+  .ow-sig-num {
+    grid-column: 1;
+    grid-row: 1 / span 4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    font-size: 0.75rem;
+    color: var(--sl-color-gray-3);
+  }
+  .ow-sig-num b {
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    background: var(--sig-how);
+    color: var(--sl-color-black);
+    font-size: 0.9375rem;
+  }
+  .ow-sig-hop { position: relative; text-align: center; min-width: 0; }
+  .ow-sig-hop > * { position: relative; }
+  .ow-sig-label {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: baseline;
+    gap: 2px 8px;
+    color: var(--sl-color-gray-3);
+  }
+  .ow-sig-label > * { background: var(--sl-color-bg); padding: 0 4px; }
+  .ow-sig-route, .ow-sig-status, .ow-sig-back { font-size: 0.875rem; }
+  .ow-sig-tag {
+    font-size: 0.75rem;
+    color: var(--sl-color-gray-2);
+    border: 1px solid var(--sig-line);
+    border-radius: 999px;
+    padding: 0 8px;
+  }
+  /* the arrow: from one lane's middle to another's; its head at the receiver's end */
+  .ow-sig-arrow {
+    display: block;
+    height: 2px;
+    margin: 4px 0 6px;
+    background: var(--sig-how);
+  }
+  .ow-sig-span2 .ow-sig-arrow { margin-inline: 25%; }
+  .ow-sig-span3 .ow-sig-arrow { margin-inline: calc(100% / 6); }
+  [data-hop='answer'] .ow-sig-arrow { background: var(--sig-ok); }
+  .ow-sig-arrow::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    border: 6px solid transparent;
+  }
+  .ow-sig-right .ow-sig-arrow::after { right: -2px; border-right: 0; border-left: 9px solid var(--sig-how); }
+  .ow-sig-left .ow-sig-arrow::after { left: -2px; border-left: 0; border-right: 9px solid var(--sig-how); }
+  [data-hop='answer'] .ow-sig-arrow::after { border-right-color: var(--sig-ok); }
+  .ow-sig-fields {
+    list-style: none;
+    padding: 0 8px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px 6px;
+  }
+  .ow-sig-fields li {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 4px;
+    max-width: 100%;
+    background: var(--sl-color-gray-6);
+    border: 1px solid var(--sig-line);
+    border-radius: 6px;
+    padding: 0 7px;
+    margin: 0;
+  }
+  .ow-sig-fields code { font-size: 0.75rem; overflow-wrap: anywhere; }
+  .ow-sig-x code { color: var(--sl-color-gray-3); }
+  .ow-sig-note { margin-top: 4px; font-size: 0.8125rem; color: var(--sl-color-gray-3); }
+  .ow-sig-note code { font-size: 0.75rem; overflow-wrap: anywhere; }
+  .ow-sig-box {
+    position: relative;
+    margin: 0 6px;
+    padding: 8px 10px;
+    background: var(--sl-color-gray-6);
+    border: 1px solid var(--sig-line);
+    border-radius: 10px;
+    color: var(--sl-color-gray-2);
+  }
+  .ow-sig-box.ow-sig-in-tool { border-style: dashed; background: var(--sl-color-bg); text-align: center; }
+  .ow-sig-refused {
+    position: relative;
+    margin: 0 6px;
+    font-size: 0.8125rem;
+    color: var(--sl-color-gray-3);
+  }
+  .ow-sig-refused > * { background: var(--sl-color-bg); }
+  .ow-sig-who {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  .ow-sig figcaption {
+    margin-top: 10px;
+    color: var(--sl-color-gray-3);
+    font-size: 0.8125rem;
+  }
+  .ow-sig figcaption code { font-size: 0.8125rem; }
+  @container (max-width: 560px) {
+    .ow-sig-lanes { display: none; }
+    .ow-sig-steps { background: none; }
+    .ow-sig-step { grid-template-columns: 2.25rem minmax(0, 1fr); row-gap: 8px; }
+    .ow-sig-step > :not(.ow-sig-num) { grid-column: 2 !important; }
+    .ow-sig-num span { display: none; }
+    .ow-sig-hop { text-align: left; border-left: 2px solid var(--sig-how); padding-left: 10px; }
+    .ow-sig-hop[data-hop='answer'] { border-left-color: var(--sig-ok); }
+    .ow-sig-label, .ow-sig-fields { justify-content: flex-start; padding: 0; }
+    .ow-sig-label > * { padding: 0; background: none; }
+    .ow-sig-arrow { display: none; }
+    .ow-sig-box, .ow-sig-refused { margin: 0; }
+    .ow-sig-box.ow-sig-in-tool { text-align: left; }
+    .ow-sig-who {
+      position: static !important;
+      width: auto;
+      height: auto;
+      overflow: visible;
+      clip: auto;
+      white-space: normal;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--sl-color-gray-3);
+    }
+  }
+</style>
