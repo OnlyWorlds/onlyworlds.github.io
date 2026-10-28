@@ -5,13 +5,13 @@ description: What OnlyWorlds is, and how to make a first read and write against 
 
 This page is for developers and AI agents that read and write worlds through the API. To build a world without code, start at [onlyworlds.com/start](https://www.onlyworlds.com/start) or open [Atlas](https://atlas.onlyworlds.com).
 
-OnlyWorlds is an open standard for world data. It structures a world into [22 element categories](/docs/schema/) (Characters, Locations, Events and more) with fields and typed links between them, so any tool or AI agent that speaks the standard can read and write the same worlds.
+OnlyWorlds is an open standard for world data. It structures a world into [22 element types](/docs/schema/) (Characters, Locations, Events and more) with fields and typed links between them, so any tool or AI agent that speaks the standard can read and write the same worlds.
 
 It has four layers:
 
 | Layer | What it is |
 | :--- | :--- |
-| **Standard** | The element categories, their fields and links, kept as YAML files, governed in public by the [Council](https://council.onlyworlds.com). See [Schema](/docs/schema/). |
+| **Standard** | The element types, their fields and links, kept as YAML files, governed in public by the [Council](https://council.onlyworlds.com). See [Schema](/docs/schema/). |
 | **Platform** | [onlyworlds.com](https://www.onlyworlds.com) stores worlds, their members and roles, and issues per-world keys. |
 | **Interfaces** | The REST API, the change feed, the MCP server and agent seats. |
 | **Clients** | Apps and tools (Atlas, the Obsidian plugin, converters), SDKs, and AI agents. |
@@ -47,7 +47,7 @@ curl -H "API-Key: ow_r_your_key" \
 
 Lists come in an envelope: `{"data": [...], "has_more": false, "next_cursor": null}`. When `has_more` is true, pass `next_cursor` back as `?cursor=` for the next page. To try this before you have a world, use Moppetopia's demo key `0000000001` (the home page's sample world), which reads without a PIN ([Demo keys](/docs/getting-started/keys#demo-keys) lists the others).
 
-Every category has the same routes at its singular name: `/api/v2/location/`, `/api/v2/event/`, and so on. [Reads and pagination](/docs/development/api/reads) covers filters, sparse fields and expansion.
+Every element type has the same routes at its singular name: `/api/v2/location/`, `/api/v2/event/`, and so on. [Reads and pagination](/docs/development/api/reads) covers filters, sparse fields and expansion.
 
 ### 3. Write
 

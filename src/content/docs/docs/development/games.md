@@ -86,7 +86,7 @@ The element types cover most of what a game holds. A starting point:
 | Territories and regions | Zone |
 | Maps and what is placed on them | Map, Pin, Marker |
 
-The line between Character and Creature is agency, not species: an intelligent monster with goals of its own can be a Character. `supertype` and `subtype` hold your game's own categories (a Creature with supertype `Boss`), so you don't need new element types for them. Where two types are close, [Conventions](/docs/schema/conventions) draws the line between them. Each type's fields are listed under [Schema](/docs/schema/).
+The line between Character and Creature is agency, not species: an intelligent monster with goals of its own can be a Character. `supertype` and `subtype` hold your game's own kinds (a Creature with supertype `Boss`), so you don't need new element types for them. Where two types are close, [Conventions](/docs/schema/conventions) draws the line between them. Each type's fields are listed under [Schema](/docs/schema/).
 
 ## On OnlyWorlds today
 

@@ -13,7 +13,7 @@ The guide is for people building their own tools. Someone who wants to build a w
 
 1. Open the file and copy all of it, or download it.
 2. Paste it into a new chat (ChatGPT, Claude, or a browser builder such as Lovable, Replit or v0.dev).
-3. Describe the tool you want. The guide tells the assistant to ask what problem it solves, who uses it, its one core interaction, and which element categories matter, then to write a short spec with you before writing code.
+3. Describe the tool you want. The guide tells the assistant to ask what problem it solves, who uses it, its one core interaction, and which element types matter, then to write a short spec with you before writing code.
 
 For full field definitions beyond the guide, point the assistant at the [schema](/docs/schema/) or at `FIELD_SCHEMA` in the [SDK](/docs/development/typescript).
 
@@ -22,7 +22,7 @@ For full field definitions beyond the guide, point the assistant at the [schema]
 | Part | Contents |
 |:--|:--|
 | 1. How to help the user | Gauging experience (no coding, some coding, advanced), planning a tool before building it with a short spec, choosing between browser builders and a local setup, pointing Claude Code users to the toolkit, and local setup (Node.js, Git, an editor). |
-| 2. OnlyWorlds essentials | What OnlyWorlds is, the 22 categories with one line each, under six reading headings that are not part of the standard, how common concepts map onto them, and `x_` extension fields for custom data. |
+| 2. OnlyWorlds essentials | What OnlyWorlds is, the 22 element types with one line each, under six reading headings that are not part of the standard, how common concepts map onto them, and `x_` extension fields for custom data. |
 | 3. Credentials and first call | Minting a key (`ow_w_`, `ow_r_`, `ow_a_`, legacy), where the PIN is set and when it is sent, the demo keys, keeping credentials out of chats, commits and browser bundles, and a first SDK call. |
 | 4. SDK and API reference | Plain HTTP (the base URL, the `API-Key` and `API-Pin` headers, the error envelope); reads and cursor paging, filters, `expand` and `fields`; create, patch, upsert and delete; link fields and `editLinks`; bulk upload with client-minted ids and idempotency keys; the change feed; error codes; UI helpers (icons, colours, field groups, `FIELD_SCHEMA`); reading a world folder with no account. |
 | 5. Deployment | Building, the static hosts the API accepts browser calls from without setup, deploying to Cloudflare Pages, and why a public site uses a read key. |

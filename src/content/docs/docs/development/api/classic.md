@@ -15,7 +15,7 @@ The `_ids` and `_id` suffixes on this page belong to the Classic API only. In `/
 
 ## Operations
 
-Routes use the singular category slug (`/character/`, `/location/`).
+Routes use the singular element type slug (`/character/`, `/location/`).
 
 | Method | Route | Purpose |
 |:--|:--|:--|

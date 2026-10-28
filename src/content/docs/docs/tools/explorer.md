@@ -12,6 +12,6 @@ Explorer is a visual introduction to OnlyWorlds concepts and structure, and a de
 
 ## Features
 
-- **3D Navigation.** Explore element categories and their relationships in 3D space.
+- **3D Navigation.** Explore element types and their relationships in 3D space.
 - **Schema Visualization.** See how the OnlyWorlds schema connects.
 - **Desktop Optimized.** Best on desktop. Touch devices are sent to a [mobile version](https://explorer-mobile.onlyworlds.com).

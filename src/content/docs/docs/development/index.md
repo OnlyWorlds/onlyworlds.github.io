@@ -7,7 +7,7 @@ OnlyWorlds is open source and license free. A world on [onlyworlds.com](https://
 
 ## API
 
-The REST API at `https://www.onlyworlds.com/api/v2/` serves every element category at the same routes, with cursor pagination, one-shape links, bulk writes and a change feed.
+The REST API at `https://www.onlyworlds.com/api/v2/` serves every element type at the same routes, with cursor pagination, one-shape links, bulk writes and a change feed.
 
 | Page | Covers |
 | :--- | :--- |
@@ -47,4 +47,4 @@ To start a web tool from a page that already runs, use [World Starter](https://g
 
 ## The schema for tool builders
 
-The element categories, fields and links are documented under [Schema](/docs/schema/). Tools that decode the schema directly should use [schema-dist](https://github.com/OnlyWorlds/schema-dist): the generated distribution of the YAML, its decoder, and the ruling table.
+The element types, fields and links are documented under [Schema](/docs/schema/). Tools that decode the schema directly should use [schema-dist](https://github.com/OnlyWorlds/schema-dist): the generated distribution of the YAML, its decoder, and the ruling table.

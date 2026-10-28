@@ -121,7 +121,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/character" \
 A key is held while its request runs, so two sends with it do not both write; the hold and the store are best-effort, not a ledger. Without the header, mint the `id` on the client: two concurrent creates without client ids can make two elements.
 ## Bulk
 
-`POST /api/v2/bulk` creates and upserts up to 1000 elements of mixed categories in one call.
+`POST /api/v2/bulk` creates and upserts up to 1000 elements of mixed element types in one call.
 
 ```json
 {

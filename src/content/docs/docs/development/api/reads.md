@@ -7,7 +7,7 @@ Reads take the key alone: a prefixed key (`ow_w_`, `ow_r_`) never needs the PIN 
 
 ## Lists
 
-`GET /api/v2/{type}` returns one page of that category's elements in an envelope:
+`GET /api/v2/{type}` returns one page of that element type's elements in an envelope:
 
 ```json
 { "data": [], "has_more": false, "next_cursor": null }
@@ -43,11 +43,11 @@ curl -s "https://www.onlyworlds.com/api/v2/character/{id}" -H "API-Key: {key}"
 
 ## What an element carries
 
-Besides its category's fields (see [the schema](/docs/schema/)), every element read carries:
+Besides its element type's fields (see [the schema](/docs/schema/)), every element read carries:
 
 | Field | Meaning |
 |:--|:--|
-| `type` | The element's category slug, as the first key, so a body identifies itself |
+| `type` | The element's type slug, as the first key, so a body identifies itself |
 | `id` | The element's UUID |
 | `created_at`, `updated_at` | Server timestamps; `updated_at` is always present |
 | `change_seq` | The world's change sequence at this element's last write |
@@ -65,15 +65,15 @@ Fields under the extension namespaces `atlas_*`, `shadow_*` and `x_*` appear inl
 | `name__icontains` | Case-insensitive substring of the name |
 | `supertype` | Exact supertype |
 | `subtype` | Exact subtype |
-| `characters` | On the six categories with a `characters` link (collective, construct, event, narrative, relation, title): the elements whose `characters` contain that Character id |
-| `ids` | Comma-separated ids, 1 to 200: only these elements, in the list's own order. An id the key cannot see, or that names nothing of this category, is simply absent. More than 200, or a malformed id, is a `422` with `param` `ids` |
+| `characters` | On the six element types with a `characters` link (collective, construct, event, narrative, relation, title): the elements whose `characters` contain that Character id |
+| `ids` | Comma-separated ids, 1 to 200: only these elements, in the list's own order. An id the key cannot see, or that names nothing of this element type, is simply absent. More than 200, or a malformed id, is a `422` with `param` `ids` |
 | `created_by` | A membership id, as [`GET /api/v2/members`](/docs/development/api/members#the-roster) lists them: the elements that member created. `owner` selects the owner's own writes (`created_by` `null`). An element the key knows only as [known-of](/docs/development/api/members#known-of) never matches. Anything else is a `422` with `param` `created_by` |
 
 ```bash
 curl -s "https://www.onlyworlds.com/api/v2/character?name__icontains=consul" -H "API-Key: {key}"
 ```
 
-Besides these filters, a list takes the parameters `limit`, `cursor`, `expand`, `fields`, [`as`](/docs/development/api/hidden#view-as) and [`world`](/docs/development/api/public). Any other query parameter is a `422` [`invalid_request`](/api/errors/#invalid_request) whose message lists the category's filters, so a typo fails loudly instead of returning the unfiltered list:
+Besides these filters, a list takes the parameters `limit`, `cursor`, `expand`, `fields`, [`as`](/docs/development/api/hidden#view-as) and [`world`](/docs/development/api/public). Any other query parameter is a `422` [`invalid_request`](/api/errors/#invalid_request) whose message lists the element type's filters, so a typo fails loudly instead of returning the unfiltered list:
 
 ```json
 { "error": { "type": "invalid_request", "code": "invalid_request",
@@ -87,12 +87,12 @@ The [TypeScript SDK](/docs/development/typescript) sends these under `filter`: `
 
 ## Search
 
-`GET /api/v2/search?q=` finds the elements whose name or text holds every word of `q` as a whole word, ignoring case. The text is the name, the description and each category's own prose fields, such as a Character's background or a Narrative's story; supertype, subtype and `image_url` are not searched. There is no stemming: `drip` does not find "Drippers", and `quiet valley` needs both words somewhere in the element.
+`GET /api/v2/search?q=` finds the elements whose name or text holds every word of `q` as a whole word, ignoring case. The text is the name, the description and each element type's own prose fields, such as a Character's background or a Narrative's story; supertype, subtype and `image_url` are not searched. There is no stemming: `drip` does not find "Drippers", and `quiet valley` needs both words somewhere in the element.
 
 | Parameter | Meaning |
 |:--|:--|
 | `q` | Required: 2 to 200 characters, with at least one word of letters or digits |
-| `type` | One category slug; without it, all 22 are searched |
+| `type` | One element type slug; without it, all 22 are searched |
 | `limit` | Default 50, clamped into 1 to 200; a non-integer is a `422` |
 
 Any other parameter is a `422` [`invalid_request`](/api/errors/#invalid_request) naming the three.
@@ -112,7 +112,7 @@ curl -s "https://www.onlyworlds.com/api/v2/search?q=drippers&limit=2" -H "API-Ke
   "count": 2, "truncated": true }
 ```
 
-Elements whose name matches come first, then the rest, each by category and then by name. `field` is where the words were found, and `snippet` is up to 160 characters of that field around the first match. `truncated` is `true` when more elements matched than `limit`; there are no further pages, so narrow the query or raise the limit. A row for an element the reader only [knows of](/docs/development/api/members#known-of) carries `known_of: true` (it matches on what the stub keeps). A guest key searches only what it may read, and no key finds an element hidden from it. The MCP server's [`search_elements`](/docs/development/mcp#read-a-key) runs the same search.
+Elements whose name matches come first, then the rest, each by element type and then by name. `field` is where the words were found, and `snippet` is up to 160 characters of that field around the first match. `truncated` is `true` when more elements matched than `limit`; there are no further pages, so narrow the query or raise the limit. A row for an element the reader only [knows of](/docs/development/api/members#known-of) carries `known_of: true` (it matches on what the stub keeps). A guest key searches only what it may read, and no key finds an element hidden from it. The MCP server's [`search_elements`](/docs/development/mcp#read-a-key) runs the same search.
 
 ## Expansion and sparse fields
 

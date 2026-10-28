@@ -15,7 +15,7 @@ const sentences = linkSentences(data, plural, (n: string) => `<code>${n}</code>`
 <figure class="ow-fig ow-links not-content" data-ow-figure="category-links">
   <div class="ow-links-bar">
     <p class="ow-links-cap" aria-live="polite">
-      The standard has 22 categories. Select one to see which others its fields link to.
+      The standard has 22 element types. Select one to see which others its fields link to.
     </p>
     <button class="ow-links-clear" type="button">Clear</button>
   </div>
@@ -34,9 +34,9 @@ const sentences = linkSentences(data, plural, (n: string) => `<code>${n}</code>`
     }
   </div>
   <figcaption>
-    Generated from the schema: a category is lit when one of the selected category's own link fields
+    Generated from the schema: an element type is lit when one of the selected element type's own link fields
     points at it, and drawn dark and dashed when its own fields point at the selected one. Links to the
-    same category, and Pin's link to any element, are named in the line above.
+    same element type, and Pin's link to any element, are named in the line above.
   </figcaption>
   <script type="application/json" class="ow-fig-data" set:html={JSON.stringify({ ...data, plural })} />
 </figure>
@@ -255,12 +255,12 @@ const sentences = linkSentences(data, plural, (n: string) => `<code>${n}</code>`
     function caption(k: string) {
       const n = D.links[k].length;
       let s = n
-        ? `${label(k)} links to ${n} other ${n === 1 ? 'category' : 'categories'}, through the fields named on each.`
-        : `${label(k)} has no fields that link to another category.`;
+        ? `${label(k)} links to ${n} other ${n === 1 ? 'element type' : 'element types'}, through the fields named on each.`
+        : `${label(k)} has no fields that link to another element type.`;
       if (D.self[k].length) s += ` And to other ${D.plural[k]}, through ${list(D.self[k])}.`;
       if (D.generic[k].length) s += ` And to any element, through ${list(D.generic[k])}.`;
       const b = backOf(k).length;
-      if (b) s += ` ${b} more ${b === 1 ? 'category links' : 'categories link'} to ${label(k)}, drawn dark.`;
+      if (b) s += ` ${b} more ${b === 1 ? 'element type links' : 'element types link'} to ${label(k)}, drawn dark.`;
       return s;
     }
     // The categories whose own fields point at k and that k does not already link to (the forward
@@ -287,7 +287,7 @@ const sentences = linkSentences(data, plural, (n: string) => `<code>${n}</code>`
         o.el.title = l ? l.fields.join(', ') : b ? b.fields.join(', ') : '';
       }
       clr.style.visibility = sel ? 'visible' : 'hidden';
-      if (!cur) { cap.textContent = 'The standard has 22 categories. Select one to see which others its fields link to.'; return; }
+      if (!cur) { cap.textContent = 'The standard has 22 element types. Select one to see which others its fields link to.'; return; }
       cap.textContent = caption(cur);
       if (B.length) {   // one path in one lane, under the forward lines: the dark lines run together into a trunk instead of stacking
         const p = document.createElementNS(NS, 'path');

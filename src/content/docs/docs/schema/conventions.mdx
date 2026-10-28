@@ -1,19 +1,19 @@
 ---
 title: Modelling conventions
-description: How to model a world with the categories and fields the schema already has.
+description: How to model a world with the element types and fields the schema already has.
 ---
 
-The standard covers most worlds with the categories and fields it has. Before reaching for a new field or category, check whether one of these conventions carries the case. When none does, the [Council](https://council.onlyworlds.com) is where the standard changes.
+The standard covers most worlds with the element types and fields it has. Before reaching for a new field or element type, check whether one of these conventions carries the case. When none does, the [Council](https://council.onlyworlds.com) is where the standard changes.
 
 ## Use only what you need
 
-A world can use any subset of the categories. Only `name` is required on an element, so a world of nothing but Objects is a valid world, and most tools work with two to four categories.
+A world can use any subset of the element types. Only `name` is required on an element, so a world of nothing but Objects is a valid world, and most tools work with two to four element types.
 
-## Supertype and subtype are the world's own categories
+## Supertype and subtype are the world's own kinds
 
-Every element has two free-text classification fields: `supertype`, the top-level category the element belongs to, and `subtype`, a further classification within it. The schema fixes no values, so each world defines its own: a Location with supertype `City` and subtype `Port`, an Institution with supertype `Guild`.
+Every element has two free-text classification fields: `supertype`, the top-level kind the element belongs to, and `subtype`, a further classification within it. The schema fixes no values, so each world defines its own: a Location with supertype `City` and subtype `Port`, an Institution with supertype `Guild`.
 
-Both sort elements inside their category: a Location with supertype `City` is still a Location, and no supertype adds a category to the standard.
+Both sort elements inside their element type: a Location with supertype `City` is still a Location, and no supertype adds an element type to the standard.
 
 The API filters on both by exact value (`?supertype=City`), so keep the vocabulary consistent within a world. Some platform features use supertypes too: an agent's own Character has supertype `Agent`, and in-world messages are Narratives with supertype `Message` (see below).
 
@@ -30,13 +30,13 @@ When the connection itself has content, make it a [Relation](/docs/schema/elemen
 | `start_date`, `end_date` | When it began and ended, in world time units |
 | `intensity` | Significance, 0 to 100 |
 | `events` | Events where the relation is involved |
-| `characters`, `institutions`, `locations`, … | The elements it connects, across most categories |
+| `characters`, `institutions`, `locations`, … | The elements it connects, across most element types |
 
 If the Consul's ties to the Hegemony have a history and a span worth recording, they are a Relation; the Consul's current location is a link.
 
-## Choosing between neighbouring categories
+## Choosing between neighbouring element types
 
-The category definitions draw these lines themselves:
+The element type definitions draw these lines themselves:
 
 | Pair | The line |
 | :--- | :--- |
@@ -49,11 +49,11 @@ The category definitions draw these lines themselves:
 | Event / Narrative | An Event is "a time-bound happening within the world"; Narratives are "stories told in your world, and can involve the organization or reinterpretation of Events." |
 | Location / Zone | A Location is "a distinct place within the world where activities occur and elements converge"; Zones "are not defined by geometry themselves but gain spatial presence through linked map markers." |
 
-**One magic system, three categories.** The Ember Art, a school of fire magic, is a Construct. Firebolt, a spell taught in it, is an Ability with the Ember Art as its `tradition`. The Ember Tide, the force the spell draws on, is a Phenomenon: the Ability's `source`, with Firebolt in its `empowerments` and the mages who can steer it in `wielders`. The night a mage burned the gates of Varn with it is an Event.
+**One magic system, three element types.** The Ember Art, a school of fire magic, is a Construct. Firebolt, a spell taught in it, is an Ability with the Ember Art as its `tradition`. The Ember Tide, the force the spell draws on, is a Phenomenon: the Ability's `source`, with Firebolt in its `empowerments` and the mages who can steer it in `wielders`. The night a mage burned the gates of Varn with it is an Event.
 
 ## Zones take their shape from Markers
 
-A Zone has no geometry of its own. Its shape on a [Map](/docs/schema/element_categories/map) is a set of [Markers](/docs/schema/element_categories/marker), each linked to the Map and the Zone, at an `x`/`y` coordinate, with an `order` that sequences them into a polygon or line (`0` is the first point). Markers are boundary points and usually carry an empty name. A [Pin](/docs/schema/element_categories/pin) places one element of any category at one point on one Map.
+A Zone has no geometry of its own. Its shape on a [Map](/docs/schema/element_categories/map) is a set of [Markers](/docs/schema/element_categories/marker), each linked to the Map and the Zone, at an `x`/`y` coordinate, with an `order` that sequences them into a polygon or line (`0` is the first point). Markers are boundary points and usually carry an empty name. A [Pin](/docs/schema/element_categories/pin) places one element of any element type at one point on one Map.
 
 A Zone with no Markers is a valid Zone: a region the world names before anyone draws it. Markers added later give it a shape on one Map; the Zone keeps its id and fields, and Markers on a second Map give it a shape there too.
 
@@ -79,7 +79,7 @@ A lens is a saved way of reading a world: which elements, how far from a startin
 
 ## Data the schema does not model
 
-Two places hold what the categories have no field for:
+Two places hold what the element types have no field for:
 
 - **Extension fields** (`x_*`) on the element itself, for small amounts of tool-specific data. They are stored and returned verbatim, up to 64 KB per element. See [Fields](/docs/schema/fields#extension-fields).
 - **Your own database**, beside the world, for high-volume data such as logs, statistics or simulation state. Key each row by the element's `id`.

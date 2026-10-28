@@ -54,16 +54,16 @@ The skill files themselves sit in the repository's `skills/` folder, one folder 
 | Start | `start` | The entry point: works out your situation, routes you to the right skill, and connects a folder to your onlyworlds.com account when you want one. |
 | | `setup` | Sets up a world for work rather than fiction (a company, a team, an AI's own home, a council, a software project) from a starter pack: house rules, a world skill for the AIs, a seed and the invites. The world's Charter and Guide carry the reading-aid mark (`x_charter_of`), so every tool shows them first. |
 | Structure it | `import` | Turns notes, a manuscript, PDFs, a wiki or old session notes into a world folder Atlas opens, or reconciles them into an existing world. Invents no fields. |
-| | `model` | How to represent a system (magic, a political order, an economy, a tech tree) in the 22 types, and every type's fields across [every category](/docs/schema/). |
+| | `model` | How to represent a system (magic, a political order, an economy, a tech tree) in the 22 types, and every type's fields across [every element type](/docs/schema/). |
 | Grow it | `read` | Checks a whole world and writes one of three reports: the survey report (a creative brief of what it holds), the links report (the connections it is missing) or the consistency report (where it contradicts itself). |
 | | `draw` | Draws a world as a graph, its maps with their pins and zones, or its events on a timeline, in a file you open in a browser. It never changes the world. |
 | Play in it and keep it true | `context` | Designs how the right part of a world gets loaded into each AI session: fresh, scoped, sourced. |
 | | `update` | Writes a finished session (notes, recap, transcript) back into the world through a change list you approve, so canon holds. |
 | Move it | `carry` | Moves a world between files, tools and homes: one [`.owworld` file](/docs/schema/folders) and back, an export from World Anvil, LegendKeeper, Kanka, Campfire or Notion, Markdown or OKF, a folder to an account and back. |
 | Build on it | `develop` | Builds a tool, game, app or AI agent on world data: the API, the SDK, the MCP server, credentials and deployment. |
-| | `council` | Ask about, propose or back a change to the standard, when its categories don't fit. |
+| | `council` | Ask about, propose or back a change to the standard, when its element types don't fit. |
 
-Each skill's full name is `onlyworlds-<skill>` (in Claude Code, `/onlyworlds:onlyworlds-<skill>`). The orchestration agent, `ow-agent`, chains several skills for multi-step jobs, such as importing a whole corpus and then reading it for missing links. The knowledge base covers the schema reference, the category descriptions, and decision trees for ambiguous modeling choices.
+Each skill's full name is `onlyworlds-<skill>` (in Claude Code, `/onlyworlds:onlyworlds-<skill>`). The orchestration agent, `ow-agent`, chains several skills for multi-step jobs, such as importing a whole corpus and then reading it for missing links. The knowledge base covers the schema reference, the element type descriptions, and decision trees for ambiguous modeling choices.
 
 ### Coming from 4.8
 

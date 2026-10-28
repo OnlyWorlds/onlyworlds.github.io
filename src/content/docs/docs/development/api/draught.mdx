@@ -78,7 +78,7 @@ Every row in the element sections carries four fields:
 
 | Field | Meaning |
 |:--|:--|
-| `element` | The body exactly as the list route serves it to the same reader; its `type` names the category |
+| `element` | The body exactly as the list route serves it to the same reader; its `type` names the element type |
 | `via` | The link fields that brought it, as the served body carries them: on the element (a field naming the Character, or `collectives` holding one of their circles), or, in `sheet`, on the Character's own element |
 | `her_links` | How many of the packet's other elements, the Character's own included and before any cut, link to it, counted from the bodies this reader is served. A count, never a judgment |
 | `grade` | `whole`, or `known_of`: a [stub](/docs/development/api/members#known-of) this reader knows of but does not see whole. Its empty fields are not facts |
@@ -127,7 +127,7 @@ In `voice`, a Working style dated after `as_of` leaves `style` empty even when a
 
 ## Fetching what it names
 
-Two list filters came with the draught, on every category: `ids=` (up to 200 ids, one call for the elements a packet names) and `created_by=` (what one member created). See [Filters](/docs/development/api/reads#filters).
+Two list filters came with the draught, on every element type: `ids=` (up to 200 ids, one call for the elements a packet names) and `created_by=` (what one member created). See [Filters](/docs/development/api/reads#filters).
 
 ## As text
 

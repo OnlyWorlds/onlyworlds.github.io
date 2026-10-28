@@ -145,7 +145,7 @@ The world page's **Download JSON** button (Access, **This world as a file**; the
 ```
 
 - `format` is always the literal `"onlyworlds-world-export"`; a reader should reject a file without it. The envelope's shape is keyed by `format` alone: a breaking change would change it.
-- `elements` is keyed by lowercase category slug, each an array ordered by `created_at`. Only categories with at least one element appear.
+- `elements` is keyed by lowercase element type slug, each an array ordered by `created_at`. Only element types with at least one element appear.
 - Element bodies are exactly what the API returns, extension fields included.
 - `world.id` is the world's identity: an importer should keep it rather than mint a new one.
 - `world` is the World whole (since 2026-10-23): every key [`GET /api/v2/world`](/docs/development/api/reads#the-world) serves, its description, time settings, units, switches, `slug` and `public_page` included, beside `source` and `exported_as`. A file from before carries the id, the name, the dates and the provenance lines only.

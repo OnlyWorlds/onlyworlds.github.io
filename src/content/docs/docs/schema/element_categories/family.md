@@ -29,7 +29,7 @@ They are distinct from:
 
 ## Fields
 
-Drawn with the other categories: [what Family links to](/docs/schema/?kind=family#what-links-to-what).
+Drawn with the other element types: [what Family links to](/docs/schema/?kind=family#what-links-to-what).
 
 ### Identity
 

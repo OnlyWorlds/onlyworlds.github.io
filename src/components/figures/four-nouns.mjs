@@ -9,7 +9,7 @@ export const NOUNS = {
   lens: {
     name: 'A lens',
     says: 'what to read of the world',
-    parts: ['where it starts', 'how far it reaches', 'which categories it keeps', 'how much of each'],
+    parts: ['where it starts', 'how far it reaches', 'which element types it keeps', 'how much of each'],
     small: 'Read for whoever holds it: each reader sees only what they may.',
   },
   picture: { name: 'A picture', says: 'a graph, a map, a list or a walk' },

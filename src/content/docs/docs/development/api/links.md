@@ -3,7 +3,7 @@ title: Link fields
 description: How links between elements read and write, and how to add or remove links without rewriting a list.
 ---
 
-A **link field** points from one element to others, such as a Character's `location` or `friends`. Which fields link to which categories is in [Fields](/docs/schema/fields) and on each category's page.
+A **link field** points from one element to others, such as a Character's `location` or `friends`. Which fields link to which element types is in [Fields](/docs/schema/fields) and on each element type's page.
 
 ## One shape, both directions
 
@@ -21,7 +21,7 @@ A link field has one bare name and one value shape, in reads and writes alike:
 - A **single link** (`location`) is a UUID string, or `null`.
 - A **multi link** (`friends`) is an array of UUID strings.
 - Read and write use the same name. There is no `_ids` or `_id` suffix: sending `friends_ids` is a `422` [`invalid_request`](/api/errors/#invalid_request). (The suffixes belong to the [Classic API](/docs/development/api/classic).)
-- Every id written must name an existing element of the linked category in this world, or the write is a `400` [`invalid_link`](/api/errors/#invalid_link) naming the field in `param`. An id of an element of another category fails the same way.
+- Every id written must name an existing element of the linked element type in this world, or the write is a `400` [`invalid_link`](/api/errors/#invalid_link) naming the field in `param`. An id of an element of another element type fails the same way.
 
 To read the linked elements' names alongside the ids, use [`?expand=`](/docs/development/api/reads#expansion-and-sparse-fields).
 
@@ -42,7 +42,7 @@ curl -s -X PATCH "https://www.onlyworlds.com/api/v2/character/{id}" \
 
 ## Link two elements
 
-1. **Find the side that holds the field.** A link is stored on one element only. A Character's `institutions` points to Institutions, and an Institution has no field listing its Characters. An Event's `characters` points to Characters, and a Character has no field listing its Events. Each category's page lists its link fields and their targets.
+1. **Find the side that holds the field.** A link is stored on one element only. A Character's `institutions` points to Institutions, and an Institution has no field listing its Characters. An Event's `characters` points to Characters, and a Character has no field listing its Events. Each element type's page lists its link fields and their targets.
 2. **Set it on the new element when you can.** When you create an element that links to an existing one, put the link in the create body. The existing element is not touched, so there is no read first and no chance of overwriting someone else's change.
 3. **Add to an existing element with the right write.**
    - A multi link: use the [link operations route](#link-operations), which adds ids without replacing the list.
@@ -70,7 +70,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/character/{id}/links/friends"
 - The server merges atomically and returns `200` with the full element.
 - Adds dedupe, so repeating one is harmless. Removes tolerate ids that are not present.
 - Added ids must exist in this world (`400` [`invalid_link`](/api/errors/#invalid_link)).
-- `{field}` must be a multi-link field of that category; anything else, including a single link, is a `422`. Pin has no multi-link fields, so the route always answers `422` on Pin.
+- `{field}` must be a multi-link field of that element type; anything else, including a single link, is a `422`. Pin has no multi-link fields, so the route always answers `422` on Pin.
 
 ## Deletes never leave dangling links
 

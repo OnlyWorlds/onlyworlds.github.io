@@ -71,5 +71,58 @@ for (const f of files) {
     if (bad <= 20) console.log(`  FOUND  ${relative(DIST, f)}: ${what}: "${text.slice(Math.max(0, index - 30), index + length + 20).replace(/\s+/g, ' ')}"`);
   }
 }
-if (bad) { console.log(`FAIL: ${bad} crew word(s) or item pointer(s) in the built site`); process.exit(1); }
+// The 22 are element types (2026-10-28): the one public word for them, so built prose never calls
+// them categories. Every word that starts "categor" in a page's prose fails, outside the regions and
+// phrases below. Prose is what a reader reads: the HTML's text without its tags, attributes, scripts,
+// styles and code, and the Markdown twin without code, link targets, comments and bare URLs. So the
+// old paths (/docs/schema/element_categories/...), the standard's YAML key and quoted code pass. Not
+// read: the llms text files (they repeat the twins), the figures' client-side captions (script), and
+// attribute text (alt, title, aria-label, meta description); a synonym for the 22 is not caught.
+const CATEGOR = /\bcategor\w*/gi;
+// Regions that are a record or another source's text, from the first marker to the end of the file.
+const CATEGORY_EXEMPT = [
+  // the changelog's dated entries are a record and are never reworded; its intro is checked
+  [/^docs\/changelog\.(html|md)$/, /<h2 id="\d{4}-\d{2}-\d{2}"|^## \d{4}-\d{2}-\d{2}/m, "the changelog's dated entries"],
+  // an element page's field table is the standard's own text (scripts/gen_elements.py)
+  [/^docs\/schema\/element_categories\/[a-z]+\.(html|md)$/, /<h2 id="fields"|^## Fields$/m, "the standard's field descriptions"],
+];
+// Plain English that is not the 22, each phrase as the prose reads.
+const CATEGORY_PHRASES = [
+  ['A category is kept as', "World Anvil's own categories, on the Python page's importer"],
+  ['the words its users write for their own categories', "other tools' own words, on the Profiles page's import map"],
+];
+const htmlProse = (t) => t.replace(/<(script|style|code|pre|svg|template)\b[\s\S]*?<\/\1>/gi, ' ').replace(/<!--[\s\S]*?-->/g, ' ')
+  .replace(/<[^>]+>/g, ' ').replace(/&#39;|&#x27;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/\s+/g, ' ');
+const mdProse = (t) => t.replace(/^(`{3,}|~{3,})[^\n]*\n[\s\S]*?^\1[ \t]*$/gm, ' ').replace(/`[^`\n]*`/g, ' ').replace(/<!--[\s\S]*?-->/g, ' ')
+  .replace(/\]\([^)]*\)/g, '] ').replace(/<[^>]+>/g, ' ').replace(/https?:\/\/\S+/g, ' ').replace(/\s+/g, ' ');
+let catBad = 0;
+let catPages = 0;
+const catAllowed = new Map();
+for (const f of files) {
+  const path = rel(f);
+  if (!/\.(html|md)$/.test(path)) continue;
+  let text = readFileSync(f, 'utf8');
+  if (/^<!doctype html><title>Redirecting to: /i.test(text)) continue; // a redirect stub: paths, no prose
+  for (const [where, marker, why] of CATEGORY_EXEMPT) {
+    if (!where.test(path)) continue;
+    const at = text.search(marker);
+    if (at < 0) { console.log(`CANNOT SEE: ${path} has no marker for ${why}`); process.exit(2); }
+    text = text.slice(0, at);
+  }
+  const prose = path.endsWith('.html') ? htmlProse(text) : mdProse(text);
+  catPages++;
+  const ok = [];
+  for (const [ph] of CATEGORY_PHRASES) {
+    for (let i = prose.indexOf(ph); i >= 0; i = prose.indexOf(ph, i + 1)) { ok.push([i, i + ph.length]); catAllowed.set(ph, (catAllowed.get(ph) ?? 0) + 1); }
+  }
+  for (const m of prose.matchAll(CATEGOR)) {
+    if (ok.some(([a, b]) => m.index >= a && m.index < b)) continue;
+    catBad++;
+    bad++;
+    if (catBad <= 20) console.log(`  FOUND  ${path}: "${m[0]}" for the 22, where the public word is element type: "${prose.slice(Math.max(0, m.index - 40), m.index + m[0].length + 30)}"`);
+  }
+}
+for (const [ph, why] of CATEGORY_PHRASES) if (!catAllowed.has(ph)) { console.log(`CANNOT SEE: the allowed phrase "${ph}" (${why}) is on no page: remove it`); process.exit(2); }
+if (bad) { console.log(`FAIL: ${bad} crew word(s), item pointer(s) or "category" for the 22 (${catBad}) in the built site`); process.exit(1); }
 console.log(`PASS: ${files.length} built file(s) carry no room pointer, item pointer, crew word or crew email (${exempted} item pointer(s) in the exempt regions)`);
+console.log(`PASS: ${catPages} built page(s) and twins call the 22 element types, never categories (${[...catAllowed.values()].reduce((a, b) => a + b, 0)} plain-English use(s) allowed, the changelog's dated entries and the field tables not read)`);

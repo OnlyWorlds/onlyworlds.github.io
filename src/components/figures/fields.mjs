@@ -111,11 +111,11 @@ export function fieldWords(data, code = (s) => `\`${s}\``, link = (text, href) =
   const g = data.generic.map(({ k, field }) =>
     ` A ${label(k)}'s ${code(field)} link counts as one field; on the wire it is two, ${code(`${field}_type`)} and ${code(`${field}_id`)}.`);
   return {
-    head: `${data.total} categories.`,
+    head: `${data.total} element types.`,
     lead: `From ${label(fewest.k)}'s ${fewest.fields} fields to ${label(most.k)}'s ${most.fields}. ${label(linked.k)} is the most linked: ${linked.links} of its ${linked.fields} fields are links to other elements.`,
     link: 'a link to other elements',
     value: 'a value (text or a number)',
-    caption: `Generated from the schema. The categories are grouped by the colours the SDK and Atlas draw them in: a visual aid, not part of the standard, which has 22 independent categories and no layer above them. Each category's own fields: the ${link('base fields', '/docs/schema/fields')} every element carries are not counted.${g.join('')}`,
+    caption: `Generated from the schema. The element types are grouped by the colours the SDK and Atlas draw them in: a visual aid, not part of the standard, which has 22 independent element types and no layer above them. Each element type's own fields: the ${link('base fields', '/docs/schema/fields')} every element carries are not counted.${g.join('')}`,
   };
 }
 

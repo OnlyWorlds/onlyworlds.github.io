@@ -60,7 +60,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/character/{id}/files" \
 | `name` | The file's name, ending in its kind's extension. Only its last path part is kept, control characters are dropped, and each run of whitespace becomes one space; at most 255 characters (UTF-16 units) |
 | `kind` | One of `pdf`, `txt`, `md`, `json`, `csv`, `yaml`, `toml`, `zip` |
 | `size` | The file's size in bytes, a whole number from 1 |
-| `label` | Optional: a field of the element's category the file belongs to, or your own words; at most 80 characters |
+| `label` | Optional: the field of the element the file belongs to, or your own words; at most 80 characters |
 
 `201`:
 

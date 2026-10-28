@@ -43,7 +43,7 @@ A single element answers as the bare element object. Every error answers in one 
 
 ## Resources
 
-`{type}` is one of the [22 element categories](/docs/schema/), by its name in lowercase: `character`, `location`, and so on (the OpenAPI document enumerates them). The URL names the category; the key names the world.
+`{type}` is one of the [22 element types](/docs/schema/), by its name in lowercase: `character`, `location`, and so on (the OpenAPI document enumerates them). The URL names the element type; the key names the world.
 
 | Method | Route | Purpose | Page |
 |:--|:--|:--|:--|
@@ -54,7 +54,7 @@ A single element answers as the bare element object. Every error answers in one 
 | PATCH | `/api/v2/{type}/{id}` | Partial update | [Writes](/docs/development/api/writes) |
 | DELETE | `/api/v2/{type}/{id}` | Delete | [Writes](/docs/development/api/writes) |
 | POST | `/api/v2/{type}/{id}/links/{field}` | Add or remove ids on one multi-link field | [Link fields](/docs/development/api/links) |
-| POST | `/api/v2/bulk` | Create and upsert many elements of mixed categories | [Writes](/docs/development/api/writes#bulk) |
+| POST | `/api/v2/bulk` | Create and upsert many elements of mixed element types | [Writes](/docs/development/api/writes#bulk) |
 | GET | `/api/v2/search` | Find elements by the words in their name and text | [Reads](/docs/development/api/reads#search) |
 | GET | `/api/v2/character/{id}/context` | One Character's context in one read | [The draught](/docs/development/api/draught) |
 | GET | `/api/v2/changes` | The world's change feed, and full export | [Changes](/docs/development/api/changes) |

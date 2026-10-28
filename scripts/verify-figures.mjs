@@ -415,7 +415,7 @@ const fewest = best((c, w) => c.fields < w.fields), most = best((c, w) => c.fiel
 const linked = best((c, w) => c.links * w.fields > w.links * c.fields);
 const WORD = ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
 const kfLead = strip(cf[1].match(/<p\b[^>]*class="ow-kf-lead\b[^>]*>([\s\S]*?)<\/p>/)?.[1] ?? '');
-const leadWant = `${az.length} categories. From ${cap(fewest)}'s ${onPage[fewest].fields} fields to ${cap(most)}'s ${onPage[most].fields}. ${cap(linked)} is the most linked: ${onPage[linked].links} of its ${onPage[linked].fields} fields are links to other elements.`;
+const leadWant = `${az.length} element types. From ${cap(fewest)}'s ${onPage[fewest].fields} fields to ${cap(most)}'s ${onPage[most].fields}. ${cap(linked)} is the most linked: ${onPage[linked].links} of its ${onPage[linked].fields} fields are links to other elements.`;
 if (kfLead !== leadWant) fails.push(`category fields: the lead reads "${kfLead}"; the element pages give "${leadWant}"`);
 // The caption names each generic link the element pages show as two rows.
 const kfCap = strip(cf[1].match(/<figcaption\b[^>]*>([\s\S]*?)<\/figcaption>/)?.[1] ?? '');
@@ -437,7 +437,7 @@ if (!kfText) fails.push('category fields: no text version under the figure');
 else { const d = differ('the text version', listed(strip(kfText[1]))); if (d) fails.push(d); }
 if (/^<CategoryFields \/>$/m.test(twin)) fails.push('category fields: the Markdown twin carries the bare tag, not the text');
 else if (differ('the Markdown twin', listed(twin))) fails.push(differ('the Markdown twin', listed(twin)));
-else if (!twin.includes(leadWant.replace(/^(\d+ categories\.)/, '**$1**'))) fails.push('category fields: the Markdown twin does not carry the lead');
+else if (!twin.includes(leadWant.replace(/^(\d+ element types\.)/, '**$1**'))) fails.push('category fields: the Markdown twin does not carry the lead');
 // The bars' colours as painted (the figure's own style attribute), against the page's background in
 // each theme as ow.css sets it: every family's link half clears CONTRAST.link and its value half
 // CONTRAST.value, in both themes.
@@ -689,7 +689,7 @@ for (const d of derivations) {
 const foldRule = strip(ff[1].match(/<p\b[^>]*class="ow-fold-rule\b[^>]*>([\s\S]*?)<\/p>/)?.[1] ?? '');
 if (!foldRule.includes(`cut to ${cutN} characters`) || !foldRule.includes(`then ${sep}; then the id's last ${tailN} characters`)) fails.push(`folders: the figure's rule line does not state the paragraph's cut ${cutN}, separator ${sep} and tail ${tailN}: "${foldRule}"`);
 const foldCap = strip(ff[1].match(/<figcaption\b[^>]*>([\s\S]*?)<\/figcaption>/)?.[1] ?? '');
-const capWant = `(serial ${exSource.serial}, example/${foldSnap.folder}), when the docs are built: ${exSource.elements.length} element files in ${Object.keys(exCount).length} of the ${ELEMENT_TYPES.length} category folders`;
+const capWant = `(serial ${exSource.serial}, example/${foldSnap.folder}), when the docs are built: ${exSource.elements.length} element files in ${Object.keys(exCount).length} of the ${ELEMENT_TYPES.length} element type folders`;
 if (!foldCap.includes(capWant)) fails.push(`folders: the caption does not say "${capWant}": "${foldCap}"`);
 // Nothing the figure shows contradicts the page's Layout block: its top entries are named there,
 // and the block's category folders are one per category present, lowercase singular.
@@ -698,7 +698,7 @@ const layoutPre = layoutAt < 0 ? '' : foldPage.slice(layoutAt).match(/<pre\b[^>]
 const layoutLines = layoutPre.split(/<div class="ec-line">/).map((l) => unescape(l.replace(/<[^>]+>/g, '')).replace(/\n/g, '')).filter(Boolean);
 if (!layoutLines.length) fails.push('folders: no Layout block read on the page');
 for (const r of [...rootDrawn, 'elements/']) if (!layoutLines.some((l) => l.startsWith(`  ${r}`) && !l.startsWith('   '))) fails.push(`folders: the figure draws ${r} at the folder's top, and the Layout block does not`);
-if (!layoutLines.some((l) => /one folder per category present, lowercase singular/.test(l))) fails.push('folders: the Layout block no longer says one folder per category present, lowercase singular; recheck the figure against it');
+if (!layoutLines.some((l) => /one folder per element type present, lowercase singular/.test(l))) fails.push('folders: the Layout block no longer says one folder per element type present, lowercase singular; recheck the figure against it');
 for (const k of drawnKinds) if (!/^[a-z]+$/.test(k)) fails.push(`folders: the figure draws a ${k}/ folder, not a lowercase singular category name`);
 // The Markdown twin: the same tree counts and derivations, by the same rule.
 if (/^<FolderExample \/>$/m.test(foldTwin)) fails.push('folders: the Markdown twin carries the bare tag, not the text');
@@ -835,7 +835,7 @@ const callKey = strip(af[1].match(/<p\b[^>]*class="ow-call-key\b[^>]*>([\s\S]*?)
 if (absentN && !callKey.includes(`${absentN} operation${absentN === 1 ? '' : 's'}, marked, state${absentN === 1 ? 's' : ''} no security at all`)) fails.push(`credentials: the key does not count the ${absentN} operations that state no security: "${callKey}"`);
 if (!callKey.includes(`Account token: ${sessionN} of these also take`)) fails.push(`credentials: the key does not count the ${sessionN} operations that take a session token: "${callKey}"`);
 const callCap = strip(af[1].match(/<figcaption\b[^>]*>([\s\S]*?)<\/figcaption>/)?.[1] ?? '');
-if (!callCap.includes(`as read on ${callSnap.read_at}.`) || !callCap.includes(`any of the ${ELEMENT_TYPES.length} categories`)) fails.push(`credentials: the caption does not give the snapshot's day ${callSnap.read_at} and the ${ELEMENT_TYPES.length} categories: "${callCap}"`);
+if (!callCap.includes(`as read on ${callSnap.read_at}.`) || !callCap.includes(`any of the ${ELEMENT_TYPES.length} element types`)) fails.push(`credentials: the caption does not give the snapshot's day ${callSnap.read_at} and the ${ELEMENT_TYPES.length} categories: "${callCap}"`);
 // the lens routes take an account token and are never keyless (keel's rule, stated on the changelog)
 const lensOps = [...want].filter(([k]) => k.endsWith('/lenses'));
 if (!lensOps.length) fails.push('credentials: no lens route in the snapshot');
@@ -1442,13 +1442,13 @@ for (const [t, fs] of Object.entries(bSnap.own)) {
   rowsRead += rows.length;
   if (!same(set(rows), set(fs))) bad(`${t}'s own fields in the API (${fs.length}) are not its element page's rows (${rows.length}): ${[...fs.filter((f) => !rows.includes(f)).map((f) => `${f} (API only)`), ...rows.filter((f) => !fs.includes(f)).map((f) => `${f} (page only)`)].slice(0, 4).join(', ')}`);
 }
-if (!src.includes(`the same in all ${Object.keys(bSnap.own).length} categories`)) bad(`the page does not say "the same in all ${Object.keys(bSnap.own).length} categories"`);
+if (!src.includes(`the same in all ${Object.keys(bSnap.own).length} element types`)) bad(`the page does not say "the same in all ${Object.keys(bSnap.own).length} element types"`);
 
 // The figure's words: each a phrase of the page's source, and in the built figure.
 const PHRASES = [
   'any rfc 4122 uuid is accepted', 'the key must be present on create and full replace, and an empty string is accepted', 'any kind of details about the element',
-  'free text', 'link to a representative image', 'counts only on a create, where true creates the element hidden', 'the fields of its own category',
-  "category fields are listed on each category's page", 'any json value', 'stored as they are, and returned verbatim', 'counted as compact utf-8 json',
+  'free text', 'link to a representative image', 'counts only on a create, where true creates the element hidden', 'the fields of its own element type',
+  "each element type's own fields are listed on its page", 'any json value', 'stored as they are, and returned verbatim', 'counted as compact utf-8 json',
   'merges extension fields by key', 'tolerated and ignored', 'rejected with 422', 'the api adds these to every element it returns',
   'the server adds it to a message or a lens it serves', 'any other unknown field', 'naming the field, so a typo such as freinds fails loudly',
   'on put and patch', 'on patch, or a put that replaces',
@@ -1820,7 +1820,7 @@ for (const ph of PHRASES) {
 const pCap = strip(pf[1].match(/<figcaption\b[^>]*>([\s\S]*?)<\/figcaption>/)?.[1] ?? '');
 const WORDS = ['none', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
 if (WORDS.indexOf(low(pCap).match(/^(\w+) states, the proposal's state;/)?.[1]) !== states.length) bad(`the caption does not count ${states.length} states: "${pCap}"`);
-if (!pCap.includes(`every route is the same on all ${pSnap.types} categories`) || attr(pf[0].match(/^<figure\b[^>]*>/)[0], 'data-types') !== String(pSnap.types)) bad(`the caption or the figure's mark does not say all ${pSnap.types} categories`);
+if (!pCap.includes(`every route is the same on all ${pSnap.types} element types`) || attr(pf[0].match(/^<figure\b[^>]*>/)[0], 'data-types') !== String(pSnap.types)) bad(`the caption or the figure's mark does not say all ${pSnap.types} categories`);
 if (!pCap.includes(`as read on ${pSnap.read_at}.`) || head !== pSnap.read_at) bad(`the caption or the figure's mark is not the snapshot's (${pSnap.read_at}): "${pCap}"`);
 
 // The twin carries the figure as text: every state, act and route.

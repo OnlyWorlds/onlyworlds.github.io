@@ -10,7 +10,7 @@ These tools are no longer developed. Those marked online still answer at their l
 An all-round element editor with full field support and both online and offline workflows.
 
 - **Status:** online, no longer developed. [base-tool.onlyworlds.com](https://base-tool.onlyworlds.com)
-- Full CRUD on every element category, with inline editing and relationship management.
+- Full CRUD on every element type, with inline editing and relationship management.
 - Online (API) or offline (local JSON) modes.
 - AI chat through OpenAI, with free daily tokens or a personal key.
 - An import pipeline that validates and resolves AI-parsed world data.
@@ -58,7 +58,7 @@ A read-only viewer for browsing, searching and exploring a world's elements and 
 
 - **Status:** online, no longer developed. [little-lens.onlyworlds.com](https://little-lens.onlyworlds.com/)
 - Card grid with type-coloured icons, descriptions and link counts.
-- Filters across 18 browsable categories, search over names and descriptions, and sorting alphabetically or by connections.
+- Filters across 18 browsable element types, search over names and descriptions, and sorting alphabetically or by connections.
 - Detail view with all fields, outgoing and reverse connections, and element images.
 - A radial connection graph, a timeline bar, and a breadcrumb trail with browser back and forward support.
 - Moppetopia pre-loaded as a demo world.

@@ -7,7 +7,7 @@ sidebar:
 
 <img src="/icons/language.png" alt="" width="48" height="48" class="ow-type-icon" />
 
-Languages are systems of shared meaning, whether natural, constructed, or symbolic. This category captures their role within a world: how they sound, how they are written, how they function grammatically, and where or by whom they are used. Languages may carry political weight, cultural importance, or fictional depth. The category's fields are designed to support both lightweight notation and full conlang development.
+Languages are systems of shared meaning, whether natural, constructed, or symbolic. This element type captures their role within a world: how they sound, how they are written, how they function grammatically, and where or by whom they are used. Languages may carry political weight, cultural importance, or fictional depth. Its fields are designed to support both lightweight notation and full conlang development.
 
 Languages are a world's methods of communication. They interact with:
 
@@ -26,7 +26,7 @@ They are distinct from:
 
 ## Fields
 
-Drawn with the other categories: [what Language links to](/docs/schema/?kind=language#what-links-to-what).
+Drawn with the other element types: [what Language links to](/docs/schema/?kind=language#what-links-to-what).
 
 ### Structure
 

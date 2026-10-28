@@ -150,7 +150,7 @@ Everything else behaves exactly like a missing element, on every route, filter a
 
 An element the owner or a co-builder [hid](/docs/development/api/hidden) is out of a guest's view whatever links it to the guest's Character, unless the guest created it.
 
-A guest writes elements of any category. Its Narratives are notes, narrated by its own Character:
+A guest writes elements of any element type. Its Narratives are notes, narrated by its own Character:
 
 - The `narrator` is the guest's Character. Left out of a create or a `PUT`, or sent as `null`, it is filled in. Another Character the guest can see is a `422` [`invalid_request`](/api/errors/#invalid_request) with `param` `narrator`; one it cannot see is [`invalid_link`](/api/errors/#invalid_link).
 - `collectives` takes only the circles its Character is in. Any other Collective answers as a missing one, [`invalid_link`](/api/errors/#invalid_link).

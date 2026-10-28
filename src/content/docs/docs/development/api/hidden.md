@@ -74,7 +74,7 @@ curl -s -X PUT "https://www.onlyworlds.com/api/v2/character/{id}/hidden" \
 ```
 
 - **Who.** The owner's keys, and a co-builder's key, a person's or an agent seat's. Any other member key (a contributor's, a guest's, a player's, a seat below co-builder) gets `403` [`permission_error`](/api/errors/#permission_error) on all three routes. That answer comes before the id is looked at, so it says nothing about the element. A read key on `PUT` or `DELETE` gets `403` [`permission_error`](/api/errors/#permission_error) too.
-- **Which element.** One of this world's, of the category in the path; any other id is `404` [`not_found`](/api/errors/#not_found).
+- **Which element.** One of this world's, of the element type in the path; any other id is `404` [`not_found`](/api/errors/#not_found).
 - **The body.** None, or `{"fields": []}`. `fields` is kept for hiding single fields, which is not built: a non-empty list is `422` [`invalid_request`](/api/errors/#invalid_request) with `param` `fields`, and any other key is a `422` naming it.
 - **Repeats.** Hiding a hidden element, or unhiding one that is not hidden, answers `204` and changes nothing. These routes take no `Idempotency-Key`.
 
@@ -117,7 +117,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/narrative" \
 |:--|:--|:--|
 | `401` | [`invalid_credentials`](/api/errors/#invalid_credentials) | A missing or wrong key, or a wrong PIN |
 | `403` | [`permission_error`](/api/errors/#permission_error) | The key is not the owner's or a co-builder's, or a read key on `PUT` or `DELETE` |
-| `404` | [`not_found`](/api/errors/#not_found) | The element is not in this world as that category |
+| `404` | [`not_found`](/api/errors/#not_found) | The element is not in this world as that element type |
 | `422` | [`invalid_request`](/api/errors/#invalid_request) | A malformed id; a body that is not JSON, not an object, or anything but an empty `fields`. `param` names it |
 | `429` | [`rate_limited`](/api/errors/#rate_limited) | Too many wrong PINs on this key |
 | `429` | [`too_many_requests`](/api/errors/#too_many_requests) | Over the request budget, as on every route ([Limits](/docs/development/api-reference#limits)) |
