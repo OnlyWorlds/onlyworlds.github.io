@@ -137,7 +137,7 @@ A single write that fails with `invalid_link` writes nothing, so after fixing th
 
 **Type** `invalid_request` · **Status** `422`
 
-A seat chose a hidden lens (`param` `lenses`) in `PUT /api/v2/me/lenses` or the account member route. A seat's [lenses](/docs/schema/conventions#lenses) are on the members list every reader of the world reads, so a hidden lens can never be chosen. Nothing was written.
+A seat chose a hidden lens (`param` `lenses`) in `PUT /api/v2/me/lenses` or the account member route. A seat's [lenses](/docs/lenses/api) are on the members list every reader of the world reads, so a hidden lens can never be chosen. Nothing was written.
 
 - **How to fix:** unhide the lens first, or choose another.
 
@@ -145,7 +145,7 @@ A seat chose a hidden lens (`param` `lenses`) in `PUT /api/v2/me/lenses` or the 
 
 **Type** `invalid_request` · **Status** `422`
 
-A seat chose a template (`param` `lenses`): a lens with subtype `Template` has no anchors and reads nothing until it is copied and pointed at this world's things ([lenses](/docs/schema/conventions#lenses)). Nothing was written.
+A seat chose a template (`param` `lenses`): a lens with subtype `Template` has no anchors and reads nothing until it is copied and pointed at this world's things ([lenses](/docs/lenses)). Nothing was written.
 
 - **How to fix:** copy the template into a lens with anchors, and choose that one.
 
@@ -153,7 +153,7 @@ A seat chose a template (`param` `lenses`): a lens with subtype `Template` has n
 
 **Type** `invalid_request` · **Status** `422`
 
-A seat chose an id that is no lens (`param` `lenses`): a lens is a Construct with supertype `Lens` ([lenses](/docs/schema/conventions#lenses)). Nothing was written.
+A seat chose an id that is no lens (`param` `lenses`): a lens is a Construct with supertype `Lens` ([lenses](/docs/lenses)). Nothing was written.
 
 - **How to fix:** send only lens ids; `GET /api/v2/world/{world_id}/lenses` lists the ones you can see.
 
@@ -378,7 +378,7 @@ A contributor or guest key changed, replaced, relinked or deleted an element som
 
 **Type** `permission_error` · **Status** `403`
 
-A key wrote a Read mark that is not its own, or a write would turn someone else's Relation into one. A Read mark is the Relation with supertype `Read` that records what one reader has read ([messages](/docs/schema/conventions#messages-between-members)); only its maker writes it, the owner and co-builders included.
+A key wrote a Read mark that is not its own, or a write would turn someone else's Relation into one. A Read mark is the Relation with supertype `Read` that records what one reader has read ([messages](/docs/schema/profiles/messages)); only its maker writes it, the owner and co-builders included.
 
 - **How to fix:** mark messages read with your own key, or through [`POST /api/v2/account/worlds/{world_id}/read`](/docs/development/agents#in-world-messages), which finds or makes the caller's own mark. Leave other readers' marks alone.
 

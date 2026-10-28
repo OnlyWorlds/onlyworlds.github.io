@@ -1,0 +1,8 @@
+---
+title: A world as a graph
+description: "The lens profile's graph section: the elements a reader sees as nodes, each link an edge, with or without a lens."
+---
+
+The [lens profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/lens.md)'s graph section reads a world as nodes and edges, for one reader, with or without a [lens](/docs/lenses).
+
+The elements a reader sees are the nodes, and each link between them is an edge, one per link field and target. A link held on both ends is two edges, and a Relation is a node with an edge to each party. Room elements, hidden and proposed elements, and map space (Maps, Pins, Markers, Zones) are left out unless the reader asks for each by name; the reading aids are left out too, counted `reading_aid`, and only a lens that names their pair keeps them. `hidden` and `proposed` are the owner's alone, and a public reader asks for nothing. With a lens, the nodes are exactly what the lens kept, and no flag adds to them. A link to an element that is not a node is counted by the reason it is not there, never dropped silently. `outside_lens` counts a link from a kept element to one the reader can see but the lens did not reach, so a tool can draw "3 more links" at the lens's edge. The SDKs read it as `worldGraph` and `world_graph`, and count each element's links in it with `degreeOf` and `degree_of`: "most linked" as the reader sees it, for ranking a search.

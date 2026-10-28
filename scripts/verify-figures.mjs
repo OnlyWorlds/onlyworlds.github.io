@@ -9,7 +9,7 @@
 // text version must carry the same 22 categories, and each element page must link to the map
 // opened on itself.
 //
-// The four nouns (/docs/schema/conventions): the address it shows is parsed by the SDK's own
+// The four nouns (/docs/lenses): the address it shows is parsed by the SDK's own
 // parseOwLink, filled with sample values, and must read back world, type, id, moment and lens;
 // the same address with the moment after the lens must be refused, so the check can see an order.
 //
@@ -192,9 +192,9 @@ const pairs = new Set([...drawn].map((d) => d.replace(/ via .*/, ''))).size;
 console.log(`link map: ${fig.order.length} categories, ${drawn.size} link fields drawn (${pairs} category pairs, the generic and self links included), ${rows.size} link rows on the element pages`);
 
 // ---- the four nouns ----
-const conv = read('docs/schema/conventions.html');
-const a = conv.match(/<code\b[^>]*\bdata-ow-address="([^"]+)"[^>]*>([^<]*)<\/code>/);
-if (!a) blind('the conventions page carries no four nouns address (data-ow-address)');
+const lensPage = read('docs/lenses.html');
+const a = lensPage.match(/<code\b[^>]*\bdata-ow-address="([^"]+)"[^>]*>([^<]*)<\/code>/);
+if (!a) blind('the lenses page carries no four nouns address (data-ow-address)');
 const tpl = unescape(a[1]);
 if (unescape(a[2]) !== tpl) fails.push('the address the figure shows is not the one it declares');
 const world = '019a1e2b-0000-7000-8000-000000000001', id = '019a1e2b-0000-7000-8000-000000000002', lens = '019a1e2b-0000-7000-8000-000000000003';

@@ -10,8 +10,8 @@ The docs state facts that other people's work changes: the API, the MCP server, 
 
 1. **Run it.** `node scripts/sweep.mjs` (add `--no-links` for a quick one). Fix every STALE it prints: bump a pin, refresh a snapshot, mend a link, replace a word, follow a release (a changelog line that links its page and names its version, a serial by its number, or `<!-- <repo> <tag>: no docs change -->` when it moved no claim).
 2. **Read MOVED against the pages that state it.** Each commit line names a source; the page to read is:
-   - keel: `docs/development/api-reference.mdx`, `api/*` (reads, writes, links, changes, errors, images, members, cors), `mcp.md`, `agents.md`, the error table, `schema/worlds.md`
-   - schema-dist: `schema/*`, `schema/conventions.md`; the element tables regenerate on their own
+   - keel: `docs/development/api-reference.mdx`, `api/*` (reads, writes, links, changes, errors, images, members, cors), `mcp.md`, `agents.md`, the error table, `schema/worlds.md`, `lenses/api.md`
+   - schema-dist: `schema/*`, `schema/conventions.mdx`, the profile pages `schema/profiles.md` and `schema/profiles/*`, the lens pages `lenses.mdx` and `lenses/graph.md`; the element tables regenerate on their own
    - `@onlyworlds/sdk`: `typescript.md`, `packages.md`; its README is the repo's, kept in step by hand
    - the Python package: `python.md`; Atlas: `tools/atlas.md`, `getting-started/*`; Unity: `unity.md`, `games.md`; Obsidian: `tools/obsidian-plugin.md`
    - A link that sends the reader elsewhere for a claim: open the target and find the claim there. The link check sees that the page exists, not what it says (agents.md sent readers to Writes for the agent mark, which Writes never mentioned, 2026-10-18).

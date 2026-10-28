@@ -1,0 +1,25 @@
+---
+title: Lenses
+description: "The lens profile: a saved way of reading a world, how every reader reads one, and the Lenses page on onlyworlds.com."
+---
+
+import FourNouns from '../../../components/figures/FourNouns.astro';
+
+A lens is a saved way of reading a world: which elements, how far from a starting set, how much of each. It is a [Construct](/docs/schema/element_categories/construct) with supertype `Lens`, defined by the [lens profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/lens.md). A lens only narrows: it reads inside what the reader may already see, never more.
+
+<FourNouns />
+
+## What every reader does
+
+- **The anchors** are the lens's own links (its characters, locations, institutions and the rest), and nothing else. A lens that links other lenses through `constructs` is an umbrella of them; `titles` names the Titles it is the default for.
+- **The recipe** sits in one extension field, `x_lens`: `depth` (0 the anchors only, 1 also what links to or from them, the default), `types`, a window back from the reading's date (`window`, or `from` and `to`), `undated`, `changed_within` (days back from the reading's own clock, read on each element's `updated_at`: what a hop reaches that changed longer ago is cut as `stale`; never an anchor), `show` (`full`, `first_line`, `name`), `budget` (1 to 1000, default 50), `mail` and `notes` (a sentence per anchor). A value outside the profile's table makes the lens unreadable, the key named.
+- **A template** is a lens with subtype `Template` and no anchors: it reads nothing until it is copied into a world and pointed at that world's things.
+- **Reading one**: visibility comes first (a hidden or proposed element is not there to hop through), a hop reaches both ways, a Relation is crossed as an edge, a hop never crosses into or out of the room, and a date compares at the precision it states. The world's reading aids (its Charter, Guide and Domains: the pair and the mark [`x_charter_of`](/docs/schema/profiles#charter)) are kept only when `types` names their pair (`law/charter`, `construct/guide`, `construct/domain`), and a hop goes no further through one that is not; an anchor that is a reading aid is kept and followed like any anchor. What the budget or a rule leaves out is counted by reason, never dropped silently.
+
+The TypeScript and Python SDKs read a lens over a world snapshot (`resolveLens`, `resolve_lens`).
+
+## On onlyworlds.com
+
+On onlyworlds.com, a world's Lenses page (`/account/worlds/<world id>/lenses`, in the world's menu) lists its lenses, changes one and shows its reading; the owner can read it as another reader. Its Start from finds elements by a word, the most linked first (by the graph's degree, for the reader the page reads as), and offers a world's Domains as packages of starting points, or a few proposed ones in a world with no Domain; nothing is stored until you save the lens. Its Library holds the public templates and the world's own, each copied in with its settings and no starting points; a lens can be copied to another of your worlds, or published as a template without its starting points or their notes. On your own lens the page reads it a second time in the browser with the SDK's `resolveLens` and says whether the two readings agree.
+
+The routes that serve lenses are on [Lenses on the API](/docs/lenses/api).

@@ -344,7 +344,7 @@ Since 4.76.0 the SDK reads the calendar profile's version 2: a leap day's rule c
 
 ## Addresses
 
-Since 4.89.0 the [address profile](/docs/schema/conventions#addresses) reads and writes an element's link: `parseOwLink(text)` reads any of the three spellings (the site's address, `ow://<type>/<id>`, `ow://<world>/<type>/<id>`) with its moment and lens, and `elementAddress(address)` writes one. A string the profile refuses throws an `OwAddressError` whose `reason` is the profile's own name.
+Since 4.89.0 the [address profile](/docs/schema/profiles/addresses) reads and writes an element's link: `parseOwLink(text)` reads any of the three spellings (the site's address, `ow://<type>/<id>`, `ow://<world>/<type>/<id>`) with its moment and lens, and `elementAddress(address)` writes one. A string the profile refuses throws an `OwAddressError` whose `reason` is the profile's own name.
 
 ```typescript
 import { parseOwLink, elementAddress } from '@onlyworlds/sdk';
@@ -355,7 +355,7 @@ const link = elementAddress({ form: 'human', world: worldId, type: 'character', 
 
 ## Lenses
 
-Since 4.91.0 the [lens profile](/docs/schema/conventions#lenses) has its reader: `resolveLens(world, lens, reader, { asOf, clock })` reads a world snapshot through a lens for one reader and returns the kept elements in order, the cut counted by reason, and the mail part when the lens names one; it never writes. `isLens(el)` and `isTemplate(el)` say what an element is; `lensesInUse(membership, xLensUses)` gives a seat's chosen lenses (the membership's choice first, else a folder Character's `x_lens_uses`). The reading's date is `asOf`, else the world's own now; the mail rule's thirty days run on `clock`, the wall clock.
+Since 4.91.0 the [lens profile](/docs/lenses) has its reader: `resolveLens(world, lens, reader, { asOf, clock })` reads a world snapshot through a lens for one reader and returns the kept elements in order, the cut counted by reason, and the mail part when the lens names one; it never writes. `isLens(el)` and `isTemplate(el)` say what an element is; `lensesInUse(membership, xLensUses)` gives a seat's chosen lenses (the membership's choice first, else a folder Character's `x_lens_uses`). The reading's date is `asOf`, else the world's own now; the mail rule's thirty days run on `clock`, the wall clock.
 
 Since 4.96.0 the profile's date table is exported: `DATE_FIELD` gives each dated type's date field (an Event's `start_date`, a Character's `birth_date`; the ten timeless types are not in it), and `dateOf(el)` gives an element's date as that table reads it, the whole number in its type's date field, else null. A timeline dates elements exactly as the lens's fence does.
 
@@ -383,7 +383,7 @@ const { charter, guide, domains } = charterOf({ elements }, { rung: 'owner' });
 
 ## Messages
 
-Messages between members follow the [message profile](/docs/schema/conventions#messages-between-members) (since 4.80.0): who a message is for, whether its sender is proved, what is unread, and a thread.
+Messages between members follow the [message profile](/docs/schema/profiles/messages) (since 4.80.0): who a message is for, whether its sender is proved, what is unread, and a thread.
 
 ```typescript
 import { isMessage, isAddressedTo, senderStatus, readMarkOf, unreadFor } from '@onlyworlds/sdk';
