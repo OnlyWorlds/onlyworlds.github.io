@@ -162,3 +162,27 @@
 /api/errors#server_busy	load-bearing	floor	keel's error-code list (contract/error-codes.json)
 /api/errors#payload_too_large	load-bearing	floor	keel's error-code list (contract/error-codes.json)
 /api/errors#media_unavailable	load-bearing	floor	keel's error-code list (contract/error-codes.json)
+# 2026-10-28: pages built since the list was made, classed by the same scan (another repo under Development/OnlyWorlds links it: load-bearing)
+/docs/changelog	page	200	source docs/changelog.md
+/docs/development/agents	load-bearing	200	keel:web/templates/web/home.html; mcp-client:README.md; onlyworlds-python:README.md; sdk:README.md
+/docs/development/api/changes	page	200	source docs/development/api/changes.md
+/docs/development/api/classic	page	200	source docs/development/api/classic.md
+/docs/development/api/cors	load-bearing	200	toolkit:skills/onlyworlds-develop/knowledge/deployment.md
+/docs/development/api/files	page	200	source docs/development/api/files.md
+/docs/development/api/hidden	page	200	source docs/development/api/hidden.md
+/docs/development/api/images	page	200	source docs/development/api/images.md
+/docs/development/api/links	page	200	source docs/development/api/links.md
+/docs/development/api/members	page	200	source docs/development/api/members.md
+/docs/development/api/reads	page	200	source docs/development/api/reads.md
+/docs/development/api/writes	page	200	source docs/development/api/writes.md
+/docs/development/games	load-bearing	200	OnlyWorlds:README.md; keel:codegen/publish_dist.py; keel:web/develop_route/bundle/frame/footer.html; keel:web/templates/web/_site_index.html; onlyworlds-python:codegen/schema-dist/README.md; schema-dist:README.md; sdk:README.md; sdk:codegen/schema-dist/README.md
+/docs/development/list-your-tool	load-bearing	200	keel:tests/test_tools_list.py; keel:web/tools_list.py; tools:.github/ISSUE_TEMPLATE/config.yml; tools:.github/ISSUE_TEMPLATE/list-a-tool.yml; tools:README.md
+/docs/development/llm-guide	load-bearing	200	keel:web/templates/web/home.html
+/docs/development/python	load-bearing	200	onlyworlds-python:pyproject.toml
+/docs/development/toolkit	load-bearing	200	keel:web/templates/web/home.html
+/docs/development/typescript	load-bearing	200	sdk:README.md
+/docs/development/unity	page	200	source docs/development/unity.md
+/docs/getting-started/keys	page	200	source docs/getting-started/keys.md
+/docs/schema/conventions	load-bearing	200	toolkit:knowledge/atlas-conventions.md; toolkit:skills/onlyworlds-context/knowledge/atlas-conventions.md; toolkit:skills/onlyworlds-import/knowledge/atlas-conventions.md; toolkit:skills/onlyworlds-read/knowledge/atlas-conventions.md; toolkit:skills/onlyworlds-update/knowledge/atlas-conventions.md
+/docs/schema/example	page	200	source docs/schema/example.md
+/docs/tools/legacy	page	200	source docs/tools/legacy.md

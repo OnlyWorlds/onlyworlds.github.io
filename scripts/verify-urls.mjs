@@ -234,6 +234,18 @@ for (const line of rows) {
   if (path.endsWith('.txt') && !r.file.endsWith('.txt')) fail.push(`${url}: served from ${r.file}, not as a text file`);
 }
 
+// Every page the sitemap lists has a row: a page added after the list was built had none, and
+// nothing said so (24 pages, 9 of them linked from other repos, found 2026-10-28). The class is
+// decided as the list was built: load-bearing when another repo's tracked file links it.
+{
+  const norm = (u) => u.replace(/^https:\/\/onlyworlds\.github\.io/, '').split('#')[0].replace(/\.html$/, '').replace(/\/$/, '') || '/';
+  const listed = new Set(rows.map((l) => norm(l.split('\t')[0])));
+  if (!sitemapUrls.size) gaps.push('the sitemap listed no page, so pages without a contract row were not looked for');
+  for (const u of sitemapUrls) {
+    if (!listed.has(norm(u))) fail.push(`${norm(u)}: the sitemap lists it and contract/urls.tsv has no row (add one: load-bearing if another repo links it, else page)`);
+  }
+}
+
 console.log(`verify-urls: ${hrefs} internal links resolved on Pages rules · ${rows.length} contract rows · ${checked} answered · ${templates} pattern rows (checked through the floor) · ${already} already 404 on the old site`);
 for (const n of notes) console.log(`  note   ${n}`);
 for (const g of gaps) console.log(`  GAP    ${g}`);
