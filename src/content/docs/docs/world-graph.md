@@ -17,7 +17,7 @@ Because a world is a graph, you can read part of it: start from a few elements a
 
 ## Related ideas
 
-The idea of reading part of a large structure from a focus has a long history. They help place it:
+Reading part of a large structure from a focus has a long history, and four earlier ideas help place it:
 
 - **Fisheye views.** Furnas ("Generalized Fisheye Views", CHI 1986) gave every item a degree of interest: its a priori importance minus its distance from the current focus. A view shows the items at or above a threshold, or the n most interesting. A lens's anchors and budget echo it, and "most linked" is one way to rank by importance.
 - **Magic Lenses.** Bier, Stone, Pier, Buxton and DeRose ("Toolglass and Magic Lenses", SIGGRAPH 1993) described a movable see-through filter that changes how the objects beneath it are shown. Editing there was done by other tools, used beside the lens or combined with it. An OnlyWorlds lens stays a reading.
@@ -28,6 +28,6 @@ The idea of reading part of a large structure from a focus has a long history. T
 
 Knowledge kept for AI agents comes in several forms today. Markdown knowledge bases link files without saying what a link means. Graph and ontology platforms type their knowledge, and the ones we've read fill it by binding, syncing or mining other sources. Enterprise search fills its index by pulling from connected tools. A world is a typed layer whose elements people write on purpose, alone or with their AI, and which can live as a [folder of files](/docs/schema/folders).
 
-That difference has a known edge. Graphs built by an LLM from documents carry duplicates, because the common tools merge entities by matching names (shown in preprints on LLM-built graphs). In a world, links and identity rest on ids, so nothing merges two elements because their names match.
+In a world, links and identity rest on ids, so two elements are never merged because their names match.
 
-Whether an AI answers better from a world than from the same content as files is not known. The one test so far, an internal one on a single document of about 15,000 tokens turned into a world, sat at the ceiling for both (110 of 110 questions from the files, 109 of 110 from the world).
+Whether an AI answers better from a world than from the same content as files is not yet known.
