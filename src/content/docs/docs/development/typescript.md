@@ -367,6 +367,18 @@ g.nodes; g.edges; g.edgesCut; // e.g. { map_space: 2, hidden: 1 }
 degreeOf(g); // since 4.95.0: each node's edges, in or out, { [id]: count }
 ```
 
+Since 4.100.0 a lens's rows for a reader below the owner are the bodies the API serves that reader: a link to an element the reader cannot see is left out, a lens kept as an element keeps only the notes on elements the reader sees, and `x_served_trimmed` names a message's `characters` and `narrator`, or a lens's anchor fields, for a contributor or a guest, never for the public. The owner's rows are the bodies as stored.
+
+## Reading aids
+
+Since 4.100.0 the [charter profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/charter.md) has its reader (the API's own copy is [`reading_aids`](/docs/development/api/members#reading-aids)): `charterOf(world, reader)` returns what a world's front door shows first, `{ charter, guide, domains }`, as that reader sees them. `charter` is `{ id, name, rules, skill }` or null: the newest marked Charter, its `x_checks_rules` list (`[]` when none) and the Objects its text names, at most five. `guide` is `{ id, name }` or null. Each Domain is `{ id, name, sentence, hubs }`: its description up to the first line break, and the elements its links name that the reader sees, as `{ type, id }`. `domainsOf(world, reader)` returns the Domains alone. `world` holds the elements as the owner is served them, with `open: true` for a world open to anyone (only then does a public reader see anything), and `reader` is a lens reader. `isCharterElement(el)` reads the mark `x_charter_of` by its presence: any value but null, and a string only when something is left after trimming. `CHARTER_PAIRS` lists the three type-and-supertype pairs.
+
+```typescript
+import { charterOf } from '@onlyworlds/sdk';
+
+const { charter, guide, domains } = charterOf({ elements }, { rung: 'owner' });
+```
+
 ## Messages
 
 Messages between members follow the [message profile](/docs/schema/conventions#messages-between-members) (since 4.80.0): who a message is for, whether its sender is proved, what is unread, and a thread.
@@ -407,6 +419,7 @@ import {
   ELEMENT_SECTIONS, // the field groups and their display order
   FIELD_SCHEMA,     // type and target of every field
   ROOM_PAIRS,       // the nine type-and-supertype pairs a parlor keeps in a world (since 4.55.0; Take since 4.75.0)
+  CHARTER_PAIRS,    // the three reading aids' pairs: Law Charter, Construct Guide, Construct Domain (since 4.100.0)
   elementColor,     // the colour of a type's family
   fieldLabel,       // a field name as the words a tool shows
 } from '@onlyworlds/sdk';
@@ -430,7 +443,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.99.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.100.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 

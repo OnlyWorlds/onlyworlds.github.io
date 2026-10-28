@@ -7,6 +7,13 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-28
 
+- **[TypeScript](/docs/development/typescript#reading-aids) 4.100.0 and [Python](/docs/development/python#what-it-covers) 0.82.0: schema-dist serial 83.**
+  - `charterOf` / `charter_of` and `domainsOf` / `domains_of` read what a world's front door shows first: the Charter, the Guide and the Domains.
+  - The [room and charter marks](/docs/schema/conventions#data-the-schema-does-not-model) are read by their presence.
+  - A lens's rows for a reader below the owner are the bodies the API serves that reader. The previous releases handed hidden elements' ids, with their sentences, to such a reader in the notes of a lens kept as an element.
+  - World folders are written at [format v0.3.20](/docs/schema/folders#worldjson).
+  - The Python doctor reads the marked Charter and flags a Guide or Domain that names a hidden or deleted element.
+- **[Folder format](/docs/schema/folders#a-list-trimmed-for-its-reader)**: `x_served_trimmed` is written on a message's addressing and a lens's anchor fields only; any other link leaves an unseen id out with no mark.
 - **[MCP](/docs/development/mcp) `get_draught`** with no `lens` reads one frame per lens you chose, as the context route does; `/health` and `/health/deep` now declare that they take no credential, which the [credentials figure](/docs/development/api-reference#which-credential-each-route-takes) follows. <!-- keel PR 315 -->
 <!-- keel PR 311: no docs change -->
 <!-- keel PR 312: no docs change -->
