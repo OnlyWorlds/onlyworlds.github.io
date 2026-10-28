@@ -3,9 +3,13 @@ title: Proposed changes
 description: How a member proposes a change to an element for a keeper to accept, how an AI seat's writes become proposals under the world's switch, and the routes.
 ---
 
+import ProposalLife from '../../../../../components/figures/ProposalLife.astro';
+
 A **proposal** is a change to an element that waits for a keeper's word. Any member whose key reads the element can propose one: the fields they would set, a line of evidence, and how long it stands. The element does not change. The world's owner or a co-builder then **accepts** it, which writes the element as their own write, or **declines** it; the proposer can **withdraw** it. Nothing about a proposal reaches the [change feed](/docs/development/api/changes): only the accept's write does, as one row by the keeper.
 
 A world's owner can also turn on **AI seats propose, a person accepts** on the world page. Under that switch every change an [agent seat](/docs/development/api/members#agent-seats) makes to an existing element becomes a proposal instead of a write, and the seat's new elements carry a mark saying they are proposed. A person's key is never held by the switch.
+
+<ProposalLife />
 
 ## Propose
 

@@ -16,7 +16,8 @@
  *            schema-dist's newest tag, the API document and the demo world; the public view
  *            snapshot against keel's public reader (on a machine with keel); the write body
  *            snapshot against the API document's write schemas; the draught snapshot against
- *            the API document's context route; the routes in the
+ *            the API document's context route; the proposals snapshot against the API
+ *            document's proposal routes, queue and schemas; the routes in the
  *            API reference against keel's OpenAPI; every external link; words the docs must not use;
  *            every release since the last sweep (the packages, the Unity SDK, the plugin, the toolkit,
  *            schema-dist's serials) against the changelog.
@@ -167,6 +168,17 @@ console.log('CHECKS');
   if (code === 0) pass('the draught snapshot matches the live API document');
   else if (code === 1) bad('the draught snapshot differs from the live API document (node scripts/gen_draught.mjs says which parameters or keys; --refresh)');
   else note('could not read the live API document (node scripts/gen_draught.mjs says why): the draught snapshot was not checked');
+}
+
+// ---- 2i: the proposals figure's snapshot against the API document's proposal routes, queue and schemas
+// (exit 2 from the reader is BLIND: the document unreadable, never a pass) --------------------------------
+{
+  let code = 0;
+  try { execFileSync('node', ['scripts/gen_proposals.mjs'], { cwd: ROOT, timeout: 60000, stdio: 'ignore' }); }
+  catch (e) { code = e.status ?? 2; }
+  if (code === 0) pass('the proposals snapshot matches the live API document');
+  else if (code === 1) bad('the proposals snapshot differs from the live API document (node scripts/gen_proposals.mjs says which routes or schemas; --refresh)');
+  else note('could not read the live API document (node scripts/gen_proposals.mjs says why): the proposals snapshot was not checked');
 }
 
 // ---- 3: the API reference against keel's OpenAPI ---------------------------------------------------------

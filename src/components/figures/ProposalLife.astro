@@ -1,0 +1,275 @@
+---
+// A proposal's life: the propose, the two undecided states (open, and lapsed once expires has
+// passed), and the three acts on an undecided row, each with its route, who may call it, its answer,
+// its refusals and where it leaves the row; then what the switch makes of an AI seat's writes and
+// the queue that lists both kinds of row. Built as HTML, so its words are the page's own text (lists
+// a screen reader or an agent reads). Every route, status, refusal, state, value, decision and kind
+// comes from the API's own document through contract/proposals.json (scripts/gen_proposals.mjs) and
+// proposals.mjs, which the twin reads too. Wide, the acts sit in three columns under a rail from the
+// undecided states; narrow (a container query), one column with arrows down. The theme is the docs' own.
+import snap from '../../../contract/proposals.json';
+import { HEADS, SAYS, DOC_SAYS, proposalView, proposalWords } from './proposals.mjs';
+
+const data = proposalView(snap);
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const code = (s: string) => `<code>${esc(s)}</code>`;
+const w = proposalWords(data, code);
+// a route breaks after its slashes, never inside a segment
+const route = (r: { method: string; path: string }) => `<code class="ow-pr-route">${esc(w.route(r)).replace(/\//g, '/<wbr>')}</code>`;
+const outcomeSays = (s: string) => (SAYS as any)[s] as string[];
+---
+
+<figure class="ow-fig ow-pr not-content" data-ow-figure="proposals" data-read-at={data.readAt} data-types={data.types}>
+  <p class="ow-pr-lead"><b>{HEADS.title}</b> <span>{HEADS.lead}</span></p>
+  <div class="ow-pr-start">
+    <div class="ow-pr-card ow-pr-propose" data-action="propose" data-route={w.route(data.propose)} data-status={data.propose.status}
+      data-expires={`${data.propose.expires.min} ${data.propose.expires.max} ${data.propose.expires.def}`}>
+      <p class="ow-pr-top"><code class="ow-pr-name">{data.propose.action}</code><code class="ow-pr-status">{data.propose.status}</code></p>
+      <p class="ow-pr-who">{SAYS.propose.who}</p>
+      <p set:html={route(data.propose)} />
+      <p>{SAYS.propose.note}</p>
+      <p class="ow-pr-exp" set:html={w.expires} />
+    </div>
+    <div class="ow-pr-undecided">
+      <p class="ow-pr-tag">{HEADS.undecided}</p>
+      <ol class="ow-pr-states">
+        <li class="ow-pr-card ow-pr-state" data-state={data.open}>
+          <code class="ow-pr-name">{data.open}</code>
+          <p>{SAYS.open}</p>
+        </li>
+        <li class="ow-pr-card ow-pr-state" data-state={data.lapsed}>
+          <code class="ow-pr-name">{data.lapsed}</code>
+          <p set:html={w.lapse} />
+          <p>{SAYS.lapsed}</p>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <ul class="ow-pr-acts">
+    {
+      data.acts.map((a) => (
+        <li data-action={a.action} data-route={w.route(a)} data-status={a.status} data-pin={a.pin ? '' : undefined}
+          data-outcome={a.outcome ?? ''} data-refusals={a.refusals.map((x) => w.refusal(x)).join('|')}>
+          <div class="ow-pr-card ow-pr-act">
+            <p class="ow-pr-top"><code class="ow-pr-name">{a.action}</code><code class="ow-pr-status">{a.status}</code></p>
+            <p class="ow-pr-who">{w.who(a)}</p>
+            <p set:html={route(a)} />
+            <ul class="ow-pr-refusals">
+              {a.refusals.map((x) => (
+                <li data-status={x.status} data-code={x.code ?? ''}><code>{w.refusal(x)}</code> {x.says}</li>
+              ))}
+            </ul>
+          </div>
+          {a.outcome ? (
+            <div class={`ow-pr-card ow-pr-state ow-pr-${a.outcome}`} data-state={a.outcome}>
+              <code class="ow-pr-name">{a.outcome}</code>
+              {outcomeSays(a.outcome).map((s) => <p>{s}</p>)}
+            </div>
+          ) : (
+            <div class="ow-pr-card ow-pr-gone" data-gone="">
+              <p>{DOC_SAYS.gone}</p>
+            </div>
+          )}
+        </li>
+      ))
+    }
+  </ul>
+  <div class="ow-pr-part" data-part="switch">
+    <p class="ow-pr-h">{HEADS.switchHead} <span class="ow-pr-hnote"><code>{data.field}</code>, {SAYS.readOnly}</span></p>
+    <ol class="ow-pr-chain" data-row="existing" data-methods={data.existing.join(' ')}>
+      <li class="ow-pr-card">
+        <p class="ow-pr-top"><b>{SAYS.existing}</b></p>
+        <p class="ow-pr-methods" set:html={w.existingSays.map((m) => (m === SAYS.linkEdit ? m : code(m))).join(', ')} />
+      </li>
+      <li class="ow-pr-card">
+        <p class="ow-pr-top"><code class="ow-pr-status">202</code></p>
+        <p>{SAYS.becomes}</p>
+      </li>
+      <li class="ow-pr-card ow-pr-state" data-row-state={data.open}>
+        <code class="ow-pr-name">{data.open}</code>
+        <p>{SAYS.open}</p>
+      </li>
+    </ol>
+    <ol class="ow-pr-chain" data-row="new">
+      <li class="ow-pr-card">
+        <p class="ow-pr-top"><b>{SAYS.newElement}</b></p>
+        <p>{SAYS.created} <code>x_review_proposed</code></p>
+      </li>
+      <li class="ow-pr-card" data-kind={data.queue.kinds[1]} data-states={data.newStates.join(' ')}>
+        <p>{SAYS.waits} <code>{data.queue.kinds[1]}</code> row</p>
+        <p class="ow-pr-chips">{data.newStates.map((s) => <code class={`ow-pr-chip ow-pr-chip-${s}`}>{s}</code>)}</p>
+      </li>
+      <li class="ow-pr-card ow-pr-review" data-route={w.route(data.review)} data-status={data.review.status} data-pin={data.review.pin ? '' : undefined}>
+        <p class="ow-pr-top"><code class="ow-pr-name">review</code><code class="ow-pr-status">{data.review.status}</code></p>
+        <p class="ow-pr-who">{w.reviewWho}</p>
+        <p set:html={route(data.review)} />
+        <ul class="ow-pr-refusals">
+          {data.review.decisions.map((d) => <li data-decision={d}><code>{d}</code> {(SAYS.decisions as any)[d]}</li>)}
+        </ul>
+      </li>
+    </ol>
+    <p class="ow-pr-note">{SAYS.neverHeld}</p>
+  </div>
+  <div class="ow-pr-part" data-part="queue" data-route={w.route(data.queue)}>
+    <p class="ow-pr-h">{HEADS.queueHead} <span class="ow-pr-hnote" set:html={route(data.queue)} /></p>
+    <p class="ow-pr-chips">
+      <code>state</code>
+      {data.queue.states.map((s) => (
+        <span class="ow-pr-qstate" data-queue-state={s} data-default={s === data.queue.def ? '' : undefined}>
+          <code class={`ow-pr-chip ow-pr-chip-${s}`}>{s}</code>{s === data.queue.def && <span class="ow-pr-def">{SAYS.theDefault}</span>}
+        </span>
+      ))}
+    </p>
+    <p class="ow-pr-note" data-kinds={data.queue.kinds.join(' ')}><span set:html={w.kinds} />: {data.queue.kinds.map((k, i) => <Fragment>{i ? ' and ' : ''}<code>{k}</code></Fragment>)}; <span set:html={w.marked} /></p>
+    <p class="ow-pr-note">{SAYS.noFeed}</p>
+  </div>
+  <figcaption set:html={w.caption} />
+</figure>
+
+<style>
+  .ow-pr {
+    container-type: inline-size;
+    margin: 1.5rem 0 1.25rem;
+    font-size: 0.875rem;
+    line-height: 1.45;
+    color: var(--sl-color-gray-2);
+    --pr-how: var(--sl-color-accent);
+    --pr-lapse: var(--sl-color-orange);
+    --pr-ok: var(--sl-color-green);
+    --pr-no: var(--sl-color-red);
+    --pr-line: var(--sl-color-gray-4);
+    --pr-gap: 10px;
+    --pr-arrow: 1.6rem;
+    --pr-col: 13rem;
+  }
+  /* the light theme's orange, green and red are pale: their -high edges the cards (3:1 against the page) */
+  :global(:root[data-theme='light']) .ow-pr { --pr-lapse: var(--sl-color-orange-high); --pr-ok: var(--sl-color-green-high); --pr-no: var(--sl-color-red-high); }
+  .ow-pr p, .ow-pr ul, .ow-pr ol { margin: 0; }
+  .ow-pr ul, .ow-pr ol { list-style: none; padding: 0; }
+  .ow-pr li { margin: 0; }
+  .ow-pr :global(code) { font-family: var(--sl-font-mono); font-size: 0.8125rem; color: var(--sl-color-white); }
+  /* plain mono, no chip: the cards are the frame (.ow-fig to outrank the inline code rule) */
+  .ow-pr.ow-fig :global(code) { background: none; border: 0; padding: 0; }
+  .ow-pr b { color: var(--sl-color-white); font-weight: 600; }
+  .ow-pr-lead { font-size: 0.9375rem; margin-bottom: 0.75rem !important; }
+  .ow-pr-lead span { color: var(--sl-color-gray-3); margin-left: 0.35rem; }
+  .ow-pr-h { color: var(--sl-color-white); font-weight: 600; font-size: 0.9375rem; margin: 0.9rem 0 0.5rem !important; }
+  .ow-pr-hnote { color: var(--sl-color-gray-3); font-weight: 400; font-size: 0.8125rem; margin-left: 0.4rem; }
+  /* a card: a name and its answer on top, then what it says */
+  .ow-pr-card { position: relative; border: 1.5px solid var(--pr-line); border-radius: 8px; padding: 0.4rem 0.65rem; background: var(--sl-color-gray-6); min-width: 0; }
+  .ow-pr-card p + p, .ow-pr-card p + ul { margin-top: 0.15rem; }
+  .ow-pr-card p { color: var(--sl-color-gray-3); font-size: 0.8125rem; }
+  .ow-pr-card p :global(code) { font-size: 0.75rem; }
+  .ow-pr-top { display: flex; justify-content: space-between; align-items: baseline; gap: 0 0.5rem; }
+  .ow-pr .ow-pr-name { font-weight: 600; font-size: 0.875rem; }
+  .ow-pr .ow-pr-status { font-variant-numeric: tabular-nums; color: var(--sl-color-gray-2); }
+  .ow-pr .ow-pr-who { color: var(--sl-color-gray-2); }
+  .ow-pr .ow-pr-route { overflow-wrap: anywhere; color: var(--sl-color-gray-2); }
+  .ow-pr-refusals { margin-top: 0.3rem; display: grid; gap: 0.1rem; font-size: 0.75rem; color: var(--sl-color-gray-3); }
+  .ow-pr-refusals :global(code) { font-size: 0.75rem; }
+  .ow-pr-propose, .ow-pr-act, .ow-pr-review { border-color: var(--pr-how); }
+  .ow-pr-state { border-width: 2px; }
+  .ow-pr-state[data-state='open'], .ow-pr-state[data-row-state='open'] { border-color: var(--pr-how); }
+  .ow-pr-state[data-state='lapsed'] { border-color: var(--pr-lapse); }
+  .ow-pr-state[data-state='accepted'] { border-color: var(--pr-ok); }
+  .ow-pr-state[data-state='declined'] { border-color: var(--pr-no); }
+  .ow-pr-gone { border-style: dashed; background: none; display: flex; align-items: center; }
+  /* the arrows: a line with a head, in the gap before a card */
+  .ow-pr-start > .ow-pr-undecided::before, .ow-pr-states > li + li::before, .ow-pr-chain > li + li::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: calc(-1 * var(--pr-arrow) + 3px);
+    width: calc(var(--pr-arrow) - 6px);
+    height: 0;
+    border-top: 1.5px solid var(--pr-line);
+  }
+  .ow-pr-start > .ow-pr-undecided::after, .ow-pr-states > li + li::after, .ow-pr-chain > li + li::after {
+    content: '';
+    position: absolute;
+    top: calc(50% - 5px);
+    left: -9px;
+    border: 5px solid transparent;
+    border-right: 0;
+    border-left: 7px solid var(--pr-line);
+  }
+  .ow-pr-states > li + li::before { border-top-color: var(--pr-lapse); }
+  .ow-pr-states > li + li::after { border-left-color: var(--pr-lapse); }
+  /* wide: the propose, then the undecided states side by side in their frame */
+  .ow-pr-start { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); column-gap: var(--pr-arrow); }
+  .ow-pr-undecided { position: relative; display: flex; flex-direction: column; border: 1px dashed var(--pr-line); border-radius: 10px; padding: 0.35rem 0.5rem 0.5rem; }
+  .ow-pr-tag { font-size: 0.75rem; color: var(--sl-color-gray-3); margin-bottom: 0.3rem !important; }
+  .ow-pr-states { flex: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--pr-arrow); align-items: center; }
+  .ow-pr-states > li, .ow-pr-chain > li { position: relative; }
+  /* the acts: three columns hung from a rail under the undecided frame, each an act over where it leaves the row */
+  .ow-pr-acts {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: auto auto;
+    column-gap: var(--pr-gap);
+  }
+  /* (.ow-pr to outrank the lists' own margin: 0) */
+  .ow-pr .ow-pr-acts { margin-top: 2.6rem; }
+  .ow-pr-acts::before { content: ''; position: absolute; top: -1.1rem; left: calc((100% - 2 * var(--pr-gap)) / 6); right: calc((100% - 2 * var(--pr-gap)) / 6); border-top: 1.5px solid var(--pr-line); }
+  /* the stub from the undecided frame's middle down to the rail */
+  .ow-pr-acts::after { content: ''; position: absolute; top: -2.6rem; height: 1.5rem; left: calc((100% - var(--pr-arrow)) * 2 / 3 + var(--pr-arrow)); border-left: 1.5px solid var(--pr-line); }
+  .ow-pr-acts > li { position: relative; display: grid; grid-row: span 2; grid-template-rows: subgrid; row-gap: var(--pr-arrow); }
+  .ow-pr-acts > li > :first-child::before { content: ''; position: absolute; left: 50%; top: calc(-1.1rem - 1px); height: calc(1.1rem - 5px); border-left: 1.5px solid var(--pr-line); }
+  .ow-pr-acts > li > :first-child::after, .ow-pr-acts > li > :last-child::after {
+    content: '';
+    position: absolute;
+    left: calc(50% - 4.25px);
+    top: -8px;
+    border: 5px solid transparent;
+    border-bottom: 0;
+    border-top: 7px solid var(--pr-line);
+  }
+  .ow-pr-acts > li > :last-child::before { content: ''; position: absolute; left: 50%; top: calc(-1 * var(--pr-arrow) + 3px); height: calc(var(--pr-arrow) - 9px); border-left: 1.5px solid var(--pr-line); }
+  /* the switch and the queue */
+  .ow-pr-part { margin-top: 1.25rem; padding-top: 0.2rem; border-top: 1px dashed var(--sl-color-gray-5); }
+  .ow-pr-chain { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--pr-arrow); align-items: center; }
+  .ow-pr-chain + .ow-pr-chain { margin-top: var(--pr-gap); }
+  .ow-pr-chain .ow-pr-top b { font-size: 0.8125rem; }
+  .ow-pr-note { margin-top: 0.5rem !important; color: var(--sl-color-gray-3); font-size: 0.8125rem; }
+  .ow-pr-note :global(code) { font-size: 0.75rem; }
+  .ow-pr-chips { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.3rem 0.5rem; }
+  .ow-pr.ow-fig .ow-pr-chip { font-size: 0.75rem; border: 1.5px solid var(--pr-line); border-radius: 999px; padding: 0 0.5rem; }
+  .ow-pr.ow-fig .ow-pr-chip-open { border-color: var(--pr-how); }
+  .ow-pr.ow-fig .ow-pr-chip-lapsed { border-color: var(--pr-lapse); }
+  .ow-pr.ow-fig .ow-pr-chip-accepted { border-color: var(--pr-ok); }
+  .ow-pr.ow-fig .ow-pr-chip-declined { border-color: var(--pr-no); }
+  .ow-pr-qstate { white-space: nowrap; }
+  .ow-pr-def { margin-left: 0.3rem; color: var(--sl-color-gray-3); font-size: 0.75rem; }
+  .ow-pr figcaption { margin-top: 12px; color: var(--sl-color-gray-3); font-size: 0.8125rem; }
+  .ow-pr figcaption :global(code) { font-size: 0.8125rem; }
+  @container (max-width: 600px) {
+    /* one column: every arrow points down */
+    .ow-pr-start, .ow-pr-states, .ow-pr-chain, .ow-pr-acts { grid-template-columns: minmax(0, 1fr); row-gap: var(--pr-arrow); }
+    /* the acts hang from a rail down their left side, from the undecided frame to the last act */
+    .ow-pr-acts { grid-template-rows: none; }
+    .ow-pr .ow-pr-acts { margin-top: var(--pr-arrow); padding-left: 1rem; }
+    .ow-pr-acts::before, .ow-pr-acts::after { display: none; }
+    .ow-pr-acts > li { grid-row: auto; grid-template-rows: none; }
+    .ow-pr-acts > li:not(:last-child)::before { content: ''; position: absolute; left: -0.65rem; top: calc(-1 * var(--pr-arrow)); bottom: 0; border-left: 1.5px solid var(--pr-line); }
+    .ow-pr-acts > li > :first-child::before { left: -0.65rem; top: calc(-1 * var(--pr-arrow)); height: calc(var(--pr-arrow) + 50%); }
+    .ow-pr-acts > li > :first-child::after { left: -0.65rem; top: 50%; width: 0.65rem; border: 0; border-top: 1.5px solid var(--pr-line); }
+    .ow-pr-start > .ow-pr-undecided::before, .ow-pr-states > li + li::before, .ow-pr-chain > li + li::before {
+      top: calc(-1 * var(--pr-arrow) + 3px);
+      left: 50%;
+      width: 0;
+      height: calc(var(--pr-arrow) - 9px);
+      border-top: 0;
+      border-left: 1.5px solid var(--pr-line);
+    }
+    .ow-pr-states > li + li::before { border-left-color: var(--pr-lapse); }
+    .ow-pr-start > .ow-pr-undecided::after, .ow-pr-states > li + li::after, .ow-pr-chain > li + li::after {
+      top: -8px;
+      left: calc(50% - 4.25px);
+      border: 5px solid transparent;
+      border-bottom: 0;
+      border-top: 7px solid var(--pr-line);
+    }
+    .ow-pr-states > li + li::after { border-top-color: var(--pr-lapse); }
+  }
+</style>

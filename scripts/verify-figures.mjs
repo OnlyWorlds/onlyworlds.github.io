@@ -119,6 +119,17 @@
 // defaults from their schemas, and holds the built figure to them; then the page's policy and
 // sections tables and its sentences to the same, every phrase the figure says to the page's source,
 // the twin the same, and the snapshot against the live document, printed STALE, never failed.
+//
+// The proposals (/docs/development/api/proposals, ProposalLife): built from the API document's
+// proposal routes, the queue and the schemas they answer through the snapshot contract/proposals.json
+// (gen_proposals.mjs). This derives by rules of its own the states a row is decided in (the withdraw's
+// 422) and so the undecided ones, each act's route, one 2xx, PIN (its security) and refusals (the
+// *_proposal codes and the already decided 422 in its answers), the state each decision leaves (the act
+// made past, as the route's own words say), the expiry from the body's words, the writes the switch
+// turns into proposals (every operation answering 202), the review's decisions and the queue's states,
+// default and kinds, and holds the built figure to them; then the page's own sentences to the same,
+// every phrase the figure says to the page's source (or, for two, the document), the twin the same,
+// and the snapshot against the live document, printed STALE, never failed.
 import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -1646,9 +1657,220 @@ if (doc) {
 }
 }
 
+// ---- the proposals ----
+// Read here with code of its own (not proposals.mjs): the states, which are decided and which not,
+// each act's route, answer, PIN, refusals and the state it leaves, the expiry, the review's decisions,
+// the switch's writes and the queue's states and kinds, derived from the snapshot by rules of its own,
+// against the built figure, the page's own sentences, and the live document. In a block of its own:
+// its names stay its own.
+{
+const pPage = read('docs/development/api/proposals.html');
+const pTwin = read('docs/development/api/proposals.md');
+const pf = pPage.match(/<figure\b[^>]*\bdata-ow-figure="proposals"[^>]*>([\s\S]*?)<\/figure>/);
+if (!pf) blind('the proposals page carries no proposals figure (data-ow-figure="proposals")');
+const pSnap = JSON.parse(readFileSync(join(DIST, '..', 'contract', 'proposals.json'), 'utf8'));
+if (!pSnap.routes?.accept || !pSnap.proposal?.state?.enum || !pSnap.new_element?.state?.enum) blind('contract/proposals.json holds no accept route or no states');
+const bad = (m) => fails.push(`proposals: ${m}`);
+const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+const low = (s) => s.toLowerCase().replace(/\s+/g, ' ');
+const set = (xs) => [...new Set(xs)].sort();
+const ticks = (s) => [...(s ?? '').matchAll(/`([a-z_]+)`/g)].map((m) => m[1]);
+// The page's source as a reader reads it: links as their text, no code ticks or bold.
+const pSrc = readFileSync(join(DIST, '..', 'src', 'content', 'docs', 'docs', 'development', 'api', 'proposals.mdx'), 'utf8');
+const prose = (s) => low(s.replace(/\[([^\]]+)\]\([^)]*\)/g, '$1').replace(/[`*]/g, ''));
+const src = prose(pSrc);
+const text = low(strip(pf[1]));
+const R = pSnap.routes;
+const head = attr(pf[0].match(/^<figure\b[^>]*>/)[0], 'data-read-at');
+
+// The snapshot, read by this check's own rules.
+const states = pSnap.proposal.state.enum;
+// decided: the two states the withdraw's 422 says a row has already reached
+const decided = (R.withdraw?.responses?.['422'] ?? '').match(/\balready ([a-z]+) or ([a-z]+)\b/)?.slice(1, 3) ?? [];
+if (decided.length !== 2 || decided.some((s) => !states.includes(s))) bad(`the withdraw's 422 names no two decided states: "${R.withdraw?.responses?.['422']}"`);
+const undecided = states.filter((s) => !decided.includes(s));
+const routeOf = (r) => `${r.method.toUpperCase()} ${r.path}`;
+const oks = (r) => Object.keys(r.responses).filter((s) => /^2\d\d$/.test(s));
+const pinned = (r) => r.security.length > 0 && r.security.every((alt) => alt.includes('ApiPin'));
+// refusals: each 4xx naming a *_proposal code, and the 4xx saying the row is already decided
+const refusalsOf = (r) => set(Object.entries(r.responses).filter(([s]) => /^4/.test(s)).flatMap(([s, d]) => [
+  ...[...(d ?? '').matchAll(/\b([a-z]+_proposal)\b/g)].map((m) => `${s} ${m[1]}`),
+  ...(/\balready accepted or declined\b/.test(d ?? '') ? [s] : []),
+]));
+// the state a decision leaves: the act's name made past (accept, accepted)
+const past = (a) => (a.endsWith('e') ? `${a}d` : `${a}ed`);
+
+// The figure, as drawn.
+const stateCards = [...pf[1].matchAll(/<[a-z]+\b[^>]*\bdata-state="([a-z_]+)"/g)].map((m) => m[1]);
+if (!same(stateCards, states)) bad(`the figure draws the states ${stateCards.join(', ')}; the Proposal's state is ${states.join(', ')}`);
+const frame = pf[1].match(/<div\b[^>]*class="ow-pr-undecided\b[\s\S]*?<\/ol>/)?.[0] ?? '';
+const framed = [...frame.matchAll(/\bdata-state="([a-z_]+)"/g)].map((m) => m[1]);
+if (!same(framed, undecided)) bad(`the undecided frame holds ${framed.join(', ')}; undecided are ${undecided.join(', ')}`);
+if (!low(strip(frame)).startsWith('undecided')) bad('the undecided frame does not say undecided');
+const [open, lapsed] = undecided;
+const card = (st) => low(strip(pf[1].match(new RegExp(`<[a-z]+\\b[^>]*\\bdata-state="${st}"[^>]*>([\\s\\S]*?)</(?:li|div)>`))?.[1] ?? ''));
+if (!card(lapsed).includes('once expires has passed') || !card(lapsed).includes('can still be accepted or declined')) bad(`the ${lapsed} card does not say once expires has passed and can still be accepted or declined`);
+if (!(pSnap.proposal.state.description ?? '').includes(`${lapsed} once \`expires\` has passed (it may still be accepted or declined)`)) bad(`the Proposal's state no longer says ${lapsed} once expires has passed and may still be decided`);
+if (!/\bA lapsed proposal may still be accepted\b/.test(R.accept.description ?? '')) bad('the accept no longer says a lapsed proposal may still be accepted');
+if (!card(open).includes("waits for a keeper's word")) bad(`the ${open} card does not say it waits for a keeper's word`);
+
+// The acts: each its route, its one 2xx, the PIN, its refusals and where it leaves the row.
+const acts = [...pf[1].matchAll(/<li\b([^>]*\bdata-action="([a-z]+)"[^>]*)>([\s\S]*?)<\/li>\s*(?=<li\b[^>]*\bdata-action=|<\/ul>\s*<div\b[^>]*data-part=)/g)].map((m) => ({ tag: m[1], action: m[2], html: m[3], text: low(strip(m[3])), spaced: ` ${low(unescape(m[3].replace(/<[^>]+>/g, ' ')))} ` }));
+if (!same(acts.map((a) => a.action), ['accept', 'decline', 'withdraw'])) bad(`the figure draws the acts ${acts.map((a) => a.action).join(', ')}; it should draw accept, decline, withdraw`);
+for (const a of acts) {
+  const r = R[a.action];
+  if (!r) { bad(`${a.action} is no route in the snapshot`); continue; }
+  if (attr(a.tag, 'data-route') !== routeOf(r) || !text.includes(low(routeOf(r)))) bad(`${a.action} is drawn as ${attr(a.tag, 'data-route')}; the document's route is ${routeOf(r)}`);
+  if (!same([attr(a.tag, 'data-status')], oks(r)) || !a.spaced.includes(` ${oks(r)[0]} `)) bad(`${a.action} is drawn answering ${attr(a.tag, 'data-status')}; the document answers ${oks(r).join(', ')}`);
+  if (/\bdata-pin\b/.test(a.tag) !== pinned(r)) bad(`${a.action} is drawn ${pinned(r) ? 'without' : 'with'} the PIN; the document's security is ${JSON.stringify(r.security)}`);
+  const drawn = set((attr(a.tag, 'data-refusals') ?? '').split('|').filter(Boolean));
+  if (!same(drawn, refusalsOf(r))) bad(`${a.action} is drawn refusing ${drawn.join(', ') || 'nothing'}; the document refuses ${refusalsOf(r).join(', ') || 'nothing'}`);
+  for (const x of drawn) if (!a.text.includes(x)) bad(`${a.action}'s card does not say ${x}`);
+  // an empty attribute is built bare (data-outcome), so present and valueless reads as ''
+  const out = /\bdata-outcome\b/.test(a.tag) ? (attr(a.tag, 'data-outcome') ?? '') : null;
+  if (a.action === 'withdraw') {
+    if (out !== '' || !/\bdata-gone\b/.test(a.html) || !a.text.includes('the row goes')) bad('withdraw is drawn leaving a state, not the row gone');
+    if (!/\bwhile it is undecided: the row goes\b/.test(r.description ?? '') || oks(r)[0] !== '204') bad('the withdraw no longer says the undecided row goes with a 204');
+    if (!a.text.includes('the proposer') || !/^The member who made it\b/.test(r.description ?? '')) bad('withdraw is not the proposer\'s, in the figure or the document');
+  } else {
+    if (out !== past(a.action) || !decided.includes(out) || !a.spaced.includes(` ${out} `)) bad(`${a.action} is drawn leaving the row ${out}; it leaves ${past(a.action)}`);
+    if (!new RegExp(`\\b[Tt]he row turns ${past(a.action)}\\b`).test(r.description ?? '')) bad(`the document's ${a.action} no longer says the row turns ${past(a.action)}`);
+    if (!a.text.includes(`the owner or a co-builder${pinned(r) ? ' with the pin' : ''}`) || !/\bThe world's owner key, or a co-builder's, with its PIN\b/.test(r.description ?? '')) bad(`${a.action} is not drawn as the owner's or a co-builder's${pinned(r) ? ' with the PIN' : ''}, as the document says`);
+  }
+}
+const acc = acts.find((a) => a.action === 'accept');
+if (acc && (!acc.text.includes('writes the element as their own write') || !acc.text.includes('the feed gets one row') || !/\ba \/changes row\b/.test(R.accept.description ?? ''))) bad('accepted does not say the keeper\'s own write and one feed row, as the document\'s accept does');
+
+// The propose and its expiry.
+const prop = pf[1].match(/<div\b([^>]*\bdata-action="propose"[^>]*)>([\s\S]*?)<\/div>/);
+const ex = (pSnap.expires?.description ?? '').match(/\b(\d+) to (\d+) days out; default (\d+) days\b/);
+if (!prop || !ex) bad(`the propose card or the document's expiry ("${pSnap.expires?.description}") is not there`);
+else {
+  const t = low(strip(prop[2]));
+  if (attr(prop[1], 'data-route') !== routeOf(R.propose) || !t.includes(low(routeOf(R.propose)))) bad(`the propose is drawn as ${attr(prop[1], 'data-route')}; the document's route is ${routeOf(R.propose)}`);
+  if (!same([attr(prop[1], 'data-status')], oks(R.propose))) bad(`the propose is drawn answering ${attr(prop[1], 'data-status')}; the document answers ${oks(R.propose).join(', ')}`);
+  const says = `${ex[1]} to ${ex[2]} days from now, default ${ex[3]} days`;
+  if (attr(prop[1], 'data-expires') !== `${ex[1]} ${ex[2]} ${ex[3]}` || !t.includes(`expires: ${says}`)) bad(`the propose's expiry is drawn "${attr(prop[1], 'data-expires')}"; the document says ${ex[1]} to ${ex[2]} days, default ${ex[3]}`);
+  if (!src.includes(says)) bad(`the page does not say "${says}"`);
+  if (!/\bexpires` defaults to (\d+) days, and may be (\d+) to (\d+) days out\b/.test(R.propose.description ?? '') || R.propose.description.match(/defaults to (\d+) days, and may be (\d+) to (\d+)/).slice(1).join(' ') !== `${ex[3]} ${ex[1]} ${ex[2]}`) bad('the propose\'s own description gives another expiry than its body');
+}
+
+// The switch: the writes on an existing element that answer 202, and the review of a new one.
+const methodsWant = set(pSnap.switch.proposed.map((k) => { const [m, p] = k.split(' '); return p === '/api/v2/{type}/{id}' ? m.toUpperCase() : /\/links\/\{field\}$/.test(p) && m === 'post' ? 'link' : `${m} ${p}`; }));
+const methodsDrawn = set((pf[1].match(/\bdata-row="existing"[^>]*\bdata-methods="([^"]*)"/)?.[1] ?? '').split(' ').filter(Boolean));
+if (!same(methodsDrawn, methodsWant)) bad(`the switch is drawn turning ${methodsDrawn.join(', ')} into proposals; the document answers 202 on ${methodsWant.join(', ')}`);
+if (!/\bPATCH, PUT, link edit\b/.test(pSnap.switch.description) || !text.includes('a link edit')) bad('the World\'s agent_writes_proposed no longer names a PATCH, PUT and link edit, or the figure no link edit');
+if (pSnap.switch.readOnly !== true || !text.includes(`${pSnap.switch.field}, read-only on the api`)) bad(`the figure does not draw ${pSnap.switch.field} read-only as the document marks it`);
+if (!/\bA person's key, through MCP or not, is never held\b/.test(pSnap.switch.description)) bad('the document no longer says a person\'s key is never held');
+if (attr(pf[1].match(/<[a-z]+\b[^>]*\bdata-row-state="[^"]*"[^>]*>/)?.[0] ?? '', 'data-row-state') !== open) bad(`a write under the switch is not drawn landing ${open}`);
+const ne = pf[1].match(/<[a-z]+\b[^>]*\bdata-kind="([a-z_]+)"[^>]*\bdata-states="([^"]*)"/);
+if (!ne || ne[1] !== pSnap.new_element.kind[0] || ne[2] !== pSnap.new_element.state.enum.join(' ')) bad(`a marked new element is drawn as ${ne?.[1]} (${ne?.[2]}); the queue's row is ${pSnap.new_element.kind[0]} (${pSnap.new_element.state.enum.join(' ')})`);
+if (!/x_review_proposed/.test(pSnap.new_element.description ?? '') || !text.includes('created and carries x_review_proposed')) bad('the new element is not drawn carrying x_review_proposed, as the queue\'s row says');
+const rv = pf[1].match(/<li\b([^>]*class="[^"]*ow-pr-review[^>]*)>([\s\S]*?)<\/li>\s*<\/ol>/);
+const rvDec = [...(rv?.[2] ?? '').matchAll(/\bdata-decision="([a-z]+)"/g)].map((m) => m[1]);
+if (!rv || attr(rv[1], 'data-route') !== routeOf(R.review) || !low(strip(rv[2])).includes(low(routeOf(R.review)))) bad(`the review is drawn as ${rv ? attr(rv[1], 'data-route') : 'nothing'}; the document's route is ${routeOf(R.review)}`);
+else {
+  if (/\bdata-pin\b/.test(rv[1]) !== pinned(R.review) || attr(rv[1], 'data-status') !== oks(R.review)[0]) bad('the review\'s PIN or answer is not the document\'s');
+  if (!same(rvDec, R.review.decisions)) bad(`the review is drawn deciding ${rvDec.join(', ')}; the document takes ${R.review.decisions.join(', ')}`);
+  if (!text.includes('accept clears the mark') || !/\{"decision": "accept"\}` writes the mark null\b/.test(R.review.description ?? '')) bad('accept is not drawn clearing the mark, or the document\'s review no longer writes it null');
+  if (!text.includes('decline deletes the element') || !/\bdeletes the element\b/.test(R.review.description ?? '')) bad('decline is not drawn deleting the element, or the document\'s review no longer does');
+}
+
+// The queue.
+const qPart = pf[1].match(/<div\b[^>]*\bdata-part="queue"[^>]*>([\s\S]*?)<\/div>/);
+const qTag = qPart?.[0].match(/^<div\b[^>]*>/)[0] ?? '';
+const q = R.queue.state.schema;
+const qDrawn = [...(qPart?.[1] ?? '').matchAll(/\bdata-queue-state="([a-z]+)"/g)].map((m) => m[1]);
+const qDef = [...(qPart?.[1] ?? '').matchAll(/\bdata-queue-state="([a-z]+)"[^>]*\bdata-default\b/g)].map((m) => m[1]);
+if (attr(qTag, 'data-route') !== routeOf(R.queue)) bad(`the queue is drawn as ${attr(qTag, 'data-route')}; the document's is ${routeOf(R.queue)}`);
+if (!same(qDrawn, q.enum)) bad(`the queue is drawn filtering ${qDrawn.join(', ')}; the document's state is ${q.enum.join(', ')}`);
+if (!same(qDef, [q.default])) bad(`the queue's default is drawn ${qDef.join(', ')}; the document's is ${q.default}`);
+const kinds = [pSnap.proposal.kind[0], pSnap.new_element.kind[0]];
+if (attr(qPart?.[1].match(/<p\b[^>]*\bdata-kinds="[^"]*"/)?.[0] ?? '', 'data-kinds') !== kinds.join(' ') || !text.includes(`two kinds of row, told apart by kind: ${kinds.join(' and ')}`)) bad(`the queue's kinds are not drawn as ${kinds.join(' and ')}`);
+const and = (xs, w = 'and') => (xs.length < 2 ? xs.join('') : `${xs.slice(0, -1).join(', ')} ${w} ${xs[xs.length - 1]}`);
+const listed = q.enum.filter((s) => pSnap.new_element.state.enum.includes(s) || !states.includes(s));
+const marked = `a marked element is listed under ${and(listed)}, never ${and(q.enum.filter((s) => !listed.includes(s)), 'or')}`;
+if (!text.includes(marked)) bad(`the figure does not say "${marked}"`);
+if (!src.includes(marked)) bad(`the page does not say "${marked}"`);
+
+// The page's own sentences against the snapshot.
+if (!same(ticks(pSrc.match(/`state` \(((?:`[a-z]+`, )*`[a-z]+`)\)/)?.[1]), states)) bad(`the page's proposal state list is not ${states.join(', ')}`);
+const qLine = pSrc.match(/`state` is (`[a-z]+` \(the default\)(?:, `[a-z]+`)* or `[a-z]+`);/)?.[1];
+if (!same(ticks(qLine), q.enum) || !qLine.startsWith(`\`${q.default}\` (the default)`)) bad(`the page's queue states read "${qLine}"; the document's are ${q.enum.join(', ')}, default ${q.default}`);
+for (const r of Object.values(R)) if (!pSrc.includes(`\`${routeOf(r)}`)) bad(`the page does not name ${routeOf(r)}`);
+for (const x of refusalsOf(R.accept).filter((s) => s.includes(' '))) if (!pSrc.includes(`\`${x}\``)) bad(`the page does not name the accept's ${x}`);
+if (!/\*\*Withdraw\*\*: `DELETE [^`]+` by the proposer: `204`/.test(pSrc)) bad('the page does not say withdraw by the proposer answers 204');
+for (const d of R.review.decisions) if (!pSrc.includes(`"${d}"`)) bad(`the page's review body does not name ${d}`);
+
+// The figure's other words: each a phrase of the page's source, and in the built figure; the two
+// in DOC are the document's, held to it above.
+const PHRASES = [
+  "a change to an element that waits for a keeper's word", 'any member whose key reads the element', 'the element does not change', 'undecided',
+  'their own proposal', 'a proposed field moved since', 'nothing is written', 'already decided', 'ai seats propose, a person accepts',
+  "a person's key is never held by the switch", 'an existing element', 'becomes a proposal instead of a write', 'a new element',
+  'waits in the queue as a new_element row', 'the queue', 'the default', 'no proposal act writes a feed row',
+  "waits for a keeper's word", 'can still be accepted or declined', 'the owner or a co-builder with the pin', 'the proposer',
+  'writes the element as their own write', 'the feed gets one row', 'read-only on the api', 'a link edit',
+  'created and carries x_review_proposed', 'accept clears the mark', 'decline deletes the element', 'kinds of row, told apart by kind',
+];
+for (const ph of PHRASES) {
+  if (!src.includes(ph)) bad(`"${ph}" is not on the page's source`);
+  if (!text.includes(ph)) bad(`the figure does not say "${ph}"`);
+}
+const pCap = strip(pf[1].match(/<figcaption\b[^>]*>([\s\S]*?)<\/figcaption>/)?.[1] ?? '');
+const WORDS = ['none', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
+if (WORDS.indexOf(low(pCap).match(/^(\w+) states, the proposal's state;/)?.[1]) !== states.length) bad(`the caption does not count ${states.length} states: "${pCap}"`);
+if (!pCap.includes(`every route is the same on all ${pSnap.types} categories`) || attr(pf[0].match(/^<figure\b[^>]*>/)[0], 'data-types') !== String(pSnap.types)) bad(`the caption or the figure's mark does not say all ${pSnap.types} categories`);
+if (!pCap.includes(`as read on ${pSnap.read_at}.`) || head !== pSnap.read_at) bad(`the caption or the figure's mark is not the snapshot's (${pSnap.read_at}): "${pCap}"`);
+
+// The twin carries the figure as text: every state, act and route.
+if (/^<ProposalLife \/>$/m.test(pTwin)) bad('the Markdown twin carries the bare tag, not the text');
+else {
+  const tw = pTwin.slice(pTwin.indexOf("**A proposal's life:**"));
+  if (tw.length < 2) bad('the twin has no text of the figure');
+  for (const s of states) if (!tw.includes(`\`${s}\``)) bad(`the twin does not carry ${s}`);
+  for (const a of ['propose', 'accept', 'decline', 'withdraw']) if (!tw.includes(`- \`${a}\``)) bad(`the twin does not carry ${a}`);
+  for (const r of Object.values(R)) if (!tw.includes(`\`${routeOf(r)}\``)) bad(`the twin does not carry ${routeOf(r)}`);
+  if (!tw.replace(/`/g, '').includes(marked)) bad('the twin does not say where a marked element is listed');
+}
+console.log(`proposals: ${states.length} states (${undecided.join(', ')} undecided), propose, accept, decline and withdraw with their routes, answers, PIN and refusals, the review's ${R.review.decisions.length} decisions, the switch's ${methodsWant.length} writes and the queue's ${q.enum.length} states and ${kinds.length} kinds, from contract/proposals.json (read ${pSnap.read_at}); held to the page's sentences, every word to the page's source or the document, the twin the same`);
+
+// The snapshot against the live document (fetched above for the Retry-After check), with code of
+// its own. Printed, never failed, as the credentials snapshot is; the sweep's check 2i fails on it.
+if (doc) {
+  const drift = [];
+  const deref = (o) => { for (let i = 0; o?.$ref && i < 10; i++) o = o.$ref.replace(/^#\//, '').split('/').reduce((a, k) => a?.[k], doc); return o; };
+  for (const [name, r] of Object.entries(R)) {
+    const op = doc.paths?.[r.path.replace('{type}', 'character')]?.[r.method];
+    if (!op) { drift.push(`${routeOf(r)} is not in the live document`); continue; }
+    if ((op.description ?? null) !== r.description) drift.push(`${name}'s description reads otherwise live`);
+    if (!same(set((op.security ?? []).map((alt) => Object.keys(alt).sort().join('+'))), set(r.security.map((alt) => alt.join('+'))))) drift.push(`${name}'s security differs live`);
+    const live = Object.fromEntries(Object.entries(op.responses ?? {}).map(([s, x]) => [s, deref(x)?.description ?? null]));
+    if (!same(Object.keys(live).sort(), Object.keys(r.responses).sort())) drift.push(`${name} answers ${Object.keys(live).join(', ')} live`);
+    else for (const s of Object.keys(live)) if (live[s] !== r.responses[s]) drift.push(`${name}'s ${s} reads otherwise live`);
+  }
+  const P = doc.components?.schemas?.Proposal?.properties;
+  if (!same(P?.state?.enum, states) || (P?.state?.description ?? null) !== pSnap.proposal.state.description) drift.push('the Proposal\'s state differs live');
+  const e = deref(doc.paths?.['/api/v2/character/{id}/proposals']?.post?.requestBody?.content?.['application/json']?.schema)?.properties?.expires;
+  if ((e?.description ?? null) !== pSnap.expires.description) drift.push('the propose body\'s expires reads otherwise live');
+  const row = (doc.components?.schemas?.ProposalList?.properties?.data?.items?.oneOf ?? []).map(deref).find((x) => x?.properties?.kind?.enum?.includes('new_element'));
+  if (!same(row?.properties?.state?.enum, pSnap.new_element.state.enum)) drift.push('the queue\'s new_element row has other states live');
+  if ((doc.components?.schemas?.World?.properties?.agent_writes_proposed?.description ?? null) !== pSnap.switch.description) drift.push('the World\'s agent_writes_proposed reads otherwise live');
+  const typed = new Set(Object.keys(doc.paths ?? {}).map((p) => p.match(/^\/api\/v2\/([a-z]+)\/\{id\}\/proposals$/)?.[1]).filter(Boolean));
+  const p202 = set(Object.entries(doc.paths ?? {}).flatMap(([p, ops]) => Object.entries(ops).filter(([, op]) => op?.responses?.['202']).map(([m]) => { const t = p.split('/')[3]; return `${m} ${typed.has(t) ? p.replace(`/api/v2/${t}/`, '/api/v2/{type}/') : p}`; })));
+  if (!same(p202, set(pSnap.switch.proposed))) drift.push(`the operations answering 202 are ${p202.join(', ')} live`);
+  if (typed.size !== pSnap.types) drift.push(`${typed.size} categories take proposals live`);
+  for (const d of drift.slice(0, 5)) console.log(`  STALE  proposals snapshot (node scripts/gen_proposals.mjs --refresh): ${d}`);
+  if (drift.length > 5) console.log(`  STALE  proposals: … and ${drift.length - 5} more differences from the live document`);
+  console.log(`proposals: the snapshot held to the live API document, ${Object.keys(R).length} routes, the states, the expiry, the switch and ${pSnap.switch.proposed.length} operations answering 202`);
+} else {
+  console.log('CANNOT SEE: the live API document (see above); the proposals snapshot was not compared with it');
+}
+}
+
 if (fails.length) {
   for (const f of fails) console.log(`  FAIL  ${f}`);
   console.log(`\nFAIL — ${fails.length} figure claim(s) differ from their source.`);
   process.exit(1);
 }
-console.log('\nPASS — the link map draws exactly the element pages\' link rows, the four nouns\' address parses as it reads, the error families draw exactly the errors table\'s codes and marks, the category fields draw each element page\'s field and link counts under the SDK\'s families, the page palettes paint keel\'s colours with the ratios they print, the world folder draws the example\'s folders and files, each named by the page\'s rule, the credentials figure draws every operation under the credentials the API document lists for it, the sign-in steps draw the API document\'s route, parameters and fields as the page\'s own tables give them, the time ladder draws the demo world\'s line and the standard\'s steps under the names each source gives them, the public view draws what the public reader removes, the keyless reads and the /w/ routes as the page\'s own words give them, the write body draws what the API\'s write schemas store, ignore and refuse, as the page\'s own sentences say, and the draught draws the sections the API serves by default and only when named, what the budget never cuts and the policy\'s parameters, as the page\'s own tables give them.');
+console.log('\nPASS — the link map draws exactly the element pages\' link rows, the four nouns\' address parses as it reads, the error families draw exactly the errors table\'s codes and marks, the category fields draw each element page\'s field and link counts under the SDK\'s families, the page palettes paint keel\'s colours with the ratios they print, the world folder draws the example\'s folders and files, each named by the page\'s rule, the credentials figure draws every operation under the credentials the API document lists for it, the sign-in steps draw the API document\'s route, parameters and fields as the page\'s own tables give them, the time ladder draws the demo world\'s line and the standard\'s steps under the names each source gives them, the public view draws what the public reader removes, the keyless reads and the /w/ routes as the page\'s own words give them, the write body draws what the API\'s write schemas store, ignore and refuse, as the page\'s own sentences say, the draught draws the sections the API serves by default and only when named, what the budget never cuts and the policy\'s parameters, as the page\'s own tables give them, and the proposals figure draws the states, the acts with their routes, answers and refusals, the switch and the queue as the API\'s document gives them, in the page\'s own words.');
