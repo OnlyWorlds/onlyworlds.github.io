@@ -367,7 +367,7 @@ g.nodes; g.edges; g.edgesCut; // e.g. { map_space: 2, hidden: 1 }
 degreeOf(g); // since 4.95.0: each node's edges, in or out, { [id]: count }
 ```
 
-Since 4.100.0 a lens's rows for a reader below the owner are the bodies the API serves that reader: a link to an element the reader cannot see is left out, a lens kept as an element keeps only the notes on elements the reader sees, and `x_served_trimmed` names a message's `characters` and `narrator`, or a lens's anchor fields, for a contributor or a guest, never for the public. The owner's rows are the bodies as stored.
+Since 4.100.0 a lens's rows for a reader below the owner are the bodies the API serves that reader: a link to an element the reader cannot see is left out, a lens kept as an element keeps only the notes on elements the reader sees, and `x_served_trimmed` names a message's `characters` and `narrator`, or a lens's anchor fields, for a contributor or a guest, never for the public. The owner's rows are the bodies as stored. Since 4.100.1 a contributor's or a guest's row keeps a link to a proposed element it sees, and a lens's note keyed to one, as the API serves them; the public rung loses both. No row carries a stored `x_served_trimmed`: the mark names only what this reading trimmed.
 
 ## Reading aids
 
@@ -443,7 +443,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.100.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.100.1, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
