@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-28
 
+- **Easy Mobile leaves the Tools menu.** It is no longer developed; its page still answers at its address and is listed with the [legacy tools](/docs/tools/legacy#easy-mobile).
 - **[TypeScript](/docs/development/typescript) 4.101.0 and [Python](/docs/development/python#what-it-covers) 0.83.0: schema-dist serial 84**, whose new lens and charter cases both readers pass as they were; `readingAidOf` / `reading_aid_of` answers which reading aid an element's type and supertype make it (`charter`, `guide`, `domain`), with the mark ignored. TypeScript 4.100.2 types `x_served_trimmed` on `me()` and `members()`, as the API serves it when a lens was left out of `lenses`.
 - **[Toolkit](/docs/development/toolkit) 5.5.0: a world set up from a pack marks its Charter and Guide as reading aids** (`x_charter_of`) and is stamped folder format 0.3.20; a plan with a second Charter is refused, and a world set up earlier gets the mark from its pack's re-stamp note. The skills say what a lens is and where its readers are.
 - **[The draught](/docs/development/api/draught)'s figure**: `messages` holds the Messages she sent as well as those that name her, and the lens frames sit beside the parameters, read with no `lens` only when no parameter but `compact` is set.

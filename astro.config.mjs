@@ -150,7 +150,6 @@ export default defineConfig({
             { slug: 'docs/tools/lantern' },
             { slug: 'docs/tools/obsidian-plugin' },
             { slug: 'docs/tools/onlyworlds-com' },
-            { slug: 'docs/tools/easy-mobile' },
             { slug: 'docs/tools/explorer' },
             { slug: 'docs/tools/council' },
             { slug: 'docs/tools/legacy' },
