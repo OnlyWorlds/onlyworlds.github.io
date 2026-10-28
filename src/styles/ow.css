@@ -183,3 +183,9 @@ header.header {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--ow-scroll-thumb); border-radius: 8px; border: 2px solid transparent; background-clip: padding-box; }
 ::-webkit-scrollbar-thumb:hover { background-color: var(--ow-scroll-thumb-hover); }
+
+/* The hidden newline postbuild puts between a code block's lines (for text readers). Expressive
+   Code resets every element inside a block to display: revert, which un-hides a [hidden] span in
+   every browser and draws a blank line under each code line; this selector outranks that reset.
+   postbuild fails the build when the spans ship without this rule. */
+.expressive-code span[hidden] { display: none; }

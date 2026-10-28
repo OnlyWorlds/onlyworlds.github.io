@@ -124,7 +124,9 @@ for (const file of walk(DIST)) {
 }
 // A code block's lines are block <div class="ec-line"> with no newline between them, so a reader
 // that takes the page's text (an agent's fetch, a tag-stripper) gets each block as one line.
-// A hidden newline between lines costs the browser nothing and keeps the breaks in the text.
+// A hidden newline between lines keeps the breaks in the text. It stays hidden only through
+// ow.css's `.expressive-code span[hidden]` rule: Expressive Code's display: revert reset shows a
+// bare [hidden] span, and every code line got a blank line under it (2026-10-09 to 10-28).
 let codeBreaks = 0;
 const lineGap = '</div></div><div class="ec-line">';
 for (const file of walk(DIST)) {
@@ -134,6 +136,11 @@ for (const file of walk(DIST)) {
   const next = html.split(lineGap).join(`</div></div><span hidden>\n</span><div class="ec-line">`);
   codeBreaks += html.split(lineGap).length - 1;
   writeFileSync(file, next);
+}
+const hidesBreaks = /\.expressive-code span\[hidden\]\{display:none\}/;
+if (codeBreaks && !walk(DIST).some((f) => f.endsWith('.css') && hidesBreaks.test(readFileSync(f, 'utf8')))) {
+  console.error(`postbuild: ${codeBreaks} hidden code line break(s) written, and no built stylesheet hides them (${hidesBreaks}): every code line would show a blank line under it`);
+  process.exit(1);
 }
 // GitHub Pages answers /x for a directory x with a 301 to /x/, and /x/ needs x/index.html. A
 // directory that holds pages but no index of its own (a namespace, such as /docs) would 301 to a
