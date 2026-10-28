@@ -7,7 +7,8 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-28
 
-- **[TypeScript](/docs/development/typescript#reading-aids) 4.100.0 and [Python](/docs/development/python#what-it-covers) 0.82.0: schema-dist serial 83.**
+- **[Idempotency](/docs/development/api/writes#idempotency)**: a retry of `POST /api/v2/{type}` after a lost or failed answer never writes a second element once the first is written; it returns that element with the first status and `Idempotent-Replay: true`. <!-- keel PR 317 -->
+- **[TypeScript](/docs/development/typescript#reading-aids) 4.100.0 and [Python](/docs/development/python#what-it-covers) 0.82.0: schema-dist serial 83.** <!-- keel PR 318 -->
   - `charterOf` / `charter_of` and `domainsOf` / `domains_of` read what a world's front door shows first: the Charter, the Guide and the Domains.
   - The [room and charter marks](/docs/schema/conventions#data-the-schema-does-not-model) are read by their presence.
   - A lens's rows for a reader below the owner are the bodies the API serves that reader. The previous releases handed hidden elements' ids, with their sentences, to such a reader in the notes of a lens kept as an element.

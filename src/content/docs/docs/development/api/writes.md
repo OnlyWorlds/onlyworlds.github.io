@@ -108,7 +108,7 @@ The world page on onlyworlds.com shows both in Recent changes: who made each cha
 
 The rule for retries:
 
-- **The answer was lost** (a timeout, a dropped connection): retry with the **same** `Idempotency-Key`. A stored `2xx` replays; after an error, the request runs again.
+- **The answer was lost** (a timeout, a dropped connection): retry with the **same** `Idempotency-Key`. A stored `2xx` replays. On `POST /api/v2/{type}` the key also holds once the element is written, even when the first answer then failed: the retry returns that element as it is now, with the first status and `Idempotent-Replay: true`, and never writes a second one (a `409` [`idempotency_error`](/api/errors/#idempotency_error) if it has been deleted since). An error before anything was written frees the key, so the request runs again.
 - **A `/bulk` answer had `errors: true`**: fix the failed items and send them with a **new** key. Under the same key, an identical body replays the same errors, and a changed body is a `409` [`idempotency_error`](/api/errors/#idempotency_error).
 
 ```bash
