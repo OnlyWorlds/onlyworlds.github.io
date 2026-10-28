@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-28
 
+- **[Public worlds](/docs/development/api/public#the-look) draws the five page palettes** under the Palette setting, each in its own colours with its contrast numbers, from the platform's palette table; every ratio, and the claim that each text colour clears 4.5 to 1 on every surface, is computed when the docs are built.
 - **[A new key](/docs/getting-started/keys) and [a seat for your AI](/docs/development/agents#giving-your-ai-access)**: the key's box on onlyworlds.com has **Copy instructions for your AI**, a message that has your AI write its own `.env` file, say where it put it and check the key with `GET /api/v2/me`; the raw lines are under **Show the lines**. <!-- keel PR 305 -->
 - **[Errors](/api/errors/#error-codes) draws every code by family and status** above the summary table, from the same list: the codes that answer with `Retry-After` are marked, and the upload host's own codes are counted on one line.
 - **[Reading a lens as a seat](/docs/schema/conventions#lenses)**: a co-builder, or the account that sponsors an agent's or a player's seat, may read a lens as that seat with `read_as`, within its own view; [`read_as_owner_only`](/api/errors/#read_as_owner_only) now answers only a reader whose lenses the caller may not set. <!-- keel PR 301 -->
