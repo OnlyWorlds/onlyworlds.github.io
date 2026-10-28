@@ -9,7 +9,8 @@
  * This reads the rest. It prints two lists:
  *
  *   CHECKS   things that can be measured, each PASS or STALE: the SDK pin the reference is generated
- *            from against npm; the error-code snapshot against keel's live list; the routes in the
+ *            from against npm; the error-code snapshot against keel's live list; the palettes
+ *            snapshot against keel's palette table (on a machine with keel); the routes in the
  *            API reference against keel's OpenAPI; every external link; words the docs must not use;
  *            every release since the last sweep (the packages, the Unity SDK, the plugin, the toolkit,
  *            schema-dist's serials) against the changelog.
@@ -83,6 +84,17 @@ console.log('CHECKS');
   const out = sh('node', ['scripts/gen_errors.mjs', '--live'], ROOT);
   if (out === null) bad('the error-code snapshot differs from keel\'s live list (node scripts/gen_errors.mjs --refresh)');
   else pass('the error-code snapshot matches keel\'s live list');
+}
+
+// ---- 2b: keel's palette table against the vendored snapshot (keel is private: read from its local
+// checkout's origin/main, so only a machine with keel can run this; exit 2 from the reader is BLIND) -------
+{
+  let code = 0;
+  try { execFileSync('node', ['scripts/gen_palettes.mjs'], { cwd: ROOT, timeout: 60000, stdio: 'ignore' }); }
+  catch (e) { code = e.status ?? 2; }
+  if (code === 0) pass('the palettes snapshot matches keel\'s palette table on origin/main');
+  else if (code === 1) bad('the palettes snapshot differs from keel\'s palette table (node scripts/gen_palettes.mjs --refresh)');
+  else note('could not read keel\'s palette table (node scripts/gen_palettes.mjs says why): the palettes were not checked');
 }
 
 // ---- 3: the API reference against keel's OpenAPI ---------------------------------------------------------
