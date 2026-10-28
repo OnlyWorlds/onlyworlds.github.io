@@ -53,8 +53,8 @@
 // once), the All row, the lead's and the key's counts, the caption's day; the operations that list
 // no key beside a key are exactly the public worlds page's keyless reads table; the lens routes
 // take an account token and are never keyless; the twin's table and routes the same. Then the
-// snapshot against the live document, operation by operation: a difference fails (refresh the same
-// hour), an unreachable document is CANNOT SEE for that half only. It takes the document's word: it
+// snapshot against the live document, operation by operation: a difference is printed STALE, never
+// failed (the sweep fails on it; refresh the same hour), an unreachable document is CANNOT SEE for that half only. It takes the document's word: it
 // does not judge whether keel's code accepts what the document lists (a legacy key's reads need
 // its PIN, as the key line says).
 import { readFileSync, existsSync } from 'node:fs';
@@ -804,8 +804,11 @@ if (doc) {
   ];
   const liveSchemes = Object.keys(doc.components?.securitySchemes ?? {}).sort(cpo).join();
   if (liveSchemes !== Object.keys(callSnap.schemes).join()) drift.push(`the live document's schemes are ${liveSchemes}; the snapshot's ${Object.keys(callSnap.schemes).join()}`);
-  for (const d of drift.slice(0, 5)) fails.push(`credentials: STALE snapshot (node scripts/gen_callers.mjs --refresh): ${d}`);
-  if (drift.length > 5) fails.push(`credentials: … and ${drift.length - 5} more differences from the live document`);
+  // Printed, never failed: a keel route change must not block an unrelated docs deploy (the errors
+  // snapshot is the same: CI warns). The weekly sweep's check 2c fails on it, and SWEEP.md rule 1
+  // says to refresh the same hour.
+  for (const d of drift.slice(0, 5)) console.log(`  STALE  credentials snapshot (node scripts/gen_callers.mjs --refresh): ${d}`);
+  if (drift.length > 5) console.log(`  STALE  credentials: … and ${drift.length - 5} more differences from the live document`);
   console.log(`credentials: the snapshot held to the live API document, ${live.length} operations`);
 } else {
   console.log('CANNOT SEE: the live API document (see above); the credentials snapshot was not compared with it');
