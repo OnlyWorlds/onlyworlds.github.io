@@ -49,7 +49,7 @@ curl -s "https://www.onlyworlds.com/api/v2/members" -H "API-Key: {key}"
 | `character` | The Character that is this member, or `null`. The owner's is the world's `owner_character`. `null` too when that Character is [hidden](/docs/development/api/hidden) from the calling key |
 | `status` | `active` or `removed` |
 | `name` | Agent and player rows only: their name |
-| `lenses` | The [lenses](/docs/lenses/api) the row starts with, lens ids in order: the ones it chose, or, when it chose none, the lenses whose `titles` name a Title its Character holds (the owner row: always the owner's own choice); `[]` for none. A lens the calling key cannot see is left out |
+| `lenses` | The [lenses](/docs/development/api/lenses) the row starts with, lens ids in order: the ones it chose, or, when it chose none, the lenses whose `titles` name a Title its Character holds (the owner row: always the owner's own choice); `[]` for none. A lens the calling key cannot see is left out |
 | `lenses_from` | Where `lenses` comes from: `chosen` (the row's own list, an empty one included) or `titles` (it never chose, and its Character's Titles bring these) |
 | `x_served_trimmed` | Present only when `lenses` was served with a lens left out: then it names `lenses` ([A list trimmed for its reader](/docs/schema/folders#a-list-trimmed-for-its-reader)) |
 

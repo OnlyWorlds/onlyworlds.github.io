@@ -137,7 +137,7 @@ A single write that fails with `invalid_link` writes nothing, so after fixing th
 
 **Type** `invalid_request` · **Status** `422`
 
-A seat chose a hidden lens (`param` `lenses`) in `PUT /api/v2/me/lenses` or the account member route. A seat's [lenses](/docs/lenses/api) are on the members list every reader of the world reads, so a hidden lens can never be chosen. Nothing was written.
+A seat chose a hidden lens (`param` `lenses`) in `PUT /api/v2/me/lenses` or the account member route. A seat's [lenses](/docs/development/api/lenses) are on the members list every reader of the world reads, so a hidden lens can never be chosen. Nothing was written.
 
 - **How to fix:** unhide the lens first, or choose another.
 
