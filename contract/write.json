@@ -1,0 +1,191 @@
+{
+  "source": "https://www.onlyworlds.com/api/v2/openapi.json: the 22 categories' write schemas, <Category>Write (POST, PUT) and <Category>Patch (PATCH)",
+  "read_at": "2026-10-28",
+  "write": {
+    "says": "A full {type} write (POST creates; PUT creates or fully replaces, resetting omitted fields to empty). Any key that is neither a field below nor an extension field (atlas_*, shadow_*, x_*) is a 422, including the server-managed type, created_at, updated_at and change_seq.",
+    "required": [
+      "name"
+    ],
+    "additional": false,
+    "extensions": {
+      "^(atlas_|shadow_|x_)": {
+        "description": "Extension field, stored opaquely and returned verbatim (any JSON value; at most 65536 bytes of extensions per element, counted as compact UTF-8 JSON)."
+      }
+    },
+    "fields": {
+      "id": {
+        "description": "POST: optional client-minted id (any RFC 4122 UUID; the server mints a UUIDv7 otherwise). PUT/PATCH: ignored, the path id wins.",
+        "format": "uuid",
+        "type": "string"
+      },
+      "name": {
+        "description": "Name of the element. null stores ''.",
+        "maxLength": 255,
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "description": {
+        "description": "Any kind of details about the element. null stores ''.",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "supertype": {
+        "description": "The top level category to which the element belongs. null stores ''.",
+        "maxLength": 128,
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "subtype": {
+        "description": "The sub level category through which the element is further classified. null stores ''.",
+        "maxLength": 128,
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "image_url": {
+        "description": "URL to an image representing the element. null stores ''.",
+        "maxLength": 1024,
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "world": {
+        "description": "Tolerated and ignored: the API-Key decides the world."
+      },
+      "created_by": {
+        "description": "Tolerated and ignored: the server records who created an element."
+      },
+      "changed_by": {
+        "description": "Tolerated and ignored: the server records who last changed an element, and through which door."
+      },
+      "changed_via": {
+        "description": "Tolerated and ignored: the server records who last changed an element, and through which door."
+      },
+      "changed_client": {
+        "description": "Tolerated and ignored: a client names itself in the X-OW-Client header, never in the body."
+      },
+      "hidden": {
+        "default": false,
+        "description": "On a create (POST, a PUT whose id is new, or a /bulk item that creates): true creates the element hidden from its first moment. Only the world's owner key or a co-builder's (a person's or a seat's) may send it; any other key is refused (403 hidden_not_allowed) and nothing is created. The element is never served to a reader who cannot see hidden elements, and /changes never carries its body to them: a contributor gets one delete row with reason `hidden` at the element's change_seq, a guest nothing; the owner and co-builders get it with `hidden: true`. false, null or absent: a visible element, as ever. Any other value is a 422 on a create. Where the server has the hidden mark switched off, true is a 422 (param hidden) and nothing is created. On a PUT that replaces an existing element it is ignored: hide and unhide through PUT and DELETE /{type}/{id}/hidden.",
+        "type": [
+          "boolean",
+          "null"
+        ]
+      },
+      "x_served_trimmed": {
+        "description": "Refused (422 served_trimmed_not_writable): served only, see the Narrative read schema (a message) and the Construct read schema (a lens).",
+        "not": {}
+      }
+    }
+  },
+  "patch": {
+    "says": "A partial {type} write (PATCH): omitted fields are untouched; arrays replace; extension fields merge by key. Any key that is neither a field below nor an extension field (atlas_*, shadow_*, x_*) is a 422, including the server-managed type, created_at, updated_at and change_seq.",
+    "required": [],
+    "additional": false,
+    "extensions": {
+      "^(atlas_|shadow_|x_)": {
+        "description": "Extension field, stored opaquely and returned verbatim (any JSON value; at most 65536 bytes of extensions per element, counted as compact UTF-8 JSON)."
+      }
+    },
+    "fields": {
+      "id": {
+        "description": "POST: optional client-minted id (any RFC 4122 UUID; the server mints a UUIDv7 otherwise). PUT/PATCH: ignored, the path id wins.",
+        "format": "uuid",
+        "type": "string"
+      },
+      "name": {
+        "description": "Name of the element. null stores ''.",
+        "maxLength": 255,
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "description": {
+        "description": "Any kind of details about the element. null stores ''.",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "supertype": {
+        "description": "The top level category to which the element belongs. null stores ''.",
+        "maxLength": 128,
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "subtype": {
+        "description": "The sub level category through which the element is further classified. null stores ''.",
+        "maxLength": 128,
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "image_url": {
+        "description": "URL to an image representing the element. null stores ''.",
+        "maxLength": 1024,
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "world": {
+        "description": "Tolerated and ignored: the API-Key decides the world."
+      },
+      "created_by": {
+        "description": "Tolerated and ignored: the server records who created an element."
+      },
+      "changed_by": {
+        "description": "Tolerated and ignored: the server records who last changed an element, and through which door."
+      },
+      "changed_via": {
+        "description": "Tolerated and ignored: the server records who last changed an element, and through which door."
+      },
+      "changed_client": {
+        "description": "Tolerated and ignored: a client names itself in the X-OW-Client header, never in the body."
+      },
+      "hidden": {
+        "description": "Tolerated and ignored: an existing element is hidden and unhidden through PUT and DELETE /{type}/{id}/hidden."
+      },
+      "x_served_trimmed": {
+        "description": "Refused (422 served_trimmed_not_writable): served only, see the Narrative read schema (a message) and the Construct read schema (a lens).",
+        "not": {}
+      }
+    }
+  },
+  "own": {
+    "ability": ["activation","challenges","prevalence","duration","potency","range","tradition","source","locus","effects","talents","requisites","instruments","systems"],
+    "character": ["physicality","mentality","background","motivations","reputation","height","weight","birth_date","charisma","coercion","competence","compassion","creativity","courage","level","hit_points","STR","DEX","CON","INT","WIS","CHA","birthplace","location","species","traits","abilities","languages","objects","institutions","family","friends","rivals"],
+    "collective": ["composition","activity","disposition","state","count","formation_date","operator","equipment","abilities","symbolism","species","characters","creatures","phenomena"],
+    "construct": ["rationale","history","status","reach","start_date","end_date","founder","custodian","characters","objects","locations","species","creatures","institutions","traits","collectives","zones","abilities","phenomena","languages","families","relations","titles","constructs","events","narratives"],
+    "creature": ["appearance","habits","demeanor","status","weight","height","birth_date","challenge_rating","hit_points","armor_class","speed","location","zone","species","traits","abilities","languages","actions"],
+    "event": ["history","challenges","consequences","start_date","end_date","triggers","characters","objects","locations","species","creatures","institutions","traits","collectives","zones","abilities","phenomena","languages","families","relations","titles","constructs"],
+    "family": ["spirit","history","reputation","traditions","traits","abilities","languages","ancestors","estates","governs","heirlooms","creatures"],
+    "institution": ["doctrine","status","founding_date","parent_institution","zones","objects","creatures","allies","adversaries","constructs"],
+    "language": ["phonology","grammar","lexicon","writing","status","classification","spread","dialects"],
+    "law": ["declaration","purpose","date","parent_law","author","penalties","locations","zones","prohibitions","adjudicators","enforcers"],
+    "location": ["form","function","political_climate","customs","infrastructure","architecture","defensibility","founding_date","elevation","parent_location","primary_power","governing_title","zone","rival","partner","populations","secondary_powers","founders","cults","delicacies","extraction_methods","extraction_goods","industry_methods","industry_goods","extraction_markets","industry_markets","currencies","buildings","building_methods","fighters","defensive_objects"],
+    "map": ["background_color","hierarchy","width","height","depth","parent_map","location"],
+    "marker": ["x","y","z","order","map","zone"],
+    "narrative": ["story","consequences","start_date","end_date","order","parent_narrative","protagonist","antagonist","narrator","conservator","events","characters","objects","locations","species","creatures","institutions","traits","collectives","zones","abilities","phenomena","languages","families","relations","titles","constructs","laws"],
+    "object": ["aesthetics","utility","origins","weight","amount","parent_object","location","language","materials","technology","effects","abilities","consumes","affinities"],
+    "phenomenon": ["expression","effects","mythology","duration","system","catalysts","empowerments","triggers","wielders","environments"],
+    "pin": ["x","y","z","map","element_type","element_id"],
+    "relation": ["background","start_date","end_date","intensity","actor","events","characters","objects","locations","species","creatures","institutions","traits","collectives","zones","abilities","phenomena","languages","families","titles","constructs","narratives"],
+    "species": ["appearance","instincts","sociality","temperament","communication","role","life_span","weight","aggression","parent_species","nourishment","reproduction","adaptations","traits","locations","zones","affinities"],
+    "title": ["authority","eligibility","status","history","grant_date","revoke_date","issuer","body","superior_title","holders","symbols","characters","institutions","families","zones","locations","objects","constructs","laws","collectives","creatures","phenomena","species","languages"],
+    "trait": ["social_effects","physical_effects","functional_effects","personality_effects","behaviour_effects","significance","charisma","coercion","competence","compassion","creativity","courage","anti_trait","empowered_abilities"],
+    "zone": ["role","shape","context","start_date","end_date","phenomena","linked_zones","populations","titles","principles"]
+  }
+}

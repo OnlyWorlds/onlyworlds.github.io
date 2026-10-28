@@ -1,0 +1,127 @@
+---
+// What a write body may carry: each key a body sends to POST, PUT or PATCH an element, in one of
+// three answers. Stored: the base fields with their caps, hidden on a create, the category's own
+// fields and the extension prefixes with their byte cap. Tolerated and ignored: what the server
+// records itself, each with the document's reason, and id and hidden where a method ignores them.
+// Rejected with 422: the server-managed fields, the one extension key the server keeps, and any
+// other unknown field. Built as HTML, so its words are the page's own text (lists a screen reader
+// or an agent reads). Every field, cap, reason and code comes from the API's own document through
+// contract/write.json (scripts/gen_write.mjs) and write.mjs, which the twin reads too. Wide, three
+// columns side by side; narrow (a container query), one under another. The theme is the docs' own.
+import { ELEMENT_LABELS } from '@onlyworlds/sdk';
+import snap from '../../../contract/write.json';
+import { HEADS, fieldsSay, writeView, writeWords } from './write.mjs';
+
+const data = writeView(snap, ELEMENT_LABELS);
+const code = (s: string) => `<code>${s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code>`;
+const w = writeWords(data, code);
+---
+
+<figure class="ow-fig ow-wb not-content" data-ow-figure="write-body" data-read-at={data.readAt} data-categories={data.categories}>
+  <div class="ow-wb-cols">
+    <div class="ow-wb-col" data-answer="stored">
+      <p class="ow-wb-h">{HEADS.stored}</p>
+      <ul>
+        {
+          data.stored.map((s) => (
+            <li data-fields={s.field} data-max={s.max ?? ''}>
+              <code class="ow-wb-f">{s.field}</code>{s.max && <span class="ow-wb-cap">{w.cap(s.max)}</span>}
+              <p>{s.note}</p>
+            </li>
+          ))
+        }
+        <li data-own={`${data.own.lo} ${data.own.hi}`}>
+          <b>{w.own}</b>
+          <p>{w.ownNote}</p>
+        </li>
+        <li data-ext={data.ext.prefixes.join(' ')} data-bytes={data.ext.bytes}>
+          <span class="ow-wb-f" set:html={w.ext} />
+          <p set:html={w.extNote} />
+        </li>
+      </ul>
+    </div>
+    <div class="ow-wb-col" data-answer="ignored">
+      <p class="ow-wb-h">{HEADS.ignored}</p>
+      <ul>
+        {
+          data.ignored.map((r) => (
+            <li data-fields={r.fields.join(' ')} data-when={r.when ?? ''}>
+              <span class="ow-wb-f" set:html={fieldsSay(r.fields, code)} />{r.when && <span class="ow-wb-when"> {r.when}</span>}
+              <p>{r.note}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div class="ow-wb-col" data-answer="refused">
+      <p class="ow-wb-h">{HEADS.refused}</p>
+      <ul>
+        <li data-fields={data.managed.join(' ')} data-managed>
+          <span class="ow-wb-f" set:html={fieldsSay(data.managed, code)} />
+          <p>{w.managedNote}</p>
+        </li>
+        {
+          data.forbidden.map((r) => (
+            <li data-fields={r.fields.join(' ')} data-code={r.code}>
+              <span class="ow-wb-f" set:html={fieldsSay(r.fields, code)} />
+              <p>{w.forbiddenNote}: <code>{r.code}</code></p>
+            </li>
+          ))
+        }
+        <li class="ow-wb-other" data-other>
+          <b>{w.other}</b>
+          <p set:html={w.otherNote} />
+        </li>
+      </ul>
+    </div>
+  </div>
+  <figcaption set:html={w.caption} />
+</figure>
+
+<style>
+  .ow-wb {
+    container-type: inline-size;
+    margin: 1.5rem 0 1.25rem;
+    font-size: 0.875rem;
+    line-height: 1.45;
+    color: var(--sl-color-gray-2);
+    --wb-stored: var(--sl-color-accent-high);
+    --wb-stored-line: var(--sl-color-accent);
+    --wb-ignored: var(--sl-color-orange-high);
+    --wb-ignored-line: var(--sl-color-orange);
+    --wb-refused: var(--sl-color-red-high);
+    --wb-refused-line: var(--sl-color-red);
+  }
+  .ow-wb p, .ow-wb ul { margin: 0; }
+  .ow-wb ul { list-style: none; padding: 0; display: grid; gap: 6px; }
+  .ow-wb li { margin: 0; }
+  .ow-wb :global(code) { font-family: var(--sl-font-mono); font-size: 0.8125rem; color: var(--sl-color-white); overflow-wrap: anywhere; }
+  .ow-wb b { color: var(--sl-color-white); font-weight: 600; }
+  /* three columns: stored the widest, it holds the most */
+  .ow-wb-cols { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 1fr); gap: 14px; align-items: start; }
+  .ow-wb-h { font-weight: 600; font-size: 0.9375rem; margin-bottom: 0.5rem !important; }
+  .ow-wb-col[data-answer="stored"] .ow-wb-h { color: var(--wb-stored); }
+  .ow-wb-col[data-answer="ignored"] .ow-wb-h { color: var(--wb-ignored); }
+  .ow-wb-col[data-answer="refused"] .ow-wb-h { color: var(--wb-refused); }
+  .ow-wb-col li { border: 2px solid var(--wb-line); border-radius: 8px; padding: 0.4rem 0.65rem; background: var(--sl-color-gray-6); }
+  .ow-wb-col[data-answer="stored"] { --wb-line: var(--wb-stored-line); }
+  .ow-wb-col[data-answer="ignored"] { --wb-line: var(--wb-ignored-line); }
+  .ow-wb-col[data-answer="refused"] { --wb-line: var(--wb-refused-line); }
+  .ow-wb-col li.ow-wb-other { border-style: dashed; background: none; }
+  /* the keys and the codes in a card are plain mono, no chip: the card is their frame (set:html
+     content carries no scope class, hence :global; .ow-wb first to outrank the inline code rule) */
+  .ow-wb .ow-wb-f, .ow-wb .ow-wb-f :global(code) { font-weight: 600; }
+  .ow-wb code.ow-wb-f, .ow-wb .ow-wb-f :global(code), .ow-wb .ow-wb-col li p :global(code) { background: none; border: 0; padding: 0; }
+  .ow-wb-cap { margin-left: 0.5rem; color: var(--sl-color-gray-3); font-size: 0.75rem; font-variant-numeric: tabular-nums; }
+  .ow-wb-when { color: var(--wb-ignored); font-size: 0.8125rem; }
+  .ow-wb-col li p { margin-top: 0.15rem; color: var(--sl-color-gray-3); font-size: 0.8125rem; }
+  .ow-wb .ow-wb-col li p :global(code) { font-size: 0.75rem; }
+  .ow-wb figcaption { margin-top: 12px; color: var(--sl-color-gray-3); font-size: 0.8125rem; }
+  .ow-wb figcaption :global(code) { font-size: 0.8125rem; }
+  /* the light theme's orange is pale: its -high edges the cards (3:1 against the page) */
+  :global(:root[data-theme='light']) .ow-wb { --wb-ignored-line: var(--sl-color-orange-high); }
+  @container (max-width: 640px) {
+    /* one column, the three answers one under another */
+    .ow-wb-cols { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+  }
+</style>

@@ -1,7 +1,9 @@
 ---
 title: Fields
-description: The base fields every element carries, the field types, what is required, and extension fields.
+description: The base fields every element carries, the field types, what is required, extension fields, and what a write body may carry.
 ---
+
+import WriteBody from '../../../../components/figures/WriteBody.astro';
 
 Every element carries the same base fields, then the fields of its own category. Category fields are listed on each category's page, for example [Character](/docs/schema/element_categories/character).
 
@@ -17,7 +19,7 @@ Every element carries the same base fields, then the fields of its own category.
 | `subtype` | string | No | A further classification within the supertype, up to 128 characters |
 | `image_url` | string (url) | No | Link to a representative image, up to 1024 characters |
 
-Ids are UUIDv7 when the server mints them, which makes them time-sortable. A client may supply its own `id` on create: any RFC 4122 UUID is accepted.
+Ids are UUIDv7 when the server mints them, which makes them time-sortable. A client may supply its own `id` on create: any RFC 4122 UUID is accepted. On `PUT` and `PATCH` the path decides the id, and one in the body is ignored.
 
 Supertype and subtype are free text, so each world defines its own kinds. They sort elements within their category and never add one. [Conventions](/docs/schema/conventions) covers how to use them.
 
@@ -31,8 +33,9 @@ The API adds these to every element it returns. They are platform bookkeeping, n
 | `created_at`, `updated_at` | Timestamps |
 | `change_seq` | The world's change sequence at the element's last write |
 | `created_by` | The world membership that created the element, or null when the world's owner did |
+| `changed_by`, `changed_via`, `changed_client` | Who made the last change, through which door, and the name its client gave ([Agent writes](/docs/development/api/writes#agent-writes)) |
 
-A write body that carries `type`, `created_at`, `updated_at` or `change_seq` is rejected with `422`. `world` and `created_by` are tolerated and ignored.
+A write body that carries `type`, `created_at`, `updated_at` or `change_seq` is rejected with `422`. `world`, `created_by`, `changed_by`, `changed_via` and `changed_client` are tolerated and ignored. `hidden` counts only on a create, where `true` creates the element [hidden](/docs/development/api/hidden); it is ignored on `PATCH`, or a `PUT` that replaces.
 
 ## Field types
 
@@ -80,7 +83,15 @@ Fields whose names start with a reserved prefix are accepted on write, stored as
 
 An extension field can hold any JSON value. The server does not validate, index or filter extensions. Each element can carry at most 64 KB of them, counted as compact UTF-8 JSON. A `PATCH` merges extension fields by key.
 
+One `x_` key is the server's own: `x_served_trimmed`. The server adds it to a message or a lens it serves with parts hidden from the reader, and a write that carries it is rejected with `422` ([`served_trimmed_not_writable`](/api/errors/#served_trimmed_not_writable)).
+
 Any other unknown field is rejected with `422` naming the field, so a typo such as `freinds` fails loudly instead of being stored.
 
 The base schema is what makes a world portable between tools. Data held in extension fields is read only by the tools that know those fields.
+
+## What a write body may carry
+
+The same in all 22 categories: each key a body carries on `POST`, `PUT` or `PATCH` is stored, tolerated and ignored, or rejected with `422`. Text longer than its cap is a `422`, and so are extensions over 64 KB ([Writes](/docs/development/api/writes#field-rules)).
+
+<WriteBody />
 

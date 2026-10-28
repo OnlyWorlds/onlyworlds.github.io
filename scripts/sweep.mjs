@@ -14,7 +14,8 @@
  *            snapshot against the API document's security; the sign-in snapshot against the API
  *            document and keel's code (on a machine with keel); the time snapshot against
  *            schema-dist's newest tag, the API document and the demo world; the public view
- *            snapshot against keel's public reader (on a machine with keel); the routes in the
+ *            snapshot against keel's public reader (on a machine with keel); the write body
+ *            snapshot against the API document's write schemas; the routes in the
  *            API reference against keel's OpenAPI; every external link; words the docs must not use;
  *            every release since the last sweep (the packages, the Unity SDK, the plugin, the toolkit,
  *            schema-dist's serials) against the changelog.
@@ -143,6 +144,17 @@ console.log('CHECKS');
   if (code === 0) pass('the public view snapshot matches keel\'s public reader on origin/main');
   else if (code === 1) bad('the public view snapshot differs from keel\'s public reader (node scripts/gen_public.mjs says which; --refresh)');
   else note('could not read keel\'s code (node scripts/gen_public.mjs says why): the public view snapshot was not checked');
+}
+
+// ---- 2g: the write body figure's snapshot against the API document's write schemas (exit 2 from the
+// reader is BLIND: the document unreadable, never a pass) ---------------------------------------------
+{
+  let code = 0;
+  try { execFileSync('node', ['scripts/gen_write.mjs'], { cwd: ROOT, timeout: 60000, stdio: 'ignore' }); }
+  catch (e) { code = e.status ?? 2; }
+  if (code === 0) pass('the write body snapshot matches the live API document');
+  else if (code === 1) bad('the write body snapshot differs from the live API document (node scripts/gen_write.mjs says which fields; --refresh)');
+  else note('could not read the live API document (node scripts/gen_write.mjs says why): the write body snapshot was not checked');
 }
 
 // ---- 3: the API reference against keel's OpenAPI ---------------------------------------------------------

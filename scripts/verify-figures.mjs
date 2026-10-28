@@ -98,6 +98,18 @@
 // two 404s' statuses and words to keel's, quoted on the page. Then every phrase the figure says to
 // the page's source, the twin the same. keel is private: gen_public.mjs holds the snapshot to its
 // code, locally, and the sweep's check 2f.
+//
+// The write body (/docs/schema/fields, WriteBody): built from the API document's 22 write schemas
+// through the snapshot contract/write.json (gen_write.mjs). This sorts the snapshot's fields into the
+// three answers by a rule of its own (typed: stored; described "Tolerated and ignored": ignored;
+// forbidden: refused, with its code; the server-managed fields the schema's description names: refused)
+// and reads the built figure: each column's keys exactly those, each cap the schema's maxLength, each
+// ignored key with the document's reason and, for id and hidden, the methods that ignore them; the
+// extension prefixes and byte cap to the pattern; the category's own fields counted, and each
+// category's own fields to the rows of its element page (generated from schema-dist, a second
+// source). Then the page's own sentences (what is refused, what is tolerated, the prefixes, the caps)
+// to the snapshot, every phrase the figure says to the page's source, the twin the same, and the
+// snapshot against the live document, printed STALE, never failed.
 import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -1287,9 +1299,185 @@ else {
 console.log(`public view: ${vRem.length} removals (${vRem.map((r) => r.key).join(', ')}), ${new Set(drawnOps).size} keyless reads, ${wRoutes('page').length + wRoutes('graph').length} /w/ routes, the graph without ${left.join(', ')}, never shown ${vNev.join(', ')} and the two 404s, from contract/public.json (keel ${vSnap.read_at}) and contract/callers.json (read ${vCall.read_at}); every word held to the page's source, the twin the same. keel's half is held by gen_public.mjs, locally`);
 }
 
+// ---- the write body ----
+// Read here with code of its own (not write.mjs): the three answers sorted from the snapshot by a
+// rule of its own, against the built figure, the page's own sentences and the element pages. In a
+// block of its own: its names stay its own.
+{
+const bPage = read('docs/schema/fields.html');
+const bTwin = read('docs/schema/fields.md');
+const bf = bPage.match(/<figure\b[^>]*\bdata-ow-figure="write-body"[^>]*>([\s\S]*?)<\/figure>/);
+if (!bf) blind('the fields page carries no write body figure (data-ow-figure="write-body")');
+const bSnap = JSON.parse(readFileSync(join(DIST, '..', 'contract', 'write.json'), 'utf8'));
+if (!bSnap.write?.fields || !bSnap.patch?.fields || !bSnap.own) blind('contract/write.json holds no write or patch fields, or no categories');
+const bad = (m) => fails.push(`write body: ${m}`);
+const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+const low = (s) => s.toLowerCase().replace(/\s+/g, ' ');
+const set = (xs) => [...new Set(xs)].sort();
+// The page's source as a reader reads it: links as their text, no code ticks or bold.
+const bSrc = readFileSync(join(DIST, '..', 'src', 'content', 'docs', 'docs', 'schema', 'fields.mdx'), 'utf8');
+const prose = (s) => low(s.replace(/\[([^\]]+)\]\([^)]*\)/g, '$1').replace(/[`*]/g, ''));
+const src = prose(bSrc);
+const text = low(strip(bf[1]));
+
+// The snapshot, sorted by this check's own rule.
+const answer = (d) => (/^Tolerated and ignored\b/.test(d?.description ?? '') ? 'ignored' : d && 'not' in d ? 'refused' : 'stored');
+const reason = (d) => d.description.replace(/^Tolerated and ignored: /, '').replace(/\.$/, '');
+const W = bSnap.write, P = bSnap.patch;
+const storedWant = Object.keys(W.fields).filter((f) => answer(W.fields[f]) === 'stored');
+// ignored: by both; or stored by the full write and ignored by the partial (when: PATCH); or a field
+// whose own description says PUT and PATCH ignore it (when: PUT and PATCH)
+const ignoredWant = [];
+for (const f of Object.keys(W.fields)) {
+  const w = answer(W.fields[f]), p = answer(P.fields[f]);
+  if (w === 'ignored' && p === 'ignored') ignoredWant.push({ f, when: '', why: reason(W.fields[f]) });
+  else if (w === 'stored' && p === 'ignored') ignoredWant.push({ f, when: 'PATCH', why: reason(P.fields[f]) });
+  else if (w !== p) bad(`${f} is ${w} on a full write and ${p} on a partial one, which the figure has no answer for`);
+  const putPatch = W.fields[f].description?.match(/PUT\/PATCH: ignored, ([^.]+)\./);
+  if (w === 'stored' && putPatch) ignoredWant.push({ f, when: 'PUT PATCH', why: putPatch[1] });
+}
+const managedOf = (says) => says.match(/including the server-managed ([a-z_, ]+?)\.$/)?.[1]?.split(/, | and /) ?? [];
+const managed = managedOf(W.says);
+if (!managed.length || !same(managed, managedOf(P.says))) bad(`the write schemas name ${managed.join(', ') || 'no'} server-managed fields, the partial ones ${managedOf(P.says).join(', ') || 'none'}`);
+for (const f of managed) if (W.fields[f] || P.fields[f]) bad(`${f} is server-managed and a property of the write schema`);
+const forbiddenWant = Object.keys(W.fields).filter((f) => answer(W.fields[f]) === 'refused').map((f) => ({ f, code: W.fields[f].description?.match(/\b422 ([a-z_]+)/)?.[1] }));
+if (W.additional !== false || P.additional !== false) bad('a write schema takes keys it does not list (additionalProperties is not false); the figure says any other key is a 422');
+
+// The figure, as drawn: each column's cards, each card's keys, cap, when and text.
+const column = (a) => bf[1].match(new RegExp(`<div\\b[^>]*\\bdata-answer="${a}"[^>]*>([\\s\\S]*?)</ul>`))?.[1] ?? '';
+const cardsOf = (a) => [...column(a).matchAll(/<li\b([^>]*)>([\s\S]*?)<\/li>/g)].map((m) => ({ tag: m[1], fields: (attr(m[1], 'data-fields') ?? '').split(' ').filter(Boolean), max: attr(m[1], 'data-max') ?? '', when: attr(m[1], 'data-when') ?? '', text: low(strip(m[2])) }));
+const stored = cardsOf('stored'), ignored = cardsOf('ignored'), refused = cardsOf('refused');
+if (!stored.length || !ignored.length || !refused.length) bad('the figure does not draw the three columns (data-answer stored, ignored, refused)');
+
+// Stored: the full write's typed fields, each once, its cap the schema's maxLength, on the page's base table too.
+const sDrawn = stored.filter((c) => c.fields.length);
+if (!same(sDrawn.flatMap((c) => c.fields).sort(), [...storedWant].sort())) bad(`stored draws ${sDrawn.flatMap((c) => c.fields).join(', ')}; the write schemas type ${storedWant.join(', ')}`);
+for (const c of sDrawn) {
+  const max = W.fields[c.fields[0]]?.maxLength;
+  if (String(max ?? '') !== c.max) bad(`${c.fields[0]} is drawn with cap ${c.max || 'none'}; the schema's maxLength is ${max ?? 'none'}`);
+  if (max && !c.text.includes(`up to ${max} characters`)) bad(`${c.fields[0]}'s card reads "${c.text}", not "up to ${max} characters"`);
+  if (max && !(bSrc.split('\n').find((l) => l.startsWith(`| \`${c.fields[0]}\` |`)) ?? '').includes(`up to ${max} characters`)) bad(`the page's base table does not give ${c.fields[0]} "up to ${max} characters"`);
+}
+if (!same(W.required, ['name']) || (P.required ?? []).length) bad(`the full write requires ${W.required.join(', ')}, the partial ${(P.required ?? []).join(', ') || 'nothing'}; the figure says only name, only as a key on a full write`);
+if (!(stored.find((c) => c.fields[0] === 'name')?.text ?? '').includes('the key must be present on create and full replace')) bad('the name card does not say the key must be present on create and full replace');
+
+// Ignored: each key once per answer, with the document's reason; id and hidden with the methods that ignore them.
+const iDrawn = ignored.flatMap((c) => c.fields.map((f) => ({ f, when: c.when, text: c.text })));
+const iKey = (x) => `${x.f}${x.when ? ` (${x.when})` : ''}`;
+// a drawn "when" read back: a PUT that replaces goes with PATCH (the partial write's rule), else the methods it names
+const whenOf = (s) => (/\bPUT that replaces\b/.test(s) ? 'PATCH' : ['PUT', 'PATCH'].filter((m) => new RegExp(`\\b${m}\\b`).test(s)).join(' '));
+if (!same(set(iDrawn.map((x) => `${x.f}|${whenOf(x.when)}`)),set(ignoredWant.map((x) => `${x.f}|${x.when}`)))) bad(`ignored draws ${iDrawn.map(iKey).join(', ')}; the write schemas ignore ${ignoredWant.map(iKey).join(', ')}`);
+for (const x of ignoredWant) {
+  const d = iDrawn.find((y) => y.f === x.f && (x.when ? y.when : !y.when));
+  if (d && !d.text.includes(low(x.why))) bad(`${iKey(x)} reads "${d.text}", not the document's "${x.why}"`);
+  if (d && x.when === 'PATCH' && !(/\bPATCH\b/.test(d.when) && W.fields[x.f].description.includes('On a PUT that replaces an existing element it is ignored') && /\bput that replaces\b/.test(low(d.when)))) bad(`${x.f} is ignored on PATCH and on a PUT that replaces; the figure says "${d.when}"`);
+}
+// The page's sentences: what is refused, what is tolerated and ignored, id and hidden.
+const ticks = (s) => [...(s ?? '').matchAll(/`([a-z_]+)`/g)].map((m) => m[1]);
+const refusedLine = bSrc.match(/A write body that carries ([^.]*?) is rejected with `422`\./)?.[1];
+if (!same(set(ticks(refusedLine)), set(managed))) bad(`the page refuses ${ticks(refusedLine).join(', ') || 'nothing this reads'}; the schemas name ${managed.join(', ')}`);
+const toleratedLine = bSrc.match(/((?:`[a-z_]+`, )*`[a-z_]+` and `[a-z_]+`) are tolerated and ignored\./)?.[1];
+if (!same(set(ticks(toleratedLine)), set(ignoredWant.filter((x) => !x.when).map((x) => x.f)))) bad(`the page tolerates ${ticks(toleratedLine).join(', ') || 'nothing this reads'}; the schemas ${ignoredWant.filter((x) => !x.when).map((x) => x.f).join(', ')}`);
+// id and hidden: one sentence of the page names the key, "ignored" and each method that ignores it
+const sentences = src.split(/\.\s+/);
+for (const x of ignoredWant.filter((y) => y.when)) if (!sentences.some((s) => new RegExp(`\\b${x.f}\\b`).test(s) && /\bignored\b/.test(s) && x.when.split(' ').every((m) => new RegExp(`\\b${m.toLowerCase()}\\b`).test(s)))) bad(`no sentence of the page says ${x.f} is ignored on ${x.when.split(' ').join(' and ')}`);
+
+// Refused: the server-managed fields as one card, each forbidden field with its code, any other key.
+const mCard = refused.find((c) => /\bdata-managed\b/.test(c.tag));
+if (!mCard || !same(set(mCard.fields), set(managed))) bad(`the server-managed card draws ${mCard?.fields.join(', ') ?? 'nothing'}; the schemas name ${managed.join(', ')}`);
+const fCards = refused.filter((c) => attr(c.tag, 'data-code'));
+if (!same(set(fCards.map((c) => `${c.fields.join(' ')} ${attr(c.tag, 'data-code')}`)), set(forbiddenWant.map((x) => `${x.f} ${x.code}`)))) bad(`refused draws ${fCards.map((c) => `${c.fields.join(' ')} (${attr(c.tag, 'data-code')})`).join(', ') || 'no forbidden field'}; the schemas forbid ${forbiddenWant.map((x) => `${x.f} (${x.code})`).join(', ')}`);
+for (const c of fCards) if (!c.text.includes(attr(c.tag, 'data-code'))) bad(`${c.fields[0]}'s card does not name its code`);
+for (const x of forbiddenWant) if (!bSrc.includes(`\`${x.f}\``) || !bSrc.includes(`#${x.code})`)) bad(`the page does not name ${x.f} and link its code ${x.code}`);
+const other = refused.find((c) => /\bdata-other\b/.test(c.tag));
+if (!other || !other.text.includes('any other unknown field')) bad('refused draws no card for any other unknown field');
+const all = [...sDrawn.flatMap((c) => c.fields), ...ignored.flatMap((c) => c.fields), ...refused.flatMap((c) => c.fields)];
+for (const f of set(all)) if (all.filter((g) => g === f).length > 1 && !ignoredWant.some((x) => x.f === f && x.when)) bad(`${f} is drawn in two answers`);
+
+// The extension fields: the pattern's prefixes and its byte cap; the page's table and cap the same.
+const [pattern, ext] = Object.entries(W.extensions ?? {})[0] ?? [];
+const prefixes = pattern?.match(/^\^\(([a-z_|]+)\)$/)?.[1]?.split('|') ?? [];
+const bytes = Number(ext?.description?.match(/at most (\d+) bytes/)?.[1]);
+if (!same(W.extensions, P.extensions)) bad('the full and partial writes take different extension fields');
+const eCard = stored.find((c) => attr(c.tag, 'data-ext'));
+if (!eCard || !same(set(attr(eCard.tag, 'data-ext').split(' ')), set(prefixes)) || Number(attr(eCard.tag, 'data-bytes')) !== bytes) bad(`the extension card draws ${eCard ? attr(eCard.tag, 'data-ext') : 'nothing'} (${eCard ? attr(eCard.tag, 'data-bytes') : '?'} bytes); the schema's pattern is ${pattern}, ${bytes} bytes`);
+for (const x of prefixes) {
+  if (eCard && !eCard.text.includes(`${x}*`)) bad(`the extension card does not show ${x}*`);
+  if (!bSrc.includes(`| \`${x}*\` |`)) bad(`the page's prefix table has no row for ${x}*`);
+}
+const kb = bytes / 1024;
+if (!Number.isInteger(kb) || !eCard?.text.includes(`at most ${kb} kb`) || !src.includes(`at most ${kb} kb`)) bad(`the extension cap is ${bytes} bytes; the figure or the page does not say "at most ${kb} KB"`);
+
+// The category's own fields: the fewest and most, and each category's own fields to its element page.
+if (!same(Object.keys(bSnap.own).sort(), [...ELEMENT_TYPES].sort())) bad(`the snapshot's categories are not the SDK's 22: ${Object.keys(bSnap.own).join(', ')}`);
+const counts = Object.entries(bSnap.own).map(([t, fs]) => [t, fs.length]);
+const lo = Math.min(...counts.map((c) => c[1])), hi = Math.max(...counts.map((c) => c[1]));
+const oCard = stored.find((c) => attr(c.tag, 'data-own'));
+if (!oCard || attr(oCard.tag, 'data-own') !== `${lo} ${hi}`) bad(`the own fields card draws ${oCard ? attr(oCard.tag, 'data-own') : 'nothing'}; the categories have ${lo} to ${hi}`);
+for (const [n, at] of [[lo, 'fewest'], [hi, 'most']]) for (const [t] of counts.filter((c) => c[1] === n)) if (oCard && !(oCard.text.includes(String(n)) && oCard.text.includes(low(ELEMENT_LABELS[t])))) bad(`the own fields card does not name ${ELEMENT_LABELS[t]} with the ${at}, ${n}`);
+let rowsRead = 0;
+for (const [t, fs] of Object.entries(bSnap.own)) {
+  const twin = read(`docs/schema/element_categories/${t}.md`);
+  const rows = [...twin.matchAll(/^\| `([A-Za-z_]+)` \|/gm)].map((m) => m[1]);
+  rowsRead += rows.length;
+  if (!same(set(rows), set(fs))) bad(`${t}'s own fields in the API (${fs.length}) are not its element page's rows (${rows.length}): ${[...fs.filter((f) => !rows.includes(f)).map((f) => `${f} (API only)`), ...rows.filter((f) => !fs.includes(f)).map((f) => `${f} (page only)`)].slice(0, 4).join(', ')}`);
+}
+if (!src.includes(`the same in all ${Object.keys(bSnap.own).length} categories`)) bad(`the page does not say "the same in all ${Object.keys(bSnap.own).length} categories"`);
+
+// The figure's words: each a phrase of the page's source, and in the built figure.
+const PHRASES = [
+  'any rfc 4122 uuid is accepted', 'the key must be present on create and full replace, and an empty string is accepted', 'any kind of details about the element',
+  'free text', 'link to a representative image', 'counts only on a create, where true creates the element hidden', 'the fields of its own category',
+  "category fields are listed on each category's page", 'any json value', 'stored as they are, and returned verbatim', 'counted as compact utf-8 json',
+  'merges extension fields by key', 'tolerated and ignored', 'rejected with 422', 'the api adds these to every element it returns',
+  'the server adds it to a message or a lens it serves', 'any other unknown field', 'naming the field, so a typo such as freinds fails loudly',
+  'on put and patch', 'on patch, or a put that replaces',
+];
+for (const ph of PHRASES) {
+  if (!src.includes(ph)) bad(`"${ph}" is not on the page's source`);
+  if (!text.includes(ph)) bad(`the figure does not say "${ph}"`);
+}
+const bCap = strip(bf[1].match(/<figcaption\b[^>]*>([\s\S]*?)<\/figcaption>/)?.[1] ?? '');
+if (!bCap.includes(`as read on ${bSnap.read_at}.`) || attr(bf[0].match(/^<figure\b[^>]*>/)[0], 'data-read-at') !== bSnap.read_at) bad(`the caption or the figure's mark is not the snapshot's (${bSnap.read_at}): "${bCap}"`);
+
+// The twin carries the figure as text: the three answers and every key drawn.
+if (/^<WriteBody \/>$/m.test(bTwin)) bad('the Markdown twin carries the bare tag, not the text');
+else {
+  const tw = bTwin.slice(bTwin.indexOf('**Stored.**'));
+  if (tw.length < 2) bad('the twin has no text of the figure');
+  for (const h of ['**Tolerated and ignored.**', '**Rejected with 422.**']) if (!tw.includes(h)) bad(`the twin has no ${h}`);
+  for (const f of set(all)) if (!tw.includes(`\`${f}\``)) bad(`the twin does not carry ${f}`);
+  for (const c of sDrawn) if (c.max && !tw.includes(`up to ${c.max} characters`)) bad(`the twin does not cap ${c.fields[0]} at ${c.max}`);
+}
+console.log(`write body: ${storedWant.length} stored fields, ${ignoredWant.length} ignored keys, ${managed.length + forbiddenWant.length} refused and any other, ${prefixes.length} extension prefixes up to ${bytes} bytes, the categories' own fields ${lo} to ${hi} held to ${rowsRead} element page rows, from contract/write.json (read ${bSnap.read_at}); every word held to the page's source, the twin the same`);
+
+// The snapshot against the live document (fetched above for the Retry-After check), with code of
+// its own: each of the 22 Write and Patch schemas against the snapshot's fields, rules and own
+// fields. Printed, never failed, as the credentials snapshot is; the sweep's check 2g fails on it.
+if (doc) {
+  const drift = [];
+  const cap = (t) => `${t[0].toUpperCase()}${t.slice(1)}`;
+  const norm = (v) => JSON.stringify(v, (k, x) => (x && typeof x === 'object' && !Array.isArray(x) ? Object.fromEntries(Object.keys(x).sort().map((y) => [y, x[y]])) : x));
+  for (const [v, suffix] of [['write', 'Write'], ['patch', 'Patch']]) for (const t of Object.keys(bSnap.own)) {
+    const s = doc.components?.schemas?.[`${cap(t)}${suffix}`];
+    if (!s?.properties) { drift.push(`${cap(t)}${suffix} is not in the live document`); continue; }
+    const fs = Object.keys(s.properties);
+    for (const f of Object.keys(bSnap[v].fields)) if (norm(s.properties[f]) !== norm(bSnap[v].fields[f])) drift.push(`${cap(t)}${suffix} ${f} is ${norm(s.properties[f] ?? null)} live`);
+    if (!same(fs.filter((f) => !bSnap[v].fields[f]), bSnap.own[t])) drift.push(`${cap(t)}${suffix}'s own fields differ live`);
+    if ((s.description ?? '').split(t).join('{type}') !== bSnap[v].says) drift.push(`${cap(t)}${suffix}'s description differs live`);
+    if (!same(s.required ?? [], bSnap[v].required) || (s.additionalProperties ?? null) !== bSnap[v].additional || norm(s.patternProperties ?? null) !== norm(bSnap[v].extensions)) drift.push(`${cap(t)}${suffix}'s required, additionalProperties or extension pattern differs live`);
+  }
+  for (const d of drift.slice(0, 5)) console.log(`  STALE  write body snapshot (node scripts/gen_write.mjs --refresh): ${d}`);
+  if (drift.length > 5) console.log(`  STALE  write body: … and ${drift.length - 5} more differences from the live document`);
+  console.log(`write body: the snapshot held to the live API document, ${Object.keys(bSnap.own).length * 2} write schemas`);
+} else {
+  console.log('CANNOT SEE: the live API document (see above); the write body snapshot was not compared with it');
+}
+}
+
 if (fails.length) {
   for (const f of fails) console.log(`  FAIL  ${f}`);
   console.log(`\nFAIL — ${fails.length} figure claim(s) differ from their source.`);
   process.exit(1);
 }
-console.log('\nPASS — the link map draws exactly the element pages\' link rows, the four nouns\' address parses as it reads, the error families draw exactly the errors table\'s codes and marks, the category fields draw each element page\'s field and link counts under the SDK\'s families, the page palettes paint keel\'s colours with the ratios they print, the world folder draws the example\'s folders and files, each named by the page\'s rule, the credentials figure draws every operation under the credentials the API document lists for it, the sign-in steps draw the API document\'s route, parameters and fields as the page\'s own tables give them, the time ladder draws the demo world\'s line and the standard\'s steps under the names each source gives them, and the public view draws what the public reader removes, the keyless reads and the /w/ routes as the page\'s own words give them.');
+console.log('\nPASS — the link map draws exactly the element pages\' link rows, the four nouns\' address parses as it reads, the error families draw exactly the errors table\'s codes and marks, the category fields draw each element page\'s field and link counts under the SDK\'s families, the page palettes paint keel\'s colours with the ratios they print, the world folder draws the example\'s folders and files, each named by the page\'s rule, the credentials figure draws every operation under the credentials the API document lists for it, the sign-in steps draw the API document\'s route, parameters and fields as the page\'s own tables give them, the time ladder draws the demo world\'s line and the standard\'s steps under the names each source gives them, the public view draws what the public reader removes, the keyless reads and the /w/ routes as the page\'s own words give them, and the write body draws what the API\'s write schemas store, ignore and refuse, as the page\'s own sentences say.');
