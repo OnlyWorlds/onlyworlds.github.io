@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-28
 
+- **[Unity](/docs/development/unity) 0.24.0: addresses, lenses and the Charter.** `OWAddress`, `OWLens` with `OWGraph`, and `OWCharter` read the address, lens and charter profiles; the client calls the lens routes, and an account token reads the world it names. An export declares folder format 0.3.20.
 - **[TypeScript](/docs/development/typescript) 4.101.1 and [Python](/docs/development/python#what-it-covers) 0.83.1: schema-dist serial 85**: the field descriptions call supertype and subtype a classification of the element, and say a Title's grant and revoke dates are its own (a holder's span is a Relation); no field or reader changed.
 - **[Proposed changes](/docs/development/api/proposals#accept-decline-withdraw)**: a retry of a proposal after a failed answer never proposes twice, and a key whose proposal is gone since answers `409 idempotency_error`; a decline needs the PIN and refuses a keeper's own proposal (`403 own_proposal`); the queue's `new_element` rows are every element carrying an `x_review_proposed` mark.
 - **Easy Mobile leaves the Tools menu.** It is no longer developed; its page still answers at its address and is listed with the [legacy tools](/docs/tools/legacy#easy-mobile).
