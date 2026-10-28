@@ -31,11 +31,11 @@ Three have pages of their own: [Messages](/docs/schema/profiles/messages), [Addr
 
 ### Checks
 
-**[`x_checks_rules`](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/checks.md)** (serial 47; serial 54 adds the list readings and three reader rules): a work world's house rules as a machine can check them, on the Charter beside the text a person reads: the newest Law with supertype Charter made by the owner or a co-builder; a Law with supertype Charter made by anyone else is never the house rules. Each rule is its sentence plus one check from a closed set (a field present, a text matching a pattern, a link field holding at least n ids, a value from a list), scoped by type (one, or a list) and optionally supertype or subtype; a reader reports how many elements each rule scoped and which fall short, and names by name any rule it cannot apply (a list naming a type the schema does not know, a field one listed type lacks, a pattern outside the regex subset Python and JavaScript share), never passing it silently. A known-of stub is judged by no rule: its missing fields are unknown, not short (since serial 64 the fixture holds two stub cases, a bare one and one with its fields filled, so every reader is tested on it). The Python package's doctor reads it from 0.24.0, from the Charter only since 0.28.0.
+**[`x_checks_rules`](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/checks.md)** (serial 47; serial 54 adds the list readings and three reader rules): a work world's house rules as a machine can check them, on the Charter beside the text a person reads: the world's Charter as the [charter profile](#charter) selects it: the newest marked Charter. Each rule is its sentence plus one check from a closed set (a field present, a text matching a pattern, a link field holding at least n ids, a value from a list), scoped by type (one, or a list) and optionally supertype or subtype; a reader reports how many elements each rule scoped and which fall short, and names by name any rule it cannot apply (a list naming a type the schema does not know, a field one listed type lacks, a pattern outside the regex subset Python and JavaScript share), never passing it silently. A known-of stub is judged by no rule: its missing fields are unknown, not short (since serial 64 the fixture holds two stub cases, a bare one and one with its fields filled, so every reader is tested on it). The Python package's doctor reads it from 0.24.0, from the Charter only since 0.28.0.
 
 ### Names
 
-**[`x_names`](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/names.md)** (serial 48): a world's own words for the 22 types, on the World. In a work world a Character shows as *Employee*, an Institution as *Team*. Only what a person reads changes: the API, the folder, its directory names and every id keep the standard's names, and a tool that never reads the map shows Character as always. The TypeScript and Python SDKs' `typeWord` / `type_word` give the word to print.
+**[`x_names`](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/names.md)** (serial 48): a world's own words for the 22 types, on the World. In a work world a Character shows as *Employee*, an Institution as *Team*. Only what a person reads changes: the API, the folder, its directory names and every id keep the standard's names, and a tool that never reads the map shows Character as always. A folder's `world.json` carries it. The TypeScript and Python SDKs' `typeWord` / `type_word` give the word to print.
 
 ### Spine
 
@@ -57,5 +57,5 @@ The import map is not a field at all, but a table a door reads when it brings a 
 
 ## On onlyworlds.com
 
-- **[`x_checks_rules`](#checks)**: its Charter is the newest Law with supertype Charter made by the owner or a co-builder, the one keel names in [`front_door`](/docs/development/api/members#the-front-door).
-- **[`x_names`](#names)**: onlyworlds.com stores it on the World since 2026-10-23, and a folder's `world.json` carries it too.
+- **[`x_charter_of`](#charter)**: the front door ([`front_door`](/docs/development/api/members#the-front-door)) names the Charter the profile selects, the newest marked Charter, and serves the three aids as [`reading_aids`](/docs/development/api/members#reading-aids).
+- **[`x_names`](#names)**: onlyworlds.com stores it on the World since 2026-10-23.
