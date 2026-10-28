@@ -7,6 +7,12 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-28
 
+- **[MCP](/docs/development/mcp) `get_draught`** with no `lens` reads one frame per lens you chose, as the context route does; `/health` and `/health/deep` now declare that they take no credential, which the [credentials figure](/docs/development/api-reference#which-credential-each-route-takes) follows. <!-- keel PR 315 -->
+<!-- keel PR 311: no docs change -->
+<!-- keel PR 312: no docs change -->
+<!-- keel PR 313: no docs change -->
+<!-- keel PR 314: no docs change -->
+<!-- keel PR 316: no docs change -->
 - **[Members](/docs/development/api/members#reading-aids): `reading_aids`** on `GET /me` and an agent's join reply: the world's marked Charter with its rules, its Guide and its Domains, each with its sentence and hubs. The front door's `charter` is now the newest Charter that carries the mark `x_charter_of`; only the owner and co-builders may set the mark ([`keeper_only`](/api/errors/#keeper_only)). <!-- keel PR 310 -->
 - **[Sign in with OnlyWorlds](/docs/development/api/signin) draws its four steps** as hops between the tool, the browser and onlyworlds.com, with the authorize page's parameters, the token route's fields and answer and the code's lifetime from the API's own document. The page's refused requests now name every check (a `code_challenge` that is not 43 characters, a `state` over 1024), its pages are sent `Referrer-Policy: same-origin`, not `no-referrer`, and a rate-limited exchange leaves the code unspent.
 - **[The Lenses page](/docs/schema/conventions#lenses)**: Start from finds elements by a word, the most linked first, and offers a world's Domains as packages of starting points. <!-- keel PR 306 -->
