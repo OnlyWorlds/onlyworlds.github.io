@@ -62,6 +62,49 @@ export function categoryFields(fieldSchema, types, familyOf, familyOrder) {
   };
 }
 
+// The bars' colours, from the SDK's family colours and the page's own background in each theme
+// (`--sl-color-black` in src/styles/ow.css, read by pageColours). A family colour can sit too close
+// to the page for a bar (the light theme's pink and amber under 3:1), so the bar's link half is the
+// colour mixed toward black (light) or white (dark) until it clears CONTRAST.link against the page,
+// and its value half is that colour over the page at the alpha that first clears CONTRAST.value:
+// solid colours, so scripts/verify-figures.mjs measures exactly what is painted.
+export const CONTRAST = { link: 3, value: 2.2 };
+const rgb = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+const hexOf = (c) => `#${c.map((v) => v.toString(16).padStart(2, '0')).join('')}`;
+const lum = (c) => {
+  const [r, g, b] = c.map((v) => { v /= 255; return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+};
+export const contrast = (a, b) => {
+  const [x, y] = [lum(rgb(a)), lum(rgb(b))].sort((p, q) => q - p);
+  return (x + 0.05) / (y + 0.05);
+};
+const mix = (a, b, p) => hexOf(rgb(a).map((v, i) => Math.round(v * (1 - p) + rgb(b)[i] * p)));
+
+// The page's background in each theme, from ow.css: the `:root` block's and the light block's.
+export function pageColours(css) {
+  const block = (sel) => css.match(new RegExp(`^${sel}\\s*\\{([\\s\\S]*?)^\\}`, 'm'))?.[1];
+  const black = (b) => b?.match(/--sl-color-black:\s*(#[0-9a-fA-F]{6})\b/)?.[1]?.toLowerCase();
+  return { dark: black(block(':root')), light: black(block(":root\\[data-theme='light'\\]")) };
+}
+
+export function barColours(familyColors, page) {
+  const out = {};
+  for (const [family, c] of Object.entries(familyColors)) {
+    out[family] = {};
+    for (const theme of ['dark', 'light']) {
+      const bg = page[theme];
+      const toward = lum(rgb(bg)) > 0.5 ? '#000000' : '#ffffff';
+      let link = c[theme].toLowerCase();
+      for (let p = 0.01; contrast(link, bg) < CONTRAST.link && p <= 1; p += 0.01) link = mix(c[theme].toLowerCase(), toward, p);
+      let value = mix(bg, link, 0.38);
+      for (let a = 0.39; contrast(value, bg) < CONTRAST.value && a <= 1; a += 0.01) value = mix(bg, link, a);
+      out[family][theme] = { link, value };
+    }
+  }
+  return out;
+}
+
 const NUMBER = ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
 const say = (n) => NUMBER[n] ?? String(n);
 

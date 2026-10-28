@@ -4,15 +4,19 @@
 // data (fields.mjs). It is HTML text: every row names its category, its field count and, for a
 // screen reader, its link count, and the list under it says the same. The theme is the docs' own
 // (Starlight's colour variables follow the light/dark switch); the four family colours are the
-// SDK's, a light and a dark one each, switched with the theme.
+// SDK's, a light and a dark one each, switched with the theme, each held to the page's background
+// by barColours (fields.mjs) so a link half clears 3:1 and a value half 2.2:1.
 import { FIELD_SCHEMA, ELEMENT_TYPES, ELEMENT_FAMILIES, FAMILY_ORDER, FAMILY_COLORS, ELEMENT_ICONS } from '@onlyworlds/sdk';
-import { categoryFields, fieldWords, kindsText, label } from './fields.mjs';
+import { categoryFields, fieldWords, kindsText, label, barColours, pageColours } from './fields.mjs';
+import owCss from '../../styles/ow.css?raw';
 
 const data = categoryFields(FIELD_SCHEMA, ELEMENT_TYPES, ELEMENT_FAMILIES, FAMILY_ORDER);
 const w = fieldWords(data, (s: string) => `<code>${s}</code>`, (t: string, href: string) => `<a href="${href}">${t}</a>`);
 const pct = (n: number) => `${((100 * n) / data.max).toFixed(2)}%`;
-const colours = Object.entries(FAMILY_COLORS)
-  .map(([f, c]) => `--ow-kf-${f}-l:${c.light};--ow-kf-${f}-d:${c.dark}`)
+const page = pageColours(owCss);
+if (!page.dark || !page.light) throw new Error('CategoryFields: no --sl-color-black for both themes in src/styles/ow.css');
+const colours = Object.entries(barColours(FAMILY_COLORS, page))
+  .map(([f, c]) => `--ow-kf-${f}-l:${c.light.link};--ow-kf-${f}-lv:${c.light.value};--ow-kf-${f}-d:${c.dark.link};--ow-kf-${f}-dv:${c.dark.value}`)
   .join(';');
 ---
 
@@ -21,7 +25,7 @@ const colours = Object.entries(FAMILY_COLORS)
   <div class="ow-kf-grid">
     {
       data.families.map((f) => (
-        <section class="ow-kf-fam" data-family={f.family} style={`--c-l:var(--ow-kf-${f.family}-l);--c-d:var(--ow-kf-${f.family}-d)`}>
+        <section class="ow-kf-fam" data-family={f.family} style={`--c-l:var(--ow-kf-${f.family}-l);--c-d:var(--ow-kf-${f.family}-d);--cv-l:var(--ow-kf-${f.family}-lv);--cv-d:var(--ow-kf-${f.family}-dv)`}>
           <p class="ow-kf-name">
             <strong>{label(f.family)}</strong>{' '}
             <span>{f.says && `${f.says} · `}{f.kinds.length}</span>
@@ -78,14 +82,16 @@ const colours = Object.entries(FAMILY_COLORS)
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 18px 28px;
   }
-  /* each family's colour: the SDK's dark one by default, its light one on the light theme */
+  /* each family's colour: the SDK's dark one by default, its light one on the light theme, each
+     held to the page (barColours); --cv is the value half's */
   .ow-kf-fam {
     --c: var(--c-d);
+    --cv: var(--cv-d);
     border-top: 3px solid var(--c);
     padding-top: 8px;
     min-width: 0;
   }
-  :global(:root[data-theme='light']) .ow-kf-fam { --c: var(--c-l); }
+  :global(:root[data-theme='light']) .ow-kf-fam { --c: var(--c-l); --cv: var(--cv-l); }
   .ow-kf-name strong { color: var(--sl-color-white); font-weight: 600; }
   .ow-kf-name span { margin-left: 6px; font-size: 0.875rem; color: var(--sl-color-gray-3); }
   .ow-kf ul {
@@ -115,7 +121,8 @@ const colours = Object.entries(FAMILY_COLORS)
   .ow-kf-bar { display: flex; height: 12px; border-radius: 3px; overflow: hidden; }
   .ow-kf-bar i, .ow-kf-key i { display: block; height: 100%; }
   .ow-kf-bar .l { background: var(--c); }
-  .ow-kf-bar .v { background: var(--c); opacity: 0.38; }
+  /* a page-coloured edge where the links end, so the split reads whatever the two colours' contrast */
+  .ow-kf-bar .v { background: var(--cv); box-shadow: inset 2px 0 0 var(--sl-color-black); }
   .ow-kf-n {
     text-align: right;
     font: 600 0.84375rem var(--sl-font-mono);
@@ -130,7 +137,7 @@ const colours = Object.entries(FAMILY_COLORS)
   }
   .ow-kf-key span { display: inline-flex; align-items: center; gap: 6px; }
   .ow-kf-key i { width: 22px; height: 11px; border-radius: 2px; background: var(--sl-color-gray-2); }
-  .ow-kf-key i.v { opacity: 0.38; }
+  .ow-kf-key i.v { opacity: 0.6; }
   .ow-kf figcaption {
     margin-top: 10px;
     color: var(--sl-color-gray-3);

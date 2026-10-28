@@ -32,6 +32,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseOwLink, ELEMENT_TYPES, ELEMENT_FAMILIES, FAMILY_ORDER } from '@onlyworlds/sdk';
+import { contrast, pageColours, CONTRAST } from '../src/components/figures/fields.mjs';
 
 const DIST = join(dirname(fileURLToPath(import.meta.url)), '..', 'dist');
 const fails = [];
@@ -331,6 +332,25 @@ else { const d = differ('the text version', listed(strip(kfText[1]))); if (d) fa
 if (/^<CategoryFields \/>$/m.test(twin)) fails.push('category fields: the Markdown twin carries the bare tag, not the text');
 else if (differ('the Markdown twin', listed(twin))) fails.push(differ('the Markdown twin', listed(twin)));
 else if (!twin.includes(leadWant.replace(/^(.*? families\.)/, '**$1**'))) fails.push('category fields: the Markdown twin does not carry the lead');
+// The bars' colours as painted (the figure's own style attribute), against the page's background in
+// each theme as ow.css sets it: every family's link half clears CONTRAST.link and its value half
+// CONTRAST.value, in both themes.
+const page = pageColours(readFileSync(join(dirname(fileURLToPath(import.meta.url)), '..', 'src', 'styles', 'ow.css'), 'utf8'));
+if (!page.dark || !page.light) blind('no --sl-color-black for both themes in src/styles/ow.css');
+const painted = Object.fromEntries([...attr(cf[0].match(/^<figure\b[^>]*>/)[0], 'style').matchAll(/--ow-kf-([a-z]+)-(lv|dv|l|d):\s*(#[0-9a-f]{6})/gi)].map((m) => [`${m[1]}-${m[2]}`, m[3]]));
+let painted4 = 0;
+for (const f of famWant) {
+  for (const [theme, t] of [['light', 'l'], ['dark', 'd']]) {
+    for (const [half, key, min] of [['link', t, CONTRAST.link], ['value', `${t}v`, CONTRAST.value]]) {
+      const c = painted[`${f}-${key}`];
+      if (!c) { fails.push(`category fields: no ${theme} ${half} colour painted for ${f}`); continue; }
+      painted4++;
+      const r = contrast(c, page[theme]);
+      if (r < min) fails.push(`category fields: ${f}'s ${half} half in ${theme} is ${c}, ${r.toFixed(2)}:1 against the page's ${page[theme]}; it needs ${min}:1`);
+    }
+  }
+}
+console.log(`category fields: ${painted4} bar colours painted, each clearing ${CONTRAST.link}:1 (links) or ${CONTRAST.value}:1 (values) against the page in its theme`);
 console.log(`category fields: ${kf.size} categories in ${kfFams.length} families drawn, ${[...kf.values()].reduce((a, d) => a + d.n, 0)} own fields and ${[...kf.values()].reduce((a, d) => a + d.l, 0)} links, held to ${az.length} element pages' Fields tables`);
 
 if (fails.length) {
