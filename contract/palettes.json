@@ -1,0 +1,82 @@
+{
+  "source": "keel worlds/public_page.py: PALETTES and HOUSE_PALETTE, on origin/main",
+  "read_at": "7192c51",
+  "default": "midnight",
+  "palettes": [
+    {
+      "key": "midnight",
+      "name": "Midnight",
+      "mood": "black and cyan",
+      "bg": "#000000",
+      "surf": "#0b0f14",
+      "line": "#243040",
+      "text": "#e2e8f0",
+      "muted": "#94a3b8",
+      "accent": "#22d3ee",
+      "fill": "#22d3ee",
+      "onfill": "#00141a",
+      "wash": "rgba(34,211,238,0.10)",
+      "head": "system-ui,-apple-system,'Segoe UI',Roboto,sans-serif"
+    },
+    {
+      "key": "daylight",
+      "name": "Daylight",
+      "mood": "light and cyan",
+      "bg": "#fbfbfa",
+      "surf": "#ffffff",
+      "line": "#d9d6cd",
+      "text": "#1c1b18",
+      "muted": "#5f5c55",
+      "accent": "#0e7490",
+      "fill": "#0e7490",
+      "onfill": "#ffffff",
+      "wash": "rgba(14,116,144,0.08)",
+      "head": "system-ui,-apple-system,'Segoe UI',Roboto,sans-serif"
+    },
+    {
+      "key": "parchment",
+      "name": "Parchment",
+      "mood": "paper and oxblood",
+      "bg": "#ede4d0",
+      "surf": "#f5eedd",
+      "line": "#c9b990",
+      "text": "#3a2f24",
+      "muted": "#5e5240",
+      "accent": "#7a1f1f",
+      "fill": "#7a1f1f",
+      "onfill": "#f5eedd",
+      "wash": "rgba(122,31,31,0.08)",
+      "head": "Georgia,'Iowan Old Style','Times New Roman',serif"
+    },
+    {
+      "key": "brass",
+      "name": "Brass",
+      "mood": "dark and gold",
+      "bg": "#0a0a0a",
+      "surf": "#161616",
+      "line": "#2e2e2e",
+      "text": "#e6e6e6",
+      "muted": "#a0a0a0",
+      "accent": "#ffd700",
+      "fill": "#ffd700",
+      "onfill": "#1a1400",
+      "wash": "rgba(255,215,0,0.09)",
+      "head": "system-ui,-apple-system,'Segoe UI',Roboto,sans-serif"
+    },
+    {
+      "key": "dusk",
+      "name": "Dusk",
+      "mood": "violet dusk",
+      "bg": "#100b18",
+      "surf": "#181222",
+      "line": "#32264a",
+      "text": "#ece6f5",
+      "muted": "#ab9ec3",
+      "accent": "#c4a3ff",
+      "fill": "#c4a3ff",
+      "onfill": "#1a1026",
+      "wash": "rgba(196,163,255,0.10)",
+      "head": "system-ui,-apple-system,'Segoe UI',Roboto,sans-serif"
+    }
+  ]
+}
