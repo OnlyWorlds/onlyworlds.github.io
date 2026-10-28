@@ -52,7 +52,7 @@ The skill files themselves sit in the repository's `skills/` folder, one folder 
 | Stage | Skill | What it does |
 |:--|:--|:--|
 | Start | `start` | The entry point: works out your situation, routes you to the right skill, and connects a folder to your onlyworlds.com account when you want one. |
-| | `setup` | Sets up a world for work rather than fiction (a company, a team, an AI's own home, a council, a software project) from a starter pack: house rules, a world skill for the AIs, a seed and the invites. |
+| | `setup` | Sets up a world for work rather than fiction (a company, a team, an AI's own home, a council, a software project) from a starter pack: house rules, a world skill for the AIs, a seed and the invites. The world's Charter and Guide carry the reading-aid mark (`x_charter_of`), so every tool shows them first. |
 | Structure it | `import` | Turns notes, a manuscript, PDFs, a wiki or old session notes into a world folder Atlas opens, or reconciles them into an existing world. Invents no fields. |
 | | `model` | How to represent a system (magic, a political order, an economy, a tech tree) in the 22 types, and every type's fields across [every category](/docs/schema/). |
 | Grow it | `read` | Checks a whole world and writes one of three reports: the survey report (a creative brief of what it holds), the links report (the connections it is missing) or the consistency report (where it contradicts itself). |
