@@ -13,7 +13,8 @@
  *            snapshot against keel's palette table (on a machine with keel); the credentials
  *            snapshot against the API document's security; the sign-in snapshot against the API
  *            document and keel's code (on a machine with keel); the time snapshot against
- *            schema-dist's newest tag, the API document and the demo world; the routes in the
+ *            schema-dist's newest tag, the API document and the demo world; the public view
+ *            snapshot against keel's public reader (on a machine with keel); the routes in the
  *            API reference against keel's OpenAPI; every external link; words the docs must not use;
  *            every release since the last sweep (the packages, the Unity SDK, the plugin, the toolkit,
  *            schema-dist's serials) against the changelog.
@@ -131,6 +132,17 @@ console.log('CHECKS');
   if (code === 0) pass('the time snapshot matches schema-dist\'s newest tag, the API document and Moppetopia');
   else if (code === 1) bad('the time snapshot differs from schema-dist\'s newest tag, the API document or Moppetopia (node scripts/gen_time.mjs says which)');
   else note('could not read schema-dist, the API document or Moppetopia (node scripts/gen_time.mjs says why): the time snapshot was not checked');
+}
+
+// ---- 2f: the public view figure's snapshot against keel's public reader on origin/main (exit 2 from
+// the reader is BLIND: keel unreadable, never a pass) ---------------------------------------------------
+{
+  let code = 0;
+  try { execFileSync('node', ['scripts/gen_public.mjs'], { cwd: ROOT, timeout: 60000, stdio: 'ignore' }); }
+  catch (e) { code = e.status ?? 2; }
+  if (code === 0) pass('the public view snapshot matches keel\'s public reader on origin/main');
+  else if (code === 1) bad('the public view snapshot differs from keel\'s public reader (node scripts/gen_public.mjs says which; --refresh)');
+  else note('could not read keel\'s code (node scripts/gen_public.mjs says why): the public view snapshot was not checked');
 }
 
 // ---- 3: the API reference against keel's OpenAPI ---------------------------------------------------------

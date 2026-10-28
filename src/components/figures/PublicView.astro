@@ -1,0 +1,175 @@
+---
+// What a stranger reads of an open world: all its elements, the three kinds the public reader
+// removes (and with them the links and counts that would show them), what is left, the three ways
+// in (the keyless API reads, the public page, the graph), what is never shown and the one 404 for a
+// world that answers nothing. Built as HTML, so its words are the page's own text (lists a screen
+// reader or an agent reads). The removals, the /w/ routes, the graph's leave-outs and the 404s come
+// from the platform's public reader through contract/public.json (scripts/gen_public.mjs), the
+// keyless routes from the API's own document through contract/callers.json, both through
+// public.mjs, which the twin reads too. Wide, the removals sit between all the elements and what is
+// left, with arrows across, and the API's routes above the two /w/ pages; narrow (a container
+// query), one column with the arrows down. The theme
+// is the docs' own.
+import { ELEMENT_LABELS, ELEMENT_TYPES } from '@onlyworlds/sdk';
+import snap from '../../../contract/public.json';
+import callers from '../../../contract/callers.json';
+import { WAYS, markSay, publicView, publicWords } from './public.mjs';
+
+const data = publicView(snap, callers, ELEMENT_TYPES, ELEMENT_LABELS);
+const code = (s: string) => `<code>${s.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code>`;
+const w = publicWords(data, code);
+---
+
+<figure class="ow-fig ow-pub not-content" data-ow-figure="public" data-read-at={data.readAt} data-callers-at={data.callersAt}>
+  <p class="ow-pub-lead"><b>{w.title}.</b> {w.lead}</p>
+  <div class="ow-pub-flow">
+    <div class="ow-pub-box ow-pub-all"><b>{w.all}</b></div>
+    <span class="ow-pub-arrow" aria-hidden="true" />
+    <div class="ow-pub-out">
+      <ul class="ow-pub-removed" aria-label={`Removed from ${w.all.toLowerCase()}`}>
+        {
+          data.removed.map((r) => (
+            <li data-remove={r.key} data-mark={r.mark ?? ''}>
+              <span class="ow-pub-x">removed:</span> {r.say}{r.mark && ' '}{r.mark && <span class="ow-pub-mark" set:html={markSay(r, code)} />}
+            </li>
+          ))
+        }
+      </ul>
+      <p class="ow-pub-gone">{w.gone}</p>
+    </div>
+    <span class="ow-pub-arrow" aria-hidden="true" />
+    <div class="ow-pub-box ow-pub-reads">
+      <b>{w.reads}</b>
+      <p>{w.readsNote}</p>
+    </div>
+  </div>
+  <div class="ow-pub-part">
+    <p class="ow-pub-h">{w.ways}</p>
+    <ul class="ow-pub-ways">
+      <li class="ow-pub-way" data-way="api">
+        <b>{WAYS.api}</b>
+        <p set:html={w.apiNote} />
+        <ul class="ow-pub-routes">
+          {
+            data.api.map((r) => (
+              <li data-route={`${r.method} ${r.path}`} data-ops={r.ops}><code>{r.method} {r.path}</code>{r.ops > 1 && <span class="ow-pub-ops"> ×{r.ops}</span>}</li>
+            ))
+          }
+        </ul>
+      </li>
+      <li class="ow-pub-way" data-way="page">
+        <b>{WAYS.page}</b>
+        <ul class="ow-pub-routes">
+          {data.pages.map((p) => <li data-route={p}><code>{p}</code></li>)}
+        </ul>
+        <p set:html={w.pageNote} />
+      </li>
+      <li class="ow-pub-way" data-way="graph" data-left-out={data.left.map((l) => l.type).join(' ')}>
+        <b>{WAYS.graph}</b>
+        <ul class="ow-pub-routes">
+          <li data-route={data.graph}><code>{data.graph}</code></li>
+        </ul>
+        <p>{w.graphNote}</p>
+      </li>
+    </ul>
+  </div>
+  <div class="ow-pub-part ow-pub-rows">
+    <p class="ow-pub-h ow-pub-never">{w.never}</p>
+    <ul class="ow-pub-nevers">
+      {w.nevers.map((n) => <li data-never={n.key}><b>{n.say}</b><span class="ow-pub-sep">: </span><span set:html={n.note} /></li>)}
+    </ul>
+    <p class="ow-pub-h">{w.none}</p>
+    <div class="ow-pub-misses">
+      <p data-miss="world" data-status={data.misses.world.status} set:html={w.noneNote} />
+      <p data-miss="element" data-status={data.misses.element.status} set:html={w.noneElement} />
+    </div>
+  </div>
+  <figcaption set:html={w.caption} />
+</figure>
+
+<style>
+  .ow-pub {
+    container-type: inline-size;
+    margin: 1.5rem 0 1.25rem;
+    font-size: 0.875rem;
+    line-height: 1.45;
+    color: var(--sl-color-gray-2);
+    --pub-out: var(--sl-color-red-high);
+    --pub-out-line: var(--sl-color-red);
+    --pub-in: var(--sl-color-accent-high);
+    --pub-in-line: var(--sl-color-accent);
+    --pub-way: var(--sl-color-orange-high);
+    --pub-way-line: var(--sl-color-orange);
+  }
+  .ow-pub p, .ow-pub ul { margin: 0; }
+  .ow-pub ul { list-style: none; padding: 0; }
+  .ow-pub li { margin: 0; }
+  .ow-pub code { font-family: var(--sl-font-mono); font-size: 0.8125rem; color: var(--sl-color-white); overflow-wrap: anywhere; }
+  .ow-pub b { color: var(--sl-color-white); font-weight: 600; }
+  .ow-pub-lead { color: var(--sl-color-gray-3); }
+  /* the flow: all the elements, the removals, what is left */
+  .ow-pub-flow {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) 2rem minmax(0, 1.3fr) 2rem minmax(0, 1.3fr);
+    align-items: center;
+    margin-top: 1rem;
+  }
+  .ow-pub-box { border-radius: 10px; padding: 0.75rem 0.9rem; }
+  .ow-pub-all { border: 2px solid var(--sl-color-gray-4); text-align: center; }
+  .ow-pub-reads { border: 2px solid var(--pub-in-line); background: var(--sl-color-gray-6); }
+  .ow-pub-reads b { color: var(--pub-in); font-size: 1rem; }
+  .ow-pub-reads p { margin-top: 0.35rem; color: var(--sl-color-gray-2); }
+  .ow-pub-arrow { position: relative; height: 2px; margin: 0 0.3rem; background: var(--sl-color-gray-3); }
+  .ow-pub-arrow::after {
+    content: '';
+    position: absolute;
+    right: -1px;
+    top: -4px;
+    border: 5px solid transparent;
+    border-left: 7px solid var(--sl-color-gray-3);
+    border-right: 0;
+  }
+  .ow-pub-removed { display: grid; gap: 6px; }
+  .ow-pub-removed li {
+    border: 2px dashed var(--pub-out-line);
+    border-radius: 8px;
+    padding: 0.4rem 0.65rem;
+    color: var(--pub-out);
+  }
+  .ow-pub-x { font-weight: 600; }
+  .ow-pub-mark { display: block; color: var(--sl-color-gray-3); font-size: 0.8125rem; }
+  .ow-pub-mark code { font-size: 0.75rem; }
+  .ow-pub-gone { margin-top: 0.5rem !important; color: var(--sl-color-gray-3); font-size: 0.8125rem; }
+  /* the three ways in */
+  .ow-pub-part { margin-top: 1.25rem; padding-top: 1rem; border-top: 1px dashed var(--sl-color-gray-5); }
+  .ow-pub-h { color: var(--sl-color-white); font-weight: 600; font-size: 0.9375rem; }
+  /* the API's routes across the top, the two /w/ pages side by side under it */
+  .ow-pub-ways { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 0.6rem !important; }
+  .ow-pub-way[data-way="api"] { grid-column: 1 / -1; }
+  .ow-pub-way[data-way="api"] .ow-pub-routes { display: flex; flex-wrap: wrap; gap: 4px 14px; }
+  .ow-pub-way { border: 2px solid var(--pub-way-line); border-radius: 10px; padding: 0.7rem 0.85rem; display: flex; flex-direction: column; gap: 0.4rem; }
+  .ow-pub-way > b { color: var(--pub-way); font-size: 0.9375rem; }
+  .ow-pub-way > p { color: var(--sl-color-gray-3); font-size: 0.8125rem; }
+  .ow-pub-way > p code { font-size: 0.75rem; }
+  .ow-pub-routes { display: grid; gap: 2px; }
+  .ow-pub-routes code { font-size: 0.75rem; }
+  .ow-pub-ops { color: var(--sl-color-gray-3); font-size: 0.75rem; font-variant-numeric: tabular-nums; }
+  /* never shown, and the one answer for nothing: a heading column beside its rows */
+  .ow-pub-rows { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 10px 18px; align-items: start; }
+  .ow-pub-never { color: var(--pub-out); }
+  .ow-pub-nevers { display: grid; gap: 4px; }
+  .ow-pub-nevers b { color: var(--sl-color-gray-1); font-weight: 600; }
+  .ow-pub-nevers code, .ow-pub-misses code { font-size: 0.75rem; }
+  .ow-pub-misses { display: grid; gap: 4px; }
+  .ow-pub figcaption { margin-top: 12px; color: var(--sl-color-gray-3); font-size: 0.8125rem; }
+  .ow-pub figcaption code { font-size: 0.8125rem; }
+  @container (max-width: 560px) {
+    .ow-pub-ways { grid-template-columns: minmax(0, 1fr); }
+    /* one column, the arrows down */
+    .ow-pub-flow { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    .ow-pub-arrow { width: 2px; height: 1.25rem; margin: 0.3rem auto; }
+    .ow-pub-arrow::after { right: auto; left: -4px; top: auto; bottom: -1px; border: 5px solid transparent; border-top: 7px solid var(--sl-color-gray-3); border-bottom: 0; }
+    .ow-pub-rows { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+    .ow-pub-rows .ow-pub-h + * + .ow-pub-h { margin-top: 0.6rem; }
+  }
+</style>

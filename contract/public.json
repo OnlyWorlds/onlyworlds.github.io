@@ -1,0 +1,70 @@
+{
+  "source": "keel origin/main: elements/visibility.py (scoped, reads_tombstones), core/world_api.py (_public_world), web/urls.py, web/public_views.py, web/public_page.py, portal/world_graph.py",
+  "read_at": "0d4b0e3",
+  "removed": [
+    {
+      "key": "room",
+      "by": "core/room.py without_room",
+      "mark": "x_room_of"
+    },
+    {
+      "key": "proposed",
+      "by": "proposals/marked.py without_proposed",
+      "mark": "x_review_proposed"
+    },
+    {
+      "key": "hidden",
+      "by": "elements/visibility.py scoped: qs.exclude(id__in=hidden)",
+      "mark": null
+    }
+  ],
+  "absent_from": [
+    "list",
+    "count",
+    "link",
+    "search"
+  ],
+  "tombstones": false,
+  "world_body": {
+    "owner_character": null,
+    "counts": "public_counts"
+  },
+  "pages": [
+    {
+      "view": "world_page",
+      "path": "/w/<addr>"
+    },
+    {
+      "view": "element_page",
+      "path": "/w/<addr>/<type_slug>/<element_id>"
+    },
+    {
+      "view": "graph_page",
+      "path": "/w/<addr>/graph"
+    }
+  ],
+  "address": {
+    "id_first": true,
+    "opens": [
+      "public_read=True",
+      "public_page__on=True"
+    ]
+  },
+  "misses": {
+    "world": {
+      "status": 404,
+      "head": "This world has no public page",
+      "text": "The address may be mistyped, or the owner has not turned the page on. If someone sent you this link, ask them to check it."
+    },
+    "element": {
+      "status": 404,
+      "text": "This page isn't available."
+    }
+  },
+  "graph_left_out": [
+    "map",
+    "marker",
+    "pin",
+    "zone"
+  ]
+}

@@ -86,10 +86,22 @@
 // folders page, the world's values to the worked example, the twin the same. Then the snapshot
 // against the live document, the world and the schema-dist checkout (OW_SCHEMA_DIST), printed
 // STALE, never failed.
+//
+// The public view (/docs/development/api/public, PublicView): built from the platform's public
+// reader through the snapshot contract/public.json (gen_public.mjs, read from keel's code) and the
+// keyless routes from the API document through contract/callers.json. This reads the built figure:
+// the removals and their marks to the snapshot; the keyless reads, expanded back to operations, to
+// the operations that list no credential beside a key, each once; the /w/ routes to keel's,
+// segment for segment, with the page's words for their placeholders; the graph's leave-outs to
+// keel's and to the page's sentence by the SDK's labels; never shown to the document (no file read
+// takes no key, /members takes a key) and the snapshot (owner_character null, no tombstones); the
+// two 404s' statuses and words to keel's, quoted on the page. Then every phrase the figure says to
+// the page's source, the twin the same. keel is private: gen_public.mjs holds the snapshot to its
+// code, locally, and the sweep's check 2f.
 import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { parseOwLink, ELEMENT_TYPES, ELEMENT_FAMILIES, FAMILY_ORDER } from '@onlyworlds/sdk';
+import { parseOwLink, ELEMENT_TYPES, ELEMENT_LABELS, ELEMENT_FAMILIES, FAMILY_ORDER } from '@onlyworlds/sdk';
 import { contrast, pageColours, CONTRAST } from '../src/components/figures/fields.mjs';
 import { CANCEL_ERROR, REFUSED_STATUS, REDIRECT_STATUS } from '../src/components/figures/signin.mjs';
 import { MARKS as TIME_MARKS, WHERE as TIME_WHERE } from '../src/components/figures/time.mjs';
@@ -1154,9 +1166,130 @@ for (const d of drift) console.log(`  STALE  time snapshot (node scripts/gen_tim
 console.log(`time: the snapshot held to the live API document, ${tSnap.world.name}${tDist ? ' and the schema-dist checkout' : ''}, ${drift.length ? `${drift.length} difference(s)` : 'the same'}`);
 }
 
+// ---- the public view ----
+// Read here with code of its own (not public.mjs): the removals, the routes, the graph's
+// leave-outs, what is never shown and the two 404s from the built figure, against the two
+// snapshots and the page's own source. In a block of its own: its names stay its own.
+{
+const vPage = read('docs/development/api/public.html');
+const vTwin = read('docs/development/api/public.md');
+const vf = vPage.match(/<figure\b[^>]*\bdata-ow-figure="public"[^>]*>([\s\S]*?)<\/figure>/);
+if (!vf) blind('the public worlds page carries no public view figure (data-ow-figure="public")');
+const vSnap = JSON.parse(readFileSync(join(DIST, '..', 'contract', 'public.json'), 'utf8'));
+const vCall = JSON.parse(readFileSync(join(DIST, '..', 'contract', 'callers.json'), 'utf8'));
+if (!vSnap.removed?.length || !vSnap.pages?.length || !vCall.operations?.length) blind('contract/public.json holds no removals or pages, or contract/callers.json no operations');
+const bad = (m) => fails.push(`public view: ${m}`);
+const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+const low = (s) => s.toLowerCase().replace(/\s+/g, ' ');
+// The page's source as a reader reads it: links as their text, no code ticks or bold.
+const vSrc = readFileSync(join(DIST, '..', 'src', 'content', 'docs', 'docs', 'development', 'api', 'public.mdx'), 'utf8');
+const prose = (s) => low(s.replace(/\[([^\]]+)\]\([^)]*\)/g, '$1').replace(/[`*]/g, ''));
+const src = prose(vSrc);
+const nevers = prose(vSrc.split('\n').find((l) => l.startsWith('- **Never shown**')) ?? '');
+if (!nevers) bad('the page has no "Never shown" line');
+const text = low(strip(vf[1]));
+
+// The removals: each the snapshot's, once, with its mark; each named so on the page's Never shown line.
+const vRem = [...vf[1].matchAll(/<li\b([^>]*\bdata-remove="[^"]*"[^>]*)>([\s\S]*?)<\/li>/g)].map((m) => ({ key: attr(m[1], 'data-remove'), mark: attr(m[1], 'data-mark') || null, text: low(strip(m[2])) }));
+const wantRem = vSnap.removed.map((r) => ({ key: r.key, mark: r.mark })).sort((a, b) => (a.key < b.key ? -1 : 1));
+if (!same(vRem.map((r) => ({ key: r.key, mark: r.mark })).sort((a, b) => (a.key < b.key ? -1 : 1)), wantRem)) bad(`the figure removes ${vRem.map((r) => `${r.key}${r.mark ? ` (${r.mark})` : ''}`).join(', ')}; the public reader removes ${wantRem.map((r) => `${r.key}${r.mark ? ` (${r.mark})` : ''}`).join(', ')}`);
+const REM_SAY = { hidden: 'hidden elements', proposed: 'elements still proposed', room: "a parlor's room elements" };
+for (const r of vRem) {
+  const say = REM_SAY[r.key];
+  if (!say) { bad(`the figure removes ${r.key}, which this check has no word for`); continue; }
+  if (!r.text.includes(say)) bad(`the ${r.key} removal reads "${r.text}", not "${say}"`);
+  if (!nevers.includes(say)) bad(`the page's Never shown line does not name "${say}"`);
+  if (r.mark && !(r.text.includes(r.mark) && nevers.includes(`${say} (${r.mark}`))) bad(`the ${r.key} removal's mark ${r.mark} is not the page's: "${nevers}"`);
+}
+if (vRem.some((r) => r.key === 'proposed') && !(nevers.includes('x_review_proposed with any value but null') && text.includes('x_review_proposed with any value but null'))) bad('the proposal mark is not "any value but null" on both the page and the figure');
+for (const k of ['link', 'count']) if (!vSnap.absent_from?.includes(k)) bad(`the public reader's removals are absent from every ${vSnap.absent_from?.join(', ')}; the figure says their ${k}s go with them`);
+
+// The keyless reads: the operations that list no credential beside a key, each drawn once.
+const keyless = vCall.operations.filter(([, , s]) => Array.isArray(s) && s.some((a) => a.length === 0) && s.some((a) => a.length > 0)).map(([m, p]) => `${m} ${p}`).sort();
+const drawnOps = [];
+const apiCard = vf[1].match(/<li\b[^>]*data-way="api"[^>]*>([\s\S]*?)<\/ul>/)?.[1] ?? '';
+for (const [, route, ops, inner] of apiCard.matchAll(/<li\b[^>]*data-route="([^"]+)"[^>]*data-ops="(\d+)"[^>]*>([\s\S]*?)<\/li>/g)) {
+  const r = unescape(route);
+  const [m, p] = r.split(' ');
+  const exp = p.startsWith('/api/v2/{type}') ? ELEMENT_TYPES.map((t) => `${m} ${p.replace('{type}', t)}`) : [r];
+  if (exp.length !== Number(ops)) bad(`${r} is drawn as ${ops} operation(s); it stands for ${exp.length}`);
+  if (!strip(inner).startsWith(r)) bad(`the route ${r} reads "${strip(inner)}"`);
+  drawnOps.push(...exp);
+}
+const dup = drawnOps.filter((k, i) => drawnOps.indexOf(k) !== i);
+if (dup.length) bad(`draws ${dup[0]} twice`);
+if (!same([...new Set(drawnOps)].sort(), keyless)) bad(`the keyless reads drawn are not the document's: ${[...drawnOps.filter((k) => !keyless.includes(k)).map((k) => `${k} (drawn, not keyless)`), ...keyless.filter((k) => !drawnOps.includes(k)).map((k) => `${k} (keyless, not drawn)`)].slice(0, 4).join(', ')}`);
+
+// The /w/ routes: keel's path, segment for segment; the page's words for its placeholders.
+const generic = (p) => p.replace(/<[^>]+>/g, '<>');
+const wRoutes = (way) => [...(vf[1].match(new RegExp(`<li\\b[^>]*data-way="${way}"[^>]*>([\\s\\S]*?)</ul>`))?.[1] ?? '').matchAll(/data-route="([^"]+)"/g)].map((m) => unescape(m[1]));
+const keelPath = (view) => vSnap.pages.find((p) => p.view === view)?.path;
+for (const [way, views] of [['page', ['world_page', 'element_page']], ['graph', ['graph_page']]]) {
+  const got = wRoutes(way);
+  if (!same(got.map(generic), views.map((v) => generic(keelPath(v) ?? '?')))) bad(`${way} draws ${got.join(', ')}; keel routes ${views.map(keelPath).join(', ')}`);
+  for (const r of got) if (!vSrc.includes(`\`${r}\``) && !vSrc.includes(`\`onlyworlds.com${r}\``)) bad(`the route ${r} is not written so on the page`);
+}
+if (!vSnap.address?.id_first || !vSrc.includes('`onlyworlds.com/w/<world id>`, whatever address the owner chose') || !text.includes('/w/<world id> answers too, whatever address the owner chose')) bad('the figure and the page do not both say /w/<world id> always answers, or keel reads the address as something other than an id first');
+
+// The graph's leave-outs: keel's, named by the SDK's labels, the same set as the page's sentence.
+const graphTag = vf[1].match(/<li\b[^>]*data-way="graph"[^>]*>/)?.[0] ?? '';
+const left = (attr(graphTag, 'data-left-out') ?? '').split(' ').filter(Boolean).sort();
+if (!same(left, [...vSnap.graph_left_out].sort())) bad(`the graph leaves out ${left.join(', ')}; keel's LEFT_OUT is ${vSnap.graph_left_out.join(', ')}`);
+const pageLeft = vSrc.match(/\.\s+([A-Z][a-z]+(?:, [A-Z][a-z]+)* and [A-Z][a-z]+) are left out, with every line to one\./)?.[1]?.split(/, | and /).sort() ?? [];
+if (!same(pageLeft, left.map((t) => ELEMENT_LABELS[t]).sort())) bad(`the page's graph leaves out ${pageLeft.join(', ') || 'nothing this reads'}; the figure ${left.map((t) => ELEMENT_LABELS[t]).join(', ')}`);
+for (const t of left) if (!text.includes(low(ELEMENT_LABELS[t]))) bad(`the graph card does not name ${ELEMENT_LABELS[t]}`);
+
+// Never shown: files (no file read takes no key), the roster (owner_character null, /members
+// takes a key), deleted elements (no tombstones: a 404).
+const vNev = [...vf[1].matchAll(/<li\b[^>]*\bdata-never="([^"]+)"/g)].map((m) => m[1]);
+if (!same(vNev, ['files', 'roster', 'deleted'])) bad(`never shown draws ${vNev.join(', ')}`);
+const openFile = vCall.operations.find(([m, p, s]) => m === 'GET' && /\/files(\/|$)/.test(p) && (s === null || s.length === 0 || s.some((a) => a.length === 0)));
+if (openFile) bad(`${openFile[0]} ${openFile[1]} reads a file with no key; the figure says files are never shown`);
+const members = vCall.operations.find(([m, p]) => m === 'GET' && p === '/api/v2/members');
+if (!members || !members[2]?.length || members[2].some((a) => a.length === 0)) bad('GET /api/v2/members is missing from the document or takes no key; the figure says the roster is never shown');
+if (vSnap.world_body?.owner_character !== null) bad('keel\'s keyless world body keeps owner_character; the figure says it is always null');
+if (vSnap.tombstones !== false) bad('keel\'s public reader meets a 410; the figure says a deleted element is a 404');
+for (const w of ['files', 'the roster', 'deleted elements']) if (!nevers.includes(w)) bad(`the page's Never shown line does not name ${w}`);
+
+// The two 404s: keel's statuses and words, quoted on the page.
+for (const [k, m] of Object.entries(vSnap.misses ?? {})) {
+  const p = vf[1].match(new RegExp(`<p\\b[^>]*data-miss="${k}"[^>]*data-status="(\\d+)"[^>]*>([\\s\\S]*?)</p>`));
+  const quote = k === 'world' ? `"${m.head}.` : `"${m.text}"`;
+  if (!p || Number(p[1]) !== m.status || !strip(p[2]).includes(`${m.status}`) || !strip(p[2]).includes(quote)) bad(`the ${k} miss reads "${p ? strip(p[2]) : 'nothing'}"; keel answers ${m.status} with ${quote}`);
+  const full = k === 'world' ? `"${m.head}. ${m.text}"` : `"${m.text}"`;
+  if (!vSrc.includes(full)) bad(`the page does not quote keel's ${k} 404 page: ${full}`);
+}
+
+// The figure's words: each a phrase of the page's source, and in the built figure.
+const PHRASES = [
+  'are off for every world until its owner turns them on', 'the links to them and their counts', 'with its fields, links and pictures',
+  'a picture is public by its own link', 'api-key header', '?world=<world id>', 'every public element as a point and every link between two as a line',
+  'the roster of who plays whom', 'owner_character', 'never 410', 'the public reads no tombstones',
+  'a mistyped address, a world whose page is off, and a private world', 'the same page, status 404', 'under a live page', 'a hidden, deleted or unknown element',
+];
+for (const ph of PHRASES) {
+  if (!src.includes(ph)) bad(`"${ph}" is not on the page's source`);
+  if (!text.includes(ph)) bad(`the figure does not say "${ph}"`);
+}
+const vCap = strip(vf[1].match(/<figcaption\b[^>]*>([\s\S]*?)<\/figcaption>/)?.[1] ?? '');
+if (!vCap.includes(`as read on ${vCall.read_at}.`) || attr(vf[0].match(/^<figure\b[^>]*>/)[0], 'data-read-at') !== vSnap.read_at) bad(`the caption or the figure's mark is not the snapshots' (${vCall.read_at}, ${vSnap.read_at}): "${vCap}"`);
+
+// The twin carries the figure as text: the same removals, routes and never shown.
+if (/^<PublicView \/>$/m.test(vTwin)) bad('the Markdown twin carries the bare tag, not the text');
+else {
+  const tw = vTwin.slice(vTwin.indexOf('**An open world, read by a stranger.**'));
+  if (tw.length < 2) bad('the twin has no text of the figure');
+  for (const r of vRem) if (REM_SAY[r.key] && !tw.includes(`- ${REM_SAY[r.key]}`)) bad(`the twin does not remove ${REM_SAY[r.key]}`);
+  const twApi = [...(tw.split('\n').find((l) => l.startsWith('- Keyless API reads')) ?? '').matchAll(/`([A-Z]+ \/api\/v2\/[^`]+)`/g)].map((m) => m[1]);
+  if (!same(twApi.flatMap((r) => (r.includes('{type}') ? ELEMENT_TYPES.map((t) => r.replace('{type}', t)) : [r])).sort(), keyless)) bad(`the twin's keyless reads are ${twApi.join(', ')}`);
+  for (const r of [...wRoutes('page'), ...wRoutes('graph')]) if (!tw.includes(`\`${r}\``)) bad(`the twin does not carry ${r}`);
+}
+console.log(`public view: ${vRem.length} removals (${vRem.map((r) => r.key).join(', ')}), ${new Set(drawnOps).size} keyless reads, ${wRoutes('page').length + wRoutes('graph').length} /w/ routes, the graph without ${left.join(', ')}, never shown ${vNev.join(', ')} and the two 404s, from contract/public.json (keel ${vSnap.read_at}) and contract/callers.json (read ${vCall.read_at}); every word held to the page's source, the twin the same. keel's half is held by gen_public.mjs, locally`);
+}
+
 if (fails.length) {
   for (const f of fails) console.log(`  FAIL  ${f}`);
   console.log(`\nFAIL — ${fails.length} figure claim(s) differ from their source.`);
   process.exit(1);
 }
-console.log('\nPASS — the link map draws exactly the element pages\' link rows, the four nouns\' address parses as it reads, the error families draw exactly the errors table\'s codes and marks, the category fields draw each element page\'s field and link counts under the SDK\'s families, the page palettes paint keel\'s colours with the ratios they print, the world folder draws the example\'s folders and files, each named by the page\'s rule, the credentials figure draws every operation under the credentials the API document lists for it, the sign-in steps draw the API document\'s route, parameters and fields as the page\'s own tables give them, and the time ladder draws the demo world\'s line and the standard\'s steps under the names each source gives them.');
+console.log('\nPASS — the link map draws exactly the element pages\' link rows, the four nouns\' address parses as it reads, the error families draw exactly the errors table\'s codes and marks, the category fields draw each element page\'s field and link counts under the SDK\'s families, the page palettes paint keel\'s colours with the ratios they print, the world folder draws the example\'s folders and files, each named by the page\'s rule, the credentials figure draws every operation under the credentials the API document lists for it, the sign-in steps draw the API document\'s route, parameters and fields as the page\'s own tables give them, the time ladder draws the demo world\'s line and the standard\'s steps under the names each source gives them, and the public view draws what the public reader removes, the keyless reads and the /w/ routes as the page\'s own words give them.');

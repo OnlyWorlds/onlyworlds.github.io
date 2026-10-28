@@ -4,10 +4,13 @@ description: How a world's owner opens it to everyone, gives it a public page at
 ---
 
 import PagePalettes from '../../../../../components/figures/PagePalettes.astro';
+import PublicView from '../../../../../components/figures/PublicView.astro';
 
 A world's owner can open the world to everyone. Anyone can then read it with no key and no account: through the API, through tools that read worlds, and, if the owner gives it one, on a **public page** at `onlyworlds.com/w/<address>`. Both are off for every world until its owner turns them on.
 
-Opening a world never shows what its owner [hid](/docs/development/api/hidden). The public reads every element that is not hidden and not [still proposed](/docs/development/api/proposals#the-switch), with its fields, links and pictures; hidden elements, the links to them and their counts are missing, and so is a new element an AI seat proposed, until a keeper settles it.
+Opening a world never shows what its owner [hid](/docs/development/api/hidden). The public reads every element that is not hidden, not [still proposed](/docs/development/api/proposals#the-switch) and not one of a parlor's [room elements](/docs/schema/conventions#data-the-schema-does-not-model), with its fields, links and pictures. The others are missing, and so are the links to them and their counts; a new element an AI seat proposed shows once a keeper settles it.
+
+<PublicView />
 
 ## Turning it on
 
@@ -29,7 +32,7 @@ The demo worlds (Moppetopia, Hyperion and the others read with a [demo key](/doc
 - 3 to 40 characters: lowercase letters, numbers and hyphens, with no hyphen at either end and never two in a row.
 - Unique across onlyworlds.com, first come first served.
 - Not one of the site's own words (`about`, `start`, `tools`, `develop`, `docs`, `join`, `worlds`, `api`, `admin`, `static`, `account`, `w`, `agents`, `privacy`, `whatsnew`) and not an element category's name (`character`, `location` and the rest); not a value that reads as a world id.
-- The page also answers at `onlyworlds.com/w/<world id>`, always, whatever the address. That address cannot be taken or changed.
+- The page also answers at `onlyworlds.com/w/<world id>`, whatever address the owner chose. That address cannot be taken or changed.
 - An address exists only while the page is on. Turning the page off frees it, and turning it back on asks for one again; "A name given up before may be taken by now." Changing the address frees the old one at once, with no redirect from it.
 
 ### The look
