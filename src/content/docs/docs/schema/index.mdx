@@ -4,12 +4,15 @@ description: The OnlyWorlds standard, its 22 element categories, typed links, an
 ---
 
 import CategoryLinks from '../../../../components/figures/CategoryLinks.astro';
+import CategoryFields from '../../../../components/figures/CategoryFields.astro';
 
 The standard defines 22 element **categories**, the fields each one carries, and typed links between them. An **element** is one record in a world: a Character, a Location, a Law.
 
 Use as much of it as you need. Only `name` is required: the key must be present, and an empty string is accepted, on every category, Pins and Markers included. So a world of nothing but Objects is a valid world. Supertype and subtype sort a world's elements into its own kinds, `x_` fields carry data the standard doesn't model, and high-volume data can live in your own database beside the world, keyed by element id.
 
 ## The 22 categories
+
+<CategoryFields />
 
 | Category | Definition |
 | :--- | :--- |

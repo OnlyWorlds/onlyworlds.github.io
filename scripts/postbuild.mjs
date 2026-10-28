@@ -9,8 +9,9 @@
 import { readdirSync, statSync, existsSync, renameSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, relative, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { FIELD_SCHEMA, ELEMENT_TYPES, ELEMENT_LABELS } from '@onlyworlds/sdk';
+import { FIELD_SCHEMA, ELEMENT_TYPES, ELEMENT_LABELS, ELEMENT_FAMILIES, FAMILY_ORDER } from '@onlyworlds/sdk';
 import { categoryLinksMarkdown } from '../src/components/figures/links.mjs';
+import { categoryFieldsMarkdown } from '../src/components/figures/fields.mjs';
 import { fourNounsMarkdown } from '../src/components/figures/four-nouns.mjs';
 import { errorFamiliesMarkdown } from '../src/components/figures/errors.mjs';
 
@@ -100,6 +101,7 @@ for (const file of walk(DIST)) {
 // the same module the figure draws from. A component tag with no text here fails the build.
 const FIGURE_TEXT = {
   CategoryLinks: () => categoryLinksMarkdown(FIELD_SCHEMA, ELEMENT_TYPES, ELEMENT_LABELS),
+  CategoryFields: () => categoryFieldsMarkdown(FIELD_SCHEMA, ELEMENT_TYPES, ELEMENT_FAMILIES, FAMILY_ORDER),
   FourNouns: fourNounsMarkdown,
   ErrorFamilies: () => errorFamiliesMarkdown(JSON.parse(readFileSync(join(ROOT, 'contract', 'error-codes.json'), 'utf8'))),
 };

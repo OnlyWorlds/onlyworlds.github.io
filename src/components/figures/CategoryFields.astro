@@ -1,0 +1,144 @@
+---
+// The 22 categories in their four families, each with a bar for its own fields: the solid part its
+// links, the light part its values. Built at build time from the SDK's field table and presentation
+// data (fields.mjs). It is HTML text: every row names its category, its field count and, for a
+// screen reader, its link count, and the list under it says the same. The theme is the docs' own
+// (Starlight's colour variables follow the light/dark switch); the four family colours are the
+// SDK's, a light and a dark one each, switched with the theme.
+import { FIELD_SCHEMA, ELEMENT_TYPES, ELEMENT_FAMILIES, FAMILY_ORDER, FAMILY_COLORS, ELEMENT_ICONS } from '@onlyworlds/sdk';
+import { categoryFields, fieldWords, kindsText, label } from './fields.mjs';
+
+const data = categoryFields(FIELD_SCHEMA, ELEMENT_TYPES, ELEMENT_FAMILIES, FAMILY_ORDER);
+const w = fieldWords(data, (s: string) => `<code>${s}</code>`, (t: string, href: string) => `<a href="${href}">${t}</a>`);
+const pct = (n: number) => `${((100 * n) / data.max).toFixed(2)}%`;
+const colours = Object.entries(FAMILY_COLORS)
+  .map(([f, c]) => `--ow-kf-${f}-l:${c.light};--ow-kf-${f}-d:${c.dark}`)
+  .join(';');
+---
+
+<figure class="ow-fig ow-kf not-content" data-ow-figure="category-fields" data-max={data.max} style={colours}>
+  <p class="ow-kf-lead"><strong>{w.head}</strong> {w.lead}</p>
+  <div class="ow-kf-grid">
+    {
+      data.families.map((f) => (
+        <section class="ow-kf-fam" data-family={f.family} style={`--c-l:var(--ow-kf-${f.family}-l);--c-d:var(--ow-kf-${f.family}-d)`}>
+          <p class="ow-kf-name">
+            <strong>{label(f.family)}</strong>{' '}
+            <span>{f.says && `${f.says} · `}{f.kinds.length}</span>
+          </p>
+          <ul>
+            {f.kinds.map((c) => (
+              <li data-k={c.k} data-fields={c.fields} data-links={c.links}>
+                <span class="material-symbols-outlined" aria-hidden="true">{ELEMENT_ICONS[c.k as keyof typeof ELEMENT_ICONS]}</span>
+                <a href={`/docs/schema/element_categories/${c.k}`}>{label(c.k)}</a>
+                <span class="ow-kf-bar" aria-hidden="true">
+                  <i class="l" style={`width:${pct(c.links)}`} />
+                  <i class="v" style={`width:${pct(c.values)}`} />
+                </span>
+                <span class="ow-kf-n">{c.fields}<span class="sr-only"> fields, {c.links} of them links</span></span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </div>
+  <p class="ow-kf-key" aria-hidden="true">
+    <span><i class="l" />{w.link}</span>
+    <span><i class="v" />{w.value}</span>
+  </p>
+  <figcaption><Fragment set:html={w.caption} /></figcaption>
+</figure>
+
+<details class="ow-fig-text ow-kf-text">
+  <summary>The same counts as text</summary>
+  <ul>
+    {
+      data.families.map((f) => (
+        <li data-family={f.family}>
+          <strong>{label(f.family)}</strong>{f.says && `, ${f.says}`}: {kindsText(f)}.
+        </li>
+      ))
+    }
+  </ul>
+</details>
+
+<style>
+  .ow-kf {
+    container-type: inline-size;
+    margin: 1.5rem 0 0.75rem;
+    font-size: 0.9375rem;
+    line-height: 1.45;
+    color: var(--sl-color-gray-2);
+  }
+  .ow-kf p { margin: 0; }
+  .ow-kf .ow-kf-lead { color: var(--sl-color-white); margin-bottom: 14px; }
+  .ow-kf-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 28px;
+  }
+  /* each family's colour: the SDK's dark one by default, its light one on the light theme */
+  .ow-kf-fam {
+    --c: var(--c-d);
+    border-top: 3px solid var(--c);
+    padding-top: 8px;
+    min-width: 0;
+  }
+  :global(:root[data-theme='light']) .ow-kf-fam { --c: var(--c-l); }
+  .ow-kf-name strong { color: var(--sl-color-white); font-weight: 600; }
+  .ow-kf-name span { margin-left: 6px; font-size: 0.875rem; color: var(--sl-color-gray-3); }
+  .ow-kf ul {
+    list-style: none;
+    margin: 6px 0 0;
+    padding: 0;
+  }
+  .ow-kf li {
+    display: grid;
+    grid-template-columns: 24px 6.5rem minmax(0, 1fr) 2rem;
+    gap: 8px;
+    align-items: center;
+    padding: 3px 0;
+    margin: 0;
+  }
+  .ow-kf li .material-symbols-outlined { font-size: 22px; color: var(--c); }
+  .ow-kf li a {
+    color: var(--sl-color-white);
+    text-decoration: none;
+    font-size: 0.9375rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .ow-kf li a:hover,
+  .ow-kf li a:focus-visible { color: var(--sl-color-text-accent); text-decoration: underline; }
+  .ow-kf-bar { display: flex; height: 12px; border-radius: 3px; overflow: hidden; }
+  .ow-kf-bar i, .ow-kf-key i { display: block; height: 100%; }
+  .ow-kf-bar .l { background: var(--c); }
+  .ow-kf-bar .v { background: var(--c); opacity: 0.38; }
+  .ow-kf-n {
+    text-align: right;
+    font: 600 0.84375rem var(--sl-font-mono);
+    color: var(--sl-color-white);
+  }
+  .ow-kf-key {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    margin-top: 14px !important;
+    font-size: 0.8125rem;
+  }
+  .ow-kf-key span { display: inline-flex; align-items: center; gap: 6px; }
+  .ow-kf-key i { width: 22px; height: 11px; border-radius: 2px; background: var(--sl-color-gray-2); }
+  .ow-kf-key i.v { opacity: 0.38; }
+  .ow-kf figcaption {
+    margin-top: 10px;
+    color: var(--sl-color-gray-3);
+    font-size: 0.8125rem;
+  }
+  .ow-kf figcaption a { color: var(--sl-color-text-accent); }
+  .ow-kf figcaption :global(code) { font-size: 0.8125rem; }
+  @container (max-width: 560px) {
+    .ow-kf-grid { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>
