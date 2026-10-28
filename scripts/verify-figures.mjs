@@ -232,14 +232,16 @@ if (doc) {
   }
   if (!declared.size) fails.push(`the API document declares no Retry-After header at all (has its shape moved?)`);
   for (const [c, s] of marked) if (!declared.has(s.status)) fails.push(`errors figure: ${c} is marked Retry-After, and no operation in the API document declares Retry-After on a ${s.status}`);
-  // Known gap: idempotency_in_flight answers on any write that takes an Idempotency-Key, and none
-  // of those operations' 409s declares the header (the list's summary says it is sent). Printed.
+  // idempotency_in_flight answers on any write that takes an Idempotency-Key: every such operation
+  // declares Retry-After on that status (keel PR 308 closed the gap this printed until 2026-10-28).
   const inflight = shown.get('idempotency_in_flight');
   if (inflight?.ring) {
-    const covered = keyed.filter((op) => op.responses[inflight.status] && hasRetry(op.responses[inflight.status])).length;
-    console.log(covered
-      ? `  note  idempotency_in_flight: ${covered} of ${keyed.length} operations taking an Idempotency-Key now declare Retry-After on their ${inflight.status}`
-      : `  KNOWN GAP  idempotency_in_flight (${inflight.status}) is marked by the error list; none of the ${keyed.length} operations taking an Idempotency-Key declares Retry-After on its ${inflight.status} (printed, not failed)`);
+    if (!keyed.length) fails.push('the API document has no operation taking an Idempotency-Key (has its shape moved?)');
+    for (const op of keyed) {
+      if (!(op.responses[inflight.status] && hasRetry(op.responses[inflight.status]))) {
+        fails.push(`errors figure: idempotency_in_flight is marked Retry-After, and ${op.operationId ?? 'an operation'} takes an Idempotency-Key without declaring Retry-After on its ${inflight.status}`);
+      }
+    }
   }
   console.log(`error families: the API document declares Retry-After on ${[...declared].sort((a, b) => a - b).join(', ')}; the ${marked.length} marked codes' statuses held to it`);
 }
