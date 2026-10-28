@@ -1,6 +1,6 @@
 ---
 title: A worked example
-description: One small world, Moppetopia, read through the API to show how the categories, links and timeline fit together.
+description: One small world, Moppetopia, read through the API to show how the element types, links and timeline fit together.
 ---
 
 Moppetopia is a demo world: a civilization of felt beings called moppets, a navy that fights in puddles and in space, and an old war its people tell in different ways. Anyone can read it with its demo key `0000000001` (read-only, no PIN). Every call on this page runs as written.
@@ -59,9 +59,9 @@ So to find what a Character holds, read the Titles and check their `holders`: th
 
 Locations nest through `parent_location`, the wider Location a place is part of. Feltropolis has seven levels, each its own Location whose parent is Feltropolis; the places on a level name that level as theirs, so The Dry Room and Whisper Gallery sit under Level 3, The Squeeze. A tool can draw the station as a tree from that one field.
 
-## Same name, two categories
+## Same name, two element types
 
-The Treaty of Soft Landings ended the war, and Moppetopia holds it twice. As a **Law** it is the document: its `declaration` holds the wording, its `purpose` why it was made. As an **Event** it is the signing: a `start_date`, the Event that triggered it (The Great Puddle War), and the Locations where it happened. The name is shared; what each element can carry is set by its category.
+The Treaty of Soft Landings ended the war, and Moppetopia holds it twice. As a **Law** it is the document: its `declaration` holds the wording, its `purpose` why it was made. As an **Event** it is the signing: a `start_date`, the Event that triggered it (The Great Puddle War), and the Locations where it happened. The name is shared; what each element can carry is set by its element type.
 
 ## One Event, two stories
 
@@ -89,4 +89,4 @@ Dates are integers on the world's own timeline. Moppetopia counts in years (`tim
 
 ## What it leaves out
 
-Moppetopia uses all 22 categories, several of them once: one Family, one Language, one Phenomenon, one Relation. Most of its elements leave most fields empty, and the world is still valid: [Fields](/docs/schema/fields) lists what is required. Its two Maps (a space map, and the planet's surface as its `parent_map` child) carry the Pins, Markers and Zones; [Maps](/docs/schema/element_categories/map) covers how those fit together.
+Moppetopia uses all 22 element types, several of them once: one Family, one Language, one Phenomenon, one Relation. Most of its elements leave most fields empty, and the world is still valid: [Fields](/docs/schema/fields) lists what is required. Its two Maps (a space map, and the planet's surface as its `parent_map` child) carry the Pins, Markers and Zones; [Maps](/docs/schema/element_categories/map) covers how those fit together.

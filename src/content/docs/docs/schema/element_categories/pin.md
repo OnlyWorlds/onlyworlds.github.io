@@ -24,7 +24,7 @@ They are distinct from:
 
 ## Fields
 
-Drawn with the other categories: [what Pin links to](/docs/schema/?kind=pin#what-links-to-what).
+Drawn with the other element types: [what Pin links to](/docs/schema/?kind=pin#what-links-to-what).
 
 Integers are whole numbers: the API truncates a decimal, and a range is a display hint it does not enforce ([Field types](/docs/schema/fields#field-types)).
 

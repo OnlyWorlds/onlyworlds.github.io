@@ -110,8 +110,8 @@ def cell(s: str) -> str:
 def render(fields: list[dict], slug: str) -> str:
     out = ["## Fields", ""]
     if any(f["kind"] in ("single", "multi", "generic") for f in fields):
-        # The schema page's link map opens on this category (its ?kind= parameter).
-        out += [f"Drawn with the other categories: [what {slug.capitalize()} links to]"
+        # The schema page's link map opens on this element type (its ?kind= parameter).
+        out += [f"Drawn with the other element types: [what {slug.capitalize()} links to]"
                 f"(/docs/schema/?kind={slug}#what-links-to-what).", ""]
     if any(f["kind"] == "scalar_int" for f in fields):
         out += ["Integers are whole numbers: the API truncates a decimal, and a range is a display hint it does not enforce ([Field types](/docs/schema/fields#field-types)).", ""]

@@ -24,7 +24,7 @@ Every field below is optional. The TTRPG group (`level`, `hit_points` and six ab
 
 ## Fields
 
-Drawn with the other categories: [what Character links to](/docs/schema/?kind=character#what-links-to-what).
+Drawn with the other element types: [what Character links to](/docs/schema/?kind=character#what-links-to-what).
 
 Integers are whole numbers: the API truncates a decimal, and a range is a display hint it does not enforce ([Field types](/docs/schema/fields#field-types)).
 

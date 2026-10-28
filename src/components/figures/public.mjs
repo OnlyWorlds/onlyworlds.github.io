@@ -93,7 +93,7 @@ export function publicWords(data, code = (s) => `\`${s}\``) {
     reads: 'What a stranger reads',
     readsNote: 'Every other element, with its fields, links and pictures: a picture is public by its own link.',
     ways: 'Three ways in',
-    apiNote: `No ${code('API-Key')} header, and ${code('?world=<world id>')}; ${code('{type}')} is any of the ${data.types} categories.`,
+    apiNote: `No ${code('API-Key')} header, and ${code('?world=<world id>')}; ${code('{type}')} is any of the ${data.types} element types.`,
     pageNote: `${code(data.idPage)} answers too, whatever address the owner chose.`,
     graphNote: `Every public element as a point and every link between two as a line; ${list(data.left.map((l) => l.label))} are left out.`,
     never: 'Never shown',

@@ -110,7 +110,7 @@ export function callerWords(data, code = (s) => `\`${s}\``, link = (text, href) 
     none: `the document lists no credential${data.absent ? `; ${n(data.absent, 'operation', 'operations')}, marked, ${data.absent === 1 ? 'states' : 'state'} no security at all` : ''}.`,
     key: `as the document declares it: a legacy 10-digit key sends its PIN on every read of a world that has one (${link('Keys and PINs', '/docs/getting-started/keys#the-pin')}).`,
     account: `${data.session} of these also take an app's ${code('X-Session-Token')} in its place (${link('Account tokens', '/docs/getting-started/keys#account-tokens')}).`,
-    caption: `Generated from the API's own document (${code('openapi.json')}): the security each operation lists, as read on ${data.readAt}. Paths are under ${code(`${PREFIX}/`)}; ${code('{type}')} is any of the ${data.types} categories.`,
+    caption: `Generated from the API's own document (${code('openapi.json')}): the security each operation lists, as read on ${data.readAt}. Paths are under ${code(`${PREFIX}/`)}; ${code('{type}')} is any of the ${data.types} element types.`,
   };
 }
 

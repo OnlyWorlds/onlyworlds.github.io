@@ -100,15 +100,15 @@ const list = (xs, and = 'and') => (xs.length < 2 ? xs.join('') : `${xs.slice(0, 
 export function writeWords(data, code = (s) => `\`${s}\``) {
   return {
     cap: (n) => `up to ${n} characters`,
-    own: 'the fields of its own category',
-    ownNote: `from ${data.own.lo} (${list(data.own.loAt)}) to ${data.own.hi} (${list(data.own.hiAt)}); category fields are listed on each category's page`,
+    own: 'the fields of its own element type',
+    ownNote: `from ${data.own.lo} (${list(data.own.loAt)}) to ${data.own.hi} (${list(data.own.hiAt)}); each element type's own fields are listed on its page`,
     ext: data.ext.prefixes.map((x) => code(`${x}*`)).join(' '),
     extNote: `extension fields: any JSON value, stored as they are, and returned verbatim; each element can carry at most ${data.ext.kb} KB of them, counted as compact UTF-8 JSON; a ${code('PATCH')} merges extension fields by key`,
     managedNote: 'the API adds these to every element it returns',
     forbiddenNote: 'the server adds it to a message or a lens it serves',
     other: 'any other unknown field',
     otherNote: `naming the field, so a typo such as ${code('freinds')} fails loudly`,
-    caption: `Generated from the API's own document (${code('openapi.json')}): the ${data.categories} categories' write schemas for ${code('POST')} and ${code('PUT')} and their partial ones for ${code('PATCH')}, as read on ${data.readAt}.`,
+    caption: `Generated from the API's own document (${code('openapi.json')}): the ${data.categories} element types' write schemas for ${code('POST')} and ${code('PUT')} and their partial ones for ${code('PATCH')}, as read on ${data.readAt}.`,
   };
 }
 

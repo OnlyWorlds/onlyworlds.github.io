@@ -130,7 +130,7 @@ export function proposalWords(data, code = (s) => `\`${s}\``) {
     reviewWho: `${SAYS.keeper}${data.review.pin ? ` ${SAYS.pin}` : ''}`,
     marked: `a marked element is listed under ${list(listed.map(code))}, never ${list(never.map(code), 'or')}`,
     kinds: `${count(data.queue.kinds.length).toLowerCase()} ${SAYS.kinds} ${code('kind')}`,
-    caption: `${count(data.states.length)} states, the Proposal's ${code('state')}; every route is the same on all ${data.types} categories. Generated from the API's own document (${code('openapi.json')}): the proposal routes, the queue and the schemas they answer, as read on ${data.readAt}.`,
+    caption: `${count(data.states.length)} states, the Proposal's ${code('state')}; every route is the same on all ${data.types} element types. Generated from the API's own document (${code('openapi.json')}): the proposal routes, the queue and the schemas they answer, as read on ${data.readAt}.`,
   };
 }
 

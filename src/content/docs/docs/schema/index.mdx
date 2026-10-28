@@ -1,18 +1,18 @@
 ---
 title: Schema
-description: The OnlyWorlds standard, its 22 element categories, typed links, and where the schema is defined and governed.
+description: The OnlyWorlds standard, its 22 element types, typed links, and where the schema is defined and governed.
 ---
 
 import CategoryLinks from '../../../../components/figures/CategoryLinks.astro';
 import CategoryFields from '../../../../components/figures/CategoryFields.astro';
 
-The standard defines 22 element **categories**, the fields each one carries, and typed links between them. An **element** is one record in a world: a Character, a Location, a Law.
+The standard defines 22 **element types**, the fields each one carries, and typed links between them. An **element** is one record in a world: a Character, a Location, a Law.
 
-Use as much of it as you need. Only `name` is required: the key must be present, and an empty string is accepted, on every category, Pins and Markers included. So a world of nothing but Objects is a valid world. Supertype and subtype sort a world's elements into its own kinds, `x_` fields carry data the standard doesn't model, and high-volume data can live in your own database beside the world, keyed by element id.
+Use as much of it as you need. Only `name` is required: the key must be present, and an empty string is accepted, on every element type, Pins and Markers included. So a world of nothing but Objects is a valid world. Supertype and subtype sort a world's elements into its own kinds, `x_` fields carry data the standard doesn't model, and high-volume data can live in your own database beside the world, keyed by element id.
 
-## The 22 categories
+## The 22 element types
 
-| Category | Definition |
+| Element type | Definition |
 | :--- | :--- |
 | [Character](/docs/schema/element_categories/character) | A Character represents an individual with agency and the capacity to make choices that affect their world. |
 | [Creature](/docs/schema/element_categories/creature) | Creatures are living entities within a world that exhibit behavior and agency but lack the strategic reasoning or social complexity of Characters. |
@@ -43,13 +43,13 @@ Every element also carries the same base fields (name, description, supertype, s
 
 ## Typed links
 
-Links are typed fields. A Character's `location` is a single link that holds one Location; its `friends` is a multi link that holds any number of Characters. Each link field names the category it points to, so a tool always knows what kind of element is on the other end. One field, the Pin's `element`, is a generic link that can point to an element of any category (on the wire, `element_type` and `element_id`).
+Links are typed fields. A Character's `location` is a single link that holds one Location; its `friends` is a multi link that holds any number of Characters. Each link field names the element type it points to, so a tool always knows what kind of element is on the other end. One field, the Pin's `element`, is a generic link that can point to an element of any element type (on the wire, `element_type` and `element_id`).
 
-Links point one way, from the element that holds the field. For connections that carry their own history, span or intensity, the standard has a category of its own: [Relation](/docs/schema/element_categories/relation). [Conventions](/docs/schema/conventions) covers when to use which.
+Links point one way, from the element that holds the field. For connections that carry their own history, span or intensity, the standard has an element type of its own: [Relation](/docs/schema/element_categories/relation). [Conventions](/docs/schema/conventions) covers when to use which.
 
 ### What links to what
 
-Select a category to see the categories its link fields point at, with the fields named on each. Each category's own page lists the same fields in its table.
+Select an element type to see the element types its link fields point at, with the fields named on each. Each element type's own page lists the same fields in its table.
 
 <CategoryLinks />
 
@@ -58,7 +58,7 @@ Select a category to see the categories its link fields point at, with the field
 
 | What | Where |
 | :--- | :--- |
-| The standard, as YAML | [github.com/OnlyWorlds/OnlyWorlds](https://github.com/OnlyWorlds/OnlyWorlds/tree/main/schema): one file per category, plus `base_properties.yaml` for the fields every element shares and a `VERSION` file |
+| The standard, as YAML | [github.com/OnlyWorlds/OnlyWorlds](https://github.com/OnlyWorlds/OnlyWorlds/tree/main/schema): one file per element type, plus `base_properties.yaml` for the fields every element shares and a `VERSION` file |
 | Governance | [council.onlyworlds.com](https://council.onlyworlds.com): the standard changes in public, by motion and vote. Take part on the site or through the toolkit. |
 | For tool builders | [schema-dist](https://github.com/OnlyWorlds/schema-dist): the generated distribution, its decoder (the walk), and the ruling table. Vendor it rather than writing a parser of your own. |
 

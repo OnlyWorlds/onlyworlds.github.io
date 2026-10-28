@@ -16,7 +16,7 @@ moppetopia/
     character/
       admiral-fluffington--295f8866.json
     location/
-    ...                      one folder per category present, lowercase singular
+    ...                      one folder per element type present, lowercase singular
   media/                     optional; its format is not yet specified
   records/                   optional; world data that is not elements, one folder per producer
     RECORDS.json             the manifest: one entry per producer
@@ -25,7 +25,7 @@ moppetopia/
 
 <FolderExample />
 
-A folder holds one world. All 22 categories, `map`, `pin`, `zone` and `marker` included, live under `elements/<type>/`. A missing category folder means no elements of that category.
+A folder holds one world. All 22 element types, `map`, `pin`, `zone` and `marker` included, live under `elements/<type>/`. A missing element type folder means no elements of that element type.
 
 The `id` inside a file is the element's identity. The filename is for people: rename a file and nothing breaks. The recommended name is `<slug>--<tail>.json`. The slug is the name with its accents removed (José becomes jose), in lowercase ASCII, each run of other characters as one hyphen (an apostrophe included: The Consul’s Steinway becomes the-consul-s-steinway) and no hyphen at either end, cut to 40 characters with any hyphen left at the end removed. The tail is the id's last 8 characters. An element with no usable name gets `<id>.json`.
 
@@ -57,7 +57,7 @@ Two keys are required: `id` (a non-empty string) and `name` (a string, which may
 
 ## Element files
 
-An element file must hold a non-empty string `id`. The rest are the category's [fields](/docs/schema/fields), link fields under bare names holding an id or a list of ids, as in the API. Trimmed:
+An element file must hold a non-empty string `id`. The rest are the element type's [fields](/docs/schema/fields), link fields under bare names holding an id or a list of ids, as in the API. Trimmed:
 
 ```json
 {
@@ -89,7 +89,7 @@ A snapshot is a frozen copy of a world at one moment, such as a chapter's end.
 | `snapshot_label` | A label, such as `"ch05"` |
 | `snapshot_at` | Capture time (ISO 8601) |
 | `snapshot_change_seq` | The source's change cursor at capture |
-| `snapshot_counts` | Optional: files written per category. A receipt; the files are the truth. |
+| `snapshot_counts` | Optional: files written per element type. A receipt; the files are the truth. |
 | `snapshot_torn` | `true` only on a capture known to be inconsistent |
 | `writable` | `false`. Advisory: a tool may still write. The Unity SDK opens such a folder read-only and refuses to sync into it; Atlas opens it view only (since 1.90.0). |
 
@@ -119,8 +119,8 @@ A body the server trimmed for a key that may not see every linked element carrie
 
 **Reading**
 
-- MUST read every `*.json` in a category folder and key on the inner `id`; MUST NOT parse filenames. SHOULD skip a dot-prefixed file there: it is a tool's litter, not an element.
-- MUST treat a missing category folder as empty, and MUST NOT require any `.<tool>/` folder.
+- MUST read every `*.json` in an element type folder and key on the inner `id`; MUST NOT parse filenames. SHOULD skip a dot-prefixed file there: it is a tool's litter, not an element.
+- MUST treat a missing element type folder as empty, and MUST NOT require any `.<tool>/` folder.
 - SHOULD also read `spatial/{map,pin,zone,marker}/` (older Atlas). An id found in both layouts: serve the `elements/` copy, and SHOULD log the duplicate.
 - Visit the files of a layout by name, compared by code point, the same on every platform. An id found twice within one layout keeps the first file in that order. Never use the system's own path sort: on Windows it ignores case, so two readers would keep different files.
 - Accept both spellings: `map`/`map_id`, `zone`/`zone_id`, `time_current`/`time_range_current`.
@@ -130,7 +130,7 @@ A body the server trimmed for a key that may not see every linked element carrie
 **Writing**
 
 - UTF-8 without BOM, LF endings, 2-space indent, one trailing newline, keys in received order (never sorted), `1` not `1.0`.
-- Write new elements under `elements/<type>/`, never `spatial/`; an element read from a file is written back to that file, so one id never sits in both layouts. SHOULD omit empty category folders.
+- Write new elements under `elements/<type>/`, never `spatial/`; an element read from a file is written back to that file, so one id never sits in both layouts. SHOULD omit empty element type folders.
 - Two elements with the same filename: the later ones (by ascending id, compared by code point, the order archive entries use) MUST use the full id, `<slug>--<id>.json`.
 - An id, once minted, MUST be kept and MUST NOT be re-derived (from a new name, say).
 - MUST NOT invent data it lacks, such as timestamps, nor drop data it has. A [known-of](#known-of-elements) stub is written with its kept keys and served values only, and never pushed.

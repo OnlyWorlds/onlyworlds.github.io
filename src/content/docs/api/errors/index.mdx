@@ -113,7 +113,7 @@ Each code belongs to one family, its `type`, and a family's codes do not share o
 The request body or query is malformed: an unknown field, a server-managed field in a write, an unknown query parameter, a value that fails validation, text over its length limit, extension fields over the size cap, a malformed id, or a wrong-shaped payload.
 
 - **Common cause:** a misspelled field name (`freinds`); a `_ids` or `_id` suffix carried over from the [Classic API](/docs/development/api/classic) (the current API uses bare link names); an unknown query parameter, such as a mistyped filter (`nmae__icontains`) or `?ordering=`; sending a read body back with `type`, `created_at`, `updated_at` or `change_seq` still in it; a bulk request whose `items` is not an array.
-- **How to fix:** read `param`: it names the field or parameter at fault. Correct the spelling, drop the suffix or the server field, or remove the parameter. The list filters are `name`, `name__icontains`, `supertype`, `subtype`, `ids` and `created_by`, plus `characters` on the six categories with that link; the other accepted parameters are `limit`, `cursor`, `expand`, `fields`, `as` and `world`. Any other query parameter is rejected, never ignored.
+- **How to fix:** read `param`: it names the field or parameter at fault. Correct the spelling, drop the suffix or the server field, or remove the parameter. The list filters are `name`, `name__icontains`, `supertype`, `subtype`, `ids` and `created_by`, plus `characters` on the six element types with that link; the other accepted parameters are `limit`, `cursor`, `expand`, `fields`, `as` and `world`. Any other query parameter is rejected, never ignored.
 
 Unknown fields are a hard error, not a silent drop, so a mistyped field name fails loudly instead of vanishing. Fields under the extension namespaces `atlas_*`, `shadow_*` and `x_*` are the exception: they are stored as written.
 
@@ -121,10 +121,10 @@ Unknown fields are a hard error, not a silent drop, so a mistyped field name fai
 
 **Type** `invalid_request` · **Status** `400`
 
-A link field names a UUID that is not an element of the linked category in this world.
+A link field names a UUID that is not an element of the linked element type in this world.
 
-- **Common cause:** linking to an element that was never created, was deleted, or whose UUID was mistyped. An id of an element of another category (a Location's id in `friends`, which holds Characters). In `/bulk`, linking to a sibling item that itself failed. For a guest key, linking to an element the guest cannot see; for any key, linking to an element [hidden](/docs/development/api/hidden) from it.
-- **How to fix:** check that the referenced element exists and is of the category the field names (read it first, or include it in the same `/bulk` batch). Links in a batch are checked against the world **plus** the batch's surviving items, in any order, but an item that fails cannot be linked to. `param` names the link field.
+- **Common cause:** linking to an element that was never created, was deleted, or whose UUID was mistyped. An id of an element of another element type (a Location's id in `friends`, which holds Characters). In `/bulk`, linking to a sibling item that itself failed. For a guest key, linking to an element the guest cannot see; for any key, linking to an element [hidden](/docs/development/api/hidden) from it.
+- **How to fix:** check that the referenced element exists and is of the element type the field names (read it first, or include it in the same `/bulk` batch). Links in a batch are checked against the world **plus** the batch's surviving items, in any order, but an item that fails cannot be linked to. `param` names the link field.
 
 A single write that fails with `invalid_link` writes nothing, so after fixing the link you can retry it with the same element id. A dangling link is an explicit, named error. The Classic API's old behaviour of silently dropping it does not apply here.
 
@@ -529,7 +529,7 @@ A daily limit is used up. These routes answer it:
 Over the request budget: 300 requests a minute for one key or account token, 60 a minute from one address for a request with neither. Reads and writes count together, and a `/bulk` call is one request. The minute is the clock's minute, so the count starts again at its end. The message names the budget and the wait: `Too many requests: 300 a minute for this key. Wait 12 seconds.` {/* limit: requests_per_minute requests_per_minute_keyless */}
 
 - **Common cause:** a loop that never sleeps, or many copies of one program (every player of a game, every tab of a page) sending the same key, which share its 300. {/* limit: requests_per_minute */}
-- **How to fix:** wait the `Retry-After` seconds, which equal `RateLimit-Reset`. To stay under, read the `RateLimit-Remaining` header every reply carries, batch writes into [`/bulk`](/docs/development/api/writes#bulk), and follow [`/changes`](/docs/development/api/changes) instead of reading every category again. A key locked by wrong PINs answers [`rate_limited`](#rate_limited) instead, even over the budget. See [Limits](/docs/development/api-reference#limits).
+- **How to fix:** wait the `Retry-After` seconds, which equal `RateLimit-Reset`. To stay under, read the `RateLimit-Remaining` header every reply carries, batch writes into [`/bulk`](/docs/development/api/writes#bulk), and follow [`/changes`](/docs/development/api/changes) instead of reading every element type again. A key locked by wrong PINs answers [`rate_limited`](#rate_limited) instead, even over the budget. See [Limits](/docs/development/api-reference#limits).
 
 ### idempotency_error
 

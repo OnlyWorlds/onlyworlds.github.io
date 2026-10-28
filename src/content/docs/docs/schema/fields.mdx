@@ -5,7 +5,7 @@ description: The base fields every element carries, the field types, what is req
 
 import WriteBody from '../../../../components/figures/WriteBody.astro';
 
-Every element carries the same base fields, then the fields of its own category. Category fields are listed on each category's page, for example [Character](/docs/schema/element_categories/character).
+Every element carries the same base fields, then the fields of its own element type. Each element type's own fields are listed on its page, for example [Character](/docs/schema/element_categories/character).
 
 ## Base fields
 
@@ -15,13 +15,13 @@ Every element carries the same base fields, then the fields of its own category.
 | `name` | string | Yes: the key must be present; an empty string is accepted | Display name, up to 255 characters |
 | `world` | string (uuid) | No (set by the API key; never sent in a body) | The world this element belongs to |
 | `description` | string | No | Any kind of details about the element |
-| `supertype` | string | No | The top-level category the element belongs to in its world, up to 128 characters |
+| `supertype` | string | No | The top-level kind the element belongs to in its world, up to 128 characters |
 | `subtype` | string | No | A further classification within the supertype, up to 128 characters |
 | `image_url` | string (url) | No | Link to a representative image, up to 1024 characters |
 
 Ids are UUIDv7 when the server mints them, which makes them time-sortable. A client may supply its own `id` on create: any RFC 4122 UUID is accepted. On `PUT` and `PATCH` the path decides the id, and one in the body is ignored.
 
-Supertype and subtype are free text, so each world defines its own kinds. They sort elements within their category and never add one. [Conventions](/docs/schema/conventions) covers how to use them.
+An element's type is one of the 22; its supertype is the first sorting inside that type (a Character's supertype might be Wizard), and its subtype sorts it further. Supertype and subtype are free text, so each world defines its own kinds. They sort elements within their element type and never add one. [Conventions](/docs/schema/conventions) covers how to use them.
 
 ### Server-kept fields
 
@@ -29,7 +29,7 @@ The API adds these to every element it returns. They are platform bookkeeping, n
 
 | Field | Description |
 | :--- | :--- |
-| `type` | The element's category, as a lowercase slug (`character`), first key in every body |
+| `type` | The element's type, as a lowercase slug (`character`), first key in every body |
 | `created_at`, `updated_at` | Timestamps |
 | `change_seq` | The world's change sequence at the element's last write |
 | `created_by` | The world membership that created the element, or null when the world's owner did |
@@ -43,9 +43,9 @@ A write body that carries `type`, `created_at`, `updated_at` or `change_seq` is 
 | :--- | :--- | :--- | :--- |
 | text | A string | `"…"`; empty is `""` | A Character's `background` |
 | integer | A whole number; some are bounded | an integer or `null` | A Character's `height` |
-| single link | One element of a named category | a uuid or `null` | A Character's `location` (a Location) |
-| multi link | Any number of elements of a named category | an array of uuids; empty is `[]` | A Character's `friends` (Characters) |
-| generic link | One element of any category | two fields, `element_type` and `element_id` | A Pin's `element` |
+| single link | One element of a named element type | a uuid or `null` | A Character's `location` (a Location) |
+| multi link | Any number of elements of a named element type | an array of uuids; empty is `[]` | A Character's `friends` (Characters) |
+| generic link | One element of any element type | two fields, `element_type` and `element_id` | A Pin's `element` |
 | array | A list of plain values | a JSON array | A world's `time_format_names` |
 
 Link fields use their bare names in both directions: `location`, `friends`. There is no `_id` or `_ids` suffix on the v2 API.
@@ -65,7 +65,7 @@ Numbers are integers. The API truncates a decimal instead of rejecting it (`7.9`
 
 On every element, only `name` is required: the key must be present on create and full replace, and an empty string is accepted. Markers, which mark the boundary points of a Zone, are often unnamed.
 
-That includes the map categories. A [Pin](/docs/schema/element_categories/pin) or [Marker](/docs/schema/element_categories/marker) without a map or a position is valid, so an app can keep pins that are not on any map yet. Every other field accepts `null`.
+That includes the map element types. A [Pin](/docs/schema/element_categories/pin) or [Marker](/docs/schema/element_categories/marker) without a map or a position is valid, so an app can keep pins that are not on any map yet. Every other field accepts `null`.
 
 That is the floor for a valid element, not what every use needs: a map view needs a Pin's `map`, `x` and `y` before it can draw it, and a timeline needs dates.
 
@@ -91,7 +91,7 @@ The base schema is what makes a world portable between tools. Data held in exten
 
 ## What a write body may carry
 
-The same in all 22 categories: each key a body carries on `POST`, `PUT` or `PATCH` is stored, tolerated and ignored, or rejected with `422`. Text longer than its cap is a `422`, and so are extensions over 64 KB ([Writes](/docs/development/api/writes#field-rules)). {/* limit: extensions_bytes */}
+The same in all 22 element types: each key a body carries on `POST`, `PUT` or `PATCH` is stored, tolerated and ignored, or rejected with `422`. Text longer than its cap is a `422`, and so are extensions over 64 KB ([Writes](/docs/development/api/writes#field-rules)). {/* limit: extensions_bytes */}
 
 <WriteBody />
 

@@ -86,11 +86,11 @@ export function folderExample(snap) {
 export function folderWords(data, code = (s) => `\`${s}\``) {
   return {
     head: 'One file per element.',
-    lead: `A world folder is plain JSON: ${code('world.json')} and one file for each element, in a folder for its category.`,
+    lead: `A world folder is plain JSON: ${code('world.json')} and one file for each element, in a folder for its element type.`,
     tree: `The example world, ${data.world.name}`,
     how: 'How a file gets its name',
     rule: `The name with its accents removed, in lowercase ASCII, each run of other characters one hyphen and no hyphen at either end, cut to ${SLUG_CUT} characters with any hyphen left at the end removed; then ${code(SEP)}; then the id's last ${TAIL} characters. The id inside the file is the identity: rename a file and nothing breaks.`,
-    caption: `Generated from ${data.world.name}, the public example world in schema-dist (serial ${data.serial}, ${code(`example/${data.folder}`)}), when the docs are built: ${data.total} element files in ${data.folders.length} of the ${data.kinds} category folders, every file named by the rule from its element's name and id. A category with no elements has no folder.`,
+    caption: `Generated from ${data.world.name}, the public example world in schema-dist (serial ${data.serial}, ${code(`example/${data.folder}`)}), when the docs are built: ${data.total} element files in ${data.folders.length} of the ${data.kinds} element type folders, every file named by the rule from its element's name and id. An element type with no elements has no folder.`,
     files: (n) => `${n} file${n === 1 ? '' : 's'}`,
     labels: ['name', 'id', 'file'],
     count: NUMBER[data.shown.length] ?? String(data.shown.length),

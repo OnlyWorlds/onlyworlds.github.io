@@ -13,7 +13,7 @@ The guide is for people building their own tools. Someone who wants to build a w
 
 1. Open the file and copy all of it, or download it.
 2. Paste it into a new chat (ChatGPT, Claude, or a browser builder such as Lovable, Replit or v0.dev).
-3. Describe the tool you want. The guide tells the assistant to ask what problem it solves, who uses it, its one core interaction, and which element categories matter, then to write a short spec with you before writing code.
+3. Describe the tool you want. The guide tells the assistant to ask what problem it solves, who uses it, its one core interaction, and which element types matter, then to write a short spec with you before writing code.
 
 For full field definitions beyond the guide, point the assistant at the [schema](/docs/schema/) or at `FIELD_SCHEMA` in the [SDK](/docs/development/typescript).
 
