@@ -66,8 +66,8 @@ An element deleted on onlyworlds.com is never brought back without your word, ev
 
 Since version 3.4.0 the plugin can sign in to onlyworlds.com, so you no longer copy a key per world.
 
-1. On onlyworlds.com, make an account token: Account settings, under Account tokens. It starts with `ow_a_`.
-2. In the plugin's settings, paste it under OnlyWorlds account and choose Sign in.
+1. On onlyworlds.com, make an account token: Account settings, under Account tokens. It starts with `ow_a_`. No account yet: the **Create account** command opens the sign-up page.
+2. Run the **Sign in** command and paste the token, or paste it in the plugin's settings under OnlyWorlds account and choose Sign in. Since 3.14.0 the dialog also opens from **Download world** (Sign in to pick from your worlds) and from **Create world** (Create with account signs you in first, then the dialog comes back with your world's name kept). To use another account, sign out in the settings first.
 
 Signed in, you can:
 
