@@ -69,12 +69,15 @@
 // example's keys, the code's lifetime, the Cancel's error, the prefix and the refused page's status;
 // the twin's text of the figure the same. Then the snapshot against the live document, fact by
 // fact, printed STALE, never failed, as the credentials snapshot is. What keel's code does beyond
-// the document (the 302, the 400 page, the Cancel's error) gen_signin.mjs holds to keel, locally.
+// the document (the 302, the 400 page, the Cancel's error) gen_signin.mjs holds to keel, locally;
+// here signin.mjs's Cancel error and 400 are held to the page's source sentences, and the 302,
+// which the page does not name, is held by keel's code only.
 import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseOwLink, ELEMENT_TYPES, ELEMENT_FAMILIES, FAMILY_ORDER } from '@onlyworlds/sdk';
 import { contrast, pageColours, CONTRAST } from '../src/components/figures/fields.mjs';
+import { CANCEL_ERROR, REFUSED_STATUS, REDIRECT_STATUS } from '../src/components/figures/signin.mjs';
 
 const DIST = join(dirname(fileURLToPath(import.meta.url)), '..', 'dist');
 const fails = [];
@@ -945,6 +948,20 @@ else {
   if (!t1 || t1[1] !== authPath || !same(ticks(t1[2]).map((p) => p.split('=')[0]), sa.params)) bad(`the twin's step 1 reads ${t1?.[0] ?? 'nothing'}`);
   if (!t4 || t4[2] !== `${st.method} ${st.path}` || !same(ticks(t4[1]), st.body) || !same(ticks(t4[3]).filter((f) => !f.endsWith('…')), st.answer)) bad(`the twin's step 4 reads ${t4?.[0] ?? 'nothing'}`);
 }
+// The three words signin.mjs types, which no document holds (keel's code does, and keel is private:
+// gen_signin.mjs reads it, CI never does). Read from the module itself, not the build, so a changed
+// word goes red before it is built; each held to the page's own sentence in its source and to the
+// built figure. The page names no status for the redirect, so the 302 is held by keel's code only.
+const mdx = readFileSync(join(DIST, '..', 'src', 'content', 'docs', 'docs', 'development', 'api', 'signin.mdx'), 'utf8');
+if (!mdx.includes(`Cancel sends \`redirect_uri?error=${CANCEL_ERROR}&state=…\``)) bad(`signin.mjs's Cancel error is ${CANCEL_ERROR}; the page's source sends Cancel back with ${mdx.match(/Cancel sends `redirect_uri\?error=([a-z_]+)/)?.[1]}`);
+if (cancelErr !== CANCEL_ERROR) bad(`the built figure's Cancel error is ${cancelErr}; signin.mjs's is ${CANCEL_ERROR} (rebuild)`);
+if (!mdx.includes(`answers a \`${REFUSED_STATUS}\` page on onlyworlds.com`)) bad(`signin.mjs's refused status is ${REFUSED_STATUS}; the page's source answers a ${mdx.match(/answers a `(\d+)` page on onlyworlds\.com/)?.[1]} page`);
+if (Number(refused?.[1]) !== REFUSED_STATUS) bad(`the built figure's refused page is ${refused?.[1]}; signin.mjs's is ${REFUSED_STATUS} (rebuild)`);
+const redirectShown = Number(redirect.codes.find((c) => attr(c.at, 'data-status'))?.text);
+if (redirectShown !== REDIRECT_STATUS) bad(`the built figure's redirect is ${redirectShown}; signin.mjs's is ${REDIRECT_STATUS} (rebuild)`);
+const pageRedirect = [...mdx.matchAll(/`(30\d)`/g)].map((m) => Number(m[1])).find((s) => s !== REDIRECT_STATUS);
+if (pageRedirect) bad(`the page's source names a ${pageRedirect}; signin.mjs's redirect is ${REDIRECT_STATUS}`);
+console.log(`sign-in: signin.mjs's Cancel error ${CANCEL_ERROR} and refused ${REFUSED_STATUS} held to the page's source; its ${REDIRECT_STATUS} is in no page sentence, held by keel's code only (gen_signin.mjs, local)`);
 console.log(`sign-in: ${params.length} authorize parameters, ${body.length} body fields and ${answer.length} answer fields drawn from contract/signin.json (read ${sSnap.read_at}), a ${st.code_seconds}-second code; held to the page's tables, its answer example and its words, the twin the same`);
 // the snapshot against the live document (fetched above for the Retry-After check)
 if (doc) {
