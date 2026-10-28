@@ -1,4 +1,4 @@
-// The draught figure's data and words: one Character's context in one read, its sections round her
+// The draught figure's data and words: one Character's context in one read, its sections round the Character
 // and the policy that shapes the read. Every section, which are off unless named, which the budget
 // never cuts, every parameter with its values and defaults comes from the API's own document
 // through the snapshot contract/draught.json (scripts/gen_draught.mjs): the route
@@ -9,17 +9,17 @@
 
 // What each section holds, in the page's words.
 export const SAYS = {
-  self: 'her own element, with self: true',
-  role: 'the Titles she holds and the bodies she sits in',
-  work: 'her open work',
-  style: 'how she works',
-  events: 'the Events she was in, in story order',
-  knowledge: 'the Narratives she knows',
-  names: 'everything else that names her',
-  sheet: 'what her own element links to, one step out',
-  recent: 'what changed around her',
+  self: "the Character's own element, with self: true",
+  role: 'the Titles they hold and the bodies they sit in',
+  work: 'their open work',
+  style: 'how they work',
+  events: 'the Events they were in, in story order',
+  knowledge: 'the Narratives they know',
+  names: 'everything else that names them',
+  sheet: 'what their own element links to, one step out',
+  recent: 'what changed around them',
   roster: 'who plays whom',
-  messages: 'the Messages she sent or that name her',
+  messages: 'the Messages they sent or that name them',
   room: "a parlor's room elements",
   proposed: 'no keeper has settled yet',
 };
@@ -88,7 +88,7 @@ export function valuesOf(s) {
 // What each parameter does, in the page's words (its policy table).
 const NOTES = {
   components: () => 'the sections to serve, comma-separated',
-  mode: (c) => `${c('voice')} reads as she would; ${c('act')} reads through your own key's view`,
+  mode: (c) => `${c('voice')} reads as they would; ${c('act')} reads through your own key's view`,
   as_of: () => "the horizon, an integer in the world's time unit",
   undated: (c) => `${c('exclude')} drops them, for a spoiler-safe narrator`,
   since: (c) => `for ${c('recent')}: a cursor from ${c('/changes')}, or an ISO 8601 date and time`,
