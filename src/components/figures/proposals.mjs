@@ -34,7 +34,7 @@ export const SAYS = {
   decisions: { accept: 'clears the mark', decline: 'deletes the element' },
   kinds: 'kinds of row, told apart by',
   theDefault: 'the default',
-  noFeed: 'no proposal act writes a feed row',
+  noFeed: 'a proposal never enters the feed; an accept\'s write does',
 };
 // The document's own words, each held to the description it is quoted from.
 export const DOC_SAYS = { lapse: 'once `expires` has passed', gone: 'the row goes' };

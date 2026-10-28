@@ -1808,7 +1808,7 @@ const PHRASES = [
   "a change to an element that waits for a keeper's word", 'any member whose key reads the element', 'the element does not change', 'undecided',
   'their own proposal', 'a proposed field moved since', 'nothing is written', 'already decided', 'ai seats propose, a person accepts',
   "a person's key is never held by the switch", 'an existing element', 'becomes a proposal instead of a write', 'a new element',
-  'waits in the queue as a new_element row', 'the queue', 'the default', 'no proposal act writes a feed row',
+  'waits in the queue as a new_element row', 'the queue', 'the default', 'a proposal never enters the feed; an accept\'s write does',
   "waits for a keeper's word", 'can still be accepted or declined', 'the owner or a co-builder with the pin', 'the proposer',
   'writes the element as their own write', 'the feed gets one row', 'read-only on the api', 'a link edit',
   'created and carries x_review_proposed', 'accept clears the mark', 'decline deletes the element', 'kinds of row, told apart by kind',
