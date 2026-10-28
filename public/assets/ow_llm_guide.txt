@@ -99,13 +99,14 @@ colour sets for drawing, not part of the standard either.
 
 BEINGS
 - character: an individual with agency who makes choices (protagonists, NPCs)
-- creature: a living being with behaviour but without a character's reasoning,
-  narrative focus or social complexity (beasts, monsters, named animals)
+- creature: a living being with behaviour but without a character's reasoning
+  or social complexity (beasts, monsters, named animals)
 - species: a biological or cultural form of life; characters and creatures link to it
 
 GROUPS
 - family: a group tied by lineage, heritage or community (bloodlines, dynasties)
-- collective: a group acting as a unit without formal governance (crews, mobs, bands)
+- collective: a group acting as a unit, with no formal governance of its own
+  (crews, mobs, bands, regiments)
 - institution: an organised body with purpose and structure (guilds, states, churches)
 
 PLACES AND THINGS
@@ -406,7 +407,8 @@ SDK: 4.x (OwV2Client, v2 API)
 Changelog:
 - v12: the type headings and the SDK colour groups named as reading aids, not part of
       the standard; ChatGPT Canvas dropped; a Relation's actor is optional; elementColor
-      described as a default colour.
+      described as a default colour; creature and collective defined without "narrative
+      focus" and "hierarchical structure".
 - v11: the toolkit's skills by their 5.x names; every parameter a list
       takes (ids, created_by, as, world).
 - v10: one set of environment variable names, OW_API_KEY, OW_API_PIN,

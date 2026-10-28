@@ -9,6 +9,8 @@ sidebar:
 
 A Species defines a distinct biological or cultural form of life. They help define how life functions or diverges across environments and histories.
 
+Two uses: a biological kind, with `life_span`, `nourishment` and `parent_species` filled in, or a kind of being a world sets apart by origin or culture with no biological difference, which leaves those fields empty. A population defined only by place, culture or allegiance is usually a [Collective](/docs/schema/element_categories/collective) or an [Institution](/docs/schema/element_categories/institution).
+
 Species shape physical and behavioral defaults of a world. They interact with:
 
 - **Characters and Creatures** (defined as members of species)

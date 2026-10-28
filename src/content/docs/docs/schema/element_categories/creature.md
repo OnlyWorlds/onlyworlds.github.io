@@ -1,13 +1,13 @@
 ---
 title: "Creature"
-description: "Creatures are living entities within a world that exhibit behavior and agency but lack the strategic reasoning, narrative focus, or social complexity of Characters."
+description: "Creatures are living entities within a world that exhibit behavior and agency but lack the strategic reasoning or social complexity of Characters."
 sidebar:
   order: 5
 ---
 
 <img src="/icons/creature.png" alt="" width="48" height="48" class="ow-type-icon" />
 
-Creatures are living entities within a world that exhibit behavior and agency but lack the strategic reasoning, narrative focus, or social complexity of Characters. Their role is typically reactive over proactive, but they can still play important parts in a world's ecology, mythology, or atmosphere.
+Creatures are living entities within a world that exhibit behavior and agency but lack the strategic reasoning or social complexity of Characters. Their role is typically reactive over proactive, but they can still play important parts in a world's ecology, mythology, or atmosphere. How much the story follows a being does not decide its category: a warhorse at the centre of a saga is a Creature unless it reasons and chooses as a person does.
 
 Creatures help populate the world with living presence. They interact with:
 
@@ -18,7 +18,7 @@ Creatures help populate the world with living presence. They interact with:
 
 They are distinct from:
 
-- **Characters** (who possess intent, narrative relevance, and structured goals)
+- **Characters** (who possess intent and structured goals)
 - **Objects** (which are inanimate)
 - **Phenomena** (which are forces or occurrences, not beings)
 

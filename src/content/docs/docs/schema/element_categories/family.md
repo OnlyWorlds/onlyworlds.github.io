@@ -9,7 +9,9 @@ sidebar:
 
 A Family is a group tied together by lineage, heritage or community.
 
-A Family is a group tied together by lineage, heritage or community. They interact with:
+The tie is one that passes down: birth, marriage, adoption, or a descent its members claim (a clan, a noble house, a sworn kin-group). A group held together by place, work or circumstance is a [Collective](/docs/schema/element_categories/collective).
+
+Families interact with:
 
 - **Characters** (who are members, descendants or ancestors)
 - **Traits, Abilities, and Languages** (passed down or shared)

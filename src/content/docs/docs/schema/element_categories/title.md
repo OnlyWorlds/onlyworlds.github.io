@@ -9,6 +9,10 @@ sidebar:
 
 A Title is a formal designation that confers identity, standing, or power within a world. It may be granted, inherited, or assumed, and often functions within a wider system of governance, belief, or custom. Titles help structure how individuals relate to institutions, spaces, and ideas across time.
 
+**A convention for holders over time.** `holders` lists who holds the Title now. To keep who held it when, give each holding its own [Relation](/docs/schema/element_categories/relation) with supertype `Tenure`: `actor` the holder, `titles` the Title, `start_date` and `end_date` the span.
+
+On onlyworlds.com, the [draught](/docs/development/api/draught) reads these into a Character's role.
+
 Titles define structured identity and power. They interact with:
 
 - **Characters** (holding titles)

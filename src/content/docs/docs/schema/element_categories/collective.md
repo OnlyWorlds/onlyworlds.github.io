@@ -1,15 +1,17 @@
 ---
 title: "Collective"
-description: "A Collective is a group of individuals that acts as a unit but lacks formal governance or hierarchical structure."
+description: "A Collective is a group of individuals that acts as a unit but has no formal governance of its own."
 sidebar:
   order: 3
 ---
 
 <img src="/icons/collective.png" alt="" width="48" height="48" class="ow-type-icon" />
 
-A Collective is a group of individuals that acts as a unit but lacks formal governance or hierarchical structure. Collectives range from spontaneous mobs to herds of animals, and are unified by shared traits, contexts, or purpose. 
+A Collective is a group of individuals that acts as a unit but has no formal governance of its own. Collectives range from spontaneous mobs to herds of animals, and are unified by shared traits, contexts, or purpose. 
 
-A Collective is a loosely organized group defined by common identity or circumstance, not by structure or command. They interact with:
+It can have an internal make-up (`composition`), and an Institution can run it (`operator`): a regiment is a Collective, the army command that directs it an Institution.
+
+A Collective is a group defined by common identity, circumstance or task, not by offices and rules of its own. They interact with:
 
 - **Characters and Creatures** (who form their body)
 - **Species** (defining their biological foundation(s))
