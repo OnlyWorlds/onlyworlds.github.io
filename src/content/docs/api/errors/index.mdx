@@ -77,6 +77,7 @@ Each code belongs to one family, its `type`, and a family's codes do not share o
 | [`not_author`](#not_author) | `permission_error` | `403` | A contributor or guest key changed, replaced, relinked or deleted an element someone else created. |
 | [`not_reader`](#not_reader) | `permission_error` | `403` | A key wrote a Read mark (a Relation whose supertype is Read, the message profile's record of what one reader has read) that is not its own, or a write would make someone else's Relation one: a Read mark is written only by the reader whose mark it is, the world's owner and its co-builders included. The reader adds to its own mark with POST /api/v2/account/worlds/\{world_id\}/read. |
 | [`hidden_not_allowed`](#hidden_not_allowed) | `permission_error` | `403` | A create (POST, a PUT of a new id, a /bulk item that creates) carried `hidden: true` from a key that may not hide: only the world's owner and its co-builders (person or seat) may. Nothing was created. Leave `hidden` out, or ask a keeper. |
+| [`keeper_only`](#keeper_only) | `permission_error` | `403` | A key that is not a keeper's (a contributor's, a guest's, a player's or a seat's below co-builder) set, changed or removed `x_charter_of`, the mark that makes a Charter, a Guide or a Domain the world's reading aid. Nothing was written. The owner's own keys and a co-builder's write it; sending it unchanged passes. |
 | [`owner_only`](#owner_only) | `permission_error` | `403` | A member key tried to change the world's own settings (a co-builder may change every writable field but owner_character, and nothing the route does not take: the public switch stays the owner's). |
 | [`not_co_builder`](#not_co_builder) | `permission_error` | `403` | A key that is not a co-builder's (a contributor's, a guest's, a player's, or the owner's own keys) called /links: the world's invite links over a world key are a co-builder's; the owner mints them through the account. |
 | [`read_as_owner_only`](#read_as_owner_only) | `permission_error` | `403` | A key or token sent `read_as` to GET /world/\{world_id\}/lenses naming a reader whose lenses it may not set: the owner reads as any reader; a co-builder or a seat's sponsor reads as that seat only. |
@@ -396,6 +397,14 @@ A create (`POST`, a `PUT` of a new id, a `/bulk` item that creates) carried `hid
 A key that may not change the world's own fields sent `PATCH /api/v2/world`: a contributor's or a guest's, or a co-builder's that sent `owner_character`. A co-builder may change every other writable field.
 
 - **How to fix:** use the owner's key or a co-builder's; leave `owner_character` to the owner.
+
+### keeper_only
+
+**Type** `permission_error` · **Status** `403`
+
+A key below co-builder (a contributor's, a guest's, a player's, or a seat's) set, changed or removed `x_charter_of`, the mark that makes a Charter, a Guide or a Domain one of the world's reading aids.
+
+- **How to fix:** leave `x_charter_of` out of the write, or use the owner's key or a co-builder's ([The front door](/docs/development/api/members#the-front-door)).
 
 ### not_co_builder
 

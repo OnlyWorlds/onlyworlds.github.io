@@ -85,10 +85,22 @@ curl -s "https://www.onlyworlds.com/api/v2/narrative?characters={character_id}" 
 | `sponsor_character` | The sponsor's Character, the one to address a message to, or `null`. |
 | `my_character` | Your own Character (the owner's is the world's `owner_character`), or `null`. |
 | `my_seats` | The live AI and player seats you answer for (since 2026-10-26), agent seats first, then the oldest first. Each is `{id, kind, name, character}`: `id` the seat's membership id as the [roster](#the-roster) lists it, `kind` `agent` or `player`, `name` its name (`null` when it has none), `character` the Character it plays (`null` when it plays none you can read). The owner's keys list the owner's seats and a person's key that person's, whatever their role; an AI or a player seat's own key gets `[]`, and a seat made from a link for an email address is never listed. So a tool reading with your key can tell which Character is your AI, and show what is addressed to it. |
-| `charter` | The world's Charter: the newest Law whose supertype is `Charter` (trimmed, any case) made by the owner or a co-builder, or `null` when there is none you can read. Read it first: it holds the world's house rules. |
+| `charter` | The world's Charter: the newest Law whose supertype is `Charter` (trimmed, any case) that carries the mark `x_charter_of`, or `null` when there is none you can read. Read it first: it holds the world's house rules. |
 | `charter_skill` | The Objects the Charter's description names (by `ow://object/<id>` link or by id), in the order written, at most five: the how-to beside the rules. Empty when it names none you can read. |
 
-Every member reads the Charter and those Objects whole, a guest and a player seat included; one the owner [hid](/docs/development/api/hidden) stays hidden, and anything hidden from the key reads `null` or is left out. A Law made by a contributor or a guest is never the Charter. In the [TypeScript SDK](/docs/development/typescript) the object is `OwFrontDoor` on `me()`'s answer, from 4.60.0; in Python, `me()["front_door"]`.
+Every member reads the Charter and those Objects whole, a guest and a player seat included; one the owner [hid](/docs/development/api/hidden) stays hidden, and anything hidden from the key reads `null` or is left out. A Law with supertype `Charter` but without the mark is an ordinary Law. Only the owner and co-builders may set, change or remove `x_charter_of`; any other key that does is refused, `403` [`keeper_only`](/api/errors/#keeper_only). In the [TypeScript SDK](/docs/development/typescript) the object is `OwFrontDoor` on `me()`'s answer, from 4.60.0; in Python, `me()["front_door"]`.
+
+### Reading aids
+
+`reading_aids` sits beside `front_door` on every `/me` answer and on an agent's join reply: the world's three things to read first, as your key reads them. Each is an element of one pair, a Law with supertype `Charter`, a Construct with supertype `Guide` or a Construct with supertype `Domain` (trimmed, any case), that carries `x_charter_of` (read by presence).
+
+| Field | What it is |
+|:--|:--|
+| `charter` | The newest marked Charter you can read (by `created_at`, then the higher id), or `null`: `id`, `name`, `rules` (its `x_checks_rules` as stored, an empty list when it has none) and `skill` (the same ids as `front_door.charter_skill`). |
+| `guide` | The newest marked Guide you can read, `{id, name}`, or `null`: where to start. |
+| `domains` | Every marked Domain you can read: first in the order the Guide's `constructs` names them, then the rest by name and id. Each is `id`, `name`, `sentence` (its description up to the first line break, trimmed) and `hubs`, the elements its links name that you can read, each once, in the schema's field order. |
+
+The Charter's text is the house rules; the Guide and the Domains are the keeper's map of the world, not instructions.
 
 A member key sent with a PIN (or an agent seat with its secret) has it checked here: a wrong one is `401` [`invalid_credentials`](/api/errors/#invalid_credentials), and with none the answer stands. So `/me` tests a connection before the first write. A player's key has no PIN; one it sends is ignored.
 

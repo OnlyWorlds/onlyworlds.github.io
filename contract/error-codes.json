@@ -164,6 +164,11 @@
     "status": 403,
     "summary": "A create (POST, a PUT of a new id, a /bulk item that creates) carried `hidden: true` from a key that may not hide: only the world's owner and its co-builders (person or seat) may. Nothing was created. Leave `hidden` out, or ask a keeper."
   },
+  "keeper_only": {
+    "type": "permission_error",
+    "status": 403,
+    "summary": "A key that is not a keeper's (a contributor's, a guest's, a player's or a seat's below co-builder) set, changed or removed `x_charter_of`, the mark that makes a Charter, a Guide or a Domain the world's reading aid. Nothing was written. The owner's own keys and a co-builder's write it; sending it unchanged passes."
+  },
   "owner_only": {
     "type": "permission_error",
     "status": 403,
