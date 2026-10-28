@@ -79,7 +79,7 @@ Each code belongs to one family, its `type`, and a family's codes do not share o
 | [`hidden_not_allowed`](#hidden_not_allowed) | `permission_error` | `403` | A create (POST, a PUT of a new id, a /bulk item that creates) carried `hidden: true` from a key that may not hide: only the world's owner and its co-builders (person or seat) may. Nothing was created. Leave `hidden` out, or ask a keeper. |
 | [`owner_only`](#owner_only) | `permission_error` | `403` | A member key tried to change the world's own settings (a co-builder may change every writable field but owner_character, and nothing the route does not take: the public switch stays the owner's). |
 | [`not_co_builder`](#not_co_builder) | `permission_error` | `403` | A key that is not a co-builder's (a contributor's, a guest's, a player's, or the owner's own keys) called /links: the world's invite links over a world key are a co-builder's; the owner mints them through the account. |
-| [`read_as_owner_only`](#read_as_owner_only) | `permission_error` | `403` | A key or token that is not the owner's sent `read_as` to GET /world/\{world_id\}/lenses: reading a lens as another reader is the owner's. |
+| [`read_as_owner_only`](#read_as_owner_only) | `permission_error` | `403` | A key or token sent `read_as` to GET /world/\{world_id\}/lenses naming a reader whose lenses it may not set: the owner reads as any reader; a co-builder or a seat's sponsor reads as that seat only. |
 | [`view_as_owner_only`](#view_as_owner_only) | `permission_error` | `403` | A member key sent `as` (view as): reading as another reader is the owner's, from a key with no member. |
 | [`guest_not_supported`](#guest_not_supported) | `permission_error` | `403` | A guest key called a route guests cannot use yet, or wrote a note (Narrative) without a Character of its own in the world. |
 | [`proposed_only`](#proposed_only) | `permission_error` | `403` | The world takes an agent seat's writes as proposals (its owner's setting), and this act has no proposal form: a seat deleting an element it did not create, or accepting or declining a proposal. Propose instead, or ask a keeper. Also, on any world, a member accepting or declining a new element its own mark proposed: a keeper settles it. |
@@ -187,7 +187,7 @@ A `PATCH`, a link operation or a `DELETE` carried `If-Match` with a `change_seq`
 
 **Type** `permission_error` · **Status** `403`
 
-A key or token that is not the owner's sent `read_as` to `GET /api/v2/world/{world_id}/lenses`: reading a lens as another reader is the owner's.
+A key or token sent `read_as` to `GET /api/v2/world/{world_id}/lenses` naming a reader whose lenses it may not set. The owner reads as any reader; a co-builder, or the account that sponsors an agent's or a player's seat, reads as that seat only.
 
 - **How to fix:** leave `read_as` out; the answer is then your own reading.
 

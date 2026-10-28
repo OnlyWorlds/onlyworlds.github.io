@@ -177,7 +177,7 @@
   "read_as_owner_only": {
     "type": "permission_error",
     "status": 403,
-    "summary": "A key or token that is not the owner's sent `read_as` to GET /world/{world_id}/lenses: reading a lens as another reader is the owner's."
+    "summary": "A key or token sent `read_as` to GET /world/{world_id}/lenses naming a reader whose lenses it may not set: the owner reads as any reader; a co-builder or a seat's sponsor reads as that seat only."
   },
   "view_as_owner_only": {
     "type": "permission_error",

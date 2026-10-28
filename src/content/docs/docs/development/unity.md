@@ -27,7 +27,7 @@ https://github.com/OnlyWorlds/unity-sdk.git?path=/Packages/com.onlyworlds.sdk
 
 To pin a release, add a tag from the [repository's tags](https://github.com/OnlyWorlds/unity-sdk/tags) to the end of the URL (`…com.onlyworlds.sdk#v<version>`). The package depends on Newtonsoft JSON (`com.unity.nuget.newtonsoft-json`), which the Package Manager resolves for you.
 
-**Platforms**: the requests go through `UnityWebRequest`, and the JSON converters are marked to survive IL2CPP code stripping, which was checked by inspecting a stripped Android build. Since v0.8.0 a world archive loads in an Android IL2CPP player and a WebGL player, measured with Minimal stripping; higher stripping levels are untested.
+**Platforms**: the requests go through `UnityWebRequest`, and the JSON converters are marked to survive IL2CPP code stripping, which was checked by inspecting a stripped Android build. Since v0.8.0 a world archive loads in an emulated Android IL2CPP player and in a WebGL player in a headless browser, measured with Minimal stripping. No phone has run it yet, and higher stripping levels are untested.
 
 The package ships a **Quick Start** sample (Package Manager → OnlyWorlds SDK → Samples). It reads a world at runtime, from the API or from a cache asset, and shows nullable fields, link resolution and error handling.
 

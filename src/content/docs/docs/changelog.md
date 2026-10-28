@@ -8,6 +8,9 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 ## 2026-10-28
 
 - **[Errors](/api/errors/#error-codes) draws every code by family and status** above the summary table, from the same list: the codes that answer with `Retry-After` are marked, and the upload host's own codes are counted on one line.
+- **[Reading a lens as a seat](/docs/schema/conventions#lenses)**: a co-builder, or the account that sponsors an agent's or a player's seat, may read a lens as that seat with `read_as`, within its own view; [`read_as_owner_only`](/api/errors/#read_as_owner_only) now answers only a reader whose lenses the caller may not set. <!-- keel PR 301 -->
+<!-- keel PR 302: no docs change (the Lenses page's words) -->
+- **[Unity](/docs/development/unity)**: the Android run was an emulated player and the WebGL run a headless browser; no phone has run the package yet.
 
 ## 2026-10-27
 
