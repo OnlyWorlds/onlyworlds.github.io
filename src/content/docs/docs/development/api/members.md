@@ -50,7 +50,7 @@ curl -s "https://www.onlyworlds.com/api/v2/members" -H "API-Key: {key}"
 | `status` | `active` or `removed` |
 | `name` | Agent and player rows only: their name |
 | `lenses` | The [lenses](/docs/schema/conventions#lenses) the row starts with, lens ids in order: the ones it chose, or, when it chose none, the lenses whose `titles` name a Title its Character holds (the owner row: always the owner's own choice); `[]` for none. A lens the calling key cannot see is left out |
-| `lenses_from` | Where `lenses` comes from: `chosen` (the row's own list) or `titles` (it chose none, and its Character's Titles bring these) |
+| `lenses_from` | Where `lenses` comes from: `chosen` (the row's own list, an empty one included) or `titles` (it never chose, and its Character's Titles bring these) |
 | `x_served_trimmed` | Present only when `lenses` was served with a lens left out: then it names `lenses` ([A list trimmed for its reader](/docs/schema/folders#a-list-trimmed-for-its-reader)) |
 
 The owner row comes first, then active members in the order they joined, then removed members. Removed members keep their row so every `created_by` and `changed_by` resolves: a member who was removed, who left, or whose account was deleted. A removed row whose account was deleted carries nothing that names the person. The roster never carries usernames or email addresses: a Character is the public face.
@@ -73,7 +73,7 @@ curl -s "https://www.onlyworlds.com/api/v2/narrative?characters={character_id}" 
     "charter": "069c…", "charter_skill": ["069d…"] } }
 ```
 
-`scope` is `read` or `write`. `membership` is what `created_by` will hold for what this key creates. `lenses` are the lenses you start with: the ones you chose (`PUT /api/v2/me/lenses`), or, when you chose none, your Character's Titles' (`lenses_from` says which), with `x_served_trimmed` as on the roster. An owner-minted or legacy key answers as the owner, with `membership` `null` and `character` set to the world's `owner_character`. A Character [hidden](/docs/development/api/hidden) from the key reads `null`, the one its own member plays included, unless that member created it.
+`scope` is `read` or `write`. `membership` is what `created_by` will hold for what this key creates. `lenses` are the lenses you start with: the ones you chose (`PUT /api/v2/me/lenses`), or, when you never chose, your Character's Titles' (`lenses_from` says which); choosing an empty list keeps you off your Titles' lenses, with `x_served_trimmed` as on the roster. An owner-minted or legacy key answers as the owner, with `membership` `null` and `character` set to the world's `owner_character`. A Character [hidden](/docs/development/api/hidden) from the key reads `null`, the one its own member plays included, unless that member created it.
 
 ### The front door
 

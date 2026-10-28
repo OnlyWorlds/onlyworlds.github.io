@@ -430,7 +430,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.98.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.99.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -456,7 +456,7 @@ Generated from the types of `@onlyworlds/sdk` 4.98.0, the version these docs pin
 | `getWorld(opts?)` | `GET /world` | world meta (name, calendar/time fields, public_read). | `Promise<OwWorldMeta>` |
 | `patchWorld(partial)` | `PATCH /world` | partial world-meta update. | `Promise<OwWorldMeta>` |
 | `setMyCharacter(character)` | `PUT /me/character` | pick the roster Character that is you in this world, or none. | `Promise<OwMe>` |
-| `setMyLenses(lensIds)` | `PUT /me/lenses` | choose the lenses this key's holder starts with: lens ids in order, 0 to 20, repeats dropped by keel; an empty list is a choice too (the draught then adds no frame). | `Promise<OwMe>` |
+| `setMyLenses(lensIds)` | `PUT /me/lenses` | choose the lenses this key's holder starts with: lens ids in order, 0 to 20, repeats dropped by keel; an empty list is a choice too (the draught then adds no frame), and keeps a seat off its Titles' lenses. | `Promise<OwMe>` |
 | `worldLenses(worldId, opts?)` | `GET /world/{worldId}/lenses` | every lens in the world this key can see, templates included and marked, each with its recipe echoed (`x_lens`, defaults filled in), the Titles it is the default for and whether this key chose it. | `Promise<OwWorldLenses>` |
 | `me()` |  |  | `Promise<OwMe>` |
 | `members()` | `GET /members` | the world's roster: each member's id (null for the owner), kind, role, Character and status (`removed` rows stay, so their elements keep `created_by`). | `Promise<OwMember[]>` |
@@ -495,7 +495,7 @@ Generated from the types of `@onlyworlds/sdk` 4.98.0, the version these docs pin
 | `listSeats(worldId)` | `GET /account/worlds/{worldId}/seats` | the live agent seats you can see: your own AI's, or, as the world's owner, every seat. | `Promise<OwSeat[]>` |
 | `rekeySeat(worldId, seatId)` | `POST /account/worlds/{worldId}/seats/{seatId}/key` | a new key and secret for a seat whose AI lost its own: its sponsor or the world's owner may. | `Promise<OwSeatCreated>` |
 | `removeSeat(worldId, seatId)` | `DELETE /account/worlds/{worldId}/seats/{seatId}` | remove an agent seat: its sponsor or the world's owner may. | `Promise<void>` |
-| `setMemberLenses(worldId, memberId, lensIds)` |  | PATCH /account/worlds/{worldId}/members/{memberId} with `lenses` alone -- set the lenses a row starts with: lens ids in order, 0 to 20, repeats dropped by keel; an empty list is a choice too. | `Promise<OwMemberLenses>` |
+| `setMemberLenses(worldId, memberId, lensIds)` |  | PATCH /account/worlds/{worldId}/members/{memberId} with `lenses` alone -- set the lenses a row starts with: lens ids in order, 0 to 20, repeats dropped by keel; an empty list is a choice too, and keeps a seat off its Titles' lenses, while `null` puts the row back to never chosen (a seat playing a Character then starts with its Titles' lenses; for `'owner'`, `null` is the empty list). | `Promise<OwMemberLenses>` |
 | `hide(type, id)` | `PUT /{type}/{id}/hidden` | hide an element. | `Promise<void>` |
 | `unhide(type, id)` | `DELETE /{type}/{id}/hidden` | clear the mark; an element that is not hidden stays as it is. | `Promise<void>` |
 | `listHidden()` | `GET /world/hidden` | every hidden element of the world, newest first: `{type, id, set_at, set_by}` each (`set_by` null when the owner hid it). | `Promise<OwHiddenRow[]>` |
