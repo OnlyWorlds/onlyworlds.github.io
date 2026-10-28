@@ -36,6 +36,15 @@
 // sit on at least 4.5 to 1, the focus ring 3) over the eleven pairs keel's own test checks, for
 // every palette; the text version, the twin and the page's hand-written Palette row to the table.
 // It does not measure what a browser paints: the colours are read from the built HTML's styles.
+//
+// The world folder (/docs/schema/folders, FolderExample): built from Hyperion, schema-dist's example
+// world, through the snapshot contract/folder-example.json (gen_elements.py, the run that writes the
+// element pages); this holds the tree's folders and counts, the opened folder's files and the
+// derivations to the snapshot, and to the schema-dist checkout itself when OW_SCHEMA_DIST names one
+// (its MANIFEST hashes, files and serial). Every file name is recomputed by a second implementation
+// of the naming rule whose numbers come from the page's own paragraph; each folder must be one of
+// the SDK's categories; each derivation a real element; the twin the same. It does not judge the
+// rule's words against a writer's code: the page's paragraph is taken as the rule.
 import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -468,9 +477,158 @@ if (rowHtml !== rowWant) fails.push(`palettes: the page's Palette row reads "${r
 if (rowMd !== rowWant) fails.push(`palettes: the twin's Palette row reads "${rowMd}"; the table gives "${rowWant}"`);
 console.log(`page palettes: ${cards.length} cards drawn in keel's order (read at ${palSnap.read_at}), ${palRatios} printed ratios recomputed from their painted colours, ${palPairs} pairs held to keel's floors (${KEEL_TEXT}, the ring ${KEEL_RING}), the Palette row held to the table`);
 
+// ---- the world folder ----
+// The figure on /docs/schema/folders, against Hyperion, the example world in schema-dist, as the
+// snapshot contract/folder-example.json holds it (written by gen_elements.py in the run that writes
+// the element pages), and against the schema-dist checkout itself when OW_SCHEMA_DIST names one
+// (the deploy's clone): its MANIFEST.json hashes, its files and its serial. The naming rule is
+// implemented a second time here, character by character, with its two numbers and its separator
+// read from the built page's own paragraph, never from folders.mjs.
+const foldPage = read('docs/schema/folders.html');
+const foldTwin = read('docs/schema/folders.md');
+const ff = foldPage.match(/<figure\b[^>]*\bdata-ow-figure="folder-example"[^>]*>([\s\S]*?)<\/figure>/);
+if (!ff) blind('the folders page carries no world folder figure (data-ow-figure="folder-example")');
+const foldSnap = JSON.parse(readFileSync(join(DIST, '..', 'contract', 'folder-example.json'), 'utf8'));
+if (!foldSnap.elements?.length) blind('contract/folder-example.json holds no elements');
+// The rule's numbers, from the page's paragraph (the figure's own rule line is not read for them).
+const foldOutside = foldPage.replace(ff[0], '');
+const ruleP = strip(foldOutside.match(/<p>((?:(?!<\/p>)[\s\S])*?The recommended name is[\s\S]*?)<\/p>/)?.[1] ?? '');
+const cutN = Number(ruleP.match(/cut to (\d+) characters/)?.[1]);
+const tailN = Number(ruleP.match(/id(?:'|’)s last (\d+) characters/)?.[1]);
+const sep = ruleP.match(/The recommended name is <slug>(\S+?)<tail>\.json\./)?.[1];
+if (!(cutN > 0 && tailN > 0 && sep)) blind(`the folders page's paragraph does not state the rule as this check reads it (cut ${cutN}, tail ${tailN}, separator ${sep}): "${ruleP}"`);
+// The second implementation: walk the lowercased name, letters and digits kept, every run of
+// anything else one hyphen; cut; one trailing hyphen off; then the separator and the id's tail.
+const ruleSlug = (name) => {
+  if (typeof name !== 'string') return '';
+  let out = '', gap = false;
+  for (const ch of name.toLowerCase()) {
+    if ((ch >= 'a' && ch <= 'z') || (ch >= '0' && ch <= '9')) { if (gap) out += '-'; gap = false; out += ch; } else gap = true;
+  }
+  if (gap) out += '-';
+  out = out.substring(0, cutN);
+  return out.endsWith('-') ? out.substring(0, out.length - 1) : out;
+};
+const ruleTail = (id) => id.substring(id.length - tailN);
+const ruleFile = (name, id) => (ruleSlug(name) ? `${ruleSlug(name)}${sep}${ruleTail(id)}.json` : `${id}.json`);
+// The source: the snapshot, or the checkout when one is given (then the snapshot is held to it too).
+const exKey = (e) => `${e.kind}/${e.file} ${e.id} ${JSON.stringify(e.name)}`;
+let exSource = { serial: foldSnap.serial, root: foldSnap.root, elements: foldSnap.elements, from: `contract/folder-example.json (serial ${foldSnap.serial})` };
+const distDir = process.env.OW_SCHEMA_DIST;
+if (distDir) {
+  const { createHash } = await import('node:crypto');
+  const { readdirSync, statSync } = await import('node:fs');
+  if (!existsSync(join(distDir, 'MANIFEST.json'))) blind(`OW_SCHEMA_DIST=${distDir} holds no MANIFEST.json`);
+  const man = JSON.parse(readFileSync(join(distDir, 'MANIFEST.json'), 'utf8'));
+  const hashes = man.files ?? man;
+  const prefix = `example/${foldSnap.folder}/`;
+  const listedEx = Object.keys(hashes).filter((r) => r.startsWith(prefix)).sort();
+  const walkDir = (d) => readdirSync(join(distDir, d)).flatMap((f) => (statSync(join(distDir, d, f)).isDirectory() ? walkDir(`${d}/${f}`) : [`${d}/${f}`]));
+  const onDisk = walkDir(prefix.slice(0, -1)).sort();
+  if (listedEx.join() !== onDisk.join()) fails.push(`folders: the checkout's ${prefix} holds ${onDisk.length} files and its MANIFEST.json lists ${listedEx.length}`);
+  for (const r of listedEx) {
+    const got = createHash('sha256').update(readFileSync(join(distDir, r))).digest('hex');
+    if (got !== String(hashes[r]).replace(/^sha256:/, '')) fails.push(`folders: the checkout's ${r} does not match its MANIFEST.json hash`);
+  }
+  const serial = readFileSync(join(distDir, 'VERSION'), 'utf8').match(/^serial: (\S+)/m)?.[1];
+  const elements = listedEx.filter((r) => /^[^/]+\/[^/]+\/elements\/[^/]+\/[^/]+\.json$/.test(r)).map((r) => {
+    const [, , , kind, file] = r.split('/');
+    const d = JSON.parse(readFileSync(join(distDir, r), 'utf8'));
+    return { kind, file, id: d.id, name: d.name };
+  });
+  const root = listedEx.map((r) => r.slice(prefix.length)).filter((r) => !r.includes('/'));
+  exSource = { serial, root, elements, from: `the checkout at ${distDir} (serial ${serial})` };
+  if (serial !== foldSnap.serial) fails.push(`folders: contract/folder-example.json is serial ${foldSnap.serial}; the checkout is serial ${serial} (run scripts/gen_elements.py --dist on it)`);
+  const a = new Set(elements.map(exKey)), b = new Set(foldSnap.elements.map(exKey));
+  const onlyA = [...a].filter((x) => !b.has(x)), onlyB = [...b].filter((x) => !a.has(x));
+  if (onlyA.length || onlyB.length) fails.push(`folders: the snapshot and the checkout differ: in the checkout only ${onlyA.join('; ') || 'nothing'}; in the snapshot only ${onlyB.join('; ') || 'nothing'}`);
+  if ([...root].sort().join() !== [...foldSnap.root].sort().join()) fails.push(`folders: the checkout's ${prefix} holds ${root.join(', ')} at its top; the snapshot ${foldSnap.root.join(', ')}`);
+} else {
+  console.log('  note  folders: no schema-dist checkout given (OW_SCHEMA_DIST), so the figure is held to the snapshot only');
+}
+// Every one of the example's real files is the name the rule gives.
+const exCount = {};
+for (const e of exSource.elements) {
+  exCount[e.kind] = (exCount[e.kind] ?? 0) + 1;
+  if (ruleFile(e.name, e.id) !== e.file) fails.push(`folders: the example's elements/${e.kind}/${e.file} is not the name the rule gives (${ruleFile(e.name, e.id)})`);
+}
+// The tree as drawn: the root entries, the category folders with their counts, the opened folder.
+const treeKinds = [...ff[1].matchAll(/<div\b[^>]*\bdata-kind="([^"]*)"[^>]*\bdata-count="(\d+)"[^>]*>([\s\S]*?)<\/div>/g)].map((m) => ({ kind: m[1], count: Number(m[2]), text: strip(m[3]) }));
+if (!treeKinds.length) fails.push('folders: the figure draws no category folders (data-kind)');
+for (const t of treeKinds) {
+  if (!ELEMENT_TYPES.includes(t.kind)) fails.push(`folders: the figure draws a ${t.kind}/ folder, and ${t.kind} is not one of the SDK's ${ELEMENT_TYPES.length} categories`);
+  if (t.count !== (exCount[t.kind] ?? 0)) fails.push(`folders: the figure draws ${t.kind}/ with ${t.count} files; ${exSource.from} has ${exCount[t.kind] ?? 0}`);
+  if (t.text !== `${t.kind}/ ${t.count} file${t.count === 1 ? '' : 's'}`) fails.push(`folders: the ${t.kind}/ line reads "${t.text}" for ${t.count} files`);
+}
+const drawnKinds = treeKinds.map((t) => t.kind);
+for (const k of Object.keys(exCount)) if (!drawnKinds.includes(k)) fails.push(`folders: the example has elements/${k}/ (${exCount[k]} files), and the figure does not draw it`);
+const cpSorted = [...drawnKinds].sort((x, y) => (x < y ? -1 : x > y ? 1 : 0));
+if (drawnKinds.join() !== cpSorted.join()) fails.push(`folders: the category folders are not drawn in code point order: ${drawnKinds.join(', ')}`);
+const rootDrawn = [...ff[1].matchAll(/<div\b[^>]*\bdata-line="root"[^>]*\bdata-name="([^"]*)"/g)].map((m) => unescape(m[1]));
+if ([...rootDrawn].sort().join() !== [...exSource.root].sort().join()) fails.push(`folders: the figure draws ${rootDrawn.join(', ') || 'nothing'} at the folder's top; ${exSource.from} holds ${exSource.root.join(', ')}`);
+if (!/data-line="elements"[^>]*>elements\/<\/div>/.test(ff[1])) fails.push('folders: the figure draws no elements/ folder');
+// The opened folder lists exactly that category's files, each its rule-given name.
+const opened = [...ff[1].matchAll(/<div\b[^>]*\bdata-file="([^"]*)"[^>]*\bdata-id="([^"]*)"[^>]*>([\s\S]*?)<\/div>/g)].map((m) => ({ file: unescape(m[1]), id: m[2], text: strip(m[3]) }));
+const openedKind = exSource.elements.find((e) => e.id === opened[0]?.id)?.kind;
+if (!opened.length || !openedKind) fails.push('folders: the figure opens no folder of the example\'s files');
+else {
+  const want = exSource.elements.filter((e) => e.kind === openedKind).map((e) => e.file).sort((x, y) => (x < y ? -1 : x > y ? 1 : 0));
+  if (opened.map((o) => o.file).join() !== want.join()) fails.push(`folders: the opened ${openedKind}/ folder lists ${opened.map((o) => o.file).join(', ')}; the example's are ${want.join(', ')}`);
+  for (const o of opened) {
+    const e = exSource.elements.find((x) => x.id === o.id && x.file === o.file);
+    if (o.text !== o.file) fails.push(`folders: a file line reads "${o.text}" for ${o.file}`);
+    if (!e) fails.push(`folders: the opened folder lists ${o.file} (${o.id}), which is not an element file of the example`);
+    else if (ruleFile(e.name, e.id) !== o.file) fails.push(`folders: the opened folder lists ${o.file}; the rule gives ${ruleFile(e.name, e.id)} for ${e.name}`);
+  }
+}
+// The derivations: each shown name and id gives the shown file by the rule, its colours mark the
+// slug and the tail the rule gives, and the three together are a real element of the example.
+const derivations = [...ff[1].matchAll(/<dl\b[^>]*\bdata-derivation[^>]*>([\s\S]*?)<\/dl>/g)].map((m) => {
+  const dd = (part) => m[1].match(new RegExp(`<dd\\b[^>]*\\bdata-part="${part}"[^>]*>([\\s\\S]*?)</dd>`))?.[1] ?? '';
+  const span = (html, cls) => strip(html.match(new RegExp(`<span\\b[^>]*class="${cls}\\b[^"]*"[^>]*>([^<]*)</span>`))?.[1] ?? '');
+  return { name: strip(dd('name')), id: strip(dd('id')), file: strip(dd('file')), idTail: span(dd('id'), 'ow-fold-tail'), fileSlug: span(dd('file'), 'ow-fold-slug'), fileTail: span(dd('file'), 'ow-fold-tail') };
+});
+if (!derivations.length) fails.push('folders: the figure shows no derivation (data-derivation)');
+for (const d of derivations) {
+  if (ruleFile(d.name, d.id) !== d.file) fails.push(`folders: the derivation of "${d.name}" (${d.id}) shows ${d.file}; the rule gives ${ruleFile(d.name, d.id)}`);
+  if (d.fileSlug !== ruleSlug(d.name)) fails.push(`folders: the derivation of "${d.name}" marks the slug ${d.fileSlug}; the rule gives ${ruleSlug(d.name)}`);
+  if (d.idTail !== ruleTail(d.id) || d.fileTail !== ruleTail(d.id)) fails.push(`folders: the derivation of "${d.name}" marks the tail ${d.idTail} in the id and ${d.fileTail} in the file; the id's last ${tailN} are ${ruleTail(d.id)}`);
+  if (!exSource.elements.some((e) => e.id === d.id && e.name === d.name && e.file === d.file)) fails.push(`folders: the derivation of "${d.name}" (${d.id}, ${d.file}) is not an element of the example in ${exSource.from}`);
+}
+// The figure's own words: its rule line states the paragraph's numbers; its caption counts the source.
+const foldRule = strip(ff[1].match(/<p\b[^>]*class="ow-fold-rule\b[^>]*>([\s\S]*?)<\/p>/)?.[1] ?? '');
+if (!foldRule.includes(`cut to ${cutN} characters`) || !foldRule.includes(`then ${sep}; then the id's last ${tailN} characters`)) fails.push(`folders: the figure's rule line does not state the paragraph's cut ${cutN}, separator ${sep} and tail ${tailN}: "${foldRule}"`);
+const foldCap = strip(ff[1].match(/<figcaption\b[^>]*>([\s\S]*?)<\/figcaption>/)?.[1] ?? '');
+const capWant = `(serial ${exSource.serial}, example/${foldSnap.folder}), when the docs are built: ${exSource.elements.length} element files in ${Object.keys(exCount).length} of the ${ELEMENT_TYPES.length} category folders`;
+if (!foldCap.includes(capWant)) fails.push(`folders: the caption does not say "${capWant}": "${foldCap}"`);
+// Nothing the figure shows contradicts the page's Layout block: its top entries are named there,
+// and the block's category folders are one per category present, lowercase singular.
+const layoutAt = foldPage.indexOf('id="layout"');
+const layoutPre = layoutAt < 0 ? '' : foldPage.slice(layoutAt).match(/<pre\b[^>]*>([\s\S]*?)<\/pre>/)?.[1] ?? '';
+const layoutLines = layoutPre.split(/<div class="ec-line">/).map((l) => unescape(l.replace(/<[^>]+>/g, '')).replace(/\n/g, '')).filter(Boolean);
+if (!layoutLines.length) fails.push('folders: no Layout block read on the page');
+for (const r of [...rootDrawn, 'elements/']) if (!layoutLines.some((l) => l.startsWith(`  ${r}`) && !l.startsWith('   '))) fails.push(`folders: the figure draws ${r} at the folder's top, and the Layout block does not`);
+if (!layoutLines.some((l) => /one folder per category present, lowercase singular/.test(l))) fails.push('folders: the Layout block no longer says one folder per category present, lowercase singular; recheck the figure against it');
+for (const k of drawnKinds) if (!/^[a-z]+$/.test(k)) fails.push(`folders: the figure draws a ${k}/ folder, not a lowercase singular category name`);
+// The Markdown twin: the same tree counts and derivations, by the same rule.
+if (/^<FolderExample \/>$/m.test(foldTwin)) fails.push('folders: the Markdown twin carries the bare tag, not the text');
+else {
+  const twinTree = foldTwin.slice(foldTwin.indexOf(`\n${foldSnap.folder}/\n`));
+  const twinKinds = [...twinTree.split('```')[0].matchAll(/^ {4}([a-z]+)\/ +(\d+) files?$/gm)].map((m) => `${m[1]} ${m[2]}`);
+  const wantKinds = Object.keys(exCount).sort((x, y) => (x < y ? -1 : x > y ? 1 : 0)).map((k) => `${k} ${exCount[k]}`);
+  if (twinKinds.join() !== wantKinds.join()) fails.push(`folders: the twin's tree reads ${twinKinds.join(', ') || 'nothing'}; ${exSource.from} has ${wantKinds.join(', ')}`);
+  const twinDer = [...foldTwin.matchAll(/^- \*\*(.+?)\*\*, id `([^`]+)`: `([^`]+)`$/gm)].map((m) => ({ name: m[1], id: m[2], file: m[3] }));
+  if (twinDer.map((d) => d.id).join() !== derivations.map((d) => d.id).join()) fails.push(`folders: the twin shows ${twinDer.length} derivations, not the figure's ${derivations.length}`);
+  for (const d of twinDer) {
+    if (ruleFile(d.name, d.id) !== d.file) fails.push(`folders: the twin derives ${d.file} from "${d.name}"; the rule gives ${ruleFile(d.name, d.id)}`);
+    if (!exSource.elements.some((e) => e.id === d.id && e.name === d.name && e.file === d.file)) fails.push(`folders: the twin's derivation of "${d.name}" is not an element of the example`);
+  }
+}
+console.log(`world folder: ${exSource.elements.length} example files in ${Object.keys(exCount).length} folders from ${exSource.from}, each named by the page's rule (cut ${cutN}, separator ${sep}, tail ${tailN}) reimplemented here; ${treeKinds.length} folders drawn, ${opened.length} files in the opened one, ${derivations.length} derivations, the twin held to the same`);
+
 if (fails.length) {
   for (const f of fails) console.log(`  FAIL  ${f}`);
   console.log(`\nFAIL — ${fails.length} figure claim(s) differ from their source.`);
   process.exit(1);
 }
-console.log('\nPASS — the link map draws exactly the element pages\' link rows, the four nouns\' address parses as it reads, the error families draw exactly the errors table\'s codes and marks, the category fields draw each element page\'s field and link counts under the SDK\'s families, and the page palettes paint keel\'s colours with the ratios they print.');
+console.log('\nPASS — the link map draws exactly the element pages\' link rows, the four nouns\' address parses as it reads, the error families draw exactly the errors table\'s codes and marks, the category fields draw each element page\'s field and link counts under the SDK\'s families, the page palettes paint keel\'s colours with the ratios they print, and the world folder draws the example\'s folders and files, each named by the page\'s rule.');

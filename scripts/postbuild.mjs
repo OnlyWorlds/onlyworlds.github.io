@@ -15,6 +15,7 @@ import { categoryFieldsMarkdown } from '../src/components/figures/fields.mjs';
 import { fourNounsMarkdown } from '../src/components/figures/four-nouns.mjs';
 import { errorFamiliesMarkdown } from '../src/components/figures/errors.mjs';
 import { pagePalettesMarkdown } from '../src/components/figures/palettes.mjs';
+import { folderExampleMarkdown } from '../src/components/figures/folders.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const CONTENT = join(ROOT, 'src', 'content', 'docs');
@@ -106,6 +107,7 @@ const FIGURE_TEXT = {
   FourNouns: fourNounsMarkdown,
   ErrorFamilies: () => errorFamiliesMarkdown(JSON.parse(readFileSync(join(ROOT, 'contract', 'error-codes.json'), 'utf8'))),
   PagePalettes: () => pagePalettesMarkdown(JSON.parse(readFileSync(join(ROOT, 'contract', 'palettes.json'), 'utf8'))),
+  FolderExample: () => folderExampleMarkdown(JSON.parse(readFileSync(join(ROOT, 'contract', 'folder-example.json'), 'utf8'))),
 };
 let figureTexts = 0;
 for (const file of walk(DIST)) {

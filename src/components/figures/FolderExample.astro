@@ -1,0 +1,148 @@
+---
+// A world folder and how a file gets its name: Hyperion, the public example world in schema-dist,
+// its tree as it is on disk (each category folder with its file count, one folder opened), and
+// three of its elements, each name and id becoming its file name. Built at build time from the
+// snapshot contract/folder-example.json (written by scripts/gen_elements.py from the same verified
+// schema-dist checkout as the element pages), through folders.mjs, which derives every file name
+// by the rule and fails the build if one of the example's files breaks it. The figure is itself
+// text, so it is its own text version; the Markdown twin gets the same lines (postbuild.mjs).
+import snap from '../../../contract/folder-example.json';
+import { folderExample, folderWords, SEP, ROOT_WORDS } from './folders.mjs';
+
+const data = folderExample(snap);
+const w = folderWords(data, (s: string) => `<code>${s}</code>`);
+const plain = folderWords(data);
+---
+
+<figure class="ow-fig ow-fold not-content" data-ow-figure="folder-example" data-serial={data.serial} data-folder={data.folder}>
+  <p class="ow-fold-lead"><strong>{w.head}</strong> <Fragment set:html={w.lead} /></p>
+  <div class="ow-fold-cols">
+    <div class="ow-fold-col">
+      <p class="ow-fold-h">{w.tree}</p>
+      <div class="ow-fold-tree" role="list" aria-label={`${plain.tree}: its folder tree`}>
+        <div role="listitem" class="ow-fold-line" style="--d:0" data-line="folder">{data.folder}/</div>
+        {
+          data.root.map((r) => (
+            <div role="listitem" class="ow-fold-line" style="--d:1" data-line="root" data-name={r}>
+              {r}<span class="ow-fold-note">{` ${ROOT_WORDS[r]}`}</span>
+            </div>
+          ))
+        }
+        <div role="listitem" class="ow-fold-line" style="--d:1" data-line="elements">elements/</div>
+        {
+          data.folders.map((f) => (
+            <>
+              <div role="listitem" class="ow-fold-line" style="--d:2" data-kind={f.kind} data-count={f.files.length}>
+                {f.kind}/<span class="ow-fold-note">{` ${w.files(f.files.length)}`}</span>
+              </div>
+              {f.kind === data.expand &&
+                f.files.map((e) => (
+                  <div role="listitem" class="ow-fold-line ow-fold-file" style="--d:3" data-file={e.file} data-id={e.id}>
+                    <span class="ow-fold-slug">{e.slug}</span>{SEP}<span class="ow-fold-tail">{e.tail}</span>.json
+                  </div>
+                ))}
+            </>
+          ))
+        }
+      </div>
+    </div>
+    <div class="ow-fold-col ow-fold-how">
+      <p class="ow-fold-h">{w.how}</p>
+      {
+        data.shown.map((e) => (
+          <dl class="ow-fold-ex" data-derivation>
+            <dt>{w.labels[0]}</dt>
+            <dd data-part="name">{e.name}</dd>
+            <dt>{w.labels[1]}</dt>
+            <dd data-part="id"><code>{e.idHead}<span class="ow-fold-tail">{e.tail}</span></code></dd>
+            <dt>{w.labels[2]}</dt>
+            <dd data-part="file"><code><span class="ow-fold-slug">{e.slug}</span>{SEP}<span class="ow-fold-tail">{e.tail}</span>.json</code></dd>
+          </dl>
+        ))
+      }
+      <p class="ow-fold-rule"><Fragment set:html={w.rule} /></p>
+    </div>
+  </div>
+  <figcaption><Fragment set:html={w.caption} /></figcaption>
+</figure>
+
+<style>
+  .ow-fold {
+    container-type: inline-size;
+    margin: 1.5rem 0 0.75rem;
+    font-size: 0.9375rem;
+    line-height: 1.45;
+    color: var(--sl-color-gray-2);
+    --ow-fold-tail-c: var(--sl-color-orange);
+  }
+  :global(:root[data-theme='light']) .ow-fold { --ow-fold-tail-c: var(--sl-color-orange-high); }
+  .ow-fold p { margin: 0; }
+  .ow-fold .ow-fold-lead { color: var(--sl-color-white); margin-bottom: 14px; }
+  /* Two columns: the tree as wide as its longest line (at most 55%), the derivations the rest; one column below
+     600px of figure, where the derivations' labels sit beside their values until 420px. */
+  .ow-fold-cols {
+    display: grid;
+    grid-template-columns: fit-content(55%) minmax(0, 1fr);
+    gap: 18px 24px;
+    align-items: start;
+  }
+  .ow-fold .ow-fold-h { color: var(--sl-color-white); font-weight: 650; margin-bottom: 8px; }
+  .ow-fold-tree {
+    background: var(--sl-color-gray-6);
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-family: var(--sl-font-mono);
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    color: var(--sl-color-gray-1);
+  }
+  .ow-fold-line {
+    padding-left: calc(var(--d) * 2ch + 2ch);
+    text-indent: -2ch;
+    overflow-wrap: anywhere;
+  }
+  .ow-fold-note { color: var(--sl-color-gray-3); white-space: pre; margin-left: 1ch; }
+  .ow-fold-slug { color: var(--sl-color-accent-high); font-weight: 600; }
+  .ow-fold-tail { color: var(--ow-fold-tail-c); font-weight: 600; }
+  .ow-fold-how { display: flex; flex-direction: column; gap: 10px; }
+  .ow-fold .ow-fold-how .ow-fold-h { margin-bottom: -2px; }
+  .ow-fold-ex {
+    margin: 0;
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 10px;
+    padding: 8px 12px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: baseline;
+    font-size: 0.84375rem;
+  }
+  .ow-fold-ex dt { color: var(--sl-color-gray-3); font-size: 0.75rem; line-height: 1.3; margin: 0; }
+  .ow-fold-ex dd { margin: 0 0 4px; color: var(--sl-color-white); overflow-wrap: anywhere; min-width: 0; }
+  .ow-fold-ex dd:last-child { margin-bottom: 0; }
+  .ow-fold-ex dd[data-part='name'] { font-family: var(--sl-font-mono); font-size: 0.8125rem; }
+  .ow-fold .ow-fold-ex code {
+    font-family: var(--sl-font-mono);
+    font-size: 0.8125rem;
+    background: none;
+    padding: 0;
+    border: 0;
+    color: var(--sl-color-white);
+    overflow-wrap: anywhere;
+  }
+  .ow-fold .ow-fold-rule { font-size: 0.875rem; color: var(--sl-color-gray-2); }
+  .ow-fold-rule :global(code), .ow-fold-lead :global(code), .ow-fold figcaption :global(code) { font-size: 0.8125rem; color: var(--sl-color-white); }
+  .ow-fold figcaption {
+    margin-top: 12px;
+    color: var(--sl-color-gray-3);
+    font-size: 0.8125rem;
+  }
+  @container (max-width: 600px) {
+    .ow-fold-cols { grid-template-columns: minmax(0, 1fr); }
+  }
+  @container (min-width: 420px) and (max-width: 600px) {
+    .ow-fold-ex { grid-template-columns: 4.5em minmax(0, 1fr); gap: 2px 10px; }
+    .ow-fold-ex dt { font-size: 0.78125rem; line-height: inherit; }
+    .ow-fold-ex dd { margin: 0; }
+  }
+</style>

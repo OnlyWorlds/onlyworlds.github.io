@@ -3,6 +3,8 @@ title: World folders
 description: The folder format a world can live in on disk, and the rules a tool follows to read and write one.
 ---
 
+import FolderExample from '../../../../components/figures/FolderExample.astro';
+
 A world folder is one OnlyWorlds world stored as plain JSON files: one file for the world, one per element. A text editor opens it, a copy backs it up, and any tool reads it with no account, key or network. Under git, each commit is a point in the world's history and a branch is a what-if; element ids stay the same on every branch.
 
 ## Layout
@@ -20,6 +22,8 @@ moppetopia/
     RECORDS.json             the manifest: one entry per producer
   .atlas/                    a tool's private state; never needed to read the world
 ```
+
+<FolderExample />
 
 A folder holds one world. All 22 categories, `map`, `pin`, `zone` and `marker` included, live under `elements/<type>/`. A missing category folder means no elements of that category.
 
