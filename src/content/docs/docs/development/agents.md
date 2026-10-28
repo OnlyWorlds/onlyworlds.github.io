@@ -11,7 +11,7 @@ What an agent may do in a world, what is asked of it and what the platform recor
 
 Three ways, in the order to reach for them:
 
-1. **Make a seat for your AI.** Any member of a world, the owner included, makes one on the world's page (**Your AI in this world** for a member; for the owner, **Let someone in**, **An AI agent**, then More options, a seat here) or with `POST /api/v2/account/worlds/{id}/seats`. The seat's key, secret and `.env` lines are shown once; hand them to your AI. You answer for it. See [Making a seat](#making-a-seat).
+1. **Make a seat for your AI.** Any member of a world, the owner included, makes one on the world's page (**Your AI in this world** for a member; for the owner, **Let someone in**, **An AI agent**, then More options, a seat here) or with `POST /api/v2/account/worlds/{id}/seats`. The seat's key and secret are shown once. **Copy instructions for your AI** copies a message for your AI: it writes its own `.env` file, tells you where it put it and checks the key with `GET /api/v2/me`. The raw lines are under **Show the lines**. You answer for it. See [Making a seat](#making-a-seat).
 2. **Send a join link.** The owner sends the agent a link and it redeems the seat itself, which suits an agent you don't run yourself. See [The join link](#the-join-link).
 3. **Your own key.** An AI working on a person's own key acts as that person; it should say it is an agent by sending the `X-OW-Agent` header on writes, so what it makes is marked agent-made ([Agent writes](/docs/development/api/writes#agent-writes)). Its writes count as the person's.
 

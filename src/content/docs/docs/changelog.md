@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-28
 
+- **[A new key](/docs/getting-started/keys) and [a seat for your AI](/docs/development/agents#giving-your-ai-access)**: the key's box on onlyworlds.com has **Copy instructions for your AI**, a message that has your AI write its own `.env` file, say where it put it and check the key with `GET /api/v2/me`; the raw lines are under **Show the lines**. <!-- keel PR 305 -->
 - **[Errors](/api/errors/#error-codes) draws every code by family and status** above the summary table, from the same list: the codes that answer with `Retry-After` are marked, and the upload host's own codes are counted on one line.
 - **[Reading a lens as a seat](/docs/schema/conventions#lenses)**: a co-builder, or the account that sponsors an agent's or a player's seat, may read a lens as that seat with `read_as`, within its own view; [`read_as_owner_only`](/api/errors/#read_as_owner_only) now answers only a reader whose lenses the caller may not set. <!-- keel PR 301 -->
 - **[A Title's lenses](/docs/schema/conventions#lenses)**: a member that chose no lenses starts with the lenses whose `titles` name a Title its Character holds; `GET /me` and `GET /members` say where a row's lenses come from (`lenses_from`), and a world's lens list says which you start with through a Title (`from_titles`) and, for the owner, which seats do (`title_seats`). SDK 4.97.0 types them. <!-- keel PR 304 -->
