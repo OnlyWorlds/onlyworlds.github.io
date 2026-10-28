@@ -13,7 +13,7 @@ export const SAYS = {
   role: 'the Titles she holds and the bodies she sits in',
   work: 'her open work',
   style: 'how she works',
-  events: 'the Events she was in in story order',
+  events: 'the Events she was in, in story order',
   knowledge: 'the Narratives she knows',
   names: 'everything else that names her',
   sheet: 'what her own element links to, one step out',
