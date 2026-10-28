@@ -1,0 +1,133 @@
+---
+// The five palettes a public world page can wear, each drawn as a small page in its own colours
+// (its name in the palette's heading face, its mood in the muted colour, a card on the surface
+// colour, a link, a button), with the contrast ratios it keeps printed under it. Built at build
+// time from keel's palette table (contract/palettes.json, through palettes.mjs), which also
+// computes every ratio and fails the build if the lead's claim does not hold. The cards paint in
+// their palette's colours, which are the content; everything around them takes the docs' theme
+// (Starlight's colour variables). The text version is the list under it.
+import snap from '../../../contract/palettes.json';
+import { pagePalettes, paletteWords, paletteText } from './palettes.mjs';
+
+const data = pagePalettes(snap);
+const w = paletteWords(data, (s: string) => `<code>${s}</code>`);
+---
+
+<figure class="ow-fig ow-pal not-content" data-ow-figure="palettes" data-default={snap.default} data-read-at={data.readAt}>
+  <p class="ow-pal-lead"><strong>{w.head}</strong> {w.lead}</p>
+  <ul class="ow-pal-row">
+    {
+      data.palettes.map((p) => (
+        <li class="ow-pal-card" data-palette={p.key}>
+          <div class="ow-pal-page" data-role="page" style={`background:${p.bg};color:${p.text}`}>
+            <p class="ow-pal-name" data-role="title" style={`color:${p.text};font-family:${p.head}`}>{p.name}</p>
+            <p class="ow-pal-mood" data-role="muted" style={`color:${p.muted}`}>{p.mood}</p>
+            <div class="ow-pal-box" data-role="surface" style={`background:${p.surf};border-color:${p.line}`}>
+              <p data-role="text" style={`color:${p.text}`}>A world, kept public.</p>
+            </div>
+            <span class="ow-pal-link" data-role="link" style={`color:${p.accent}`}>its page</span>
+            <span class="ow-pal-btn" data-role="button" style={`background:${p.fill};color:${p.onfill}`}>Follow</span>
+          </div>
+          <dl class="ow-pal-nums">
+            {p.shown.map((s) => (
+              <div>
+                <dt>{s.label}</dt>
+                <dd data-pair={s.label}>{s.ratio}</dd>
+              </div>
+            ))}
+          </dl>
+        </li>
+      ))
+    }
+  </ul>
+  <p class="ow-pal-key">{w.key} <Fragment set:html={w.wire} /></p>
+  <figcaption>{w.caption}</figcaption>
+</figure>
+
+<details class="ow-fig-text ow-pal-text">
+  <summary>The same palettes as text</summary>
+  <ul>
+    {
+      data.palettes.map((p) => {
+        const t = paletteText(p, (s: string) => `<code>${s}</code>`);
+        return (
+          <li data-palette={p.key}>
+            <strong>{t.name}</strong><Fragment set:html={t.rest} />
+          </li>
+        );
+      })
+    }
+  </ul>
+</details>
+
+<style>
+  .ow-pal {
+    container-type: inline-size;
+    margin: 1.5rem 0 0.75rem;
+    font-size: 0.9375rem;
+    line-height: 1.45;
+    color: var(--sl-color-gray-2);
+  }
+  .ow-pal p { margin: 0; }
+  .ow-pal .ow-pal-lead { color: var(--sl-color-white); margin-bottom: 12px; }
+  .ow-pal-row {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .ow-pal-card {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--sl-color-black);
+  }
+  .ow-pal-page { padding: 12px 11px 11px; flex: 1; }
+  .ow-pal .ow-pal-name { font-size: 1rem; font-weight: 700; line-height: 1.25; margin-bottom: 2px; overflow-wrap: anywhere; }
+  .ow-pal .ow-pal-mood { font-size: 0.78125rem; line-height: 1.35; }
+  .ow-pal-box {
+    border: 1px solid;
+    border-radius: 7px;
+    padding: 6px 8px;
+    margin: 8px 0;
+  }
+  .ow-pal-box p { font-size: 0.78125rem; line-height: 1.35; }
+  .ow-pal-link { display: block; font-size: 0.78125rem; text-decoration: underline; }
+  .ow-pal-btn {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 2px 9px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  .ow-pal-nums {
+    margin: 0;
+    padding: 7px 11px 9px;
+    border-top: 1px solid var(--sl-color-gray-5);
+    font-size: 0.78125rem;
+    line-height: 1.5;
+  }
+  .ow-pal-nums div { display: flex; justify-content: space-between; gap: 6px; }
+  .ow-pal-nums dt { font-style: italic; color: var(--sl-color-gray-3); }
+  .ow-pal-nums dd { margin: 0; font-weight: 650; color: var(--sl-color-white); font-variant-numeric: tabular-nums; }
+  .ow-pal .ow-pal-key { margin-top: 12px; font-size: 0.8125rem; }
+  .ow-pal-key :global(code) { font-size: 0.8125rem; color: var(--sl-color-white); }
+  .ow-pal figcaption {
+    margin-top: 8px;
+    color: var(--sl-color-gray-3);
+    font-size: 0.8125rem;
+  }
+  @container (max-width: 600px) {
+    .ow-pal-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @container (max-width: 380px) {
+    .ow-pal-row { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

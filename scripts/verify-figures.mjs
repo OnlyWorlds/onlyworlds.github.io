@@ -28,6 +28,14 @@
 // `<x>_id`, "id of an element of that type") one link. Each category drawn once, under the family
 // the SDK's presentation data gives it, the families in the SDK's order; the lead's numbers, the
 // text version under the figure, the caption's generic link and the Markdown twin to the same.
+//
+// The page palettes (/docs/development/api/public, PagePalettes): built from keel's palette table
+// (contract/palettes.json, vendored by gen_palettes.mjs); this holds each card's name, mood and
+// painted colours to the table, in its order, and its printed ratios to the painted colours,
+// recomputed with a formula of its own; the lead's claim (every text colour on every surface it can
+// sit on at least 4.5 to 1, the focus ring 3) over the eleven pairs keel's own test checks, for
+// every palette; the text version, the twin and the page's hand-written Palette row to the table.
+// It does not measure what a browser paints: the colours are read from the built HTML's styles.
 import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -353,9 +361,114 @@ for (const f of famWant) {
 console.log(`category fields: ${painted4} bar colours painted, each clearing ${CONTRAST.link}:1 (links) or ${CONTRAST.value}:1 (values) against the page in its theme`);
 console.log(`category fields: ${kf.size} categories in ${kfFams.length} families drawn, ${[...kf.values()].reduce((a, d) => a + d.n, 0)} own fields and ${[...kf.values()].reduce((a, d) => a + d.l, 0)} links, held to ${az.length} element pages' Fields tables`);
 
+// ---- the page palettes ----
+// The figure on /docs/development/api/public, against keel's palette table as vendored
+// (contract/palettes.json, written by gen_palettes.mjs from keel's published branch). Its ratios
+// are recomputed here from the colours the built cards paint, with a formula and a pair list of
+// this file's own (not palettes.mjs, which printed them). keel's floors are this file's too: the
+// lead must state them, and every pair must clear them.
+const pubPage = read('docs/development/api/public.html');
+const pubTwin = read('docs/development/api/public.md');
+const palSnap = JSON.parse(readFileSync(join(DIST, '..', 'contract', 'palettes.json'), 'utf8'));
+const pf = pubPage.match(/<figure\b[^>]*\bdata-ow-figure="palettes"[^>]*>([\s\S]*?)<\/figure>/);
+if (!pf) blind('the public worlds page carries no palettes figure (data-ow-figure="palettes")');
+if (!palSnap.palettes?.length) blind('contract/palettes.json holds no palettes');
+// A second luminance: the sRGB curve's own 0.04045 knee, rgb parsed from either form the HTML holds.
+const chan = (h) => (h.startsWith('#') ? [h.slice(1, 3), h.slice(3, 5), h.slice(5, 7)].map((x) => Number.parseInt(x, 16)) : h.match(/\d+/g).slice(0, 3).map(Number));
+const relLum = (h) => chan(h).map((v) => v / 255).map((s) => (s > 0.04045 ? Math.pow((s + 0.055) / 1.055, 2.4) : s / 12.92)).reduce((sum, s, i) => sum + s * [0.2126, 0.7152, 0.0722][i], 0);
+const cr = (a, b) => { const x = relLum(a), y = relLum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
+const over = (bg, rgba) => { const m = rgba.match(/rgba\((\d+),(\d+),(\d+),([\d.]+)\)/); const base = chan(bg); return '#' + [1, 2, 3].map((i) => Math.round(Number(m[4]) * Number(m[i]) + (1 - Number(m[4])) * base[i - 1]).toString(16).padStart(2, '0')).join(''); };
+// keel's contrast check (tests/test_public_page_settings.py _vet): ten text pairs at 4.5, the focus
+// ring (the accent outline, page.css :focus-visible) at 3 on the page.
+const KEEL_TEXT = 4.5, KEEL_RING = 3;
+const keelPairs = (p) => {
+  const w = over(p.bg, p.wash);
+  return [
+    ...[['text', p.text], ['muted', p.muted], ['accent', p.accent]].flatMap(([n, fg]) => [[`${n} on page`, fg, p.bg], [`${n} on card`, fg, p.surf], [`${n} on the pin wash`, fg, w]]),
+    ['on-fill on fill', p.onfill, p.fill],
+  ].map(([what, fg, bg]) => ({ what, r: cr(fg, bg), need: KEEL_TEXT })).concat([{ what: 'focus ring on page', r: cr(p.accent, p.bg), need: KEEL_RING }]);
+};
+const style = (tag, prop) => tag.match(new RegExp(`\\bstyle="(?:[^"]*?;)?\\s*${prop}:\\s*([^;"]+)`))?.[1]?.trim().toLowerCase();
+const roleTag = (body, role) => body.match(new RegExp(`<[a-z]+\\b[^>]*\\bdata-role="${role}"[^>]*>`))?.[0] ?? '';
+const roleText = (body, role) => strip(body.match(new RegExp(`<([a-z]+)\\b[^>]*\\bdata-role="${role}"[^>]*>([\\s\\S]*?)</\\1>`))?.[2] ?? '');
+const cards = [];
+for (const cb of pf[1].split(/(?=<li\b[^>]*\bclass="ow-pal-card\b)/).slice(1)) {
+  const key = attr(cb.match(/^<li\b[^>]*>/)[0], 'data-palette');
+  const pg = roleTag(cb, 'page'), surf = roleTag(cb, 'surface'), btn = roleTag(cb, 'button');
+  const card = {
+    key, name: roleText(cb, 'title'), mood: roleText(cb, 'muted'),
+    bg: style(pg, 'background'), surf: style(surf, 'background'), line: style(surf, 'border-color'),
+    text: style(roleTag(cb, 'title'), 'color'), boxText: style(roleTag(cb, 'text'), 'color'), muted: style(roleTag(cb, 'muted'), 'color'),
+    accent: style(roleTag(cb, 'link'), 'color'), fill: style(btn, 'background'), onfill: style(btn, 'color'),
+    printed: Object.fromEntries([...cb.matchAll(/<dd\b[^>]*\bdata-pair="([a-z]+)"[^>]*>([^<]*)<\/dd>/g)].map((d) => [d[1], d[2].trim()])),
+  };
+  cards.push(card);
+}
+const keysWant = palSnap.palettes.map((p) => p.key);
+if (cards.map((c) => c.key).join() !== keysWant.join()) fails.push(`palettes: the figure draws ${cards.map((c) => c.key).join(', ')}; keel's table (contract/palettes.json) has ${keysWant.join(', ')}, in that order`);
+let palRatios = 0;
+for (const c of cards) {
+  const p = palSnap.palettes.find((x) => x.key === c.key);
+  if (!p) { fails.push(`palettes: draws ${c.key}, which keel's table does not have`); continue; }
+  if (c.name !== p.name || c.mood !== p.mood) fails.push(`palettes: the ${c.key} card is named "${c.name}" (${c.mood}); the table says "${p.name}" (${p.mood})`);
+  for (const f of ['bg', 'surf', 'line', 'text', 'muted', 'accent', 'fill', 'onfill']) {
+    if (c[f] !== p[f]) fails.push(`palettes: the ${c.key} card paints ${f} ${c[f] ?? 'nothing'}; the table says ${p[f]}`);
+  }
+  if (c.boxText !== p.text) fails.push(`palettes: the ${c.key} card's text on its surface is ${c.boxText}; the table's text is ${p.text}`);
+  // the printed numbers, recomputed from what the card paints
+  const want = { text: [c.text, c.bg], muted: [c.muted, c.bg], link: [c.accent, c.bg], button: [c.onfill, c.fill] };
+  if (Object.keys(c.printed).join() !== Object.keys(want).join()) fails.push(`palettes: the ${c.key} card prints ${Object.keys(c.printed).join(', ') || 'nothing'}; it should print ${Object.keys(want).join(', ')}`);
+  for (const [label, [fg, bg]] of Object.entries(want)) {
+    if (!fg || !bg || c.printed[label] === undefined) continue;
+    palRatios++;
+    const r = cr(fg, bg);
+    if (!/^\d+\.\d\d$/.test(c.printed[label]) || Math.abs(Number(c.printed[label]) - r) > 0.0051) fails.push(`palettes: the ${c.key} card prints ${label} ${c.printed[label]}; its painted ${fg} on ${bg} is ${r.toFixed(3)} to 1`);
+  }
+}
+// The lead's claim, over every pair keel's own check holds, for every palette in the table.
+const palLead = strip(pf[1].match(/<p\b[^>]*class="ow-pal-lead\b[^>]*>([\s\S]*?)<\/p>/)?.[1] ?? '');
+const pl = palLead.match(/^([A-Z][a-z]+) palettes, each checked\. Every text colour on every surface it can sit on is at least ([\d.]+) to 1, and the focus ring ([\d.]+) to 1\. The default is ([A-Z][a-z]+)\.$/);
+const COUNT = ['No', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten'];
+const palDefault = palSnap.palettes.find((p) => p.key === palSnap.default);
+if (!palDefault) fails.push(`palettes: the table's default ${palSnap.default} is not one of its palettes`);
+if (!pl) fails.push(`palettes: the lead does not read as a count, two floors and the default: "${palLead}"`);
+else {
+  const [, n, textFloor, ringFloor, def] = pl;
+  if (COUNT.indexOf(n) !== palSnap.palettes.length) fails.push(`palettes: the lead says ${n} palettes; the table has ${palSnap.palettes.length}`);
+  if (Number(textFloor) !== KEEL_TEXT || Number(ringFloor) !== KEEL_RING) fails.push(`palettes: the lead claims ${textFloor} and ${ringFloor} to 1; keel's check holds ${KEEL_TEXT} and ${KEEL_RING}`);
+  if (def !== palDefault?.name) fails.push(`palettes: the lead names ${def} the default; the table's default is ${palDefault?.name}`);
+}
+let palPairs = 0;
+for (const p of palSnap.palettes) for (const x of keelPairs(p)) {
+  palPairs++;
+  if (x.r < x.need) fails.push(`palettes: ${p.name}'s ${x.what} is ${x.r.toFixed(2)} to 1, under ${x.need}, and the lead claims every one clears it`);
+}
+if (attr(pf[0].match(/^<figure\b[^>]*>/)[0], 'data-default') !== palSnap.default) fails.push(`palettes: the figure's default is ${attr(pf[0], 'data-default')}; the table's is ${palSnap.default}`);
+const wire = strip(pf[1].match(/<p\b[^>]*class="ow-pal-key\b[^>]*>([\s\S]*?)<\/p>/)?.[1] ?? '');
+if (!wire.includes(`public_page.palette is one of ${keysWant.join(', ')}, or null for ${palDefault?.name}.`)) fails.push(`palettes: the key line does not list the keys ${keysWant.join(', ')} and null for the default: "${wire}"`);
+// The text version under the figure and the twin: each palette's line, its colours and numbers.
+const palLine = (p, c) => `${p.name} (${p.key}, ${p.mood}${p.key === palSnap.default ? ', the default' : ''}): page ${p.bg}, card ${p.surf}, text ${p.text}, muted ${p.muted}, link and focus ring ${p.accent}, button label ${p.onfill} on ${p.fill}. Contrast: text ${c.text}, muted ${c.muted}, link ${c.link}, button ${c.button} to 1.`;
+const recomputed = (p) => Object.fromEntries([['text', p.text, p.bg], ['muted', p.muted, p.bg], ['link', p.accent, p.bg], ['button', p.onfill, p.fill]].map(([l, a, b]) => [l, cr(a, b).toFixed(2)]));
+const palText = pubPage.slice(pubPage.indexOf('data-ow-figure="palettes"')).match(/<details class="ow-fig-text\b[^"]*"[^>]*>([\s\S]*?)<\/details>/);
+const textItems = palText ? [...palText[1].matchAll(/<li\b[^>]*>([\s\S]*?)<\/li>/g)].map((li) => strip(li[1])) : [];
+const twinItems = [...pubTwin.matchAll(/^- \*\*([A-Z][a-z]+)\*\* (\(.*)$/gm)].map((m) => `${m[1]} ${m[2]}`.replace(/`/g, ''));
+for (const [where, items] of [['the text version', textItems], ['the Markdown twin', twinItems]]) {
+  const wantLines = palSnap.palettes.map((p) => palLine(p, recomputed(p)));
+  if (items.length !== wantLines.length) { fails.push(`palettes: ${where} lists ${items.length} palettes; the table has ${wantLines.length}`); continue; }
+  items.forEach((got, i) => { if (got !== wantLines[i]) fails.push(`palettes: ${where} reads "${got}"; the table gives "${wantLines[i]}"`); });
+}
+if (/^<PagePalettes \/>$/m.test(pubTwin)) fails.push('palettes: the Markdown twin carries the bare tag, not the text');
+// The page's own Palette row, hand-written: the count, the names in the table's order, the default's mood.
+const rowWant = `One of ${COUNT[palSnap.palettes.length]?.toLowerCase()}: ${palSnap.palettes.map((p) => (p.key === palSnap.default ? `${p.name} (${p.mood}, the default)` : p.name)).reduce((s, n, i, all) => (i === 0 ? n : `${s}${i === all.length - 1 ? ' or ' : ', '}${n}`), '')}`;
+const rowHtml = strip(pubPage.match(/<td\b[^>]*><strong>Palette<\/strong><\/td>\s*<td\b[^>]*>([\s\S]*?)<\/td>/)?.[1] ?? '');
+const rowMd = pubTwin.match(/^\| \*\*Palette\*\* \| (.*?) \|$/m)?.[1] ?? '';
+if (rowHtml !== rowWant) fails.push(`palettes: the page's Palette row reads "${rowHtml}"; the table gives "${rowWant}"`);
+if (rowMd !== rowWant) fails.push(`palettes: the twin's Palette row reads "${rowMd}"; the table gives "${rowWant}"`);
+console.log(`page palettes: ${cards.length} cards drawn in keel's order (read at ${palSnap.read_at}), ${palRatios} printed ratios recomputed from their painted colours, ${palPairs} pairs held to keel's floors (${KEEL_TEXT}, the ring ${KEEL_RING}), the Palette row held to the table`);
+
 if (fails.length) {
   for (const f of fails) console.log(`  FAIL  ${f}`);
   console.log(`\nFAIL — ${fails.length} figure claim(s) differ from their source.`);
   process.exit(1);
 }
-console.log('\nPASS — the link map draws exactly the element pages\' link rows, the four nouns\' address parses as it reads, the error families draw exactly the errors table\'s codes and marks, and the category fields draw each element page\'s field and link counts under the SDK\'s families.');
+console.log('\nPASS — the link map draws exactly the element pages\' link rows, the four nouns\' address parses as it reads, the error families draw exactly the errors table\'s codes and marks, the category fields draw each element page\'s field and link counts under the SDK\'s families, and the page palettes paint keel\'s colours with the ratios they print.');

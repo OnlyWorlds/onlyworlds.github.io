@@ -3,6 +3,8 @@ title: Public worlds
 description: How a world's owner opens it to everyone, gives it a public page at onlyworlds.com/w/<address>, what a visitor sees, and the keyless reads for developers.
 ---
 
+import PagePalettes from '../../../../../components/figures/PagePalettes.astro';
+
 A world's owner can open the world to everyone. Anyone can then read it with no key and no account: through the API, through tools that read worlds, and, if the owner gives it one, on a **public page** at `onlyworlds.com/w/<address>`. Both are off for every world until its owner turns them on.
 
 Opening a world never shows what its owner [hid](/docs/development/api/hidden). The public reads every element that is not hidden and not [still proposed](/docs/development/api/proposals#the-switch), with its fields, links and pictures; hidden elements, the links to them and their counts are missing, and so is a new element an AI seat proposed, until a keeper settles it.
@@ -40,6 +42,8 @@ While the page is on, the card has a second form, **Look of the page**, all of i
 | **Hero line** | One plain sentence under the world's name, at most 120 characters |
 | **Sections** | Which categories show and in what order: tick a category and number it. Untouched, every category with something public shows, maps first, then Characters and Locations. A category with nothing public never shows. Pins, Markers and Zones are parts of a map, never a section |
 | **Pinned element** | One element, shown in a card at the top, picked from a list by name: the elements the public reads, of every category the page can show, as "Name (Category)", sorted by name. A hidden element is never listed. A world with more than 300 such elements lists the first 300 by name and keeps a field for an element's id beside the list. A pinned element that is later hidden, deleted or still proposed drops off the page quietly, and the card tells the owner |
+
+<PagePalettes />
 
 Search engines are kept off: every public page carries `noindex`, and there is no setting for it yet.
 
