@@ -11,14 +11,20 @@
 // The build fails if any of the example's real files is not the name the rule gives, if a folder
 // is not one of the standard's kinds, or if the folder holds a file the figure has no words for.
 
-// The rule, as the folders page's paragraph states it: the slug is the name in lowercase ASCII,
-// each run of other characters as one hyphen, cut to 40 characters, any trailing hyphen removed;
-// then `--`; then the id's last 8 characters. No usable name gives `<id>.json`.
+// The rule, as the folders page's paragraph states it and Atlas, the folder format's reference
+// implementation, writes it (its slugify): the name with its accents removed (NFKD, then the
+// combining marks U+0300 to U+036F dropped), lowercased, each run of anything but a-z and 0-9 one
+// hyphen, no hyphen at either end, cut to 40 characters, any hyphen left at the end removed; then
+// `--`; then the id's last 8 characters. No usable name gives `<id>.json`.
 export const SLUG_CUT = 40;
 export const TAIL = 8;
 export const SEP = '--';
+const MARKS = new RegExp(`[${String.fromCharCode(0x300)}-${String.fromCharCode(0x36f)}]`, 'g');
 export const slug = (name) =>
-  (typeof name === 'string' ? name.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, SLUG_CUT).replace(/-$/, '') : '');
+  (typeof name === 'string'
+    ? name.normalize('NFKD').replace(MARKS, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
+      .slice(0, SLUG_CUT).replace(/-+$/, '')
+    : '');
 export function fileParts(name, id) {
   const s = slug(name);
   if (!s) return { slug: '', tail: '', file: `${id}.json` };
@@ -83,7 +89,7 @@ export function folderWords(data, code = (s) => `\`${s}\``) {
     lead: `A world folder is plain JSON: ${code('world.json')} and one file for each element, in a folder for its category.`,
     tree: `The example world, ${data.world.name}`,
     how: 'How a file gets its name',
-    rule: `The name in lowercase ASCII, each run of other characters one hyphen, cut to ${SLUG_CUT} characters, any trailing hyphen removed; then ${code(SEP)}; then the id's last ${TAIL} characters. The id inside the file is the identity: rename a file and nothing breaks.`,
+    rule: `The name with its accents removed, in lowercase ASCII, each run of other characters one hyphen and no hyphen at either end, cut to ${SLUG_CUT} characters with any hyphen left at the end removed; then ${code(SEP)}; then the id's last ${TAIL} characters. The id inside the file is the identity: rename a file and nothing breaks.`,
     caption: `Generated from ${data.world.name}, the public example world in schema-dist (serial ${data.serial}, ${code(`example/${data.folder}`)}), when the docs are built: ${data.total} element files in ${data.folders.length} of the ${data.kinds} category folders, every file named by the rule from its element's name and id. A category with no elements has no folder.`,
     files: (n) => `${n} file${n === 1 ? '' : 's'}`,
     labels: ['name', 'id', 'file'],

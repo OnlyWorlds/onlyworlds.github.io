@@ -497,17 +497,20 @@ const cutN = Number(ruleP.match(/cut to (\d+) characters/)?.[1]);
 const tailN = Number(ruleP.match(/id(?:'|’)s last (\d+) characters/)?.[1]);
 const sep = ruleP.match(/The recommended name is <slug>(\S+?)<tail>\.json\./)?.[1];
 if (!(cutN > 0 && tailN > 0 && sep)) blind(`the folders page's paragraph does not state the rule as this check reads it (cut ${cutN}, tail ${tailN}, separator ${sep}): "${ruleP}"`);
-// The second implementation: walk the lowercased name, letters and digits kept, every run of
-// anything else one hyphen; cut; one trailing hyphen off; then the separator and the id's tail.
+// The second implementation: decompose the name (NFKD) and drop its combining marks (U+0300 to
+// U+036F) code point by code point, lowercase it, then walk it: letters and digits kept, a run of
+// anything else one hyphen, but only between kept characters (none at either end); cut; then every
+// hyphen left at the end off; then the separator and the id's tail.
+const foldAccents = (s) => [...s.normalize('NFKD')].filter((ch) => { const cp = ch.codePointAt(0); return cp < 0x300 || cp > 0x36f; }).join('');
 const ruleSlug = (name) => {
   if (typeof name !== 'string') return '';
   let out = '', gap = false;
-  for (const ch of name.toLowerCase()) {
-    if ((ch >= 'a' && ch <= 'z') || (ch >= '0' && ch <= '9')) { if (gap) out += '-'; gap = false; out += ch; } else gap = true;
+  for (const ch of foldAccents(name).toLowerCase()) {
+    if ((ch >= 'a' && ch <= 'z') || (ch >= '0' && ch <= '9')) { if (gap && out) out += '-'; gap = false; out += ch; } else gap = true;
   }
-  if (gap) out += '-';
   out = out.substring(0, cutN);
-  return out.endsWith('-') ? out.substring(0, out.length - 1) : out;
+  while (out.endsWith('-')) out = out.substring(0, out.length - 1);
+  return out;
 };
 const ruleTail = (id) => id.substring(id.length - tailN);
 const ruleFile = (name, id) => (ruleSlug(name) ? `${ruleSlug(name)}${sep}${ruleTail(id)}.json` : `${id}.json`);
