@@ -40,7 +40,7 @@ export const KEEL_ROWS = [
   ['bb0ea4d978', "taken: a keel pull request, except the changelog's follow markers (SWEEP.md rule 1), which open a comment"],
   ['b7f62ef47c', 'left out: every changelog date is an anchor (a hash sign and the date; narrowed by keel on 2026-10-27, still met by an anchor in a link)'],
   ['f33a2c9b3e', 'taken: a room beside a date'],
-  ['88665e72fb', 'taken: a spend figure (a sign before one bare digit, $1 in a regex or a shell line, passes, as keel PR 250 has it; a sign after a word character or another sign is no figure, as keel has it since 2026-10-27)'],
+  ['88665e72fb', 'taken: a spend figure (a sign before one bare digit, $1 in a regex or a shell line, passes, as keel has it; a sign after a word character or another sign is no figure, as keel has it since 2026-10-27)'],
   ['ab95b3c539', "left out: two of the Unity package's parts carry bay names; the narrower bay row is kept (keel's narrowed on 2026-10-27, the same verdict)"],
   ['4340fc2d94', 'taken: the crew email'],
   ['56ca4875fe', 'left out: the API pages tell a developer about loopback sign-in'],

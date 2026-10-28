@@ -270,7 +270,7 @@ if (doc) {
   if (!declared.size) fails.push(`the API document declares no Retry-After header at all (has its shape moved?)`);
   for (const [c, s] of marked) if (!declared.has(s.status)) fails.push(`errors figure: ${c} is marked Retry-After, and no operation in the API document declares Retry-After on a ${s.status}`);
   // idempotency_in_flight answers on any write that takes an Idempotency-Key: every such operation
-  // declares Retry-After on that status (keel PR 308 closed the gap this printed until 2026-10-28).
+  // declares Retry-After on that status (the server's document closed the gap this printed until 2026-10-28).
   const inflight = shown.get('idempotency_in_flight');
   if (inflight?.ring) {
     if (!keyed.length) fails.push('the API document has no operation taking an Idempotency-Key (has its shape moved?)');

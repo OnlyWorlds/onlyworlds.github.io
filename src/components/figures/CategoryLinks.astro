@@ -184,7 +184,7 @@ const sentences = linkSentences(data, plural, (n: string) => `<code>${n}</code>`
 
 <script>
   // Lines run through the gutters between columns and the gaps between rows, never over a tile
-  // (the routing is the Studio's design). Tiles never move: the grid is laid out by CSS, and the
+  // (the routing is part of the figure's design). Tiles never move: the grid is laid out by CSS, and the
   // script only reads where each tile sits.
   const NS = 'http://www.w3.org/2000/svg';
   const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
