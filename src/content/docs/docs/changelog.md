@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-29
 
+- **[Python](/docs/development/python#what-it-covers) 0.83.2**: the doctor reads a Law with supertype Charter and no mark as lore, not a finding, as the checks profile says; its house rules are never applied.
 - **[Public worlds](/docs/development/api/public#what-a-visitor-sees)**: an element's page reads its whole address, a moment and a lens included; the owner, signed in, goes on to their own page for it; a public Pin, Marker or Zone leads to the world's page.
 
 ## 2026-10-28
