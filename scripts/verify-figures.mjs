@@ -45,6 +45,18 @@
 // of the naming rule whose numbers come from the page's own paragraph; each folder must be one of
 // the SDK's categories; each derivation a real element; the twin the same. It does not judge the
 // rule's words against a writer's code: the page's paragraph is taken as the rule.
+//
+// The credentials (/docs/development/api-reference, ApiCallers): built from the API document's
+// security per operation through the snapshot contract/callers.json (gen_callers.mjs); this
+// recounts it with code of its own: every family's cells and total, every route group's dots and
+// marks, each drawn route expanded back to its operations (each snapshot operation drawn exactly
+// once), the All row, the lead's and the key's counts, the caption's day; the operations that list
+// no key beside a key are exactly the public worlds page's keyless reads table; the lens routes
+// take an account token and are never keyless; the twin's table and routes the same. Then the
+// snapshot against the live document, operation by operation: a difference fails (refresh the same
+// hour), an unreachable document is CANNOT SEE for that half only. It takes the document's word: it
+// does not judge whether keel's code accepts what the document lists (a legacy key's reads need
+// its PIN, as the key line says).
 import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -629,9 +641,180 @@ else {
 }
 console.log(`world folder: ${exSource.elements.length} example files in ${Object.keys(exCount).length} folders from ${exSource.from}, each named by the page's rule (cut ${cutN}, separator ${sep}, tail ${tailN}) reimplemented here; ${treeKinds.length} folders drawn, ${opened.length} files in the opened one, ${derivations.length} derivations, the twin held to the same`);
 
+// ---- the credentials ----
+// Recounted here from the snapshot with code of its own (not callers.mjs): each alternative's
+// schemes to a column, each path to its family, each drawn route expanded back to operations.
+// In a block of its own: its names stay its own.
+{
+const apiPage =read('docs/development/api-reference.html');
+const apiTwin = read('docs/development/api-reference.md');
+const af = apiPage.match(/<figure\b[^>]*\bdata-ow-figure="callers"[^>]*>([\s\S]*?)<\/figure>/);
+if (!af) blind('the API overview carries no credentials figure (data-ow-figure="callers")');
+const callSnap = JSON.parse(readFileSync(join(DIST, '..', 'contract', 'callers.json'), 'utf8'));
+if (!callSnap.operations?.length) blind('contract/callers.json holds no operations');
+const COLS = ['none', 'key', 'keypin', 'account'];
+const SCHEME_COL = { '': 'none', ApiKey: 'key', 'ApiKey+ApiPin': 'keypin', AccountToken: 'account' };
+const opKey = (m, p) => `${m} ${p}`;
+const want = new Map();   // "GET /api/v2/x" -> { fam, cols, mark, session }
+for (const [m, p, sec] of callSnap.operations) {
+  const seg = p.split('/')[3];
+  const fam = ELEMENT_TYPES.includes(seg) ? '{type}' : seg;
+  let cols = new Set(), mark = 'list', session = false;
+  if (sec === null) { cols.add('none'); mark = 'absent'; }
+  else if (sec.length === 0) { cols.add('none'); mark = 'empty'; }
+  else for (const alt of sec) {
+    const s = [...alt].sort().join('+');
+    if (s === 'SessionToken') session = true;
+    else if (SCHEME_COL[s]) cols.add(SCHEME_COL[s]);
+    else fails.push(`credentials: ${m} ${p} lists ${s}, which no column of the figure is`);
+  }
+  if (session && !cols.has('account')) fails.push(`credentials: ${m} ${p} takes a session token and no account token, so the account token column does not hold it`);
+  want.set(opKey(m, p), { fam, cols: COLS.filter((c) => cols.has(c)), mark, session });
+}
+const wantFams = new Map();
+for (const w of want.values()) {
+  if (!wantFams.has(w.fam)) wantFams.set(w.fam, { total: 0, cells: Object.fromEntries(COLS.map((c) => [c, 0])) });
+  const f = wantFams.get(w.fam);
+  f.total++;
+  for (const c of w.cols) f.cells[c]++;
+}
+const famOrder = [...wantFams].sort((x, y) => y[1].total - x[1].total || (`/${x[0]}` < `/${y[0]}` ? -1 : 1)).map(([k]) => k);
+// the column words as the figure's header draws them, to read the twin by
+const colLabel = Object.fromEntries([...af[1].matchAll(/<span\b[^>]*role="columnheader"[^>]*data-cred="([a-z]+)"[^>]*>([\s\S]*?)<\/span>/g)].map((h) => [h[1], strip(h[2])]));
+if (Object.keys(colLabel).join() !== COLS.join()) fails.push(`credentials: the header's columns are ${Object.keys(colLabel).join(', ')}; the check knows ${COLS.join(', ')}`);
+// a drawn route back to its operations: {type} is each of the SDK's categories
+const expand = (route, n, where) => {
+  const [m, p] = route.split(' ');
+  const ops = p.startsWith('/api/v2/{type}') ? ELEMENT_TYPES.map((t) => opKey(m, p.replace('/api/v2/{type}', `/api/v2/${t}`))) : [opKey(m, p)];
+  if (ops.length !== n) fails.push(`credentials: ${where} draws ${route} as ${n} operation(s); it stands for ${ops.length}`);
+  return ops;
+};
+const seen = new Map();
+const drawnFams = [];
+for (const fb of af[1].split(/(?=<div\b[^>]*\bclass="ow-call-fam\b)/).slice(1)) {
+  const fam = attr(fb.match(/^<div\b[^>]*>/)[0], 'data-family');
+  drawnFams.push(fam);
+  const wf = wantFams.get(fam);
+  if (!wf) { fails.push(`credentials: the figure draws a family ${fam}, which no operation in the snapshot is in`); continue; }
+  const famRow = fb.match(/<div\b[^>]*class="ow-call-row ow-call-famrow\b[\s\S]*?(?=<div\b[^>]*class="ow-call-row ow-call-grp\b|$)/)?.[0] ?? '';
+  if (Number(attr(fb.match(/^<div\b[^>]*>/)[0], 'data-total')) !== wf.total) fails.push(`credentials: ${fam} is marked ${attr(fb, 'data-total')} operations; the snapshot has ${wf.total}`);
+  for (const c of COLS) {
+    const cell = famRow.match(new RegExp(`<span\\b[^>]*data-cred="${c}"[^>]*>([\\s\\S]*?)</span>\\s*(?=<span\\b[^>]*class="ow-call-(?:cell|all)\\b)`));
+    const shownN = cell ? Number(strip(cell[1])) : NaN;
+    if (shownN !== wf.cells[c]) fails.push(`credentials: ${fam} shows ${cell ? strip(cell[1]) : 'nothing'} under ${colLabel[c] ?? c}; the snapshot gives ${wf.cells[c]}`);
+  }
+  const famAll = strip(famRow.match(/<span\b[^>]*class="ow-call-all\b[^>]*>([\s\S]*?)<\/span>/)?.[1] ?? '');
+  if (Number(famAll) !== wf.total) fails.push(`credentials: ${fam}'s All reads ${famAll}; the snapshot gives ${wf.total}`);
+  for (const gb of fb.split(/(?=<div\b[^>]*\bclass="ow-call-row ow-call-grp\b)/).slice(1)) {
+    const tag = gb.match(/^<div\b[^>]*>/)[0];
+    const routes = [...gb.matchAll(/<li\b[^>]*data-route="([^"]+)"[^>]*data-ops="(\d+)"[^>]*>([\s\S]*?)<\/li>/g)];
+    const dots = COLS.filter((c) => /ow-call-dot/.test(gb.match(new RegExp(`<span\\b[^>]*data-cred="${c}"[^>]*>([\\s\\S]*?)</span>\\s*(?=<span\\b[^>]*class="ow-call-(?:cell|all)\\b)`))?.[1] ?? ''));
+    const takes = COLS.filter((c) => new RegExp(`data-cred="${c}"[^>]*data-takes="yes"`).test(gb));
+    if (dots.join() !== takes.join()) fails.push(`credentials: a ${fam} group paints dots under ${dots.join(', ')} and says it takes ${takes.join(', ')}`);
+    const marks = { absent: /data-mark="absent"/.test(gb), session: /data-mark="session"/.test(gb) };
+    let n = 0;
+    for (const [, route, ops, inner] of routes) {
+      const shown = strip(inner);
+      const short = unescape(route).replace(' /api/v2/', ' /');
+      if (shown.replace(/\s/g, '') !== `${short}${Number(ops) > 1 ? `×${ops}` : ''}`.replace(/\s/g, '')) fails.push(`credentials: the route ${route} reads "${shown}"`);
+      for (const k of expand(unescape(route), Number(ops), `the ${fam} group`)) {
+        n++;
+        seen.set(k, (seen.get(k) ?? 0) + 1);
+        const w = want.get(k);
+        if (!w) { fails.push(`credentials: draws ${k}, which is not in the snapshot`); continue; }
+        if (w.fam !== fam) fails.push(`credentials: draws ${k} under ${fam}; its family is ${w.fam}`);
+        if (w.cols.join() !== dots.join()) fails.push(`credentials: draws ${k} as taking ${dots.join(', ') || 'nothing'}; the document lists ${w.cols.join(', ')}`);
+        if ((w.mark === 'absent') !== marks.absent) fails.push(`credentials: ${k} ${w.mark === 'absent' ? 'states no security, unmarked' : 'is marked as stating no security, and does'}`);
+        if (w.session !== marks.session) fails.push(`credentials: ${k} ${w.session ? 'takes a session token, unmarked' : 'is marked as taking a session token, and does not'}`);
+      }
+    }
+    if (Number(attr(tag, 'data-ops')) !== n || Number(strip(gb.match(/<span\b[^>]*class="ow-call-all\b[^>]*>([\s\S]*?)<\/span>/)?.[1] ?? '')) !== n) fails.push(`credentials: a ${fam} group counts ${attr(tag, 'data-ops')} operations and lists ${n}`);
+  }
+}
+for (const [k, c] of seen) if (c > 1) fails.push(`credentials: draws ${k} ${c} times`);
+for (const k of want.keys()) if (!seen.has(k)) fails.push(`credentials: ${k} is in the snapshot and not drawn`);
+if (drawnFams.join() !== famOrder.join()) fails.push(`credentials: families drawn ${drawnFams.join(', ')}; by count they are ${famOrder.join(', ')}`);
+const colTotal = Object.fromEntries(COLS.map((c) => [c, [...want.values()].filter((w) => w.cols.includes(c)).length]));
+const sumRow = af[1].match(/<div\b[^>]*class="ow-call-row ow-call-sum\b[\s\S]*$/)?.[0] ?? '';
+for (const c of COLS) {
+  const got = Number(strip(sumRow.match(new RegExp(`<span\\b[^>]*data-cred="${c}"[^>]*>([\\s\\S]*?)</span>\\s*(?=<span\\b)`))?.[1] ?? ''));
+  if (got !== colTotal[c]) fails.push(`credentials: the All row shows ${got} under ${colLabel[c] ?? c}; the snapshot gives ${colTotal[c]}`);
+}
+if (Number(strip(sumRow.match(/<span\b[^>]*class="ow-call-all\b[^>]*>([\s\S]*?)<\/span>/)?.[1] ?? '')) !== want.size) fails.push(`credentials: the All row does not total ${want.size} operations`);
+// the words
+const keylessOps = [...want].filter(([, w]) => w.cols.includes('none') && w.cols.length > 1).map(([k]) => k);
+const callLead = strip(af[1].match(/<p\b[^>]*class="ow-call-lead\b[^>]*>([\s\S]*?)<\/p>/)?.[1] ?? '');
+const cl = callLead.match(/^(\d+) operations in (\d+) route families\. Each counts under every credential the API document lists for it\. (\d+) take no key as well as a key or an account token: the keyless reads of a world open to anyone\.$/);
+if (!cl) fails.push(`credentials: the lead does not read as its counts: "${callLead}"`);
+else if (Number(cl[1]) !== want.size || Number(cl[2]) !== wantFams.size || Number(cl[3]) !== keylessOps.length) fails.push(`credentials: the lead says ${cl[1]} operations, ${cl[2]} families, ${cl[3]} keyless; the snapshot gives ${want.size}, ${wantFams.size}, ${keylessOps.length}`);
+// "the keyless reads": the same operations as the public worlds page's table of them
+const kAt = pubPage.indexOf('id="the-keyless-reads"');
+const kTable = kAt < 0 ? '' : pubPage.slice(kAt, pubPage.indexOf('</table>', kAt));
+const kRoutes = [...kTable.matchAll(/<code[^>]*>(\/api\/v2\/[^<]*)<\/code>/g)].map((x) => unescape(x[1]));
+if (!kRoutes.length) fails.push('credentials: no /api/v2/ route read from the public worlds page\'s keyless reads table');
+const kPage = kRoutes.flatMap((p) => (p.startsWith('/api/v2/{type}') ? ELEMENT_TYPES.map((t) => opKey('GET', p.replace('{type}', t))) : [opKey('GET', p)])).sort();
+if (kPage.join() !== [...keylessOps].sort().join()) fails.push(`credentials: the operations listing no key beside a key (${keylessOps.length}) are not the public worlds page's keyless reads (${kPage.length}): ${[...kPage.filter((k) => !keylessOps.includes(k)), ...keylessOps.filter((k) => !kPage.includes(k))].slice(0, 4).join(', ')}`);
+const absentN = [...want.values()].filter((w) => w.mark === 'absent').length;
+const sessionN = [...want.values()].filter((w) => w.session).length;
+const callKey = strip(af[1].match(/<p\b[^>]*class="ow-call-key\b[^>]*>([\s\S]*?)<\/p>/)?.[1] ?? '');
+if (absentN && !callKey.includes(`${absentN} operation${absentN === 1 ? '' : 's'}, marked, state${absentN === 1 ? 's' : ''} no security at all`)) fails.push(`credentials: the key does not count the ${absentN} operations that state no security: "${callKey}"`);
+if (!callKey.includes(`Account token: ${sessionN} of these also take`)) fails.push(`credentials: the key does not count the ${sessionN} operations that take a session token: "${callKey}"`);
+const callCap = strip(af[1].match(/<figcaption\b[^>]*>([\s\S]*?)<\/figcaption>/)?.[1] ?? '');
+if (!callCap.includes(`as read on ${callSnap.read_at}.`) || !callCap.includes(`any of the ${ELEMENT_TYPES.length} categories`)) fails.push(`credentials: the caption does not give the snapshot's day ${callSnap.read_at} and the ${ELEMENT_TYPES.length} categories: "${callCap}"`);
+// the lens routes take an account token and are never keyless (keel's rule, stated on the changelog)
+const lensOps = [...want].filter(([k]) => k.endsWith('/lenses'));
+if (!lensOps.length) fails.push('credentials: no lens route in the snapshot');
+for (const [k, w] of lensOps) if (!w.cols.includes('account') || w.cols.includes('none')) fails.push(`credentials: ${k} lists ${w.cols.join(', ')}; a lens route takes an account token and is never keyless`);
+// the Markdown twin: the same table and the same routes under the same credentials
+if (/^<ApiCallers \/>$/m.test(apiTwin)) fails.push('credentials: the Markdown twin carries the bare tag, not the text');
+else {
+  const twinRows = [...apiTwin.matchAll(/^\| `\/([^`]+)` \|((?: [0-9]* \|){5})$/gm)].map((r) => [r[1], r[2].split('|').slice(0, 5).map((x) => Number(x.trim() || 0))]);
+  const rowsWant = famOrder.map((f) => [f, [...COLS.map((c) => wantFams.get(f).cells[c]), wantFams.get(f).total]]);
+  if (JSON.stringify(twinRows) !== JSON.stringify(rowsWant)) fails.push(`credentials: the twin's table reads ${twinRows.map(([f, v]) => `${f} ${v.join('/')}`).join('; ') || 'nothing'}`);
+  const byLabel = Object.fromEntries(Object.entries(colLabel).map(([c, l]) => [l, c]));
+  const twinSeen = new Map();
+  for (const [, fam, labels, rest] of apiTwin.matchAll(/^- \*\*`\/([^`]+)`\*\*, ([A-Za-z ,]+?)(?: \([^)]*\))?: (.*)$/gm)) {
+    const cols = labels.split(', ').map((l) => byLabel[l] ?? `?${l}`);
+    for (const [, route, , times] of rest.matchAll(/`([A-Z]+ \/[^`]*)`( \(×(\d+)\))?/g)) {
+      const full = route.replace(' /', ' /api/v2/');
+      for (const k of expand(full, Number(times ?? 1), 'the twin')) {
+        twinSeen.set(k, (twinSeen.get(k) ?? 0) + 1);
+        if (want.get(k)?.cols.join() !== cols.join() || want.get(k)?.fam !== fam) fails.push(`credentials: the twin lists ${k} under ${fam} as ${cols.join(', ')}; the snapshot gives ${want.get(k)?.fam} ${want.get(k)?.cols.join(', ')}`);
+      }
+    }
+  }
+  if (twinSeen.size !== want.size || [...twinSeen.values()].some((c) => c !== 1)) fails.push(`credentials: the twin lists ${twinSeen.size} operations (each once?); the snapshot has ${want.size}`);
+}
+console.log(`credentials: ${seen.size} operations drawn in ${drawnFams.length} families from contract/callers.json (read ${callSnap.read_at}), recounted here; ${keylessOps.length} keyless reads held to the public worlds page's table, the lens routes to keel's rule, the twin the same`);
+// the snapshot against the live document (fetched above for the Retry-After check)
+if (doc) {
+  const cpo = (x, y) => (x < y ? -1 : x > y ? 1 : 0);
+  const live = [];
+  for (const [p, item] of Object.entries(doc.paths ?? {})) for (const m of ['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace']) {
+    if (!item[m]) continue;
+    const sec = item[m].security ?? doc.security ?? null;
+    live.push([m.toUpperCase(), p, sec === null ? null : sec.map((r) => Object.keys(r).sort(cpo))]);
+  }
+  const liveMap = new Map(live.map(([m, p, s]) => [opKey(m, p), JSON.stringify(s)]));
+  const snapMap = new Map(callSnap.operations.map(([m, p, s]) => [opKey(m, p), JSON.stringify(s)]));
+  const drift = [
+    ...[...liveMap.keys()].filter((k) => !snapMap.has(k)).map((k) => `${k} is in the live document, not the snapshot`),
+    ...[...snapMap.keys()].filter((k) => !liveMap.has(k)).map((k) => `${k} is in the snapshot, not the live document`),
+    ...[...liveMap].filter(([k, s]) => snapMap.has(k) && snapMap.get(k) !== s).map(([k, s]) => `${k} lists ${s} live, ${snapMap.get(k)} in the snapshot`),
+  ];
+  const liveSchemes = Object.keys(doc.components?.securitySchemes ?? {}).sort(cpo).join();
+  if (liveSchemes !== Object.keys(callSnap.schemes).join()) drift.push(`the live document's schemes are ${liveSchemes}; the snapshot's ${Object.keys(callSnap.schemes).join()}`);
+  for (const d of drift.slice(0, 5)) fails.push(`credentials: STALE snapshot (node scripts/gen_callers.mjs --refresh): ${d}`);
+  if (drift.length > 5) fails.push(`credentials: … and ${drift.length - 5} more differences from the live document`);
+  console.log(`credentials: the snapshot held to the live API document, ${live.length} operations`);
+} else {
+  console.log('CANNOT SEE: the live API document (see above); the credentials snapshot was not compared with it');
+}
+}
+
 if (fails.length) {
   for (const f of fails) console.log(`  FAIL  ${f}`);
   console.log(`\nFAIL — ${fails.length} figure claim(s) differ from their source.`);
   process.exit(1);
 }
-console.log('\nPASS — the link map draws exactly the element pages\' link rows, the four nouns\' address parses as it reads, the error families draw exactly the errors table\'s codes and marks, the category fields draw each element page\'s field and link counts under the SDK\'s families, the page palettes paint keel\'s colours with the ratios they print, and the world folder draws the example\'s folders and files, each named by the page\'s rule.');
+console.log('\nPASS — the link map draws exactly the element pages\' link rows, the four nouns\' address parses as it reads, the error families draw exactly the errors table\'s codes and marks, the category fields draw each element page\'s field and link counts under the SDK\'s families, the page palettes paint keel\'s colours with the ratios they print, the world folder draws the example\'s folders and files, each named by the page\'s rule, and the credentials figure draws every operation under the credentials the API document lists for it.');

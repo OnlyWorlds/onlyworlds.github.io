@@ -10,7 +10,8 @@
  *
  *   CHECKS   things that can be measured, each PASS or STALE: the SDK pin the reference is generated
  *            from against npm; the error-code snapshot against keel's live list; the palettes
- *            snapshot against keel's palette table (on a machine with keel); the routes in the
+ *            snapshot against keel's palette table (on a machine with keel); the credentials
+ *            snapshot against the API document's security; the routes in the
  *            API reference against keel's OpenAPI; every external link; words the docs must not use;
  *            every release since the last sweep (the packages, the Unity SDK, the plugin, the toolkit,
  *            schema-dist's serials) against the changelog.
@@ -97,6 +98,17 @@ console.log('CHECKS');
   else note('could not read keel\'s palette table (node scripts/gen_palettes.mjs says why): the palettes were not checked');
 }
 
+// ---- 2c: the API document's security against the credentials figure's snapshot (exit 2 from the
+// reader is BLIND: the document unreadable, never a pass) ---------------------------------------------
+{
+  let code = 0;
+  try { execFileSync('node', ['scripts/gen_callers.mjs'], { cwd: ROOT, timeout: 60000, stdio: 'ignore' }); }
+  catch (e) { code = e.status ?? 2; }
+  if (code === 0) pass('the credentials snapshot matches the live API document');
+  else if (code === 1) bad('the credentials snapshot differs from the live API document (node scripts/gen_callers.mjs says which routes; --refresh)');
+  else note('could not read the live API document (node scripts/gen_callers.mjs says why): the credentials snapshot was not checked');
+}
+
 // ---- 3: the API reference against keel's OpenAPI ---------------------------------------------------------
 let openapi = null;
 try {
@@ -108,7 +120,7 @@ if (openapi?.paths) {
   const norm = (p) => p.replace(/^\/api\/v2\/\{[^}]+\}/, '/api/v2/{type}').replace(/\{[^}]+\}/g, (m) => (m === '{type}' ? m : '{}')).replace(/\/+$/, '')
     .replace(new RegExp(`^/api/v2/(${TYPES.join('|')})(?=/|$)`), '/api/v2/{type}');
   const apiPaths = new Set(Object.keys(openapi.paths).map(norm));
-  const refText = ['docs/development/api-reference.md', 'docs/development/api/reads.md', 'docs/development/api/writes.md']
+  const refText = ['docs/development/api-reference.mdx','docs/development/api/reads.md', 'docs/development/api/writes.md']
     .map((f) => join(ROOT, 'src/content/docs', f)).filter(existsSync).map((f) => readFileSync(f, 'utf8')).join('\n')
     + pages.filter((f) => /docs\/development\/api\//.test(f.replace(/\\/g, '/'))).map((f) => readFileSync(f, 'utf8')).join('\n');
   const mentioned = new Set([...refText.matchAll(/\/api\/v2\/([a-z_{}/-]+)/g)].map((m) => norm('/api/v2/' + m[1].replace(/\/(\{[^}]+\}|[0-9a-f-]{8,})(?=\/|$)/g, '/{}'))));

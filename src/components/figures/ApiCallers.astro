@@ -1,0 +1,199 @@
+---
+// The API's operations by route family and by the credential each accepts: no key, a key alone, a
+// key and its PIN, an account token. Each family's row counts its operations under every
+// credential they list; under it, its routes grouped by the credentials they take, a dot in each
+// column. Built at build time from the API's own document (contract/callers.json, vendored by
+// scripts/gen_callers.mjs, through callers.mjs). It is HTML text, so the figure is its own text
+// version; the twin gets a table and a list from the same module. The theme is the docs' own
+// (Starlight's colour variables follow the light/dark switch).
+import snap from '../../../contract/callers.json';
+import { ELEMENT_TYPES } from '@onlyworlds/sdk';
+import { apiCallers, callerWords, CREDENTIALS, ABSENT_MARK, SESSION_MARK } from './callers.mjs';
+
+const data = apiCallers(snap, ELEMENT_TYPES);
+const code = (s: string) => `<code>${s}</code>`;
+const w = callerWords(data, code, (t: string, href: string) => `<a href="${href}">${t}</a>`);
+const FOLD = 8; // a group with more routes than this lists them behind a summary
+---
+
+<figure class="ow-fig ow-call not-content" data-ow-figure="callers" data-operations={data.operations} data-read-at={data.readAt}>
+  <p class="ow-call-lead"><strong>{w.head}</strong> <Fragment set:html={w.lead} /></p>
+  <div class="ow-call-table" role="table" aria-label="Operations by route family and by the credential each accepts">
+    <div class="ow-call-row ow-call-head" role="row">
+      <span class="ow-call-label" role="columnheader">Routes</span>
+      {CREDENTIALS.map((c) => <span class="ow-call-cell" role="columnheader" data-cred={c.key}>{c.label}</span>)}
+      <span class="ow-call-all" role="columnheader">All</span>
+    </div>
+    {
+      data.families.map((f) => (
+        <div class="ow-call-fam" role="rowgroup" data-family={f.name} data-total={f.total}>
+          <div class="ow-call-row ow-call-famrow" role="row">
+            <span class="ow-call-label" role="rowheader"><code>{f.label}</code></span>
+            {CREDENTIALS.map((c) => (
+              <span class="ow-call-cell" role="cell" data-cred={c.key} data-n={f.cells[c.key]}>
+                {f.cells[c.key] ? <b>{f.cells[c.key]}</b> : <span class="sr-only">0</span>}
+              </span>
+            ))}
+            <span class="ow-call-all" role="cell">{f.total}</span>
+          </div>
+          {f.groups.map((g) => {
+            const list = (
+              <ul class="ow-call-routes">
+                {g.routes.map((r) => (
+                  <li data-route={`${r.method} ${r.path}`} data-ops={r.ops}>
+                    <code>{r.method} {r.shown}</code>
+                    {r.ops > 1 && <span class="ow-call-x">×{r.ops}</span>}
+                  </li>
+                ))}
+              </ul>
+            );
+            return (
+              <div class="ow-call-row ow-call-grp" role="row" data-creds={g.creds.join(' ')} data-ops={g.ops} data-declared={g.declared} data-session={g.session ? 'yes' : 'no'}>
+                <span class="ow-call-label" role="cell">
+                  {g.routes.length > FOLD ? (
+                    <details class="ow-call-more">
+                      <summary>{g.routes.length} routes, {g.ops} operations</summary>
+                      {list}
+                    </details>
+                  ) : (
+                    list
+                  )}
+                  {g.declared === 'absent' && <span class="ow-call-note" data-mark="absent">{ABSENT_MARK}</span>}
+                  {g.session && <span class="ow-call-note" data-mark="session"><Fragment set:html={SESSION_MARK(code)} /></span>}
+                </span>
+                {CREDENTIALS.map((c) => (
+                  <span class="ow-call-cell" role="cell" data-cred={c.key} data-takes={g.creds.includes(c.key) ? 'yes' : 'no'}>
+                    {g.creds.includes(c.key) ? (
+                      <>
+                        <i class={c.key === 'none' ? 'ow-call-dot ow-call-open' : 'ow-call-dot'} aria-hidden="true" />
+                        <span class="sr-only">{c.label}</span>
+                      </>
+                    ) : (
+                      <span class="sr-only">not {c.label.toLowerCase()}</span>
+                    )}
+                  </span>
+                ))}
+                <span class="ow-call-all" role="cell">{g.ops}</span>
+              </div>
+            );
+          })}
+        </div>
+      ))
+    }
+    <div class="ow-call-row ow-call-sum" role="row">
+      <span class="ow-call-label" role="rowheader">All</span>
+      {CREDENTIALS.map((c) => <span class="ow-call-cell" role="cell" data-cred={c.key} data-n={data.totals[c.key]}><b>{data.totals[c.key]}</b></span>)}
+      <span class="ow-call-all" role="cell">{data.operations}</span>
+    </div>
+  </div>
+  <p class="ow-call-key">
+    <span><i class="ow-call-dot ow-call-open" aria-hidden="true" /><b>No key</b>: <Fragment set:html={w.none} /></span>
+    <span><i class="ow-call-dot" aria-hidden="true" /><b>Key alone</b>, <Fragment set:html={w.key} /></span>
+    <span><i class="ow-call-dot" aria-hidden="true" /><b>Account token</b>: <Fragment set:html={w.account} /></span>
+  </p>
+  <figcaption><Fragment set:html={w.caption} /></figcaption>
+</figure>
+
+<style>
+  .ow-call {
+    container-type: inline-size;
+    margin: 1.5rem 0 1.25rem;
+    font-size: 0.9375rem;
+    line-height: 1.45;
+    color: var(--sl-color-gray-2);
+  }
+  .ow-call p { margin: 0; }
+  .ow-call code { font-family: var(--sl-font-mono); }
+  .ow-call .ow-call-lead { color: var(--sl-color-white); margin-bottom: 12px; }
+  .ow-call-lead a, .ow-call-key a, .ow-call figcaption a { color: var(--sl-color-text-accent); }
+  .ow-call-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) repeat(4, 3.9rem) 2.5rem;
+    gap: 4px 8px;
+    align-items: baseline;
+    padding: 6px 0;
+  }
+  .ow-call-cell, .ow-call-all { text-align: center; font-variant-numeric: tabular-nums; }
+  .ow-call-head {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--sl-color-white);
+    align-items: end;
+    border-bottom: 1px solid var(--sl-color-gray-5);
+  }
+  .ow-call-fam { border-bottom: 1px solid var(--sl-color-gray-5); padding-bottom: 4px; }
+  .ow-call-famrow { padding-top: 10px; }
+  .ow-call-famrow code { font-weight: 600; font-size: 0.875rem; color: var(--sl-color-white); }
+  .ow-call-famrow b, .ow-call-sum b { color: var(--sl-color-white); }
+  .ow-call-famrow .ow-call-all, .ow-call-sum .ow-call-all { font-weight: 600; color: var(--sl-color-white); }
+  .ow-call-grp {
+    padding: 4px 0 4px 12px;
+    margin-left: 4px;
+    border-left: 2px solid var(--sl-color-gray-5);
+    align-items: center;
+  }
+  .ow-call-grp .ow-call-all { font-size: 0.8125rem; color: var(--sl-color-gray-3); }
+  .ow-call-routes {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 6px;
+    min-width: 0;
+  }
+  .ow-call-routes li {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 4px;
+    max-width: 100%;
+    background: var(--sl-color-gray-6);
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 6px;
+    padding: 0 7px;
+    font: 0.75rem/1.6 var(--sl-font-mono);
+  }
+  .ow-call-routes code { color: var(--sl-color-white); overflow-wrap: anywhere; font-size: inherit; }
+  .ow-call-x { color: var(--sl-color-gray-3); }
+  .ow-call-more summary { cursor: pointer; font-size: 0.8125rem; color: var(--sl-color-text-accent); margin-bottom: 4px; }
+  .ow-call-note {
+    display: inline-block;
+    margin-top: 4px;
+    font-size: 0.75rem;
+    color: var(--sl-color-gray-3);
+  }
+  .ow-call-note code { font-size: 0.75rem; }
+  .ow-call-dot {
+    display: inline-block;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 50%;
+    background: var(--sl-color-accent);
+    vertical-align: -0.05em;
+  }
+  .ow-call-dot.ow-call-open { background: transparent; border: 2px solid var(--sl-color-orange-high); }
+  .ow-call-sum { font-weight: 600; color: var(--sl-color-white); padding-top: 8px; }
+  .ow-call-key {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-top: 10px;
+    font-size: 0.8125rem;
+  }
+  .ow-call-key .ow-call-dot { margin-right: 6px; }
+  .ow-call-key b { color: var(--sl-color-white); }
+  .ow-call-key code, .ow-call figcaption code { font-size: 0.8125rem; color: var(--sl-color-white); }
+  .ow-call figcaption {
+    margin-top: 10px;
+    color: var(--sl-color-gray-3);
+    font-size: 0.8125rem;
+  }
+  @container (max-width: 600px) {
+    .ow-call-row { grid-template-columns: repeat(4, minmax(0, 1fr)) 2.5rem; gap: 2px 4px; }
+    .ow-call-row > .ow-call-label { grid-column: 1 / -1; }
+    .ow-call-head > .ow-call-label { display: none; }
+    .ow-call-head { font-size: 0.75rem; }
+    .ow-call-grp { padding-left: 8px; margin-left: 2px; }
+  }
+</style>
