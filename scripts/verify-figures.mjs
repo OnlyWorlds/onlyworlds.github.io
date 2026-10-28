@@ -20,10 +20,18 @@
 // counts in its words to the table and the Upload host errors table. Then a cross-check against
 // the API's own document: each marked code's status is one some operation declares Retry-After
 // on. That document unreachable is CANNOT SEE for that half only: printed, never the exit code.
+//
+// The category fields (/docs/schema, CategoryFields): built from the SDK's field table and its
+// families; this holds each drawn row (its field count, its link count, its bar) to that
+// category's element page, generated from schema-dist: the rows of its Fields tables, a row
+// reading "link to" or "links to" a link, and a generic link's two rows (`<x>_type`, then
+// `<x>_id`, "id of an element of that type") one link. Each category drawn once, under the family
+// the SDK's presentation data gives it, the families in the SDK's order; the lead's numbers, the
+// text version under the figure, the caption's generic link and the Markdown twin to the same.
 import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { parseOwLink, ELEMENT_TYPES } from '@onlyworlds/sdk';
+import { parseOwLink, ELEMENT_TYPES, ELEMENT_FAMILIES, FAMILY_ORDER } from '@onlyworlds/sdk';
 
 const DIST = join(dirname(fileURLToPath(import.meta.url)), '..', 'dist');
 const fails = [];
@@ -78,7 +86,8 @@ else {
 }
 const tiles = new Set([...schema.matchAll(/<button\b[^>]*\bclass="ow-links-tile\b[^"]*"[^>]*\bdata-k="([a-z]+)"|<button\b[^>]*\bdata-k="([a-z]+)"[^>]*\bclass="ow-links-tile\b/g)].map((t) => t[1] || t[2]));
 if (tiles.size !== fig.order.length) fails.push(`the map draws ${tiles.size} tiles for ${fig.order.length} categories`);
-const text = schema.match(/<details class="ow-fig-text\b[^"]*"[^>]*>([\s\S]*?)<\/details>/);
+// the first text version after the link map (the category fields figure above it has its own)
+const text = schema.slice(schema.indexOf('data-ow-figure="category-links"')).match(/<details class="ow-fig-text\b[^"]*"[^>]*>([\s\S]*?)<\/details>/);
 if (!text) fails.push('the link map has no text version');
 else {
   const items = [...text[1].matchAll(/<li[^>]*><strong[^>]*>([A-Za-z]+)<\/strong> links to/g)].map((i) => i[1].toLowerCase());
@@ -226,9 +235,107 @@ if (doc) {
   console.log(`error families: the API document declares Retry-After on ${[...declared].sort((a, b) => a - b).join(', ')}; the ${marked.length} marked codes' statuses held to it`);
 }
 
+// ---- the category fields ----
+const cf = schema.match(/<figure\b[^>]*\bdata-ow-figure="category-fields"[^>]*>([\s\S]*?)<\/figure>/);
+if (!cf) blind('the schema page carries no category fields figure (data-ow-figure="category-fields")');
+const cap = (k) => k[0].toUpperCase() + k.slice(1);
+// The second source: each category's element page, its Fields tables row by row.
+const onPage = {};
+for (const k of ELEMENT_TYPES) {
+  const page = read(`docs/schema/element_categories/${k}.html`);
+  const at = page.indexOf('id="fields"');
+  const end = page.indexOf('</main>', at);
+  if (at < 0 || end < 0) { fails.push(`category fields: ${k}'s element page has no Fields section`); continue; }
+  let rows = 0, trs = 0, links = 0;
+  const generic = [];
+  for (const tb of page.slice(at, end).matchAll(/<tbody>([\s\S]*?)<\/tbody>/g)) {
+    trs += (tb[1].match(/<tr>/g) ?? []).length;
+    for (const tr of tb[1].matchAll(/<tr>\s*<td>([\s\S]*?)<\/td>\s*<td>([\s\S]*?)<\/td>/g)) {
+      rows++;
+      const t = strip(tr[2]);
+      if (/^links? to /.test(t)) links++;
+      else if (t === 'id of an element of that type') generic.push(strip(tr[1]).replace(/_id$/, ''));
+    }
+  }
+  if (rows !== trs) fails.push(`category fields: read ${rows} of the ${trs} rows on ${k}'s element page (has the table format moved?)`);
+  onPage[k] = { fields: rows - generic.length, links: links + generic.length, generic };
+}
+if (!Object.values(onPage).some((p) => p.fields)) blind('no field rows read from the element pages (has the table format moved?)');
+const want = Object.values(onPage);
+const maxWant = Math.max(...want.map((p) => p.fields));
+// The figure, as drawn: a section per family, a row per category inside it.
+const kf = new Map();
+const kfFams = [];
+const pct = (style) => Number(style?.match(/width:\s*([\d.]+)%/)?.[1]);
+for (const sb of cf[1].split(/(?=<section\b[^>]*\bclass="ow-kf-fam\b)/).slice(1)) {
+  const fam = attr(sb.match(/^<section\b[^>]*>/)[0], 'data-family');
+  kfFams.push(fam);
+  const here = [];
+  for (const li of sb.matchAll(/<li\b([^>]*)>([\s\S]*?)<\/li>/g)) {
+    const k = attr(li[1], 'data-k'), n = Number(attr(li[1], 'data-fields')), l = Number(attr(li[1], 'data-links')), body = li[2];
+    if (kf.has(k)) fails.push(`category fields: ${k} is drawn twice`);
+    kf.set(k, { fam, n, l });
+    here.push({ k, n });
+    const said = strip(body.match(/<span\b[^>]*class="ow-kf-n\b[^>]*>([\s\S]*?)<\/span>\s*$/)?.[1] ?? '');
+    if (said !== `${n} fields, ${l} of them links`) fails.push(`category fields: ${k}'s row says "${said}" for ${n} fields, ${l} of them links`);
+    if (!new RegExp(`<a\\b[^>]*href="/docs/schema/element_categories/${k}"[^>]*>${cap(k)}</a>`).test(body)) fails.push(`category fields: ${k}'s row does not name it with a link to its page`);
+    const bl = pct(body.match(/<i\b[^>]*class="l\b[^>]*style="([^"]*)"/)?.[1] ?? body.match(/<i\b[^>]*style="([^"]*)"[^>]*class="l\b/)?.[1]);
+    const bv = pct(body.match(/<i\b[^>]*class="v\b[^>]*style="([^"]*)"/)?.[1] ?? body.match(/<i\b[^>]*style="([^"]*)"[^>]*class="v\b/)?.[1]);
+    if (!(Math.abs(bl - (100 * l) / maxWant) < 0.01 && Math.abs(bv - (100 * (n - l)) / maxWant) < 0.01)) {
+      fails.push(`category fields: ${k}'s bar is ${bl}% links and ${bv}% values; ${l} links and ${n - l} values of the longest ${maxWant} are ${((100 * l) / maxWant).toFixed(2)}% and ${((100 * (n - l)) / maxWant).toFixed(2)}%`);
+    }
+  }
+  const head = strip(sb.match(/<p\b[^>]*class="ow-kf-name\b[^>]*>([\s\S]*?)<\/p>/)?.[1] ?? '');
+  if (!head.startsWith(cap(fam ?? '?')) || !head.endsWith(` ${here.length}`)) fails.push(`category fields: the ${fam} family's heading "${head}" does not name it and its ${here.length} categories`);
+  const sorted = [...here].sort((a, b) => b.n - a.n || (a.k < b.k ? -1 : 1)).map((r) => r.k);
+  if (here.map((r) => r.k).join() !== sorted.join()) fails.push(`category fields: ${fam} is not drawn most fields first: ${here.map((r) => r.k).join(', ')}`);
+}
+if (kf.size !== ELEMENT_TYPES.length) fails.push(`category fields: draws ${kf.size} categories; the SDK has ${ELEMENT_TYPES.length}`);
+for (const k of ELEMENT_TYPES) {
+  const d = kf.get(k), p = onPage[k];
+  if (!d) { fails.push(`category fields: ${k} is not drawn`); continue; }
+  if (d.fam !== ELEMENT_FAMILIES[k]) fails.push(`category fields: ${k} is drawn under ${d.fam}; the SDK's presentation data puts it in ${ELEMENT_FAMILIES[k]}`);
+  if (p && (d.n !== p.fields || d.l !== p.links)) fails.push(`category fields: ${k} is drawn with ${d.n} fields, ${d.l} links; its element page has ${p.fields} fields, ${p.links} links`);
+}
+for (const k of kf.keys()) if (!ELEMENT_TYPES.includes(k)) fails.push(`category fields: draws ${k}, which is not a category`);
+const famWant = FAMILY_ORDER.filter((f) => ELEMENT_TYPES.some((k) => ELEMENT_FAMILIES[k] === f));
+if (kfFams.join() !== famWant.join()) fails.push(`category fields: families drawn ${kfFams.join(', ')}; the SDK's order is ${famWant.join(', ')}`);
+if (Number(attr(cf[0].match(/^<figure\b[^>]*>/)[0], 'data-max')) !== maxWant) fails.push(`category fields: the bars are scaled to ${attr(cf[0], 'data-max')} fields; the longest element page has ${maxWant}`);
+// The lead's numbers, from the element pages (a tie goes to the first A to Z).
+const az = [...ELEMENT_TYPES].sort().filter((k) => onPage[k]);
+const best = (better) => az.reduce((w, k) => (better(onPage[k], onPage[w]) ? k : w));
+const fewest = best((c, w) => c.fields < w.fields), most = best((c, w) => c.fields > w.fields);
+const linked = best((c, w) => c.links * w.fields > w.links * c.fields);
+const WORD = ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
+const kfLead = strip(cf[1].match(/<p\b[^>]*class="ow-kf-lead\b[^>]*>([\s\S]*?)<\/p>/)?.[1] ?? '');
+const leadWant = `${az.length} categories in ${WORD[famWant.length] ?? famWant.length} families. From ${cap(fewest)}'s ${onPage[fewest].fields} fields to ${cap(most)}'s ${onPage[most].fields}. ${cap(linked)} is the most linked: ${onPage[linked].links} of its ${onPage[linked].fields} fields are links to other elements.`;
+if (kfLead !== leadWant) fails.push(`category fields: the lead reads "${kfLead}"; the element pages give "${leadWant}"`);
+// The caption names each generic link the element pages show as two rows.
+const kfCap = strip(cf[1].match(/<figcaption\b[^>]*>([\s\S]*?)<\/figcaption>/)?.[1] ?? '');
+for (const k of az) for (const g of onPage[k].generic) {
+  if (!kfCap.includes(`A ${cap(k)}'s ${g} link counts as one field; on the wire it is two, ${g}_type and ${g}_id.`)) fails.push(`category fields: the caption does not say ${k}'s ${g} link counts once: "${kfCap}"`);
+}
+// The text version under the figure, and the Markdown twin, say the same counts.
+const kfText = schema.slice(schema.indexOf('data-ow-figure="category-fields"')).match(/<details class="ow-fig-text\b[^"]*"[^>]*>([\s\S]*?)<\/details>/);
+const twin = read('docs/schema.md');
+const listed = (s) => [...s.matchAll(/([A-Z][a-z]+) (\d+) fields \((\d+) links?\)/g)].map((m) => `${m[1].toLowerCase()} ${m[2]} fields ${m[3]} links`);
+const drawnList = [...kf].map(([k, d]) => `${k} ${d.n} fields ${d.l} links`);
+// what one list says that the figure does not, and the other way; the same entries in another order
+const differ = (where, got) => {
+  const a = got.filter((x) => !drawnList.includes(x)), b = drawnList.filter((x) => !got.includes(x));
+  if (a.length || b.length) return `category fields: ${where} says ${a.join(', ') || 'nothing more'}; the figure draws ${b.join(', ') || 'nothing more'}`;
+  if (got.join() !== drawnList.join()) return `category fields: ${where} lists the categories in another order than the figure`;
+};
+if (!kfText) fails.push('category fields: no text version under the figure');
+else { const d = differ('the text version', listed(strip(kfText[1]))); if (d) fails.push(d); }
+if (/^<CategoryFields \/>$/m.test(twin)) fails.push('category fields: the Markdown twin carries the bare tag, not the text');
+else if (differ('the Markdown twin', listed(twin))) fails.push(differ('the Markdown twin', listed(twin)));
+else if (!twin.includes(leadWant.replace(/^(.*? families\.)/, '**$1**'))) fails.push('category fields: the Markdown twin does not carry the lead');
+console.log(`category fields: ${kf.size} categories in ${kfFams.length} families drawn, ${[...kf.values()].reduce((a, d) => a + d.n, 0)} own fields and ${[...kf.values()].reduce((a, d) => a + d.l, 0)} links, held to ${az.length} element pages' Fields tables`);
+
 if (fails.length) {
   for (const f of fails) console.log(`  FAIL  ${f}`);
   console.log(`\nFAIL — ${fails.length} figure claim(s) differ from their source.`);
   process.exit(1);
 }
-console.log('\nPASS — the link map draws exactly the element pages\' link rows, the four nouns\' address parses as it reads, and the error families draw exactly the errors table\'s codes and marks.');
+console.log('\nPASS — the link map draws exactly the element pages\' link rows, the four nouns\' address parses as it reads, the error families draw exactly the errors table\'s codes and marks, and the category fields draw each element page\'s field and link counts under the SDK\'s families.');
