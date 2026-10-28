@@ -1,0 +1,181 @@
+---
+// A Character in one read: the draught's sections round her, those served by default on her two
+// sides (the ones the budget never cuts marked), those served only when named on a shelf below with
+// the lenses beside them, and the policy's query parameters with their values and defaults. Built
+// as HTML, so its words are the page's own text (lists a screen reader or an agent reads). Every
+// section, mark, parameter, value and default comes from the API's own document through
+// contract/draught.json (scripts/gen_draught.mjs) and draught.mjs, which the twin reads too. Wide,
+// the sections sit either side of her with spokes to her; narrow (a container query), she heads one
+// column of them. The theme is the docs' own.
+import snap from '../../../contract/draught.json';
+import { HEADS, draughtView, draughtWords } from './draught.mjs';
+
+const data = draughtView(snap);
+const code = (s: string) => `<code>${s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code>`;
+const w = draughtWords(data, code);
+---
+
+<figure class="ow-fig ow-dr not-content" data-ow-figure="draught" data-read-at={data.readAt} data-route={data.route}>
+  <p class="ow-dr-lead"><b>{HEADS.title}</b> <code>{w.route}</code></p>
+  <p class="ow-dr-h">{w.on}</p>
+  <div class="ow-dr-hub">
+    {
+      [data.left, data.right].map((side, i) => (
+        <ul class={`ow-dr-side ow-dr-${i ? 'right' : 'left'}`}>
+          {side.map((x) => (
+            <li data-section={x.section} data-key={x.key} data-default="on" data-never-cut={x.neverCut ? '' : undefined} data-since={x.since ? '' : undefined}>
+              <code class="ow-dr-name">{x.section}</code>
+              {x.neverCut && <span class="ow-dr-tag">{HEADS.neverCut}</span>}
+              {x.since && <span class="ow-dr-tag ow-dr-since">{HEADS.withSince}</span>}
+              <p>{x.says}</p>
+              {x.key !== x.section && <p class="ow-dr-key" set:html={w.keyNote(x.key)} />}
+            </li>
+          ))}
+        </ul>
+      ))
+    }
+    <div class="ow-dr-centre">
+      <div class="ow-dr-her">
+        <b>{HEADS.centre}</b>
+        <span>{HEADS.centreNote}</span>
+      </div>
+    </div>
+  </div>
+  <div class="ow-dr-part">
+    <p class="ow-dr-h" set:html={HEADS.off.replace('components', code('components'))} />
+    <ul class="ow-dr-off">
+      {
+        data.off.map((x) => (
+          <li data-section={x.section} data-key={x.key} data-default="off">
+            <code class="ow-dr-name">{x.section}</code>
+            <p>{x.says}</p>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="ow-dr-lenses" data-key="lenses" set:html={w.lenses} />
+  </div>
+  <div class="ow-dr-part">
+    <p class="ow-dr-h">{w.policy} <span class="ow-dr-hnote" set:html={w.policyNote} /></p>
+    <ul class="ow-dr-settings">
+      {
+        data.settings.map((s) => (
+          <li data-param={s.param} data-values={s.values ?? ''} data-default={s.default === null ? '' : String(s.default)}>
+            <div class="ow-dr-top">
+              <code class="ow-dr-name">{s.param}</code>
+              <span class="ow-dr-def">default <span set:html={w.def(s)} /></span>
+            </div>
+            <p>{s.values && <span class="ow-dr-values">{s.values}: </span>}<span set:html={w.setting(s)} /></p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+  <figcaption set:html={w.caption} />
+</figure>
+
+<style>
+  .ow-dr {
+    container-type: inline-size;
+    margin: 1.5rem 0 1.25rem;
+    font-size: 0.875rem;
+    line-height: 1.45;
+    color: var(--sl-color-gray-2);
+    --dr-on: var(--sl-color-accent);
+    --dr-kept: var(--sl-color-orange);
+    --dr-kept-text: var(--sl-color-orange-high);
+    --dr-spoke: var(--sl-color-gray-4);
+    --dr-gap: 8px;
+    --dr-reach: 0.9rem;
+  }
+  .ow-dr p, .ow-dr ul { margin: 0; }
+  .ow-dr ul { list-style: none; padding: 0; }
+  .ow-dr li { margin: 0; }
+  .ow-dr :global(code) { font-family: var(--sl-font-mono); font-size: 0.8125rem; color: var(--sl-color-white); overflow-wrap: anywhere; }
+  /* plain mono, no chip: the cards are the frame (.ow-fig to outrank the inline code rule) */
+  .ow-dr.ow-fig :global(code) { background: none; border: 0; padding: 0; }
+  .ow-dr b { color: var(--sl-color-white); font-weight: 600; }
+  .ow-dr-lead { font-size: 0.9375rem; }
+  .ow-dr-lead code { display: block; margin-top: 0.15rem; }
+  .ow-dr-h { color: var(--sl-color-white); font-weight: 600; font-size: 0.9375rem; margin: 0.9rem 0 0.5rem !important; }
+  .ow-dr-hnote { color: var(--sl-color-gray-3); font-weight: 400; font-size: 0.8125rem; margin-left: 0.4rem; }
+  /* the sections: a name, a mark, what it holds */
+  .ow-dr-side, .ow-dr-off { display: grid; gap: var(--dr-gap); }
+  .ow-dr-side li, .ow-dr-off li, .ow-dr-settings li { position: relative; border-radius: 8px; padding: 0.4rem 0.65rem; }
+  .ow-dr-side li { border: 2px solid var(--dr-on); background: var(--sl-color-gray-6); }
+  .ow-dr-side li[data-never-cut] { border-color: var(--dr-kept); }
+  .ow-dr .ow-dr-name { font-weight: 600; }
+  .ow-dr-tag { float: right; margin-left: 0.5rem; color: var(--dr-kept-text); font-size: 0.75rem; }
+  .ow-dr-tag.ow-dr-since { color: var(--sl-color-gray-3); }
+  .ow-dr li p { margin-top: 0.1rem; color: var(--sl-color-gray-3); font-size: 0.8125rem; }
+  .ow-dr li p.ow-dr-key { margin-top: 0; }
+  .ow-dr li p :global(code) { font-size: 0.75rem; }
+  /* wide: her at the centre, the sections either side with a spoke each to a rail that meets her */
+  .ow-dr-hub { display: grid; grid-template-columns: minmax(0, 1fr) 8.5rem minmax(0, 1fr); align-items: center; }
+  .ow-dr-left { grid-column: 1; grid-row: 1; }
+  .ow-dr-right { grid-column: 3; grid-row: 1; }
+  .ow-dr-centre { grid-column: 2; grid-row: 1; align-self: stretch; display: flex; align-items: center; justify-content: center; position: relative; }
+  .ow-dr-centre::before {
+    content: '';
+    position: absolute;
+    left: var(--dr-reach);
+    right: var(--dr-reach);
+    top: 50%;
+    border-top: 1.5px solid var(--dr-spoke);
+  }
+  .ow-dr-her {
+    position: relative;
+    width: 6.25rem;
+    height: 6.25rem;
+    border-radius: 50%;
+    border: 2px solid var(--dr-on);
+    background: var(--sl-color-gray-6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.1rem;
+    text-align: center;
+    line-height: 1.2;
+    padding: 0.5rem;
+  }
+  .ow-dr-her span { color: var(--sl-color-gray-3); font-size: 0.6875rem; }
+  .ow-dr-side li::after { content: ''; position: absolute; top: 50%; width: var(--dr-reach); border-top: 1.5px solid var(--dr-spoke); }
+  .ow-dr-side li::before { content: ''; position: absolute; top: calc(var(--dr-gap) / -2 - 2px); bottom: calc(var(--dr-gap) / -2 - 2px); border-left: 1.5px solid var(--dr-spoke); }
+  .ow-dr-side li:first-child::before { top: 50%; }
+  .ow-dr-side li:last-child::before { bottom: calc(50% - 1.5px); }
+  .ow-dr-left li::after { left: calc(100% + 2px); }
+  .ow-dr-left li::before { left: calc(100% + 2px + var(--dr-reach)); }
+  .ow-dr-right li::after { right: calc(100% + 2px); }
+  .ow-dr-right li::before { right: calc(100% + 2px + var(--dr-reach)); }
+  /* the shelf: served only when named */
+  .ow-dr-part { margin-top: 1.1rem; padding-top: 0.2rem; border-top: 1px dashed var(--sl-color-gray-5); }
+  .ow-dr-off { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ow-dr-off li { border: 2px dashed var(--sl-color-gray-4); }
+  .ow-dr-lenses { margin-top: 0.5rem !important; color: var(--sl-color-gray-3); font-size: 0.8125rem; }
+  .ow-dr-lenses :global(code) { font-size: 0.75rem; }
+  /* the policy: one card a parameter */
+  .ow-dr-settings { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--dr-gap); }
+  .ow-dr-settings li { border: 1.5px solid var(--sl-color-gray-4); }
+  .ow-dr-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0 0.5rem; }
+  .ow-dr-def { color: var(--sl-color-gray-3); font-size: 0.75rem; }
+  .ow-dr-def :global(code) { font-size: 0.75rem; }
+  .ow-dr-values { color: var(--sl-color-gray-2); font-variant-numeric: tabular-nums; }
+  .ow-dr figcaption { margin-top: 12px; color: var(--sl-color-gray-3); font-size: 0.8125rem; }
+  .ow-dr figcaption :global(code) { font-size: 0.8125rem; }
+  /* the light theme's orange is pale: its -high edges the never-cut cards (3:1 against the page) */
+  :global(:root[data-theme='light']) .ow-dr { --dr-kept: var(--sl-color-orange-high); }
+  @container (max-width: 640px) {
+    .ow-dr-settings { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @container (max-width: 520px) {
+    /* one column: her first, then the sections, no spokes */
+    .ow-dr-hub { grid-template-columns: minmax(0, 1fr); gap: var(--dr-gap); }
+    .ow-dr-left, .ow-dr-right, .ow-dr-centre { grid-column: 1; grid-row: auto; }
+    .ow-dr-centre { order: -1; justify-content: flex-start; }
+    .ow-dr-centre::before, .ow-dr-side li::before, .ow-dr-side li::after { display: none; }
+    .ow-dr-her { width: auto; height: auto; flex-direction: row; flex-wrap: wrap; gap: 0 0.5rem; border-radius: 999px; padding: 0.35rem 0.9rem; }
+    .ow-dr-her span { font-size: 0.8125rem; }
+    .ow-dr-off, .ow-dr-settings { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

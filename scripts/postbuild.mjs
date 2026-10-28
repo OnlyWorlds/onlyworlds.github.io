@@ -21,6 +21,7 @@ import { signinMarkdown } from '../src/components/figures/signin.mjs';
 import { timeMarkdown } from '../src/components/figures/time.mjs';
 import { publicMarkdown } from '../src/components/figures/public.mjs';
 import { writeMarkdown } from '../src/components/figures/write.mjs';
+import { draughtMarkdown } from '../src/components/figures/draught.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const CONTENT = join(ROOT, 'src', 'content', 'docs');
@@ -118,6 +119,7 @@ const FIGURE_TEXT = {
   TimeLadder: () => timeMarkdown(JSON.parse(readFileSync(join(ROOT, 'contract', 'time.json'), 'utf8'))),
   PublicView: () => publicMarkdown(JSON.parse(readFileSync(join(ROOT, 'contract', 'public.json'), 'utf8')), JSON.parse(readFileSync(join(ROOT, 'contract', 'callers.json'), 'utf8')), ELEMENT_TYPES, ELEMENT_LABELS),
   WriteBody: () => writeMarkdown(JSON.parse(readFileSync(join(ROOT, 'contract', 'write.json'), 'utf8')), ELEMENT_LABELS),
+  DraughtRead: () => draughtMarkdown(JSON.parse(readFileSync(join(ROOT, 'contract', 'draught.json'), 'utf8'))),
 };
 let figureTexts = 0;
 for (const file of walk(DIST)) {

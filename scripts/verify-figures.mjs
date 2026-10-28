@@ -110,6 +110,15 @@
 // source). Then the page's own sentences (what is refused, what is tolerated, the prefixes, the caps)
 // to the snapshot, every phrase the figure says to the page's source, the twin the same, and the
 // snapshot against the live document, printed STALE, never failed.
+//
+// The draught (/docs/development/api/draught, DraughtRead): built from the API document's route
+// GET /api/v2/character/{id}/context through the snapshot contract/draught.json (gen_draught.mjs).
+// This derives by rules of its own the sections served by default and only when named (the
+// components parameter's words), the ones the budget never cuts (its clause, and the packet's own
+// "Never cut."), each section's packet key and the policy's parameters with their values and
+// defaults from their schemas, and holds the built figure to them; then the page's policy and
+// sections tables and its sentences to the same, every phrase the figure says to the page's source,
+// the twin the same, and the snapshot against the live document, printed STALE, never failed.
 import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -1475,9 +1484,171 @@ if (doc) {
 }
 }
 
+// ---- the draught ----
+// Read here with code of its own (not draught.mjs): the sections, which are off unless named, which
+// the budget never cuts and the policy's parameters, derived from the snapshot by rules of its own,
+// against the built figure, the page's own tables and sentences, and the live document. In a block of
+// its own: its names stay its own.
+{
+const dPage = read('docs/development/api/draught.html');
+const dTwin = read('docs/development/api/draught.md');
+const df = dPage.match(/<figure\b[^>]*\bdata-ow-figure="draught"[^>]*>([\s\S]*?)<\/figure>/);
+if (!df) blind('the draught page carries no draught figure (data-ow-figure="draught")');
+const dSnap = JSON.parse(readFileSync(join(DIST, '..', 'contract', 'draught.json'), 'utf8'));
+if (!dSnap.parameters?.components?.schema?.items?.enum || !dSnap.packet?.keys) blind('contract/draught.json holds no components sections or no packet keys');
+const bad = (m) => fails.push(`draught: ${m}`);
+const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+const low = (s) => s.toLowerCase().replace(/\s+/g, ' ');
+const set = (xs) => [...new Set(xs)].sort();
+const ticks = (s) => [...(s ?? '').matchAll(/`([a-z_]+)`/g)].map((m) => m[1]);
+// The page's source as a reader reads it: links as their text, no code ticks or bold.
+const dSrc = readFileSync(join(DIST, '..', 'src', 'content', 'docs', 'docs', 'development', 'api', 'draught.mdx'), 'utf8');
+const prose = (s) => low(s.replace(/\[([^\]]+)\]\([^)]*\)/g, '$1').replace(/[`*]/g, ''));
+const src = prose(dSrc);
+const text = low(strip(df[1]));
+const WORDS = ['none', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen'];
+
+// The snapshot, read by this check's own rules.
+const P = dSnap.parameters;
+const sections = P.components.schema.items.enum;
+// off unless named: the backticked names between "every one but" and "each off unless named", every
+// parenthesis removed (innermost first)
+let offSays = (P.components.description ?? '').split('each off unless named')[0].split(/every one but/i)[1] ?? '';
+for (let i = 0; i < 10 && /\([^()]*\)/.test(offSays); i++) offSays = offSays.replace(/\([^()]*\)/g, '');
+const offWant = ticks(offSays);
+if (!offWant.length) bad(`the components parameter names no section off unless named: "${P.components.description}"`);
+for (const s of offWant) if (!sections.includes(s)) bad(`${s} is off unless named and not a section`);
+const onWant = sections.filter((s) => !offWant.includes(s));
+// never cut: the section names in the budget's clause that says "never cut"
+const ncClause = (P.budget?.description ?? '').split(/[.;:]/).find((c) => /\bnever cut\b/.test(c)) ?? '';
+const ncWant = sections.filter((s) => new RegExp(`\\b${s}\\b`).test(ncClause));
+if (!ncWant.length) bad(`the budget names no section it never cuts: "${P.budget?.description}"`);
+// a second witness: the packet's own description of each never-cut section but self says so
+for (const s of ncWant) if (s !== 'self' && !/\bNever cut\./.test(dSnap.packet.keys[s] ?? '')) bad(`the budget never cuts ${s}; the packet's ${s} does not say "Never cut."`);
+// the policy: every query parameter but world, which names the world a keyless or account-token reader reads
+if (!/^The id of a world to read without the key that owns it/.test(P.world?.description ?? '')) bad('the world parameter is not the reader\'s world the figure leaves out of the policy');
+const policyWant = Object.keys(P).filter((k) => k !== 'world');
+const valuesWant = (s) => (s.enum ? s.enum.join(' or ') : s.type === 'boolean' ? 'true or false' : s.minimum !== undefined && s.maximum !== undefined ? `${s.minimum} to ${s.maximum}` : '');
+
+// The figure, as drawn: each section card, each parameter card.
+const cards = [...df[1].matchAll(/<li\b([^>]*\bdata-section="[^"]*"[^>]*)>([\s\S]*?)<\/li>/g)].map((m) => ({ tag: m[1], section: attr(m[1], 'data-section'), key: attr(m[1], 'data-key'), on: attr(m[1], 'data-default'), nc: /\bdata-never-cut\b/.test(m[1]), since: /\bdata-since\b/.test(m[1]), html: m[2], text: low(strip(m[2])) }));
+const onDrawn = cards.filter((c) => c.on === 'on').map((c) => c.section);
+const offDrawn = cards.filter((c) => c.on === 'off').map((c) => c.section);
+if (!same(onDrawn, onWant)) bad(`by default the figure draws ${onDrawn.join(', ')}; the document serves ${onWant.join(', ')}`);
+if (!same(offDrawn, offWant)) bad(`only when named the figure draws ${offDrawn.join(', ')}; the document leaves out ${offWant.join(', ')}`);
+for (const c of cards) {
+  const want = c.section === 'self' ? dSnap.packet.self : c.section;
+  if (c.key !== want || !(c.key in dSnap.packet.keys)) bad(`${c.section} is drawn as the packet's ${c.key}; the packet's key is ${want}${want in dSnap.packet.keys ? '' : ' (not in the packet)'}`);
+  if (c.key !== c.section && !c.text.includes(`in the packet: ${c.key}`)) bad(`${c.section}'s card does not name its packet key ${c.key}`);
+  const says = low(strip(c.html.match(/<p\b[^>]*>([\s\S]*?)<\/p>/)?.[1] ?? ''));
+  if (!says || !src.includes(says)) bad(`${c.section}'s card says "${says}", which is not on the page's source`);
+}
+const ncDrawn = cards.filter((c) => c.nc).map((c) => c.section);
+if (!same(set(ncDrawn), set(ncWant))) bad(`the figure marks ${ncDrawn.join(', ')} never cut; the budget never cuts ${ncWant.join(', ')}`);
+for (const c of cards.filter((x) => x.nc)) if (!c.text.includes('never cut')) bad(`${c.section} is marked never cut and does not say so`);
+// recent and since: the one card marked, and the document says recent is empty without since
+if (!same(cards.filter((c) => c.since).map((c) => c.section), ['recent']) || !cards.find((c) => c.section === 'recent')?.text.includes('with since')) bad('the recent card is not the one marked "with since"');
+if (!/\bAbsent, `recent` is empty\b/.test(P.since?.description ?? '')) bad('the since parameter no longer says recent is empty without it');
+// the lenses: a packet key no section names, beside the shelf
+if (!/\bdata-key="lenses"/.test(df[1]) || !dSnap.packet.keys.lenses || !P.lens) bad('the lenses are drawn and not in the packet, or the other way');
+// the counts in words
+const countOf = (s, after) => WORDS.indexOf(s.match(new RegExp(`\\b(${WORDS.join('|')}) ${after}\\b`))?.[1]);
+// read with a space for each tag, so a heading's first word stays a word
+const spaced = low(unescape(df[1].replace(/<[^>]+>/g, ' '))).replace(/\s+/g, ' ');
+if (countOf(spaced, 'by default') !== onWant.length) bad(`the figure says "${spaced.match(/\b\w+ by default\b/)?.[0]}"; the document serves ${onWant.length} by default`);
+if (countOf(spaced, 'query parameters') !== policyWant.length) bad(`the figure counts ${countOf(spaced, 'query parameters')} query parameters; the policy has ${policyWant.length}`);
+if (countOf(src, 'query parameters, all optional') !== policyWant.length) bad(`the page counts ${countOf(src, 'query parameters, all optional')} query parameters; the policy has ${policyWant.length}`);
+
+// The page's own tables and sentences.
+const rowOf = (name) => dSrc.split('\n').find((l) => l.startsWith(`| \`${name}\` |`)) ?? '';
+const policyRows = (dSrc.split('## The policy')[1] ?? '').split('\n## ')[0].split('\n').map((l) => l.match(/^\| `([a-z_]+)` \|/)?.[1]).filter(Boolean);
+if (!same(set(policyRows), set(policyWant))) bad(`the page's policy table lists ${policyRows.join(', ')}; the document's policy is ${policyWant.join(', ')}`);
+if (!/`world=<id>`/.test(dSrc.split('## Who may read it')[1]?.split('\n## ')[0] ?? '')) bad('the page\'s "Who may read it" does not name world=<id>');
+const defaultCell = rowOf('components').split('|').slice(-2)[0] ?? '';
+if (!/^ *Every one but /.test(defaultCell) || !same(set(ticks(defaultCell)), set(offWant))) bad(`the page's components default reads "${defaultCell.trim()}"; the document leaves out ${offWant.join(', ')}`);
+for (const s of offWant) if (!rowOf(s).includes('Only when `components` names it')) bad(`the page's ${s} row does not say "Only when components names it"`);
+const ncLine = dSrc.match(/((?:`[a-z_]+`, )*`[a-z_]+` and `[a-z_]+`) are never cut\./)?.[1];
+if (!same(set(ticks(ncLine)), set(ncWant))) bad(`the page never cuts ${ticks(ncLine).join(', ') || 'nothing this reads'}; the budget ${ncWant.join(', ')}`);
+if (!rowOf(dSnap.packet.self).includes('Named `self` in `components`')) bad(`the page's ${dSnap.packet.self} row does not say it is named self in components`);
+
+// The parameters: each in the document's order, its values and default from its schema, the page's row the same.
+const sets = [...df[1].matchAll(/<li\b([^>]*\bdata-param="[^"]*"[^>]*)>([\s\S]*?)<\/li>/g)].map((m) => ({ param: attr(m[1], 'data-param'), values: unescape(attr(m[1], 'data-values') ?? ''), def: unescape(attr(m[1], 'data-default') ?? ''), html: m[2], text: low(strip(m[2])) }));
+if (!same(sets.map((s) => s.param), policyWant)) bad(`the figure draws the parameters ${sets.map((s) => s.param).join(', ')}; the document's policy is ${policyWant.join(', ')}`);
+for (const s of sets) {
+  const sc = P[s.param]?.schema ?? {};
+  const v = valuesWant(sc);
+  if (s.values !== v || (v && !s.text.includes(low(v)))) bad(`${s.param} is drawn with values "${s.values}"; its schema gives "${v}"`);
+  const d = sc.default === undefined ? '' : String(sc.default);
+  if (s.def !== d || (d && !s.text.includes(`default ${d}`))) bad(`${s.param} is drawn with default "${s.def}"; its schema gives "${d}"`);
+  const row = rowOf(s.param);
+  if (sc.enum) for (const e of sc.enum) if (!row.includes(`\`${e}\``)) bad(`the page's ${s.param} row does not name ${e}`);
+  if (sc.minimum !== undefined && !row.includes(`${sc.minimum} to ${sc.maximum}`)) bad(`the page's ${s.param} row does not say ${sc.minimum} to ${sc.maximum}`);
+  if (d && !(row.split('|').slice(-2)[0] ?? '').includes(`\`${d}\``)) bad(`the page's ${s.param} row does not default to ${d}`);
+  // what the card says, each part a phrase of the page's source
+  const says = low(strip(s.html.match(/<p\b[^>]*>([\s\S]*?)<\/p>/)?.[1] ?? '')).replace(new RegExp(`^${v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}: `), '');
+  for (const part of says.split('; ')) if (!src.includes(part)) bad(`${s.param}'s card says "${part}", which is not on the page's source`);
+  const defSays = low(strip(s.html.match(/class="ow-dr-def[^"]*"[^>]*>([\s\S]*?)<\/span>\s*<\/div>/)?.[1] ?? '')).replace(/^default /, '');
+  if (!defSays || (!d && !src.includes(defSays))) bad(`${s.param}'s default reads "${defSays}", which is not on the page's source`);
+}
+if (!/\btime_range_current\b/.test(P.as_of?.description ?? '') || !sets.find((s) => s.param === 'as_of')?.text.includes('time_range_current')) bad('as_of\'s default is not the document\'s time_range_current');
+
+// The figure's other words: each a phrase of the page's source, and in the built figure; the
+// caption's first sentence is the document's.
+const PHRASES = [
+  'in one read', 'one character', 'as the recorded world holds it', 'only when components names it', 'never cut', 'with since',
+  'one frame with that lens read for your own view', 'one frame per lens you chose', 'query parameters, all optional', 'every key resolved',
+];
+for (const ph of PHRASES) {
+  if (!src.includes(ph)) bad(`"${ph}" is not on the page's source`);
+  if (!text.includes(ph)) bad(`the figure does not say "${ph}"`);
+}
+const dCap = strip(df[1].match(/<figcaption\b[^>]*>([\s\S]*?)<\/figcaption>/)?.[1] ?? '');
+if (!low(P.budget?.description ?? '').includes('on its own, never one order across sections') || !low(dCap).includes('on its own, never one order across sections')) bad(`the caption's "on its own, never one order across sections" is not the budget's: "${dCap}"`);
+if (!dCap.includes(`as read on ${dSnap.read_at}.`) || attr(df[0].match(/^<figure\b[^>]*>/)[0], 'data-read-at') !== dSnap.read_at) bad(`the caption or the figure's mark is not the snapshot's (${dSnap.read_at}): "${dCap}"`);
+if (attr(df[0].match(/^<figure\b[^>]*>/)[0], 'data-route') !== dSnap.route || !text.includes(`get ${dSnap.route}`) || !dSrc.includes(`\`GET ${dSnap.route}\``)) bad(`the figure or the page does not name the route GET ${dSnap.route}`);
+
+// The twin carries the figure as text: both shelves, every section and every parameter.
+if (/^<DraughtRead \/>$/m.test(dTwin)) bad('the Markdown twin carries the bare tag, not the text');
+else {
+  const tw = dTwin.slice(dTwin.indexOf('**A Character in one read.**'));
+  if (tw.length < 2) bad('the twin has no text of the figure');
+  for (const h of ['**Only when `components` names it.**', 'query parameters, all optional**']) if (!tw.includes(h)) bad(`the twin has no ${h}`);
+  for (const s of [...sections, ...policyWant]) if (!tw.includes(`- \`${s}\``)) bad(`the twin does not carry ${s}`);
+  for (const s of ncWant) if (!(tw.split('\n').find((l) => l.startsWith(`- \`${s}\``)) ?? '').includes('never cut')) bad(`the twin does not mark ${s} never cut`);
+}
+console.log(`draught: ${onWant.length} sections by default, ${offWant.length} only when named (${offWant.join(', ')}), ${ncWant.length} never cut (${ncWant.join(', ')}), ${policyWant.length} policy parameters with their values and defaults, from contract/draught.json (read ${dSnap.read_at}); held to the page's tables and sentences, every word to the page's source, the twin the same`);
+
+// The snapshot against the live document (fetched above for the Retry-After check), with code of
+// its own. Printed, never failed, as the credentials snapshot is; the sweep's check 2h fails on it.
+if (doc) {
+  const drift = [];
+  const norm = (v) => JSON.stringify(v, (k, x) => (x && typeof x === 'object' && !Array.isArray(x) ? Object.fromEntries(Object.keys(x).sort().map((y) => [y, x[y]])) : x));
+  const op = doc.paths?.[dSnap.route]?.get;
+  if (!op) drift.push(`GET ${dSnap.route} is not in the live document`);
+  else {
+    const q = (op.parameters ?? []).filter((p) => p.in === 'query');
+    if (!same(q.map((p) => p.name), Object.keys(P))) drift.push(`the query parameters are ${q.map((p) => p.name).join(', ')} live`);
+    for (const p of q) if (P[p.name] && (norm(p.schema) !== norm(P[p.name].schema) || (p.description ?? null) !== P[p.name].description)) drift.push(`${p.name} differs live`);
+    let s = op.responses?.['200']?.content?.['application/json']?.schema;
+    for (let i = 0; s?.$ref && i < 10; i++) s = s.$ref.replace(/^#\//, '').split('/').reduce((a, k) => a?.[k], doc);
+    const props = s?.properties ?? {};
+    if (!same(Object.keys(props), Object.keys(dSnap.packet.keys))) drift.push(`the packet's keys are ${Object.keys(props).join(', ')} live`);
+    for (const [k, v] of Object.entries(props)) if (k in dSnap.packet.keys && (v.description ?? null) !== dSnap.packet.keys[k]) drift.push(`the packet's ${k} reads otherwise live`);
+    if (!same(s?.required ?? [], dSnap.packet.required)) drift.push('the packet\'s required keys differ live');
+    const selfLive = Object.keys(props).filter((k) => [props[k], ...(props[k].oneOf ?? [])].some((x) => x?.properties?.self?.const === true));
+    if (!same(selfLive, [dSnap.packet.self])) drift.push(`her own element is ${selfLive.join(', ') || 'no key'} live`);
+  }
+  for (const d of drift.slice(0, 5)) console.log(`  STALE  draught snapshot (node scripts/gen_draught.mjs --refresh): ${d}`);
+  if (drift.length > 5) console.log(`  STALE  draught: … and ${drift.length - 5} more differences from the live document`);
+  console.log(`draught: the snapshot held to the live API document, ${Object.keys(P).length} query parameters and ${Object.keys(dSnap.packet.keys).length} packet keys`);
+} else {
+  console.log('CANNOT SEE: the live API document (see above); the draught snapshot was not compared with it');
+}
+}
+
 if (fails.length) {
   for (const f of fails) console.log(`  FAIL  ${f}`);
   console.log(`\nFAIL — ${fails.length} figure claim(s) differ from their source.`);
   process.exit(1);
 }
-console.log('\nPASS — the link map draws exactly the element pages\' link rows, the four nouns\' address parses as it reads, the error families draw exactly the errors table\'s codes and marks, the category fields draw each element page\'s field and link counts under the SDK\'s families, the page palettes paint keel\'s colours with the ratios they print, the world folder draws the example\'s folders and files, each named by the page\'s rule, the credentials figure draws every operation under the credentials the API document lists for it, the sign-in steps draw the API document\'s route, parameters and fields as the page\'s own tables give them, the time ladder draws the demo world\'s line and the standard\'s steps under the names each source gives them, the public view draws what the public reader removes, the keyless reads and the /w/ routes as the page\'s own words give them, and the write body draws what the API\'s write schemas store, ignore and refuse, as the page\'s own sentences say.');
+console.log('\nPASS — the link map draws exactly the element pages\' link rows, the four nouns\' address parses as it reads, the error families draw exactly the errors table\'s codes and marks, the category fields draw each element page\'s field and link counts under the SDK\'s families, the page palettes paint keel\'s colours with the ratios they print, the world folder draws the example\'s folders and files, each named by the page\'s rule, the credentials figure draws every operation under the credentials the API document lists for it, the sign-in steps draw the API document\'s route, parameters and fields as the page\'s own tables give them, the time ladder draws the demo world\'s line and the standard\'s steps under the names each source gives them, the public view draws what the public reader removes, the keyless reads and the /w/ routes as the page\'s own words give them, the write body draws what the API\'s write schemas store, ignore and refuse, as the page\'s own sentences say, and the draught draws the sections the API serves by default and only when named, what the budget never cuts and the policy\'s parameters, as the page\'s own tables give them.');

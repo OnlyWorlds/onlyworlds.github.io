@@ -3,6 +3,8 @@ title: The draught
 description: One Character's context in one read, under a policy of sections, mode, horizon and budget, and the two list filters that came with it.
 ---
 
+import DraughtRead from '../../../../../components/figures/DraughtRead.astro';
+
 `GET /api/v2/character/{id}/context` returns what one Character knows, as the recorded world holds it, in one read: the **draught**. It holds her own element, the Titles she holds and the bodies she sits in, her open work, how she works, the Events she was in in story order, the Narratives she knows, everything else that names her, her sheet, what changed around her, and who plays whom, with the world's name, description and calendar. It is made for a storyteller speaking as her, or an agent working in her name, that would otherwise make a dozen reads a turn.
 
 Nothing in it is inferred. Every element in it is the body the [list route](/docs/development/api/reads) serves the same reader, with the links that brought it, a count and a grade.
@@ -11,6 +13,8 @@ Nothing in it is inferred. Every element in it is the body the [list route](/doc
 curl -s "https://www.onlyworlds.com/api/v2/character/{id}/context?mode=voice&budget=20" \
   -H "API-Key: {key}"
 ```
+
+<DraughtRead />
 
 ## Who may read it
 
