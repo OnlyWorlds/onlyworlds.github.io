@@ -13,6 +13,8 @@ The 4.x line speaks v2 only and is ESM-only (Node 18 or later). Tools on the v1 
 npm install @onlyworlds/sdk
 ```
 
+For a web page with the setup done, start from [World Starter](https://github.com/OnlyWorlds/event-starter), a template repository that reads a world through this package.
+
 ## Read a world
 
 This runs as written: `0000000001` is a public demo key that reads the sample world Moppetopia. Save it as `read.mjs` and run `node read.mjs`. The package is ESM and the example uses top-level `await`, so in a `.js` or `.ts` file set `"type": "module"` in your `package.json` first (then `npx tsx read.ts` runs the TypeScript).

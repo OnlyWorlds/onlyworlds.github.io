@@ -33,6 +33,8 @@ The interactive reference is at [onlyworlds.com/api/docs](https://www.onlyworlds
 | [Python](/docs/development/python) | Scripts and data pipelines |
 | [Unity](/docs/development/unity) | Games: typed C# models and a client |
 
+To start a web tool from a page that already runs, use [World Starter](https://github.com/OnlyWorlds/event-starter), a template repository (MIT): plain TypeScript with Vite and the TypeScript SDK, no framework. Out of the box it reads the demo world Moppetopia, one element type at a time and one element with its links; paste a read key to read your own world. It only reads.
+
 ## AI agents
 
 | Page | For |
