@@ -46,7 +46,7 @@ The tool sends the browser to `https://www.onlyworlds.com/signin/authorize` with
 
 What the person sees:
 
-- **Signed in, and has pressed Continue for this tool before:** nothing. The browser goes straight back to `redirect_uri?code=…&state=…`.
+- **Signed in, and has pressed Continue for this tool before:** nothing. A `302` sends the browser straight back to `redirect_uri?code=…&state=…`.
 - **Signed in, the first time for this tool:** one page asking whether the tool may sign in as them, with Continue and Cancel. Continue sends the code back; Cancel sends `redirect_uri?error=access_denied&state=…`.
 - **Not signed in:** the sign-in page first, then the same.
 

@@ -3,6 +3,8 @@ title: Worlds
 description: The world container, its fields, and how it configures a world's timeline.
 ---
 
+import TimeLadder from '../../../../components/figures/TimeLadder.astro';
+
 A world is the top-level container for elements, representing a complete setting at any scope you define. Every element belongs to exactly one world, and a world key reads or writes exactly one world.
 
 ## Core
@@ -23,12 +25,16 @@ A world is the top-level container for elements, representing a complete setting
 | :--- | :--- | :--- | :--- |
 | `time_format_names` | array of strings | No | Names of each time step: `["Day", "Week", "Month", "Year"]`, or custom names like `["Sol", "Cycle", "Season", "Era"]` |
 | `time_format_equivalents` | array of integers | No | Basic units per step, e.g. `[1, 7, 30, 365]` (older worlds on onlyworlds.com may hold them as strings) |
-| `time_basic_unit` | string | No | Smallest time unit (e.g. `"Day"` or `"Hour"`) |
+| `time_basic_unit` | string | No | The unit every date counts in (e.g. `"Year"` or `"Day"`) |
 | `time_range_min` | integer | No | Earliest tracked time point |
 | `time_range_max` | integer | No | Latest tracked time point |
-| `time_range_current` | integer | No | Current time in your world. The standard's YAML names this field `time_current`. |
+| `time_range_current` | integer | No | The world's now, its current time point, as the API names it. The standard's YAML and a [world folder](/docs/schema/folders#worldjson) name it `time_current`. |
 
 Element fields that hold a moment, such as a Character's `birth_date` or an Event's `start_date`, are integers in the world's time units.
+
+<TimeLadder />
+
+A world's own calendar, its months, leap days and eras, is the [`atlas_calendar`](/docs/schema/conventions#data-the-schema-does-not-model) profile: it names points on this line and changes no date.
 
 ### Timeline examples
 

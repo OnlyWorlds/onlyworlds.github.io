@@ -12,7 +12,8 @@
  *            from against npm; the error-code snapshot against keel's live list; the palettes
  *            snapshot against keel's palette table (on a machine with keel); the credentials
  *            snapshot against the API document's security; the sign-in snapshot against the API
- *            document and keel's code (on a machine with keel); the routes in the
+ *            document and keel's code (on a machine with keel); the time snapshot against
+ *            schema-dist's newest tag, the API document and the demo world; the routes in the
  *            API reference against keel's OpenAPI; every external link; words the docs must not use;
  *            every release since the last sweep (the packages, the Unity SDK, the plugin, the toolkit,
  *            schema-dist's serials) against the changelog.
@@ -119,6 +120,17 @@ console.log('CHECKS');
   if (code === 0) pass('the sign-in snapshot matches the live API document, and keel\'s code says the same');
   else if (code === 1) bad('the sign-in snapshot differs from the live API document, or the document from keel\'s code (node scripts/gen_signin.mjs says which)');
   else note('could not read the live API document or keel\'s code (node scripts/gen_signin.mjs says why): the sign-in snapshot was not checked');
+}
+
+// ---- 2e: the time figure's snapshot against schema-dist's newest tag, the API document and the demo
+// world (exit 2 from the reader is BLIND: a source unreadable, never a pass) ------------------------------
+{
+  let code = 0;
+  try { execFileSync('node', ['scripts/gen_time.mjs'], { cwd: ROOT, timeout: 90000, stdio: 'ignore' }); }
+  catch (e) { code = e.status ?? 2; }
+  if (code === 0) pass('the time snapshot matches schema-dist\'s newest tag, the API document and Moppetopia');
+  else if (code === 1) bad('the time snapshot differs from schema-dist\'s newest tag, the API document or Moppetopia (node scripts/gen_time.mjs says which)');
+  else note('could not read schema-dist, the API document or Moppetopia (node scripts/gen_time.mjs says why): the time snapshot was not checked');
 }
 
 // ---- 3: the API reference against keel's OpenAPI ---------------------------------------------------------

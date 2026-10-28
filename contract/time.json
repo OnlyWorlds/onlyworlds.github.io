@@ -1,0 +1,133 @@
+{
+  "source": "schema-dist v0.33.0-dist.83 (schema.json, example/hyperion/world.json); https://www.onlyworlds.com/api/v2/openapi.json (World, character); https://www.onlyworlds.com/api/v2/world?world=0695db52-5433-7332-8000-db7fe10da375 with no key",
+  "read_at": "2026-10-28",
+  "standard": {
+    "tag": "v0.33.0-dist.83",
+    "serial": "83",
+    "fields": [
+      {
+        "name": "time_format_equivalents",
+        "kind": "list",
+        "items": "scalar_int",
+        "desc": "List of integers representing the equivalent number of basic units for each time format step (e.g., [1, 7, 30, 365] for Day, Week, Month, Year if basic unit is Day)"
+      },
+      {
+        "name": "time_format_names",
+        "kind": "list",
+        "items": "scalar_str",
+        "desc": "List of strings for the names of time format steps (e.g., ['Day', 'Week', 'Month', 'Year'])"
+      },
+      {
+        "name": "time_basic_unit",
+        "kind": "scalar_str",
+        "desc": "The fundamental unit of time measurement (e.g., 'Year', 'Day')"
+      },
+      {
+        "name": "time_range_min",
+        "kind": "scalar_int",
+        "desc": "The earliest point in time representable or tracked in the world's timeline"
+      },
+      {
+        "name": "time_range_max",
+        "kind": "scalar_int",
+        "desc": "The latest point in time representable or tracked in the world's timeline"
+      },
+      {
+        "name": "time_current",
+        "kind": "scalar_int",
+        "desc": "The current point in time within the world's timeline"
+      }
+    ],
+    "date": {
+      "type": "character",
+      "name": "birth_date",
+      "kind": "scalar_int"
+    }
+  },
+  "folder": {
+    "file": "example/hyperion/world.json",
+    "keys": [
+      "time_format_names",
+      "time_format_equivalents",
+      "time_basic_unit",
+      "time_range_min",
+      "time_range_max",
+      "time_current"
+    ]
+  },
+  "api": {
+    "fields": [
+      {
+        "name": "time_format_names",
+        "type": "array",
+        "items": "string",
+        "desc": "The names of the calendar's steps, e.g. ['Day', 'Week', 'Month', 'Year']."
+      },
+      {
+        "name": "time_format_equivalents",
+        "type": "array",
+        "items": [
+          "integer",
+          "string"
+        ],
+        "desc": "How many time_basic_unit each step of time_format_names holds, in the same order, e.g. [1, 7, 30, 365] when the basic unit is Day."
+      },
+      {
+        "name": "time_basic_unit",
+        "type": "string",
+        "desc": "The unit every element date and duration counts in (e.g. 'Year', 'Day'): a birth_date of 1200 is 1200 of these."
+      },
+      {
+        "name": "time_range_min",
+        "type": [
+          "integer",
+          "null"
+        ],
+        "desc": "The earliest point of the world's timeline, in time_basic_unit."
+      },
+      {
+        "name": "time_range_max",
+        "type": [
+          "integer",
+          "null"
+        ],
+        "desc": "The latest point of the world's timeline, in time_basic_unit."
+      },
+      {
+        "name": "time_range_current",
+        "type": [
+          "integer",
+          "null"
+        ],
+        "desc": "The world's present moment, in time_basic_unit."
+      }
+    ],
+    "date": {
+      "type": "character",
+      "name": "birth_date",
+      "kind": [
+        "integer",
+        "null"
+      ]
+    }
+  },
+  "world": {
+    "id": "0695db52-5433-7332-8000-db7fe10da375",
+    "name": "Moppetopia",
+    "values": {
+      "time_format_names": [],
+      "time_format_equivalents": [],
+      "time_basic_unit": "Year",
+      "time_range_min": 0,
+      "time_range_max": 500,
+      "time_range_current": 453
+    },
+    "element": {
+      "type": "character",
+      "id": "0695db83-afd7-76ee-8000-00f4295f8866",
+      "name": "Admiral Fluffington",
+      "field": "birth_date",
+      "date": 249
+    }
+  }
+}

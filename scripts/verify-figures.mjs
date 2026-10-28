@@ -72,12 +72,27 @@
 // the document (the 302, the 400 page, the Cancel's error) gen_signin.mjs holds to keel, locally;
 // here signin.mjs's Cancel error and 400 are held to the page's source sentences, and the 302,
 // which the page does not name, is held by keel's code only.
+//
+// The time ladder (/docs/schema/worlds, TimeLadder): built from the snapshot contract/time.json
+// (gen_time.mjs): the standard's World time fields at schema-dist's newest tag and its example
+// folder's world.json, the API document's World time fields, and the demo world Moppetopia as the
+// public reads it. This derives the two spellings of now itself (the one time field each source
+// spells alone, and the folder's), holds what the figure claims of the sources (dates and the line
+// whole numbers, an equivalent a count of the basic unit per step, the standard's example the same
+// in both sources), then reads the built figure: the steps (the world's own, else that example,
+// with the bars to scale) and each mark on the line (field, value, place, the element it dates).
+// Then the page's words: time.mjs's typed words read from the module and held to their rows of the
+// Timeline table in the page's source, the table's fields to the API's, now's spellings to the
+// folders page, the world's values to the worked example, the twin the same. Then the snapshot
+// against the live document, the world and the schema-dist checkout (OW_SCHEMA_DIST), printed
+// STALE, never failed.
 import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseOwLink, ELEMENT_TYPES, ELEMENT_FAMILIES, FAMILY_ORDER } from '@onlyworlds/sdk';
 import { contrast, pageColours, CONTRAST } from '../src/components/figures/fields.mjs';
 import { CANCEL_ERROR, REFUSED_STATUS, REDIRECT_STATUS } from '../src/components/figures/signin.mjs';
+import { MARKS as TIME_MARKS, WHERE as TIME_WHERE } from '../src/components/figures/time.mjs';
 
 const DIST = join(dirname(fileURLToPath(import.meta.url)), '..', 'dist');
 const fails = [];
@@ -951,7 +966,7 @@ else {
 // The three words signin.mjs types, which no document holds (keel's code does, and keel is private:
 // gen_signin.mjs reads it, CI never does). Read from the module itself, not the build, so a changed
 // word goes red before it is built; each held to the page's own sentence in its source and to the
-// built figure. The page names no status for the redirect, so the 302 is held by keel's code only.
+// built figure. The redirect's status is held to the page's list of what the person sees, as well as to keel's code.
 const mdx = readFileSync(join(DIST, '..', 'src', 'content', 'docs', 'docs', 'development', 'api', 'signin.mdx'), 'utf8');
 if (!mdx.includes(`Cancel sends \`redirect_uri?error=${CANCEL_ERROR}&state=…\``)) bad(`signin.mjs's Cancel error is ${CANCEL_ERROR}; the page's source sends Cancel back with ${mdx.match(/Cancel sends `redirect_uri\?error=([a-z_]+)/)?.[1]}`);
 if (cancelErr !== CANCEL_ERROR) bad(`the built figure's Cancel error is ${cancelErr}; signin.mjs's is ${CANCEL_ERROR} (rebuild)`);
@@ -961,7 +976,8 @@ const redirectShown = Number(redirect.codes.find((c) => attr(c.at, 'data-status'
 if (redirectShown !== REDIRECT_STATUS) bad(`the built figure's redirect is ${redirectShown}; signin.mjs's is ${REDIRECT_STATUS} (rebuild)`);
 const pageRedirect = [...mdx.matchAll(/`(30\d)`/g)].map((m) => Number(m[1])).find((s) => s !== REDIRECT_STATUS);
 if (pageRedirect) bad(`the page's source names a ${pageRedirect}; signin.mjs's redirect is ${REDIRECT_STATUS}`);
-console.log(`sign-in: signin.mjs's Cancel error ${CANCEL_ERROR} and refused ${REFUSED_STATUS} held to the page's source; its ${REDIRECT_STATUS} is in no page sentence, held by keel's code only (gen_signin.mjs, local)`);
+if (!mdx.includes(`A \`${REDIRECT_STATUS}\` sends the browser straight back to \`redirect_uri?code=…&state=…\``)) bad(`signin.mjs's redirect is ${REDIRECT_STATUS}; the page's list of what the person sees does not send the browser back with it`);
+console.log(`sign-in: signin.mjs's Cancel error ${CANCEL_ERROR}, refused ${REFUSED_STATUS} and redirect ${REDIRECT_STATUS} held to the page's source; the redirect to keel's code as well (gen_signin.mjs, local)`);
 console.log(`sign-in: ${params.length} authorize parameters, ${body.length} body fields and ${answer.length} answer fields drawn from contract/signin.json (read ${sSnap.read_at}), a ${st.code_seconds}-second code; held to the page's tables, its answer example and its words, the twin the same`);
 // the snapshot against the live document (fetched above for the Retry-After check)
 if (doc) {
@@ -995,9 +1011,152 @@ if (doc) {
 }
 }
 
+// ---- the time ladder ----
+// Read here with code of its own (not time.mjs): the steps and the marks from the built figure,
+// against the snapshot, the two sources' own words and the pages that state the same facts. In a
+// block of its own: its names stay its own.
+{
+const tPage = read('docs/schema/worlds.html');
+const tTwin = read('docs/schema/worlds.md');
+const tf = tPage.match(/<figure\b[^>]*\bdata-ow-figure="time"[^>]*>([\s\S]*?)<\/figure>/);
+if (!tf) blind('the Worlds page carries no time figure (data-ow-figure="time")');
+const tSnap = JSON.parse(readFileSync(join(DIST, '..', 'contract', 'time.json'), 'utf8'));
+const bad = (m) => fails.push(`time: ${m}`);
+const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+const ticks = (s) => [...(s ?? '').matchAll(/`([^`]+)`/g)].map((m) => m[1]);
+const tag = tf[0].match(/^<figure\b[^>]*>/)[0];
+const stdF = tSnap.standard?.fields ?? [], apiF = tSnap.api?.fields ?? [];
+if (!stdF.length || !apiF.length || !tSnap.world?.values) blind('contract/time.json holds no standard fields, API fields or world values');
+const stdNames = stdF.map((f) => f.name), apiNames = apiF.map((f) => f.name);
+// The two spellings of now: the one time field each source spells alone.
+const onlyStd = stdNames.filter((n) => !apiNames.includes(n)), onlyApi = apiNames.filter((n) => !stdNames.includes(n));
+if (onlyStd.length !== 1 || onlyApi.length !== 1) bad(`the standard alone has ${onlyStd.join(', ') || 'no time field'}, the API alone ${onlyApi.join(', ') || 'none'}; the figure draws one field with two spellings`);
+const [nowStd] = onlyStd, [nowApi] = onlyApi;
+const nowFolder = tSnap.folder.keys.filter((k) => k === nowStd || k === nowApi);
+if (!same(nowFolder, [nowStd])) bad(`${tSnap.folder.file} spells now ${nowFolder.join(' and ') || 'neither way'}; the folder format follows the standard's ${nowStd}`);
+// What the figure claims of the sources: dates and the line are whole numbers; an equivalent is a
+// count of the basic unit per step; the standard's example as both sources give it.
+const kind = (n) => stdF.find((f) => f.name === n)?.kind;
+for (const n of ['time_range_min', 'time_range_max', nowStd]) if (kind(n) !== 'scalar_int') bad(`the standard's ${n} is ${kind(n)}, not a whole number`);
+if (stdF.find((f) => f.name === 'time_format_equivalents')?.items !== 'scalar_int') bad('the standard\'s time_format_equivalents are not whole numbers');
+if (tSnap.standard.date.kind !== 'scalar_int' || ![tSnap.api.date.kind].flat().includes('integer') || [tSnap.api.date.kind].flat().includes('number')) bad(`a ${tSnap.standard.date.type}'s ${tSnap.standard.date.name} is ${tSnap.standard.date.kind} in the standard and ${JSON.stringify(tSnap.api.date.kind)} in the API; the figure draws a date as a whole number`);
+const stdEq = stdF.find((f) => f.name === 'time_format_equivalents')?.desc ?? '';
+const apiEq = apiF.find((f) => f.name === 'time_format_equivalents')?.desc ?? '';
+if (!/equivalent number of basic units for each time format step/.test(stdEq)) bad(`the standard's time_format_equivalents no longer reads as basic units per step: "${stdEq}"`);
+if (!/^How many time_basic_unit each step of time_format_names holds, in the same order/.test(apiEq)) bad(`the API's time_format_equivalents no longer reads as basic units per step: "${apiEq}"`);
+const exStd = stdEq.match(/\[([^\]]+)\] for (.+?) if basic unit is (\w+)/);
+const exApiN = apiEq.match(/e\.g\. \[([^\]]+)\] when the basic unit is (\w+)/);
+const exApiNames = apiF.find((f) => f.name === 'time_format_names')?.desc.match(/\[([^\]]+)\]/);
+const nums = (s) => s.split(',').map((x) => Number(x));
+const example = exStd && { names: exStd[2].split(/,\s*/), units: nums(exStd[1]), unit: exStd[3] };
+if (!example) bad(`the standard's time_format_equivalents description gives no example this reads: "${stdEq}"`);
+else if (!exApiN || !exApiNames || !same(nums(exApiN[1]), example.units) || exApiN[2] !== example.unit || !same(exApiNames[1].split(/,\s*/).map((s) => s.replace(/'/g, '')), example.names)) bad(`the API's example steps (${exApiNames?.[1]} as ${exApiN?.[1]} ${exApiN?.[2]}) are not the standard's (${example.names} as ${example.units} ${example.unit})`);
+// The steps the figure draws: the world's own when it names any, else the standard's example.
+const wv = tSnap.world.values;
+const own = (wv.time_format_names ?? []).length > 0;
+const wantSteps = own ? { names: wv.time_format_names, units: wv.time_format_equivalents.map(Number), unit: wv.time_basic_unit } : example;
+const rungsTag = tf[1].match(/<ol\b[^>]*\bclass="ow-time-rungs\b[^>]*>/)?.[0] ?? '';
+const rungs = [...tf[1].matchAll(/<li\b[^>]*\bdata-step="([^"]*)"[^>]*\bdata-units="(\d+)"[^>]*>([\s\S]*?)<\/li>/g)].map((m) => ({ name: unescape(m[1]), units: Number(m[2]), body: m[3] }));
+if (attr(rungsTag, 'data-own') !== String(own)) bad(`the steps are marked ${attr(rungsTag, 'data-own') === 'true' ? 'the world\'s own' : 'the standard\'s example'}; ${tSnap.world.name} ${own ? 'names steps' : 'names none'}`);
+if (wantSteps && (!same(rungs.map((r) => r.name), wantSteps.names) || !same(rungs.map((r) => r.units), wantSteps.units) || attr(rungsTag, 'data-unit') !== wantSteps.unit)) bad(`the figure draws the steps ${rungs.map((r) => `${r.name} ${r.units}`).join(', ')} in ${attr(rungsTag, 'data-unit')}; ${own ? `${tSnap.world.name}'s` : 'the standard\'s example'} are ${wantSteps.names.map((n, i) => `${n} ${wantSteps.units[i]}`).join(', ')} in ${wantSteps.unit}`);
+const top = Math.max(...rungs.map((r) => r.units));
+for (const r of rungs) {
+  const w = Number(r.body.match(/--w: ([\d.]+)%/)?.[1]);
+  if (Math.abs(w - (r.units / top) * 100) > 0.01) bad(`the ${r.name} bar is ${w}% wide; ${r.units} of ${top} is ${((r.units / top) * 100).toFixed(2)}%`);
+  if (!strip(r.body).includes(`${r.units} ${wantSteps?.unit}`)) bad(`the ${r.name} step reads "${strip(r.body)}"`);
+}
+if (!own && !strip(tf[1]).includes(`${tSnap.world.name} names none (time_format_names and time_format_equivalents are [])`)) bad(`the figure draws the standard's example without saying ${tSnap.world.name} names no steps`);
+// The line: each mark's field, value and place.
+const tMarks = [...tf[1].matchAll(/<li\b([^>]*\bdata-mark="[^"]*"[^>]*)>([\s\S]*?)<\/li>/g)].map((m) => ({
+  key: attr(m[1], 'data-mark'), field: attr(m[1], 'data-field'), folder: attr(m[1], 'data-folder'), value: Number(attr(m[1], 'data-value')),
+  element: attr(m[1], 'data-element'), at: Number(m[1].match(/--at: ([\d.]+)%/)?.[1]), text: strip(m[2]),
+}));
+const el = tSnap.world.element;
+const wantMarks = [
+  { key: 'min', field: 'time_range_min', value: wv.time_range_min },
+  { key: 'date', field: el.field, value: el.date, element: el.id },
+  { key: 'now', field: nowApi, folder: nowStd, value: wv[nowApi] },
+  { key: 'max', field: 'time_range_max', value: wv.time_range_max },
+].sort((a, b) => a.value - b.value);
+if (!same(tMarks.map((m) => m.key), wantMarks.map((m) => m.key))) bad(`the line's marks run ${tMarks.map((m) => m.key).join(', ')}; by value they run ${wantMarks.map((m) => m.key).join(', ')}`);
+const span = wv.time_range_max - wv.time_range_min;
+for (const want of wantMarks) {
+  const m = tMarks.find((x) => x.key === want.key);
+  if (!m) { bad(`the line has no ${want.key} mark`); continue; }
+  if (m.field !== want.field || m.value !== want.value || (want.folder && m.folder !== want.folder) || (want.element && m.element !== want.element)) bad(`the ${want.key} mark is ${m.field}${m.folder ? `/${m.folder}` : ''} ${m.value}; the snapshot gives ${want.field}${want.folder ? `/${want.folder}` : ''} ${want.value}`);
+  if (Math.abs(m.at - ((want.value - wv.time_range_min) / span) * 100) > 0.01) bad(`the ${want.key} mark sits at ${m.at}%; ${want.value} on ${wv.time_range_min} to ${wv.time_range_max} is ${(((want.value - wv.time_range_min) / span) * 100).toFixed(2)}%`);
+  if (!m.text.startsWith(String(want.value))) bad(`the ${want.key} mark reads "${m.text}"`);
+}
+const nowMark = tMarks.find((m) => m.key === 'now');
+if (nowMark && !(nowMark.text.includes(`${nowApi} in ${TIME_WHERE.api}`) && nowMark.text.includes(`${nowStd} in ${TIME_WHERE.folder}`))) bad(`the now mark reads "${nowMark.text}"; ${nowApi} is the API's spelling, ${nowStd} a world folder's`);
+const dateMark = tMarks.find((m) => m.key === 'date');
+if (dateMark && !dateMark.text.includes(`${el.name}'s ${el.field}`)) bad(`the date mark reads "${dateMark.text}"; the snapshot dates ${el.name}'s ${el.field}`);
+for (const [k, f] of [['min', 'time_range_min'], ['now', nowApi], ['max', 'time_range_max']]) {
+  const m = tMarks.find((x) => x.key === k);
+  if (m && !m.text.includes(TIME_MARKS[k])) bad(`the built ${k} mark does not say "${TIME_MARKS[k]}", time.mjs's word for ${f} (rebuild)`);
+}
+if (attr(tag, 'data-read-at') !== tSnap.read_at || attr(tag, 'data-world') !== tSnap.world.name || attr(tag, 'data-serial') !== tSnap.standard.serial || attr(tag, 'data-unit') !== wv.time_basic_unit) bad(`the figure is marked ${attr(tag, 'data-world')}, ${attr(tag, 'data-read-at')}, serial ${attr(tag, 'data-serial')}, ${attr(tag, 'data-unit')}; the snapshot is ${tSnap.world.name}, ${tSnap.read_at}, serial ${tSnap.standard.serial}, ${wv.time_basic_unit}`);
+const tCap = strip(tf[1].match(/<figcaption\b[^>]*>([\s\S]*?)<\/figcaption>/)?.[1] ?? '');
+if (!tCap.includes(`as the API served it on ${tSnap.read_at}`) || !tCap.includes(`schema-dist serial ${tSnap.standard.serial}`)) bad(`the caption reads "${tCap}"`);
+
+// The page's own words. time.mjs's typed words, read from the module (not the build), each held
+// to its row of the Timeline table in the page's source, so a changed word goes red before it is
+// built; the table's fields to the API's; the spelling of now to the folders page; the world's
+// values to the worked example, which reads Moppetopia too.
+const wSrc = readFileSync(join(DIST, '..', 'src', 'content', 'docs', 'docs', 'schema', 'worlds.mdx'), 'utf8');
+const timeTable = wSrc.slice(wSrc.indexOf('\n## Timeline\n'), wSrc.indexOf('\n### Timeline examples\n'));
+const rowOf = (f) => timeTable.split('\n').find((l) => l.startsWith(`| \`${f}\` |`)) ?? '';
+const tableFields = timeTable.split('\n').filter((l) => /^\| `/.test(l)).map((l) => l.match(/^\| `([^`]+)`/)[1]);
+if (!same(tableFields, apiNames)) bad(`the page's Timeline table lists ${tableFields.join(', ')}; the API's World has ${apiNames.join(', ')}`);
+for (const [k, f] of [['min', 'time_range_min'], ['now', nowApi], ['max', 'time_range_max']]) {
+  if (!rowOf(f).toLowerCase().includes(TIME_MARKS[k].toLowerCase())) bad(`time.mjs calls ${f} "${TIME_MARKS[k]}"; the page's row for it reads "${rowOf(f).split('|')[4]?.trim()}"`);
+}
+const nowRow = rowOf(nowApi);
+if (!nowRow.includes(`as ${TIME_WHERE.api} names it`) || !new RegExp(`\\b${TIME_WHERE.folder.replace(/^a /, 'a \\[')}\\]\\([^)]*\\) name it \`${nowStd}\``).test(nowRow)) bad(`time.mjs says ${nowApi} in "${TIME_WHERE.api}" and ${nowStd} in "${TIME_WHERE.folder}"; the page's row reads "${nowRow.split('|')[4]?.trim()}"`);
+const fSrc = read('docs/schema/folders.md');
+const fSay = fSrc.match(/The current time is `([a-z_]+)` on disk, the standard's name; the API calls it `([a-z_]+)`\./);
+if (!fSay || fSay[1] !== nowStd || fSay[2] !== nowApi) bad(`the folders page says ${fSay?.[1]} on disk and ${fSay?.[2]} in the API; the sources say ${nowStd} and ${nowApi}`);
+const exSay = read('docs/schema/example.md').match(/Moppetopia counts in (\w+) \(`time_basic_unit`\), from (-?\d+) to (-?\d+), and its present is (-?\d+) \(`([a-z_]+)`\)\. [^\n]*?Fluffington's `([a-z_]+)` (-?\d+):/);
+const exWant = [`${wv.time_basic_unit.toLowerCase()}s`, wv.time_range_min, wv.time_range_max, wv[nowApi], nowApi, el.field, el.date].map(String);
+if (tSnap.world.name !== 'Moppetopia' || !el.name.includes('Fluffington') || !exSay || !same(exSay.slice(1), exWant)) bad(`the worked example reads ${exSay ? exSay.slice(1).join(', ') : 'no sentence this reads'}; the snapshot's ${tSnap.world.name} is ${exWant.join(', ')}`);
+// The twin carries the figure as text: the same steps and marks.
+if (/^<TimeLadder \/>$/m.test(tTwin)) bad('the Markdown twin carries the bare tag, not the text');
+else {
+  const twSteps = [...tTwin.matchAll(/^- (\w+): (\d+) (\w+)$/gm)].map((m) => [m[1], Number(m[2])]);
+  const twMarks = [...tTwin.matchAll(/^- `(-?\d+)`: (.*)$/gm)].map((m) => [Number(m[1]), ticks(m[2])]);
+  if (!same(twSteps, rungs.map((r) => [r.name, r.units]))) bad(`the twin's steps read ${twSteps.map((s) => s.join(' ')).join(', ')}`);
+  if (!same(twMarks.map((m) => m[0]), wantMarks.map((m) => m.value)) || !same(twMarks.map((m) => m[1].join(' ')), wantMarks.map((m) => [m.field, m.folder].filter(Boolean).join(' ')))) bad(`the twin's line reads ${twMarks.map((m) => `${m[0]} ${m[1].join('/')}`).join(', ')}`);
+}
+console.log(`time: ${rungs.length} steps (${own ? `${tSnap.world.name}'s own` : `the standard's example; ${tSnap.world.name} names none`}) and ${tMarks.length} marks on ${tSnap.world.name}'s line from contract/time.json (read ${tSnap.read_at}, serial ${tSnap.standard.serial}); now ${nowApi} in the API, ${nowStd} in the standard and a world folder; held to the page's Timeline table, the folders page, the worked example and the twin`);
+// The snapshot against its live sources: the API document (fetched above), the world as the public
+// reads it, and the schema-dist checkout when OW_SCHEMA_DIST names one. Printed STALE, never
+// failed, as the other snapshots are: the sweep's check 2e fails on it.
+const drift = [];
+if (doc) {
+  const lw = doc.components?.schemas?.World?.properties ?? {};
+  const live = Object.entries(lw).filter(([k]) => k.startsWith('time_')).map(([name, p]) => ({ name, type: p.type, ...(p.items ? { items: p.items.type } : {}), desc: p.description }));
+  if (!same(live, apiF)) drift.push(`the API document's World time fields are ${live.map((f) => f.name).join(', ')} as served now, and differ from the snapshot's`);
+} else console.log('CANNOT SEE: the live API document (see above); the time snapshot\'s API half was not compared with it');
+try {
+  const r = await fetch(`https://www.onlyworlds.com/api/v2/world?world=${tSnap.world.id}`, { signal: AbortSignal.timeout(20000) });
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  const lv = await r.json();
+  for (const k of Object.keys(wv)) if (!same(lv[k], wv[k])) drift.push(`${tSnap.world.name}'s ${k} is ${JSON.stringify(lv[k])} live, ${JSON.stringify(wv[k])} in the snapshot`);
+} catch (e) { console.log(`CANNOT SEE: ${tSnap.world.name} with no key (${e.message}); its values were not compared`); }
+const tDist = process.env.OW_SCHEMA_DIST;
+if (tDist && existsSync(join(tDist, 'schema.json'))) {
+  const ls = JSON.parse(readFileSync(join(tDist, 'schema.json'), 'utf8')).world?.filter((f) => f.name.startsWith('time_')).map((f) => ({ name: f.name, kind: f.kind, ...(f.items ? { items: f.items } : {}), desc: f.desc }));
+  if (!same(ls, stdF)) drift.push(`the schema-dist checkout's World time fields differ from the snapshot's (serial ${tSnap.standard.serial})`);
+  const lk = Object.keys(JSON.parse(readFileSync(join(tDist, ...tSnap.folder.file.split('/')), 'utf8'))).filter((k) => k.startsWith('time_'));
+  if (!same(lk, tSnap.folder.keys)) drift.push(`the checkout's ${tSnap.folder.file} spells ${lk.join(', ')}; the snapshot ${tSnap.folder.keys.join(', ')}`);
+}
+for (const d of drift) console.log(`  STALE  time snapshot (node scripts/gen_time.mjs --refresh): ${d}`);
+console.log(`time: the snapshot held to the live API document, ${tSnap.world.name}${tDist ? ' and the schema-dist checkout' : ''}, ${drift.length ? `${drift.length} difference(s)` : 'the same'}`);
+}
+
 if (fails.length) {
   for (const f of fails) console.log(`  FAIL  ${f}`);
   console.log(`\nFAIL — ${fails.length} figure claim(s) differ from their source.`);
   process.exit(1);
 }
-console.log('\nPASS — the link map draws exactly the element pages\' link rows, the four nouns\' address parses as it reads, the error families draw exactly the errors table\'s codes and marks, the category fields draw each element page\'s field and link counts under the SDK\'s families, the page palettes paint keel\'s colours with the ratios they print, the world folder draws the example\'s folders and files, each named by the page\'s rule, the credentials figure draws every operation under the credentials the API document lists for it, and the sign-in steps draw the API document\'s route, parameters and fields as the page\'s own tables give them.');
+console.log('\nPASS — the link map draws exactly the element pages\' link rows, the four nouns\' address parses as it reads, the error families draw exactly the errors table\'s codes and marks, the category fields draw each element page\'s field and link counts under the SDK\'s families, the page palettes paint keel\'s colours with the ratios they print, the world folder draws the example\'s folders and files, each named by the page\'s rule, the credentials figure draws every operation under the credentials the API document lists for it, the sign-in steps draw the API document\'s route, parameters and fields as the page\'s own tables give them, and the time ladder draws the demo world\'s line and the standard\'s steps under the names each source gives them.');

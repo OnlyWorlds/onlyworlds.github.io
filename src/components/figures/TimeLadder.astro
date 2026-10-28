@@ -1,0 +1,180 @@
+---
+// How a world counts time: its steps, each a count of the basic unit drawn to scale, and its line
+// of whole numbers from the earliest tracked point to the latest, with the world's now and one
+// element's date on it. Built as HTML, so its words are the page's own text (two lists a screen
+// reader or an agent reads). The names come from the standard and the API's own document, the
+// values from the demo world Moppetopia, through contract/time.json (scripts/gen_time.mjs) and
+// time.mjs, which the twin reads too. Wide, the marks sit on one line at their place; narrow (a
+// container query), the line stands upright, one mark a row. The theme is the docs' own.
+import snap from '../../../contract/time.json';
+import { dateSay, nowSay, timeLadder, timeWords, unitsOf } from './time.mjs';
+
+const data = timeLadder(snap);
+const code = (s: string) => `<code>${s}</code>`;
+const w = timeWords(data, code);
+// a label sits centred under its mark, or starts or ends at it near the line's ends
+const anchor = (at: number) => (at < 15 ? 'start' : at > 85 ? 'end' : 'mid');
+---
+
+<figure class="ow-fig ow-time not-content" data-ow-figure="time" data-world={data.world} data-read-at={data.readAt} data-serial={data.serial} data-unit={data.unit}>
+  <div class="ow-time-part">
+    <p class="ow-time-head"><b>{w.stepsHead}.</b> <span set:html={w.stepsNote} /></p>
+    <ol class="ow-time-rungs" data-own={String(data.steps.own)} data-unit={data.steps.unit} aria-label={`${w.stepsHead}, each a count of ${data.steps.unit}`}>
+      {
+        data.steps.rungs.map((r) => (
+          <li data-step={r.name} data-units={r.units}>
+            <span class="ow-time-name">{r.name}</span>
+            <span class="ow-time-count">{unitsOf(r.units, data.steps.unit)}</span>
+            <span class="ow-time-bar" style={`--w: ${r.width}%`} aria-hidden="true" />
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+  <div class="ow-time-part">
+    <p class="ow-time-head"><b>{w.lineHead}.</b> <span set:html={w.lineNote} /></p>
+    <ol class="ow-time-marks" aria-label={`${w.lineHead}, from its earliest tracked point to its latest`}>
+      {
+        data.line.marks.map((m) => (
+          <li class={`ow-time-mark ow-time-${m.key} ow-time-${anchor(m.at)}`} style={`--at: ${m.at}%`}
+            data-mark={m.key} data-field={m.field} data-folder={m.folder} data-value={m.value} data-element={m.element?.id}>
+            <i class="ow-time-dot" aria-hidden="true" />
+            <span class="ow-time-label">
+              <b class="ow-time-value">{m.value}</b>{' '}
+              {m.key === 'date'
+                ? <span class="ow-time-say" set:html={dateSay(m.element, code)} />
+                : <span class="ow-time-say">{m.say}<span class="ow-time-sep">, </span></span>}
+              {m.key === 'now'
+                ? <span class="ow-time-field" set:html={nowSay(m, code)} />
+                : m.key !== 'date' && <span class="ow-time-field"><code>{m.field}</code></span>}
+            </span>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+  <figcaption set:html={w.caption} />
+</figure>
+
+<style>
+  .ow-time {
+    container-type: inline-size;
+    margin: 1.5rem 0 1.25rem;
+    font-size: 0.875rem;
+    line-height: 1.45;
+    color: var(--sl-color-gray-2);
+    --time-line: var(--sl-color-gray-4);
+    --time-step: var(--sl-color-accent);
+    --time-now: var(--sl-color-orange-high);
+    --time-date: var(--sl-color-purple-high);
+    --time-now-dot: var(--sl-color-orange);
+    --time-date-dot: var(--sl-color-purple);
+  }
+  .ow-time p, .ow-time ol { margin: 0; }
+  .ow-time code { font-family: var(--sl-font-mono); font-size: 0.8125rem; color: var(--sl-color-white); }
+  .ow-time-part + .ow-time-part { margin-top: 1.25rem; padding-top: 1rem; border-top: 1px dashed var(--sl-color-gray-5); }
+  .ow-time-head { color: var(--sl-color-gray-3); }
+  .ow-time-head b { color: var(--sl-color-white); font-weight: 600; }
+  .ow-time-rungs {
+    list-style: none;
+    padding: 0;
+    margin-top: 0.75rem !important;
+    display: grid;
+    grid-template-columns: max-content max-content minmax(0, 1fr);
+    gap: 6px 14px;
+    align-items: center;
+  }
+  .ow-time-rungs li { display: grid; grid-column: 1 / -1; grid-template-columns: subgrid; align-items: center; margin: 0; }
+  .ow-time-name { font-weight: 600; color: var(--sl-color-white); }
+  .ow-time-count { text-align: right; font-variant-numeric: tabular-nums; color: var(--sl-color-gray-3); }
+  .ow-time-bar {
+    display: block;
+    width: max(3px, var(--w));
+    height: 1.1rem;
+    border-radius: 4px;
+    background: var(--time-step);
+  }
+  /* the line: a rule across, each mark at its place, now's label above it and the others below */
+  .ow-time-marks {
+    list-style: none;
+    position: relative;
+    padding: 0;
+    margin: 1rem 0.5rem 0 !important;
+    height: 10.25rem;
+  }
+  .ow-time-marks::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 5rem;
+    height: 2px;
+    background: var(--time-line);
+  }
+  .ow-time-mark { position: absolute; left: var(--at); top: 5rem; margin: 0; }
+  .ow-time-dot {
+    position: absolute;
+    left: -6px;
+    top: -5px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--sl-color-gray-3);
+  }
+  .ow-time-min .ow-time-dot, .ow-time-max .ow-time-dot { border-radius: 2px; width: 4px; left: -2px; top: -9px; height: 20px; }
+  .ow-time-now .ow-time-dot { background: var(--time-now-dot); }
+  .ow-time-date .ow-time-dot { background: var(--time-date-dot); }
+  .ow-time-label {
+    position: absolute;
+    top: 1rem;
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+    max-width: 15rem;
+    color: var(--sl-color-gray-3);
+  }
+  .ow-time-now .ow-time-label { top: auto; bottom: 1rem; }
+  .ow-time-mid .ow-time-label { transform: translateX(-50%); align-items: center; text-align: center; }
+  .ow-time-start .ow-time-label { left: -2px; }
+  .ow-time-end .ow-time-label { right: -2px; align-items: flex-end; text-align: right; }
+  .ow-time-value { font-size: 1rem; color: var(--sl-color-white); font-variant-numeric: tabular-nums; }
+  .ow-time-now .ow-time-value, .ow-time-now .ow-time-say { color: var(--time-now); }
+  .ow-time-date .ow-time-value, .ow-time-date .ow-time-say { color: var(--time-date); }
+  .ow-time-field code, .ow-time-say code { font-size: 0.75rem; }
+  /* the comma a reader hears between a mark's word and its field; the layout separates them by sight */
+  .ow-time-sep {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  .ow-time figcaption {
+    margin-top: 10px;
+    color: var(--sl-color-gray-3);
+    font-size: 0.8125rem;
+  }
+  .ow-time figcaption code { font-size: 0.8125rem; }
+  @container (max-width: 560px) {
+    .ow-time-rungs { column-gap: 10px; }
+    /* the line upright: one mark a row, the rule down the left */
+    .ow-time-marks { height: auto; margin: 0.75rem 0 0 !important; padding-left: 1.25rem; display: grid; gap: 10px; }
+    .ow-time-marks::before { left: 5px; right: auto; top: 0.5rem; bottom: 0.5rem; width: 2px; height: auto; }
+    .ow-time-mark { position: relative; left: auto; top: auto; }
+    .ow-time-dot { left: calc(-1.25rem); top: 0.35rem; }
+    .ow-time-min .ow-time-dot, .ow-time-max .ow-time-dot { width: 12px; height: 4px; left: calc(-1.25rem); top: 0.6rem; }
+    .ow-time-label, .ow-time-now .ow-time-label {
+      position: static;
+      transform: none !important;
+      width: auto;
+      max-width: none;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: baseline !important;
+      gap: 0 8px;
+      text-align: left !important;
+    }
+    .ow-time-field { flex-basis: 100%; }
+  }
+</style>

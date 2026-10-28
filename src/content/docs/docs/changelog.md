@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-28
 
+- **[Worlds](/docs/schema/worlds#timeline) draws how a world counts time**: the steps a world names, each a count of its basic unit, and the line of whole numbers from `time_range_min` to `time_range_max` with the world's now and one element's date on it, from the demo world Moppetopia and the field names the standard and the API give them. The now row names both spellings: `time_range_current` in the API, `time_current` in the standard and a world folder. `time_basic_unit` is described as the unit every date counts in, and the page points to the calendar profile.
 - **[Idempotency](/docs/development/api/writes#idempotency)**: a retry of `POST /api/v2/{type}` after a lost or failed answer never writes a second element once the first is written; it returns that element with the first status and `Idempotent-Replay: true`.
 - **[TypeScript](/docs/development/typescript#reading-aids) 4.100.0 and [Python](/docs/development/python#what-it-covers) 0.82.0: schema-dist serial 83.**
   - `charterOf` / `charter_of` and `domainsOf` / `domains_of` read what a world's front door shows first: the Charter, the Guide and the Domains.

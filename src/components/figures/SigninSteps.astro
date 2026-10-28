@@ -65,7 +65,7 @@ const laneAt = (b: { lane: string; from?: string }) => `grid-column: ${col(b.fro
                 {h.cancel && (
                   <p class="ow-sig-note">Cancel: <code data-error={h.cancel.error}>{h.cancel.address}</code></p>
                 )}
-                {h.cancel && <p class="ow-sig-note" data-seconds={data.seconds}>{w.life}</p>}
+                {h.cancel && <p class="ow-sig-note ow-sig-life" data-seconds={data.seconds}>{w.life}</p>}
               </div>
             );
           })}
@@ -215,6 +215,7 @@ const laneAt = (b: { lane: string; from?: string }) => `grid-column: ${col(b.fro
   .ow-sig-x code { color: var(--sl-color-gray-3); }
   .ow-sig-note { margin-top: 4px; font-size: 0.8125rem; color: var(--sl-color-gray-3); }
   .ow-sig-note code { font-size: 0.75rem; overflow-wrap: anywhere; }
+  .ow-sig-note.ow-sig-life { margin-top: 1lh; }
   .ow-sig-box {
     position: relative;
     margin: 0 6px;
