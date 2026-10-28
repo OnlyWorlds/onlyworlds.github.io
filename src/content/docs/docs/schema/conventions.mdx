@@ -15,6 +15,8 @@ A world can use any subset of the categories. Only `name` is required on an elem
 
 Every element has two free-text classification fields: `supertype`, the top-level category the element belongs to, and `subtype`, a further classification within it. The schema fixes no values, so each world defines its own: a Location with supertype `City` and subtype `Port`, an Institution with supertype `Guild`.
 
+Both sort elements inside their category: a Location with supertype `City` is still a Location, and no supertype adds a category to the standard.
+
 The API filters on both by exact value (`?supertype=City`), so keep the vocabulary consistent within a world. Some platform features use supertypes too: an agent's own Character has supertype `Agent`, and in-world messages are Narratives with supertype `Message` (see below).
 
 ## Links and Relations
@@ -49,9 +51,13 @@ The category definitions draw these lines themselves:
 | Event / Narrative | An Event is "a time-bound happening within the world"; Narratives are "stories told in your world, and can involve the organization or reinterpretation of Events." |
 | Location / Zone | A Location is "a distinct place within the world where activities occur and elements converge"; Zones "are not defined by geometry themselves but gain spatial presence through linked map markers." |
 
+**One magic system, three categories.** The Ember Art, a school of fire magic, is a Construct. Firebolt, a spell taught in it, is an Ability with the Ember Art as its `tradition`. The Ember Tide, the force the spell draws on, is a Phenomenon: the Ability's `source`, with Firebolt in its `empowerments` and the mages who can steer it in `wielders`. The night a mage burned the gates of Varn with it is an Event.
+
 ## Zones take their shape from Markers
 
 A Zone has no geometry of its own. Its shape on a [Map](/docs/schema/element_categories/map) is a set of [Markers](/docs/schema/element_categories/marker), each linked to the Map and the Zone, at an `x`/`y` coordinate, with an `order` that sequences them into a polygon or line (`0` is the first point). Markers are boundary points and usually carry an empty name. A [Pin](/docs/schema/element_categories/pin) places one element of any category at one point on one Map.
+
+A Zone with no Markers is a valid Zone: a region the world names before anyone draws it. Markers added later give it a shape on one Map; the Zone keeps its id and fields, and Markers on a second Map give it a shape there too.
 
 ## Time and units
 

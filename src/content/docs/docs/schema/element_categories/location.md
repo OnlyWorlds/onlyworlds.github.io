@@ -9,6 +9,8 @@ sidebar:
 
 A Location represents a distinct place within the world where activities occur and elements converge. Locations serve as anchors for other world elements, and describe how physical spaces are used, who organizes them, and how they relate to other places.
 
+A building can be an Object, a Location, or both. As an Object it is a thing that is built, owned and destroyed; as a Location it is a place people enter and things happen in. When it is both, make the two elements: list the Object in the Location's `buildings` and set the Object's `location` to it. Rooms inside are Locations with the building as `parent_location`.
+
 Locations are a structural backbone of your world. They interact with:
 
 - **Collectives and Characters** (who inhabit or pass through them)
@@ -28,6 +30,8 @@ They are distinct from:
 ## Fields
 
 Drawn with the other categories: [what Location links to](/docs/schema/?kind=location#what-links-to-what).
+
+Integers are whole numbers: the API truncates a decimal, and a range is a display hint it does not enforce ([Field types](/docs/schema/fields#field-types)).
 
 ### Setting
 

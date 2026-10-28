@@ -19,7 +19,7 @@ Constructs describe structured ideas or systems that the world acknowledges or o
 They are distinct from:
 
 - **Laws** (which are more externalized, often enforceable by rule)
-- **Phenomena** (which are observed and natural rather than believed or structured)
+- **Phenomena** (conditions or processes that act in the world, whatever their cause: natural, made or supernatural)
 - **Narratives** (which explain or contain constructs)
 
 [Construct discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/construct)
@@ -29,6 +29,8 @@ They are distinct from:
 ## Fields
 
 Drawn with the other categories: [what Construct links to](/docs/schema/?kind=construct#what-links-to-what).
+
+Integers are whole numbers: the API truncates a decimal, and a range is a display hint it does not enforce ([Field types](/docs/schema/fields#field-types)).
 
 ### Nature
 

@@ -12,7 +12,7 @@ API-Key: {key}
 API-Pin: {pin}
 ```
 
-The header names are exactly `API-Key` and `API-Pin`. The key alone determines the world, so no request passes a world id.
+The header names are exactly `API-Key` and `API-Pin`. A world key alone determines the world, so a request made with one passes no world id; an [account token](#account-tokens) and a read of an [open world](/docs/development/api/public) name it with `?world=<id>`.
 
 ## Key types
 

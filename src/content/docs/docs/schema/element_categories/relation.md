@@ -9,6 +9,8 @@ sidebar:
 
 Relations are non-material and capture meaningful connections between world elements. They track interactions, alignments, conflicts, or agreements between characters, groups, places, and other entities. 
 
+Every field is optional, `actor` included. A treaty between two Institutions is a Relation with both in `institutions` and no `actor`. Set `actor` only when one Character is the side the relation belongs to.
+
 Relations are special definitions between world elements. They interact with:
 
 - **Characters and Institutions** (defining personal and organizational relationships)
@@ -29,6 +31,8 @@ They are distinct from:
 ## Fields
 
 Drawn with the other categories: [what Relation links to](/docs/schema/?kind=relation#what-links-to-what).
+
+Integers are whole numbers: the API truncates a decimal, and a range is a display hint it does not enforce ([Field types](/docs/schema/fields#field-types)).
 
 ### Nature
 

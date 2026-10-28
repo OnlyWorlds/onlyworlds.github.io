@@ -9,6 +9,8 @@ sidebar:
 
 Narratives represent stories told in your world, and can involve the organization or reinterpretation of Events.  
 
+A Narrative's own dates are when it is told: `start_date` when it is first told or recorded, `end_date` when it stops being told. The time it is about lives on its `events`. A ballad first sung in year 900 about a war in year 400 has `start_date` 900 and lists the war's Events.
+
 Narratives are how stories are expressed in a world. They interact with:
 
 - **Events** (the actual happenings they group or reinterpret)
@@ -29,6 +31,8 @@ They are distinct from:
 ## Fields
 
 Drawn with the other categories: [what Narrative links to](/docs/schema/?kind=narrative#what-links-to-what).
+
+Integers are whole numbers: the API truncates a decimal, and a range is a display hint it does not enforce ([Field types](/docs/schema/fields#field-types)).
 
 ### Context
 

@@ -7,7 +7,7 @@ sidebar:
 
 <img src="/icons/ability.png" alt="" width="48" height="48" class="ow-type-icon" />
 
-An Ability represents something an entity in the world can do: a defined action, power, skill, or effect that can change the world or its perception. Abilities are performable and traceable: they have causes, consequences, and conditions. They can be passive traits, active powers, or conditional techniques. 
+An Ability represents something an entity in the world can do: a defined action, power, skill, or effect that can change the world or its perception. Abilities are performable and traceable: they have causes, consequences, and conditions. An Ability can work all the time, be used at will, or work only under conditions (its `activation`). 
 
 An Ability is a performable effect or power. They interact with:
 
@@ -29,6 +29,8 @@ They are distinct from:
 ## Fields
 
 Drawn with the other categories: [what Ability links to](/docs/schema/?kind=ability#what-links-to-what).
+
+Integers are whole numbers: the API truncates a decimal, and a range is a display hint it does not enforce ([Field types](/docs/schema/fields#field-types)).
 
 ### Mechanics
 

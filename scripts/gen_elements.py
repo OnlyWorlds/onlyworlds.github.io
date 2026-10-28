@@ -113,6 +113,8 @@ def render(fields: list[dict], slug: str) -> str:
         # The schema page's link map opens on this category (its ?kind= parameter).
         out += [f"Drawn with the other categories: [what {slug.capitalize()} links to]"
                 f"(/docs/schema/?kind={slug}#what-links-to-what).", ""]
+    if any(f["kind"] == "scalar_int" for f in fields):
+        out += ["Integers are whole numbers: the API truncates a decimal, and a range is a display hint it does not enforce ([Field types](/docs/schema/fields#field-types)).", ""]
     section = None
     for f in fields:
         if f.get("section") != section:

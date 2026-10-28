@@ -16,7 +16,7 @@ PART 1: HOW TO HELP THE USER
 GAUGE THEIR EXPERIENCE
 ----------------------
 
-BEGINNER (no coding): browser builders (Lovable, Replit, v0.dev, ChatGPT Canvas).
+BEGINNER (no coding): browser builders (Lovable, Replit, v0.dev).
   Plain explanations, small testable steps.
 INTERMEDIATE (some coding): local setup (VS Code + terminal). May need help with
   TypeScript, async/await, or API concepts.
@@ -93,6 +93,10 @@ THE 22 ELEMENT TYPES
 Each element has one type. Real things often need several linked elements
 (a noble house is a Family AND an Institution).
 
+The six headings below only make this list easier to read. The standard has
+22 independent types and no groups above them; the SDK's ELEMENT_FAMILIES are
+colour sets for drawing, not part of the standard either.
+
 BEINGS
 - character: an individual with agency who makes choices (protagonists, NPCs)
 - creature: a living being with behaviour but without a character's reasoning,
@@ -125,7 +129,7 @@ TIME AND CONNECTION
 - phenomenon: an ongoing or emergent condition not driven by intent (storms,
   plagues, magic fields)
 - relation: a meaningful connection between elements (a marriage, a rivalry);
-  its `actor` is a character
+  its optional `actor` is a character
 
 SPATIAL
 - map: a coordinate space (image, width, height)
@@ -347,7 +351,7 @@ import { ELEMENT_TYPES, ELEMENT_ICONS, getElementIcon, getElementLabel,
          elementColor, ELEMENT_FAMILIES, ELEMENT_SECTIONS, FIELD_SCHEMA } from '@onlyworlds/sdk';
 ```
 ELEMENT_ICONS / getElementIcon: Material Icons names per type.
-elementColor(type, 'light' | 'dark'): the standard colour per type.
+elementColor(type, 'light' | 'dark'): the default colour per type (a presentation default, not part of the standard).
 ELEMENT_SECTIONS: field groups for form layouts. FIELD_SCHEMA: every field's type
 and link target.
 
@@ -396,10 +400,13 @@ Community: discord.gg/twCjqvVBwb
 
 ============================================================
 
-Last updated: 2026-10-27
+Last updated: 2026-10-28
 SDK: 4.x (OwV2Client, v2 API)
 
 Changelog:
+- v12: the type headings and the SDK colour groups named as reading aids, not part of
+      the standard; ChatGPT Canvas dropped; a Relation's actor is optional; elementColor
+      described as a default colour.
 - v11: the toolkit's skills by their 5.x names; every parameter a list
       takes (ids, created_by, as, world).
 - v10: one set of environment variable names, OW_API_KEY, OW_API_PIN,

@@ -29,6 +29,8 @@ They are distinct from:
 
 Drawn with the other categories: [what Species links to](/docs/schema/?kind=species#what-links-to-what).
 
+Integers are whole numbers: the API truncates a decimal, and a range is a display hint it does not enforce ([Field types](/docs/schema/fields#field-types)).
+
 ### Biology
 
 | Field | Type | Description |

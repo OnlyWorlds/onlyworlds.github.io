@@ -19,7 +19,7 @@ Every element carries the same base fields, then the fields of its own category.
 
 Ids are UUIDv7 when the server mints them, which makes them time-sortable. A client may supply its own `id` on create: any RFC 4122 UUID is accepted.
 
-Supertype and subtype are free text, so each world defines its own. [Conventions](/docs/schema/conventions) covers how to use them.
+Supertype and subtype are free text, so each world defines its own kinds. They sort elements within their category and never add one. [Conventions](/docs/schema/conventions) covers how to use them.
 
 ### Server-kept fields
 
@@ -39,7 +39,7 @@ A write body that carries `type`, `created_at`, `updated_at` or `change_seq` is 
 | Type | What it holds | On the API | Example |
 | :--- | :--- | :--- | :--- |
 | text | A string | `"…"`; empty is `""` | A Character's `background` |
-| number | A whole number (integer); some are bounded | an integer or `null` | A Character's `height` |
+| integer | A whole number; some are bounded | an integer or `null` | A Character's `height` |
 | single link | One element of a named category | a uuid or `null` | A Character's `location` (a Location) |
 | multi link | Any number of elements of a named category | an array of uuids; empty is `[]` | A Character's `friends` (Characters) |
 | generic link | One element of any category | two fields, `element_type` and `element_id` | A Pin's `element` |
@@ -63,6 +63,8 @@ Numbers are integers. The API truncates a decimal instead of rejecting it (`7.9`
 On every element, only `name` is required: the key must be present on create and full replace, and an empty string is accepted. Markers, which mark the boundary points of a Zone, are often unnamed.
 
 That includes the map categories. A [Pin](/docs/schema/element_categories/pin) or [Marker](/docs/schema/element_categories/marker) without a map or a position is valid, so an app can keep pins that are not on any map yet. Every other field accepts `null`.
+
+That is the floor for a valid element, not what every use needs: a map view needs a Pin's `map`, `x` and `y` before it can draw it, and a timeline needs dates.
 
 Coordinates `x` and `y` are integers measured from the bottom left of the map; `z` is optional, for depth. A Marker's `order` is its position in the sequence when Markers define a polygon or line (`0` is the first point); without it, Markers keep the order they were made in.
 

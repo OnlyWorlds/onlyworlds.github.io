@@ -17,7 +17,7 @@ Traits enrich the make up of actors. They interact with:
 
 They are distinct from: 
 
-- **Constructs** (which are not directly linked to actors)
+- **Constructs** (frameworks a world holds or works by, such as a tradition or a currency, where a Trait is a quality of one being or kind)
 - **Titles** (which are formally constructed, not potentially natural)
 
 [Trait discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/trait)
@@ -27,6 +27,8 @@ They are distinct from:
 ## Fields
 
 Drawn with the other categories: [what Trait links to](/docs/schema/?kind=trait#what-links-to-what).
+
+Integers are whole numbers: the API truncates a decimal, and a range is a display hint it does not enforce ([Field types](/docs/schema/fields#field-types)).
 
 ### Qualitative
 
