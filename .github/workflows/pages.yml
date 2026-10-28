@@ -45,6 +45,7 @@ jobs:
       - name: Element pages from schema-dist
         # The newest published serial (a v*-dist.* tag), never main: a tag's MANIFEST.json matches its
         # files, and main can move between serials (a README edit on 2026-10-24 failed every deploy).
+        # The same run rewrites contract/folder-example.json (the example world the folders page draws).
         run: |
           TAG=$(git ls-remote --tags --refs https://github.com/OnlyWorlds/schema-dist 'v*-dist.*' | awk '{print $2}' | sed 's#refs/tags/##' | sort -V | tail -1)
           test -n "$TAG" || { echo "::error::no v*-dist.* tag on schema-dist"; exit 1; }
@@ -57,6 +58,9 @@ jobs:
       - name: Build
         run: npm run build
       - name: URL gate
+        # verify-figures.mjs holds the folders page's figure to this clone itself (hashes, files, serial)
+        env:
+          OW_SCHEMA_DIST: ${{ runner.temp }}/schema-dist
         run: npm run verify
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

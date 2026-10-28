@@ -1,0 +1,249 @@
+{
+  "source": "schema-dist example/hyperion, written by scripts/gen_elements.py from a checkout verified against its MANIFEST.json",
+  "serial": "82",
+  "canonical": "00.33.00",
+  "folder": "hyperion",
+  "kinds": [
+    "ability",
+    "collective",
+    "character",
+    "construct",
+    "creature",
+    "event",
+    "family",
+    "institution",
+    "language",
+    "law",
+    "location",
+    "map",
+    "marker",
+    "narrative",
+    "object",
+    "phenomenon",
+    "pin",
+    "relation",
+    "species",
+    "title",
+    "trait",
+    "zone"
+  ],
+  "root": [
+    "world.json"
+  ],
+  "world": {
+    "id": "068e012b-52a9-79bf-8000-26bb67891425",
+    "name": "Hyperion"
+  },
+  "elements": [
+    {
+      "kind": "ability",
+      "file": "piano-playing--60195ff8.json",
+      "id": "068e2e60-fc37-789e-8000-a64560195ff8",
+      "name": "Piano Playing"
+    },
+    {
+      "kind": "character",
+      "file": "mr-steinway--678bd862.json",
+      "id": "068e92dc-10ec-7225-8000-7efd678bd862",
+      "name": "Mr. Steinway"
+    },
+    {
+      "kind": "character",
+      "file": "rachmaninov--4c0d52b4.json",
+      "id": "068e92db-4c40-79eb-8000-8ef44c0d52b4",
+      "name": "Rachmaninov"
+    },
+    {
+      "kind": "character",
+      "file": "the-consul--8b711e25.json",
+      "id": "068e2ddb-83c6-71a7-8000-a45b8b711e25",
+      "name": "The Consul"
+    },
+    {
+      "kind": "collective",
+      "file": "pack-of-bellowing-saurians--1218fc88.json",
+      "id": "068e92dd-ce97-79b4-8000-90a11218fc88",
+      "name": "Pack of Bellowing Saurians"
+    },
+    {
+      "kind": "construct",
+      "file": "hegemony-standard--e40d0001.json",
+      "id": "068e92e1-63df-7d1f-8000-4ca1e40d0001",
+      "name": "Hegemony Standard"
+    },
+    {
+      "kind": "construct",
+      "file": "rachmaninov-s-prelude--6ebf1c1e.json",
+      "id": "068e2e55-18da-7cb9-8000-8ccd6ebf1c1e",
+      "name": "Rachmaninov’s Prelude"
+    },
+    {
+      "kind": "construct",
+      "file": "steinway-piano--d0a334b1.json",
+      "id": "068e92e1-63df-7d1f-8000-33f2d0a334b1",
+      "name": "Steinway Piano"
+    },
+    {
+      "kind": "creature",
+      "file": "great-green-saurian--8406227d.json",
+      "id": "068e2e71-8f4d-7de0-8000-dfbd8406227d",
+      "name": "Great Green Saurian"
+    },
+    {
+      "kind": "creature",
+      "file": "greater-green-saurian--e79a4c7c.json",
+      "id": "068e92e3-cf64-7fd4-8000-2b8be79a4c7c",
+      "name": "Greater Green Saurian"
+    },
+    {
+      "kind": "event",
+      "file": "the-primal-performance--8b461fb6.json",
+      "id": "068e8bcf-9136-7d63-8000-a61f8b461fb6",
+      "name": "The Primal Performance"
+    },
+    {
+      "kind": "event",
+      "file": "the-raging-of-the-beasts--95bb5602.json",
+      "id": "068e92ec-4e66-75b7-8000-a8ae95bb5602",
+      "name": "The Raging of the Beasts"
+    },
+    {
+      "kind": "institution",
+      "file": "the-hegemony--b6872c95.json",
+      "id": "068e2f37-840a-7b3b-8000-41b6b6872c95",
+      "name": "The Hegemony"
+    },
+    {
+      "kind": "language",
+      "file": "western-musical-notation--f856e44c.json",
+      "id": "068e92ee-d9d0-7612-8000-3d87f856e44c",
+      "name": "Western Musical Notation"
+    },
+    {
+      "kind": "location",
+      "file": "unnamed-planet--6283dd71.json",
+      "id": "068e2e4b-a594-71b2-8000-cd7b6283dd71",
+      "name": "Unnamed Planet"
+    },
+    {
+      "kind": "map",
+      "file": "map-of-unnamed-planet--153cd291.json",
+      "id": "2d277ba6-22e4-440b-9ef3-7f28153cd291",
+      "name": "Map of Unnamed planet"
+    },
+    {
+      "kind": "marker",
+      "file": "swamps-point-0--f42a6e15.json",
+      "id": "585ecc34-124b-4e11-8b2b-dd60f42a6e15",
+      "name": "Swamps - Point 0"
+    },
+    {
+      "kind": "marker",
+      "file": "swamps-point-1--3f8fe28c.json",
+      "id": "2226926d-8bf8-4877-ae02-94693f8fe28c",
+      "name": "Swamps - Point 1"
+    },
+    {
+      "kind": "marker",
+      "file": "swamps-point-2--811d2c15.json",
+      "id": "e7bb034c-4c57-410c-ad4b-7aba811d2c15",
+      "name": "Swamps - Point 2"
+    },
+    {
+      "kind": "marker",
+      "file": "swamps-point-3--ea668c31.json",
+      "id": "0f591e91-670e-42eb-8aa1-cec6ea668c31",
+      "name": "Swamps - Point 3"
+    },
+    {
+      "kind": "marker",
+      "file": "swamps-point-4--4e843a51.json",
+      "id": "cf80269b-8efc-4013-a2db-47b84e843a51",
+      "name": "Swamps - Point 4"
+    },
+    {
+      "kind": "marker",
+      "file": "swamps-point-5--48b3cfa2.json",
+      "id": "bc87d8d3-283a-4ec9-8e30-bf0148b3cfa2",
+      "name": "Swamps - Point 5"
+    },
+    {
+      "kind": "narrative",
+      "file": "a-world-in-a-sentence--2f7bc2f5.json",
+      "id": "f34f9f29-7655-4aea-938f-02312f7bc2f5",
+      "name": "A world in a sentence"
+    },
+    {
+      "kind": "narrative",
+      "file": "chapter-1--39fd9536.json",
+      "id": "4ec4c158-e8fa-42de-aac0-18d739fd9536",
+      "name": "Chapter 1"
+    },
+    {
+      "kind": "narrative",
+      "file": "hyperion--bb17eaba.json",
+      "id": "2d16c352-6c2d-4d1f-9bab-8345bb17eaba",
+      "name": "Hyperion"
+    },
+    {
+      "kind": "narrative",
+      "file": "story-of-the-old-piano--2a6553ca.json",
+      "id": "068e6f37-772b-708f-8000-d30d2a6553ca",
+      "name": "Story of the old piano"
+    },
+    {
+      "kind": "object",
+      "file": "ebony-spaceship--f4e8e286.json",
+      "id": "068e2e8c-e2f4-7e4c-8000-8abcf4e8e286",
+      "name": "Ebony Spaceship"
+    },
+    {
+      "kind": "object",
+      "file": "spaceship-balcony--dd75923a.json",
+      "id": "068e2e8d-a92f-720d-8000-6df2dd75923a",
+      "name": "Spaceship Balcony"
+    },
+    {
+      "kind": "object",
+      "file": "the-consul-s-steinway--75bfd994.json",
+      "id": "068e2e56-d4b9-7c40-8000-173975bfd994",
+      "name": "The Consul’s Steinway"
+    },
+    {
+      "kind": "phenomenon",
+      "file": "piano-music--5be90c7d.json",
+      "id": "068e92f8-11fd-7052-8000-b9355be90c7d",
+      "name": "Piano Music"
+    },
+    {
+      "kind": "pin",
+      "file": "the-consul-s-balcony-seat--df789513.json",
+      "id": "5bc8c9dc-47ae-4874-aadc-e395df789513",
+      "name": "The Consul’s balcony seat"
+    },
+    {
+      "kind": "species",
+      "file": "saurians--d24e2d1e.json",
+      "id": "068e2e72-3d17-7a23-8000-b8f0d24e2d1e",
+      "name": "Saurians"
+    },
+    {
+      "kind": "title",
+      "file": "consul-of-the-hegemony--241a68ab.json",
+      "id": "068e2dde-8d1f-7dd2-8000-6178241a68ab",
+      "name": "Consul of the Hegemony"
+    },
+    {
+      "kind": "trait",
+      "file": "swamp-rage--dff0708a.json",
+      "id": "068e6db2-91a2-783e-8000-ec27dff0708a",
+      "name": "Swamp Rage"
+    },
+    {
+      "kind": "zone",
+      "file": "swamps--d138f887.json",
+      "id": "7fe67de4-de36-41eb-be50-3198d138f887",
+      "name": "Swamps"
+    }
+  ]
+}
