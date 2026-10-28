@@ -5,6 +5,10 @@ description: What changed for developers on OnlyWorlds (the API, the clients and
 
 What changed for developers, newest first: the API on onlyworlds.com, the clients and tools these docs describe, and the docs themselves. Each day lists what a page now says; every release of a package is in its own changelog: [TypeScript SDK](https://github.com/OnlyWorlds/sdk/blob/main/CHANGELOG.md), [Unity SDK](https://github.com/OnlyWorlds/unity-sdk/blob/main/Packages/com.onlyworlds.sdk/CHANGELOG.md), [Python package](https://github.com/OnlyWorlds/python-sdk/blob/main/CHANGELOG.md). Everything that shipped across OnlyWorlds, for everyone, is on [What's new](https://www.onlyworlds.com/whats-new); this page stays the developer log.
 
+## 2026-10-29
+
+- **[Public worlds](/docs/development/api/public#what-a-visitor-sees)**: an element's page reads its whole address, a moment and a lens included; the owner, signed in, goes on to their own page for it; a public Pin, Marker or Zone leads to the world's page.
+
 ## 2026-10-28
 
 - **[Unity](/docs/development/unity) 0.24.0: addresses, lenses and the Charter.** `OWAddress`, `OWLens` with `OWGraph`, and `OWCharter` read the address, lens and charter profiles; the client calls the lens routes, and an account token reads the world it names. An export declares folder format 0.3.20.
