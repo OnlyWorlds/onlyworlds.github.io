@@ -132,8 +132,11 @@
 /docs/development/unity	page	200	source docs/development/unity.md
 /docs/getting-started/keys	page	200	source docs/getting-started/keys.md
 /docs/lenses	page	200	source docs/lenses.mdx (new 2026-10-28, from the conventions page)
-/docs/lenses/api	page	200	source docs/lenses/api.md (new 2026-10-28, from the conventions page)
-/docs/lenses/graph	page	200	source docs/lenses/graph.md (new 2026-10-28, from the conventions page)
+/docs/lenses/api	page	200	source docs/lenses/api.md (new 2026-10-28, from the conventions page); since its content moved to /docs/development/api/lenses the same day, a short page that names the routes and points on
+/docs/lenses/graph	page	200	source docs/lenses/graph.md (new 2026-10-28, from the conventions page; in the World graph section)
+/docs/development/api/lenses	page	200	source docs/development/api/lenses.md (new 2026-10-28, moved from /docs/lenses/api)
+/docs/world-graph	page	200	source docs/world-graph.md (new 2026-10-28, the World graph section's overview)
+/docs/world-graph/draught	page	200	source docs/world-graph/draught.md (new 2026-10-28; the route stays on /docs/development/api/draught)
 /docs/schema/conventions	load-bearing	200	toolkit:knowledge/atlas-conventions.md; toolkit:skills/onlyworlds-context/knowledge/atlas-conventions.md; toolkit:skills/onlyworlds-import/knowledge/atlas-conventions.md; toolkit:skills/onlyworlds-read/knowledge/atlas-conventions.md; toolkit:skills/onlyworlds-update/knowledge/atlas-conventions.md
 /docs/schema/conventions#messages-between-members	page	200	kept anchor: its section moved to /docs/schema/profiles/messages (2026-10-28); one paragraph points on, for bookmarks and old links
 /docs/schema/conventions#addresses	page	200	kept anchor: its section moved to /docs/schema/profiles/addresses (2026-10-28); one paragraph points on, for bookmarks and old links
