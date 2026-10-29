@@ -17,9 +17,15 @@
  *       and getting-started/keys.md: each copy names every prefix the SDK's detectKeyKind tells
  *       apart (found by asking it, ow_a_ to ow_z_) and the 10-digit legacy key, and no other ow_…_
  *       prefix but the seat secret ow_s_, which is no key (it goes where a PIN goes).
- * Not checked: the words of each key's row (what it reads and writes, the PIN), the guide's filter
- * list and route table (verify-shapes and the sweep's route check read the pages, not the guide),
- * its toolkit paragraph and limits (verify-toolkit, verify-limits), its links (the sweep's check 5).
+ *   (e) PLAIN HTTP: every "METHOD /api/v2/..." route line is an operation in contract/callers.json
+ *       (the API document's operations), `{type}` standing for each of the 22 types; and the list's
+ *       filters ("Filters the server accepts: …") and parameters ("… are parameters, not filters")
+ *       together name exactly the list route's query parameters, each once, held to the collective
+ *       list route in contract/shapes.json (collective takes `characters`); each type the sentence
+ *       says takes `characters` is an element type.
+ * Not checked: the words of each key's row (what it reads and writes, the PIN), which types' list
+ * routes take `characters` (only the collective route's parameters are vendored), its toolkit
+ * paragraph and limits (verify-toolkit, verify-limits), its links (the sweep's check 5).
  *
  * Exit: 0 PASS, 1 FAIL, 2 BLIND (a file or a section this reads is missing, or a section parses to
  * nothing: never a pass).
@@ -149,7 +155,47 @@ const counts = {};
   counts.prefixes = prefixes.length;
 }
 
+// ---- (e) PLAIN HTTP's routes, and the list's filters and parameters -----------------------------
+{
+  let callers, shapes;
+  try { callers = JSON.parse(readText(join(ROOT, 'contract', 'callers.json'))); shapes = JSON.parse(readText(join(ROOT, 'contract', 'shapes.json'))); }
+  catch (e) { blind(`contract/callers.json or contract/shapes.json is not JSON (${e.message})`); }
+  const norm = (p) => p.replace(/\/+$/, '').replace(/\{[^}]+\}/g, '{}');
+  const ops = new Set((callers.operations ?? []).map(([m, p]) => `${m} ${norm(p)}`));
+  if (!ops.size) blind('contract/callers.json lists no operations');
+  const { text, at } = section('PLAIN HTTP');
+  const routes = [...text.matchAll(/^\s+(GET|POST|PUT|PATCH|DELETE)\s+(\/api\/v2\/\S+)/gm)];
+  if (!routes.length) blind('the guide\'s PLAIN HTTP section lists no "METHOD /api/v2/..." route');
+  for (const m of routes) {
+    const where = `ow_llm_guide.txt:${lineOf(guide, at + m.index)}`;
+    const paths = m[2].includes('{type}') ? [...sdk.ELEMENT_TYPES].map((t) => m[2].replace('{type}', t)) : [m[2]];
+    const missing = paths.filter((p) => !ops.has(`${m[1]} ${norm(p)}`));
+    if (missing.length) fails.push(`${where}: ${m[1]} ${m[2]} is not an operation of the API document${m[2].includes('{type}') ? ` for ${missing.length} of the 22 types (${missing.slice(0, 3).join(', ')})` : ''} (e)`);
+  }
+  counts.routes = routes.length;
+  // The list's query: the filters sentence and the parameters sentence together name the list route's
+  // parameters, each once. Held to the collective list route (collective takes `characters`, one of the
+  // six the sentence names); which six take it is not checked.
+  const filt = guide.match(/Filters the server accepts: ([\s\S]*?) on ([a-z ,\n]+?)\./);
+  // The parameters sentence opens the line after the filter example's closing fence.
+  const parm = guide.match(/```\n([a-z_][^`]*?) are parameters, not filters/);
+  const q = shapes.targets?.['GET /api/v2/collective query']?.props;
+  if (!filt || !parm) blind('the guide\'s "Filters the server accepts: …" or "… are parameters, not filters" sentence is not there as this reads it');
+  if (!q) blind('contract/shapes.json holds no "GET /api/v2/collective query" target (the reads page tags it)');
+  const names = (s) => s.replace(/\([^)]*\)/g, '').split(/,|\band\b/).map((x) => x.trim()).filter(Boolean);
+  const said = [...names(filt[1]), ...names(parm[1])];
+  const bad = said.filter((n) => !/^[a-z_]+$/.test(n));
+  if (bad.length) blind(`the guide's filter or parameter list holds what this does not read as a name: ${bad.join(', ')}`);
+  const want = Object.keys(q);
+  const twice = said.filter((n, i) => said.indexOf(n) !== i);
+  for (const n of said) if (!want.includes(n)) fails.push(`ow_llm_guide.txt: "${n}" is named as a list filter or parameter, and the API document's list route does not take it (e)`);
+  for (const n of want) if (!said.includes(n)) fails.push(`ow_llm_guide.txt: the list route takes "${n}", and the guide's filters and parameters, which it says are every one, leave it out (e)`);
+  if (twice.length) fails.push(`ow_llm_guide.txt: the filters and parameters name ${[...new Set(twice)].join(', ')} twice (e)`);
+  for (const t of names(filt[2].replace(/\n/g, ' '))) if (!sdk.ELEMENT_TYPES.includes(t)) fails.push(`ow_llm_guide.txt: "characters" is said to filter ${t}, which is no element type (e)`);
+  counts.params = said.length;
+}
+
 for (const f of fails) console.log(`  FAIL   ${f}`);
-const summary = `${counts.errors} error lines, ${counts.names} SDK names and ${counts.methods} client methods, ${counts.types} types and ${counts.fields} field names, ${counts.prefixes} key prefixes in ${counts.keyCopies} copies; against @onlyworlds/sdk ${sdkVersion} and the error-code snapshot`;
+const summary = `${counts.errors} error lines, ${counts.names} SDK names and ${counts.methods} client methods, ${counts.types} types and ${counts.fields} field names, ${counts.prefixes} key prefixes in ${counts.keyCopies} copies, ${counts.routes} routes and ${counts.params} list filters and parameters; against @onlyworlds/sdk ${sdkVersion}, the error-code, credentials and shapes snapshots`;
 if (fails.length) { console.log(`verify-guide: FAIL — ${fails.length} problem(s) in ${summary}`); process.exit(1); }
-console.log(`verify-guide: PASS — ${summary}. Not checked: each key row's words, the guide's filters and routes (see the header).`);
+console.log(`verify-guide: PASS — ${summary}. Not checked: each key row's words, which types take the characters filter (see the header).`);
