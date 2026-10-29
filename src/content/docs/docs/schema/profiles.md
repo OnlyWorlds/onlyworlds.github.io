@@ -47,7 +47,7 @@ Three have pages of their own: [Messages](/docs/schema/profiles/messages), [Addr
 
 ### Review
 
-**[`x_review_*`](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/review.md)**: two marks on any element. `x_review_proposed` (`by`, `evidence`, `expires`) on a new element written as proposed, shown apart from settled elements until a keeper acts; `x_review_checked` (`by`, `at`, `against`) records who last confirmed it true, when, and against what. A proposed change to an existing element is a [proposal](/docs/development/api/proposals) beside it, not this mark. The TypeScript and Python SDKs read the mark with `proposedMarkOf` / `proposed_mark_of` and `handsOnAsProposed` / `hands_on_as_proposed`.
+**[`x_review_*`](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/review.md)**: two marks on any element. `x_review_proposed` (`by`, `evidence`, `expires`) on a new element written as proposed, shown apart from settled elements until a keeper acts (an empty value, `""`, `[]` or `{}`, is no mark: the API refuses a write carrying one with `422` [`review_mark_empty`](/api/errors/#review_mark_empty), and reads a stored one as absent, since 2026-10-29); `x_review_checked` (`by`, `at`, `against`) records who last confirmed it true, when, and against what. A proposed change to an existing element is a [proposal](/docs/development/api/proposals) beside it, not this mark. The TypeScript and Python SDKs read the mark with `proposedMarkOf` / `proposed_mark_of` and `handsOnAsProposed` / `hands_on_as_proposed`.
 
 ### Import map
 

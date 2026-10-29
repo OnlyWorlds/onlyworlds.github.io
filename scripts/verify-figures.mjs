@@ -1233,7 +1233,7 @@ for (const r of vRem) {
   if (!nevers.includes(say)) bad(`the page's Never shown line does not name "${say}"`);
   if (r.mark && !(r.text.includes(r.mark) && nevers.includes(`${say} (${r.mark}`))) bad(`the ${r.key} removal's mark ${r.mark} is not the page's: "${nevers}"`);
 }
-if (vRem.some((r) => r.key === 'proposed') && !(nevers.includes('x_review_proposed with any value but null') && text.includes('x_review_proposed with any value but null'))) bad('the proposal mark is not "any value but null" on both the page and the figure');
+if (vRem.some((r) => r.key === 'proposed') && !(nevers.includes('x_review_proposed with a value that is neither null nor empty') && text.includes('x_review_proposed with a value that is neither null nor empty'))) bad('the proposal mark is not "a value that is neither null nor empty" on both the page and the figure');
 for (const k of ['link', 'count']) if (!vSnap.absent_from?.includes(k)) bad(`the public reader's removals are absent from every ${vSnap.absent_from?.join(', ')}; the figure says their ${k}s go with them`);
 
 // The keyless reads: the operations that list no credential beside a key, each drawn once.

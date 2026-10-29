@@ -14,7 +14,8 @@ export const REMOVED = {
   proposed: 'elements still proposed',
   room: "a parlor's room elements",
 };
-// A mark's value that keeps an element in: the proposal mark removes it with any value but this.
+// A mark's value that keeps an element in: the proposal mark removes it with any value but this or an empty one
+// (keel PR 329: an empty mark, "", whitespace, [] or {}, reads as absent).
 export const SETTLED = { proposed: 'null' };
 // The /w/ routes' placeholders as the page writes them.
 export const PLACE = { addr: 'address', type_slug: 'category', element_id: 'element id' };
@@ -108,7 +109,7 @@ export function publicWords(data, code = (s) => `\`${s}\``) {
   };
 }
 
-export const markSay = (r, code = (s) => `\`${s}\``) => (r.mark ? (r.settled ? `${code(r.mark)} with any value but ${code(r.settled)}` : code(r.mark)) : '');
+export const markSay = (r, code = (s) => `\`${s}\``) => (r.mark ? (r.settled ? `${code(r.mark)} with a value that is neither ${code(r.settled)} nor empty` : code(r.mark)) : '');
 export const routeSay = (r) => `${r.method} ${r.path.slice(PREFIX.length)}`;
 
 export function publicMarkdown(snap, callers, types, labels) {
