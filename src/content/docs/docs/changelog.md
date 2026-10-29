@@ -9,6 +9,8 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-10-29
 
+- **[Obsidian plugin](/docs/tools/obsidian-plugin#your-onlyworlds-account) 3.15.0**: Sign in with your browser on desktop, with no token to copy; a phone keeps the token field.
+- **[MCP](/docs/development/mcp)**: `list_elements`'s `supertype` reads the value as the list routes do, trimmed and without regard to case; an empty string lists the elements with none.
 - **[TypeScript](/docs/development/typescript) 4.104.3 and [Python](/docs/development/python#what-it-covers) 0.85.2: schema-dist serial 90**: the calendar fixture's new refusal (an intercalary day on a calendar with no months, `after_month` 0 included), which both readers already refused; `supertype` and `subtype` are described as a classification within the element's type.
 - **[Reads](/docs/development/api/reads#filters)**: `?supertype=` and `?subtype=` trim the value and compare it without regard to case, as the profiles read them, so `?supertype=message` finds the Messages; an empty value lists the elements with none.
 - **[Members](/docs/development/api/members#the-roster)**: an agent's row names who answers for it, `sponsor_member`: the sponsor's row id, `owner`, or `null`.

@@ -41,7 +41,7 @@ The answer is sent `Cache-Control: public, max-age=60`, so a removed address sto
 - **a loopback address**, `http://127.0.0.1/<path>` or `http://[::1]/<path>`, listed with no port. The app picks its port when it runs, and a `redirect_uri` on the same host and path matches with any port from 1 to 65535. `localhost` is never accepted: a name can resolve somewhere else.
 - **a custom scheme**, matched exactly: a reverse-DNS scheme such as `com.example.app://callback`, or a known app's (`obsidian://`). `http`, `https`, `javascript`, `data` and `file` are never a custom scheme.
 
-One native app is registered: the [Obsidian plugin](/docs/tools/obsidian-plugin) (`obsidian`, shown as OnlyWorlds Builder), with `http://127.0.0.1/onlyworlds-signin` and `obsidian://onlyworlds-signin`. The plugin does not sign in this way yet.
+One native app is registered: the [Obsidian plugin](/docs/tools/obsidian-plugin) (`obsidian`, shown as OnlyWorlds Builder), with `http://127.0.0.1/onlyworlds-signin` and `obsidian://onlyworlds-signin`. Since plugin 3.15.0 it signs in this way on desktop, through the loopback return; on a phone the button is hidden until the `obsidian://` return has been walked there.
 
 ## Sending the person to sign in
 

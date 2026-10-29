@@ -66,6 +66,10 @@ An element deleted on onlyworlds.com is never brought back without your word, ev
 
 Since version 3.4.0 the plugin can sign in to onlyworlds.com, so you no longer copy a key per world.
 
+**With your browser** (since 3.15.0, desktop): run the **Sign in** command and choose **Sign in with your browser**. onlyworlds.com opens in your browser, asks once whether OnlyWorlds Builder may sign in as you, and on Continue the plugin is signed in, with no token to copy. Closing the dialog, Cancel, or five minutes without an answer ends the sign-in and keeps nothing. On a phone the button is hidden for now, so use a token there. Walked on Windows; macOS and Linux are not yet walked.
+
+**With a token:**
+
 1. On onlyworlds.com, make an account token: Account settings, under Account tokens. It starts with `ow_a_`. No account yet: the **Create account** command opens the sign-up page.
 2. Run the **Sign in** command and paste the token, or paste it in the plugin's settings under OnlyWorlds account and choose Sign in. Since 3.14.0 the dialog also opens from **Download world** (Sign in to pick from your worlds) and from **Create world** (Create with account signs you in first, then the dialog comes back with your world's name kept). To use another account, sign out in the settings first.
 
