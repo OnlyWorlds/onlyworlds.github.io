@@ -17,7 +17,7 @@
     "starlight-page-actions": "0.7.1"
   },
   "devDependencies": {
-    "@onlyworlds/sdk": "4.104.2",
+    "@onlyworlds/sdk": "4.104.3",
     "typescript": "5.9.3"
   },
   "overrides": {

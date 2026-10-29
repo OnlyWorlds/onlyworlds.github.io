@@ -34,7 +34,7 @@
         ]
       },
       "supertype": {
-        "description": "The top level classification of the element within its category. null stores ''.",
+        "description": "The top level classification of the element within its type. null stores ''.",
         "maxLength": 128,
         "type": [
           "string",
@@ -42,7 +42,7 @@
         ]
       },
       "subtype": {
-        "description": "The sub level classification through which the element is further sorted within its category. null stores ''.",
+        "description": "The sub level classification through which the element is further sorted within its type. null stores ''.",
         "maxLength": 128,
         "type": [
           "string",
@@ -117,7 +117,7 @@
         ]
       },
       "supertype": {
-        "description": "The top level classification of the element within its category. null stores ''.",
+        "description": "The top level classification of the element within its type. null stores ''.",
         "maxLength": 128,
         "type": [
           "string",
@@ -125,7 +125,7 @@
         ]
       },
       "subtype": {
-        "description": "The sub level classification through which the element is further sorted within its category. null stores ''.",
+        "description": "The sub level classification through which the element is further sorted within its type. null stores ''.",
         "maxLength": 128,
         "type": [
           "string",
