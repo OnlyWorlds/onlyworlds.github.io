@@ -317,9 +317,14 @@ const world = readWorldFile(bytes); // a Uint8Array
 const zip = writeWorldFile(world.files, 'hollow-reach-0192a000'); // one top-level folder
 const share = writeWorldFile(world.files, 'hollow-reach-0192a000', {
   includeHidden: false,                          // a file to hand on: hidden elements left out (4.70.0)
-  report: r => console.log(r.hiddenLeftOut),
+  report: r => console.log(r.hiddenLeftOut, r.authorFieldsLeftOut),
+});
+const mine = writeWorldFile(world.files, 'hollow-reach-0192a000', {
+  includeAuthorFields: true,                     // your own archive: every file byte for byte (4.109.0)
 });
 ```
+
+Since 4.109.0 a world file leaves out who wrote each element: `created_by`, `changed_by`, `changed_via`, `changed_client` and `doors` record a member's id and a tool's door, which mean nothing to someone the world is handed to. An element file holding any of them is written without them, in the folder's own form (two-space indent, a trailing newline, its other keys in their order); every other file travels byte for byte. Pass `includeAuthorFields: true` to archive your own world as it is.
 
 From 4.49.0 both follow the folder format's archive section (§4.7, the `.owworld` file) and give its verdict on every fixture of its conformance set. The reader checks the archive's directory before it inflates anything and refuses a file before returning anything: a path that could land outside the folder (`unsafe_path`), more than 2 GiB or 500,000 files uncompressed, or an entry that inflates past the size it declares (`too_big`, `too_many`), no `world.json` with an `id` (`not_a_world`), more than one world (`more_than_one`; a `world.json` under `records/` is a producer's data, not a second world), a file that is not a zip it can read (`not_openable`), two entries with one name (`duplicate`) or two names that are one after NFC and simple case folding (`collision`; from 4.71.0 both at Unicode 15.1, built from Unicode's own files rather than the runtime's, as the spec rules, and exported as `nfc` and `simpleCaseFold`), a link or device entry (`link`), an encrypted, spanned or otherwise compressed entry (`method`), a name with a device name, a trailing dot or space, a forbidden character or no UTF-8 flag on non-ASCII (`name`), or a `mimetype` marker whose bytes are not `application/vnd.onlyworlds.world+zip` (`marker`; the marker is never required). Files beside the world's folder are ignored. `err.reason` on the `OwWorldFileError` says which, and `files` come back in code point order. The writer gives one set of bytes for one input: the marker first and stored, entries ordered by the UTF-8 bytes of their names, every entry stamped 1980-01-01, and only `world.json`, `elements/`, `spatial/`, `media/`, `records/` and a tool's dot-folder it is handed. From 4.63.0 it leaves out, whole, every `records/<producer>/` that `records/RECORDS.json` marks `"private": true` (the name matched after the same fold), keeping `RECORDS.json` as it is; `writeWorldFile(files, top, { includePrivateRecords: true })` carries them, and a manifest it cannot read throws a `TypeError` unless you pass that ([private records](/docs/schema/folders#folders-and-onlyworldscom)). From 4.70.0 it takes `includeHidden` (the folder format's §4.8): a world file is a copy, so by default an element file carrying the [hidden](/docs/development/api/hidden) mark travels byte for byte. A tool making a file to hand to someone else passes `{ includeHidden: false }`, and every `.json` file directly in a type folder of `elements/` or `spatial/` whose JSON has a top-level `hidden` (anything but absent, `null` or `false`, so `"true"` and `1` count) is left out whole; a file there that is not UTF-8 JSON, or not an object, is kept. Nothing else is rewritten: a visible element's link to a hidden one keeps its id. `report: r => …` is called once with `{ hiddenLeftOut }`, the count left out, after the archive is made and never on a refusal; the return stays the bytes. An `includeHidden` that is not a boolean, or a `report` that is not a function, is a `TypeError` before anything is written. The two defaults differ on purpose: private records stay out unless asked, hidden elements stay in unless the file is a share. Both functions remove `world.json`'s `api` block, so the world's link and key never travel in a file.
 
@@ -468,7 +473,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.108.1, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.109.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 

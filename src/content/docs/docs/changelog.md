@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-10-29
 
+- **[TypeScript](/docs/development/typescript#world-files) 4.109.0 and [Python](/docs/development/python#what-it-covers) 0.90.0: a world file leaves out who wrote each element.** `created_by`, `changed_by`, `changed_via`, `changed_client` and `doors` leave every element file by default, which is then written in the folder's own form; `includeAuthorFields: true` and `include_author_fields=True` keep every file byte for byte, for an archive of your own world.
 - **[Filters](/docs/development/api/reads#filters): every single link is a filter on its list**, such as `?parent_location=<id>` for a place's rooms, and an empty value lists the elements that link to nothing (`?characters=` lists the Messages addressed to everyone). [TypeScript](/docs/development/typescript) 4.108.1 and [Python](/docs/development/python) 0.89.1 send an empty filter value; before, they dropped it and listed every element.
 - **[TypeScript](/docs/development/typescript) 4.108.0 and [Python](/docs/development/python) 0.89.0**: `doorWhere` and `door_where` give a door history entry's where in a "Last shaped" line's words (`in Atlas`, `on onlyworlds.com`, `with an AI`, `by OnlyWorlds`, else `in code`).
 - **[Public worlds](/docs/development/api/public#what-a-visitor-sees): a world page says who cites it.** Its **Cited by** section names the public worlds whose public text holds an address of it, each with its count of citing elements and up to five of them; a private citer never shows.
