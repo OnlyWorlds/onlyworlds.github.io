@@ -12,9 +12,11 @@ A world can have **members** besides its owner: people the owner invites by emai
 | `owner` | Everything, [hidden elements](/docs/development/api/hidden) included | Everything, including the world's own fields |
 | `co_builder` | Everything, hidden elements included | Every element |
 | `contributor` | Everything except the hidden elements it did not create | Only the elements it created |
-| `guest` | What it created, what its Character is on or knows, and the roster's Characters ([Guests](#guests)), except the hidden elements it did not create | Only the elements it created |
+| `guest` | What it created, what its Character is on or knows, the stubs of what its Character's sheet points to, the roster's Characters, the messages addressed to it or to everyone, and the world's Charter and the Objects it names ([Guests](#guests)), except the hidden elements it did not create | Only the elements it created |
 
 - A contributor or guest changing, replacing, relinking or deleting someone else's element gets `403` [`not_author`](/api/errors/#not_author). In `/bulk` this is reported per item.
+- A seat the owner gives a Character to play (**Plays**, [Agents](/docs/development/agents#after-joining)) may change that Character, never delete it.
+- A Read mark (a Relation with supertype `Read`, the [message profile](/docs/schema/profiles/messages)'s record of what one reader has read) is written only by its own reader, the owner and co-builders included: any other key gets `403` [`not_reader`](/api/errors/#not_reader).
 - The world's own fields (`PATCH /api/v2/world`) are the owner's and a co-builder's: a co-builder may change every writable field but `owner_character`. A contributor's or guest's key there, or a co-builder's sending `owner_character`, gets `403` [`owner_only`](/api/errors/#owner_only). The public switch stays the owner's, on the world page.
 - A co-builder may also make, list and revoke the world's guest and contributor [invite links](#invite-links) with its world key; co-builder links stay the owner's.
 - Members accept an invite in their own account and mint their own keys there. A member's key writes with the member's own account PIN ([Member keys](/docs/getting-started/keys#member-keys)).
@@ -150,7 +152,7 @@ Everything else behaves exactly like a missing element, on every route, filter a
 
 An element the owner or a co-builder [hid](/docs/development/api/hidden) is out of a guest's view whatever links it to the guest's Character, unless the guest created it.
 
-A guest writes elements of any category. Its Narratives are notes, narrated by its own Character:
+A guest writes elements of any element type. Its Narratives are notes, narrated by its own Character:
 
 - The `narrator` is the guest's Character. Left out of a create or a `PUT`, or sent as `null`, it is filled in. Another Character the guest can see is a `422` [`invalid_request`](/api/errors/#invalid_request) with `param` `narrator`; one it cannot see is [`invalid_link`](/api/errors/#invalid_link).
 - `collectives` takes only the circles its Character is in. Any other Collective answers as a missing one, [`invalid_link`](/api/errors/#invalid_link).
