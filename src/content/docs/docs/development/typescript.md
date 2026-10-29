@@ -447,7 +447,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.103.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.104.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -528,7 +528,7 @@ Generated from the types of `@onlyworlds/sdk` 4.103.0, the version these docs pi
 | `mintWorldKey(worldId, opts?)` | `POST /account/worlds/{id}/keys` | mint a world key, `scope` `'write'` (the default) or `'read'`, `name` as the key list shows it (at most 255 characters). | `Promise<OwMintedKey>` |
 | `revokeWorldKey(worldId, keyId, opts?)` | `DELETE /account/worlds/{worldId}/keys/{keyId}` | revoke a world key, by the `id` mintWorldKey returned: from then on it answers 401 `key_revoked`. | `Promise<void>` |
 | `signInWithOnlyWorlds(opts)` |  | Start Sign in with OnlyWorlds from a tool's page: mint `state` and a PKCE verifier, keep them under `clientId` in `storage` (sessionStorage by default; in Node pass one), and send the browser to `https://www.onlyworlds.com/signin/authorize` (or only return the URL with `navigate: false`). | `Promise<OwSignInBegun>` |
-| `completeSignIn(opts)` |  | Finish Sign in with OnlyWorlds on the callback page: check `state` against the record and the page against the registered address, take `code` and `state` out of the address bar, trade the code once at `POST /auth/token` with the PKCE verifier and no credential, and return the `ow_a_` token with the account and `resume`. | `Promise<OwSignInResult>` |
+| `completeSignIn(opts)` |  | Finish Sign in with OnlyWorlds on the callback page: check `state` against the record and the page against the registered address (scheme, host with port, and path, each exactly), take `code` and `state` out of the address bar (only when `url` is not given: a native app passes the address its loopback server or scheme handler received), trade the code once at `POST /auth/token` with the PKCE verifier and no credential, and return the `ow_a_` token with the account and `resume`. | `Promise<OwSignInResult>` |
 | `ask(req)` | `POST /account/ask` | a question about a world the account owns or is in, answered by keel's AI proxy from `context` only (build it with buildAskContext from the elements the user sees; it leaves proposed, hidden and room elements out unless asked). | `Promise<OwAskAnswer>` |
 | `sort(req)` | `POST /account/sort` | the user's unsorted notes, and the elements the app's own search found for them (`slice`: id, lowercase type, name, optional anchor; build it from lookupWorld's hits), sorted by the same proxy as ask into rows to review: `make`, `add_to`, `link`, `ask`. | `Promise<OwSortAnswer>` |
 | `allowance()` | `GET /account/allowance` | the account's token rating, the one daily meter ask, sort and the Council spend from (keel 872431f): the rating, what is used and left today, and when it resets (the next midnight UTC). | `Promise<OwAllowance>` |
