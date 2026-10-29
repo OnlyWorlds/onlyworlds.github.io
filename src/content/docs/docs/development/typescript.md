@@ -364,13 +364,14 @@ const rows = openersFor(TOOLS, 'element', parseOwLink(link), { audience: 'member
 //  { id: 'lantern', name: 'Lantern', href: 'https://lantern.onlyworlds.com/#/open/…', state: 'You are here' }]
 ```
 
-Since 4.107.0 `doorsOf(element, tools = TOOLS)` reads an element's [door history](/docs/development/api/reads), the `doors` field a world's members are served: which tools wrote it, newest first, each `{ door, at, tool, last, from }`. `tool` is the listed tool whose client name is the door, or null for a door word (`site`, `mcp`, …). `last` marks the entry that made the element's last write, so a "by you" line compares `changed_by` with the reader's own membership there. An element with no `doors` yet reads one entry from its last write (`from: 'last-write'`), and a public read gives `[]`. It returns data, never words.
+Since 4.107.0 `doorsOf(element, tools = TOOLS)` reads an element's [door history](/docs/development/api/reads), the `doors` field a world's members are served: which tools wrote it, newest first, each `{ door, at, tool, last, from }`. `tool` is the listed tool whose client name is the door, or null for a door word (`site`, `mcp`, …). `last` marks the entry that made the element's last write, so a "by you" line compares `changed_by` with the reader's own membership there. An element with no `doors` yet reads one entry from its last write (`from: 'last-write'`), and a public read gives `[]`. It returns data, never words. Since 4.108.0 `doorWhere(entry)` gives one entry's where in the words a "Last shaped" line uses: `in <tool name>` for a listed tool (such as `in Atlas`), `on onlyworlds.com` for `site`, `with an AI` for `seat`, `mcp` and `declared`, `by OnlyWorlds` for `server`, and `in code` for any other door. The rest of the sentence ("Last shaped", "by you", the time) stays the caller's.
 
 ```typescript
-import { doorsOf } from '@onlyworlds/sdk';
+import { doorsOf, doorWhere } from '@onlyworlds/sdk';
 
 const [newest] = doorsOf(element);
 // { door: 'atlas', at: '2026-10-29T14:31:07.123456+00:00', tool: { id: 'atlas', name: 'Atlas' }, last: true, from: 'doors' }
+doorWhere(newest); // 'in Atlas'
 ```
 
 ## Lenses
@@ -467,7 +468,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.107.1, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.108.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
