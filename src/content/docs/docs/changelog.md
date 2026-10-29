@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-10-29
 
+- **[Public worlds](/docs/development/api/public#what-a-visitor-sees): a world page says who cites it.** Its **Cited by** section names the public worlds whose public text holds an address of it, each with its count of citing elements and up to five of them; a private citer never shows.
 - **[Folder format](/docs/schema/folders) 0.3.21, [TypeScript](/docs/development/typescript) 4.107.1 and [Python](/docs/development/python) 0.88.0**: a member's copy of a world keeps `doors` as served, beside the other door fields, and the folder checker reads it as the server's; the Python writers stamp 0.3.21.
 - **[TypeScript](/docs/development/typescript#addresses) 4.107.0 and [Python](/docs/development/python#what-it-covers) 0.87.0**: `doorsOf` / `doors_of` read an element's door history, which tools wrote it, newest first, with the one that made its last write marked.
 - **[TypeScript](/docs/development/typescript) 4.106.0 and [Python](/docs/development/python) 0.86.1**: the TypeScript types carry `doors` on every element; the Python `push` never sends it, so a folder copy without it is no edit.
