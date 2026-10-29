@@ -31,5 +31,8 @@ jobs:
       - name: MCP tools and resources against the live server (report only)
         run: |
           node scripts/verify-mcp.mjs --live || echo "::warning::the MCP server's tools or resources moved: run node scripts/verify-mcp.mjs --refresh and mend the MCP page's tables"
+      - name: CORS headers against a live preflight (report only)
+        run: |
+          node scripts/verify-cors.mjs --live || echo "::warning::the live CORS answer differs from contract/cors.json: read keel's settings with node scripts/verify-cors.mjs --source, --refresh, and mend the CORS page"
       - run: npm run build
       - run: npm run verify

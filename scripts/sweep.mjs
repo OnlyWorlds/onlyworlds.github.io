@@ -5,7 +5,7 @@
  * Run:  node scripts/sweep.mjs [--no-links] [--no-deck] [--since YYYY-MM-DD]
  *
  * The docs state facts owned elsewhere (the API, the SDKs, the schema, the tools). The gates catch
- * what they can name: URLs (verify-urls), error codes (gen_errors), the element tables (the build), the MCP page's tables (verify-mcp).
+ * what they can name: URLs (verify-urls), error codes (gen_errors), the element tables (the build), the MCP page's tables (verify-mcp), the CORS page's origins and headers (verify-cors).
  * This reads the rest. It prints two lists:
  *
  *   CHECKS   things that can be measured, each PASS or STALE: the SDK pin the reference is generated
@@ -18,7 +18,8 @@
  *            snapshot against the API document's write schemas; the draught snapshot against
  *            the API document's context route; the proposals snapshot against the API
  *            document's proposal routes, queue and schemas; the MCP snapshot against the
- *            live MCP server's tools and resources; the routes in the
+ *            live MCP server's tools and resources; the CORS snapshot against keel's settings
+ *            (on a machine with keel) and a live preflight; the routes in the
  *            API reference against keel's OpenAPI; every external link; words the docs must not use;
  *            every release since the last sweep (the packages, the Unity SDK, the plugin, the toolkit,
  *            schema-dist's serials) against the changelog.
@@ -191,6 +192,22 @@ console.log('CHECKS');
   if (code === 0) pass('the MCP snapshot matches the live server\'s tools and resources');
   else if (code === 1) bad('the MCP snapshot differs from the live server (node scripts/verify-mcp.mjs --live says which tools or parameters; --refresh, then mend the page)');
   else note('could not read the live MCP server (node scripts/verify-mcp.mjs --live says why): the MCP snapshot was not checked');
+}
+
+// ---- 2k: the CORS page's snapshot against keel's settings (keel is private: read from its local
+// checkout's origin/main) and against a live preflight from sample origins (exit 2 is BLIND) -------------
+{
+  for (const [flag, what, gone] of [
+    ['--source', 'keel\'s CORS settings', 'could not read keel\'s CORS settings (node scripts/verify-cors.mjs --source says why): the origin regexes were not checked'],
+    ['--live', 'a live preflight from the sample origins', 'could not read the live preflight (node scripts/verify-cors.mjs --live says why): the CORS headers were not checked'],
+  ]) {
+    let code = 0;
+    try { execFileSync('node', ['scripts/verify-cors.mjs', flag], { cwd: ROOT, timeout: 60000, stdio: 'ignore' }); }
+    catch (e) { code = e.status ?? 2; }
+    if (code === 0) pass(`the CORS snapshot matches ${what}`);
+    else if (code === 1) bad(`the CORS snapshot differs from ${what} (node scripts/verify-cors.mjs ${flag} says which; --refresh, then mend the page)`);
+    else note(gone);
+  }
 }
 
 // ---- 3: the API reference against keel's OpenAPI ---------------------------------------------------------
