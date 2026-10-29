@@ -7,6 +7,10 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 What changed on onlyworlds.com for everyone is on its own [Changelog](https://www.onlyworlds.com/changelog); this page stays the developer log.
 
+## 2026-10-30
+
+- **[Python](/docs/development/python#what-it-covers) 0.90.1**: a share (`include_hidden=False`) leaves out only element files for the hidden mark, those directly in a type folder, as the TypeScript writer does; a marked file elsewhere travels as it is.
+
 ## 2026-10-29
 
 - **[Public worlds](/docs/development/api/public#what-a-visitor-sees) and [Reads](/docs/development/api/reads): `created_by` is for a world's members.** A keyless read carries no `created_by`, as it already carried none of the four door keys, and a keyless `created_by=` filter is a `422` naming it. Members read and filter as before.
