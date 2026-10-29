@@ -128,7 +128,7 @@ The TypeScript and Python SDKs send a key on every read and have no keyless call
 {"worlds": 550, "public_worlds": 0, "elements": 46838, "kinds": 22, "public": [], "counted_at": "2026-10-25T12:13:25+00:00"}
 ```
 
-`worlds` and `elements` count every world, private ones included, which are never named; `kinds` is the standard's number of element types; `public` lists the newest 50 worlds whose owners turned public reading and the public page on, each with `name`, `address` and `elements`, the count its public page shows (hidden, room and still-proposed elements left out); `public_worlds` counts them. It is counted at most once a day (`counted_at`) and sent with `Cache-Control: public, max-age=3600`.
+`worlds` and `elements` count every world, private ones included, which are never named; `kinds` is the standard's number of element types; `public` lists the newest 50 worlds whose owners turned public reading and the public page on, each with `name`, `address` and `elements`, the count its public page shows (hidden, room and still-proposed elements left out); `public_worlds` counts them. It is counted at most once a day (`counted_at`), except that an owner turning a world's public reading or page on or off drops the held count, so the next read counts again (since 2026-10-29); it is sent with `Cache-Control: public, max-age=3600`, so a browser or cache may hold the old answer up to an hour.
 
 ## On the wire
 
