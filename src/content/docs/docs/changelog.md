@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-10-29
 
+- **[TypeScript](/docs/development/typescript) 4.104.1 and [Python](/docs/development/python#what-it-covers) 0.85.1**: the review queue calls say the owner's read key reads every row. Comments only.
 - **[The draught](/docs/development/api/draught)**: with `messages` named, a Message whose `characters` list is empty (addressed to every member) is in the section too, as the reader may see it.
 - **[Proposals](/docs/development/api/proposals#the-queue)**: the owner reads the review queue and an element's proposals with the world's read key, or its write key with no PIN: every row. A demo-range key and the keyless public view still get `404`.
 - **[Sign in with OnlyWorlds](/docs/development/api/signin#registered-tools)**: the first native app is registered, the [Obsidian plugin](/docs/tools/obsidian-plugin) (`obsidian`), with a loopback return and `obsidian://onlyworlds-signin`.
