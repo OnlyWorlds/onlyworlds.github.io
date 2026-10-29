@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-29
 
+- **[CORS](/docs/development/api/cors) names every origin and header the API allows**: `https://onlyworlds.com` and `https://www.onlyworlds.com` with their schemes, and the two `http` ones the page left out (`http://onlyworlds.com`, `http://www.onlyworlds.com`); the request headers in full, the common `Accept`, `Accept-Encoding`, `DNT`, `Origin`, `User-Agent`, `X-CSRFToken` and `X-Requested-With` included.
 - **[Toolkit](/docs/development/toolkit) 5.5.2: the draw skill names the four colour groups by their colours** (schema-dist serial 86: Construct pink, Ability amber), and a presentation file whose colour word is not in its own order stops the script by name instead of drawing a default colour.
 - **[MCP](/docs/development/mcp#tools)'s hints sentence says `bulk_apply` is not idempotent**, as the server marks it; `update_element` and `edit_links` are destructive and idempotent.
 - **[Members](/docs/development/api/members#roles)' roles table says what a guest also sees**: the messages addressed to it or to everyone, the world's Charter and the Objects it names, and the stubs of what its Character's sheet points to. Under the table: a seat the owner gives a Character to play may change that Character, never delete it, and a Read mark is written only by its own reader, the owner and co-builders included (`403 not_reader`).

@@ -9,7 +9,7 @@ Browser code may call the API directly from the origins below. Requests from any
 
 | Platform | Origins |
 |:--|:--|
-| OnlyWorlds | `onlyworlds.com`, `www.onlyworlds.com`, `https://*.onlyworlds.com`, `https://onlyworlds.github.io` |
+| OnlyWorlds | `https://onlyworlds.com`, `https://www.onlyworlds.com`, `https://*.onlyworlds.com`, `http://onlyworlds.com`, `http://www.onlyworlds.com`, `https://onlyworlds.github.io` |
 | GitHub Pages | `https://*.github.io` |
 | GitHub Codespaces | `https://*.app.github.dev` (a forwarded port's page) |
 | GitLab Pages | `https://*.gitlab.io` |
@@ -37,8 +37,8 @@ For a custom domain, contact [info@onlyworlds.com](mailto:info@onlyworlds.com).
 
 ## Headers
 
-- **Request headers** a browser may send include `API-Key`, `API-Pin`, `Idempotency-Key`, `If-Match`, `Content-Type`, `Authorization`, `X-Session-Token`, `X-OW-Agent`, `X-OW-Client` and `If-None-Match`.
-- **Response headers** a browser may read, besides the standard ones: `Retry-After`, `Idempotent-Replay`, `X-OW-Schema-Version` (the version of the standard the server speaks; the API's own version is the `v2` in the path), `RateLimit-Limit`, `RateLimit-Remaining` and `RateLimit-Reset`, so a page can pace itself ([Limits](/docs/development/api-reference#limits)), and `ETag`, so a page can send it back as `If-None-Match` ([Walking the feed](/docs/development/api/changes#walking-the-feed)).
+- **Request headers** a browser may send: `API-Key`, `API-Pin`, `Idempotency-Key`, `If-Match`, `Content-Type`, `Authorization`, `X-Session-Token`, `X-OW-Agent`, `X-OW-Client` and `If-None-Match`, and the common `Accept`, `Accept-Encoding`, `DNT`, `Origin`, `User-Agent`, `X-CSRFToken` and `X-Requested-With`.
+- **Response headers** a browser may read, besides the standard ones: `Retry-After`, `Idempotent-Replay`, `X-OW-Schema-Version`, `RateLimit-Limit`, `RateLimit-Remaining`, `RateLimit-Reset` and `ETag`. `X-OW-Schema-Version` is the version of the standard the server speaks (the API's own version is the `v2` in the path); the three rate-limit headers let a page pace itself ([Limits](/docs/development/api-reference#limits)); a page sends `ETag` back as `If-None-Match` ([Walking the feed](/docs/development/api/changes#walking-the-feed)).
 - **Credentials** (cookies) are not allowed. The API authenticates by header, so no browser client needs them.
 - Preflight answers may be cached for a day.
 
