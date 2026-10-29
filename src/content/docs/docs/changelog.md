@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-29
 
+- **[Toolkit](/docs/development/toolkit) 5.5.2: the draw skill names the four colour groups by their colours** (schema-dist serial 86: Construct pink, Ability amber), and a presentation file whose colour word is not in its own order stops the script by name instead of drawing a default colour.
 - **[MCP](/docs/development/mcp#tools)'s hints sentence says `bulk_apply` is not idempotent**, as the server marks it; `update_element` and `edit_links` are destructive and idempotent.
 - **[Members](/docs/development/api/members#roles)' roles table says what a guest also sees**: the messages addressed to it or to everyone, the world's Charter and the Objects it names, and the stubs of what its Character's sheet points to. Under the table: a seat the owner gives a Character to play may change that Character, never delete it, and a Read mark is written only by its own reader, the owner and co-builders included (`403 not_reader`).
 - **[Members](/docs/development/api/members#roles) draws the roles table**: one invented world of 36 elements read by the owner, a co-builder, a contributor, a guest and the public, each with what it sees and what it changes in the table's own words (the public's from the [Hidden elements](/docs/development/api/hidden#view-as) page), and a line that a player reads as a guest of one Character and writes nothing. The dots show the shape; the table stays the rule.
@@ -18,6 +19,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-28
 
+- **[Toolkit](/docs/development/toolkit) 5.5.1: the graph, map, timeline and survey leave out a world's reading aids** (a Charter, Guide or Domain marked `x_charter_of`) and say so once; a room or reading-aid mark counts by presence, so whitespace alone is no mark.
 - **[Unity](/docs/development/unity) 0.24.0: addresses, lenses and the Charter.** `OWAddress`, `OWLens` with `OWGraph`, and `OWCharter` read the address, lens and charter profiles; the client calls the lens routes, and an account token reads the world it names. An export declares folder format 0.3.20.
 - **[TypeScript](/docs/development/typescript) 4.101.1 and [Python](/docs/development/python#what-it-covers) 0.83.1: schema-dist serial 85**: the field descriptions call supertype and subtype a classification of the element, and say a Title's grant and revoke dates are its own (a holder's span is a Relation); no field or reader changed.
 - **[Proposed changes](/docs/development/api/proposals#accept-decline-withdraw)**: a retry of a proposal after a failed answer never proposes twice, and a key whose proposal is gone since answers `409 idempotency_error`; a decline needs the PIN and refuses a keeper's own proposal (`403 own_proposal`); the queue's `new_element` rows are every element carrying an `x_review_proposed` mark.

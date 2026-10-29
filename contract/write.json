@@ -1,6 +1,6 @@
 {
   "source": "https://www.onlyworlds.com/api/v2/openapi.json: the 22 categories' write schemas, <Category>Write (POST, PUT) and <Category>Patch (PATCH)",
-  "read_at": "2026-10-28",
+  "read_at": "2026-10-29",
   "write": {
     "says": "A full {type} write (POST creates; PUT creates or fully replaces, resetting omitted fields to empty). Any key that is neither a field below nor an extension field (atlas_*, shadow_*, x_*) is a 422, including the server-managed type, created_at, updated_at and change_seq.",
     "required": [
@@ -34,7 +34,7 @@
         ]
       },
       "supertype": {
-        "description": "The top level category to which the element belongs. null stores ''.",
+        "description": "The top level classification of the element within its category. null stores ''.",
         "maxLength": 128,
         "type": [
           "string",
@@ -42,7 +42,7 @@
         ]
       },
       "subtype": {
-        "description": "The sub level category through which the element is further classified. null stores ''.",
+        "description": "The sub level classification through which the element is further sorted within its category. null stores ''.",
         "maxLength": 128,
         "type": [
           "string",
@@ -117,7 +117,7 @@
         ]
       },
       "supertype": {
-        "description": "The top level category to which the element belongs. null stores ''.",
+        "description": "The top level classification of the element within its category. null stores ''.",
         "maxLength": 128,
         "type": [
           "string",
@@ -125,7 +125,7 @@
         ]
       },
       "subtype": {
-        "description": "The sub level category through which the element is further classified. null stores ''.",
+        "description": "The sub level classification through which the element is further sorted within its category. null stores ''.",
         "maxLength": 128,
         "type": [
           "string",
