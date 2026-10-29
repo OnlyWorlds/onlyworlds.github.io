@@ -63,7 +63,7 @@ Credentials travel as headers on every request, exactly as on the REST API.
 
 ## Tools
 
-The tools fall into three groups by what they need. Arguments in **bold** are required; the rest are optional, with their default in brackets. Every `type` is a category slug from `list_element_types`, such as `character`, and every `id` is a UUID. Every tool carries the three MCP hints (`readOnlyHint`, `destructiveHint`, `idempotentHint`), so a host can ask before a write without reading the name: the ten reads are read-only and idempotent; `create_element` and `get_image_upload_ticket` write and are not idempotent; `update_element`, `edit_links` and `bulk_apply` are marked destructive (read live 2026-10-22).
+The tools fall into three groups by what they need. Arguments in **bold** are required; the rest are optional, with their default in brackets. Every `type` is a category slug from `list_element_types`, such as `character`, and every `id` is a UUID. Every tool carries the three MCP hints (`readOnlyHint`, `destructiveHint`, `idempotentHint`), so a host can ask before a write without reading the name: the ten reads are read-only and idempotent; `create_element` and `get_image_upload_ticket` write and are not idempotent; `update_element` and `edit_links` are marked destructive and idempotent; `bulk_apply` is marked destructive and not idempotent (read live 2026-10-29).
 
 ### Schema: no key
 
