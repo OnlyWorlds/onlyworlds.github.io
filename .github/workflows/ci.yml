@@ -45,5 +45,8 @@ jobs:
       - name: The pages' limits against the live API document (report only)
         run: |
           node scripts/verify-limits.mjs --live || echo "::warning::a limit moved in the API document's x-ow-limits: run node scripts/verify-limits.mjs --refresh and mend the pages it fails"
+      - name: schema-dist's counts against its newest serial (report only)
+        run: |
+          node scripts/verify-sd-counts.mjs --live || echo "::warning::schema-dist's newest serial has other fixture counts, refusal reasons or canonical version: run node scripts/verify-sd-counts.mjs --refresh and mend the pages"
       - run: npm run build
       - run: npm run verify
