@@ -106,7 +106,7 @@ That is Moppetopia. The answer is what the owner's own key gets with [`?as=publi
 ### What it does not serve
 
 - `/changes`, `/members`, `/me`, files, the hidden routes, the [MCP server](/docs/development/mcp) and every write answer a keyless request as before: `401` [`invalid_credentials`](/api/errors/#invalid_credentials). The [proposals](/docs/development/api/proposals) lists answer it `404`. A follower who wants the live feed needs a read key.
-- An element read keyless carries no `changed_by`, `changed_via`, `changed_client` or `doors` (since 2026-10-29): who wrote an element, and with which tool, is for the world's members.
+- An element read keyless carries no `created_by`, `changed_by`, `changed_via`, `changed_client` or `doors` (since 2026-10-29): who wrote an element, and with which tool, is for the world's members. A keyless `created_by=` filter is a `422` naming it.
 - A keyless request without `?world=` is the `401` it always was.
 - `as` on a keyless read is `422` [`invalid_request`](/api/errors/#invalid_request), `param` `as`: view as is the owner's.
 
