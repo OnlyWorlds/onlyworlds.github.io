@@ -9,6 +9,7 @@ Reads take the key alone: a prefixed key (`ow_w_`, `ow_r_`) never needs the PIN 
 
 `GET /api/v2/{type}` returns one page of that category's elements in an envelope:
 
+<!-- shape: CharacterList -->
 ```json
 { "data": [], "has_more": false, "next_cursor": null }
 ```
@@ -101,6 +102,7 @@ Any other parameter is a `422` [`invalid_request`](/api/errors/#invalid_request)
 curl -s "https://www.onlyworlds.com/api/v2/search?q=drippers&limit=2" -H "API-Key: 0000000001"
 ```
 
+<!-- shape: GET /api/v2/search -->
 ```json
 { "query": "drippers",
   "results": [
@@ -129,6 +131,7 @@ curl -s "https://www.onlyworlds.com/api/v2/character/{id}?expand=location,instit
 
 `GET /api/v2/world` returns the world named by the key, with `counts` beside its fields: how many elements that reader may read, counted as that reader reads them (every reader since 2026-10-27; before, the keyless read only). A world its owner opened to everyone is also read with no key, as `?world=<id>`, and then carries an `owner_character` of `null` ([Public worlds](/docs/development/api/public#the-world-keyless)):
 
+<!-- shape: GET /api/v2/world -->
 ```json
 { "id": "…", "name": "Hyperion", "description": "…", "image_url": "",
   "time_format_names": [], "time_format_equivalents": [], "time_basic_unit": "Year",

@@ -481,6 +481,7 @@ The requested element or route does not exist.
 
 A read of one element (`GET /api/v2/{type}/{id}`) named an element this world held and deleted. Beside the error, the reply carries the deletion's `change_seq` and `deleted_at`:
 
+{/* shape: GET /api/v2/marker/{id} 410 */}
 ```json
 { "error": { "type": "not_found", "code": "gone", "message": "marker '…' was deleted from this world.", "param": null, "doc_url": "https://onlyworlds.github.io/api/errors/#gone" },
   "change_seq": 3, "deleted_at": "2026-10-08T16:43:38.278435+00:00" }
@@ -598,6 +599,7 @@ Image or file upload is not configured on the server right now: `POST /api/v2/me
 
 `POST /api/v2/bulk` answers HTTP `200` once the batch is read. (A malformed request, such as bad JSON, `items` not an array or over 1000 items, or an authentication failure answers with its own status and the envelope.) Success and failure are reported **per item**, in request order, under a top-level `errors` flag:
 
+{/* shape: POST /api/v2/bulk */}
 ```json
 {
   "errors": true,

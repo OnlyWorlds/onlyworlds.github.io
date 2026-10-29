@@ -51,6 +51,7 @@ curl -X PATCH https://www.onlyworlds.com/api/v2/character/{id} \
 
 If the element is still at change_seq 41 the update applies and the reply's `change_seq` is the new one. If it has moved, nothing is written and the reply is `412` [`precondition_failed`](/api/errors/#precondition_failed), with the element as it is now beside the error, under `current`, so no second read is needed:
 
+<!-- shape: PATCH /api/v2/character/{id} 412 -->
 ```json
 {"error": {"type": "invalid_request", "code": "precondition_failed", "param": "If-Match", "...": "..."},
  "current": {"type": "character", "id": "…", "change_seq": 44, "name": "…", "...": "..."}}
@@ -123,6 +124,7 @@ A key is held while its request runs, so two sends with it do not both write; th
 
 `POST /api/v2/bulk` creates and upserts up to 1000 elements of mixed categories in one call.
 
+<!-- shape: POST /api/v2/bulk request -->
 ```json
 {
   "items": [
@@ -133,6 +135,7 @@ A key is held while its request runs, so two sends with it do not both write; th
 }
 ```
 
+<!-- shape: POST /api/v2/bulk -->
 ```json
 {
   "errors": false,

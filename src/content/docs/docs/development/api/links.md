@@ -9,6 +9,7 @@ A **link field** points from one element to others, such as a Character's `locat
 
 A link field has one bare name and one value shape, in reads and writes alike:
 
+<!-- shape: Character partial -->
 ```json
 {
   "id": "0695…",

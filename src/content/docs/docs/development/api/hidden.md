@@ -80,6 +80,7 @@ curl -s -X PUT "https://www.onlyworlds.com/api/v2/character/{id}/hidden" \
 
 `GET /api/v2/world/hidden` lists every hidden element, newest first, with `Cache-Control: no-store`:
 
+<!-- shape: GET /api/v2/world/hidden -->
 ```json
 { "data": [ { "type": "character", "id": "…", "set_at": "…", "set_by": null } ] }
 ```
@@ -135,6 +136,7 @@ Every `delete` op on [`/changes`](/docs/development/api/changes) says why, in `r
 
 The hidden row has the shape of any delete:
 
+<!-- shape: ChangesPage changes[] -->
 ```json
 { "op": "delete", "type": "character", "id": "…", "change_seq": 412, "deleted_at": "…",
   "deleted_by": "0699…", "deleted_via": "api", "reason": "hidden" }
@@ -144,6 +146,7 @@ The hidden row has the shape of any delete:
 
 The readers who still see the element get it as an `upsert` at that place instead: the body as their `GET` of it answers, and who acted, when and through which door, in the delete row's shape:
 
+<!-- shape: ChangesPage changes[] -->
 ```json
 { "op": "upsert", "type": "character", "id": "…", "change_seq": 412, "updated_at": "…",
   "changed_at": "…", "changed_by": "0699…", "changed_via": "api",

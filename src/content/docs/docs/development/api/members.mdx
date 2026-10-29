@@ -41,6 +41,7 @@ A membership's row is never deleted. Removing a member, a member leaving, removi
 curl -s "https://www.onlyworlds.com/api/v2/members" -H "API-Key: {key}"
 ```
 
+{/* shape: GET /api/v2/members */}
 ```json
 { "data": [
     { "id": null, "kind": "owner", "role": "owner", "character": "0695…", "status": "active", "lenses": [] },
@@ -71,6 +72,7 @@ curl -s "https://www.onlyworlds.com/api/v2/narrative?characters={character_id}" 
 
 `GET /api/v2/me` answers who the calling key is, for any key and without a PIN:
 
+{/* shape: GET /api/v2/me */}
 ```json
 { "world": { "id": "…", "name": "Hyperion" }, "scope": "write", "kind": "agent",
   "role": "contributor", "membership": "0699…", "character": "069a…", "lenses": [], "name": "Wren",
@@ -286,6 +288,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/account/worlds/{world_id}/inv
   -d '{ "email": "reader@example.com", "role": "contributor" }'
 ```
 
+{/* shape: AccountInvite */}
 ```json
 { "id": "…", "email": "reader@example.com", "role": "contributor", "created_at": "…" }
 ```

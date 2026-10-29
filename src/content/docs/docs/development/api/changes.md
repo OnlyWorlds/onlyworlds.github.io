@@ -11,6 +11,7 @@ description: The world's ordered change feed, used to export a whole world and t
 curl -s "https://www.onlyworlds.com/api/v2/changes?limit=1" -H "API-Key: 0000000000"
 ```
 
+<!-- shape: ChangesPage -->
 ```json
 { "cursor": "1:068e2e60-fc37-789e-8000-a64560195ff8", "has_more": true, "head": 124, "epoch": null, "epoch_reason": null, "changes": [
     { "op": "upsert", "type": "ability", "id": "068e2e60-fc37-789e-8000-a64560195ff8", "change_seq": 1,
@@ -19,6 +20,7 @@ curl -s "https://www.onlyworlds.com/api/v2/changes?limit=1" -H "API-Key: 0000000
 
 That is Hyperion's first page. The next call sends `?since=1:068e2e60-fc37-789e-8000-a64560195ff8`. A delete in the feed reads:
 
+<!-- shape: ChangesPage changes[] -->
 ```json
 { "op": "delete", "type": "location", "id": "…", "change_seq": 41, "deleted_at": "…", "deleted_by": null, "deleted_via": "api", "deleted_client": null, "reason": "deleted" }
 ```

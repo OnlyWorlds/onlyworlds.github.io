@@ -19,6 +19,7 @@ Only a registered tool can sign a person in. `GET /api/v2/auth/clients` lists th
 curl -s "https://www.onlyworlds.com/api/v2/auth/clients"
 ```
 
+{/* shape: GET /api/v2/auth/clients */}
 ```json
 { "clients": [ { "id": "atlas", "name": "Atlas",
     "redirect_uris": ["https://atlas.onlyworlds.com/signin/callback"] } ] }
@@ -70,6 +71,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/auth/token" \
 | `code_verifier` | The PKCE verifier, 43 to 128 characters, whose S256 hash was the `code_challenge` |
 | `client_id`, `redirect_uri` | Exactly as the authorize request sent them |
 
+{/* shape: POST /api/v2/auth/token */}
 ```json
 { "token": "ow_a_…", "token_id": "…", "token_type": "bearer", "expires_at": null, "account": { "id": "…", "username": "…" } }
 ```
@@ -110,6 +112,7 @@ curl -s -X DELETE "https://www.onlyworlds.com/api/v2/account/clients/atlas" \
   -H "Authorization: Bearer ow_a_…"
 ```
 
+{/* shape: DELETE /api/v2/account/clients/{client_id} */}
 ```json
 { "client_id": "atlas", "tokens_revoked": 2, "keys_revoked": 1 }
 ```

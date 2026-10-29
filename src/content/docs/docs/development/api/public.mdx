@@ -93,6 +93,7 @@ That is Moppetopia. The answer is what the owner's own key gets with [`?as=publi
 
 `GET /api/v2/world?world=<id>` carries the world's own fields, with `owner_character` always `null` (the public gets no roster) and `counts` beside them, counted as the public reads them:
 
+{/* shape: GET /api/v2/world partial */}
 ```json
 { "id": "0695db52-…", "name": "Moppetopia", "public_read": true, "owner_character": null,
   "slug": null, "public_page": { "on": false, "palette": null, "hero": "", "sections": [], "pin": null, "index": false },
@@ -120,6 +121,7 @@ The TypeScript and Python SDKs send a key on every read and have no keyless call
 
 `GET /api/v2/public/counts`, with no key (a key sent is ignored), answers the platform's totals, for a page that shows them read rather than typed:
 
+{/* shape: GET /api/v2/public/counts */}
 ```json
 {"worlds": 550, "public_worlds": 0, "elements": 46838, "kinds": 22, "public": [], "counted_at": "2026-10-25T12:13:25+00:00"}
 ```
