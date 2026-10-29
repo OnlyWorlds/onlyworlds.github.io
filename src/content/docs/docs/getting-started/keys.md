@@ -111,7 +111,7 @@ curl -s "https://www.onlyworlds.com/api/v2/account/worlds" \
   -H "Authorization: Bearer ow_a_…"
 ```
 
-An app signed in through the login API (`/api/v2/auth/app/v1/auth/login`) may send its `X-Session-Token` on any account route in place of the token; an unknown or expired one is a `401`.
+An app signed in through the login API (`/api/v2/auth/app/v1/auth/login`) may send its `X-Session-Token` on any account route in place of the token; an unknown or expired one is a `401`. A page on onlyworlds.com signed in with the site's own session cookie sends the `csrftoken` cookie's value in the `X-CSRFToken` header on every write, or the write is a `403` [`csrf_required`](/api/errors/#csrf_required) and nothing is written; a token or an `X-Session-Token` needs none.
 
 ### Reading a world with an account token
 
