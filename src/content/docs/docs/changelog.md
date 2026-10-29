@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-29
 
+- **[Members](/docs/development/api/members#the-roster)**: a person's row on the roster carries `name`, the person's username, for the owner's keys and co-builders only, as the site's Access page shows it; every other reader still gets no `name` on a person row.
 - **[TypeScript](/docs/development/typescript) 4.102.3 and [Python](/docs/development/python#what-it-covers) 0.84.2: schema-dist serial 88.** The lens fixture gains a graph case where one element's review mark is `{}` and another's `""`: both are drawn as settled nodes with no mark, as both packages already read them; no code changed.
 - **[Unity](/docs/development/unity) 0.25.0: schema-dist serials 86 and 87.** A type's colour group is named by its colour, `blue`, `green`, `pink` or `amber` (Construct pink, Ability amber); a colour word the presentation file cannot draw throws `OWPresentationException`; an empty review mark is settled in every reader, and `OWApiError.IsReviewMarkEmpty` names keel's refusal of one.
 - **[List your tool](/docs/development/list-your-tool#open-with)**: the tools list is served as JSON at `https://www.onlyworlds.com/tools.json`, to any origin, cached for an hour, with an `ETag`.
