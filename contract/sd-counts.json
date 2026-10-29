@@ -1,0 +1,19 @@
+{
+  "source": "schema-dist v0.33.0-dist.88: VERSION, profiles/*.fixture.json cases, fixtures/owworld/verdicts.json reasons",
+  "read_at": "2026-10-29",
+  "tag": "v0.33.0-dist.88",
+  "canonical": "00.33.00",
+  "profiles": {
+    "address": 133,
+    "calendar": 64,
+    "charter": 23,
+    "checks": 19,
+    "import-map": 27,
+    "lens": 153,
+    "message": 85,
+    "names": 23,
+    "room": 32,
+    "spine": 44
+  },
+  "owworld_reasons": 12
+}

@@ -66,6 +66,9 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           node scripts/verify-toolkit.mjs --live || echo "::warning::the toolkit's newest release has other skills or agents: run node scripts/verify-toolkit.mjs --refresh and mend the Toolkit page and the LLM guide"
+      - name: schema-dist's counts against its newest serial (report only)
+        run: |
+          node scripts/verify-sd-counts.mjs --live || echo "::warning::schema-dist's newest serial has other fixture counts, refusal reasons or canonical version: run node scripts/verify-sd-counts.mjs --refresh and mend the pages"
       - name: Build
         run: npm run build
       - name: URL gate
