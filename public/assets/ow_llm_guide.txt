@@ -40,7 +40,7 @@ Then write a short spec together:
 TOOL: NPC Browser for game night
 PURPOSE: players look up NPCs during a session
 USERS: a 5-person group (read-only)
-CORE FLOW: open the page -> list characters -> filter by location or faction ->
+CORE FLOW: open the page -> list characters -> filter by location or institution ->
   click for details and relationships
 ELEMENTS: character, location, institution
 LATER: search, portraits, family links
@@ -134,7 +134,9 @@ MAPPING USER CONCEPTS
 - Monster stat blocks -> species (the template) + creature (named individuals)
 - Spells -> ability; a magic system's rules -> construct + phenomenon
 - Inventory -> object; a currency -> construct
-- Guilds, factions -> institution
+- Guilds -> institution
+- Factions -> institution (formal governance), collective (a loose group acting
+  as a unit) or family (shared lineage)
 - A timeline -> events, grouped by a narrative
 - Noble houses -> family + institution
 
@@ -394,6 +396,8 @@ Last updated: 2026-10-29
 SDK: 4.x (OwV2Client, v2 API)
 
 Changelog:
+- v14: a group maps by how it holds together (institution, collective or
+      family); the example tool filters by institution.
 - v13: upload tickets counted over the last 24 hours, 200 of each.
 - v12: the type headings and the SDK colour groups named as reading aids, not part of
       the standard; ChatGPT Canvas dropped; a Relation's actor is optional; elementColor

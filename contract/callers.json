@@ -1,6 +1,6 @@
 {
   "source": "https://www.onlyworlds.com/api/v2/openapi.json: each operation's security, and the security schemes",
-  "read_at": "2026-10-28",
+  "read_at": "2026-10-29",
   "schemes": {"AccountToken":{"scheme":"bearer","type":"http"},"ApiKey":{"in":"header","name":"API-Key","type":"apiKey"},"ApiPin":{"in":"header","name":"API-Pin","type":"apiKey"},"SessionToken":{"in":"header","name":"X-Session-Token","type":"apiKey"}},
   "operations": [
     ["GET","/api/v2/ability",[["ApiKey"],["ApiKey","ApiPin"],["AccountToken"],[]]],
@@ -41,6 +41,7 @@
     ["DELETE","/api/v2/account/watched/{watch_id}",[["AccountToken"],["SessionToken"]]],
     ["GET","/api/v2/account/worlds",[["AccountToken"],["SessionToken"]]],
     ["POST","/api/v2/account/worlds",[["AccountToken"],["SessionToken"]]],
+    ["POST","/api/v2/account/worlds/handover",[["AccountToken"],["SessionToken"]]],
     ["POST","/api/v2/account/worlds/{world_id}/invites",[["AccountToken"],["SessionToken"]]],
     ["DELETE","/api/v2/account/worlds/{world_id}/invites/{invite_id}",[["AccountToken"],["SessionToken"]]],
     ["GET","/api/v2/account/worlds/{world_id}/keys",[["AccountToken"],["SessionToken"]]],

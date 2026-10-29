@@ -5,7 +5,7 @@
  * Run:  node scripts/sweep.mjs [--no-links] [--no-deck] [--since YYYY-MM-DD]
  *
  * The docs state facts owned elsewhere (the API, the SDKs, the schema, the tools). The gates catch
- * what they can name: URLs (verify-urls), error codes (gen_errors), the element tables (the build), the MCP page's tables (verify-mcp), the CORS page's origins and headers (verify-cors), the toolkit's skills (verify-toolkit), the API pages' JSON examples (verify-shapes), the pages' limit numbers (verify-limits).
+ * what they can name: URLs (verify-urls), error codes (gen_errors), the element tables (the build), the MCP page's tables (verify-mcp), the CORS page's origins and headers (verify-cors), the toolkit's skills (verify-toolkit), the API pages' JSON examples (verify-shapes), the pages' limit numbers (verify-limits), the LLM guide's codes, SDK names, types and key kinds (verify-guide).
  * This reads the rest. It prints two lists:
  *
  *   CHECKS   things that can be measured, each PASS or STALE: the SDK pin the reference is generated
@@ -68,7 +68,10 @@ const walk = (d) => readdirSync(d).flatMap((f) => {
   return statSync(p).isDirectory() ? walk(p) : [p];
 });
 const pages = walk(join(ROOT, 'src', 'content')).filter((f) => /\.mdx?$/.test(f));
-const rel = (f) => relative(join(ROOT, 'src', 'content', 'docs'), f).replace(/\\/g, '/');
+// The LLM guide is no page (it is served as it stands from public/), but an agent reads it first: checks 4 and 5 read it too.
+const GUIDE = join(ROOT, 'public', 'assets', 'ow_llm_guide.txt');
+const read = [...pages, GUIDE];
+const rel = (f) => (f === GUIDE ? 'public/assets/ow_llm_guide.txt' : relative(join(ROOT, 'src', 'content', 'docs'), f).replace(/\\/g, '/'));
 const sh = (cmd, args, cwd) => {
   try { return execFileSync(cmd, args, { cwd, encoding: 'utf8', timeout: 60000, stdio: ['ignore', 'pipe', 'ignore'], shell: cmd === 'npm' }).trim(); }
   catch { return null; }
@@ -277,9 +280,10 @@ if (openapi?.paths) {
     [/api\/worldapi/i, null], // legacy v1 path: allowed only on the legacy pages, reported below
   ];
   let found = 0;
-  for (const f of pages) {
-    // table rows map a game's own words to elements ("Rules of a faction | Law"): the left side is theirs, not ours
-    const text = readFileSync(f, 'utf8').split('\n').filter((l) => !l.trimStart().startsWith('|')).join('\n');
+  for (const f of read) {
+    // table rows map a game's own words to elements ("Rules of a faction | Law"): the left side is theirs, not ours;
+    // so does the first line of each of the guide's mappings ("- Factions -> institution ...")
+    const text = readFileSync(f, 'utf8').split('\n').filter((l) => !l.trimStart().startsWith('|') && !(f === GUIDE && /^- [^>]+ -> [a-z]/.test(l))).join('\n');
     for (const [re, why] of rules) {
       if (!why) continue;
       const m = text.match(re);
@@ -295,14 +299,28 @@ if (openapi?.paths) {
 // ---- 5: every external link ---------------------------------------------------------------------------------------
 if (!flag('--no-links')) {
   const urls = new Map();
-  for (const f of pages) {
-    for (const m of readFileSync(f, 'utf8').matchAll(/https?:\/\/[^\s)<>"'`\]]+/g)) {
-      const u = m[0].replace(/[.,;:]+$/, '');
+  for (const f of read) {
+    const text = readFileSync(f, 'utf8');
+    const found = [...text.matchAll(/https?:\/\/[^\s)<>"'`\]]+/g)].map((m) => m[0]);
+    // The guide writes its links bare (onlyworlds.com/develop): read those as https, the site's own host as www, and its links into
+    // these docs too, which no other check reads in a file the build does not render.
+    if (f === GUIDE) {
+      for (const m of text.matchAll(/(?<![\w./@:*-])((?:[a-z0-9-]+\.)+(?:com|io|gg|org|dev|app|net)(?:\/[^\s)<>"'`\]]*)?)/g)) {
+        const bare = m[1].replace(/[.,;:]+$/, '');
+        const u = 'https://' + bare.replace(/^onlyworlds\.com(?=\/|$)/, 'www.onlyworlds.com');
+        if (/^https:\/\/onlyworlds\.github\.io\//.test(u) && !urls.has(u)) urls.set(u, rel(f));
+        else found.push(u);
+      }
+    }
+    for (const m of found) {
+      const u = m.replace(/[.,;:]+$/, '');
       // API addresses need a key or a method (401, 405 by design): the routes check covers them; so does a wildcard or a placeholder.
       // The image edge's bare root is a prefix in the text (a key follows it), and the edge serves no root page: 404 by design.
       // A join link, the sign-in handoff's pages and the account's pages answer 400 or 404 without their code, parameters or session (by design;
       // the text shows their shape with a placeholder the URL scan stops at, `<world_id>`): Boss's signin-host gate and the live walks cover them.
       if (u === 'https://media.onlyworlds.com/') continue;
+      // The same for the public page's root: an element's address follows it (`/w/<world>/character/<id>`), and `/w/` alone is the 404 page.
+      if (u === 'https://www.onlyworlds.com/w/') continue;
       if (!/^https?:\/\/(localhost|127\.|example\.|onlyworlds\.github\.io|upload\.onlyworlds\.com)/.test(u)
         && !/^https:\/\/www\.onlyworlds\.com\/(api\/|mcp|join\/|signin\/|account\/)/.test(u) && !/^https:\/\/atlas\.onlyworlds\.com\/signin\//.test(u) && !/[*{[]/.test(u) && !urls.has(u)) urls.set(u, rel(f));
     }
