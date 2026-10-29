@@ -68,8 +68,8 @@ Fields under the extension namespaces `atlas_*`, `shadow_*` and `x_*` appear inl
 |:--|:--|
 | `name` | Exact name |
 | `name__icontains` | Case-insensitive substring of the name |
-| `supertype` | Exact supertype |
-| `subtype` | Exact subtype |
+| `supertype` | The whole supertype, trimmed and compared without regard to case, as the profiles read it: ` message ` and `MESSAGE` match `Message`, `Messages` does not. An empty value lists the elements with no supertype (since 2026-10-29) |
+| `subtype` | The whole subtype, read the same way; an empty value lists the elements with no subtype |
 | `characters` | On the six element types with a `characters` link (collective, construct, event, narrative, relation, title): the elements whose `characters` contain that Character id |
 | `ids` | Comma-separated ids, 1 to 200: only these elements, in the list's own order. An id the key cannot see, or that names nothing of this element type, is simply absent. More than 200, or a malformed id, is a `422` with `param` `ids` <!-- limit: list_ids_max --> |
 | `created_by` | A membership id, as [`GET /api/v2/members`](/docs/development/api/members#the-roster) lists them: the elements that member created. `owner` selects the owner's own writes (`created_by` `null`). An element the key knows only as [known-of](/docs/development/api/members#known-of) never matches. Anything else is a `422` with `param` `created_by` |

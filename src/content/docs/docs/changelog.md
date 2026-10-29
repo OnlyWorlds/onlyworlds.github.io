@@ -9,6 +9,9 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-10-29
 
+- **[Reads](/docs/development/api/reads#filters)**: `?supertype=` and `?subtype=` trim the value and compare it without regard to case, as the profiles read them, so `?supertype=message` finds the Messages; an empty value lists the elements with none.
+- **[Members](/docs/development/api/members#the-roster)**: an agent's row names who answers for it, `sponsor_member`: the sponsor's row id, `owner`, or `null`.
+- **[TypeScript](/docs/development/typescript) 4.104.2**: [`completeSignIn`](/docs/development/api/signin#registered-tools) leaves a sign-in pending when a return carries another state, so a forged link to a native app's scheme cannot cancel it; `OwMember` declares `sponsor_member`.
 - **[TypeScript](/docs/development/typescript) 4.104.1 and [Python](/docs/development/python#what-it-covers) 0.85.1**: the review queue calls say the owner's read key reads every row. Comments only.
 - **[The draught](/docs/development/api/draught)**: with `messages` named, a Message whose `characters` list is empty (addressed to every member) is in the section too, as the reader may see it.
 - **[Proposals](/docs/development/api/proposals#the-queue)**: the owner reads the review queue and an element's proposals with the world's read key, or its write key with no PIN: every row. A demo-range key and the keyless public view still get `404`.
