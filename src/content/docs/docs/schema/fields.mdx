@@ -33,9 +33,10 @@ The API adds these to every element it returns. They are platform bookkeeping, n
 | `created_at`, `updated_at` | Timestamps |
 | `change_seq` | The world's change sequence at the element's last write |
 | `created_by` | The world membership that created the element, or null when the world's owner did |
-| `changed_by`, `changed_via`, `changed_client` | Who made the last change, through which door, and the name its client gave ([Agent writes](/docs/development/api/writes#agent-writes)) |
+| `changed_by`, `changed_via`, `changed_client` | Who made the last change, through which door, and the name its client gave ([Agent writes](/docs/development/api/writes#agent-writes)); served to the world's members only |
+| `doors` | Each tool that wrote the element, with the time of its last write there, at most 16; served to the world's members only ([Reads](/docs/development/api/reads)) |
 
-A write body that carries `type`, `created_at`, `updated_at` or `change_seq` is rejected with `422`. `world`, `created_by`, `changed_by`, `changed_via` and `changed_client` are tolerated and ignored. `hidden` counts only on a create, where `true` creates the element [hidden](/docs/development/api/hidden); it is ignored on `PATCH`, or a `PUT` that replaces.
+A write body that carries `type`, `created_at`, `updated_at` or `change_seq` is rejected with `422`. `world`, `created_by`, `changed_by`, `changed_via`, `changed_client` and `doors` are tolerated and ignored. `hidden` counts only on a create, where `true` creates the element [hidden](/docs/development/api/hidden); it is ignored on `PATCH`, or a `PUT` that replaces.
 
 ## Field types
 

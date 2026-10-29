@@ -72,6 +72,9 @@
       "changed_client": {
         "description": "Tolerated and ignored: a client names itself in the X-OW-Client header, never in the body."
       },
+      "doors": {
+        "description": "Tolerated and ignored: the server records where an element has been."
+      },
       "hidden": {
         "default": false,
         "description": "On a create (POST, a PUT whose id is new, or a /bulk item that creates): true creates the element hidden from its first moment. Only the world's owner key or a co-builder's (a person's or a seat's) may send it; any other key is refused (403 hidden_not_allowed) and nothing is created. The element is never served to a reader who cannot see hidden elements, and /changes never carries its body to them: a contributor gets one delete row with reason `hidden` at the element's change_seq, a guest nothing; the owner and co-builders get it with `hidden: true`. false, null or absent: a visible element, as ever. Any other value is a 422 on a create. Where the server has the hidden mark switched off, true is a 422 (param hidden) and nothing is created. On a PUT that replaces an existing element it is ignored: hide and unhide through PUT and DELETE /{type}/{id}/hidden.",
@@ -154,6 +157,9 @@
       },
       "changed_client": {
         "description": "Tolerated and ignored: a client names itself in the X-OW-Client header, never in the body."
+      },
+      "doors": {
+        "description": "Tolerated and ignored: the server records where an element has been."
       },
       "hidden": {
         "description": "Tolerated and ignored: an existing element is hidden and unhidden through PUT and DELETE /{type}/{id}/hidden."
