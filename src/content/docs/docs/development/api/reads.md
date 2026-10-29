@@ -71,7 +71,8 @@ Fields under the extension namespaces `atlas_*`, `shadow_*` and `x_*` appear inl
 | `name__icontains` | Case-insensitive substring of the name |
 | `supertype` | The whole supertype, trimmed and compared without regard to case, as the profiles read it: ` message ` and `MESSAGE` match `Message`, `Messages` does not. An empty value lists the elements with no supertype (since 2026-10-29) |
 | `subtype` | The whole subtype, read the same way; an empty value lists the elements with no subtype |
-| `characters` | On the six element types with a `characters` link (collective, construct, event, narrative, relation, title): the elements whose `characters` contain that Character id |
+| `characters` | On the six element types with a `characters` link (collective, construct, event, narrative, relation, title): the elements whose `characters` contain that Character id. An empty value lists those with none, such as the [Messages](/docs/schema/profiles/messages) addressed to everyone (since 2026-10-29) |
+| `operator` | A collective's single link, and since 2026-10-29 each single link of every element type is a filter on its list: `?parent_location=<id>` lists a place's rooms, `?birthplace=<id>` the Characters born there. An empty value lists the elements that link to nothing. A malformed id is a `422` naming the field; a linked element the key cannot see gives an empty list, never a `404`. The API document lists each type's single-link filters on its list operation |
 | `ids` | Comma-separated ids, 1 to 200: only these elements, in the list's own order. An id the key cannot see, or that names nothing of this element type, is simply absent. More than 200, or a malformed id, is a `422` with `param` `ids` <!-- limit: list_ids_max --> |
 | `created_by` | A membership id, as [`GET /api/v2/members`](/docs/development/api/members#the-roster) lists them: the elements that member created. `owner` selects the owner's own writes (`created_by` `null`). An element the key knows only as [known-of](/docs/development/api/members#known-of) never matches. Anything else is a `422` with `param` `created_by` |
 
@@ -83,11 +84,11 @@ Besides these filters, a list takes the parameters `limit`, `cursor`, `expand`, 
 
 ```json
 { "error": { "type": "invalid_request", "code": "invalid_request",
-  "message": "Unknown filter 'foo'. Filters: name, name__icontains, supertype, subtype.",
+  "message": "Unknown filter 'foo'. Filters: name, name__icontains, supertype, subtype, ids, created_by, birthplace, location.",
   "param": "foo", "doc_url": "https://onlyworlds.github.io/api/errors#invalid_request" } }
 ```
 
-The [TypeScript SDK](/docs/development/typescript) sends these under `filter`: `client.list('character', { filter: { name__icontains: 'consul' } })`. A filter written at the top level of the parameters instead, or any key `list` does not know, is a `TypeError` before anything is sent (since 4.51.0; until then the key was dropped without a word and the list came back whole).
+The [TypeScript SDK](/docs/development/typescript) sends these under `filter`: `client.list('character', { filter: { name__icontains: 'consul' } })`. An empty value under `filter` is sent as `key=` (since 4.108.1; until then it was dropped and the list came back whole). A filter written at the top level of the parameters instead, or any key `list` does not know, is a `TypeError` before anything is sent (since 4.51.0; until then the key was dropped without a word and the list came back whole).
 
 **Ordering is not supported.** `?ordering=` is a `422`, and pages always come in change order. Sort on your side.
 

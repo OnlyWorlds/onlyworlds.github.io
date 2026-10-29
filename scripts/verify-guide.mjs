@@ -184,10 +184,20 @@ const counts = {};
   if (!filt || !parm) blind('the guide\'s "Filters the server accepts: …" or "… are parameters, not filters" sentence is not there as this reads it');
   if (!q) blind('contract/shapes.json holds no "GET /api/v2/collective query" target (the reads page tags it)');
   const names = (s) => s.replace(/\([^)]*\)/g, '').split(/,|\band\b/).map((x) => x.trim()).filter(Boolean);
-  const said = [...names(filt[1]), ...names(parm[1])];
+  // "each single link of the type" (filters since 2026-10-29) stands for the route's single-link filters:
+  // the parameters only some types take (partial_list_params), but `characters`, a many link.
+  const LINKS = 'each single link of the type';
+  const filtNames = names(filt[1]);
+  const linksSaid = filtNames.filter((n) => n === LINKS).length;
+  const said = [...filtNames.filter((n) => n !== LINKS), ...names(parm[1])];
   const bad = said.filter((n) => !/^[a-z_]+$/.test(n));
   if (bad.length) blind(`the guide's filter or parameter list holds what this does not read as a name: ${bad.join(', ')}`);
-  const want = Object.keys(q);
+  const singles = Object.keys(shapes.partial_list_params ?? {}).filter((n) => n !== 'characters');
+  const routeSingles = Object.keys(q).filter((n) => singles.includes(n));
+  if (linksSaid > 1) fails.push(`ow_llm_guide.txt: the filters name "${LINKS}" ${linksSaid} times (e)`);
+  if (routeSingles.length && !linksSaid) fails.push(`ow_llm_guide.txt: the list route takes its single links (${routeSingles.join(', ')}), and the filters do not say "${LINKS}" (e)`);
+  if (linksSaid && !routeSingles.length) fails.push(`ow_llm_guide.txt: the filters say "${LINKS}", and the API document's collective list route takes none (e)`);
+  const want = Object.keys(q).filter((n) => !(linksSaid && routeSingles.includes(n)));
   const twice = said.filter((n, i) => said.indexOf(n) !== i);
   for (const n of said) if (!want.includes(n)) fails.push(`ow_llm_guide.txt: "${n}" is named as a list filter or parameter, and the API document's list route does not take it (e)`);
   for (const n of want) if (!said.includes(n)) fails.push(`ow_llm_guide.txt: the list route takes "${n}", and the guide's filters and parameters, which it says are every one, leave it out (e)`);

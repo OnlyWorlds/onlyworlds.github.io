@@ -256,8 +256,11 @@ const slim = await client.list('character', { fields: ['name', 'supertype'] });
 ```
 
 Filters the server accepts: name (exact), name__icontains, supertype, subtype,
-and characters (a Character id) on collective, construct, event, narrative,
-relation and title.
+each single link of the type (parent_location, birthplace, operator, ...: the
+elements linking to that id), and characters (a Character id) on collective,
+construct, event, narrative, relation and title. An empty value is a filter
+too: supertype= lists the elements with none, characters= the Messages
+addressed to everyone, a link the elements linking to nothing.
 ```typescript
 await client.list('character', { filter: { name__icontains: 'fluff', supertype: 'Admiral' } });
 ```
