@@ -39,5 +39,8 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           node scripts/verify-toolkit.mjs --live || echo "::warning::the toolkit's newest release has other skills or agents: run node scripts/verify-toolkit.mjs --refresh and mend the Toolkit page and the LLM guide"
+      - name: API examples' schemas against the live API document (report only)
+        run: |
+          node scripts/verify-shapes.mjs --live || echo "::warning::a schema the API pages' examples name moved in the API document: run node scripts/verify-shapes.mjs --refresh and mend the examples it fails"
       - run: npm run build
       - run: npm run verify
