@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-29
 
+- **[A world with its first elements](/docs/getting-started/keys#a-world-with-its-first-elements)**: `POST /api/v2/account/worlds/handover` makes a world on the account and writes its first elements in one transaction, all or nothing, refused as [`handover_refused`](/api/errors/#handover_refused).
 - **[CORS](/docs/development/api/cors) names every origin and header the API allows**: `https://onlyworlds.com` and `https://www.onlyworlds.com` with their schemes, and the two `http` ones the page left out (`http://onlyworlds.com`, `http://www.onlyworlds.com`); the request headers in full, the common `Accept`, `Accept-Encoding`, `DNT`, `Origin`, `User-Agent`, `X-CSRFToken` and `X-Requested-With` included.
 - **[Toolkit](/docs/development/toolkit) 5.5.2: the draw skill names the four colour groups by their colours** (schema-dist serial 86: Construct pink, Ability amber), and a presentation file whose colour word is not in its own order stops the script by name instead of drawing a default colour.
 - **[MCP](/docs/development/mcp#tools)'s hints sentence says `bulk_apply` is not idempotent**, as the server marks it; `update_element` and `edit_links` are destructive and idempotent.

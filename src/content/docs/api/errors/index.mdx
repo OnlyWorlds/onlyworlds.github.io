@@ -68,6 +68,7 @@ Each code belongs to one family, its `type`, and a family's codes do not share o
 | [`too_many_open`](#too_many_open) | `invalid_request` | `422` | A proposer already has 5 open proposals on this element, or 50 in this world: wait for a keeper to decide, or withdraw one. A lapsed proposal no longer counts. |
 | [`stale_proposal`](#stale_proposal) | `invalid_request` | `409` | An accept found that a field the proposal names has moved since it was made. Beside the envelope, `conflicts` lists each moved field with its `base` and `current` values, and `current` is the element as it is now. Nothing was written and the proposal stays open; the proposer proposes again on the current text. |
 | [`not_proposed`](#not_proposed) | `invalid_request` | `422` | A review (accept or decline of a new element written as proposed) named an element that carries no `x_review_proposed` mark: nothing to settle. A change to an existing element is proposed and decided through its proposals instead. |
+| [`handover_refused`](#handover_refused) | `invalid_request` | `409,422` | POST /account/worlds/handover refused an item, so nothing was written: not the world, not its elements, not the account PIN. Beside the envelope, `items` holds each item's result, the refused ones with their `error`. 409 when an id is held in another world (that slot says id_conflict: give it a new id), else 422. |
 | [`apply_failed`](#apply_failed) | `invalid_request` | `422` | A /bulk item passed validation but its write failed a database constraint (most often an id that already exists in another world). |
 | [`invalid_grant`](#invalid_grant) | `invalid_request` | `400` | Sign in with OnlyWorlds: the code cannot be exchanged (POST /api/v2/auth/token). It is unknown, already used, expired (a code lives 60 seconds), or was issued for another client, another redirect_uri or another code_verifier. One answer for every case, byte for byte, and the code is spent either way: start the sign-in again. |
 | [`one_credential`](#one_credential) | `invalid_request` | `400` | A read sent both an API-Key and an account token (`Authorization: Bearer ow_a_...`). Send one: the key reads its own world, the token reads the world `world` names as your own access there. |
@@ -175,6 +176,16 @@ A `POST` supplied an `id` that already exists, or a `PUT` named an id held by an
 
 - **Common cause:** retrying a create with a client-minted UUID that already landed, or reusing ids copied from another world.
 - **How to fix:** if the id exists in this world, use `PUT /api/v2/{type}/{id}`, the upsert: `POST` only creates. If it exists in another world, mint a new id. To retry a request that may have completed, send an `Idempotency-Key` header instead of posting again.
+
+### handover_refused
+
+**Type** `invalid_request` · **Status** `409` or `422`
+
+`POST /api/v2/account/worlds/handover` ([a world with its first elements](/docs/getting-started/keys#a-world-with-its-first-elements)) refused one of its items, so nothing was written: not the world, not its elements, not the account PIN. Beside the error, `items` holds each item's result, and the refused ones carry their own `error`.
+
+- **`409`:** an item's `id` is held in another world; that slot says `id_conflict`. Give it a new id and send the whole call again.
+- **`422`:** any other refusal, named in the slot that failed.
+- **A retry after a lost answer** meets `409` on every id, because they landed in the first world: that world is under the account's worlds (`GET /api/v2/account/worlds`). The route takes no `Idempotency-Key`, since there is no world before the call.
 
 ### precondition_failed
 

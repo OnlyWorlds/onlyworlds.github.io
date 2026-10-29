@@ -133,6 +133,7 @@ curl -s "https://www.onlyworlds.com/api/v2/character/?world=<world_id>" \
 | GET, PATCH | `/api/v2/account` | Your profile |
 | GET | `/api/v2/account/worlds` | The worlds you own and the worlds shared with you |
 | POST | `/api/v2/account/worlds` | Create a world: `201` with the world and a new `ow_w_` key, shown once |
+| POST | `/api/v2/account/worlds/handover` | Create a world with its first elements, all or nothing ([below](#a-world-with-its-first-elements)): `201` with the world, each item's result and `door`, the world's page; no key is made |
 | POST | `/api/v2/account/worlds/{world_id}/keys` | Mint a world key, shown once |
 | GET | `/api/v2/account/worlds/{world_id}/keys` | List a world's keys (last four characters only) |
 | DELETE | `/api/v2/account/worlds/{world_id}/keys/{key_id}` | Revoke a world key |
@@ -168,5 +169,21 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/account/worlds" \
 ```
 
 `key_name` is optional: it names that write key as the website's key list shows it (1 to 80 characters once trimmed; a blank or longer name is a `422` and nothing is made). Without it the key has no name. Either way the route makes exactly one key.
+
+### A world with its first elements
+
+`POST /api/v2/account/worlds/handover` (since 2026-10-29) makes a world on the account and writes its first elements in one transaction: a page that let a visitor make things before signing in hands them over this way. `world` takes what `POST /api/v2/account/worlds` takes, without `key_name`: no key is made, and the world's page makes keys. `items` is [`/bulk`](/docs/development/api/writes)'s array, 1 to 1000 entries of `{type, element}`. Each element keeps the `id` it carries, and the items link to each other by those ids.
+
+```bash
+curl -s -X POST "https://www.onlyworlds.com/api/v2/account/worlds/handover" \
+  -H "Authorization: Bearer ow_a_…" -H "Content-Type: application/json" \
+  -d '{ "world": { "name": "Hyperion" },
+        "items": [ { "type": "character", "element": { "id": "019a…", "name": "Mira" } } ] }'
+```
+
+- **All or nothing.** It writes the account PIN first when the account has none (a PIN-less account sends `world.pin`, 1000 to 9999; an account with a PIN omits it), then the World, then every item. On success: `201` with `world`, `items` (each item's result) and `door`, the world's page.
+- **A refusal writes nothing**, not the world and not the PIN: [`handover_refused`](/api/errors/#handover_refused), `409` when an id is held in another world (that slot says `id_conflict`: give it a new id and send again), else `422`, with each item's result in `items`.
+- **No `Idempotency-Key`**: there is no world before the call. A retry after a lost answer meets `409` on every id, and the first world stands under the account's worlds.
+- The website's own page sends it with its session cookie; a client sends an account token or `X-Session-Token`.
 
 The routes for invites, members, seats, links and watched worlds are on [Members and sharing](/docs/development/api/members#managing-members). A missing or invalid account credential answers `401`.

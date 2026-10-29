@@ -86,12 +86,15 @@ for (const s of sections) if (!codes[s] || codes[s].internal || codes[s].host) p
 // Each section's first line states its Type and Status, which must be the code's own (two were
 // wrong on 2026-10-27, with nothing to say so).
 let typed = 0;
-for (const m of page.matchAll(/^### ([a-z_]+)\s*\n\s*\n\*\*Type\*\* `([a-z_]+)` · \*\*Status\*\* `(\d{3})`/gm)) {
-  const [, c, type, status] = m, want = codes[c];
+// A code with more than one status (handover_refused: 409 or 422) states each, as `409` or `422`.
+for (const m of page.matchAll(/^### ([a-z_]+)\s*\n\s*\n\*\*Type\*\* `([a-z_]+)` · \*\*Status\*\* (`\d{3}`(?: or `\d{3}`)*)/gm)) {
+  const [, c, type, statusText] = m, want = codes[c];
   typed++;
   if (!want || want.internal || want.host) continue;   // named above
   if (type !== want.type) problems.push(`### ${c} says Type ${type}; the code's type is ${want.type}`);
-  if (Number(status) !== want.status) problems.push(`### ${c} says Status ${status}; the code's status is ${want.status}`);
+  const said = [...statusText.matchAll(/\d{3}/g)].map(Number).sort((a, b) => a - b).join(',');
+  const own = [].concat(want.status).map(Number).sort((a, b) => a - b).join(',');
+  if (said !== own) problems.push(`### ${c} says Status ${said}; the code's status is ${own}`);
 }
 if (typed !== sections.length) problems.push(`${sections.length - typed} section(s) do not open with "**Type** \`…\` · **Status** \`…\`", so their type and status were not checked`);
 const hostTable = page.split('## Upload host errors')[1] ?? '';

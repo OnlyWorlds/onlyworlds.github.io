@@ -119,6 +119,14 @@
     "status": 422,
     "summary": "A review (accept or decline of a new element written as proposed) named an element that carries no `x_review_proposed` mark: nothing to settle. A change to an existing element is proposed and decided through its proposals instead."
   },
+  "handover_refused": {
+    "type": "invalid_request",
+    "status": [
+      409,
+      422
+    ],
+    "summary": "POST /account/worlds/handover refused an item, so nothing was written: not the world, not its elements, not the account PIN. Beside the envelope, `items` holds each item's result, the refused ones with their `error`. 409 when an id is held in another world (that slot says id_conflict: give it a new id), else 422."
+  },
   "apply_failed": {
     "type": "invalid_request",
     "status": 422,
