@@ -353,6 +353,17 @@ const r = parseOwLink('ow://character/0193f1c2-7a00-7000-8000-000000000001');   
 const link = elementAddress({ form: 'human', world: worldId, type: 'character', id });   // https://www.onlyworlds.com/w/<world>/character/<id>
 ```
 
+Since 4.105.0 `openersFor(tools, kind, address, surface)` gives the rows of an **Open with** menu for a world or an element: onlyworlds.com first, then each [listed tool](/docs/development/list-your-tool) whose `open` key has a door for it, in the list's order. Each row is `{ id, name, href, state }`. `state` is null when the row opens now, or one of `You are here`, `Sign in to <tool> first`, `Opens in your browser`, `Needs the world on this phone` or `Opens the world`. `surface` says what the page knows: `audience` (`member` or `public`), and optionally `tool` (your own tool's client name), `signedIn`, `browser` and `phone`. A public page gets only the tools that need nothing first. `TOOLS` is the tools list baked at this release.
+
+```typescript
+import { openersFor, TOOLS, parseOwLink } from '@onlyworlds/sdk';
+
+const rows = openersFor(TOOLS, 'element', parseOwLink(link), { audience: 'member', tool: 'lantern', signedIn: false });
+// [{ id: 'onlyworlds', name: 'onlyworlds.com', href: 'https://www.onlyworlds.com/w/…', state: null },
+//  { id: 'atlas', name: 'Atlas', href: 'https://atlas.onlyworlds.com/#/open/…', state: 'Sign in to Atlas first' },
+//  { id: 'lantern', name: 'Lantern', href: 'https://lantern.onlyworlds.com/#/open/…', state: 'You are here' }]
+```
+
 ## Lenses
 
 Since 4.91.0 the [lens profile](/docs/lenses) has its reader: `resolveLens(world, lens, reader, { asOf, clock })` reads a world snapshot through a lens for one reader and returns the kept elements in order, the cut counted by reason, and the mail part when the lens names one; it never writes. `isLens(el)` and `isTemplate(el)` say what an element is; `lensesInUse(membership, xLensUses)` gives a seat's chosen lenses (the membership's choice first, else a folder Character's `x_lens_uses`). The reading's date is `asOf`, else the world's own now; the mail rule's thirty days run on `clock`, the wall clock.
@@ -447,7 +458,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.104.3, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.105.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
