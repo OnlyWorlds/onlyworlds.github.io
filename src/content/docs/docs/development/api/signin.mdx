@@ -41,7 +41,7 @@ The tool sends the browser to `https://www.onlyworlds.com/signin/authorize` with
 |:--|:--|
 | `client_id` | The tool's `id` in the registry |
 | `redirect_uri` | One of that tool's registered return addresses, byte for byte: no tolerance for a trailing slash, a case change or an added query |
-| `state` | The tool's own opaque value, up to 1024 characters, sent back untouched |
+| `state` | The tool's own opaque value, up to 1024 characters, sent back untouched {/* limit: signin_state_chars */} |
 | `code_challenge` | The PKCE challenge: the base64url SHA-256 of a verifier the tool keeps |
 | `code_challenge_method` | `S256`. `plain` is refused |
 
@@ -68,7 +68,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/auth/token" \
 |:--|:--|
 | `grant_type` | `authorization_code` |
 | `code` | The code from the return address |
-| `code_verifier` | The PKCE verifier, 43 to 128 characters, whose S256 hash was the `code_challenge` |
+| `code_verifier` | The PKCE verifier, 43 to 128 characters, whose S256 hash was the `code_challenge` {/* limit: signin_verifier_min_chars signin_verifier_max_chars */} |
 | `client_id`, `redirect_uri` | Exactly as the authorize request sent them |
 
 {/* shape: POST /api/v2/auth/token */}
@@ -76,9 +76,9 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/auth/token" \
 { "token": "ow_a_…", "token_id": "…", "token_type": "bearer", "expires_at": null, "account": { "id": "…", "username": "…" } }
 ```
 
-The answer is sent `Cache-Control: no-store`. `expires_at` is when the token stops working, for a tool whose registration asks for a lifetime (1 to 720 hours; Little Lens's tokens last six); null for one with none, whose token works until it is revoked. An expired token is refused as a revoked one is, the same 401. `token` is shown only here: the tool keeps it and sends it as `Authorization: Bearer ow_a_…` on the [account routes](/docs/getting-started/keys#account-tokens), such as [managing members](/docs/development/api/members#managing-members), and to [read a world's elements](/docs/getting-started/keys#reading-a-world-with-an-account-token) as the person's own access there, with no key minted. On the person's account page, under Account tokens, it is listed by the tool's name and the browser (`Atlas on Firefox`), and they can revoke it there. `token_id` (since 2026-10-25) is the token's id: a tool done with the token revokes it with `DELETE /api/v2/account/tokens/{token_id}`, sending the token itself as the bearer. That revoke ends the tool's consent only when it was the tool's last live token for the person, or for a tool that asks each time ([Consent and revoking](#consent-and-revoking)).
+The answer is sent `Cache-Control: no-store`. `expires_at` is when the token stops working, for a tool whose registration asks for a lifetime (1 to 720 hours; Little Lens's tokens last six); null for one with none, whose token works until it is revoked. An expired token is refused as a revoked one is, the same 401. `token` is shown only here: the tool keeps it and sends it as `Authorization: Bearer ow_a_…` on the [account routes](/docs/getting-started/keys#account-tokens), such as [managing members](/docs/development/api/members#managing-members), and to [read a world's elements](/docs/getting-started/keys#reading-a-world-with-an-account-token) as the person's own access there, with no key minted. On the person's account page, under Account tokens, it is listed by the tool's name and the browser (`Atlas on Firefox`), and they can revoke it there. `token_id` (since 2026-10-25) is the token's id: a tool done with the token revokes it with `DELETE /api/v2/account/tokens/{token_id}`, sending the token itself as the bearer. That revoke ends the tool's consent only when it was the tool's last live token for the person, or for a tool that asks each time ([Consent and revoking](#consent-and-revoking)). {/* limit: signin_token_lifetime_max_hours */}
 
-**A code lives 60 seconds and is spent by its first exchange,** whether that succeeds or fails. A code sent again is refused and also revokes the token its first exchange minted: a replayed code is treated as a stolen one. So take `code` out of the address bar before the exchange, and send the exchange before any other request: a reload would spend the code on a refusal.
+**A code lives 60 seconds and is spent by its first exchange,** whether that succeeds or fails. A code sent again is refused and also revokes the token its first exchange minted: a replayed code is treated as a stolen one. So take `code` out of the address bar before the exchange, and send the exchange before any other request: a reload would spend the code on a refusal. {/* limit: signin_code_seconds */}
 
 ## Errors
 
@@ -86,7 +86,7 @@ The answer is sent `Cache-Control: no-store`. `expires_at` is when the token sto
 |:--|:--|:--|
 | `400` | [`invalid_grant`](/api/errors/#invalid_grant) | The code is unknown, used, expired, or was issued for another `client_id`, `redirect_uri` or `code_verifier`. One body for every case, byte for byte. Start the sign-in again |
 | `422` | [`invalid_request`](/api/errors/#invalid_request) | The body is not JSON (a form-encoded body included) or not an object, a field is missing or not text, or `grant_type` is not `authorization_code`. `param` names it. A code in a form-encoded body or a JSON object is spent |
-| `429` | [`rate_limited`](/api/errors/#rate_limited) | Too many sign-in attempts from this address: this route and the password sign-in share one count, 40 in 5 minutes. Wait the `Retry-After` seconds. The body is not read, so the code is not spent |
+| `429` | [`rate_limited`](/api/errors/#rate_limited) | Too many sign-in attempts from this address: this route and the password sign-in share one count, 40 in 5 minutes. Wait the `Retry-After` seconds. The body is not read, so the code is not spent {/* limit: signin_attempts */} |
 | `429` | [`too_many_requests`](/api/errors/#too_many_requests) | Over the request budget, as on every route ([Limits](/docs/development/api-reference#limits)) |
 
 The authorize page's refusals are pages, not API errors: see [Sending the person to sign in](#sending-the-person-to-sign-in).

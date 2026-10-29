@@ -22,7 +22,7 @@ Reads take the key alone: a prefixed key (`ow_w_`, `ow_r_`) never needs the PIN 
 
 ## Pagination
 
-Page with `?limit=` (default 100) and `?cursor=`. A `limit` outside 1 to 1000 is clamped into that range; a non-integer is a `422`.
+Page with `?limit=` (default 100) and `?cursor=`. A `limit` outside 1 to 1000 is clamped into that range; a non-integer is a `422`. <!-- limit: list_limit_default list_limit_max -->
 
 ```bash
 # first page
@@ -68,7 +68,7 @@ Fields under the extension namespaces `atlas_*`, `shadow_*` and `x_*` appear inl
 | `supertype` | Exact supertype |
 | `subtype` | Exact subtype |
 | `characters` | On the six categories with a `characters` link (collective, construct, event, narrative, relation, title): the elements whose `characters` contain that Character id |
-| `ids` | Comma-separated ids, 1 to 200: only these elements, in the list's own order. An id the key cannot see, or that names nothing of this category, is simply absent. More than 200, or a malformed id, is a `422` with `param` `ids` |
+| `ids` | Comma-separated ids, 1 to 200: only these elements, in the list's own order. An id the key cannot see, or that names nothing of this category, is simply absent. More than 200, or a malformed id, is a `422` with `param` `ids` <!-- limit: list_ids_max --> |
 | `created_by` | A membership id, as [`GET /api/v2/members`](/docs/development/api/members#the-roster) lists them: the elements that member created. `owner` selects the owner's own writes (`created_by` `null`). An element the key knows only as [known-of](/docs/development/api/members#known-of) never matches. Anything else is a `422` with `param` `created_by` |
 
 ```bash
@@ -93,9 +93,9 @@ The [TypeScript SDK](/docs/development/typescript) sends these under `filter`: `
 
 | Parameter | Meaning |
 |:--|:--|
-| `q` | Required: 2 to 200 characters, with at least one word of letters or digits |
+| `q` | Required: 2 to 200 characters, with at least one word of letters or digits <!-- limit: search_q_min_chars search_q_max_chars --> |
 | `type` | One category slug; without it, all 22 are searched |
-| `limit` | Default 50, clamped into 1 to 200; a non-integer is a `422` |
+| `limit` | Default 50, clamped into 1 to 200; a non-integer is a `422` <!-- limit: search_limit_default search_limit_max --> |
 
 Any other parameter is a `422` [`invalid_request`](/api/errors/#invalid_request) naming the three.
 

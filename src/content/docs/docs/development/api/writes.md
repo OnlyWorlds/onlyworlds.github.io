@@ -80,7 +80,7 @@ Every write records the door it came through. An element read carries `changed_b
 
 The first three mean an agent made the change. An AI writing on a person's own key says so with `X-OW-Agent` (any non-empty value; it is never stored) on the element writes: create, upsert, partial update, delete, the link operations route and `/bulk`. A seat's key and MCP are recorded as an agent's without it. A tool people use leaves the header off. A delete's tombstone in the [change feed](/docs/development/api/changes) carries the same pair as `deleted_by` and `deleted_via`. All four are `null` for anything last written before 2026-10-15, and they are ignored when sent in a write body.
 
-**A write can also name the tool that sent it** (2026-10-22): the `X-OW-Client` header, the tool's own name in lower case letters, digits and hyphens, 1 to 32 characters (`atlas`, `lantern`, `sdk`, `python`). It is read on the writes that record a door (the element writes, the link route, `/bulk`, adopt) and kept on the element as `changed_client`, `null` when no name was sent or the value broke the rule (a bad value is ignored, never a `422`); a delete's tombstone carries it as `deleted_client`. It is the client's claim, never proof: it changes no door and no permission, and is ignored when echoed in a write. Recent changes reads a named row "through atlas".
+**A write can also name the tool that sent it** (2026-10-22): the `X-OW-Client` header, the tool's own name in lower case letters, digits and hyphens, 1 to 32 characters (`atlas`, `lantern`, `sdk`, `python`). It is read on the writes that record a door (the element writes, the link route, `/bulk`, adopt) and kept on the element as `changed_client`, `null` when no name was sent or the value broke the rule (a bad value is ignored, never a `422`); a delete's tombstone carries it as `deleted_client`. It is the client's claim, never proof: it changes no door and no permission, and is ignored when echoed in a write. Recent changes reads a named row "through atlas". <!-- limit: client_name_chars -->
 
 **A seat's writes can be held for a person's word** (2026-10-22). With **AI seats propose, a person accepts** on for the world (`agent_writes_proposed` on `GET /world`), an agent seat's partial update, upsert, link edit or `/bulk` item on an existing element answers `202` with a [proposal](/docs/development/api/proposals) instead of writing, its new elements carry `x_review_proposed`, and it deletes only what it created. A person's key is never held. The whole mechanism, the switch's reach and the queue: [Proposed changes](/docs/development/api/proposals).
 
@@ -90,7 +90,7 @@ The world page on onlyworlds.com shows both in Recent changes: who made each cha
 
 - **`name`** is required on `POST` and `PUT`: the key must be present, and an empty string is accepted.
 - **Unknown fields** are a `422` naming the field. A misspelled field fails loudly instead of vanishing.
-- **Extension fields** under the namespaces `atlas_*`, `shadow_*` and `x_*` are accepted, stored as written and returned verbatim, up to 65,536 bytes of extensions per element (counted as compact UTF-8 JSON). More is a `422` with `param` `extensions`.
+- **Extension fields** under the namespaces `atlas_*`, `shadow_*` and `x_*` are accepted, stored as written and returned verbatim, up to 65,536 bytes of extensions per element (counted as compact UTF-8 JSON). More is a `422` with `param` `extensions`. <!-- limit: extensions_bytes -->
 - **Server fields** `type`, `created_at`, `updated_at` and `change_seq` appear on reads and are a `422` on writes. Strip them before sending a read body back.
 - **Never write back a body read with `?expand=`.** Its links hold stub objects instead of ids, and a link field takes only ids. Read without `expand` when you mean to send the body back.
 - **`created_by`** and **`world`** in a body are ignored, whatever their value.
@@ -100,7 +100,7 @@ The world page on onlyworlds.com shows both in Recent changes: who made each cha
 
 ## Idempotency
 
-`POST /api/v2/{type}` and `POST /api/v2/bulk` accept an `Idempotency-Key` header (up to 200 characters). The first successful response is stored for 24 hours under that key:
+`POST /api/v2/{type}` and `POST /api/v2/bulk` accept an `Idempotency-Key` header (up to 200 characters). The first successful response is stored for 24 hours under that key: <!-- limit: idempotency_key_chars idempotency_key_seconds -->
 
 - An identical replay returns the stored response, with an `Idempotent-Replay: true` header, and does not write again.
 - The same key with a different body is `409` [`idempotency_error`](/api/errors/#idempotency_error).
@@ -122,7 +122,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/character" \
 A key is held while its request runs, so two sends with it do not both write; the hold and the store are best-effort, not a ledger. Without the header, mint the `id` on the client: two concurrent creates without client ids can make two elements.
 ## Bulk
 
-`POST /api/v2/bulk` creates and upserts up to 1000 elements of mixed categories in one call.
+`POST /api/v2/bulk` creates and upserts up to 1000 elements of mixed categories in one call. <!-- limit: bulk_items -->
 
 <!-- shape: POST /api/v2/bulk request -->
 ```json
@@ -153,7 +153,7 @@ A key is held while its request runs, so two sends with it do not both write; th
 - A failed item carries the standard [error envelope](/api/errors/) under `error`; the top-level `errors` is `true` if any item failed. The codes seen per item are listed under [Bulk errors](/api/errors/#bulk-errors).
 - Links are checked against the world **plus the batch's surviving items**, in any order, so a batch may reference its own items without sorting. All checks run before any write, and an item that fails also fails the items linking to it.
 - Each success echoes the server's `created_at` and `updated_at`, so a sync client can set its baseline from the bulk response alone.
-- A malformed request (not valid JSON, `items` not an array, over 1000 items) or an auth failure answers with its own status and the error envelope, not `200`.
+- A malformed request (not valid JSON, `items` not an array, over 1000 items) or an auth failure answers with its own status and the error envelope, not `200`. <!-- limit: bulk_items -->
 
 ## The world
 
@@ -167,7 +167,7 @@ A key is held while its request runs, so two sends with it do not both write; th
 | `time_format_equivalents` | List of whole numbers, as the standard types it. Strings are still accepted and kept as sent, so an older world may read back strings. |
 | `time_range_min`, `time_range_max`, `time_range_current` | Integer or `null` |
 | `owner_character` | A Character id in this world (the Character that is the owner), or `null` |
-| `x_…`, `atlas_…`, `shadow_…` | Any JSON value: the world's extension keys (since 2026-10-23). A key sent is set, `null` removes it, and keys not sent are kept. All of them together hold at most 64 KB as compact JSON, else a `422` with `param` `extensions`. |
+| `x_…`, `atlas_…`, `shadow_…` | Any JSON value: the world's extension keys (since 2026-10-23). A key sent is set, `null` removes it, and keys not sent are kept. All of them together hold at most 64 KB as compact JSON, else a `422` with `param` `extensions`. <!-- limit: extensions_bytes --> |
 | `source`, `producer` | An object or `null` each: the [folder's provenance lines](/docs/schema/folders#worldjson), for a tool that makes the world from a folder (`source.world` and `producer.tool` strings when present). Read back under `origin`; `origin` itself is a `422` here. `POST /api/v2/account/worlds` takes the same two. |
 
 ```bash

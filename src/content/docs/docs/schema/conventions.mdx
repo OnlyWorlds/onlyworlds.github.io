@@ -81,7 +81,7 @@ A lens is a saved way of reading a world: which elements, how far from a startin
 
 Two places hold what the categories have no field for:
 
-- **Extension fields** (`x_*`) on the element itself, for small amounts of tool-specific data. They are stored and returned verbatim, up to 64 KB per element. See [Fields](/docs/schema/fields#extension-fields).
+- **Extension fields** (`x_*`) on the element itself, for small amounts of tool-specific data. They are stored and returned verbatim, up to 64 KB per element. See [Fields](/docs/schema/fields#extension-fields). {/* limit: extensions_bytes */}
 - **Your own database**, beside the world, for high-volume data such as logs, statistics or simulation state. Key each row by the element's `id`.
 
 Data in either place travels only to the tools that read it. Anything another tool should understand belongs in the schema's own fields, or in a published extension profile: a named extension field that tools agree to read the same way. Profiles are published, each a page in schema-dist's [`profiles/`](https://github.com/OnlyWorlds/schema-dist/tree/main/profiles) folder, and [Profiles](/docs/schema/profiles) describes each one.

@@ -42,5 +42,8 @@ jobs:
       - name: API examples' schemas against the live API document (report only)
         run: |
           node scripts/verify-shapes.mjs --live || echo "::warning::a schema the API pages' examples name moved in the API document: run node scripts/verify-shapes.mjs --refresh and mend the examples it fails"
+      - name: The pages' limits against the live API document (report only)
+        run: |
+          node scripts/verify-limits.mjs --live || echo "::warning::a limit moved in the API document's x-ow-limits: run node scripts/verify-limits.mjs --refresh and mend the pages it fails"
       - run: npm run build
       - run: npm run verify

@@ -132,7 +132,7 @@ A single write that fails with `invalid_link` writes nothing, so after fixing th
 
 [Sign in with OnlyWorlds](/docs/development/api/signin): the code cannot be exchanged at `POST /api/v2/auth/token`. It is unknown, already used, expired, or was issued for another `client_id`, `redirect_uri` or `code_verifier`. The body is the same for every case, byte for byte, and the code is spent either way.
 
-- **Common cause:** a page reload that sent the code a second time; a code older than 60 seconds; a `redirect_uri` that differs from the authorize request's by a trailing slash or a query; a verifier from another sign-in.
+- **Common cause:** a page reload that sent the code a second time; a code older than 60 seconds; a `redirect_uri` that differs from the authorize request's by a trailing slash or a query; a verifier from another sign-in. {/* limit: signin_code_seconds */}
 - **How to fix:** start the sign-in again from the tool's button. Take `code` out of the address bar before the exchange, and send the exchange once, before any other request. A code sent a second time also revokes the token its first exchange minted.
 
 ### lens_hidden
@@ -241,7 +241,7 @@ Under the world's **AI seats propose, a person accepts** switch, an agent seat t
 
 **Type** `invalid_request` · **Status** `422`
 
-The proposer already has five open proposals on this element, or the world already holds fifty open proposals. Lapsed rows do not count.
+The proposer already has five open proposals on this element, or fifty in this world. Lapsed rows do not count. {/* limit: proposals_open_per_element proposals_open_per_world */}
 
 - **How to fix:** wait for a keeper to decide the open rows, or withdraw one of your own (`DELETE .../proposals/{pid}`).
 
@@ -462,7 +462,7 @@ A guest key called a route guests cannot use (world sharing, token status), or w
 
 **Type** `permission_error` · **Status** `403`
 
-Asking for a ticket to attach a file to an element (`POST /api/v2/{type}/{id}/files`): the world's files have no room for this one. A world holds 250 MB of files, whoever uploads them. The message gives the world's use, its cap and the file's size: "This world has 249.6 MB of its 250 MB. This file is 4 MB. Remove a file, or ask the owner."
+Asking for a ticket to attach a file to an element (`POST /api/v2/{type}/{id}/files`): the world's files have no room for this one. A world holds 250 MB of files, whoever uploads them. The message gives the world's use, its cap and the file's size: "This world has 249.6 MB of its 250 MB. This file is 4 MB. Remove a file, or ask the owner." {/* limit: files_world_bytes */}
 
 - **How to fix:** no ticket is issued. Remove a file from the world, or ask the world's owner to. `GET /api/v2/world/files` lists the world's files and its total. See [Files](/docs/development/api/files#limits).
 
@@ -494,7 +494,7 @@ A read of one element (`GET /api/v2/{type}/{id}`) named an element this world he
 
 **Type** `rate_limited` · **Status** `429`
 
-Too many failed authentication attempts, such as repeated wrong PINs, or too many sign-in attempts from one address: the password sign-in and the code exchange of [Sign in with OnlyWorlds](/docs/development/api/signin) share one count, 40 in 5 minutes.
+Too many failed authentication attempts, such as repeated wrong PINs, or too many sign-in attempts from one address: the password sign-in and the code exchange of [Sign in with OnlyWorlds](/docs/development/api/signin) share one count, 40 in 5 minutes. {/* limit: signin_attempts */}
 
 - **Common cause:** a script retrying with a wrong PIN in a tight loop.
 - **How to fix:** wait the number of seconds in the `Retry-After` header. Repeated failures escalate to a temporary lockout, so fix the credential before retrying. Wrong PINs count on the key and, since 2026-10-25, on the account whose PIN it is (the owner's for a world's keys, the member's for a member's key), so a new key does not start a fresh count: ten across all of an account's keys lock them all for fifteen minutes, and the right PIN clears the count.
@@ -505,8 +505,8 @@ Too many failed authentication attempts, such as repeated wrong PINs, or too man
 
 A daily limit is used up. These routes answer it:
 
-- `POST /api/v2/media/ticket`: the world has used its 200 image upload tickets for the day.
-- `POST /api/v2/{type}/{id}/files`: the world has asked for 200 file tickets in the last 24 hours ([Files](/docs/development/api/files#limits)).
+- `POST /api/v2/media/ticket`: the world has asked for 200 image upload tickets in the last 24 hours ([Images](/docs/development/api/images#limits)). {/* limit: image_tickets_per_day */}
+- `POST /api/v2/{type}/{id}/files`: the world has asked for 200 file tickets in the last 24 hours ([Files](/docs/development/api/files#limits)). {/* limit: file_tickets_per_day */}
 - `POST /api/v2/account/ask` and `POST /api/v2/account/sort`: the account has used its daily token rating (fewer tokens left than the call's output cap). Tokens used reset at midnight UTC.
 
 - **How to fix:** retry after the `Retry-After` header's seconds.
@@ -515,9 +515,9 @@ A daily limit is used up. These routes answer it:
 
 **Type** `rate_limited` · **Status** `429`
 
-Over the request budget: 300 requests a minute for one key or account token, 60 a minute from one address for a request with neither. Reads and writes count together, and a `/bulk` call is one request. The minute is the clock's minute, so the count starts again at its end. The message names the budget and the wait: `Too many requests: 300 a minute for this key. Wait 12 seconds.`
+Over the request budget: 300 requests a minute for one key or account token, 60 a minute from one address for a request with neither. Reads and writes count together, and a `/bulk` call is one request. The minute is the clock's minute, so the count starts again at its end. The message names the budget and the wait: `Too many requests: 300 a minute for this key. Wait 12 seconds.` {/* limit: requests_per_minute requests_per_minute_keyless */}
 
-- **Common cause:** a loop that never sleeps, or many copies of one program (every player of a game, every tab of a page) sending the same key, which share its 300.
+- **Common cause:** a loop that never sleeps, or many copies of one program (every player of a game, every tab of a page) sending the same key, which share its 300. {/* limit: requests_per_minute */}
 - **How to fix:** wait the `Retry-After` seconds, which equal `RateLimit-Reset`. To stay under, read the `RateLimit-Remaining` header every reply carries, batch writes into [`/bulk`](/docs/development/api/writes#bulk), and follow [`/changes`](/docs/development/api/changes) instead of reading every category again. A key locked by wrong PINs answers [`rate_limited`](#rate_limited) instead, even over the budget. See [Limits](/docs/development/api-reference#limits).
 
 ### idempotency_error
@@ -551,7 +551,7 @@ An unexpected server-side error. The envelope holds even here: the API never ans
 
 **Type** `api_error` · **Status** `503`
 
-Every request slot on the server stayed full for 10 seconds.
+Every request slot on the server stayed full for 10 seconds. {/* limit: server_busy_wait_seconds */}
 
 - **How to fix:** retry after the `Retry-After` header's seconds.
 
@@ -575,7 +575,7 @@ Every request slot on the server stayed full for 10 seconds.
 
 **Type** `api_error` · **Status** `413`
 
-The request body is over 2.5 MB. The server refuses it without writing anything.
+The request body is over 2.5 MB. The server refuses it without writing anything. {/* limit: request_body_bytes */}
 
 - **How to fix:** send less per request: split a large `/bulk` batch into several, and upload images through [image upload](/docs/development/api/images), never inside a JSON body.
 
@@ -583,7 +583,7 @@ The request body is over 2.5 MB. The server refuses it without writing anything.
 
 **Type** `invalid_request` · **Status** `413` · **Param** `size`
 
-Asking for a ticket to attach a file to an element (`POST /api/v2/{type}/{id}/files`): the file is over 25 MB. The message gives both sizes: "This file is 41 MB; a file can be at most 25 MB."
+Asking for a ticket to attach a file to an element (`POST /api/v2/{type}/{id}/files`): the file is over 25 MB. The message gives both sizes: "This file is 41 MB; a file can be at most 25 MB." {/* limit: file_bytes */}
 
 - **How to fix:** no ticket is issued. Send a smaller file, or split the document into parts. See [Files](/docs/development/api/files#limits).
 
@@ -597,7 +597,7 @@ Image or file upload is not configured on the server right now: `POST /api/v2/me
 
 ## Bulk errors
 
-`POST /api/v2/bulk` answers HTTP `200` once the batch is read. (A malformed request, such as bad JSON, `items` not an array or over 1000 items, or an authentication failure answers with its own status and the envelope.) Success and failure are reported **per item**, in request order, under a top-level `errors` flag:
+`POST /api/v2/bulk` answers HTTP `200` once the batch is read. (A malformed request, such as bad JSON, `items` not an array or over 1000 items, or an authentication failure answers with its own status and the envelope.) Success and failure are reported **per item**, in request order, under a top-level `errors` flag: {/* limit: bulk_items */}
 
 {/* shape: POST /api/v2/bulk */}
 ```json

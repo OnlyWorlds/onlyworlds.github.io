@@ -64,7 +64,7 @@ Every world address that answers nothing gets the same page, status `404`: a mis
 
 Under a live page, every element address that answers nothing gets one other page, also `404`: a hidden, deleted or unknown element, a wrong category, a garbled id. It reads "This page isn't available." and links back to the world's page by its name, the same bytes for every case, so it says nothing about whether an element exists.
 
-Every answer, the `404` included, carries `Cache-Control: no-store` and `X-Robots-Tag: noindex`. A link shared in a chat unfurls with the world's or element's name and the hero line (else the description's first sentence); the canonical address is the one with the page's address when it has one. Page reads count against the same budget as keyless API reads: 60 a minute per address ([Limits](/docs/development/api-reference#limits)), over it a `429`.
+Every answer, the `404` included, carries `Cache-Control: no-store` and `X-Robots-Tag: noindex`. A link shared in a chat unfurls with the world's or element's name and the hero line (else the description's first sentence); the canonical address is the one with the page's address when it has one. Page reads count against the same budget as keyless API reads: 60 a minute per address ([Limits](/docs/development/api-reference#limits)), over it a `429`. {/* limit: requests_per_minute_keyless */}
 
 ## The keyless reads
 
@@ -113,7 +113,7 @@ That is Moppetopia. The answer is what the owner's own key gets with [`?as=publi
 - **One `404` for every closed door.** A world that is not open to read, an unknown id and a value that is no id at all answer the same `404` [`not_found`](/api/errors/#not_found), "World not found.", so the answer never tells whether a world exists.
 - **With a key**, `world` naming the key's own world is ignored, and any other value, an address included, is `422` [`invalid_request`](/api/errors/#invalid_request) with `param` `world`: a key reads its own world only.
 - **`Cache-Control: no-store`** on every keyless answer, errors included, so turning public reading off closes the door at once. `ETag` and `If-None-Match` work as with a key.
-- **The budget**: 60 a minute per address, shared with the public pages ([Limits](/docs/development/api-reference#limits)).
+- **The budget**: 60 a minute per address, shared with the public pages ([Limits](/docs/development/api-reference#limits)). {/* limit: requests_per_minute_keyless */}
 
 The TypeScript and Python SDKs send a key on every read and have no keyless call yet; a keyless read is a plain HTTP `GET`.
 

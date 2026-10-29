@@ -326,8 +326,8 @@ SDK throws OwApiError. The common ones:
 - 400 invalid_link: a link to a UUID that does not exist
 - 409 id_conflict: POST with an id that exists (use upsert)
 - 429 rate_limited: too many wrong PINs; wait the Retry-After time
-- 429 quota_exceeded: the world's daily image or file upload tickets are used
-  up; wait the Retry-After time
+- 429 quota_exceeded: the world's image or file upload tickets for the last
+  24 hours (200 of each) are used up; wait the Retry-After time
 - 429 too_many_requests: over 300 requests a minute for this key (60 per
   address without one); wait the Retry-After time. Every reply carries
   RateLimit-Remaining
@@ -390,10 +390,11 @@ Community: discord.gg/twCjqvVBwb
 
 ============================================================
 
-Last updated: 2026-10-28
+Last updated: 2026-10-29
 SDK: 4.x (OwV2Client, v2 API)
 
 Changelog:
+- v13: upload tickets counted over the last 24 hours, 200 of each.
 - v12: the type headings and the SDK colour groups named as reading aids, not part of
       the standard; ChatGPT Canvas dropped; a Relation's actor is optional; elementColor
       described as a default colour; creature and collective defined without "narrative

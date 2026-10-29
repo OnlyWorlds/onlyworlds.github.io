@@ -139,8 +139,10 @@ for (const file of walk(DIST)) {
   })
     // An MDX page's own comments ({/* … */} on a line of their own, the errors table's markers)
     // and its escaped braces (\{world_id\}, which MDX needs and Markdown does not) are source,
-    // not text: the twin drops the one and unescapes the other.
+    // not text: the twin drops the one and unescapes the other. A limit marker sits inside a line
+    // (verify-limits.mjs), in either page form: the twin drops it and the space before it.
     .replace(/^\{\/\*.*\*\/\}\n/gm, '')
+    .replace(/ ?(\{\/\*\s*limit:[^*]*\*\/\}|<!--\s*limit:[^>]*-->)/g, '')
     .replace(/\\([{}])/g, '$1');
   if (next !== md) writeFileSync(file, next);
 }

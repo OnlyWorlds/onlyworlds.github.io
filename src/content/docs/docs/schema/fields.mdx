@@ -81,7 +81,7 @@ Fields whose names start with a reserved prefix are accepted on write, stored as
 | `atlas_*` | Atlas |
 | `shadow_*` | The world folder format |
 
-An extension field can hold any JSON value. The server does not validate, index or filter extensions. Each element can carry at most 64 KB of them, counted as compact UTF-8 JSON. A `PATCH` merges extension fields by key.
+An extension field can hold any JSON value. The server does not validate, index or filter extensions. Each element can carry at most 64 KB of them, counted as compact UTF-8 JSON. A `PATCH` merges extension fields by key. {/* limit: extensions_bytes */}
 
 One `x_` key is the server's own: `x_served_trimmed`. The server adds it to a message or a lens it serves with parts hidden from the reader, and a write that carries it is rejected with `422` ([`served_trimmed_not_writable`](/api/errors/#served_trimmed_not_writable)).
 
@@ -91,7 +91,7 @@ The base schema is what makes a world portable between tools. Data held in exten
 
 ## What a write body may carry
 
-The same in all 22 categories: each key a body carries on `POST`, `PUT` or `PATCH` is stored, tolerated and ignored, or rejected with `422`. Text longer than its cap is a `422`, and so are extensions over 64 KB ([Writes](/docs/development/api/writes#field-rules)).
+The same in all 22 categories: each key a body carries on `POST`, `PUT` or `PATCH` is stored, tolerated and ignored, or rejected with `422`. Text longer than its cap is a `422`, and so are extensions over 64 KB ([Writes](/docs/development/api/writes#field-rules)). {/* limit: extensions_bytes */}
 
 <WriteBody />
 

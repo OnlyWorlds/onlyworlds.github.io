@@ -23,7 +23,7 @@ A read key (`ow_r_`) is made for this: it reads, cannot write, and needs no PIN.
 What a live read can count on:
 
 - **It's free**, with no fee and no account tiers.
-- **300 requests a minute per key**, reads and writes together. Every copy of a game that ships the same key shares that key's 300; each reply's `RateLimit-Remaining` header says what is left, and over the budget the server answers `429` [`too_many_requests`](/api/errors/#too_many_requests) with a `Retry-After` header. See [Limits](/docs/development/api-reference#limits).
+- **300 requests a minute per key**, reads and writes together. Every copy of a game that ships the same key shares that key's 300; each reply's `RateLimit-Remaining` header says what is left, and over the budget the server answers `429` [`too_many_requests`](/api/errors/#too_many_requests) with a `Retry-After` header. See [Limits](/docs/development/api-reference#limits). <!-- limit: requests_per_minute -->
 - **Under load the server answers `503`** [`server_busy`](/api/errors/#server_busy) with a `Retry-After` header. Wait that long, then retry.
 - **Image uploads have a daily cap** per world.
 - **There is no uptime guarantee.**
@@ -39,7 +39,7 @@ Four rules keep a write from damaging work done elsewhere:
 - **Send only the fields that changed.** A `PATCH` replaces every field it carries, so sending back an element fetched earlier undoes edits made since.
 - **Change link lists with editLinks**, which adds and removes ids on the server. A `PATCH` with a link list replaces the whole list. See [Links](/docs/development/api/links).
 - **Check every bulk response.** A bulk write answers HTTP 200 even when some items failed. See [Writes](/docs/development/api/writes).
-- **Keep game-only state in extension fields** (`x_yourgame_*`), which the server stores and returns verbatim, up to 64 KB per element. A well-behaved client carries other tools' extensions through untouched. See [Extension fields](/docs/schema/fields#extension-fields).
+- **Keep game-only state in extension fields** (`x_yourgame_*`), which the server stores and returns verbatim, up to 64 KB per element. A well-behaved client carries other tools' extensions through untouched. See [Extension fields](/docs/schema/fields#extension-fields). <!-- limit: extensions_bytes -->
 
 ## Engines
 

@@ -43,8 +43,8 @@ Pass the returned `cursor` back as `?since=` until `has_more` is `false`. Store 
 | Parameter | Meaning |
 |:--|:--|
 | `since` | The cursor to continue from. Omit it to start from the beginning |
-| `limit` | Ops per page: default 500, at most 1000. A value out of range or not an integer is a `422` |
-| `head` | `?head=true` returns only the current tip (`head`, and a `cursor` to follow from), with no elements. The answer carries `ETag: "<head>:<epoch>"` (`-` for a null epoch) and `Cache-Control: no-store`; send that tag back exactly as received in `If-None-Match` on your next poll (the `200`'s tag may carry a `W/` prefix, a compressed body's weak tag; never strip or compare it) and an unmoved head answers `304` with no body, which is refunded against your [request budget](/docs/development/api-reference#limits) (up to 120 a minute per key). The tag covers the epoch on purpose: a guest's or contributor's view can move with `head` unchanged, and the tag moves with it. After a `409`, poll once without the tag to read `epoch_reason` (since 2026-10-22) |
+| `limit` | Ops per page: default 500, at most 1000. A value out of range or not an integer is a `422` <!-- limit: changes_limit_default changes_limit_max --> |
+| `head` | `?head=true` returns only the current tip (`head`, and a `cursor` to follow from), with no elements. The answer carries `ETag: "<head>:<epoch>"` (`-` for a null epoch) and `Cache-Control: no-store`; send that tag back exactly as received in `If-None-Match` on your next poll (the `200`'s tag may carry a `W/` prefix, a compressed body's weak tag; never strip or compare it) and an unmoved head answers `304` with no body, which is given back to your [request budget](/docs/development/api-reference#limits): up to 120 a minute per key or account token, and a `200`, or a `304` past those 120, counts. The tag covers the epoch on purpose: a guest's or contributor's view can move with `head` unchanged, and the tag moves with it. After a `409`, poll once without the tag to read `epoch_reason` (since 2026-10-22) <!-- limit: changes_head_free_per_minute --> |
 | `after` | An ISO 8601 time (`2026-10-21T09:00:00Z`; no offset means UTC; send a `+` offset as `%2B`): only the changes made at or after it, an upsert by its `updated_at`, a delete by its `deleted_at`. A filter, not a position: the order, `cursor`, `has_more` and `head` are as without it, so read the whole window by passing the cursor back as `since` with the same `after` until `has_more` is false. Anything that is not a date and time is a `422` naming `after` |
 
 - **Treat the cursor as opaque.** Pass back exactly what you received.
@@ -52,7 +52,7 @@ Pass the returned `cursor` back as `?since=` until `has_more` is `false`. Store 
 - **Apply ops in the order given.** Upserts and deletes are interleaved by sequence; applying them in that order makes the local copy converge.
 - **The cursor never expires.** Tombstones are kept indefinitely, so an old cursor still replays every delete after it.
 - An empty `changes` list means nothing changed since that cursor; the cursor comes back unchanged.
-- `?head=true` is the cheap way to start following a world from now, or to check whether you are behind; with the tag it gave you in `If-None-Match`, an unmoved head is a free `304`. Compare `head` with the head you last applied, not the previous poll's, so a missed tick never drops a change.
+- `?head=true` is the cheap way to start following a world from now, or to check whether you are behind; with the tag it gave you in `If-None-Match`, an unmoved head is a `304` that is given back to the budget, up to 120 a minute. Compare `head` with the head you last applied, not the previous poll's, so a missed tick never drops a change. <!-- limit: changes_head_free_per_minute -->
 
 ```python
 import requests

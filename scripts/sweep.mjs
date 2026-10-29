@@ -5,7 +5,7 @@
  * Run:  node scripts/sweep.mjs [--no-links] [--no-deck] [--since YYYY-MM-DD]
  *
  * The docs state facts owned elsewhere (the API, the SDKs, the schema, the tools). The gates catch
- * what they can name: URLs (verify-urls), error codes (gen_errors), the element tables (the build), the MCP page's tables (verify-mcp), the CORS page's origins and headers (verify-cors), the toolkit's skills (verify-toolkit), the API pages' JSON examples (verify-shapes).
+ * what they can name: URLs (verify-urls), error codes (gen_errors), the element tables (the build), the MCP page's tables (verify-mcp), the CORS page's origins and headers (verify-cors), the toolkit's skills (verify-toolkit), the API pages' JSON examples (verify-shapes), the pages' limit numbers (verify-limits).
  * This reads the rest. It prints two lists:
  *
  *   CHECKS   things that can be measured, each PASS or STALE: the SDK pin the reference is generated
@@ -21,7 +21,8 @@
  *            live MCP server's tools and resources; the CORS snapshot against keel's settings
  *            (on a machine with keel) and a live preflight; the toolkit snapshot against its
  *            newest release's skills and agents; the shapes snapshot against the API document's
- *            schemas the examples name; the routes in the
+ *            schemas the examples name; the limits snapshot against the API document's
+ *            x-ow-limits; the routes in the
  *            API reference against keel's OpenAPI; every external link; words the docs must not use;
  *            every release since the last sweep (the packages, the Unity SDK, the plugin, the toolkit,
  *            schema-dist's serials) against the changelog.
@@ -232,6 +233,17 @@ console.log('CHECKS');
   if (code === 0) pass('the shapes snapshot matches the live API document');
   else if (code === 1) bad('the shapes snapshot differs from the live API document (node scripts/verify-shapes.mjs --live says which schemas; --refresh, then mend the examples)');
   else note('could not read the live API document (node scripts/verify-shapes.mjs --live says why): the shapes snapshot was not checked');
+}
+
+// ---- 2n: the limits snapshot against the live API document's x-ow-limits (exit 2 from the reader is
+// BLIND: the document unreadable, never a pass) ------------------------------------------------------------
+{
+  let code = 0;
+  try { execFileSync('node', ['scripts/verify-limits.mjs', '--live'], { cwd: ROOT, timeout: 60000, stdio: 'ignore' }); }
+  catch (e) { code = e.status ?? 2; }
+  if (code === 0) pass('the limits snapshot matches the live API document');
+  else if (code === 1) bad('the limits snapshot differs from the live API document (node scripts/verify-limits.mjs --live says which limits; --refresh, then mend the pages)');
+  else note('could not read the live API document (node scripts/verify-limits.mjs --live says why): the limits snapshot was not checked');
 }
 
 // ---- 3: the API reference against keel's OpenAPI ---------------------------------------------------------

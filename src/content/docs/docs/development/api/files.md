@@ -19,9 +19,9 @@ Any other kind is refused when the ticket is asked for, a `422` [`invalid_reques
 
 ## Limits
 
-- **25 MB a file** (26,214,400 bytes). More is `413` [`file_too_large`](/api/errors/#file_too_large).
-- **250 MB a world** (262,144,000 bytes): all its files together, whoever added them. A file that would pass it is `403` [`files_full`](/api/errors/#files_full). Images are counted apart, against the uploading account ([Images](/docs/development/api/images#limits)).
-- **200 file tickets a world in 24 hours.** More is `429` [`quota_exceeded`](/api/errors/#quota_exceeded), with `Retry-After`. A ticket counts whether or not its upload happened.
+- **25 MB a file** (26,214,400 bytes). More is `413` [`file_too_large`](/api/errors/#file_too_large). <!-- limit: file_bytes -->
+- **250 MB a world** (262,144,000 bytes): all its files together, whoever added them. A file that would pass it is `403` [`files_full`](/api/errors/#files_full). Images are counted apart, against the uploading account ([Images](/docs/development/api/images#limits)). <!-- limit: files_world_bytes -->
+- **200 file tickets a world in 24 hours.** More is `429` [`quota_exceeded`](/api/errors/#quota_exceeded), with `Retry-After`. A ticket counts whether or not its upload happened. <!-- limit: file_tickets_per_day -->
 
 ## Who may do what
 
@@ -70,7 +70,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/character/{id}/files" \
 | `upload_url` | Where the file goes, on `upload.onlyworlds.com` |
 | `prefix` | `w/<world_id>/<element_id>/` |
 | `key` | `w/<world_id>/<element_id>/<file_id>.<kind>`, the key the file is stored under |
-| `max_bytes` | The most this ticket accepts: 25 MB, or what the world has left, whichever is smaller |
+| `max_bytes` | The most this ticket accepts: 25 MB, or what the world has left, whichever is smaller <!-- limit: file_bytes --> |
 | `exp` | Unix seconds after which the ticket is refused, 10 minutes after it was issued |
 | `uses` | Always `1`: one ticket, one upload |
 | `issued_to` | `{account, membership}`: who answers for the upload |
@@ -136,11 +136,11 @@ curl -s -X DELETE "https://www.onlyworlds.com/api/v2/character/{id}/files/{file_
 | Status | Code | When |
 |:--|:--|:--|
 | `422` | [`invalid_request`](/api/errors/#invalid_request) | A ticket body that is not `{name, kind, size, label?}`: an unknown kind, a name without its kind's extension, a size that is not a whole number of bytes, a label over 80 characters; or a malformed id. `param` names it |
-| `413` | [`file_too_large`](/api/errors/#file_too_large) | The file is over 25 MB; the message gives both sizes |
+| `413` | [`file_too_large`](/api/errors/#file_too_large) | The file is over 25 MB; the message gives both sizes <!-- limit: file_bytes --> |
 | `403` | [`not_author`](/api/errors/#not_author) | A contributor or guest adding a file to an element someone else created |
-| `403` | [`files_full`](/api/errors/#files_full) | The world's 250 MB has no room for this file; the message gives the numbers |
+| `403` | [`files_full`](/api/errors/#files_full) | The world's 250 MB has no room for this file; the message gives the numbers <!-- limit: files_world_bytes --> |
 | `403` | [`permission_error`](/api/errors/#permission_error) | A read key on a write route, or a remove by someone who is neither the owner nor whoever added the file |
 | `404` | [`not_found`](/api/errors/#not_found) | The element is missing or hidden from this key, or the file is not on this element |
-| `429` | [`quota_exceeded`](/api/errors/#quota_exceeded) | The world's 200 file tickets in 24 hours are used |
+| `429` | [`quota_exceeded`](/api/errors/#quota_exceeded) | The world's 200 file tickets in 24 hours are used <!-- limit: file_tickets_per_day --> |
 | `429` | [`too_many_requests`](/api/errors/#too_many_requests) | Over the request budget, as on every route ([Limits](/docs/development/api-reference#limits)) |
 | `503` | [`media_unavailable`](/api/errors/#media_unavailable) | File upload is not configured on the server right now |
