@@ -14,6 +14,7 @@ Reads take the key alone: a prefixed key (`ow_w_`, `ow_r_`) never needs the PIN 
 { "data": [], "has_more": false, "next_cursor": null }
 ```
 
+<!-- shape: CharacterList -->
 | Key | Meaning |
 |:--|:--|
 | `data` | The elements on this page |
@@ -46,6 +47,7 @@ curl -s "https://www.onlyworlds.com/api/v2/character/{id}" -H "API-Key: {key}"
 
 Besides its category's fields (see [the schema](/docs/schema/)), every element read carries:
 
+<!-- shape: Character partial -->
 | Field | Meaning |
 |:--|:--|
 | `type` | The element's category slug, as the first key, so a body identifies itself |
@@ -61,6 +63,7 @@ Fields under the extension namespaces `atlas_*`, `shadow_*` and `x_*` appear inl
 
 ## Filters
 
+<!-- shape: GET /api/v2/collective query partial -->
 | Parameter | Matches |
 |:--|:--|
 | `name` | Exact name |
@@ -91,6 +94,7 @@ The [TypeScript SDK](/docs/development/typescript) sends these under `filter`: `
 
 `GET /api/v2/search?q=` finds the elements whose name or text holds every word of `q` as a whole word, ignoring case. The text is the name, the description and each category's own prose fields, such as a Character's background or a Narrative's story; supertype, subtype and `image_url` are not searched. There is no stemming: `drip` does not find "Drippers", and `quiet valley` needs both words somewhere in the element.
 
+<!-- shape: GET /api/v2/search query partial -->
 | Parameter | Meaning |
 |:--|:--|
 | `q` | Required: 2 to 200 characters, with at least one word of letters or digits <!-- limit: search_q_min_chars search_q_max_chars --> |

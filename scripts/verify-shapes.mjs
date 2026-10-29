@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 /**
- * verify-shapes.mjs: the API pages' JSON examples, held to the schemas in keel's OpenAPI document.
+ * verify-shapes.mjs: the API pages' JSON examples and field tables, held to the schemas in keel's
+ * OpenAPI document.
  *
- * Usage: node scripts/verify-shapes.mjs            check the examples against the snapshot (offline; in `npm run verify`)
+ * Usage: node scripts/verify-shapes.mjs            check the pages against the snapshot (offline; in `npm run verify`)
  *        node scripts/verify-shapes.mjs --live     compare the snapshot with the live document; exit 1 if they differ
  *        node scripts/verify-shapes.mjs --refresh  first rewrite the snapshot from the live document, then check
  *
@@ -13,40 +14,58 @@
  * const keys), plus the document's schema names, so a tag naming none of them fails offline.
  * `read_at` is the day the facts last changed (a refresh that finds them equal keeps it).
  *
- * A block is tagged by a comment on the line directly above its ```json fence, which renders
- * nothing (tested on a build, 2026-10-29: in no llms file; a .mdx page's comment compiles away and
- * postbuild.mjs drops it from the Markdown twin; a .md page's stays in the HTML source as an HTML
- * comment and in the twin, as typescript.md's generated marker does):
+ * The pages: docs/development/api/*, api-reference, agents and api/errors. A JSON block is tagged
+ * by a comment on the line directly above its ```json fence, a table by one on the line directly
+ * above its header row. The comment renders nothing (tested on a build, 2026-10-29: in no llms
+ * file; a .mdx page's comment compiles away and postbuild.mjs drops it from the Markdown twin; a
+ * .md page's stays in the HTML source as an HTML comment and in the twin, as typescript.md's
+ * generated marker does; a tagged table still renders as a table):
  *   .md   <!-- shape: TARGET [PATH] [partial] -->
  *   .mdx  {/* shape: TARGET [PATH] [partial] *\/}
- * TARGET is a schema in components.schemas (`ChangesPage`), or a route's JSON body as
- * `METHOD /api/v2/... [STATUS|request]` (the route's one 2xx answer when no status is named).
- * PATH walks into it: `changes[]` is one item of the `changes` array, `front_door.sponsor` a key's
- * object. `partial` says the example shows only some keys on purpose: only rule (a) applies.
- * A bare … or ... (as a value, an item, or a key "…") is the page's own elision: it stands for
+ * TARGET is a schema in components.schemas (`ChangesPage`), a route's JSON body as
+ * `METHOD /api/v2/... [STATUS|request]` (the route's one 2xx answer when no status is named), or a
+ * route's query parameters as `METHOD /api/v2/... query` (each one a key; for tables). PATH walks
+ * into it: `changes[]` is one item of the `changes` array, `front_door.sponsor` a key's object.
+ * `partial` says the block or table shows only some keys on purpose: only rule (a) applies.
+ * A bare … or ... (as a value, an item, or a key "…") is a block's own elision: it stands for
  * keys left out, so rule (b) skips that one object.
  *
- * Checks (fail), on every tagged block of the API pages (docs/development/api/*, api-reference,
- * api/errors):
- *   (a) every key of the example is a key of the schema at that place: nested objects and array
- *       items are followed where the schema says what they are; a key matching the schema's
- *       patternProperties (the x_ extension keys) passes, and so does any key of an object whose
- *       additionalProperties is true or a schema;
- *   (b) unless marked partial or elided, every required key of the schema at each place is there;
+ * A table's keys are in its first column: each row's first cell is one or more backticked names
+ * joined by commas, "and" or "or" (`created_at`, `updated_at`); a name ending … or ... (`x_…`)
+ * stands for the keys that start with it. A row whose first cell is anything else makes the table
+ * BLIND. A table is complete unless marked partial: of the 26 tagged tables, 17 list every key at
+ * their place (a ticket's answer, a route's query, a page of the feed), so leaving a key out is
+ * the claim a table must make on purpose, as a block's partial is.
+ *
+ * Checks (fail), on every tagged block and table of those pages:
+ *   (a) every key of the example, and every key a table's row names, is a key of the schema at
+ *       that place: a block's nested objects and array items are followed where the schema says
+ *       what they are; a key matching the schema's patternProperties (the x_ extension keys)
+ *       passes, as does a table's `x_…` row whose prefix they match, and so does any key of an
+ *       object whose additionalProperties is true or a schema;
+ *   (b) a block, unless marked partial or elided: every required key of the schema at each place
+ *       is there; a table, unless marked partial: every property of the schema at its place has
+ *       a row (patternProperties need none);
  *   (c) a tag naming a schema or route the document does not have, a PATH the schema has no place
- *       for, or a marker that is not directly above a ```json fence (or uses the other file
- *       type's comment form) fails. A tagged block that will not parse is BLIND.
+ *       for (or a table's PATH ending on an array or a value), or a marker that is not directly
+ *       above a ```json fence or a table's header row (or uses the other file type's comment
+ *       form) fails. A tagged block that will not parse, and a tagged table with no rows, are BLIND.
  * A oneOf/anyOf place is held to the branch whose const keys the example matches (op, kind), or,
- * among several, the one it fits best; `element` in a feed row is held to the schema its `type`
- * names, as the document's description of it says.
+ * among several, the one it fits best (a table: the one with the fewest failures); `element` in a
+ * feed row is held to the schema its `type` names, as the document's description of it says.
  * Not checked, printed by name: an object the document gives no keys for; the untagged JSON
- * blocks (error envelopes, which gen_errors.mjs holds, the export file, v1 shapes); the value of
- * any key (types, formats, enums, limits, readOnly in a request body); `not` clauses; the prose
- * and field tables around an example; JSON inside a curl line.
+ * blocks (error envelopes, which gen_errors.mjs holds, the export file, v1 shapes); each untagged
+ * field table (its first header cell Field, Key, Name, Property or Parameter), with why: its first
+ * column holds no backticked names (a table of key kinds, of portal labels, of link kinds), or the
+ * reason NOT_SHAPED gives (a NOT_SHAPED entry that matches no untagged table fails).
+ * Not checked at all: the value of any key (types, formats, enums, limits, readOnly in a request
+ * body); `not` clauses; a table's other columns, and keys its prose names (`public_page`'s `on`);
+ * untagged tables under any other header (routes, statuses, roles); the prose around an example;
+ * JSON inside a curl line.
  *
  * Exit: 0 PASS (or the snapshot matches), 1 FAIL or STALE, 2 BLIND (the document unreadable, a
- * tagged block that will not parse, or a schema shape this does not read: never a pass).
- * A run with both a FAIL and a BLIND block prints both and exits 1.
+ * tagged block that will not parse, a tagged table with no rows or a row this cannot read, or a
+ * schema shape this does not read: never a pass). A run with both a FAIL and a BLIND prints both and exits 1.
  */
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { join, dirname, relative } from 'node:path';
@@ -59,6 +78,7 @@ const API = join(CONTENT, 'docs', 'development', 'api');
 const PAGES = [
   ...readdirSync(API).filter((f) => /\.mdx?$/.test(f)).sort().map((f) => join(API, f)),
   join(CONTENT, 'docs', 'development', 'api-reference.mdx'),
+  join(CONTENT, 'docs', 'development', 'agents.md'),
   join(CONTENT, 'api', 'errors', 'index.mdx'),
 ];
 const OPENAPI = 'https://www.onlyworlds.com/api/v2/openapi.json';
@@ -67,17 +87,35 @@ const ELIDED_KEYS = new Set(['…', '...']);
 const args = new Set(process.argv.slice(2));
 const blind = (why) => { console.log(`verify-shapes: BLIND: ${why}`); process.exit(2); };
 
-// ---- the pages: each ```json block, and the marker above it ----------------------------------------
+// ---- the pages: each ```json block and each table, and the marker above it ---------------------------
 const MARK = { md: /^<!--\s*shape:\s*(.*?)\s*-->$/, mdx: /^\{\/\*\s*shape:\s*(.*?)\s*\*\/\}$/ };
+const SEP = /^\|?\s*:?-+:?\s*(\|\s*:?-+:?\s*)*\|?\s*$/;
+const isRow = (l) => (l ?? '').trim().startsWith('|');
+const isHeader = (lines, n) => isRow(lines[n]) && !isRow(lines[n - 1]) && SEP.test((lines[n + 1] ?? '').trim());
+// A row's first cell: the text up to the first unescaped | after the opening one.
+const firstCell = (row) => {
+  const s = row.trim().replace(/^\|/, '');
+  let i = 0;
+  while (i < s.length && s[i] !== '|') i += s[i] === '\\' ? 2 : 1;
+  return s.slice(0, i).trim();
+};
 function blocksOf(file) {
   const rel = relative(CONTENT, file).replaceAll('\\', '/');
   const kind = file.endsWith('.mdx') ? 'mdx' : 'md';
   const lines = readFileSync(file, 'utf8').replace(/\r\n/g, '\n').split('\n');
-  const blocks = [], wrong = [];
+  const blocks = [], tables = [], wrong = [];
   for (let n = 0; n < lines.length; n++) {
     const own = MARK[kind].exec(lines[n].trim()), other = MARK[kind === 'md' ? 'mdx' : 'md'].exec(lines[n].trim());
     if (other) wrong.push(`${rel}:${n + 1}: a shape marker in the ${kind === 'md' ? '.mdx' : '.md'} form (in a .${kind} page: ${kind === 'md' ? '<!-- shape: … -->' : '{/* shape: … */}'})`);
-    if (own && !/^\s*(`{3,}|~{3,})jsonc?(\s.*)?$/.test(lines[n + 1] ?? '')) wrong.push(`${rel}:${n + 1}: a shape marker not directly above a \`\`\`json fence`);
+    if (own && !/^\s*(`{3,}|~{3,})jsonc?(\s.*)?$/.test(lines[n + 1] ?? '') && !isHeader(lines, n + 1)) wrong.push(`${rel}:${n + 1}: a shape marker not directly above a \`\`\`json fence or a table's header row (c)`);
+    if (isHeader(lines, n)) {
+      let end = n + 2;
+      while (end < lines.length && isRow(lines[end])) end++;
+      const tag = n > 0 ? MARK[kind].exec(lines[n - 1].trim()) : null;
+      tables.push({ rel, line: n + 1, head: firstCell(lines[n]), rows: lines.slice(n + 2, end).map((text, k) => ({ line: n + 3 + k, text })), tag: tag ? tag[1] : null });
+      n = end - 1;
+      continue;
+    }
     const open = /^(\s*)(`{3,}|~{3,})(\S*)/.exec(lines[n]);
     if (!open) continue;
     const fence = open[2];
@@ -89,7 +127,7 @@ function blocksOf(file) {
     }
     n = end;
   }
-  return { blocks, wrong };
+  return { blocks, tables, wrong };
 }
 
 // A marker's words: TARGET [PATH] [partial].
@@ -98,7 +136,7 @@ function readTag(raw) {
   let target;
   if (METHODS.includes(words[0])) {
     if (!/^\/\S*$/.test(words[1] ?? '')) return { error: `"${raw}": a route needs a path after ${words[0]}` };
-    const sel = /^(\d{3}|request)$/.test(words[2] ?? '') ? 1 : 0;
+    const sel = /^(\d{3}|request|query)$/.test(words[2] ?? '') ? 1 : 0;
     target = words.slice(0, 2 + sel).join(' ');
     words.splice(0, 2 + sel);
   } else target = words.shift();
@@ -239,6 +277,24 @@ function reduce(doc, tagTargets) {
     if (!m || !METHODS.includes(m[1])) { targets[t] = S[t] ? def(t) : { missing: `the document has no schema ${t}` }; continue; }
     const op = doc.paths?.[m[2]]?.[m[1].toLowerCase()];
     if (!op) { targets[t] = { missing: `the document has no ${m[1]} ${m[2]}` }; continue; }
+    if (m[3] === 'query') {
+      // the route's query parameters (the path's own, then the operation's, which win by name)
+      const byName = new Map();
+      for (const p of [...(doc.paths[m[2]].parameters ?? []), ...(op.parameters ?? [])]) {
+        let q = p;
+        if (p.$ref) {
+          const r = /^#\/components\/parameters\/([^/]+)$/.exec(p.$ref);
+          q = r && doc.components?.parameters?.[decodeURIComponent(r[1])];
+          if (!q) throw new Error(`a parameter $ref this does not read: ${p.$ref}`);
+        }
+        if (typeof q.name !== 'string' || typeof q.in !== 'string') throw new Error(`a parameter of ${m[1]} ${m[2]} without a name or an in`);
+        if (q.in === 'query') byName.set(q.name, q);
+      }
+      targets[t] = byName.size
+        ? { props: Object.fromEntries([...byName.keys()].map((k) => [k, {}])), required: [...byName.values()].filter((q) => q.required).map((q) => q.name) }
+        : { missing: `${m[1]} ${m[2]} takes no query parameters` };
+      continue;
+    }
     let schema;
     if (m[3] === 'request') schema = jsonOf(op.requestBody) ?? { missing: `${m[1]} ${m[2]} takes no JSON body` };
     else if (m[3]) schema = jsonOf(op.responses?.[m[3]]) ?? { missing: `${m[1]} ${m[2]} answers no JSON body on ${m[3]}` };
@@ -256,7 +312,7 @@ function reduce(doc, tagTargets) {
 // One target and one def per line, so a diff names the one that moved.
 const format = (s) => [
   '{',
-  `  "source": ${JSON.stringify(`${OPENAPI}: components.schemas and the routes' JSON bodies, reduced to the targets the API pages' shape markers name`)},`,
+  `  "source": ${JSON.stringify(`${OPENAPI}: components.schemas, the routes' JSON bodies and their query parameters, reduced to the targets the API pages' shape markers name`)},`,
   `  "read_at": ${JSON.stringify(s.read_at)},`,
   `  "schemas": ${JSON.stringify(s.schemas)},`,
   `  "elements": ${JSON.stringify(s.elements)},`,
@@ -272,8 +328,8 @@ const format = (s) => [
 const body = (s) => JSON.stringify({ schemas: s.schemas, elements: s.elements, targets: s.targets, defs: s.defs });
 
 const pages = PAGES.map(blocksOf);
-const tags = new Map();   // block -> its read tag
-for (const b of pages.flatMap((p) => p.blocks)) if (b.tag !== null) tags.set(b, readTag(b.tag));
+const tags = new Map();   // block or table -> its read tag
+for (const b of pages.flatMap((p) => [...p.blocks, ...p.tables])) if (b.tag !== null) tags.set(b, readTag(b.tag));
 
 if (args.has('--live') || args.has('--refresh')) {
   let live;
@@ -334,8 +390,8 @@ const branchName = (n, i) => n.title ?? (constsOf(n).length ? constsOf(n).map(([
 function walk(n, path) {
   for (const seg of path.match(/[A-Za-z_]\w*|\[\]/g) ?? []) {
     n = deref(n);
-    if (n.oneOf) { const hits = n.oneOf.map(deref).filter((b) => (seg === '[]' ? b.items : b.props?.[seg])); if (hits.length !== 1) return null; n = hits[0]; }
-    if (seg === '[]') { if (!n.items) return null; n = n.items; } else { if (!n.props?.[seg]) return null; n = n.props[seg]; }
+    if (n.oneOf) { const hits = n.oneOf.map(deref).filter((b) => (seg === '[]' ? b.items : b.props && Object.hasOwn(b.props, seg))); if (hits.length !== 1) return null; n = hits[0]; }
+    if (seg === '[]') { if (!n.items) return null; n = n.items; } else { if (!n.props || !Object.hasOwn(n.props, seg)) return null; n = n.props[seg]; }
   }
   return n;
 }
@@ -370,13 +426,27 @@ function check(ex, n, at, partial, out) {
   if (!n.props) return;   // a value where the example has an object: values are not checked
   for (const m of ex.members) {
     const where = at ? `${at}.${m.key}` : m.key;
-    if (n.props[m.key]) check(m.value, n.props[m.key], where, partial, out);
+    if (Object.hasOwn(n.props, m.key)) check(m.value, n.props[m.key], where, partial, out);
     else if ((n.patterns ?? []).some((p) => new RegExp(p).test(m.key)) || n.open) continue;
     else out.push({ line: m.line, at, msg: `"${m.key}" is not a key of the schema here (a)` });
   }
   if (partial || ex.elided) return;
   const have = new Set(ex.members.map((m) => m.key));
   for (const r of n.required ?? []) if (!have.has(r)) out.push({ line: ex.line, at, msg: `lacks the required key "${r}" (b)` });
+}
+
+// A tag's place in the snapshot: its target's node, walked down its PATH; null (with the fail or
+// the stale note pushed) when there is none.
+function placeOf(where, t) {
+  let root = snap.targets[t.target];
+  if (root === undefined) {
+    if (!METHODS.includes(t.target.split(' ')[0]) && !snap.schemas.includes(t.target)) fails.push(`${where}: the tag names ${t.target}, and the document has no such schema (c)`);
+    else stale.push(`${where}: the tag names ${t.target}, which contract/shapes.json does not hold yet; run --refresh`);
+    return null;
+  }
+  if (root.missing) { fails.push(`${where}: the tag names ${t.target}: ${root.missing} (c)`); return null; }
+  if (t.path && !(root = walk(root, t.path))) { fails.push(`${where}: ${t.target} has no place ${t.path} (c)`); return null; }
+  return root;
 }
 
 let tagged = 0, keys = 0, block = null;   // block: the one being checked, for check()'s notes
@@ -390,14 +460,8 @@ for (const b of pages.flatMap((p) => p.blocks)) {
   if (t.error) { fails.push(`${where}: ${t.error}`); continue; }
   const label = `${t.target}${t.path ? ` ${t.path}` : ''}${t.partial ? ' (partial)' : ''}`;
   block = { rel: b.rel, label };
-  let root = snap.targets[t.target];
-  if (root === undefined) {
-    if (!METHODS.includes(t.target.split(' ')[0]) && !snap.schemas.includes(t.target)) fails.push(`${where}: the tag names ${t.target}, and the document has no such schema (c)`);
-    else stale.push(`${where}: the tag names ${t.target}, which contract/shapes.json does not hold yet; run --refresh`);
-    continue;
-  }
-  if (root.missing) { fails.push(`${where}: the tag names ${t.target}: ${root.missing} (c)`); continue; }
-  if (t.path && !(root = walk(root, t.path))) { fails.push(`${where}: ${t.target} has no place ${t.path} (c)`); continue; }
+  const root = placeOf(where, t);
+  if (!root) continue;
   let ex;
   try { ex = parseLoose(b.text, b.first); } catch (e) { blinds.push(`${where}: the ${label} example does not parse: ${e.message}`); continue; }
   keys += countKeys(ex);
@@ -406,13 +470,85 @@ for (const b of pages.flatMap((p) => p.blocks)) {
   for (const f of out) fails.push(`${b.rel}:${f.line}: ${label}${f.at ? ` at ${f.at}` : ''}: ${f.msg}`);
 }
 
+// ---- the tables against the snapshot -------------------------------------------------------------------
+// A first cell names keys when it is only backticked names joined by commas, "and" or "or".
+const KEYS_CELL = /^`[^`]+`(\s*(,|,?\s+and|,?\s+or)\s*`[^`]+`)*$/;
+const ELIDED_END = /(…|\.\.\.)$/;
+function keysIn(cell) {
+  if (!KEYS_CELL.test(cell)) return null;
+  const names = [...cell.matchAll(/`([^`]+)`/g)].map((m) => m[1]);
+  return names.every((k) => /^[A-Za-z_]\w*(…|\.\.\.)?$/.test(k)) ? names : null;
+}
+// A field table is one whose first header cell is FIELD_HEAD. NOT_SHAPED: the untagged ones that
+// restate no place in the document, by page and the first key of their first row, each with why.
+const FIELD_HEAD = /^(Field|Key|Name|Property|Parameter)$/;
+const NOT_SHAPED = {
+  'docs/development/api/signin.mdx client_id': 'the query of the browser page /signin/authorize, which the API document does not describe',
+};
+// Hold one table's rows to one object node; failures go to `out` as {line, msg}.
+function checkRows(rows, n, partial, headLine, out) {
+  for (const r of rows) {
+    for (const k of r.keys) {
+      const prefix = ELIDED_END.test(k) ? k.replace(ELIDED_END, '') : null;
+      if ((prefix === null && Object.hasOwn(n.props, k)) || n.open || (n.patterns ?? []).some((p) => new RegExp(p).test(prefix ?? k))) continue;
+      out.push({ line: r.line, msg: prefix === null ? `"${k}" is not a key of the schema here (a)` : `"${k}" matches no key pattern of the schema here (a)` });
+    }
+  }
+  if (partial) return;
+  const named = new Set(rows.flatMap((r) => r.keys));
+  for (const p of Object.keys(n.props)) if (!named.has(p)) out.push({ line: headLine, msg: `has no row for "${p}", a key of the schema here (complete)` });
+}
+
+let tablesTagged = 0, rowKeys = 0;
+const untaggedTables = [], reasonsUsed = new Set();
+for (const tb of pages.flatMap((p) => p.tables)) {
+  const where = `${tb.rel}:${tb.line}`;
+  const rows = tb.rows.map((r) => ({ line: r.line, cell: firstCell(r.text), keys: keysIn(firstCell(r.text)) }));
+  if (tb.tag === null) {
+    if (!FIELD_HEAD.test(tb.head)) continue;
+    const unread = rows.find((r) => !r.keys);
+    const reason = unread ? `its first column holds no backticked names ("${unread.cell}")` : NOT_SHAPED[`${tb.rel} ${rows[0]?.keys[0]}`];
+    if (!unread && reason) reasonsUsed.add(`${tb.rel} ${rows[0].keys[0]}`);
+    untaggedTables.push(`${where}: the "${tb.head}" table: ${reason ?? 'untagged'}`);
+    continue;
+  }
+  tablesTagged++;
+  const t = tags.get(tb);
+  if (t.error) { fails.push(`${where}: ${t.error}`); continue; }
+  let label = `${t.target}${t.path ? ` ${t.path}` : ''}${t.partial ? ' (partial)' : ''}`;
+  let n = placeOf(where, t);
+  if (!n) continue;
+  if (!rows.length) { blinds.push(`${where}: the ${label} table has no rows`); continue; }
+  const unread = rows.filter((r) => !r.keys);
+  if (unread.length) { blinds.push(...unread.map((r) => `${tb.rel}:${r.line}: the ${label} table's first column holds no backticked names this reads ("${r.cell}")`)); continue; }
+  rowKeys += rows.reduce((s, r) => s + r.keys.length, 0);
+  n = deref(n);
+  let out = [];
+  if (n.oneOf) {
+    // the branch the rows fit best, as a block's
+    const tries = n.oneOf.map(deref).map((b, i) => ({ b, name: branchName(b, i) })).filter(({ b }) => b.props)
+      .map(({ b, name }) => { const o = []; checkRows(rows, b, t.partial, tb.line, o); return { o, name }; });
+    if (!tries.length) { fails.push(`${where}: ${label}: a oneOf with no object branch here (c)`); continue; }
+    const best = tries.reduce((a, b) => (b.o.length < a.o.length ? b : a));
+    out = best.o;
+    label += ` (${best.name})`;
+  } else if (n.unsaid || n.byType) { unchecked.push(`${where}: ${label}: the document gives no keys for this object`); continue; }
+  else if (n.items) { fails.push(`${where}: ${label} is an array here, not an object: walk into its items with [] (c)`); continue; }
+  else if (!n.props) { fails.push(`${where}: ${label} is a value here, with no keys (c)`); continue; }
+  else checkRows(rows, n, t.partial, tb.line, out);
+  for (const f of out) fails.push(`${tb.rel}:${f.line}: the ${label} table: ${f.msg}`);
+}
+for (const k of Object.keys(NOT_SHAPED)) if (!reasonsUsed.has(k)) fails.push(`${k.split(' ')[0]}: NOT_SHAPED gives a reason for a table whose first row names ${k.split(' ')[1]}, and no untagged field table there does`);
+
 for (const u of [...new Set(unchecked)]) console.log(`  not checked  ${u}`);
 if (untagged.length) console.log(`  not checked  ${untagged.length} untagged JSON block(s): ${untagged.join(', ')}`);
+for (const u of untaggedTables) console.log(`  not checked  ${u}`);
 for (const s of stale) console.log(`  STALE  ${s}`);
 for (const f of blinds) console.log(`  BLIND  ${f}`);
 for (const f of fails) console.log(`  FAIL  ${f}`);
-console.log(`verify-shapes: ${tagged} tagged JSON block(s) on ${pages.filter((p) => p.blocks.some((b) => b.tag !== null)).length} page(s), ${keys} keys, held to contract/shapes.json (read ${snap.read_at})`);
-if (fails.length) { console.log(`FAIL: ${fails.length} problem(s) in the API pages' examples${blinds.length ? `, and ${blinds.length} block(s) BLIND` : ''}`); process.exit(1); }
+const onPages = pages.filter((p) => [...p.blocks, ...p.tables].some((b) => b.tag !== null)).length;
+console.log(`verify-shapes: ${tagged} tagged JSON block(s) and ${tablesTagged} tagged table(s) on ${onPages} page(s), ${keys} example keys and ${rowKeys} table keys, held to contract/shapes.json (read ${snap.read_at})`);
+if (fails.length) { console.log(`FAIL: ${fails.length} problem(s) in the API pages' examples and tables${blinds.length ? `, and ${blinds.length} BLIND` : ''}`); process.exit(1); }
 if (stale.length) { console.log(`STALE: ${stale.length} tag(s) the snapshot does not hold; run --refresh`); process.exit(1); }
-if (blinds.length) { console.log(`BLIND: ${blinds.length} tagged block(s) this could not read`); process.exit(2); }
+if (blinds.length) { console.log(`BLIND: ${blinds.length} tagged block(s), table(s) or table row(s) this could not read`); process.exit(2); }
 console.log('PASS');

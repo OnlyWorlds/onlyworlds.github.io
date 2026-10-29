@@ -159,6 +159,7 @@ A key is held while its request runs, so two sends with it do not both write; th
 
 `PATCH /api/v2/world` updates the world's own fields. It takes a write key and PIN and is the owner's and a co-builder's: a co-builder may send every writable field but `owner_character` (so a game master who isn't the owner can move the world's now, set its calendar and units, or rename it). A contributor's or guest's key, or a co-builder's sending `owner_character`, gets `403` [`owner_only`](/api/errors/#owner_only).
 
+<!-- shape: PATCH /api/v2/world request -->
 | Field | Type |
 |:--|:--|
 | `name`, `description`, `image_url`, `time_basic_unit` | String |

@@ -31,6 +31,7 @@ A Character the key cannot see answers `404` [`not_found`](/api/errors/#not_foun
 
 Nine query parameters, all optional. The SDKs take the same nine. The MCP tool `get_draught` takes the first eight in one `policy` object and `lens` as an argument beside it, read as the route reads it (never beside a `depth` or `budget` in the policy).
 
+{/* shape: GET /api/v2/character/{id}/context query partial */}
 | Parameter | Values | Default |
 |:--|:--|:--|
 | `components` | The sections to serve, comma-separated: `self` (the packet's `character`), `role`, `work`, `style`, `events`, `knowledge`, `names`, `sheet`, `recent`, `messages`, `room`, `proposed`, `roster` | Every one but `messages`, `room` and `proposed` |
@@ -57,6 +58,7 @@ Nine query parameters, all optional. The SDKs take the same nine. The MCP tool `
   "recent_cursor": null, "recent_more": null }
 ```
 
+{/* shape: Draught partial */}
 | Section | Holds |
 |:--|:--|
 | `character` | Her own element, with `self: true` and its `grade`: the voice, where every other section is what that voice may mention. `null` when, read as her, her own element is hidden from her. Named `self` in `components` (`components=character` is a 422) |
@@ -77,6 +79,7 @@ Each element appears once, in the most specific section the policy asked for. Be
 
 Every row in the element sections carries four fields:
 
+{/* shape: Draught role[] */}
 | Field | Meaning |
 |:--|:--|
 | `element` | The body exactly as the list route serves it to the same reader; its `type` names the category |

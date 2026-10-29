@@ -25,6 +25,7 @@ curl -s "https://www.onlyworlds.com/api/v2/auth/clients"
     "redirect_uris": ["https://atlas.onlyworlds.com/signin/callback"] } ] }
 ```
 
+{/* shape: GET /api/v2/auth/clients clients[] */}
 | Field | Meaning |
 |:--|:--|
 | `id` | The `client_id` the tool sends |
@@ -64,6 +65,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/auth/token" \
         "client_id": "atlas", "redirect_uri": "https://atlas.onlyworlds.com/signin/callback" }'
 ```
 
+{/* shape: POST /api/v2/auth/token request */}
 | Field | Meaning |
 |:--|:--|
 | `grant_type` | `authorization_code` |

@@ -19,6 +19,7 @@ Every error from the current API (`/api/v2/`, including `/bulk` and `/changes`) 
 }
 ```
 
+{/* shape: Error error partial */}
 | Field | Meaning |
 |:--|:--|
 | `type` | The error family, one of a fixed set: `invalid_request`, `authentication_error`, `permission_error`, `not_found`, `rate_limited`, `idempotency_error`, `api_error`. It names the family only: one family holds codes with different statuses and different fixes |

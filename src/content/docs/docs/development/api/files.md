@@ -55,6 +55,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/character/{id}/files" \
   -d '{ "name": "letters.pdf", "kind": "pdf", "size": 482113, "label": "backstory" }'
 ```
 
+<!-- shape: POST /api/v2/character/{id}/files request -->
 | Field | Meaning |
 |:--|:--|
 | `name` | The file's name, ending in its kind's extension. Only its last path part is kept, control characters are dropped, and each run of whitespace becomes one space; at most 255 characters (UTF-16 units) |
@@ -64,6 +65,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/character/{id}/files" \
 
 `201`:
 
+<!-- shape: POST /api/v2/character/{id}/files -->
 | Field | Meaning |
 |:--|:--|
 | `ticket` | Opaque: send it to `upload_url` as it is |
@@ -99,6 +101,7 @@ The upload host answers errors in its own shape: see [Upload host errors](/api/e
 
 `GET /api/v2/{type}/{id}/files` answers `{data: [...]}`, newest first:
 
+<!-- shape: GET /api/v2/character/{id}/files data[] -->
 | Field | Meaning |
 |:--|:--|
 | `id` | The file's id |

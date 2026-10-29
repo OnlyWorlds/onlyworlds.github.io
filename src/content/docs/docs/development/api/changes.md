@@ -25,6 +25,7 @@ That is Hyperion's first page. The next call sends `?since=1:068e2e60-fc37-789e-
 { "op": "delete", "type": "location", "id": "…", "change_seq": 41, "deleted_at": "…", "deleted_by": null, "deleted_via": "api", "deleted_client": null, "reason": "deleted" }
 ```
 
+<!-- shape: ChangesPage -->
 | Key | Meaning |
 |:--|:--|
 | `changes` | The ops on this page, sorted by the world's change sequence |
@@ -40,6 +41,7 @@ An `upsert` carries the whole element at its latest state, in the same body a [r
 
 Pass the returned `cursor` back as `?since=` until `has_more` is `false`. Store the last cursor; next time, start from it.
 
+<!-- shape: GET /api/v2/changes query -->
 | Parameter | Meaning |
 |:--|:--|
 | `since` | The cursor to continue from. Omit it to start from the beginning |

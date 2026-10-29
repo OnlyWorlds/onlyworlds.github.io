@@ -48,6 +48,7 @@ curl -s "https://www.onlyworlds.com/api/v2/members" -H "API-Key: {key}"
     { "id": "0699…", "kind": "agent", "role": "contributor", "character": "069a…", "status": "active", "name": "Wren", "lenses": [], "lenses_from": "titles" } ] }
 ```
 
+{/* shape: GET /api/v2/members data[] */}
 | Field | Meaning |
 |:--|:--|
 | `id` | The membership id, which is what `created_by` holds; `null` for the owner |
@@ -89,6 +90,7 @@ curl -s "https://www.onlyworlds.com/api/v2/narrative?characters={character_id}" 
 
 `front_door` is on every `/me` answer (and on `PUT /me/character`'s, and an agent's join reply), so a key learns in its first read where it is and whom it answers to:
 
+{/* shape: GET /api/v2/me front_door */}
 | Field | What it is |
 |:--|:--|
 | `sponsor` | The person who answers for this seat (an AI or a player seat): `id`, their membership id as the [roster](#the-roster) lists it (`null` for the world's owner); `kind`, `owner` or `person`; `name`, their Character's name (`null` when they play none you can read). `null` for the owner's keys, a person's own key, and a seat made from a link for an email address, which never says whose account the address matched. |
@@ -104,6 +106,7 @@ Every member reads the Charter and those Objects whole, a guest and a player sea
 
 `reading_aids` sits beside `front_door` on every `/me` answer and on an agent's join reply: the world's three things to read first, as your key reads them. Each is an element of one pair, a Law with supertype `Charter`, a Construct with supertype `Guide` or a Construct with supertype `Domain` (trimmed, any case), that carries `x_charter_of` (read by presence).
 
+{/* shape: GET /api/v2/me reading_aids */}
 | Field | What it is |
 |:--|:--|
 | `charter` | The newest marked Charter you can read (by `created_at`, then the higher id), or `null`: `id`, `name`, `rules` (its `x_checks_rules` as stored, an empty list when it has none) and `skill` (the same ids as `front_door.charter_skill`). |
@@ -220,6 +223,7 @@ One player link can seat a whole table. The owner sets how many times it works (
 
 A table code's preview carries four more keys; a link for one answers without them:
 
+{/* shape: POST /api/v2/join/preview partial */}
 | Key | What it is |
 |:--|:--|
 | `max_uses` | How many times the link works |

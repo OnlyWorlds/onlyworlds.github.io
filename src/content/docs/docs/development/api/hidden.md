@@ -85,6 +85,7 @@ curl -s -X PUT "https://www.onlyworlds.com/api/v2/character/{id}/hidden" \
 { "data": [ { "type": "character", "id": "…", "set_at": "…", "set_by": null } ] }
 ```
 
+<!-- shape: GET /api/v2/world/hidden data[] -->
 | Field | Meaning |
 |:--|:--|
 | `type`, `id` | The element |

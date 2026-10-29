@@ -16,6 +16,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/media/ticket" \
 
 `201`:
 
+<!-- shape: POST /api/v2/media/ticket -->
 | Field | Meaning |
 |:--|:--|
 | `ticket` | Opaque: send it to `upload_url` as it is |
