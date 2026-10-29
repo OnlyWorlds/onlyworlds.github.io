@@ -16,7 +16,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/location" \
 ```
 
 - You may supply an `id`: any RFC 4122 UUID is accepted, and UUIDv7 is recommended. Omit it and the server mints a UUIDv7.
-- An `id` that already exists is `409` [`id_conflict`](/api/errors/#id_conflict). Element ids are unique across all worlds, so the message says which case it is: the id exists in this world (use `PUT` to upsert), or in another world (mint a new id).
+- An `id` that already exists is `409` [`id_conflict`](/api/errors/#id_conflict). Element ids are unique across all worlds and every type, so the message says which case it is: the id exists in this world as this type (use `PUT` to upsert), in this world as another type (the message names it: `PUT` it there), or in another world (mint a new id). The same holds for a `PUT` that would create, and for each `/bulk` item.
 - `hidden: true` creates the element [hidden](/docs/development/api/hidden#creating-an-element-hidden) from its first moment. Only the owner's keys and a co-builder's may send it; any other key is `403` [`hidden_not_allowed`](/api/errors/#hidden_not_allowed) and nothing is created.
 
 ## Upsert

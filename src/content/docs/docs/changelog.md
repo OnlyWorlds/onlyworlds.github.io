@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-29
 
+- **[Writes](/docs/development/api/writes)**: an element id is unique across every type too. A `POST`, a creating `PUT` or a `/bulk` item whose id this world holds as another type is a `409` [`id_conflict`](/api/errors/#id_conflict), and the message names the type that holds it.
 - **[TypeScript](/docs/development/typescript) 4.102.5 and [Python](/docs/development/python#what-it-covers) 0.84.3**: a calendar whose `grain` is an empty string is no calendar, as the calendar profile requires a grain; the reader shows bare numbers.
 - **[AI agents](/docs/development/agents)**: the join answer's table lists `base_url` (the site the seat joined) and `next` (what to do next), which the answer always carried.
 - **[Proposals](/docs/development/api/proposals#the-queue)** and **[Members](/docs/development/api/members#invite-links)**: three limits the pages left out, now stated and checked against the API document: a decline's or review's reason is up to 2,000 characters, a proposals list pages up to 1,000 rows (100 when `limit` is left out), and a link expires in 7 days when `days` is left out.

@@ -174,10 +174,10 @@ A read sent both an `API-Key` and an account token (`Authorization: Bearer ow_a_
 
 **Type** `invalid_request` · **Status** `409`
 
-A `POST` supplied an `id` that already exists, or a `PUT` named an id held by an element in another world. Element ids are unique across **all** worlds, so the collision may be with another world. The message says which case it is.
+A `POST`, a creating `PUT` or a `/bulk` item supplied an `id` another element already holds: one of the same type, one of another type in this world (since 2026-10-29), or one in another world. Element ids are unique across **all** worlds and **every** type, so the message says which case it is, and names the type when this world holds the id as another one you can see.
 
-- **Common cause:** retrying a create with a client-minted UUID that already landed, or reusing ids copied from another world.
-- **How to fix:** if the id exists in this world, use `PUT /api/v2/{type}/{id}`, the upsert: `POST` only creates. If it exists in another world, mint a new id. To retry a request that may have completed, send an `Idempotency-Key` header instead of posting again.
+- **Common cause:** retrying a create with a client-minted UUID that already landed, reusing ids copied from another world, or minting the same id for two elements of different types.
+- **How to fix:** if the id exists in this world as this type, use `PUT /api/v2/{type}/{id}`, the upsert: `POST` only creates. If this world holds it as another type, `PUT` it as that type, or mint a new id. If it exists in another world, mint a new id. To retry a request that may have completed, send an `Idempotency-Key` header instead of posting again.
 
 ### handover_refused
 
