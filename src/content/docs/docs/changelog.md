@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-29
 
+- **[TypeScript](/docs/development/typescript) 4.102.4**: `OwMember.name` and `OwMe.name` say what the server serves: a person's username on the roster only for the owner's keys and co-builders, an agent's or player's name to every reader.
 - **[Lenses](/docs/lenses)**: on the Lenses page a lens needs a name before it saves, and a lens you keep can be deleted, after a confirm that says who chose it.
 - **[Members](/docs/development/api/members#the-roster)**: a person's row on the roster carries `name`, the person's username, for the owner's keys and co-builders only, as the site's Access page shows it; every other reader still gets no `name` on a person row.
 - **[TypeScript](/docs/development/typescript) 4.102.3 and [Python](/docs/development/python#what-it-covers) 0.84.2: schema-dist serial 88.** The lens fixture gains a graph case where one element's review mark is `{}` and another's `""`: both are drawn as settled nodes with no mark, as both packages already read them; no code changed.
