@@ -55,6 +55,9 @@ jobs:
       - name: Error codes against the live API (report only)
         run: |
           node scripts/gen_errors.mjs --live || echo "::warning::keel's error-code list moved: run node scripts/gen_errors.mjs --refresh and give each new code a section"
+      - name: MCP tools and resources against the live server (report only)
+        run: |
+          node scripts/verify-mcp.mjs --live || echo "::warning::the MCP server's tools or resources moved: run node scripts/verify-mcp.mjs --refresh and mend the MCP page's tables"
       - name: Build
         run: npm run build
       - name: URL gate

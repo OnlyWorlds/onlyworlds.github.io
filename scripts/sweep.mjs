@@ -5,7 +5,7 @@
  * Run:  node scripts/sweep.mjs [--no-links] [--no-deck] [--since YYYY-MM-DD]
  *
  * The docs state facts owned elsewhere (the API, the SDKs, the schema, the tools). The gates catch
- * what they can name: URLs (verify-urls), error codes (gen_errors), the element tables (the build).
+ * what they can name: URLs (verify-urls), error codes (gen_errors), the element tables (the build), the MCP page's tables (verify-mcp).
  * This reads the rest. It prints two lists:
  *
  *   CHECKS   things that can be measured, each PASS or STALE: the SDK pin the reference is generated
@@ -17,7 +17,8 @@
  *            snapshot against keel's public reader (on a machine with keel); the write body
  *            snapshot against the API document's write schemas; the draught snapshot against
  *            the API document's context route; the proposals snapshot against the API
- *            document's proposal routes, queue and schemas; the routes in the
+ *            document's proposal routes, queue and schemas; the MCP snapshot against the
+ *            live MCP server's tools and resources; the routes in the
  *            API reference against keel's OpenAPI; every external link; words the docs must not use;
  *            every release since the last sweep (the packages, the Unity SDK, the plugin, the toolkit,
  *            schema-dist's serials) against the changelog.
@@ -179,6 +180,17 @@ console.log('CHECKS');
   if (code === 0) pass('the proposals snapshot matches the live API document');
   else if (code === 1) bad('the proposals snapshot differs from the live API document (node scripts/gen_proposals.mjs says which routes or schemas; --refresh)');
   else note('could not read the live API document (node scripts/gen_proposals.mjs says why): the proposals snapshot was not checked');
+}
+
+// ---- 2j: the MCP page's snapshot against the live MCP server's tool and resource lists (exit 2 from the
+// reader is BLIND: the server unreadable, never a pass) ---------------------------------------------------
+{
+  let code = 0;
+  try { execFileSync('node', ['scripts/verify-mcp.mjs', '--live'], { cwd: ROOT, timeout: 60000, stdio: 'ignore' }); }
+  catch (e) { code = e.status ?? 2; }
+  if (code === 0) pass('the MCP snapshot matches the live server\'s tools and resources');
+  else if (code === 1) bad('the MCP snapshot differs from the live server (node scripts/verify-mcp.mjs --live says which tools or parameters; --refresh, then mend the page)');
+  else note('could not read the live MCP server (node scripts/verify-mcp.mjs --live says why): the MCP snapshot was not checked');
 }
 
 // ---- 3: the API reference against keel's OpenAPI ---------------------------------------------------------
