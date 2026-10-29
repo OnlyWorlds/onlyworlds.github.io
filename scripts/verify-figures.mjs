@@ -15,7 +15,8 @@
 //
 // The error families (/api/errors/, ErrorFamilies): built from keel's list of error codes; this
 // holds it to the summary table on the same built page (generated from that list by
-// gen_errors.mjs): every public code drawn once, under the family and status its row prints, the
+// gen_errors.mjs): every public code drawn in the family its row prints, once under each status
+// the row prints (a code with several statuses in each group, its chip naming the others), the
 // Retry-After mark (ring, ↻ and spoken text) exactly on the rows whose summary names it, and the
 // counts in its words to the table and the Upload host errors table. Then a cross-check against
 // the API's own document: each marked code's status is one some operation declares Retry-After
@@ -242,7 +243,8 @@ const ef = errs.match(/<figure\b[^>]*\bdata-ow-figure="error-families"[^>]*>([\s
 if (!ef) blind('the errors page carries no error families figure (data-ow-figure="error-families")');
 const attr = (tag, name) => tag.match(new RegExp(`\\b${name}="([^"]*)"`))?.[1];
 const strip = (s) => unescape(s.replace(/<[^>]+>/g, '')).replace(/\s+/g, ' ').trim();
-// The figure, as drawn: family blocks, status groups inside them, a chip per code inside those.
+// The figure, as drawn: family blocks, status groups inside them, a chip per code inside those. A
+// code with several statuses has a chip in each of its groups, inside one family; it is counted once.
 const shown = new Map();
 const famTypes = [];
 for (const fb of ef[1].split(/(?=<div\b[^>]*\bclass="ow-err-fam\b)/).slice(1)) {
@@ -256,25 +258,41 @@ for (const fb of ef[1].split(/(?=<div\b[^>]*\bclass="ow-err-fam\b)/).slice(1)) {
     if (Number(label?.[1]) !== status) fails.push(`errors figure: a ${type} group holds ${status} and shows ${label?.[1] ?? 'no status'}`);
     for (const li of gb.matchAll(/<li\b([^>]*)>([\s\S]*?)<\/li>/g)) {
       const code = attr(li[1], 'data-code'), body = li[2];
-      if (shown.has(code)) fails.push(`errors figure: ${code} is drawn twice`);
-      shown.set(code, {
-        type, status,
+      const chip = {
+        status,
         ring: /\bretry\b/.test(attr(li[1], 'class') ?? ''),
         mark: /class="ow-err-mark\b[^"]*"[^>]*>↻</.test(body),
         said: /class="sr-only\b[^"]*"[^>]*>[^<]*Retry-After/.test(body),
-      });
+        // the other statuses, as the chip states them: its data-also, its visible mark and its spoken text
+        also: (attr(li[1], 'data-also') ?? '').split(' ').filter(Boolean).map(Number),
+        alsoMark: strip(body.match(/<span\b[^>]*class="ow-err-also\b[^>]*>([^<]*)<\/span>/)?.[1] ?? ''),
+        alsoSaid: /class="sr-only\b[^"]*"[^>]*>[^<]*also answers/.test(body),
+      };
+      const s = shown.get(code);
+      if (!s) shown.set(code, { type, chips: [chip] });
+      else if (s.type !== type || s.chips.some((h) => h.status === status)) fails.push(`errors figure: ${code} is drawn twice under ${type} ${status}${s.type !== type ? ` (and under ${s.type})` : ''}`);
+      else s.chips.push(chip);
       if (!new RegExp(`<a\\b[^>]*href="#${code}"`).test(body)) fails.push(`errors figure: ${code}'s chip does not link to #${code}`);
     }
   }
 }
-// The summary table on the same page, generated from the same list by gen_errors.mjs.
+for (const s of shown.values()) {
+  s.statuses = s.chips.map((h) => h.status).sort((a, b) => a - b);
+  for (const k of ['ring', 'mark', 'said']) s[k] = s.chips.every((h) => h[k]);
+  s.anyMark = s.chips.some((h) => h.ring || h.mark || h.said);
+}
+const same = (a, b) => a.join(',') === b.join(',');
+// The summary table on the same page, generated from the same list by gen_errors.mjs; a status cell
+// names one status or several (`409`, `422`).
 const head = errs.indexOf('>What happened</th>');
 const tbl = head < 0 ? '' : errs.slice(head, errs.indexOf('</table>', head));
 const table = new Map();
-for (const r of tbl.matchAll(/<tr>\s*<td[^>]*><a href="#([a-z_]+)"><code[^>]*>([a-z_]+)<\/code><\/a><\/td>\s*<td[^>]*><code[^>]*>([a-z_]+)<\/code><\/td>\s*<td[^>]*><code[^>]*>(\d{3})<\/code><\/td>\s*<td[^>]*>([\s\S]*?)<\/td>\s*<\/tr>/g)) {
-  const [, anchor, code, type, status, what] = r;
+for (const r of tbl.matchAll(/<tr>\s*<td[^>]*><a href="#([a-z_]+)"><code[^>]*>([a-z_]+)<\/code><\/a><\/td>\s*<td[^>]*><code[^>]*>([a-z_]+)<\/code><\/td>\s*<td[^>]*>((?:<code[^>]*>\d{3}<\/code>)(?:, <code[^>]*>\d{3}<\/code>)*)<\/td>\s*<td[^>]*>([\s\S]*?)<\/td>\s*<\/tr>/g)) {
+  const [, anchor, code, type, cellText, what] = r;
   if (anchor !== code) fails.push(`errors table: the ${code} row links to #${anchor}`);
-  table.set(code, { type, status: Number(status), retry: /Retry-After/.test(strip(what)) });
+  const statuses = [...cellText.matchAll(/>(\d{3})</g)].map((m) => Number(m[1]));
+  if (!same(statuses, [...statuses].sort((a, b) => a - b))) fails.push(`errors table: the ${code} row's statuses ${statuses.join(', ')} are not in order`);
+  table.set(code, { type, statuses: [...new Set(statuses)].sort((a, b) => a - b), retry: /Retry-After/.test(strip(what)) });
 }
 // Presence before sameness: the figure draws every public code in the list, and the table has rows.
 const list = JSON.parse(readFileSync(join(DIST, '..', 'contract', 'error-codes.json'), 'utf8'));
@@ -282,12 +300,24 @@ const publicCodes = Object.keys(list).filter((c) => !list[c].internal && !list[c
 if (!table.size) blind('no rows read from the errors page\'s summary table (has its format moved?)');
 if (shown.size !== publicCodes.length) fails.push(`errors figure: draws ${shown.size} codes; the list has ${publicCodes.length} public codes`);
 if (table.size !== publicCodes.length) fails.push(`errors table: ${table.size} rows; the list has ${publicCodes.length} public codes`);
+for (const c of publicCodes) {
+  const own = [...new Set([].concat(list[c].status).map(Number))].sort((a, b) => a - b);
+  if (table.has(c) && !same(table.get(c).statuses, own)) fails.push(`errors table: the ${c} row says ${table.get(c).statuses.join(', ')}; the list says ${own.join(', ')} (rebuild)`);
+}
 for (const [c, t] of table) {
   const s = shown.get(c);
-  if (!s) { fails.push(`errors figure: ${c} (${t.type} ${t.status}) is in the table and not drawn`); continue; }
-  if (s.type !== t.type || s.status !== t.status) fails.push(`errors figure: ${c} is drawn under ${s.type} ${s.status}; the table says ${t.type} ${t.status}`);
-  if (t.retry && !(s.ring && s.mark && s.said)) fails.push(`errors figure: ${c}'s row names Retry-After, and its chip lacks the ${[!s.ring && 'ring', !s.mark && '↻ mark', !s.said && 'spoken text'].filter(Boolean).join(', ')}`);
-  if (!t.retry && (s.ring || s.mark || s.said)) fails.push(`errors figure: ${c} is marked Retry-After; its row does not name it`);
+  if (!s) { fails.push(`errors figure: ${c} (${t.type} ${t.statuses.join(', ')}) is in the table and not drawn`); continue; }
+  if (s.type !== t.type || !same(s.statuses, t.statuses)) fails.push(`errors figure: ${c} is drawn under ${s.type} ${s.statuses.join(', ')}; the table says ${t.type} ${t.statuses.join(', ')}`);
+  if (t.retry && !(s.ring && s.mark && s.said)) fails.push(`errors figure: ${c}'s row names Retry-After, and a chip of it lacks the ${[!s.ring && 'ring', !s.mark && '↻ mark', !s.said && 'spoken text'].filter(Boolean).join(', ')}`);
+  if (!t.retry && s.anyMark) fails.push(`errors figure: ${c} is marked Retry-After; its row does not name it`);
+  // Each chip of a code names the code's other statuses, in all three places; a one-status chip names none.
+  for (const h of s.chips) {
+    const others = t.statuses.filter((x) => x !== h.status);
+    const mark = others.length ? `also ${others.join(', ')}` : '';
+    if (!same(h.also, others) || h.alsoMark !== mark || h.alsoSaid !== others.length > 0) {
+      fails.push(`errors figure: ${c}'s chip under ${h.status} states also [${h.also.join(', ')}], "${h.alsoMark}"${h.alsoSaid ? ', spoken' : ''}; the table's other statuses are [${others.join(', ')}]`);
+    }
+  }
 }
 for (const c of shown.keys()) if (!table.has(c)) fails.push(`errors figure: draws ${c}, which is not in the table`);
 const tableTypes = [...new Set([...table.values()].map((t) => t.type))];
@@ -295,7 +325,7 @@ if (JSON.stringify([...famTypes].sort()) !== JSON.stringify([...tableTypes].sort
 // The generated words: the counts in the lead and the key, the example family, the host line.
 const lead = strip(ef[1].match(/<p\b[^>]*class="ow-err-lead\b[^>]*>([\s\S]*?)<\/p>/)?.[1] ?? '');
 const lm = lead.match(/^(\d+) error codes? in (\d+) famil(?:y|ies)\. .*the ([a-z_]+) family alone answers with (\d+) statuses \(([\d, ]+)\)\.$/);
-const statusesOf = (type) => [...new Set([...table.values()].filter((t) => t.type === type).map((t) => t.status))].sort((a, b) => a - b);
+const statusesOf = (type) => [...new Set([...table.values()].filter((t) => t.type === type).flatMap((t) => t.statuses))].sort((a, b) => a - b);
 if (!lm) fails.push(`errors figure: the lead does not read as counts and an example: "${lead}"`);
 else {
   const [, nCodes, nFams, ex, nSt, sts] = lm;
@@ -304,7 +334,7 @@ else {
   if (Number(nSt) !== statusesOf(ex).length || sts !== statusesOf(ex).join(', ')) fails.push(`errors figure: the lead says ${ex} answers with ${nSt} statuses (${sts}); the table gives it ${statusesOf(ex).join(', ')}`);
   if (statusesOf(ex).length !== most) fails.push(`errors figure: the lead's example ${ex} is not the family with the most statuses (${most})`);
 }
-const marked = [...shown].filter(([, s]) => s.ring);
+const marked = [...shown].filter(([, s]) => s.chips.some((h) => h.ring));
 const legend = strip(ef[1].match(/<p\b[^>]*class="ow-err-key\b[^>]*>([\s\S]*?)<\/p>/)?.[1] ?? '');
 if (!legend.includes(`then retry (${marked.length} code${marked.length === 1 ? '' : 's'})`)) fails.push(`errors figure: the key does not count the ${marked.length} marked codes: "${legend}"`);
 const hostRows = (errs.split('id="upload-host-errors"')[1] ?? '').split('</table>')[0];
@@ -338,15 +368,15 @@ if (doc) {
     if (params.some((p) => p?.in === 'header' && p.name?.toLowerCase() === 'idempotency-key')) keyed.push(op);
   }
   if (!declared.size) fails.push(`the API document declares no Retry-After header at all (has its shape moved?)`);
-  for (const [c, s] of marked) if (!declared.has(s.status)) fails.push(`errors figure: ${c} is marked Retry-After, and no operation in the API document declares Retry-After on a ${s.status}`);
+  for (const [c, s] of marked) for (const st of s.statuses) if (!declared.has(st)) fails.push(`errors figure: ${c} is marked Retry-After, and no operation in the API document declares Retry-After on a ${st}`);
   // idempotency_in_flight answers on any write that takes an Idempotency-Key: every such operation
   // declares Retry-After on that status (the server's document closed the gap this printed until 2026-10-28).
   const inflight = shown.get('idempotency_in_flight');
-  if (inflight?.ring) {
+  if (inflight?.anyMark) {
     if (!keyed.length) fails.push('the API document has no operation taking an Idempotency-Key (has its shape moved?)');
-    for (const op of keyed) {
-      if (!(op.responses[inflight.status] && hasRetry(op.responses[inflight.status]))) {
-        fails.push(`errors figure: idempotency_in_flight is marked Retry-After, and ${op.operationId ?? 'an operation'} takes an Idempotency-Key without declaring Retry-After on its ${inflight.status}`);
+    for (const op of keyed) for (const st of inflight.statuses) {
+      if (!(op.responses[st] && hasRetry(op.responses[st]))) {
+        fails.push(`errors figure: idempotency_in_flight is marked Retry-After, and ${op.operationId ?? 'an operation'} takes an Idempotency-Key without declaring Retry-After on its ${st}`);
       }
     }
   }

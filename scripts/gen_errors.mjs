@@ -60,11 +60,13 @@ if (pub.length < 10) { console.error(`gen_errors: only ${pub.length} public code
 // which Markdown reads as the plain character too (the page's twin).
 const mdx = (s) => s.split(/(`[^`]*`)/).map((p, i) => (i % 2 ? p : p.replace(/[{}<]/g, '\\$&'))).join('');
 const cell = (s) => mdx(String(s ?? '').replace(/\|/g, '\\|').replace(/\s+/g, ' ').trim());
+// A code with several statuses prints each: `409`, `422`.
+const statusCell = (st) => [].concat(st).map(Number).sort((a, b) => a - b).map((s) => `\`${s}\``).join(', ');
 const table = [
   BEGIN,
   '| Code | Type | Status | What happened |',
   '|:--|:--|:--|:--|',
-  ...pub.map(([c, r]) => `| [\`${c}\`](#${c}) | \`${r.type}\` | \`${r.status}\` | ${cell(r.summary)} |`),
+  ...pub.map(([c, r]) => `| [\`${c}\`](#${c}) | \`${r.type}\` | ${statusCell(r.status)} | ${cell(r.summary)} |`),
   END,
 ].join('\n');
 

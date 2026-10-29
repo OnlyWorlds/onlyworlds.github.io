@@ -5,7 +5,9 @@
 // the same page, and its retry marks to the Retry-After headers the API's own document declares.
 //
 // A public code is an entry that is neither internal nor the upload host's. A code is marked
-// retry when its summary in the list names Retry-After.
+// retry when its summary in the list names Retry-After. A code's status is one number, or a list
+// when it answers with several (handover_refused: 409 or 422): such a code is drawn once under each
+// of its statuses, its chip naming the others (also), and counted once.
 
 // The order families are drawn in, each with a few words saying what it is about: no source holds
 // these words. A family the list adds that is not named here is drawn last, without words.
@@ -20,6 +22,7 @@ export const FAMILIES = {
 };
 
 export const retries = (r) => /Retry-After/.test(r.summary ?? '');
+export const statusesOf = (r) => [...new Set([].concat(r.status).map(Number))].sort((a, b) => a - b);
 
 export function errorFamilies(codes) {
   const pub = Object.entries(codes).filter(([, r]) => !r.internal && !r.host);
@@ -31,13 +34,18 @@ export function errorFamilies(codes) {
   });
   const families = types.map((type) => {
     const by = new Map();
+    let count = 0;
     for (const [code, r] of pub) {
       if (r.type !== type) continue;
-      if (!by.has(r.status)) by.set(r.status, []);
-      by.get(r.status).push({ code, retry: retries(r) });
+      count++;
+      const all = statusesOf(r);
+      for (const status of all) {
+        if (!by.has(status)) by.set(status, []);
+        by.get(status).push({ code, retry: retries(r), also: all.filter((s) => s !== status) });
+      }
     }
     const statuses = [...by].sort((a, b) => a[0] - b[0]).map(([status, list]) => ({ status, codes: list }));
-    return { type, says: FAMILIES[type] ?? '', count: statuses.reduce((n, s) => n + s.codes.length, 0), statuses };
+    return { type, says: FAMILIES[type] ?? '', count, statuses };
   });
   // The family whose codes answer with the most statuses: the example the lead sentence gives.
   const widest = families.reduce((w, f) => (f.statuses.length > w.statuses.length ? f : w), families[0]);
@@ -49,7 +57,7 @@ export function errorFamilies(codes) {
     host: {
       name: hostRows[0]?.[1].host ?? '',
       count: hostRows.length,
-      statuses: [...new Set(hostRows.map(([, r]) => r.status))].sort((a, b) => a - b),
+      statuses: [...new Set(hostRows.flatMap(([, r]) => statusesOf(r)))].sort((a, b) => a - b),
     },
   };
 }
@@ -74,7 +82,7 @@ export function errorFamiliesMarkdown(codes) {
   const w = errorWords(data);
   const fam = data.families.map((f) => {
     const groups = f.statuses
-      .map((s) => `${s.status}: ${s.codes.map((c) => `\`${c.code}\`${c.retry ? ' (Retry-After)' : ''}`).join(', ')}`)
+      .map((s) => `${s.status}: ${s.codes.map((c) => `\`${c.code}\`${c.retry ? ' (Retry-After)' : ''}${c.also.length ? ` (also ${statusList(c.also)})` : ''}`).join(', ')}`)
       .join('; ');
     return `- **\`${f.type}\`** (${f.count} ${f.count === 1 ? 'code' : 'codes'}${f.says ? `, ${f.says}` : ''}): ${groups}.`;
   });

@@ -2,9 +2,10 @@
 // The API's public error codes in their families (the envelope's type), each family's codes
 // grouped by status, the codes whose answer carries Retry-After ringed and marked. Built at build
 // time from keel's list (contract/error-codes.json, through errors.mjs), the same list the summary
-// table under it is generated from. It is HTML text: every code is a list item linking to its
-// section, so the figure is its own text version. The theme is the docs' own (Starlight's colour
-// variables follow the light/dark switch).
+// table under it is generated from. A code with several statuses is drawn under each, its chip
+// dashed and naming the others ("also 422"). It is HTML text: every code is a list item linking to
+// its section, so the figure is its own text version. The theme is the docs' own (Starlight's
+// colour variables follow the light/dark switch).
 import codes from '../../../contract/error-codes.json';
 import { errorFamilies, errorWords, statusList } from './errors.mjs';
 
@@ -29,10 +30,17 @@ const w = errorWords(data, (s: string) => `<code>${s}</code>`, (t: string, id: s
               <span class={s.status >= 500 ? 'ow-err-st ow-err-5xx' : 'ow-err-st'}>{s.status}</span>
               <ul>
                 {s.codes.map((c) => (
-                  <li class={c.retry ? 'retry' : undefined} data-code={c.code}>
+                  <li
+                    class={c.retry ? 'retry' : undefined}
+                    data-code={c.code}
+                    data-also={c.also.length ? c.also.join(' ') : undefined}
+                    title={c.also.length ? `${c.code} answers ${[s.status, ...c.also].sort((a, b) => a - b).join(' or ')}` : undefined}
+                  >
                     <a href={`#${c.code}`}>{c.code}</a>
                     {c.retry && <span class="ow-err-mark" aria-hidden="true">↻</span>}
                     {c.retry && <span class="sr-only"> (answers with Retry-After)</span>}
+                    {c.also.length > 0 && <span class="ow-err-also" aria-hidden="true">also {statusList(c.also)}</span>}
+                    {c.also.length > 0 && <span class="sr-only"> (also answers {statusList(c.also)})</span>}
                   </li>
                 ))}
               </ul>
@@ -117,6 +125,8 @@ const w = errorWords(data, (s: string) => `<code>${s}</code>`, (t: string, id: s
   .ow-err li a:focus-visible { color: var(--sl-color-accent-high); text-decoration: underline; }
   .ow-err li.retry { border: 1.5px solid var(--sl-color-orange); }
   .ow-err-mark { color: var(--sl-color-orange-high); font-weight: 700; }
+  .ow-err li[data-also] { border-style: dashed; border-color: var(--sl-color-gray-3); }
+  .ow-err-also { color: var(--sl-color-gray-3); font-size: 0.6875rem; }
   .ow-err-key {
     display: flex;
     flex-wrap: wrap;
