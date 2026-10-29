@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-10-29
 
+- **[TypeScript](/docs/development/typescript) 4.106.0 and [Python](/docs/development/python) 0.86.1**: the TypeScript types carry `doors` on every element; the Python `push` never sends it, so a folder copy without it is no edit.
 - **[Reads](/docs/development/api/reads)**: every element carries `doors` for a world's members, each tool that wrote it with the time of its last write there (at most 16). It and `changed_by`, `changed_via` and `changed_client` are now for members only: a [keyless read](/docs/development/api/public#what-it-does-not-serve) carries none of them.
 - **[TypeScript](/docs/development/typescript#addresses) 4.105.0 and [Python](/docs/development/python#what-it-covers) 0.86.0**: `openersFor` / `openers_for` give an Open with menu's rows for a world or an element, onlyworlds.com first, then each listed tool with a door for it, each with its state word; `TOOLS` is the tools list baked at the release.
 - **[Obsidian plugin](/docs/tools/obsidian-plugin#your-onlyworlds-account) 3.15.0**: Sign in with your browser on desktop, with no token to copy; a phone keeps the token field.
