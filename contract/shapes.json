@@ -11,7 +11,7 @@
     "DELETE /api/v2/account/clients/{client_id}": {"props":{"client_id":{},"tokens_revoked":{},"keys_revoked":{}},"required":["client_id","tokens_revoked","keys_revoked"]},
     "Draught": {"$":"Draught"},
     "Error": {"$":"Error"},
-    "GET /api/v2/auth/clients": {"title":"SigninClients","props":{"clients":{"items":{"props":{"id":{},"name":{},"redirect_uris":{"items":{}}},"required":["id","name","redirect_uris"]}}},"required":["clients"]},
+    "GET /api/v2/auth/clients": {"title":"SigninClients","props":{"clients":{"items":{"props":{"id":{},"name":{},"redirect_uris":{"items":{}},"native":{}},"required":["id","name","redirect_uris","native"]}}},"required":["clients"]},
     "GET /api/v2/changes query": {"props":{"since":{},"limit":{},"head":{},"after":{}},"required":[]},
     "GET /api/v2/character/{id}/context query": {"props":{"components":{},"mode":{},"as_of":{},"undated":{},"since":{},"budget":{},"depth":{},"lens":{},"compact":{},"world":{}},"required":[]},
     "GET /api/v2/character/{id}/files": {"props":{"data":{"items":{"props":{"id":{},"name":{},"kind":{},"size":{},"label":{},"added_by":{"props":{"name":{},"membership":{},"agent":{}},"required":["name","membership","agent"]},"added_at":{}},"required":["id","name","kind","size","label","added_by","added_at"]}}},"required":["data"]},

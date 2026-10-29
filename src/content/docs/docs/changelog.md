@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-29
 
+- **[Sign in with OnlyWorlds](/docs/development/api/signin#registered-tools)**: a registered tool can be a native app (`native: true` in the list): a desktop app may return to a loopback address on any port it picks, and a desktop or mobile app to a custom scheme, matched exactly. A web tool's return addresses stay exact `https://` ones. No native app is registered yet.
 - **[Public pages](/docs/development/api/public#what-a-visitor-sees)**: a signed-in member who opens a link to one of the world's elements is sent to their own read-only page for it when their role reads it, as the owner already was; anyone else reads the public page.
 - **[Writes](/docs/development/api/writes)**: an element id is unique across every type too. A `POST`, a creating `PUT` or a `/bulk` item whose id this world holds as another type is a `409` [`id_conflict`](/api/errors/#id_conflict), and the message names the type that holds it.
 - **[TypeScript](/docs/development/typescript) 4.102.5 and [Python](/docs/development/python#what-it-covers) 0.84.3**: a calendar whose `grain` is an empty string is no calendar, as the calendar profile requires a grain; the reader shows bare numbers.

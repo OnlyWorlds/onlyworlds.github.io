@@ -22,7 +22,8 @@ curl -s "https://www.onlyworlds.com/api/v2/auth/clients"
 {/* shape: GET /api/v2/auth/clients */}
 ```json
 { "clients": [ { "id": "atlas", "name": "Atlas",
-    "redirect_uris": ["https://atlas.onlyworlds.com/signin/callback"] } ] }
+    "redirect_uris": ["https://atlas.onlyworlds.com/signin/callback"],
+    "native": false } ] }
 ```
 
 {/* shape: GET /api/v2/auth/clients clients[] */}
@@ -30,9 +31,17 @@ curl -s "https://www.onlyworlds.com/api/v2/auth/clients"
 |:--|:--|
 | `id` | The `client_id` the tool sends |
 | `name` | The tool's name, as the Continue page and the token's name show it |
-| `redirect_uris` | The exact return addresses: a `redirect_uri` must equal one of them byte for byte |
+| `redirect_uris` | The exact return addresses: a `redirect_uri` must equal one of them byte for byte, except a native app's loopback ones (below) |
+| `native` | `true` for a desktop or mobile app, `false` for every other tool |
 
-The answer is sent `Cache-Control: public, max-age=60`, so a removed address stops being served within a minute. The list is kept by OnlyWorlds; no route adds to it. Every return address is `https://`. Tools that run on your own machine with a loopback address are a later kind of client, not registered yet.
+The answer is sent `Cache-Control: public, max-age=60`, so a removed address stops being served within a minute. The list is kept by OnlyWorlds; no route adds to it.
+
+**Return addresses.** A web tool's are exact `https://` addresses. A native app's (RFC 8252) may also be:
+
+- **a loopback address**, `http://127.0.0.1/<path>` or `http://[::1]/<path>`, listed with no port. The app picks its port when it runs, and a `redirect_uri` on the same host and path matches with any port from 1 to 65535. `localhost` is never accepted: a name can resolve somewhere else.
+- **a custom scheme**, matched exactly: a reverse-DNS scheme such as `com.example.app://callback`, or a known app's (`obsidian://`). `http`, `https`, `javascript`, `data` and `file` are never a custom scheme.
+
+No native app is registered yet.
 
 ## Sending the person to sign in
 
@@ -41,7 +50,7 @@ The tool sends the browser to `https://www.onlyworlds.com/signin/authorize` with
 | Parameter | Meaning |
 |:--|:--|
 | `client_id` | The tool's `id` in the registry |
-| `redirect_uri` | One of that tool's registered return addresses, byte for byte: no tolerance for a trailing slash, a case change or an added query |
+| `redirect_uri` | One of that tool's registered return addresses, byte for byte: no tolerance for a trailing slash, a case change or an added query. A native app's loopback address takes the port it chose |
 | `state` | The tool's own opaque value, up to 1024 characters, sent back untouched {/* limit: signin_state_chars */} |
 | `code_challenge` | The PKCE challenge: the base64url SHA-256 of a verifier the tool keeps |
 | `code_challenge_method` | `S256`. `plain` is refused |
@@ -128,4 +137,4 @@ The [TypeScript SDK](/docs/development/typescript) has both halves, from 4.46.0,
 - **`signInWithOnlyWorlds({ clientId, redirectUri, resume, storage })`** mints `state` and the verifier, keeps them under the client id in `storage`, and sends the browser to the authorize page (`navigate: false` only returns the URL). `redirectUri` is the registered address as a string, `https:` only, never built from `location.origin`. `resume` is small JSON the tool wants back after the redirect, such as an open link or a pending join code.
 - **`completeSignIn({ clientId })`** runs on the return page. It checks `state` and that the page is the registered address, takes `code` and `state` out of the address bar, trades the code, and returns `{ token, tokenId, expiresAt, tokenType, account, resume }` (`tokenId` since 4.73.0 and `expiresAt` since 4.94.0, each null from a server that does not send it; `expiresAt` is null too for a tool whose tokens have no lifetime). A refusal is an `OwSignInError` whose `reason` is `state_mismatch` (nothing was sent), `invalid_grant`, `rate_limited`, `offline` or `failed`.
 
-`storage` is any object with `get`, `set` and `remove`. It defaults to the browser's `sessionStorage`; in Node it must be passed. The SDK keeps no token: the pending record is cleared on success and on refusal, and the token is the tool's to store. The [Python package](/docs/development/python) has no sign-in calls: a local tool needs the loopback kind of client, which is not registered yet.
+`storage` is any object with `get`, `set` and `remove`. It defaults to the browser's `sessionStorage`; in Node it must be passed. The SDK keeps no token: the pending record is cleared on success and on refusal, and the token is the tool's to store. The SDK's two calls are for a web tool's browser return: `signInWithOnlyWorlds` takes an `https:` address only. The [Python package](/docs/development/python) has no sign-in calls: a local tool signs in as a native app with a loopback return, and none is registered yet.
