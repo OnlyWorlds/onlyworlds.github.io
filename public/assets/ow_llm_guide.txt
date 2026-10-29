@@ -93,50 +93,39 @@ THE 22 ELEMENT TYPES
 Each element has one type. Real things often need several linked elements
 (a noble house is a Family AND an Institution).
 
-The six headings below only make this list easier to read. The standard has
-22 independent types and no groups above them; the SDK's ELEMENT_FAMILIES are
-colour sets for drawing, not part of the standard either.
+The 22 types, A to Z. The standard has no groups above them; the SDK's
+colour groups (ELEMENT_GROUPS) are colour sets for drawing, not part of the
+standard either.
 
-BEINGS
+- ability: something an entity can DO (a skill, spell or power)
 - character: an individual with agency who makes choices (protagonists, NPCs)
-- creature: a living being with behaviour but without a character's reasoning
-  or social complexity (beasts, monsters, named animals)
-- species: a biological or cultural form of life; characters and creatures link to it
-
-GROUPS
-- family: a group tied by lineage, heritage or community (bloodlines, dynasties)
 - collective: a group acting as a unit, with no formal governance of its own
   (crews, mobs, bands, regiments)
-- institution: an organised body with purpose and structure (guilds, states, churches)
-
-PLACES AND THINGS
-- location: a distinct place where things happen; nests (world > city > room)
-- object: a tangible, non-living thing that can be made, owned, traded or destroyed
 - construct: a non-physical structure that explains or organises the world
   (currencies, technologies, traditions). A sword is an object; swordsmithing
   as a tradition is a construct.
-
-QUALITIES AND RULES
-- ability: something an entity can DO (a skill, spell or power)
-- trait: something an entity IS (brave, cursed, tall)
-- title: a formal designation conferring standing or power (King, Archmage);
-  many holders allowed
+- creature: a living being with behaviour but without a character's reasoning
+  or social complexity (beasts, monsters, named animals)
+- event: a time-bound happening (a battle, a birth, a discovery)
+- family: a group tied by lineage, heritage or community (bloodlines, dynasties)
+- institution: an organised body with purpose and structure (guilds, states, churches)
 - language: a system of shared meaning (tongues, scripts, codes)
 - law: a formalised rule within a jurisdiction
-
-TIME AND CONNECTION
-- event: a time-bound happening (a battle, a birth, a discovery)
+- location: a distinct place where things happen; nests (world > city > room)
+- map: a coordinate space (image, width, height)
+- marker: a point on a map; ordered markers draw a zone's shape
 - narrative: a story told in the world, often organising events (chapters, legends)
+- object: a tangible, non-living thing that can be made, owned, traded or destroyed
 - phenomenon: an ongoing or emergent condition not driven by intent (storms,
   plagues, magic fields)
+- pin: one element placed on one map
 - relation: a meaningful connection between elements (a marriage, a rivalry);
   its optional `actor` is a character
-
-SPATIAL
-- map: a coordinate space (image, width, height)
-- pin: one element placed on one map
+- species: a biological or cultural form of life; characters and creatures link to it
+- title: a formal designation conferring standing or power (King, Archmage);
+  many holders allowed
+- trait: something an entity IS (brave, cursed, tall)
 - zone: a meaningful area, drawn by markers
-- marker: a point on a map; ordered markers draw a zone's shape
 
 MAPPING USER CONCEPTS
 ---------------------
@@ -349,7 +338,7 @@ UI HELPERS
 ----------
 ```typescript
 import { ELEMENT_TYPES, ELEMENT_ICONS, getElementIcon, getElementLabel,
-         elementColor, ELEMENT_FAMILIES, ELEMENT_SECTIONS, FIELD_SCHEMA } from '@onlyworlds/sdk';
+         elementColor, ELEMENT_GROUPS, ELEMENT_SECTIONS, FIELD_SCHEMA } from '@onlyworlds/sdk';
 ```
 ELEMENT_ICONS / getElementIcon: Material Icons names per type.
 elementColor(type, 'light' | 'dark'): the default colour per type (a presentation default, not part of the standard).

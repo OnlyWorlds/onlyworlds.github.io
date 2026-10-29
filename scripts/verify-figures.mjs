@@ -133,7 +133,7 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { parseOwLink, ELEMENT_TYPES, ELEMENT_LABELS, ELEMENT_FAMILIES, FAMILY_ORDER } from '@onlyworlds/sdk';
+import { parseOwLink, ELEMENT_TYPES, ELEMENT_LABELS, ELEMENT_GROUPS, GROUP_ORDER } from '@onlyworlds/sdk';
 import { contrast, pageColours, CONTRAST } from '../src/components/figures/fields.mjs';
 import { CANCEL_ERROR, REFUSED_STATUS, REDIRECT_STATUS } from '../src/components/figures/signin.mjs';
 import { MARKS as TIME_MARKS, WHERE as TIME_WHERE } from '../src/components/figures/time.mjs';
@@ -401,11 +401,11 @@ if (kf.size !== ELEMENT_TYPES.length) fails.push(`category fields: draws ${kf.si
 for (const k of ELEMENT_TYPES) {
   const d = kf.get(k), p = onPage[k];
   if (!d) { fails.push(`category fields: ${k} is not drawn`); continue; }
-  if (d.fam !== ELEMENT_FAMILIES[k]) fails.push(`category fields: ${k} is drawn under ${d.fam}; the SDK's presentation data puts it in ${ELEMENT_FAMILIES[k]}`);
+  if (d.fam !== ELEMENT_GROUPS[k]) fails.push(`category fields: ${k} is drawn under ${d.fam}; the SDK's presentation data puts it in ${ELEMENT_GROUPS[k]}`);
   if (p && (d.n !== p.fields || d.l !== p.links)) fails.push(`category fields: ${k} is drawn with ${d.n} fields, ${d.l} links; its element page has ${p.fields} fields, ${p.links} links`);
 }
 for (const k of kf.keys()) if (!ELEMENT_TYPES.includes(k)) fails.push(`category fields: draws ${k}, which is not a category`);
-const famWant = FAMILY_ORDER.filter((f) => ELEMENT_TYPES.some((k) => ELEMENT_FAMILIES[k] === f));
+const famWant = GROUP_ORDER.filter((f) => ELEMENT_TYPES.some((k) => ELEMENT_GROUPS[k] === f));
 if (kfFams.join() !== famWant.join()) fails.push(`category fields: families drawn ${kfFams.join(', ')}; the SDK's order is ${famWant.join(', ')}`);
 if (Number(attr(cf[0].match(/^<figure\b[^>]*>/)[0], 'data-max')) !== maxWant) fails.push(`category fields: the bars are scaled to ${attr(cf[0], 'data-max')} fields; the longest element page has ${maxWant}`);
 // The lead's numbers, from the element pages (a tie goes to the first A to Z).

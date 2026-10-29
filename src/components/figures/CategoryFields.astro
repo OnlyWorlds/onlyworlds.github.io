@@ -1,21 +1,21 @@
 ---
-// The 22 categories in their four families, each with a bar for its own fields: the solid part its
+// The 22 categories in their four colour groups, each with a bar for its own fields: the solid part its
 // links, the light part its values. Built at build time from the SDK's field table and presentation
 // data (fields.mjs). It is HTML text: every row names its category, its field count and, for a
 // screen reader, its link count, and the list under it says the same. The theme is the docs' own
-// (Starlight's colour variables follow the light/dark switch); the four family colours are the
+// (Starlight's colour variables follow the light/dark switch); the four group colours are the
 // SDK's, a light and a dark one each, switched with the theme, each held to the page's background
 // by barColours (fields.mjs) so a link half clears 3:1 and a value half 2.2:1.
-import { FIELD_SCHEMA, ELEMENT_TYPES, ELEMENT_FAMILIES, FAMILY_ORDER, FAMILY_COLORS, ELEMENT_ICONS } from '@onlyworlds/sdk';
+import { FIELD_SCHEMA, ELEMENT_TYPES, ELEMENT_GROUPS, GROUP_ORDER, GROUP_COLORS, ELEMENT_ICONS } from '@onlyworlds/sdk';
 import { categoryFields, fieldWords, kindsText, label, barColours, pageColours } from './fields.mjs';
 import owCss from '../../styles/ow.css?raw';
 
-const data = categoryFields(FIELD_SCHEMA, ELEMENT_TYPES, ELEMENT_FAMILIES, FAMILY_ORDER);
+const data = categoryFields(FIELD_SCHEMA, ELEMENT_TYPES, ELEMENT_GROUPS, GROUP_ORDER);
 const w = fieldWords(data, (s: string) => `<code>${s}</code>`, (t: string, href: string) => `<a href="${href}">${t}</a>`);
 const pct = (n: number) => `${((100 * n) / data.max).toFixed(2)}%`;
 const page = pageColours(owCss);
 if (!page.dark || !page.light) throw new Error('CategoryFields: no --sl-color-black for both themes in src/styles/ow.css');
-const colours = Object.entries(barColours(FAMILY_COLORS, page))
+const colours = Object.entries(barColours(GROUP_COLORS, page))
   .map(([f, c]) => `--ow-kf-${f}-l:${c.light.link};--ow-kf-${f}-lv:${c.light.value};--ow-kf-${f}-d:${c.dark.link};--ow-kf-${f}-dv:${c.dark.value}`)
   .join(';');
 ---

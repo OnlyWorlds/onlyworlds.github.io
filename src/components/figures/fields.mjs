@@ -1,6 +1,6 @@
-// The category fields figure's data: the 22 categories in their families, each with its own field
+// The category fields figure's data: the 22 categories in their colour groups, each with its own field
 // count split into links and values. From the SDK's field table (FIELD_SCHEMA) and its presentation
-// data (ELEMENT_FAMILIES, FAMILY_ORDER), so the figure moves the day the docs' SDK pin moves. Pure:
+// data (ELEMENT_GROUPS, GROUP_ORDER), so the figure moves the day the docs' SDK pin moves. Pure:
 // the caller passes them in, so the page (CategoryFields.astro) and its Markdown twin
 // (scripts/postbuild.mjs) read the same thing. scripts/verify-figures.mjs holds the built figure to
 // the element pages' field tables, which are generated from schema-dist, not from the SDK.
@@ -58,7 +58,7 @@ export function categoryFields(fieldSchema, types, familyOf, familyOrder) {
   };
 }
 
-// The bars' colours, from the SDK's family colours and the page's own background in each theme
+// The bars' colours, from the SDK's group colours and the page's own background in each theme
 // (`--sl-color-black` in src/styles/ow.css, read by pageColours). A family colour can sit too close
 // to the page for a bar (the light theme's pink and amber under 3:1), so the bar's link half is the
 // colour mixed toward black (light) or white (dark) until it clears CONTRAST.link against the page,

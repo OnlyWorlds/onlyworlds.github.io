@@ -3,7 +3,7 @@ title: TypeScript SDK
 description: The @onlyworlds/sdk package, a typed client for the v2 API and the standard's constants, generated from schema-dist.
 ---
 
-`@onlyworlds/sdk` is the typed client for the OnlyWorlds REST API v2. It also exports the standard's constants (the 22 element types, their icons, colour families and field schema), generated from [schema-dist](https://github.com/OnlyWorlds/schema-dist) at a pinned, hash-verified tag. The generated files name that tag in their header.
+`@onlyworlds/sdk` is the typed client for the OnlyWorlds REST API v2. It also exports the standard's constants (the 22 element types, their icons, colour groups and field schema), generated from [schema-dist](https://github.com/OnlyWorlds/schema-dist) at a pinned, hash-verified tag. The generated files name that tag in their header.
 
 The 4.x line speaks v2 only and is ESM-only (Node 18 or later). Tools on the v1 API dialect (`OnlyWorldsClient`) or on CommonJS `require()` stay on the 3.x line, which is still published.
 
@@ -422,7 +422,9 @@ import {
   FIELD_SCHEMA,     // type and target of every field
   ROOM_PAIRS,       // the nine type-and-supertype pairs a parlor keeps in a world (since 4.55.0; Take since 4.75.0)
   CHARTER_PAIRS,    // the three reading aids' pairs: Law Charter, Construct Guide, Construct Domain (since 4.100.0)
-  elementColor,     // the colour of a type's family
+  ELEMENT_GROUPS,   // each type's colour group: blue, green, pink or amber (since 4.102.0)
+  GROUP_COLORS,     // each group's light and dark colour
+  elementColor,     // the colour of a type's group
   fieldLabel,       // a field name as the words a tool shows
 } from '@onlyworlds/sdk';
 
@@ -430,7 +432,7 @@ elementColor('character', 'dark');
 fieldLabel('image_url'); // "Image URL"
 ```
 
-Colour marks a type's family and the icon marks the type. Always pair a colour with its icon and label, because colour alone is not accessible. `fieldLabel` (since 4.34.0) writes a field's label in sentence case with acronyms kept (`birth_date` is "Birth date", `image_url` is "Image URL"; a word written all in capitals stays as written, so a custom `STR` is "STR", since 4.36.0), the house rule for OnlyWorlds tools; a tool that hides an extension prefix drops it before calling it. `isRoomElement(el)` (since 4.55.0) is true when an element's type and supertype, trimmed and compared without regard to case, match one of the `ROOM_PAIRS` and it carries a non-empty `x_room_of`, the id of the world or sitting the room belongs to; a pair without the mark is lore, so a novel's Message Narratives stay in view. A lore view (a list, a count, a search) leaves room elements out unless the person asks, and the room's own views show them whole: the [room profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/room.md), schema-dist serial 45. `typeWord(world, type, { supertype, many })` (since 4.62.0) gives the word a world's `x_names` map prints for a type (*Employee* for Character in a work world), or `null` for the standard's name; a supertype's own word wins over the type's, and the word is printed as written: the [names profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/names.md), schema-dist serial 48. The package also ships `SCHEMA.md` (every field and its meaning, generated) and `AGENTS.md` for AI agents working in a codebase that uses it.
+Colour marks a type's colour group and the icon marks the type. The four groups are a visual aid for drawing the 22 types, not part of the standard; until 4.102.0 they were `ELEMENT_FAMILIES`, `FAMILY_COLORS` and `FAMILY_ORDER`, which stay, deprecated, in their old words until 5.0. Always pair a colour with its icon and label, because colour alone is not accessible. `fieldLabel` (since 4.34.0) writes a field's label in sentence case with acronyms kept (`birth_date` is "Birth date", `image_url` is "Image URL"; a word written all in capitals stays as written, so a custom `STR` is "STR", since 4.36.0), the house rule for OnlyWorlds tools; a tool that hides an extension prefix drops it before calling it. `isRoomElement(el)` (since 4.55.0) is true when an element's type and supertype, trimmed and compared without regard to case, match one of the `ROOM_PAIRS` and it carries a non-empty `x_room_of`, the id of the world or sitting the room belongs to; a pair without the mark is lore, so a novel's Message Narratives stay in view. A lore view (a list, a count, a search) leaves room elements out unless the person asks, and the room's own views show them whole: the [room profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/room.md), schema-dist serial 45. `typeWord(world, type, { supertype, many })` (since 4.62.0) gives the word a world's `x_names` map prints for a type (*Employee* for Character in a work world), or `null` for the standard's name; a supertype's own word wins over the type's, and the word is printed as written: the [names profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/names.md), schema-dist serial 48. The package also ships `SCHEMA.md` (every field and its meaning, generated) and `AGENTS.md` for AI agents working in a codebase that uses it.
 
 ## SDK or MCP?
 
@@ -445,7 +447,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.101.1, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.102.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
