@@ -22,6 +22,7 @@
     "files_world_bytes": {"value":262144000,"unit":"bytes","per":"world","applies_to":"All the files a world keeps, together.","where":null},
     "file_tickets_per_day": {"value":200,"unit":"tickets","per":"24 hours per world","applies_to":"File upload tickets. Over it: 429 quota_exceeded.","where":null},
     "mcp_read_file_bytes": {"value":65536,"unit":"bytes","per":"call","applies_to":"The text the MCP read_file tool returns in one call; past it the reply is cut there and marked truncated.","where":null},
+    "snapshot_world_bytes": {"value":104857600,"unit":"bytes","per":"world","applies_to":"A world's daily file: a world whose file would be larger gets none, and its page says so.","where":null},
     "image_bytes": {"value":15728640,"unit":"bytes","per":"image","applies_to":"An image upload: the ticket's max_bytes, which the upload host holds it to.","where":null},
     "image_account_bytes": {"value":1073741824,"unit":"bytes","per":"account","applies_to":"All the images an account has uploaded, together (the admin may raise one account's). At it: 403 storage_full.","where":null},
     "image_tickets_per_day": {"value":200,"unit":"tickets","per":"24 hours per world","applies_to":"Image upload tickets. Over it: 429 quota_exceeded.","where":null},
