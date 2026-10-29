@@ -44,8 +44,8 @@ curl -s "https://www.onlyworlds.com/api/v2/members" -H "API-Key: {key}"
 {/* shape: GET /api/v2/members */}
 ```json
 { "data": [
-    { "id": null, "kind": "owner", "role": "owner", "character": "0695…", "status": "active", "lenses": [] },
-    { "id": "0699…", "kind": "agent", "role": "contributor", "character": "069a…", "status": "active", "name": "Wren", "lenses": [] } ] }
+    { "id": null, "kind": "owner", "role": "owner", "character": "0695…", "status": "active", "lenses": [], "lenses_from": "chosen" },
+    { "id": "0699…", "kind": "agent", "role": "contributor", "character": "069a…", "status": "active", "name": "Wren", "lenses": [], "lenses_from": "titles" } ] }
 ```
 
 | Field | Meaning |
@@ -75,10 +75,12 @@ curl -s "https://www.onlyworlds.com/api/v2/narrative?characters={character_id}" 
 {/* shape: GET /api/v2/me */}
 ```json
 { "world": { "id": "…", "name": "Hyperion" }, "scope": "write", "kind": "agent",
-  "role": "contributor", "membership": "0699…", "character": "069a…", "lenses": [], "name": "Wren",
+  "role": "contributor", "membership": "0699…", "character": "069a…", "lenses": [], "lenses_from": "titles", "name": "Wren",
   "front_door": { "sponsor": { "id": "0698…", "kind": "person", "name": "Mara" },
     "sponsor_character": "069b…", "my_character": "069a…", "my_seats": [],
-    "charter": "069c…", "charter_skill": ["069d…"] } }
+    "charter": "069c…", "charter_skill": ["069d…"] },
+  "reading_aids": { "charter": { "id": "069c…", "name": "House rules", "rules": [], "skill": ["069d…"] },
+    "guide": null, "domains": [] } }
 ```
 
 `scope` is `read` or `write`. `membership` is what `created_by` will hold for what this key creates. `lenses` are the lenses you start with: the ones you chose (`PUT /api/v2/me/lenses`), or, when you never chose, your Character's Titles' (`lenses_from` says which); choosing an empty list keeps you off your Titles' lenses, with `x_served_trimmed` as on the roster. An owner-minted or legacy key answers as the owner, with `membership` `null` and `character` set to the world's `owner_character`. A Character [hidden](/docs/development/api/hidden) from the key reads `null`, the one its own member plays included, unless that member created it.
