@@ -40,7 +40,8 @@
  *   (c) a marker in the other file type's form, an empty one, or one inside generated text (a region
  *       a generator rewrites: the errors table, the SDK reference, the field tables) fails;
  *   (d) the LLM guide (public/assets/ow_llm_guide.txt, plain text, which a marker would show in):
- *       each sentence in GUIDE below is found exactly once, and its number is the entry's value.
+ *       each sentence in GUIDE below is found exactly once, and its number is the entry's value;
+ *   (e) an ELSEWHERE line given the SDK's values (the archive floor) states both.
  * Not checked, printed by name: on lines with no marker, every byte size (KB, MB, GB) and every
  * "N a minute" rate, so a size or rate nothing holds is seen (outside code blocks, generated text
  * and the changelog, whose lines record what was true then). Other numbers on unmarked lines (counts,
@@ -56,6 +57,7 @@
 import { readFileSync, writeFileSync, readdirSync, statSync } from 'node:fs';
 import { join, dirname, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { WORLD_FILE_MAX_BYTES, WORLD_FILE_MAX_ENTRIES } from '@onlyworlds/sdk';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SNAP = join(ROOT, 'contract', 'limits.json');
@@ -189,8 +191,17 @@ const pagesUnder = (dir) => readdirSync(dir).sort().flatMap((f) => {
 // each value read from the code that enforces it). Each names its page, the size as the page writes
 // it, a word on the same line, and where the number lives; its line prints as held there, never as
 // "not checked", and an entry that matches no line fails, since it names a sentence that moved.
+// An entry with `bytes` (and `count`) is also checked: the line must state those values, read from the
+// published SDK docs-next pins, whose archive floor is the folder spec's §4.7 (the SDK's copy of the spec
+// is not itself checked against the spec here).
+const ARCHIVE_FLOOR = { size: '2 GiB', where: "the folder spec's archive floor (§4.7), held to the pinned SDK's WORLD_FILE_MAX_BYTES and WORLD_FILE_MAX_ENTRIES", bytes: WORLD_FILE_MAX_BYTES, count: WORLD_FILE_MAX_ENTRIES };
 const ELSEWHERE = [
   { page: 'docs/development/api/files.md', size: '250 MB', near: 'unpacked', where: "the upload host's own check on a world bundle (its unpacked cap), not in the API document" },
+  { page: 'docs/development/api/files.md', size: '8 KB', near: 'NUL byte', where: "the upload host's text check (keel's files/service.py says the edge reads the first 8 KB), not in the API document" },
+  { page: 'docs/development/python.md', size: '30 MB', near: 'Claude Projects', where: "Claude Projects' own cap on a file, a third party's" },
+  { ...ARCHIVE_FLOOR, page: 'docs/development/typescript.md', near: 'unsafe_path' },
+  { ...ARCHIVE_FLOOR, page: 'docs/development/unity.md', near: "spec's floor" },
+  { ...ARCHIVE_FLOOR, page: 'docs/schema/folders.mdx', near: 'every reader accepts' },
 ];
 const fails = [], unchecked = [], elsewhere = [], usedElsewhere = new Set();
 let markers = 0, held = 0;
@@ -220,6 +231,10 @@ for (const file of pagesUnder(CONTENT)) {
         sizes = sizes.filter((s) => s !== e.size);
         usedElsewhere.add(e);
         elsewhere.push(`${where}: "${e.size}" is ${e.where}`);
+        if (e.bytes === undefined) continue;
+        const nums = numbersOf(text);
+        if (!states(nums, e.bytes, 'bytes')) fails.push(`${where}: the line says ${e.size}, and the SDK's floor is ${e.bytes} bytes (e)`);
+        if (e.count !== undefined && !states(nums, e.count, 'entries')) fails.push(`${where}: the line does not say the SDK's ${e.count.toLocaleString('en-US')} entries (e)`);
       }
       const rates = [...text.matchAll(/(?<![\w.,])\d[\d,]* (?:\w+ )?a minute\b/g)].map((m) => m[0]);
       if (sizes.length || rates.length) unchecked.push(`${where}: ${[...sizes, ...rates].map((s) => `"${s}"`).join(', ')}`);
