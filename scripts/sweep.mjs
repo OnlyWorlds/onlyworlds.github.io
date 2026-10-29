@@ -5,7 +5,7 @@
  * Run:  node scripts/sweep.mjs [--no-links] [--no-deck] [--since YYYY-MM-DD]
  *
  * The docs state facts owned elsewhere (the API, the SDKs, the schema, the tools). The gates catch
- * what they can name: URLs (verify-urls), error codes (gen_errors), the element tables (the build), the MCP page's tables (verify-mcp), the CORS page's origins and headers (verify-cors), the toolkit's skills (verify-toolkit), the API pages' JSON examples (verify-shapes), the pages' limit numbers (verify-limits), the LLM guide's codes, SDK names, types and key kinds (verify-guide), schema-dist's fixture counts on the pages (verify-sd-counts).
+ * what they can name: URLs (verify-urls), error codes (gen_errors), the element tables (the build), the MCP page's tables (verify-mcp), the CORS page's origins and headers (verify-cors), the toolkit's skills (verify-toolkit), the API pages' JSON examples (verify-shapes), the pages' limit numbers (verify-limits), the LLM guide's codes, SDK names, types and key kinds (verify-guide), schema-dist's fixture counts on the pages (verify-sd-counts), the TypeScript names the pages give against the pinned SDK (verify-identifiers).
  * This reads the rest. It prints two lists:
  *
  *   CHECKS   things that can be measured, each PASS or STALE: the SDK pin the reference is generated
