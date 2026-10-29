@@ -11,7 +11,9 @@
  * contract/shapes.json so a build never depends on the API being up. The snapshot keeps only what
  * the check needs: for each target some page names, its keys, which are required, and the schemas
  * under it ($refs kept as named defs, allOf merged, a oneOf's object branches kept with their
- * const keys), plus the document's schema names, so a tag naming none of them fails offline.
+ * const keys), plus the document's schema names, so a tag naming none of them fails offline, and
+ * the list routes' query parameters that only some element types take, with those types
+ * (`partial_list_params`, read by verify-guide).
  * `read_at` is the day the facts last changed (a refresh that finds them equal keeps it).
  *
  * The pages: docs/development/api/*, api-reference, agents and api/errors. A JSON block is tagged
@@ -215,6 +217,20 @@ function reduce(doc, tagTargets) {
   if (!S || typeof S !== 'object') throw new Error('the document has no components.schemas');
   // the element types: each schema with a List and a Write beside it, by its slug
   const elements = Object.fromEntries(Object.keys(S).filter((n) => S[`${n}List`] && S[`${n}Write`]).map((n) => [n.toLowerCase(), n]).sort(([a], [b]) => (a < b ? -1 : 1)));
+  // the list routes' query parameters that only some element types take, each with those types
+  // (`characters`): the pages say which types take one, and verify-guide holds them to this
+  const lists = Object.fromEntries(Object.keys(elements).map((t) => {
+    const op = doc.paths?.[`/api/v2/${t}`]?.get;
+    if (!op) throw new Error(`the document has no GET /api/v2/${t}`);
+    const ps = op.parameters ?? [];
+    if (ps.some((p) => p.$ref)) throw new Error(`GET /api/v2/${t} has a $ref parameter, which this does not read`);
+    return [t, ps.filter((p) => p.in === 'query').map((p) => p.name)];
+  }));
+  const partial_list_params = {};
+  for (const n of [...new Set(Object.values(lists).flat())].sort()) {
+    const on = Object.keys(lists).filter((t) => lists[t].includes(n));
+    if (on.length < Object.keys(lists).length) partial_list_params[n] = on;
+  }
   const defs = {};
   const def = (name) => {
     if (!S[name]) throw new Error(`a $ref to ${name}, which the document lacks`);
@@ -306,7 +322,7 @@ function reduce(doc, tagTargets) {
     targets[t] = schema.missing ? schema : node(schema);
   }
   const sortedDefs = Object.fromEntries(Object.keys(defs).sort().map((k) => [k, defs[k]]));
-  return { schemas: Object.keys(S), elements, targets, defs: sortedDefs };
+  return { schemas: Object.keys(S), elements, partial_list_params, targets, defs: sortedDefs };
 }
 
 // One target and one def per line, so a diff names the one that moved.
@@ -316,6 +332,7 @@ const format = (s) => [
   `  "read_at": ${JSON.stringify(s.read_at)},`,
   `  "schemas": ${JSON.stringify(s.schemas)},`,
   `  "elements": ${JSON.stringify(s.elements)},`,
+  `  "partial_list_params": ${JSON.stringify(s.partial_list_params)},`,
   '  "targets": {',
   Object.entries(s.targets).map(([k, v]) => `    ${JSON.stringify(k)}: ${JSON.stringify(v)}`).join(',\n'),
   '  },',
@@ -325,7 +342,7 @@ const format = (s) => [
   '}',
   '',
 ].join('\n');
-const body = (s) => JSON.stringify({ schemas: s.schemas, elements: s.elements, targets: s.targets, defs: s.defs });
+const body = (s) => JSON.stringify({ schemas: s.schemas, elements: s.elements, partial_list_params: s.partial_list_params, targets: s.targets, defs: s.defs });
 
 const pages = PAGES.map(blocksOf);
 const tags = new Map();   // block or table -> its read tag
@@ -368,6 +385,7 @@ if (args.has('--live') || args.has('--refresh')) {
     }
     if (JSON.stringify(snap.schemas) !== JSON.stringify(live.schemas)) console.log(`  the document's schema names changed (${live.schemas.length} now, ${snap.schemas?.length ?? 0} held)`);
     if (JSON.stringify(snap.elements) !== JSON.stringify(live.elements)) console.log('  the element types changed');
+    if (JSON.stringify(snap.partial_list_params) !== JSON.stringify(live.partial_list_params)) console.log(`  the list parameters only some types take changed (${JSON.stringify(live.partial_list_params)} now)`);
     process.exit(1);
   }
 }

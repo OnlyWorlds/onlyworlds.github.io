@@ -21,10 +21,11 @@
  *       (the API document's operations), `{type}` standing for each of the 22 types; and the list's
  *       filters ("Filters the server accepts: …") and parameters ("… are parameters, not filters")
  *       together name exactly the list route's query parameters, each once, held to the collective
- *       list route in contract/shapes.json (collective takes `characters`); each type the sentence
- *       says takes `characters` is an element type.
- * Not checked: the words of each key's row (what it reads and writes, the PIN), which types' list
- * routes take `characters` (only the collective route's parameters are vendored), its toolkit
+ *       list route in contract/shapes.json (collective takes `characters`); and the types said to
+ *       take `characters`, in the guide's sentence, the reads page's row (with its count word) and
+ *       the Character page's sentence, are exactly the list routes that take it (the snapshot's
+ *       partial_list_params, from verify-shapes.mjs --refresh).
+ * Not checked: the words of each key's row (what it reads and writes, the PIN), its toolkit
  * paragraph and limits (verify-toolkit, verify-limits), its links (the sweep's check 5).
  *
  * Exit: 0 PASS, 1 FAIL, 2 BLIND (a file or a section this reads is missing, or a section parses to
@@ -191,11 +192,31 @@ const counts = {};
   for (const n of said) if (!want.includes(n)) fails.push(`ow_llm_guide.txt: "${n}" is named as a list filter or parameter, and the API document's list route does not take it (e)`);
   for (const n of want) if (!said.includes(n)) fails.push(`ow_llm_guide.txt: the list route takes "${n}", and the guide's filters and parameters, which it says are every one, leave it out (e)`);
   if (twice.length) fails.push(`ow_llm_guide.txt: the filters and parameters name ${[...new Set(twice)].join(', ')} twice (e)`);
-  for (const t of names(filt[2].replace(/\n/g, ' '))) if (!sdk.ELEMENT_TYPES.includes(t)) fails.push(`ow_llm_guide.txt: "characters" is said to filter ${t}, which is no element type (e)`);
   counts.params = said.length;
+  // Which types take `characters`: each copy of the list (the guide's sentence, the reads page's row
+  // and its count word, the Character page's sentence) names exactly the list routes that take it.
+  const takes = shapes.partial_list_params?.characters;
+  if (!Array.isArray(takes) || !takes.length) blind('contract/shapes.json holds no partial_list_params.characters; run node scripts/verify-shapes.mjs --refresh');
+  const sameTypes = (where, list) => {
+    const extra = list.filter((t) => !takes.includes(t)), missing = takes.filter((t) => !list.includes(t));
+    if (extra.length || missing.length || new Set(list).size !== list.length) fails.push(`${where}: names ${list.join(', ')} as the types that take "characters"; the API document's list routes that take it are ${takes.join(', ')} (e)`);
+  };
+  sameTypes('ow_llm_guide.txt', names(filt[2].replace(/\n/g, ' ')));
+  const API = join(ROOT, 'src', 'content', 'docs', 'docs', 'development', 'api');
+  const reads = readText(join(API, 'reads.md'));
+  const row = reads.match(/^\| `characters` \| On the ([a-z]+) element types with a `characters` link \(([a-z, ]+)\)/m);
+  if (!row) blind('reads.md: the `characters` row ("On the <count> element types with a `characters` link (…)") is not there as this reads it');
+  sameTypes(`reads.md:${lineOf(reads, row.index)}`, names(row[2]));
+  const WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
+  if (WORDS.indexOf(row[1]) !== takes.length) fails.push(`reads.md:${lineOf(reads, row.index)}: says "${row[1]}" element types take "characters"; the API document's list routes say ${takes.length} (e)`);
+  const charPage = readText(join(ROOT, 'src', 'content', 'docs', 'docs', 'schema', 'element_categories', 'character.md'));
+  const sent = charPage.match(/an? ((?:[A-Z][a-z]+, )*[A-Z][a-z]+ or [A-Z][a-z]+) lists it in `characters`/);
+  if (!sent) blind('character.md: the sentence "… an <Type>, …, <Type> or <Type> lists it in `characters`" is not there as this reads it');
+  sameTypes(`character.md:${lineOf(charPage, sent.index)}`, names(sent[1].replace(/ or /, ', ')).map((t) => t.toLowerCase()));
+  counts.charactersCopies = 3;
 }
 
 for (const f of fails) console.log(`  FAIL   ${f}`);
-const summary = `${counts.errors} error lines, ${counts.names} SDK names and ${counts.methods} client methods, ${counts.types} types and ${counts.fields} field names, ${counts.prefixes} key prefixes in ${counts.keyCopies} copies, ${counts.routes} routes and ${counts.params} list filters and parameters; against @onlyworlds/sdk ${sdkVersion}, the error-code, credentials and shapes snapshots`;
+const summary = `${counts.errors} error lines, ${counts.names} SDK names and ${counts.methods} client methods, ${counts.types} types and ${counts.fields} field names, ${counts.prefixes} key prefixes in ${counts.keyCopies} copies, ${counts.routes} routes and ${counts.params} list filters and parameters, the types that take characters in ${counts.charactersCopies} copies; against @onlyworlds/sdk ${sdkVersion}, the error-code, credentials and shapes snapshots`;
 if (fails.length) { console.log(`verify-guide: FAIL — ${fails.length} problem(s) in ${summary}`); process.exit(1); }
-console.log(`verify-guide: PASS — ${summary}. Not checked: each key row's words, which types take the characters filter (see the header).`);
+console.log(`verify-guide: PASS — ${summary}. Not checked: each key row's words (see the header).`);
