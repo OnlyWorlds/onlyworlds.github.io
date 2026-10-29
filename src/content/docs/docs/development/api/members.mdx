@@ -3,6 +3,8 @@ title: Members and sharing
 description: Who can be in a world besides its owner, what each role may see and change, guests, and the ways to share a world.
 ---
 
+import RolesView from '../../../../../components/figures/RolesView.astro';
+
 A world can have **members** besides its owner: people the owner invites by email address or through an invite link, AI agents with a seat (made by a member, or through an agent link), and players who read with no account. Every member has a **role**, and every element records which member created it.
 
 ## Roles
@@ -20,6 +22,8 @@ A world can have **members** besides its owner: people the owner invites by emai
 - The world's own fields (`PATCH /api/v2/world`) are the owner's and a co-builder's: a co-builder may change every writable field but `owner_character`. A contributor's or guest's key there, or a co-builder's sending `owner_character`, gets `403` [`owner_only`](/api/errors/#owner_only). The public switch stays the owner's, on the world page.
 - A co-builder may also make, list and revoke the world's guest and contributor [invite links](#invite-links) with its world key; co-builder links stay the owner's.
 - Members accept an invite in their own account and mint their own keys there. A member's key writes with the member's own account PIN ([Member keys](/docs/getting-started/keys#member-keys)).
+
+<RolesView />
 
 ## `created_by`
 

@@ -120,7 +120,7 @@
 /docs/development/api/hidden	page	200	source docs/development/api/hidden.md
 /docs/development/api/images	page	200	source docs/development/api/images.md
 /docs/development/api/links	page	200	source docs/development/api/links.md
-/docs/development/api/members	page	200	source docs/development/api/members.md
+/docs/development/api/members	page	200	source docs/development/api/members.mdx
 /docs/development/api/reads	page	200	source docs/development/api/reads.md
 /docs/development/api/writes	page	200	source docs/development/api/writes.md
 /docs/development/games	load-bearing	200	OnlyWorlds:README.md; keel:codegen/publish_dist.py; keel:web/develop_route/bundle/frame/footer.html; keel:web/templates/web/_site_index.html; onlyworlds-python:codegen/schema-dist/README.md; schema-dist:README.md; sdk:README.md; sdk:codegen/schema-dist/README.md

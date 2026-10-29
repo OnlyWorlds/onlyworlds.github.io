@@ -1,0 +1,121 @@
+---
+// One world, read five ways: the same invented world of 36 elements as the owner, a co-builder, a
+// contributor, a guest and the public read it, each with what it sees and what it changes. The words
+// are the members page's roles table, read from the page's own source at build time, and for the
+// public the Hidden page's `public` row and the public worlds page's keyless writes line, all
+// through roles.mjs, which the twin reads too; the dots are a shape only. Built as HTML, so its words
+// are the page's own text; each grid is one list of dots a screen reader skips, with its count in
+// words beside it. Wide, a reader per row: its name, then Sees and Changes side by side; narrow (a
+// container query), the name above the two. The theme is the docs' own.
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { WORDS, rolesView, inline, countSay } from './roles.mjs';
+
+const API = join(process.cwd(), 'src', 'content', 'docs', 'docs', 'development', 'api');
+const src = (f: string) => readFileSync(join(API, f), 'utf8');
+const data = rolesView(src('members.mdx'), src('hidden.md'), src('public.mdx'));
+const K = WORDS.key;
+type Dot = { i: number; on: boolean; hidden: boolean; out: boolean };
+const cls = (d: Dot) => [d.on ? 'on' : 'off', d.hidden ? 'hid' : '', d.out ? 'out' : ''].filter(Boolean).join(' ');
+---
+
+<figure class="ow-fig ow-rv not-content" data-ow-figure="roles" data-n={data.n}>
+  <p class="ow-rv-lead"><b>{WORDS.title}.</b> {WORDS.lead}</p>
+  <ol class="ow-rv-readers">
+    {
+      data.panels.map((p) => (
+        <li class="ow-rv-reader" data-role={p.key}>
+          <p class="ow-rv-who"><b>{p.name}</b> <span set:html={inline(p.tag)} /></p>
+          {(['sees', 'changes'] as const).map((k) => (
+            <div class={`ow-rv-half ow-rv-${k}`} data-half={k} data-count={p[k].count}>
+              <p class="ow-rv-h">{k === 'sees' ? WORDS.sees : WORDS.changes} <span class="ow-rv-n">{countSay(p[k].count)}</span></p>
+              <span class="ow-rv-dots" aria-hidden="true">
+                {p[k].dots.map((d) => <i class={cls(d)} data-i={d.i} />)}
+              </span>
+              <p class="ow-rv-words" set:html={inline(p[k].words)} />
+              {k === 'changes' && p.note && <p class="ow-rv-note" data-note="player">{p.note}</p>}
+            </div>
+          ))}
+        </li>
+      ))
+    }
+  </ol>
+  <p class="ow-rv-key" aria-hidden="true">
+    <span><i class="on" />{K.seen}</span>
+    <span><i class="off" />{K.unseen}</span>
+    <span><i class="off hid" />{K.hidden}</span>
+    <span><i class="off out" />{K.out}</span>
+    <span><i class="on ch" />{K.change}</span>
+  </p>
+  <figcaption>{WORDS.caption}</figcaption>
+</figure>
+<details class="ow-fig-text ow-rv-text">
+  <summary>The same as text</summary>
+  <ul>
+    {
+      data.panels.map((p) => (
+        <li data-role={p.key}>
+          <strong>{p.name}</strong> (<Fragment set:html={inline(p.tag)} />). {WORDS.sees} ({countSay(p.sees.count)}): <Fragment set:html={inline(p.sees.words)} />. {WORDS.changes} ({countSay(p.changes.count)}): <Fragment set:html={inline(p.changes.words)} />.{p.note && ` ${p.note}`}
+        </li>
+      ))
+    }
+  </ul>
+</details>
+
+<style>
+  .ow-rv {
+    container-type: inline-size;
+    margin: 1.5rem 0 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.45;
+    color: var(--sl-color-gray-2);
+    --rv-seen: var(--sl-color-accent);
+    --rv-change: var(--sl-color-orange);
+    --rv-off: var(--sl-color-gray-3);
+    --rv-out: var(--sl-color-red);
+  }
+  /* light: Starlight's -high shades are the dark ones there, so the dots clear 3:1 on the page */
+  :global(:root[data-theme='light']) .ow-rv { --rv-change: var(--sl-color-orange-high); --rv-out: var(--sl-color-red-high); }
+  .ow-rv p, .ow-rv ol { margin: 0; }
+  .ow-rv ol { list-style: none; padding: 0; }
+  .ow-rv li { margin: 0; }
+  .ow-rv b { color: var(--sl-color-white); font-weight: 600; }
+  .ow-rv code { font-family: var(--sl-font-mono); font-size: 0.75rem; color: var(--sl-color-white); overflow-wrap: anywhere; }
+  .ow-rv a { color: var(--sl-color-text-accent); }
+  .ow-rv-lead { color: var(--sl-color-gray-3); }
+  .ow-rv-readers { display: grid; gap: 0; margin-top: 0.75rem !important; }
+  /* a reader per row: the name, then Sees and Changes */
+  .ow-rv-reader {
+    display: grid;
+    grid-template-columns: 7.5rem minmax(0, 1fr) minmax(0, 1fr);
+    gap: 0.5rem 1.25rem;
+    padding: 0.85rem 0;
+    border-top: 1px dashed var(--sl-color-gray-5);
+  }
+  .ow-rv-who b { display: block; font-size: 0.9375rem; }
+  .ow-rv-half { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0.3rem 0.75rem; align-content: start; }
+  .ow-rv-h { grid-column: 1 / -1; font-weight: 600; }
+  .ow-rv-sees .ow-rv-h { color: var(--sl-color-text-accent); }
+  .ow-rv-changes .ow-rv-h { color: var(--sl-color-orange-high); }
+  .ow-rv-n { color: var(--sl-color-gray-3); font-weight: 400; font-size: 0.8125rem; font-variant-numeric: tabular-nums; }
+  .ow-rv-words, .ow-rv-note { font-size: 0.8125rem; }
+  .ow-rv-note { grid-column: 1 / -1; color: var(--sl-color-gray-3); }
+  /* the dots: 36 in a 6 by 6 grid */
+  .ow-rv-dots { display: grid; grid-template-columns: repeat(6, 10px); gap: 3px; align-self: start; }
+  .ow-rv i { display: block; width: 10px; height: 10px; border-radius: 50%; box-sizing: border-box; }
+  .ow-rv i.on { background: var(--rv-seen); border: 1.5px solid var(--rv-seen); }
+  .ow-rv-changes i.on, .ow-rv i.ch { background: var(--rv-change); border-color: var(--rv-change); }
+  .ow-rv i.off { border: 1.5px solid var(--rv-off); }
+  .ow-rv i.hid { border-style: dashed; }
+  .ow-rv i.on.hid { border-color: var(--sl-color-black); border-style: dashed; }
+  .ow-rv i.out { border: 1.5px dotted var(--rv-out); }
+  .ow-rv-key { display: flex; flex-wrap: wrap; gap: 0.35rem 1.1rem; margin-top: 0.6rem !important; color: var(--sl-color-gray-3); font-size: 0.8125rem; }
+  .ow-rv-key span { display: inline-flex; align-items: center; gap: 0.4rem; }
+  .ow-rv figcaption { margin-top: 0.6rem; color: var(--sl-color-gray-3); font-size: 0.8125rem; }
+  @container (max-width: 560px) {
+    .ow-rv-reader { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .ow-rv-who { grid-column: 1 / -1; }
+    .ow-rv-who b { display: inline; }
+    .ow-rv-half { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

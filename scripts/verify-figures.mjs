@@ -130,6 +130,17 @@
 // default and kinds, and holds the built figure to them; then the page's own sentences to the same,
 // every phrase the figure says to the page's source (or, for two, the document), the twin the same,
 // and the snapshot against the live document, printed STALE, never failed.
+//
+// The roles (/docs/development/api/members, RolesView): one invented world of 36 elements read by the
+// owner, a co-builder, a contributor, a guest and the public, its words read at build time from the
+// page's roles table, the Hidden page's `public` row and the public worlds page's keyless writes line
+// (roles.mjs). This reads the built figure: each reader's two halves word for word against the table
+// the built page prints, the public's against the Hidden page's built row and the public page's
+// source, the role names against the API document's /me role values (unreachable: CANNOT SEE for that
+// half only), the player line on the guest row alone and its phrases on the page's source, each count
+// against its own dots and its printed number, and the shape against each reader's rule with sets of
+// its own (the owner's hidden dots, the contributor's own); then the text version and the twin. The
+// table's claims against keel's code are a reading, not a gate: the words are the page's.
 import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -1868,9 +1879,161 @@ if (doc) {
 }
 }
 
+// ---- the roles ----
+// Read here with code of its own (not roles.mjs): each reader's words, tag and dots from the built
+// figure, against the roles table as the built page prints it, the Hidden page's `public` row, the
+// public worlds page's keyless writes line and the API's own document. In a block of its own: its
+// names stay its own.
+{
+const rPage = read('docs/development/api/members.html');
+const rTwin = read('docs/development/api/members.md');
+const hPage = read('docs/development/api/hidden.html');
+const rf = rPage.match(/<figure\b[^>]*\bdata-ow-figure="roles"[^>]*>([\s\S]*?)<\/figure>/);
+if (!rf) blind('the members page carries no roles figure (data-ow-figure="roles")');
+const bad = (m) => fails.push(`roles: ${m}`);
+const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+// the built text and the source say one apostrophe two ways (the build curls it)
+const norm = (s) => s.replace(/[\u2018\u2019]/g, "'").replace(/[\u201c\u201d]/g, '"').replace(/\s+/g, ' ').trim();
+const low = (s) => norm(s).toLowerCase();
+const API = join(DIST, '..', 'src', 'content', 'docs', 'docs', 'development', 'api');
+const prose = (s) => low(s.replace(/\[([^\]]+)\]\([^)]*\)/g, '$1').replace(/[`*]/g, ''));
+const mSrc = prose(readFileSync(join(API, 'members.mdx'), 'utf8'));
+const pubSrc = readFileSync(join(API, 'public.mdx'), 'utf8');
+
+// The roles table as the built page prints it: the first table after the Roles heading.
+const tAt = rPage.search(/<h2 id="roles"/);
+const table = tAt < 0 ? null : rPage.slice(tAt).match(/<table>([\s\S]*?)<\/table>/)?.[1];
+if (!table) blind('the members page has no table under its Roles heading');
+const rows = [...table.split(/<tbody>/)[1].matchAll(/<tr>([\s\S]*?)<\/tr>/g)].map((m) => [...m[1].matchAll(/<td\b[^>]*>([\s\S]*?)<\/td>/g)].map((c) => norm(strip(c[1]))));
+const roles = rows.map((r) => r[0]);
+if (!rows.length || rows.some((r) => r.length !== 3)) bad(`the roles table reads ${rows.length} row(s), not rows of three cells`);
+
+// The readers as drawn: a row each, its tag, and per half its count, its dots and its words.
+const drawn = [...rf[1].matchAll(/<li\b[^>]*class="ow-rv-reader\b[^"]*"[^>]*data-role="([^"]+)"[^>]*>([\s\S]*?)(?=<li\b[^>]*class="ow-rv-reader\b[^"]*"|<\/ol>)/g)].map(([, role, body]) => {
+  const half = (k) => {
+    const h = body.match(new RegExp(`<div\\b[^>]*data-half="${k}"[^>]*data-count="(\\d+)"[^>]*>([\\s\\S]*?)(?=<div\\b[^>]*data-half=|$)`));
+    if (!h) return null;
+    const dots = [...h[2].matchAll(/<i\b([^>]*)>/g)].map((d) => ({ i: Number(attr(d[1], 'data-i')), cls: (attr(d[1], 'class') ?? '').split(/\s+/) }));
+    return {
+      count: Number(h[1]),
+      printed: strip(h[2].match(/<span\b[^>]*class="ow-rv-n\b[^"]*"[^>]*>([\s\S]*?)<\/span>/)?.[1] ?? ''),
+      dots,
+      on: new Set(dots.filter((d) => d.cls.includes('on')).map((d) => d.i)),
+      hid: new Set(dots.filter((d) => d.cls.includes('hid')).map((d) => d.i)),
+      out: new Set(dots.filter((d) => d.cls.includes('out')).map((d) => d.i)),
+      words: norm(strip(h[2].match(/<p\b[^>]*class="ow-rv-words\b[^"]*"[^>]*>([\s\S]*?)<\/p>/)?.[1] ?? '')),
+      note: norm(strip(h[2].match(/<p\b[^>]*data-note="player"[^>]*>([\s\S]*?)<\/p>/)?.[1] ?? '')),
+    };
+  };
+  const who = body.match(/<p\b[^>]*class="ow-rv-who\b[^"]*"[^>]*>([\s\S]*?)<\/p>/)?.[1] ?? '';
+  const name = norm(strip(who.match(/<b\b[^>]*>([\s\S]*?)<\/b>/)?.[1] ?? ''));
+  return { role, name, tag: norm(strip(who.replace(/<b\b[^>]*>[\s\S]*?<\/b>/, ''))), sees: half('sees'), changes: half('changes') };
+});
+const P = Object.fromEntries(drawn.map((d) => [d.role, d]));
+if (!same(drawn.map((d) => d.role), [...roles, 'public'])) bad(`the figure draws ${drawn.map((d) => d.role).join(', ')}; the table's roles are ${roles.join(', ')}, then the public`);
+if (drawn.some((d) => !d.sees || !d.changes)) blind('a reader in the roles figure has no Sees or no Changes half');
+
+// The role names against the API's own document: the role values /me answers with.
+if (doc) {
+  const meRole = doc.paths?.['/api/v2/me']?.get?.responses?.['200']?.content?.['application/json']?.schema?.properties?.role?.enum;
+  if (!meRole) bad('the API document\'s GET /api/v2/me no longer lists its role values');
+  else if (!same([...roles].sort(), [...meRole].sort())) bad(`the table's roles are ${roles.join(', ')}; the API document's /me answers ${meRole.join(', ')}`);
+  for (const d of drawn) if (d.role !== 'public' && d.tag !== d.role) bad(`the ${d.role} row's tag reads "${d.tag}"`);
+} else {
+  console.log('CANNOT SEE: the live API document (see above); the roles table\'s role names were not compared with it');
+}
+
+// The words: each role's two halves are the table's two cells, word for word.
+for (const [role, sees, changes] of rows) {
+  const d = P[role];
+  if (!d) continue;
+  if (d.sees.words !== sees) bad(`${role} sees "${d.sees.words}" in the figure; the table says "${sees}"`);
+  if (d.changes.words !== changes) bad(`${role} changes "${d.changes.words}" in the figure; the table says "${changes}"`);
+}
+// The public: the Hidden page's `public` row up to its colon, and the public page's keyless writes.
+const hRow = hPage.match(/<tr>\s*<td\b[^>]*><code\b[^>]*>public<\/code><\/td>\s*<td\b[^>]*>([\s\S]*?)<\/td>/)?.[1];
+const hSay = hRow ? norm(strip(hRow)).split(':')[0] : null;
+if (!hSay) bad('the Hidden page has no `public` row in its view-as table');
+else if (P.public && P.public.sees.words !== `An open world, read with no key: ${hSay[0].toLowerCase()}${hSay.slice(1)}`) bad(`the public sees "${P.public.sees.words}"; the Hidden page's public row says "${hSay}"`);
+const keylessWrites = pubSrc.split('\n').find((l) => /every write answer[^\n]*keyless request/.test(l)) ?? '';
+if (!/`401`/.test(keylessWrites)) bad('the public worlds page no longer says every write answers a keyless request 401');
+if (P.public && !(P.public.changes.words.startsWith('Nothing: ') && /every write answers a keyless request 401$/.test(P.public.changes.words))) bad(`the public changes "${P.public?.changes.words}"`);
+if (P.public && P.public.tag !== 'no key') bad(`the public row's tag reads "${P.public.tag}"`);
+
+// The player line: on the guest row only, and every phrase of it on the page's own source.
+for (const d of drawn) if (d.role !== 'guest' && d.changes.note) bad(`the ${d.role} row carries the player line`);
+const player = P.guest?.changes.note ?? '';
+if (!player) bad('the guest row has no player line');
+for (const ph of ['a player reads exactly what a guest playing that character reads', 'writes nothing', 'read key']) {
+  if (!mSrc.includes(ph)) bad(`"${ph}" is not on the members page's source`);
+  if (!low(player).includes(ph)) bad(`the player line does not say "${ph}"`);
+}
+if (/\bonly the elements it created\b/i.test(player)) bad('the player line gives a player a guest\'s Changes words');
+
+// The dots: 36 in every half, each count its own dots and its printed number.
+const n = Number(attr(rf[0].match(/^<figure\b[^>]*>/)[0], 'data-n'));
+const all = [...Array(n).keys()];
+for (const d of drawn) for (const k of ['sees', 'changes']) {
+  const h = d[k];
+  if (!same(h.dots.map((x) => x.i), all)) bad(`${d.role} ${k} draws ${h.dots.length} dots, not 0 to ${n - 1} in order`);
+  if (h.on.size !== h.count) bad(`${d.role} ${k} says ${h.count} and draws ${h.on.size}`);
+  if (h.printed !== `${h.on.size} of ${n}`) bad(`${d.role} ${k} prints "${h.printed}" over ${h.on.size} of ${n} dots`);
+  if (k === 'changes') for (const i of h.on) if (!d.sees.on.has(i)) bad(`${d.role} changes element ${i}, which it does not see`);
+  if (d.role !== 'public' && h.out.size) bad(`${d.role} ${k} marks dots the public read leaves out`);
+}
+// The shape, each reader by the table's rule: the owner's hidden dots are the world's, the
+// contributor's changes are what it made.
+const H = P.owner?.sees.hid ?? new Set();
+const made = P.contributor?.changes.on ?? new Set();
+const eq = (a, b) => same([...a].sort((x, y) => x - y), [...b].sort((x, y) => x - y));
+for (const d of drawn) for (const k of ['sees', 'changes']) if (!eq(d[k].hid, H)) bad(`${d.role} ${k} marks other dots hidden than the owner's`);
+if (!H.size || !made.size) bad('the world has no hidden element or the contributor made none: the figure shows no shape');
+for (const r of ['owner', 'co_builder']) if (P[r] && (P[r].sees.on.size !== n || P[r].changes.on.size !== n)) bad(`${r} does not see and change all ${n}`);
+if (P.contributor && !eq(P.contributor.sees.on, all.filter((i) => !H.has(i) || made.has(i)))) bad('the contributor does not see exactly everything but the hidden elements it did not create');
+if (P.guest) {
+  for (const i of P.guest.sees.on) if (H.has(i) && !made.has(i)) bad(`the guest sees element ${i}, hidden and not its own`);
+  for (const i of made) if (!P.guest.sees.on.has(i)) bad(`the guest does not see element ${i}, which it made`);
+  if (!eq(P.guest.changes.on, made)) bad('the guest changes other elements than the ones it made');
+  if (P.guest.sees.on.size >= P.contributor?.sees.on.size) bad('the guest sees as much as the contributor');
+}
+if (P.public) {
+  const O = P.public.sees.out;
+  if (!O.size) bad('the public panel marks nothing still proposed or a room element');
+  if (!eq(P.public.sees.on, all.filter((i) => !H.has(i) && !O.has(i)))) bad('the public does not see exactly what is not hidden, not a room element and not still proposed');
+  if (P.public.changes.on.size) bad('the public changes something');
+}
+
+// The caption and the text version under the figure.
+const rCap = norm(strip(rf[1].match(/<figcaption\b[^>]*>([\s\S]*?)<\/figcaption>/)?.[1] ?? ''));
+if (!rCap.includes('the roles table is the rule') || !/\bdots are a shape\b/.test(rCap)) bad(`the caption does not say the dots are a shape and the table the rule: "${rCap}"`);
+const rText = rPage.slice(rPage.indexOf(rf[0]) + rf[0].length).match(/^\s*<details\b[^>]*class="[^"]*ow-rv-text[^"]*"[^>]*>([\s\S]*?)<\/details>/)?.[1];
+if (!rText) bad('no text version (<details>) right under the figure');
+else for (const d of drawn) {
+  const li = norm(strip(rText.match(new RegExp(`<li\\b[^>]*data-role="${d.role}"[^>]*>([\\s\\S]*?)</li>`))?.[1] ?? ''));
+  for (const k of ['sees', 'changes']) if (!li.includes(`(${d[k].on.size} of ${n}): ${d[k].words}.`)) bad(`the text version's ${d.role} line does not carry its ${k}: "${li}"`);
+}
+
+// The twin carries the figure as text: every reader, its words and its counts.
+if (/^<RolesView \/>$/m.test(rTwin)) bad('the Markdown twin carries the bare tag, not the text');
+else {
+  const tw = rTwin.slice(rTwin.indexOf('**One world, read five ways.**'));
+  if (tw.length < 2) bad('the twin has no text of the figure');
+  const plain = (s) => norm(s.replace(/\[([^\]]+)\]\([^)]*\)/g, '$1').replace(/[`*]/g, ''));
+  // a reader's line each, in the figure's order
+  const twLines = tw.split('\n\n')[1]?.split('\n').filter((l) => l.startsWith('- **')).map(plain) ?? [];
+  if (twLines.length !== drawn.length) bad(`the twin has ${twLines.length} reader line(s); the figure ${drawn.length}`);
+  drawn.forEach((d, at) => {
+    const line = twLines[at] ?? '';
+    if (!line.startsWith(`- ${d.name} (${d.tag}).`)) bad(`the twin's line ${at + 1} is not ${d.role}'s: "${line}"`);
+    for (const k of ['sees', 'changes']) if (!line.includes(`(${d[k].on.size} of ${n}): ${d[k].words}.`)) bad(`the twin's ${d.role} line does not carry its ${k}: "${line}"`);
+  });
+}
+console.log(`roles: ${drawn.length} readers (${drawn.map((d) => d.role).join(', ')}), each half's words the roles table's cells (the public's the Hidden page's public row and the public page's keyless writes), the role names ${doc ? 'the API document\'s' : 'not compared with the API document'}, ${drawn.length * 2} counts each its own ${n} dots, the shape each reader's rule; the text version and the twin the same`);
+}
+
 if (fails.length) {
   for (const f of fails) console.log(`  FAIL  ${f}`);
   console.log(`\nFAIL — ${fails.length} figure claim(s) differ from their source.`);
   process.exit(1);
 }
-console.log('\nPASS — the link map draws exactly the element pages\' link rows, the four nouns\' address parses as it reads, the error families draw exactly the errors table\'s codes and marks, the category fields draw each element page\'s field and link counts under the SDK\'s families, the page palettes paint keel\'s colours with the ratios they print, the world folder draws the example\'s folders and files, each named by the page\'s rule, the credentials figure draws every operation under the credentials the API document lists for it, the sign-in steps draw the API document\'s route, parameters and fields as the page\'s own tables give them, the time ladder draws the demo world\'s line and the standard\'s steps under the names each source gives them, the public view draws what the public reader removes, the keyless reads and the /w/ routes as the page\'s own words give them, the write body draws what the API\'s write schemas store, ignore and refuse, as the page\'s own sentences say, the draught draws the sections the API serves by default and only when named, what the budget never cuts and the policy\'s parameters, as the page\'s own tables give them, and the proposals figure draws the states, the acts with their routes, answers and refusals, the switch and the queue as the API\'s document gives them, in the page\'s own words.');
+console.log('\nPASS — the link map draws exactly the element pages\' link rows, the four nouns\' address parses as it reads, the error families draw exactly the errors table\'s codes and marks, the category fields draw each element page\'s field and link counts under the SDK\'s families, the page palettes paint keel\'s colours with the ratios they print, the world folder draws the example\'s folders and files, each named by the page\'s rule, the credentials figure draws every operation under the credentials the API document lists for it, the sign-in steps draw the API document\'s route, parameters and fields as the page\'s own tables give them, the time ladder draws the demo world\'s line and the standard\'s steps under the names each source gives them, the public view draws what the public reader removes, the keyless reads and the /w/ routes as the page\'s own words give them, the write body draws what the API\'s write schemas store, ignore and refuse, as the page\'s own sentences say, the draught draws the sections the API serves by default and only when named, what the budget never cuts and the policy\'s parameters, as the page\'s own tables give them, the proposals figure draws the states, the acts with their routes, answers and refusals, the switch and the queue as the API\'s document gives them, in the page\'s own words, and the roles figure draws each reader in the roles table\'s own words, over dots that count what they say.');

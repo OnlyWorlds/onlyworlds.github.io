@@ -23,6 +23,7 @@ import { publicMarkdown } from '../src/components/figures/public.mjs';
 import { writeMarkdown } from '../src/components/figures/write.mjs';
 import { draughtMarkdown } from '../src/components/figures/draught.mjs';
 import { proposalsMarkdown } from '../src/components/figures/proposals.mjs';
+import { rolesMarkdown } from '../src/components/figures/roles.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const CONTENT = join(ROOT, 'src', 'content', 'docs');
@@ -122,6 +123,7 @@ const FIGURE_TEXT = {
   WriteBody: () => writeMarkdown(JSON.parse(readFileSync(join(ROOT, 'contract', 'write.json'), 'utf8')), ELEMENT_LABELS),
   DraughtRead: () => draughtMarkdown(JSON.parse(readFileSync(join(ROOT, 'contract', 'draught.json'), 'utf8'))),
   ProposalLife: () => proposalsMarkdown(JSON.parse(readFileSync(join(ROOT, 'contract', 'proposals.json'), 'utf8'))),
+  RolesView: () => rolesMarkdown(...['members.mdx', 'hidden.md', 'public.mdx'].map((f) => readFileSync(join(CONTENT, 'docs', 'development', 'api', f), 'utf8'))),
 };
 let figureTexts = 0;
 for (const file of walk(DIST)) {
