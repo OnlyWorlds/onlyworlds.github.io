@@ -44,7 +44,8 @@
  * Not checked, printed by name: on lines with no marker, every byte size (KB, MB, GB) and every
  * "N a minute" rate, so a size or rate nothing holds is seen (outside code blocks, generated text
  * and the changelog, whose lines record what was true then). Other numbers on unmarked lines (counts,
- * characters, days) are not found at all. Never compared: an entry's `per`, `applies_to` and `where`
+ * characters, days) are not found at all. A size another program enforces is named in ELSEWHERE
+ * with where it lives, and prints as held there; an ELSEWHERE entry no line matches fails. Never compared: an entry's `per`, `applies_to` and `where`
  * (who a limit counts against, and what happens past it, stay the page's own words); the limits of
  * other programs a page states (the MCP server's, the SDKs' own checks, the upload host's paths); the
  * generated errors table, which is keel's own text (gen_errors.mjs holds it).
@@ -184,7 +185,14 @@ const pagesUnder = (dir) => readdirSync(dir).sort().flatMap((f) => {
   return statSync(p).isDirectory() ? pagesUnder(p) : /\.mdx?$/.test(f) ? [p] : [];
 });
 
-const fails = [], unchecked = [];
+// Sizes a page states that another program enforces, so the API document never lists them (its rule:
+// each value read from the code that enforces it). Each names its page, the size as the page writes
+// it, a word on the same line, and where the number lives; its line prints as held there, never as
+// "not checked", and an entry that matches no line fails, since it names a sentence that moved.
+const ELSEWHERE = [
+  { page: 'docs/development/api/files.md', size: '250 MB', near: 'unpacked', where: "the upload host's own check on a world bundle (its unpacked cap), not in the API document" },
+];
+const fails = [], unchecked = [], elsewhere = [], usedElsewhere = new Set();
 let markers = 0, held = 0;
 const used = new Set(), pagesMarked = new Set();
 for (const file of pagesUnder(CONTENT)) {
@@ -206,7 +214,13 @@ for (const file of pagesUnder(CONTENT)) {
     const text = line.replace(MARK[kind], '');
     if (!marks.length) {
       if (generated || rel === CHANGELOG) continue;
-      const sizes = numbersOf(text).filter((x) => x.kind === 'bytes' && x.size > 1).map((x) => x.text);
+      let sizes = numbersOf(text).filter((x) => x.kind === 'bytes' && x.size > 1).map((x) => x.text);
+      for (const e of ELSEWHERE) {
+        if (e.page !== rel || !text.includes(e.near) || !sizes.includes(e.size)) continue;
+        sizes = sizes.filter((s) => s !== e.size);
+        usedElsewhere.add(e);
+        elsewhere.push(`${where}: "${e.size}" is ${e.where}`);
+      }
       const rates = [...text.matchAll(/(?<![\w.,])\d[\d,]* (?:\w+ )?a minute\b/g)].map((m) => m[0]);
       if (sizes.length || rates.length) unchecked.push(`${where}: ${[...sizes, ...rates].map((s) => `"${s}"`).join(', ')}`);
       continue;
@@ -246,6 +260,8 @@ for (const [name, re] of GUIDE) {
   if (!states(nums, e.value, e.unit)) fails.push(`ow_llm_guide.txt:${guide.slice(0, hits[0].index).split('\n').length}: ${name} is ${showValue(e.value)} ${e.unit}, and the guide says ${hits[0][1]} (d)`);
 }
 
+for (const e of ELSEWHERE) if (!usedElsewhere.has(e)) fails.push(`ELSEWHERE names "${e.size}" beside "${e.near}" on ${e.page}, and no line there says it (c)`);
+for (const u of elsewhere) console.log(`  held elsewhere  ${u}`);
 for (const u of unchecked) console.log(`  not checked  ${u}`);
 const unused = Object.keys(snap.limits).filter((k) => !used.has(k));
 if (unused.length) console.log(`  no page states ${unused.length} limit(s): ${unused.join(', ')}`);
