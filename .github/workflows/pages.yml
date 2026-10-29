@@ -61,6 +61,11 @@ jobs:
       - name: CORS headers against a live preflight (report only)
         run: |
           node scripts/verify-cors.mjs --live || echo "::warning::the live CORS answer differs from contract/cors.json: read keel's settings with node scripts/verify-cors.mjs --source, --refresh, and mend the CORS page"
+      - name: Toolkit skills against its newest release (report only)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          node scripts/verify-toolkit.mjs --live || echo "::warning::the toolkit's newest release has other skills or agents: run node scripts/verify-toolkit.mjs --refresh and mend the Toolkit page and the LLM guide"
       - name: Build
         run: npm run build
       - name: URL gate

@@ -5,7 +5,7 @@
  * Run:  node scripts/sweep.mjs [--no-links] [--no-deck] [--since YYYY-MM-DD]
  *
  * The docs state facts owned elsewhere (the API, the SDKs, the schema, the tools). The gates catch
- * what they can name: URLs (verify-urls), error codes (gen_errors), the element tables (the build), the MCP page's tables (verify-mcp), the CORS page's origins and headers (verify-cors).
+ * what they can name: URLs (verify-urls), error codes (gen_errors), the element tables (the build), the MCP page's tables (verify-mcp), the CORS page's origins and headers (verify-cors), the toolkit's skills (verify-toolkit).
  * This reads the rest. It prints two lists:
  *
  *   CHECKS   things that can be measured, each PASS or STALE: the SDK pin the reference is generated
@@ -19,7 +19,8 @@
  *            the API document's context route; the proposals snapshot against the API
  *            document's proposal routes, queue and schemas; the MCP snapshot against the
  *            live MCP server's tools and resources; the CORS snapshot against keel's settings
- *            (on a machine with keel) and a live preflight; the routes in the
+ *            (on a machine with keel) and a live preflight; the toolkit snapshot against its
+ *            newest release's skills and agents; the routes in the
  *            API reference against keel's OpenAPI; every external link; words the docs must not use;
  *            every release since the last sweep (the packages, the Unity SDK, the plugin, the toolkit,
  *            schema-dist's serials) against the changelog.
@@ -208,6 +209,17 @@ console.log('CHECKS');
     else if (code === 1) bad(`the CORS snapshot differs from ${what} (node scripts/verify-cors.mjs ${flag} says which; --refresh, then mend the page)`);
     else note(gone);
   }
+}
+
+// ---- 2l: the toolkit's snapshot against its newest release's skills and agents (exit 2 from the reader
+// is BLIND: GitHub unreadable, never a pass) --------------------------------------------------------------
+{
+  let code = 0;
+  try { execFileSync('node', ['scripts/verify-toolkit.mjs', '--live'], { cwd: ROOT, timeout: 60000, stdio: 'ignore' }); }
+  catch (e) { code = e.status ?? 2; }
+  if (code === 0) pass('the toolkit snapshot names the newest release\'s skills and agents');
+  else if (code === 1) bad('the toolkit\'s newest release has other skills or agents than its snapshot (node scripts/verify-toolkit.mjs --live says which; --refresh, then mend the Toolkit page and the LLM guide)');
+  else note('could not read the toolkit\'s newest release (node scripts/verify-toolkit.mjs --live says why): the toolkit snapshot was not checked');
 }
 
 // ---- 3: the API reference against keel's OpenAPI ---------------------------------------------------------
