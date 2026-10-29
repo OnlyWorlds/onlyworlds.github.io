@@ -1,9 +1,9 @@
 {
-  "source": "schema-dist v0.33.0-dist.83 (schema.json, example/hyperion/world.json); https://www.onlyworlds.com/api/v2/openapi.json (World, character); https://www.onlyworlds.com/api/v2/world?world=0695db52-5433-7332-8000-db7fe10da375 with no key",
-  "read_at": "2026-10-28",
+  "source": "schema-dist v0.33.0-dist.86 (schema.json, example/hyperion/world.json); https://www.onlyworlds.com/api/v2/openapi.json (World, character); https://www.onlyworlds.com/api/v2/world?world=0695db52-5433-7332-8000-db7fe10da375 with no key",
+  "read_at": "2026-10-29",
   "standard": {
-    "tag": "v0.33.0-dist.83",
-    "serial": "83",
+    "tag": "v0.33.0-dist.86",
+    "serial": "86",
     "fields": [
       {
         "name": "time_format_equivalents",
