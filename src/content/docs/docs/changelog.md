@@ -7,6 +7,7 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 ## 2026-10-29
 
+- **[Unity](/docs/development/unity) 0.25.0: schema-dist serials 86 and 87.** A type's colour group is named by its colour, `blue`, `green`, `pink` or `amber` (Construct pink, Ability amber); a colour word the presentation file cannot draw throws `OWPresentationException`; an empty review mark is settled in every reader, and `OWApiError.IsReviewMarkEmpty` names keel's refusal of one.
 - **[List your tool](/docs/development/list-your-tool#open-with)**: the tools list is served as JSON at `https://www.onlyworlds.com/tools.json`, to any origin, cached for an hour, with an `ETag`.
 - **[TypeScript](/docs/development/typescript) 4.102.1 and 4.102.2, [Python](/docs/development/python#what-it-covers) 0.84.1: schema-dist serial 87**: an empty review mark (`""`, white space only, `[]` or `{}`) is settled, never a doubt, in every reader of the mark: the [review profile](/docs/schema/profiles#review)'s readers, the ask and pack readers, a lens and its graph, and `draughtText` / `draught_text`, which no longer labels it proposed. The lens fixture's new graph case holds one element of each of the 22 element types.
 - **[A world with its first elements](/docs/getting-started/keys#a-world-with-its-first-elements)**: `POST /api/v2/account/worlds/handover` makes a world on the account and writes its first elements in one transaction, all or nothing, refused as [`handover_refused`](/api/errors/#handover_refused).
