@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-10-30
 
+- **[TypeScript](/docs/development/typescript) 4.110.0 and [Python](/docs/development/python#what-it-covers) 0.91.0**: `openersFor` / `openers_for` check the whole address, so an address with a malformed lens, moment or form is refused as the address writer refuses it; the rows are unchanged.
 - **[Python](/docs/development/python#what-it-covers) 0.90.1**: a share (`include_hidden=False`) leaves out only element files for the hidden mark, those directly in a type folder, as the TypeScript writer does; a marked file elsewhere travels as it is.
 
 ## 2026-10-29
