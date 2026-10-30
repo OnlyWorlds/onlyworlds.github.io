@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-10-30
 
+- **[TypeScript](/docs/development/typescript#the-open-with-menu-drawn) 4.117.0: the Open with menu keeps its Escape, opens toward its room, and your own row closes it.** A page's Escape no longer also runs, the fan-out opens left or up where its box would clip it, "You are here" is no longer a link, and the bottom sheet starts at 480 px wide.
 - **[TypeScript](/docs/development/typescript) 4.116.1 and [Python](/docs/development/python#what-it-covers) 0.95.1: schema-dist serial 96, no reader change.** A [graph](/docs/lenses/graph) shows a guest's own hidden element only when a lens keeps it, marked hidden; without a lens it is left out with no count, as both packages already read it.
 - **[TypeScript](/docs/development/typescript#invite-links) 4.116.0: `members()` on an account token.** A client made with the token and `world` reads that world's [members list](/docs/development/api/members) as the token's access there.
 - **[TypeScript](/docs/development/typescript#schema-constants) 4.115.0 and [Python](/docs/development/python#what-it-covers) 0.95.0: schema-dist serial 95.** A hidden element a guest only knows of is not in its [lens](/docs/lenses) view at all; a read mark on a body read with no key counts for nobody (`readMarkOf`'s `{ keyless }`, `read_mark_of(keyless=True)`); and `dragField(a, b)` gives the link a drag between two types writes, from schema-dist's `pairs.json`.

@@ -383,7 +383,7 @@ doorWhere(newest); // 'in Atlas'
 
 ### The Open with menu, drawn
 
-Since 4.113.0 the subpath `@onlyworlds/sdk/waymark` draws that menu for a page: `mountWaymark(target, options)` puts the OnlyWorlds mark beside a world's or an element's name, and the mark opens the menu (the name line, the Open with rows, the lenses you pass, Copy link). Every word in it comes from the readers above: the rows and their state words from `openersFor`, a member's "Last shaped" line from `doorsOf` and `doorWhere`. It returns a function that removes everything it added. Its stylesheet is `@onlyworlds/sdk/waymark.css`, for a dark or a paper page (`ground`). `reader` is `member`, `guest` or `public`; a public page shows only the rows that need nothing first. `entry` picks the way in: the mark (`'mark'`, the default), an Open with item for your page's own menu (`'menu'`, given back as `entry` on the returned function), or both. The main `@onlyworlds/sdk` import never loads it, so a server or a script that only reads worlds carries no page code.
+Since 4.113.0 the subpath `@onlyworlds/sdk/waymark` draws that menu for a page: `mountWaymark(target, options)` puts the OnlyWorlds mark beside a world's or an element's name, and the mark opens the menu (the name line, the Open with rows, the lenses you pass, Copy link). Every word in it comes from the readers above: the rows and their state words from `openersFor`, a member's "Last shaped" line from `doorsOf` and `doorWhere`. It returns a function that removes everything it added. Its stylesheet is `@onlyworlds/sdk/waymark.css`, for a dark or a paper page (`ground`). `reader` is `member`, `guest` or `public`; a public page shows only the rows that need nothing first. `entry` picks the way in: the mark (`'mark'`, the default), an Open with item for your page's own menu (`'menu'`, given back as `entry` on the returned function), or both. The main `@onlyworlds/sdk` import never loads it, so a server or a script that only reads worlds carries no page code. Since 4.117.0 an Escape it handles stops there, so a page's own Escape on `document` does not also run; the fan-out measures the nearest box that clips it when it opens and opens toward the room it has (to the left of a right edge, above a bottom edge); your own tool's row, "You are here", is a plain item that closes the menu; and at 480 px wide or less the menu is a sheet from the bottom.
 
 ```typescript
 import { mountWaymark } from '@onlyworlds/sdk/waymark';
@@ -496,7 +496,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.116.1, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.117.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
