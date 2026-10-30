@@ -1,6 +1,6 @@
 {
   "source": "https://www.onlyworlds.com/api/v2/openapi.json: each operation's security, and the security schemes",
-  "read_at": "2026-10-29",
+  "read_at": "2026-10-30",
   "schemes": {"AccountToken":{"scheme":"bearer","type":"http"},"ApiKey":{"in":"header","name":"API-Key","type":"apiKey"},"ApiPin":{"in":"header","name":"API-Pin","type":"apiKey"},"SessionToken":{"in":"header","name":"X-Session-Token","type":"apiKey"}},
   "operations": [
     ["GET","/api/v2/ability",[["ApiKey"],["ApiKey","ApiPin"],["AccountToken"],[]]],
@@ -319,7 +319,7 @@
     ["PUT","/api/v2/me/lenses",[["ApiKey","ApiPin"],["AccountToken"]]],
     ["POST","/api/v2/media/remove-ticket",[["ApiKey","ApiPin"]]],
     ["POST","/api/v2/media/ticket",[["ApiKey","ApiPin"]]],
-    ["GET","/api/v2/members",[["ApiKey"],["ApiKey","ApiPin"]]],
+    ["GET","/api/v2/members",[["ApiKey"],["ApiKey","ApiPin"],["AccountToken"]]],
     ["GET","/api/v2/narrative",[["ApiKey"],["ApiKey","ApiPin"],["AccountToken"],[]]],
     ["POST","/api/v2/narrative",[["ApiKey","ApiPin"]]],
     ["DELETE","/api/v2/narrative/{id}",[["ApiKey","ApiPin"]]],

@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-10-30
 
+- **[TypeScript](/docs/development/typescript#invite-links) 4.116.0: `members()` on an account token.** A client made with the token and `world` reads that world's [members list](/docs/development/api/members) as the token's access there.
 - **[TypeScript](/docs/development/typescript#schema-constants) 4.115.0 and [Python](/docs/development/python#what-it-covers) 0.95.0: schema-dist serial 95.** A hidden element a guest only knows of is not in its [lens](/docs/lenses) view at all; a read mark on a body read with no key counts for nobody (`readMarkOf`'s `{ keyless }`, `read_mark_of(keyless=True)`); and `dragField(a, b)` gives the link a drag between two types writes, from schema-dist's `pairs.json`.
 - **[onlyworlds.com](/docs/tools/onlyworlds-com#features) draws the Open with menu beside a name.** The world and element pages, the owner's, a member's and the public ones, carry the OnlyWorlds mark at the end of the name, and the mark opens the TypeScript SDK's [Open with menu](/docs/development/typescript#the-open-with-menu-drawn).
 - **[The members list](/docs/development/api/members) answers an account token.** `GET /api/v2/members` with `world=<id>` reads as the token's own access there: the owner as the owner's keys, a member as their own member key, and an account with no access gets a `404` ([Keys and PINs](/docs/getting-started/keys#reading-a-world-with-an-account-token)).

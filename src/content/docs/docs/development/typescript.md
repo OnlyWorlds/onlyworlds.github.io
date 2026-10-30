@@ -219,6 +219,8 @@ const me = await client.me();          // { world, scope, kind, role, membership
 const roster = await client.members(); // the roster's rows: { id, kind, role, character, status }
 ```
 
+Since 4.116.0 an account token reads the roster too: on a client made with the token and `world` (`new OwV2Client({ apiKey: token, world: worldId })`), `members()` sends `GET /members?world=<id>` and reads it as the token's own access there, the owner as the owner and a member as their own member key; an account with no access gets a `404`. Without `world` it refuses before sending.
+
 ## A seat for your AI
 
 To let your own AI work in a world you own or belong to, make it a seat: its own membership, key and secret, with no link to pass around (see [Giving your AI access](/docs/development/agents#giving-your-ai-access)). With the account token (since 4.28.0):
@@ -494,7 +496,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.115.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.116.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
