@@ -35,7 +35,7 @@ A membership's row is never deleted. Removing a member, a member leaving, removi
 
 ## The roster
 
-`GET /api/v2/members` lists everyone in the world. Any key on the world may read it, without a PIN. It is not paginated.
+`GET /api/v2/members` lists everyone in the world. Any key on the world may read it, without a PIN, and so may an [account token](/docs/getting-started/keys#reading-a-world-with-an-account-token) with `world=<id>`: the owner's reads it as the owner's keys do, a member's as their own member key does, and one with no access in that world gets a `404`. It is not paginated.
 
 ```bash
 curl -s "https://www.onlyworlds.com/api/v2/members" -H "API-Key: {key}"
