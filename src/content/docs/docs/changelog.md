@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-10-30
 
+- **[Atlas](/docs/tools/atlas#getting-started) 1.108.2**: while a new world shows its first steps, the first press of Tab offers Skip to the first steps.
 - **[Public worlds](/docs/development/api/public#what-a-visitor-sees): a Zone is a place, not a part of a map.** A public world's page shows its Zones as a section after Locations, a Zone has a page of its own, and the world's graph draws Zones as points; Pins and Markers still belong to their map and send the visitor to the world's page.
 - **[A world as a graph](/docs/lenses/graph), [TypeScript](/docs/development/typescript#lenses) 4.111.0 and [Python](/docs/development/python#what-it-covers) 0.92.0: a Zone is a node by default** (schema-dist serial 92). A Zone is content that gains its place through linked Markers, so it is no longer map space: `worldGraph` / `world_graph` keep Zones as nodes without a flag, a public reader's graph included, and `mapSpace` / `map_space=True` brings back Maps, Pins and Markers.
 - **[TypeScript](/docs/development/typescript) 4.110.0 and [Python](/docs/development/python#what-it-covers) 0.91.0**: `openersFor` / `openers_for` check the whole address, so an address with a malformed lens, moment or form is refused as the address writer refuses it; the rows are unchanged.
@@ -16,6 +17,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-10-29
 
+- **[Atlas](/docs/tools/atlas#features) 1.102.0 to 1.108.1**: the Web reads through a lens, and Keep a lens on an element saves one; Bring in a file, notes or JSON makes a world from a file before one exists; an element's page names the tools that last changed it; a message says "someone you cannot see" for a sender or recipient hidden from you; a new world's Home asks Start from nothing or Bring in a world I have, and one card leads through its first steps with Next; and Download the whole world and a JSON export leave out who wrote each element.
 - **[Toolkit](/docs/development/toolkit) 5.5.3: folder format 0.3.21.** A world set up from a pack is stamped with the current format, and the conventions page lists `doors` among the fields a tool keeps as served and never writes.
 - **[Public worlds](/docs/development/api/public#what-a-visitor-sees) and [Reads](/docs/development/api/reads): `created_by` is for a world's members.** A keyless read carries no `created_by`, as it already carried none of the four door keys, and a keyless `created_by=` filter is a `422` naming it. Members read and filter as before.
 - **[TypeScript](/docs/development/typescript#world-files) 4.109.0 and [Python](/docs/development/python#what-it-covers) 0.90.0: a world file leaves out who wrote each element.** `created_by`, `changed_by`, `changed_via`, `changed_client` and `doors` leave every element file by default, which is then written in the folder's own form; `includeAuthorFields: true` and `include_author_fields=True` keep every file byte for byte, for an archive of your own world.
@@ -70,6 +72,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-10-28
 
+- **[Atlas](/docs/tools/atlas#getting-started) 1.98.0, 1.98.1, 1.99.0, 1.100.0 and 1.101.0**: the first screen says Create a world and Explore, with Watch how it works and Other ways in below them; a new world's Home shows five steps that light up as the world has them; a world from OnlyWorlds or a world file opens before it is saved to this browser; and Home shows a world's charter, guide and domains first, kept out of the lists, Search and Charts.
 - **[Toolkit](/docs/development/toolkit) 5.5.1: the graph, map, timeline and survey leave out a world's reading aids** (a Charter, Guide or Domain marked `x_charter_of`) and say so once; a room or reading-aid mark counts by presence, so whitespace alone is no mark.
 - **[Unity](/docs/development/unity) 0.24.0: addresses, lenses and the Charter.** `OWAddress`, `OWLens` with `OWGraph`, and `OWCharter` read the address, lens and charter profiles; the client calls the lens routes, and an account token reads the world it names. An export declares folder format 0.3.20.
 - **[TypeScript](/docs/development/typescript) 4.101.1 and [Python](/docs/development/python#what-it-covers) 0.83.1: schema-dist serial 85**: the field descriptions call supertype and subtype a classification of the element, and say a Title's grant and revoke dates are its own (a holder's span is a Relation); no field or reader changed.
@@ -117,6 +120,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-10-27
 
+- **[Atlas](/docs/tools/atlas#features) 1.96.0, 1.97.0, 1.97.1 and 1.97.2**: a world made online links to its page on onlyworlds.com, signing out keeps your worlds syncing on their own keys, and a link to a world or an element from OnlyWorlds, pasted anywhere outside a text field or into Search, opens it.
 - **[The draught](/docs/development/api/draught#the-policy)**: the SDKs take its nine keys; the MCP tool `get_draught` takes eight, not `lens`. **[Worlds](/docs/schema/worlds)** names every writable field of the world, its extension keys and `source` and `producer` included.
 - **[Errors](/api/errors/#own_proposal): `own_proposal` and `proposed_only` are type `permission_error`**, as the summary table says. A list also takes `ids`, `created_by`, `as` and `world` ([invalid_request](/api/errors/#invalid_request), [Reads](/docs/development/api/reads#filters), the [LLM guide](/docs/development/llm-guide)).
 - **[Proposed changes](/docs/development/api/proposals#propose): `expires` is a date-time 1 to 365 days out**, never a number of days; the [TypeScript](/docs/development/typescript#proposed-changes) example sends a date.
