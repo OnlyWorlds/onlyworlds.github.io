@@ -444,7 +444,7 @@ for (const m of unreadFor(messages, myCharacter, mark, members)) {   // members:
 }
 ```
 
-`isAddressedTo(m, id)` is true for a message to everyone (an empty `characters`), and `isToEveryone(m)` (since 4.81.0) asks only that; `threadOf(messages, rootId)` lists a thread in order.
+A body read with no key, as the public reader is served, carries no hands, so `readMarkOf(marks, id, members, { keyless: true })` is `null` (since 4.115.0), the option `isToEveryone` takes. `isAddressedTo(m, id)` is true for a message to everyone (an empty `characters`), and `isToEveryone(m)` (since 4.81.0) asks only that; `threadOf(messages, rootId)` lists a thread in order.
 
 Since 4.88.0 (schema-dist serial 76) the readers know a message the server trimmed for its reader (`x_served_trimmed`): an empty `characters` with the mark is to someone you cannot see, never to everyone; `hasUnseenRecipients(m)` says so; a hidden sender is `senderStatus` `'unseen'` ("from someone you cannot see"). A body read with no credential carries no mark, so pass `{ keyless: true }` to `isToEveryone` and `hasUnseenRecipients` there: the first is then false, the second `null` (unknown). `editedBy(m, members)` says whether a later hand changed a message, and whose. A Note (supertype `Note`) is a member's own line, never a message: `isNote(el)`, and `noteOf(narratives, characterId, members)` gives the id of that Character's newest Note in its own hand.
 
@@ -471,13 +471,15 @@ import {
   GROUP_COLORS,     // each group's light and dark colour
   elementColor,     // the colour of a type's group
   fieldLabel,       // a field name as the words a tool shows
+  dragField,        // the link a drag between two types writes (since 4.115.0)
 } from '@onlyworlds/sdk';
 
 elementColor('character', 'dark');
 fieldLabel('image_url'); // "Image URL"
+dragField('location', 'character'); // { on: 'character', field: 'location', holds: true }
 ```
 
-Colour marks a type's colour group and the icon marks the type. The four groups are a visual aid for drawing the 22 types, not part of the standard; until 4.102.0 they were `ELEMENT_FAMILIES`, `FAMILY_COLORS` and `FAMILY_ORDER`, which stay, deprecated, in their old words until 5.0. Always pair a colour with its icon and label, because colour alone is not accessible. `fieldLabel` (since 4.34.0) writes a field's label in sentence case with acronyms kept (`birth_date` is "Birth date", `image_url` is "Image URL"; a word written all in capitals stays as written, so a custom `STR` is "STR", since 4.36.0), the house rule for OnlyWorlds tools; a tool that hides an extension prefix drops it before calling it. `isRoomElement(el)` (since 4.55.0) is true when an element's type and supertype, trimmed and compared without regard to case, match one of the `ROOM_PAIRS` and it carries a non-empty `x_room_of`, the id of the world or sitting the room belongs to; a pair without the mark is lore, so a novel's Message Narratives stay in view. A lore view (a list, a count, a search) leaves room elements out unless the person asks, and the room's own views show them whole: the [room profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/room.md), schema-dist serial 45. `typeWord(world, type, { supertype, many })` (since 4.62.0) gives the word a world's `x_names` map prints for a type (*Employee* for Character in a work world), or `null` for the standard's name; a supertype's own word wins over the type's, and the word is printed as written: the [names profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/names.md), schema-dist serial 48. The package also ships `SCHEMA.md` (every field and its meaning, generated) and `AGENTS.md` for AI agents working in a codebase that uses it.
+Colour marks a type's colour group and the icon marks the type. The four groups are a visual aid for drawing the 22 types, not part of the standard; until 4.102.0 they were `ELEMENT_FAMILIES`, `FAMILY_COLORS` and `FAMILY_ORDER`, which stay, deprecated, in their old words until 5.0. Always pair a colour with its icon and label, because colour alone is not accessible. `fieldLabel` (since 4.34.0) writes a field's label in sentence case with acronyms kept (`birth_date` is "Birth date", `image_url` is "Image URL"; a word written all in capitals stays as written, so a custom `STR` is "STR", since 4.36.0), the house rule for OnlyWorlds tools; a tool that hides an extension prefix drops it before calling it. `isRoomElement(el)` (since 4.55.0) is true when an element's type and supertype, trimmed and compared without regard to case, match one of the `ROOM_PAIRS` and it carries a non-empty `x_room_of`, the id of the world or sitting the room belongs to; a pair without the mark is lore, so a novel's Message Narratives stay in view. A lore view (a list, a count, a search) leaves room elements out unless the person asks, and the room's own views show them whole: the [room profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/room.md), schema-dist serial 45. `typeWord(world, type, { supertype, many })` (since 4.62.0) gives the word a world's `x_names` map prints for a type (*Employee* for Character in a work world), or `null` for the standard's name; a supertype's own word wins over the type's, and the word is printed as written: the [names profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/names.md), schema-dist serial 48. `dragField(a, b)` (since 4.115.0) says what a tool writes when a person drags one type onto another: `on`, the type that carries the field; `field`, the link; and `holds`, whether the drop puts the dragged element inside the target or only draws a line. The two types can come in either order, and a pair the table does not offer (two of the same type, a pair with no link between them, or one whose only link names a role) is `null`. It reads schema-dist's `pairs.json`, presentation data like the colours, not part of the standard. The package also ships `SCHEMA.md` (every field and its meaning, generated) and `AGENTS.md` for AI agents working in a codebase that uses it.
 
 ## SDK or MCP?
 
@@ -492,7 +494,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.114.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.115.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
