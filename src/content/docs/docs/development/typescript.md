@@ -379,6 +379,25 @@ const [newest] = doorsOf(element);
 doorWhere(newest); // 'in Atlas'
 ```
 
+### The Open with menu, drawn
+
+Since 4.113.0 the subpath `@onlyworlds/sdk/waymark` draws that menu for a page: `mountWaymark(target, options)` puts the OnlyWorlds mark beside a world's or an element's name, and the mark opens the menu (the name line, the Open with rows, the lenses you pass, Copy link). Every word in it comes from the readers above: the rows and their state words from `openersFor`, a member's "Last shaped" line from `doorsOf` and `doorWhere`. It returns a function that removes everything it added. Its stylesheet is `@onlyworlds/sdk/waymark.css`, for a dark or a paper page (`ground`). `reader` is `member`, `guest` or `public`; a public page shows only the rows that need nothing first. `entry` picks the way in: the mark (`'mark'`, the default), an Open with item for your page's own menu (`'menu'`, given back as `entry` on the returned function), or both. The main `@onlyworlds/sdk` import never loads it, so a server or a script that only reads worlds carries no page code.
+
+```typescript
+import { mountWaymark } from '@onlyworlds/sdk/waymark';
+import '@onlyworlds/sdk/waymark.css';
+
+const remove = mountWaymark(document.querySelector('#title'), {
+  world: { id: worldId, name: 'Moppetopia' },
+  element,                       // the element as your page read it, or leave it out for the world
+  reader: 'member',
+  tool: 'lantern',               // your own tool's client name: its row says "You are here"
+  signedIn: true,
+  ground: 'dark',
+});
+// later: remove();
+```
+
 ## Lenses
 
 Since 4.91.0 the [lens profile](/docs/lenses) has its reader: `resolveLens(world, lens, reader, { asOf, clock })` reads a world snapshot through a lens for one reader and returns the kept elements in order, the cut counted by reason, and the mail part when the lens names one; it never writes. `isLens(el)` and `isTemplate(el)` say what an element is; `lensesInUse(membership, xLensUses)` gives a seat's chosen lenses (the membership's choice first, else a folder Character's `x_lens_uses`). The reading's date is `asOf`, else the world's own now; the mail rule's thirty days run on `clock`, the wall clock.
@@ -473,7 +492,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.112.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.113.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
