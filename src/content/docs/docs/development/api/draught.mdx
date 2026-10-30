@@ -51,7 +51,7 @@ Nine query parameters, all optional. The SDKs take the same nine. The MCP tool `
 {/* shape: Draught */}
 ```json
 { "world": { "id": "…", "name": "…", "description": "…" }, "calendar": { … },
-  "as_of": 120, "now": 120, "mode": "voice", "policy": { … }, "cut": {},
+  "as_of": 120, "now": 120, "mode": "voice", "reader": "owner", "policy": { … }, "cut": {},
   "character": { "self": true, "grade": "whole", "element": { … } },
   "role": [ … ], "work": [], "style": null, "events": [ … ], "knowledge": [ … ],
   "names": { "relation": [ … ] }, "sheet": [ … ], "recent": [], "roster": [ … ],
@@ -75,7 +75,7 @@ Nine query parameters, all optional. The SDKs take the same nine. The MCP tool `
 | `recent` | With `since`: the [change feed](/docs/development/api/changes)'s rows under this reader's view that are about the Character or by a member who plays them, as `{op, type, id, when, who, door}`, never bodies. `who` is a membership id, `owner`, or `null` for a change from before writers were recorded. `recent_cursor` is where the walk ended: pass it as `since` next time. `recent_more` is `true` when the walk stopped before the feed's head |
 | `roster` | Who plays whom: the rows of [`GET /api/v2/members`](/docs/development/api/members#the-roster) as this reader is served them |
 
-Each element appears once, in the most specific section the policy asked for. Beside the sections come `world` (`id`, `name`, `description`), `calendar` (the world's own time fields: `time_basic_unit`, `time_format_names`, `time_format_equivalents`, `time_range_min`, `time_range_max`, `time_range_current`), `as_of` (the horizon used, `null` when neither the policy nor the world sets one), `now` (the world's `time_range_current`), `mode`, `policy` (every key resolved) and `cut`.
+Each element appears once, in the most specific section the policy asked for. Beside the sections come `world` (`id`, `name`, `description`), `calendar` (the world's own time fields: `time_basic_unit`, `time_format_names`, `time_format_equivalents`, `time_range_min`, `time_range_max`, `time_range_current`), `as_of` (the horizon used, `null` when neither the policy nor the world sets one), `now` (the world's `time_range_current`), `mode` (what was asked), `reader` (what the packet was read as: `public`, `owner`, `co_builder`, `contributor`, `guest`, `seat` or `player`; the public reader reads as itself in either mode, since 2026-10-30), `policy` (every key resolved) and `cut`.
 
 Every row in the element sections carries four fields:
 
@@ -99,7 +99,7 @@ curl -s "https://www.onlyworlds.com/api/v2/character/{id}/context?compact=true" 
 ```
 
 - **Element bodies too** (since 2026-10-26): every element body in the packet leaves out each field whose value is `null`, `""`, `[]` or `{}`. `id`, `type` and `name` always stay, and `0` and `false` are values and stay. A compact body is the list route's body less its empty fields, so it no longer matches that route byte for byte: read a missing field as empty.
-- **Always there:** `world`, `calendar`, `as_of`, `now`, `mode` and `policy`, whatever they hold.
+- **Always there:** `world`, `calendar`, `as_of`, `now`, `mode`, `reader` and `policy`, whatever they hold.
 - **A null that is an answer stays:** `character` null means the Character is hidden from this reader, `style` null that they have no style element, `recent_cursor` null that the read had no `since`. `recent_more` is a boolean and stays.
 - **The value** is `true` or `false` (in any case, in the query); anything else is `422` [`invalid_request`](/api/errors/#invalid_request) with `param` `compact`.
 - **The MCP tool's default is the other way:** `get_draught` serves the compact packet unless told `compact: false`. This route's default is `false`.
@@ -169,7 +169,7 @@ Not listed: rows dated after Year 300.
 Left out by the budget: nothing.
 ```
 
-The title says what the record holds up to the [horizon](#the-horizon), never what the Character knew. From 4.87.0 and 0.71.0 a `Not listed` line names what the horizon left out: every row dated after it in the Character's own view (`voice`), or only Events, Knowledge and proposed Events or Narratives in the caller's (`act`). The packet does not count those rows, so the line gives no number. The last line counts only what the budget dropped (`cut`). Every row says how it was reached (`via`), its grade or date, and the marks hidden and proposed. One difference between a full and a compact read: the compact packet drops an empty `x_review_proposed` (`""`, `[]`, `{}`), which the full packet counts as proposed.
+The title says what the record holds up to the [horizon](#the-horizon), never what the Character knew. Its last sentence names the view: the Character's own (`voice`), the caller's (`act`), or, from 4.112.0 and 0.93.0, the public reader when the packet's `reader` is `public`. From 4.87.0 and 0.71.0 a `Not listed` line names what the horizon left out: every row dated after it in the Character's own view (`voice`), or only Events, Knowledge and proposed Events or Narratives in the caller's (`act`). The packet does not count those rows, so the line gives no number. The last line counts only what the budget dropped (`cut`). Every row says how it was reached (`via`), its grade or date, and the marks hidden and proposed. One difference between a full and a compact read: the compact packet drops an empty `x_review_proposed` (`""`, `[]`, `{}`), which the full packet counts as proposed.
 
 ## MCP and the SDKs
 
