@@ -1,6 +1,6 @@
 {
   "source": "keel origin/main: elements/visibility.py (scoped, reads_tombstones), core/world_api.py (_public_world), web/urls.py, web/public_views.py, web/public_page.py, portal/world_graph.py",
-  "read_at": "0d4b0e3",
+  "read_at": "ac3aa27",
   "removed": [
     {
       "key": "room",
@@ -64,7 +64,6 @@
   "graph_left_out": [
     "map",
     "marker",
-    "pin",
-    "zone"
+    "pin"
   ]
 }

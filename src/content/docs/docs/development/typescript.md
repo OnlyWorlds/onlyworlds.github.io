@@ -364,7 +364,7 @@ Since 4.105.0 `openersFor(tools, kind, address, surface)` gives the rows of an *
 import { openersFor, TOOLS, parseOwLink } from '@onlyworlds/sdk';
 
 const rows = openersFor(TOOLS, 'element', parseOwLink(link), { audience: 'member', tool: 'lantern', signedIn: false });
-// [{ id: 'onlyworlds', name: 'onlyworlds.com', href: 'https://www.onlyworlds.com/w/…', state: null },
+// [{ id: 'onlyworlds', name: 'onlyworlds.com', href: 'https://www.onlyworlds.com/w/<world id>/character/<id>', state: null },
 //  { id: 'atlas', name: 'Atlas', href: 'https://atlas.onlyworlds.com/#/open/…', state: 'Sign in to Atlas first' },
 //  { id: 'lantern', name: 'Lantern', href: 'https://lantern.onlyworlds.com/#/open/…', state: 'You are here' }]
 ```

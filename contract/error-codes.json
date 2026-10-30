@@ -157,6 +157,11 @@
     "status": 401,
     "summary": "The API key was recognised but has been revoked."
   },
+  "wrong_audience": {
+    "type": "authentication_error",
+    "status": 401,
+    "summary": "The account token is a hosted client's, for the MCP server at /mcp only: every other route refuses it."
+  },
   "permission_error": {
     "type": "permission_error",
     "status": 403,

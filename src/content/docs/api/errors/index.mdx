@@ -76,6 +76,7 @@ Each code belongs to one family, its `type`, and a family's codes do not share o
 | [`file_too_large`](#file_too_large) | `invalid_request` | `413` | A file asked to be attached to an element is over 25 MB; the message gives both sizes (`param` size). |
 | [`invalid_credentials`](#invalid_credentials) | `authentication_error` | `401` | The API key or PIN is missing, unrecognised or wrong. A PIN refusal names param API-Pin and says whether the PIN was missing or wrong. |
 | [`key_revoked`](#key_revoked) | `authentication_error` | `401` | The API key was recognised but has been revoked. |
+| [`wrong_audience`](#wrong_audience) | `authentication_error` | `401` | The account token is a hosted client's, for the MCP server at /mcp only: every other route refuses it. |
 | [`permission_error`](#permission_error) | `permission_error` | `403` | The credential is valid but lacks the scope for this route (e.g. a read key on a write route). |
 | [`csrf_required`](#csrf_required) | `permission_error` | `403` | A write (POST, PUT, PATCH, DELETE) to an /account route signed in only by the site's own session cookie came without Django's CSRF token: the page sends the `csrftoken` cookie's value in the `X-CSRFToken` header (or the `csrfmiddlewaretoken` form field). Nothing was written. An `ow_a_` token or an `X-Session-Token` needs no CSRF token. |
 | [`not_author`](#not_author) | `permission_error` | `403` | A contributor or guest key changed, replaced, relinked or deleted an element someone else created. |
@@ -378,6 +379,15 @@ The API key was recognized but has been revoked.
 
 - **Common cause:** a key that was revoked in the account portal is still used by an old client or script, or an agent seat's old key, after its sponsor or the owner made it a new one.
 - **How to fix:** mint a new key in the [account portal](https://www.onlyworlds.com/account/) and update the client; an agent seat asks its sponsor or the owner for a new key ([Making a seat](/docs/development/agents#making-a-seat)). Revocation is permanent for that key.
+
+### wrong_audience
+
+**Type** `authentication_error` · **Status** `401`
+
+The account token was issued to a hosted MCP client, and it is good at the [MCP server](/docs/development/mcp) at `/mcp` only.
+
+- **Common cause:** a token a hosted client was given through its OAuth sign-in, sent as a bearer to a REST route, the account routes included.
+- **How to fix:** use that token only at `/mcp`. For the REST API, send a world key (`API-Key`), or an account token from [Sign in with OnlyWorlds](/docs/development/api/signin) for the account routes.
 
 ### permission_error
 

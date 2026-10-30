@@ -107,14 +107,20 @@ function keelDiffs(s) {
   const want = (what, got, exp) => { if (JSON.stringify(got) !== JSON.stringify(exp)) diffs.push(`${what}: keel's code has ${JSON.stringify(got)}, the figure ${JSON.stringify(exp)}`); };
   want('portal/signin.py AUTHORIZE_PATH', portal.match(/^AUTHORIZE_PATH\s*=\s*"([^"]+)"/m)?.[1], path);
   want('config/urls.py: the authorize page\'s route', /path\("([^"]+)",\s*portal_signin\.authorize\b/.exec(urls)?.[1], path.slice(1));
-  want('accounts/signin.py _PARAMS', tuple(signin, '_PARAMS'), s.authorize.params);
+  // `resource` and `scope` are the hosted MCP door's (RFC 8707 and its one read scope), optional and no part of a
+  // tool's sign-in, so the figure leaves them out by name; each must still be in keel's tuple, or the exclusion is stale.
+  const HOSTED_ONLY = ['resource', 'scope'];
+  const params = tuple(signin, '_PARAMS');
+  for (const h of HOSTED_ONLY) if (!params?.includes(h)) diffs.push(`accounts/signin.py _PARAMS: the hosted door's ${h} is gone; drop it from HOSTED_ONLY`);
+  want('accounts/signin.py _PARAMS', params?.filter((n) => !HOSTED_ONLY.includes(n)) ?? null, s.authorize.params);
   want('accounts/signin.py: the one method validate_authorize takes', signin.match(/if method != "([^"]+)":\s*\n\s*raise Refusal/)?.[1], s.authorize.method);
   want('accounts/signin.py CODE_SECONDS', Number(signin.match(/^CODE_SECONDS\s*=\s*(\d+)/m)?.[1]), s.token.code_seconds);
   // the 302 back with a code and its state, the Cancel's error, the refusal's page status
-  const backs = [...portal.matchAll(/HttpResponseRedirect\(signin\.back_to_tool\(\s*p\["redirect_uri"\],\s*([^)]*?)\)\)\)/g)].map((m) => [...m[1].matchAll(/(\w+)=/g)].map((k) => k[1]));
+  // a tool's return goes through _ToolRedirect: HttpResponseRedirect (302) with the tool's own scheme allowed (native apps)
+  const backs = [...portal.matchAll(/(?:HttpResponseRedirect|_ToolRedirect)\(signin\.back_to_tool\(\s*p\["redirect_uri"\],\s*([^)]*?)\)\)\)/g)].map((m) => [...m[1].matchAll(/(\w+)=/g)].map((k) => k[1]));
   want('portal/signin.py: the redirect a code goes back in', backs.find((b) => b.includes('code')) ?? null, s.authorize.back);
   want('portal/signin.py: the Cancel\'s error', portal.match(/decision == "cancel"[\s\S]*?error="([a-z_]+)"/)?.[1], CANCEL_ERROR);
-  want('portal/signin.py: a redirect is HttpResponseRedirect (302)', /HttpResponseRedirect\(signin\.back_to_tool/.test(portal) ? 302 : null, REDIRECT_STATUS);
+  want('portal/signin.py: a redirect is HttpResponseRedirect (302)', (/HttpResponseRedirect\(signin\.back_to_tool/.test(portal) || (/^class _ToolRedirect\(HttpResponseRedirect\):/m.test(portal) && /_ToolRedirect\(signin\.back_to_tool/.test(portal))) ? 302 : null, REDIRECT_STATUS);
   want('portal/signin.py: a refusal\'s page status', Number(portal.match(/except signin\.Refusal as refusal:\s*\n\s*return _page\([^\n]*status=(\d+)\)/)?.[1]), REFUSED_STATUS);
   want('accounts/signin_api.py: the token route', api.match(/@router\.post\("([^"]+)"[^\n]*\n\s*def exchange_signin_code/)?.[1], s.token.path.replace('/api/v2/auth', ''));
   want('accounts/signin_api.py: the fields it reads', ['grant_type', ...(tuple(api, '_FIELDS') ?? [])], s.token.body);

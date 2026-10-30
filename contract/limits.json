@@ -1,6 +1,6 @@
 {
   "source": "https://www.onlyworlds.com/api/v2/openapi.json: info.x-ow-limits, as served",
-  "read_at": "2026-10-29",
+  "read_at": "2026-10-30",
   "limits": {
     "requests_per_minute": {"value":300,"unit":"requests","per":"60 seconds per key or account token","applies_to":"Every /api/v2 route but the health checks, reads and writes together; a /bulk call is one request. Over it: 429 too_many_requests.","where":null},
     "requests_per_minute_keyless": {"value":60,"unit":"requests","per":"60 seconds per address","applies_to":"A request with no key and no account token.","where":null},
@@ -11,7 +11,7 @@
     "bulk_items": {"value":1000,"unit":"items","per":"request","applies_to":"POST /bulk.","where":"#/paths/~1api~1v2~1bulk/post/requestBody/content/application~1json/schema/properties/items/maxItems"},
     "list_limit_default": {"value":100,"unit":"elements","per":"page","applies_to":"GET /{type} with no limit.","where":"#/paths/~1api~1v2~1character/get/parameters/0/schema/default"},
     "list_limit_max": {"value":1000,"unit":"elements","per":"page","applies_to":"GET /{type} limit; a larger one is read as this.","where":null},
-    "list_ids_max": {"value":200,"unit":"ids","per":"request","applies_to":"GET /{type} ids. More: 422.","where":"#/paths/~1api~1v2~1character/get/parameters/8/schema/maxItems"},
+    "list_ids_max": {"value":200,"unit":"ids","per":"request","applies_to":"GET /{type} ids. More: 422.","where":"#/paths/~1api~1v2~1character/get/parameters/10/schema/maxItems"},
     "search_q_min_chars": {"value":2,"unit":"characters","per":"request","applies_to":"GET /search q.","where":"#/paths/~1api~1v2~1search/get/parameters/0/schema/minLength"},
     "search_q_max_chars": {"value":200,"unit":"characters","per":"request","applies_to":"GET /search q.","where":"#/paths/~1api~1v2~1search/get/parameters/0/schema/maxLength"},
     "search_limit_default": {"value":50,"unit":"results","per":"request","applies_to":"GET /search with no limit.","where":"#/paths/~1api~1v2~1search/get/parameters/2/schema/default"},
