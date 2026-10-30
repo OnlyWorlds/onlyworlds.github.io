@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-10-30
 
+- **[Unity](/docs/development/unity#read-a-world) v0.26.0: Open with, `ow://` links, the reading aids and list by a link.** `OWOpeners.For` and `OWTools.All` give the rows of an Open with menu; `OWLinkListener` and an opt-in Windows forwarder take an `ow://` link clicked outside Unity; `OWReadingAids` reads the Charter, Guide and Domains as `GET /me` serves them; `OWListParams.Filter` lists by a single link. Schema-dist serials 88 to 96, and an export declares folder format 0.3.21.
 - **[TypeScript](/docs/development/typescript#the-open-with-menu-drawn) 4.117.0: the Open with menu keeps its Escape, opens toward its room, and your own row closes it.** A page's Escape no longer also runs, the fan-out opens left or up where its box would clip it, "You are here" is no longer a link, and the bottom sheet starts at 480 px wide.
 - **[TypeScript](/docs/development/typescript) 4.116.1 and [Python](/docs/development/python#what-it-covers) 0.95.1: schema-dist serial 96, no reader change.** A [graph](/docs/lenses/graph) shows a guest's own hidden element only when a lens keeps it, marked hidden; without a lens it is left out with no count, as both packages already read it.
 - **[TypeScript](/docs/development/typescript#invite-links) 4.116.0: `members()` on an account token.** A client made with the token and `world` reads that world's [members list](/docs/development/api/members) as the token's access there.
