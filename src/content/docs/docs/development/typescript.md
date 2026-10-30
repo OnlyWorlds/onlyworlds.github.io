@@ -428,6 +428,17 @@ import { charterOf } from '@onlyworlds/sdk';
 const { charter, guide, domains } = charterOf({ elements }, { rung: 'owner' });
 ```
 
+## The strand
+
+Since 4.119.0 the [strand profile](/docs/schema/profiles#strand) has its reader: `strandOf(world, reader)` returns a world's story in miniature, `{ narrative, event, location, character, now, same }`, as that reader sees it. The World's `x_strand` (`STRAND_FIELD`) names three ids: the story (a Narrative), one of its events and one of that event's places. `narrative`, `event` and `location` are those elements, each only when it is of its kind, in the reader's view and in its parent's list (the event in the story's `events`, the place in the event's `locations`); `character` is the story's `protagonist` and `now` the hero's `location`. Each is `{ id, name }` or null, and no slot is filled from another. `same` is true when `now` and `location` are one place, false when two, and null when either is empty. `world` holds the elements as the owner is served them, with `x_strand` and `open: true` for a world open to anyone, and `reader` is a lens reader; a mark that is not an object of three ids is no mark, and every slot is null.
+
+```typescript
+import { strandOf } from '@onlyworlds/sdk';
+
+const strand = strandOf(world, { rung: 'owner' });
+if (strand.narrative) console.log(strand.narrative.name, strand.same ? 'then and now one place' : '');
+```
+
 ## Messages
 
 Messages between members follow the [message profile](/docs/schema/profiles/messages) (since 4.80.0): who a message is for, whether its sender is proved, what is unread, and a thread.
@@ -496,7 +507,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.118.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.119.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
