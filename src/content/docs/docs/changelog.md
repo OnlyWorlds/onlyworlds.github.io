@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-10-30
 
+- **[Python](/docs/development/python#what-it-covers) 0.93.1**: `type_word` gives the standard's name when a names map's `types` or `supertypes` is present as `null`, as the names profile says and the npm SDK reads it.
 - **[The draught](/docs/development/api/draught#the-packet) names its reader.** Every draught carries `reader` beside `mode`: the rung the packet was read as (`public`, `owner`, `co_builder`, `contributor`, `guest`, `seat` or `player`), kept under `compact`. `mode` stays what was asked; the public reader reads as itself in either mode.
 - **[TypeScript](/docs/development/typescript#lenses) 4.112.0 and [Python](/docs/development/python#what-it-covers) 0.93.0: schema-dist serial 93 in the lens readers.** A link reaches only an element of its field's target type, a Pin's generic pair only by an exact slug and never as a graph edge, an anchor the reader cannot see is counted for the owner as `anchor_not_visible`, a known-of stub keeps its base and public fields with every other unset, and a graph edge's index counts the list as served. `draughtText` / `draught_text` say "Read as the public reader." from the draught's `reader`; the Python package also serves an empty single link as stored.
 - **[Atlas](/docs/tools/atlas#getting-started) 1.108.2**: while a new world shows its first steps, the first press of Tab offers Skip to the first steps.
