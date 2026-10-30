@@ -7,6 +7,10 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 What changed on onlyworlds.com for everyone is on its own [Changelog](https://www.onlyworlds.com/changelog); this page stays the developer log.
 
+## 2026-10-31
+
+- **[TypeScript](/docs/development/typescript#the-strand) 4.120.0 and [Python](/docs/development/python#what-it-covers) 0.98.0: a strand begins when its story is chosen.** schema-dist serial 99: [`x_strand`](/docs/schema/profiles#strand) needs only the story; its event and place may be null or absent, and every tool shows the same half-built strand. TypeScript 4.120.0 also stops sending `X-OW-Agent` on hide, unhide, `setMyCharacter` and `mintWorldKey`, where the API declares and reads none.
+
 ## 2026-10-30
 
 - **[TypeScript](/docs/development/typescript#the-strand) 4.119.0 and [Python](/docs/development/python#what-it-covers) 0.97.0: the strand.** schema-dist serial 98 adds the [strand profile](/docs/schema/profiles#strand): a world's story in miniature, named on the World by `x_strand` (a Narrative, one of its Events and that Event's place), with the story's hero and where the hero is now. `strandOf` and `strand_of` read its five slots as one reader sees the world, and whether then and now are the same place.
