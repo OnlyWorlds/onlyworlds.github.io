@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-10-30
 
+- **[A world as a graph](/docs/lenses/graph), [TypeScript](/docs/development/typescript#lenses) 4.111.0 and [Python](/docs/development/python#what-it-covers) 0.92.0: a Zone is a node by default** (schema-dist serial 92). A Zone is content that gains its place through linked Markers, so it is no longer map space: `worldGraph` / `world_graph` keep Zones as nodes without a flag, a public reader's graph included, and `mapSpace` / `map_space=True` brings back Maps, Pins and Markers.
 - **[TypeScript](/docs/development/typescript) 4.110.0 and [Python](/docs/development/python#what-it-covers) 0.91.0**: `openersFor` / `openers_for` check the whole address, so an address with a malformed lens, moment or form is refused as the address writer refuses it; the rows are unchanged.
 - **[Python](/docs/development/python#what-it-covers) 0.90.1**: a share (`include_hidden=False`) leaves out only element files for the hidden mark, those directly in a type folder, as the TypeScript writer does; a marked file elsewhere travels as it is.
 
