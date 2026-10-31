@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-10-31
 
+- **[Little Lens](/docs/tools) is on the tools list**: a world as a web of its elements and links, read only, a public world with no account. Read against the [seven lines](/docs/development/list-your-tool) on 2026-10-31.
 - **[TypeScript](/docs/development/typescript) 4.123.4: the Waymark's menu closes when focus comes back to the page somewhere else, and Tab reaches every row in Safari.** A window that lost focus kept the menu open, and focus returning on another control left it open over the page; Safari's Tab skipped the rows that are links. Read in Chromium, Firefox and WebKit.
 - **[A world's proposed Laws](/docs/tools/onlyworlds-com) are voted on from its page**: the owner's and the members' pages show each with its tally, and a reader with a Character in the world presses Aye or Nay.
 - **[Python](/docs/development/python#what-it-covers) 0.99.3: a trailing newline no longer passes a path segment or a review day**, as it never did in TypeScript.

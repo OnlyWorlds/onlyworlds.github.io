@@ -11,6 +11,7 @@ These tools all read and write the same world format, so a world can move betwee
 |---|---|---|
 | [Atlas](/docs/tools/atlas) | The main workspace: build, write, map and chart a world that lives as a folder on your disk. | [atlas.onlyworlds.com](https://atlas.onlyworlds.com) |
 | [Lantern](/docs/tools/lantern) | Your worlds on your phone, offline too: find, read and change them, and run a game at the table, where a player needs no account. | [lantern.onlyworlds.com](https://lantern.onlyworlds.com) |
+| Little Lens | Look at a world as a web of its elements and links, and at each element with what links to it and what it links to. It only reads: a public world needs no account. | [little-lens.onlyworlds.com](https://little-lens.onlyworlds.com) |
 | [Obsidian plugin](/docs/tools/obsidian-plugin) | Each element is a markdown note in your Obsidian vault, syncable with online worlds. | [GitHub](https://github.com/OnlyWorlds/obsidian-plugin) |
 | [onlyworlds.com](/docs/tools/onlyworlds-com) | Accounts, world hosting, keys and the API. | [onlyworlds.com](https://www.onlyworlds.com) |
 
