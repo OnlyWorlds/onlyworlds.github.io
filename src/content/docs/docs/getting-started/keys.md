@@ -171,6 +171,8 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/account/worlds" \
 
 `key_name` is optional: it names that write key as the website's key list shows it (1 to 80 characters once trimmed; a blank or longer name is a `422` and nothing is made). Without it the key has no name. Either way the route makes exactly one key.
 
+Since 2026-10-31 this route, and the hand-over's `world` below, also take the World's extension keys (`x_…`, `atlas_…`, `shadow_…`), as [`PATCH /world`](/docs/development/api/writes#the-world) does: each kept as given, a `null` one not stored, all of them within the same 64 KB, written with the world and echoed on the answer. Any other key the route does not name is ignored.
+
 ### A world with its first elements
 
 `POST /api/v2/account/worlds/handover` (since 2026-10-29) makes a world on the account and writes its first elements in one transaction: a page that let a visitor make things before signing in hands them over this way. `world` takes what `POST /api/v2/account/worlds` takes, without `key_name`: no key is made, and the world's page makes keys. `items` is [`/bulk`](/docs/development/api/writes)'s array, 1 to 1000 entries of `{type, element}`. Each element keeps the `id` it carries, and the items link to each other by those ids.

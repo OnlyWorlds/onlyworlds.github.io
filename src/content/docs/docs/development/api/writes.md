@@ -169,7 +169,7 @@ A key is held while its request runs, so two sends with it do not both write; th
 | `time_range_min`, `time_range_max`, `time_range_current` | Integer or `null` |
 | `owner_character` | A Character id in this world (the Character that is the owner), or `null` |
 | `x_…`, `atlas_…`, `shadow_…` | Any JSON value: the world's extension keys (since 2026-10-23). A key sent is set, `null` removes it, and keys not sent are kept. All of them together hold at most 64 KB as compact JSON, else a `422` with `param` `extensions`. <!-- limit: extensions_bytes --> |
-| `source`, `producer` | An object or `null` each: the [folder's provenance lines](/docs/schema/folders#worldjson), for a tool that makes the world from a folder (`source.world` and `producer.tool` strings when present). Read back under `origin`; `origin` itself is a `422` here. `POST /api/v2/account/worlds` takes the same two. |
+| `source`, `producer` | An object or `null` each: the [folder's provenance lines](/docs/schema/folders#worldjson), for a tool that makes the world from a folder (`source.world` and `producer.tool` strings when present). Read back under `origin`; `origin` itself is a `422` here. `POST /api/v2/account/worlds` takes the same two, and since 2026-10-31 the extension keys too ([keys](/docs/getting-started/keys#account-tokens)). |
 
 ```bash
 curl -s -X PATCH "https://www.onlyworlds.com/api/v2/world" \

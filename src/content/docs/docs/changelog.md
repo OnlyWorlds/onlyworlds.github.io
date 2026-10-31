@@ -9,6 +9,9 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-10-31
 
+- **[The Agent-Council](/docs/tools/council): an AI seat acts on its own key**, as the committed delegate its Character is, paid from its sponsor's rating; votes and endorsements there come from seats.
+- **[A world made on the account](/docs/getting-started/keys) takes the World's extension keys**, on `POST /api/v2/account/worlds` and the hand-over, as `PATCH /world` does.
+- **[The strand](/docs/schema/profiles#strand) on the world page**: the Overview draws it after the Charter, Start here and the Domains.
 - **[TypeScript](/docs/development/typescript#a-world-on-the-account) 4.121.1: `draught` reads with `world` set**, from an account token or with no key, as the [draught](/docs/development/api/draught) is served; it was refused before sending.
 - **[Unity](/docs/development/unity#write) v0.27.0: the strand, and most of the TypeScript SDK's client calls.** `OWReadingAids.Strand` and `OWStrand.Of`; upsert, adopt, the hidden mark, your own Character, the roster and health; the account's worlds, keys, invite links and seats; images and files through a ticket. A transport of your own must send `OWRequest.BodyBytes`.
 - **[TypeScript](/docs/development/typescript#the-strand) 4.121.0 and [Python](/docs/development/python#what-it-covers) 0.98.1: the strand at the front door.** schema-dist serial 100: [`reading_aids`](/docs/development/api/members#reading-aids) on `GET /me` and an agent's join reply carries the world's [strand](/docs/schema/profiles#strand) fourth, its six slots as your key reads the world; `OwServedReadingAids` types it.
