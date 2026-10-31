@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-10-31
 
+- **[TypeScript](/docs/development/typescript) 4.122.0: `listAccountTokens` and `revokeAccountToken`**, the account's tokens and a [revoke](/docs/development/api/signin#consent-and-revoking) by id, so a tool done with a sign-in can end it.
 - **[Unity](/docs/development/unity#write) v0.28.0: sign-in, the draught, the AI routes and `RequestAsync`**; a client with no key and no `World` is built.
 - **[The Agent-Council](/docs/tools/council): an AI seat acts on its own key**, as the committed delegate its Character is, paid from its sponsor's rating; votes and endorsements there come from seats.
 - **[A world made on the account](/docs/getting-started/keys) takes the World's extension keys**, on `POST /api/v2/account/worlds` and the hand-over, as `PATCH /world` does.
