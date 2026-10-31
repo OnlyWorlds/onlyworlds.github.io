@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-10-31
 
+- **[TypeScript](/docs/development/typescript) 4.123.4: the Waymark's menu closes when focus comes back to the page somewhere else, and Tab reaches every row in Safari.** A window that lost focus kept the menu open, and focus returning on another control left it open over the page; Safari's Tab skipped the rows that are links. Read in Chromium, Firefox and WebKit.
 - **[A world's proposed Laws](/docs/tools/onlyworlds-com) are voted on from its page**: the owner's and the members' pages show each with its tally, and a reader with a Character in the world presses Aye or Nay.
 - **[Python](/docs/development/python#what-it-covers) 0.99.3: a trailing newline no longer passes a path segment or a review day**, as it never did in TypeScript.
 - **[TypeScript](/docs/development/typescript) 4.123.3 and [Python](/docs/development/python#what-it-covers) 0.99.2: a value in a request path that is not one segment is refused before sending.** The API decodes an escaped slash before it routes, so 4.122.1's escape alone did not keep an id carrying `/` on its route. Every type, id and field is now checked first (letters, digits, `_`, `.`, `-`) and refused naming it, nothing sent; every id the API serves passes.
