@@ -9,6 +9,8 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-10-31
 
+- **[TypeScript](/docs/development/typescript#the-open-with-menu-drawn) 4.123.0 and [Python](/docs/development/python#what-it-covers) 0.99.0: the site is "You are here" on itself, and the Open with menu's links open in a new tab.** A surface whose `tool` is `onlyworlds` gets the site's own row as "You are here"; the drawn menu greys your own row, opens a web link in a new tab and draws a smaller mark. schema-dist serial 101 (a sentence on the [strand](/docs/schema/profiles#strand) page) in both.
+- **[TypeScript](/docs/development/typescript) 4.122.1 and [Python](/docs/development/python#what-it-covers) 0.98.2: an id never changes the route asked.** Every type, id and field a call puts in a path is sent as one escaped segment (TypeScript) or refused before sending when it is not one (Python's `draught`, as its other calls already did).
 - **[Unity](/docs/development/unity#read-a-world) v0.29.0: `OWLinkListener` hands the link as received** beside its reading, and its dispatch can decline.
 - **[TypeScript](/docs/development/typescript) 4.122.0: `listAccountTokens` and `revokeAccountToken`**, the account's tokens and a [revoke](/docs/development/api/signin#consent-and-revoking) by id, so a tool done with a sign-in can end it.
 - **[Unity](/docs/development/unity#write) v0.28.0: sign-in, the draught, the AI routes and `RequestAsync`**; a client with no key and no `World` is built.
