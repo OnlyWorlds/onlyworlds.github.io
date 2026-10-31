@@ -142,7 +142,7 @@ curl -s "https://www.onlyworlds.com/api/v2/character/?world=<world_id>" \
 | GET | `/api/v2/account/tokens` | List your account tokens (last four characters only), each with `keys_minted`: the live world keys it minted |
 | DELETE | `/api/v2/account/tokens/{token_id}` | Revoke an account token, and the world keys a sign-in token minted unless they were minted with `keep` ([which keys outlive a token](/docs/development/api/signin#consent-and-revoking)) |
 
-Minting a world key takes `scope` (`"read"` or `"write"`, default `"write"`), an optional `keep` (`true` keeps the key when the token that minted it is revoked; the answer says `kept`) and an optional `name`, a label such as `"atlas · my laptop"` that is echoed back in the key list. A `name` over 255 characters is a `422`; the same limit applies to account token names.
+Minting a world key takes `scope` (`"read"` or `"write"`, default `"write"`), an optional `keep` (`true` keeps the key when the token that minted it is revoked; the answer says `kept`) and an optional `name`, a label such as `"atlas · my laptop"` that is echoed back in the key list. A `name` is trimmed, and one over 80 characters is a `422`, the same rule as the `key_name` a new world's key takes; `null` or a blank `name` mints a key with no name. An account token's name takes up to 255 characters.
 
 ```bash
 curl -s -X POST "https://www.onlyworlds.com/api/v2/account/worlds/{world_id}/keys" \

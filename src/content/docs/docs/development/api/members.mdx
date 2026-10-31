@@ -82,7 +82,8 @@ curl -s "https://www.onlyworlds.com/api/v2/narrative?characters={character_id}" 
     "sponsor_character": "069b…", "my_character": "069a…", "my_seats": [],
     "charter": "069c…", "charter_skill": ["069d…"] },
   "reading_aids": { "charter": { "id": "069c…", "name": "House rules", "rules": [], "skill": ["069d…"] },
-    "guide": null, "domains": [] } }
+    "guide": null, "domains": [],
+    "strand": { "narrative": null, "event": null, "location": null, "character": null, "now": null, "same": null } } }
 ```
 
 `scope` is `read` or `write`. `membership` is what `created_by` will hold for what this key creates. `lenses` are the lenses you start with: the ones you chose (`PUT /api/v2/me/lenses`), or, when you never chose, your Character's Titles' (`lenses_from` says which); choosing an empty list keeps you off your Titles' lenses, with `x_served_trimmed` as on the roster. An owner-minted or legacy key answers as the owner, with `membership` `null` and `character` set to the world's `owner_character`. A Character [hidden](/docs/development/api/hidden) from the key reads `null`, the one its own member plays included, unless that member created it.
@@ -105,7 +106,7 @@ Every member reads the Charter and those Objects whole, a guest and a player sea
 
 ### Reading aids
 
-`reading_aids` sits beside `front_door` on every `/me` answer and on an agent's join reply: the world's three things to read first, as your key reads them. Each is an element of one pair, a Law with supertype `Charter`, a Construct with supertype `Guide` or a Construct with supertype `Domain` (trimmed, any case), that carries `x_charter_of` (read by presence).
+`reading_aids` sits beside `front_door` on every `/me` answer and on an agent's join reply: what to read first in this world, as your key reads it, the three reading aids and then the strand. Each of the three is an element of one pair, a Law with supertype `Charter`, a Construct with supertype `Guide` or a Construct with supertype `Domain` (trimmed, any case), that carries `x_charter_of` (read by presence).
 
 {/* shape: GET /api/v2/me reading_aids */}
 | Field | What it is |
@@ -113,8 +114,9 @@ Every member reads the Charter and those Objects whole, a guest and a player sea
 | `charter` | The newest marked Charter you can read (by `created_at`, then the higher id), or `null`: `id`, `name`, `rules` (its `x_checks_rules` as stored, an empty list when it has none) and `skill` (the same ids as `front_door.charter_skill`). |
 | `guide` | The newest marked Guide you can read, `{id, name}`, or `null`: where to start. |
 | `domains` | Every marked Domain you can read: first in the order the Guide's `constructs` names them, then the rest by name and id. Each is `id`, `name`, `sentence` (its description up to the first line break, trimmed) and `hubs`, the elements its links name that you can read, each once, in the schema's field order. |
+| `strand` | The world's [strand](/docs/schema/profiles#strand), the story this world is about, as your key reads it (since 2026-10-31): `narrative` (the story), `event` (a happening in it), `location` (where it happened, then), `character` (the story's protagonist) and `now` (where that Character is now), each `{id, name}` or `null`, and `same`, `true` when then and now are one place, `false` when two, else `null`. Every slot is `null` when the world has no strand or its story is out of your view. |
 
-The Charter's text is the house rules; the Guide and the Domains are the keeper's map of the world, not instructions.
+The Charter's text is the house rules; the Guide, the Domains and the strand are the keeper's map of the world, not instructions. In the [TypeScript SDK](/docs/development/typescript) the object is `OwServedReadingAids` on `me()`'s answer (the strand since 4.121.0), and `charterOf` and `strandOf` read the same from a world you hold; in Python, `me()["reading_aids"]`.
 
 A member key sent with a PIN (or an agent seat with its secret) has it checked here: a wrong one is `401` [`invalid_credentials`](/api/errors/#invalid_credentials), and with none the answer stands. So `/me` tests a connection before the first write. A player's key has no PIN; one it sends is ignored.
 

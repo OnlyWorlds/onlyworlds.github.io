@@ -9,6 +9,8 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-10-31
 
+- **[TypeScript](/docs/development/typescript#the-strand) 4.121.0 and [Python](/docs/development/python#what-it-covers) 0.98.1: the strand at the front door.** schema-dist serial 100: [`reading_aids`](/docs/development/api/members#reading-aids) on `GET /me` and an agent's join reply carries the world's [strand](/docs/schema/profiles#strand) fourth, its six slots as your key reads the world; `OwServedReadingAids` types it.
+- **[Keys](/docs/getting-started/keys): a world key's `name` is trimmed and at most 80 characters**, `null` or blank for none, the same rule as a new world's `key_name`; TypeScript 4.121.0's `mintWorldKey` takes `null`.
 - **[TypeScript](/docs/development/typescript#the-strand) 4.120.0 and [Python](/docs/development/python#what-it-covers) 0.98.0: a strand begins when its story is chosen.** schema-dist serial 99: [`x_strand`](/docs/schema/profiles#strand) needs only the story; its event and place may be null or absent, and every tool shows the same half-built strand. TypeScript 4.120.0 also stops sending `X-OW-Agent` on hide, unhide, `setMyCharacter` and `mintWorldKey`, where the API declares and reads none.
 
 ## 2026-10-30

@@ -430,6 +430,8 @@ const { charter, guide, domains } = charterOf({ elements }, { rung: 'owner' });
 
 ## The strand
 
+Since 4.121.0 `me()` and an agent's `redeemJoin` answer carry the same reading as the server serves it, `reading_aids.strand` (`OwServedReadingAids` is `charterOf`'s three plus `strand`), so a tool can read a world's story from its first call.
+
 Since 4.119.0 the [strand profile](/docs/schema/profiles#strand) has its reader: `strandOf(world, reader)` returns a world's story in miniature, `{ narrative, event, location, character, now, same }`, as that reader sees it. The World's `x_strand` (`STRAND_FIELD`) names three ids: the story (a Narrative), one of its events and one of that event's places. `narrative`, `event` and `location` are those elements, each only when it is of its kind, in the reader's view and in its parent's list (the event in the story's `events`, the place in the event's `locations`); `character` is the story's `protagonist` and `now` the hero's `location`. Each is `{ id, name }` or null, and no slot is filled from another. `same` is true when `now` and `location` are one place, false when two, and null when either is empty. `world` holds the elements as the owner is served them, with `x_strand` and `open: true` for a world open to anyone, and `reader` is a lens reader. Since 4.120.0 only the story is required: `event` and `location` null or absent read as unset, a strand begun. A mark with no story, or with an `event` or `location` that is neither an id nor unset, is no mark, and every slot is null.
 
 ```typescript
@@ -507,7 +509,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.120.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.121.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -585,7 +587,7 @@ Generated from the types of `@onlyworlds/sdk` 4.120.0, the version these docs pi
 | `reviewNewElement(type, id, opts)` | `POST /{type}/{id}/review` | settle a new element written as proposed, one carrying `x_review_proposed` (the queue's `new_element` row). | `Promise<OwReviewed>` |
 | `listAccountWorlds()` | `GET /account/worlds` | every world the account owns or is a member of, with its keys by name and last four (a member sees only their own keys on a shared world). | `Promise<OwAccountWorld[]>` |
 | `createAccountWorld(opts)` | `POST /account/worlds` | make a world on the account, with its one write key. | `Promise<OwCreatedAccountWorld>` |
-| `mintWorldKey(worldId, opts?)` | `POST /account/worlds/{id}/keys` | mint a world key, `scope` `'write'` (the default) or `'read'`, `name` as the key list shows it (at most 255 characters). | `Promise<OwMintedKey>` |
+| `mintWorldKey(worldId, opts?)` | `POST /account/worlds/{id}/keys` | mint a world key, `scope` `'write'` (the default) or `'read'`, `name` as the key list shows it (trimmed, at most 80 characters, else a 422; null or blank: no name). | `Promise<OwMintedKey>` |
 | `revokeWorldKey(worldId, keyId, opts?)` | `DELETE /account/worlds/{worldId}/keys/{keyId}` | revoke a world key, by the `id` mintWorldKey returned: from then on it answers 401 `key_revoked`. | `Promise<void>` |
 | `signInWithOnlyWorlds(opts)` |  | Start Sign in with OnlyWorlds from a tool's page: mint `state` and a PKCE verifier, keep them under `clientId` in `storage` (sessionStorage by default; in Node pass one), and send the browser to `https://www.onlyworlds.com/signin/authorize` (or only return the URL with `navigate: false`). | `Promise<OwSignInBegun>` |
 | `completeSignIn(opts)` |  | Finish Sign in with OnlyWorlds on the callback page: check `state` against the record and the page against the registered address (scheme, host with port, and path, each exactly), take `code` and `state` out of the address bar (only when `url` is not given: a native app passes the address its loopback server or scheme handler received), trade the code once at `POST /auth/token` with the PKCE verifier and no credential, and return the `ow_a_` token with the account and `resume`. | `Promise<OwSignInResult>` |
