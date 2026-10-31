@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-10-31
 
+- **[TypeScript](/docs/development/typescript#a-world-on-the-account) 4.121.1: `draught` reads with `world` set**, from an account token or with no key, as the [draught](/docs/development/api/draught) is served; it was refused before sending.
 - **[Unity](/docs/development/unity#write) v0.27.0: the strand, and most of the TypeScript SDK's client calls.** `OWReadingAids.Strand` and `OWStrand.Of`; upsert, adopt, the hidden mark, your own Character, the roster and health; the account's worlds, keys, invite links and seats; images and files through a ticket. A transport of your own must send `OWRequest.BodyBytes`.
 - **[TypeScript](/docs/development/typescript#the-strand) 4.121.0 and [Python](/docs/development/python#what-it-covers) 0.98.1: the strand at the front door.** schema-dist serial 100: [`reading_aids`](/docs/development/api/members#reading-aids) on `GET /me` and an agent's join reply carries the world's [strand](/docs/schema/profiles#strand) fourth, its six slots as your key reads the world; `OwServedReadingAids` types it.
 - **[Keys](/docs/getting-started/keys): a world key's `name` is trimmed and at most 80 characters**, `null` or blank for none, the same rule as a new world's `key_name`; TypeScript 4.121.0's `mintWorldKey` takes `null`.
