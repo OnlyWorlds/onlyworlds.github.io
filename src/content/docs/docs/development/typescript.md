@@ -416,6 +416,23 @@ g.nodes; g.edges; g.edgesCut; // e.g. { map_space: 2, hidden: 1 }
 degreeOf(g); // since 4.95.0: each node's edges, in or out, { [id]: count }
 ```
 
+Since 4.127.0 the [landing profile](/docs/schema/profiles#landing) has its reader. `landingOf(graph, { heads, hops, size })` reads what `worldGraph` answered and returns `{ mode, size, clusters, unclustered, gaps }`:
+
+- `clusters` are the most-linked Characters with at least one link, at most `heads` (5 by default), most linked first. Each node within `hops` steps (1 by default) joins its nearest head; a tie goes to the higher-ranked head.
+- `unclustered` is the rest.
+- `gaps` lists `orphan`, `near_orphan`, `no_place` (a Character whose `location` names no Location in the graph) and `nobody_here` (a Location no Character's `location` names).
+- `mode` is `gaps` when the graph has fewer nodes than `size` (24 by default), else `graph`.
+
+It returns structure only: a layout is yours, keyed by id.
+
+```typescript
+import { landingOf, worldGraph } from '@onlyworlds/sdk';
+
+const view = landingOf(worldGraph({ elements }, { rung: 'public' }));
+view.mode; // 'graph' or 'gaps'
+view.clusters[0]; // { head, members: [{ id, hops, degree }, ...] }
+```
+
 Since 4.100.0 a lens's rows for a reader below the owner are the bodies the API serves that reader: a link to an element the reader cannot see is left out, a lens kept as an element keeps only the notes on elements the reader sees, and `x_served_trimmed` names a message's `characters` and `narrator`, or a lens's anchor fields, for a contributor or a guest, never for the public. The owner's rows are the bodies as stored. Since 4.100.1 a contributor's or a guest's row keeps a link to a proposed element it sees, and a lens's note keyed to one, as the API serves them; the public rung loses both. No row carries a stored `x_served_trimmed`: the mark names only what this reading trimmed.
 
 ## Reading aids
