@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-01
 
+- **[TypeScript](/docs/development/typescript) 4.124.1 and [Python](/docs/development/python) 0.100.1 read a world's records in one pass**: `recordsOf` and `records_of` give the same answers as before, without scanning the world again for each record.
 - **[An account's OnlyWorld](/docs/development/api/signin#the-account)**: `GET /api/v2/account` serves the one world that stands for the account (the person's choice, else the oldest world it owns), and `PATCH` changes it.
 - **[The record profile](/docs/schema/profiles#record)**: a game's run kept in the world its Characters live in, as an Event carrying `x_record`, so a character carries what they did from run to run. [TypeScript](/docs/development/typescript) 4.124.0 and [Python](/docs/development/python) 0.100.0 read a Character's records as `recordsOf` / `records_of`.
 - **[TypeScript](/docs/development/typescript) 4.123.5 and [Python](/docs/development/python) 0.99.4 carry Little Lens in their tools list**, so the Open with menu offers it for a world and for an element.
