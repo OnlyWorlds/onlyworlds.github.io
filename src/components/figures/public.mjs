@@ -15,7 +15,7 @@ export const REMOVED = {
   room: "a parlor's room elements",
 };
 // A mark's value that keeps an element in: the proposal mark removes it with any value but this or an empty one
-// (keel PR 329: an empty mark, "", whitespace, [] or {}, reads as absent).
+// (keel's rule: an empty mark, "", whitespace, [] or {}, reads as absent).
 export const SETTLED = { proposed: 'null' };
 // The /w/ routes' placeholders as the page writes them.
 export const PLACE = { addr: 'address', type_slug: 'category', element_id: 'element id' };
