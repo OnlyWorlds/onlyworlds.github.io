@@ -7,6 +7,10 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 What changed on onlyworlds.com for everyone is on its own [Changelog](https://www.onlyworlds.com/changelog); this page stays the developer log.
 
+## 2026-11-01
+
+- **[TypeScript](/docs/development/typescript) 4.123.5 and [Python](/docs/development/python) 0.99.4 carry Little Lens in their tools list**, so the Open with menu offers it for a world and for an element.
+
 ## 2026-10-31
 
 - **[Little Lens](/docs/tools) is on the tools list**: a world as a web of its elements and links, read only, a public world with no account. Read against the [seven lines](/docs/development/list-your-tool) on 2026-10-31.
