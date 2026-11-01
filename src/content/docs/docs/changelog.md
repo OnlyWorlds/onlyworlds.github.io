@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-01
 
+- **[The record profile](/docs/schema/profiles#record)**: a game's run kept in the world its Characters live in, as an Event carrying `x_record`, so a character carries what they did from run to run. [TypeScript](/docs/development/typescript) 4.124.0 and [Python](/docs/development/python) 0.100.0 read a Character's records as `recordsOf` / `records_of`.
 - **[TypeScript](/docs/development/typescript) 4.123.5 and [Python](/docs/development/python) 0.99.4 carry Little Lens in their tools list**, so the Open with menu offers it for a world and for an element.
 
 ## 2026-10-31
