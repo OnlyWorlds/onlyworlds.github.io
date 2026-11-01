@@ -66,7 +66,7 @@ An element deleted on onlyworlds.com is never brought back without your word, ev
 
 Since version 3.4.0 the plugin can sign in to onlyworlds.com, so you no longer copy a key per world.
 
-**With your browser** (since 3.15.0, desktop): run the **Sign in** command and choose **Sign in with your browser**. onlyworlds.com opens in your browser, asks once whether OnlyWorlds Builder may sign in as you, and on Continue the plugin is signed in, with no token to copy. Closing the dialog, Cancel, or five minutes without an answer ends the sign-in and keeps nothing. On a phone the button is hidden for now, so use a token there. Walked on Windows; macOS and Linux are not yet walked.
+**With your browser** (since 3.15.0 on desktop, 3.16.0 on a phone or tablet): run the **Sign in** command and choose **Sign in with your browser**. onlyworlds.com opens in your browser, asks once whether OnlyWorlds Builder may sign in as you, and on Continue the plugin is signed in, with no token to copy. On a phone the browser hands you back to Obsidian by a link, which also finishes the sign-in if Obsidian was closed meanwhile. Closing the dialog, Cancel, or five minutes without an answer ends the sign-in and keeps nothing, and a return link that doesn't carry the sign-in's own mark is ignored. Walked on Windows and on Android; iOS, macOS and Linux are not yet walked.
 
 **With a token:**
 

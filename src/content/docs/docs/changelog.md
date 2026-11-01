@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-01
 
+- **[The Obsidian plugin](/docs/tools/obsidian-plugin) 3.16.0: Sign in with your browser on a phone or tablet.** The browser hands you back to Obsidian by a link, and finishes the sign-in if Obsidian was closed meanwhile.
 - **[A person link takes where it opens](/docs/development/api/members#managing-members):** `lands_on`, `site` (the default) or `dashboard`, the Dashboard's /join page; every link carries it. [TypeScript](/docs/development/typescript) 4.125.0's `createWorldLink` takes `landsOn`.
 - **[Reading a lens as another reader skips a lens that reader cannot see](/docs/development/api/lenses):** its row carries `skipped: "not_found"` and `reading: null`. Typed in [TypeScript](/docs/development/typescript) 4.125.0 (`OwWorldLens.skipped`).
 - **[Which of your worlds holds a story](/docs/development/api/signin#the-account):** `GET /api/v2/account/worlds/holding/{narrative_id}`, the account's own worlds only.
