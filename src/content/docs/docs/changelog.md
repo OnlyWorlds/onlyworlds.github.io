@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-01
 
+- **[TypeScript](/docs/development/typescript#addresses) 4.126.0 and [Python](/docs/development/python#what-it-covers) 0.101.0: the Open with menu leaves out a tool that cannot open the element.** Pass the element as served (`{ element }`, `element=`); a tool whose `open.element_skips` in the [tools list](/docs/development/list-your-tool#open-with) names a mark it carries (room, hidden, proposed, map space, a reading aid) has no row. The Waymark passes its element on its own.
 - **[The Obsidian plugin](/docs/tools/obsidian-plugin) 3.16.0: Sign in with your browser on a phone or tablet.** The browser hands you back to Obsidian by a link, and finishes the sign-in if Obsidian was closed meanwhile.
 - **[A person link takes where it opens](/docs/development/api/members#managing-members):** `lands_on`, `site` (the default) or `dashboard`, the Dashboard's /join page; every link carries it. [TypeScript](/docs/development/typescript) 4.125.0's `createWorldLink` takes `landsOn`.
 - **[Reading a lens as another reader skips a lens that reader cannot see](/docs/development/api/lenses):** its row carries `skipped: "not_found"` and `reading: null`. Typed in [TypeScript](/docs/development/typescript) 4.125.0 (`OwWorldLens.skipped`).

@@ -360,7 +360,7 @@ const r = parseOwLink('ow://character/0193f1c2-7a00-7000-8000-000000000001');   
 const link = elementAddress({ form: 'human', world: worldId, type: 'character', id });   // https://www.onlyworlds.com/w/<world>/character/<id>
 ```
 
-Since 4.105.0 `openersFor(tools, kind, address, surface)` gives the rows of an **Open with** menu for a world or an element: onlyworlds.com first, then each [listed tool](/docs/development/list-your-tool) whose `open` key has a door for it, in the list's order. Each row is `{ id, name, href, state }`. `state` is null when the row opens now, or one of `You are here`, `Needs a connection`, `Sign in to <tool> first`, `Opens in your browser`, `Needs the world on this phone` or `Opens the world`. `surface` says what the page knows: `audience` (`member` or `public`), and optionally `tool` (your own tool's client name; `onlyworlds` for the site itself, whose own row then says `You are here`, since 4.123.0), `signedIn`, `browser`, `phone` and `online`. With `online: false` (since 4.118.0) every row whose link is a web address says `Needs a connection`, the site's own row included; a row whose link opens an app is unaffected. A public page gets only the tools that need nothing first. `TOOLS` is the tools list baked at this release.
+Since 4.105.0 `openersFor(tools, kind, address, surface)` gives the rows of an **Open with** menu for a world or an element: onlyworlds.com first, then each [listed tool](/docs/development/list-your-tool) whose `open` key has a door for it, in the list's order. Each row is `{ id, name, href, state }`. `state` is null when the row opens now, or one of `You are here`, `Needs a connection`, `Sign in to <tool> first`, `Opens in your browser`, `Needs the world on this phone` or `Opens the world`. `surface` says what the page knows: `audience` (`member` or `public`), and optionally `tool` (your own tool's client name; `onlyworlds` for the site itself, whose own row then says `You are here`, since 4.123.0), `signedIn`, `browser`, `phone` and `online`. With `online: false` (since 4.118.0) every row whose link is a web address says `Needs a connection`, the site's own row included; a row whose link opens an app is unaffected. A public page gets only the tools that need nothing first. Since 4.126.0 an element's menu takes the element as you were served it, `openersFor(tools, 'element', address, surface, { element })`: a tool whose element door does not open what it carries (a room element, a hidden or proposed one, a Map, Pin or Marker, a reading aid: the list's `element_skips`, each read as `worldGraph` reads it) has no row, rather than a link to a page that cannot open it. Without it every row is there. `TOOLS` is the tools list baked at this release.
 
 ```typescript
 import { openersFor, TOOLS, parseOwLink } from '@onlyworlds/sdk';
@@ -519,7 +519,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.125.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.126.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
