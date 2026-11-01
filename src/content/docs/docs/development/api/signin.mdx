@@ -91,6 +91,12 @@ The answer is sent `Cache-Control: no-store`. `expires_at` is when the token sto
 
 **A code lives 60 seconds and is spent by its first exchange,** whether that succeeds or fails. A code sent again is refused and also revokes the token its first exchange minted: a replayed code is treated as a stolen one. So take `code` out of the address bar before the exchange, and send the exchange before any other request: a reload would spend the code on a refusal. {/* limit: signin_code_seconds */}
 
+## The account
+
+With the token, `GET /api/v2/account` reads the account itself: `id`, `username`, `email`, `date_joined`, and its **OnlyWorld**, the one world that stands for the account. `only_world` is `{ id, name, slug }`: the world the person chose, or, until they choose one, the oldest world the account owns (the first it created), or `null` while it owns none. `only_world_chosen` is true for a choice and false otherwise. When the chosen world is deleted, the oldest world left serves in its place. Only the account's own credential reads it: no world key, member or public reader does.
+
+`PATCH /api/v2/account` changes `username`, or the OnlyWorld with `only_world`: the id of a world the account owns, or `null` to clear the choice so the oldest world serves again. An id that names no world of the account's is a `404`, and nothing in the body is written. It answers the account as the `GET` does. The person can make the same choice on the site.
+
 ## Errors
 
 | Status | Code | When |
