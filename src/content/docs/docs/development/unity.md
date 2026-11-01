@@ -82,6 +82,8 @@ public class ReadWorld : MonoBehaviour
 
 **A world's own words for the types.** `OWNames.TypeWord(world, type, supertype, many)` reads the World's `x_names` (the [names profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/names.md)) and returns the word to show for a type, *Employee* for a Character in a work world, or `null` for the standard's name; the supertype's word comes first, and `many` asks for the plural. A display lookup only: routes, folders and field names keep the standard's. Since v0.14.0, on the profile's 23-case fixture.
 
+**The strand** (since v0.27.0). `OWStrand.Of(world, elements, reader)` reads a world's story in miniature by the [strand profile](/docs/schema/profiles#strand), through the lens reader's own view: the story the World's `x_strand` names (`Narrative`), one of its events (`Event`), that event's place (`Location`), the story's protagonist (`Character`), where the hero is now (`Now`), and whether then and now are one place (`Same`), each slot `{id, name}` or null, as the [TypeScript SDK](/docs/development/typescript#the-strand)'s `strandOf` reads it. `OWReadingAids.Strand` is the strand keel serves on the front door (`GET /me` and an agent's join answer), read as served.
+
 ## Ship a world with your game
 
 A cache is a world stored as an asset in your project. Fill it in the Editor, and the build carries it: no network, no key and no waiting at runtime.
