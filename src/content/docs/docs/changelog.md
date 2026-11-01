@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-01
 
+- **[Unity](/docs/development/unity#read-a-world) v0.30.0: `OWRecord`, the record profile's reader, and the account's tokens** (`ListAccountTokensAsync`, `RevokeAccountTokenAsync`); a path value that is not one segment is refused before sending, the link forwarder takes a game's own scheme, and doubles go through the SDK's JSON exactly under Mono.
 - **[TypeScript](/docs/development/typescript) 4.124.2 orders tied records by code point, and [Python](/docs/development/python) 0.100.2 reads only ASCII digits in a record's `played_at`**, as the record profile says: an id above U+FFFF sorted out of place in TypeScript, and a full-width year read as a date in Python.
 - **[TypeScript](/docs/development/typescript) 4.124.1 and [Python](/docs/development/python) 0.100.1 read a world's records in one pass**: `recordsOf` and `records_of` give the same answers as before, without scanning the world again for each record.
 - **[An account's OnlyWorld](/docs/development/api/signin#the-account)**: `GET /api/v2/account` serves the one world that stands for the account (the person's choice, else the oldest world it owns), and `PATCH` changes it.
