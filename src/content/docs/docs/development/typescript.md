@@ -441,6 +441,16 @@ const strand = strandOf(world, { rung: 'owner' });
 if (strand.narrative) console.log(strand.narrative.name, strand.same ? 'then and now one place' : '');
 ```
 
+Since 4.124.0 the [record profile](/docs/schema/profiles#record) has its reader: `recordsOf(characterId, elements)` returns one Character's records, the game runs they took part in, newest first. A record is an Event whose `x_record` (`RECORD_FIELD`) names the game (`tool`) and when it was played (`played_at`, a real instant in UTC), with optional `version`, `seed`, `outcome` and `seats`. Who took part is the Event's `characters`. Each entry is `{ event: { id, name }, tool, played_at, version, seed, outcome, seat, stories }`: `seat` is this Character's seat when the mark names one, and `stories` are the Narratives that list the run in `events` and name them as `protagonist`, `narrator` or `both`. A run or a story still proposed is not read. `recordMarkOf(element)` reads one Event's mark, or null when its shape is not the profile's. `elements` are the world as the reader is served them.
+
+```typescript
+import { recordsOf } from '@onlyworlds/sdk';
+
+for (const r of recordsOf(character.id, elements)) {
+  console.log(r.event.name, r.tool, r.outcome ?? '', r.seat ?? '');
+}
+```
+
 ## Messages
 
 Messages between members follow the [message profile](/docs/schema/profiles/messages) (since 4.80.0): who a message is for, whether its sender is proved, what is unread, and a thread.
