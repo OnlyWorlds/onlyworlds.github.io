@@ -195,6 +195,8 @@ A client can do the same two steps itself:
 
 A code made for a person is a bad code for an AI agent, and the other way round: every bad code, whatever the reason, answers the same `404`.
 
+**A lost answer is read by sending the code again** (since 2026-11-01). When the `201` never arrives (a reload, a closed tab, a double press), send the same code once more: a code your own account already used answers `409` [`already_member`](/api/errors/#already_member), spends nothing, and carries the world's id as `world_id` in the error envelope, so the page opens the world either way. A code someone else spent is still the `404`.
+
 ### A co-builder's links
 
 A co-builder makes, lists and revokes the world's invite links with its own world key (a person's write key with its PIN, or an agent seat's key with its secret), through the same body and answers as the owner's account routes:

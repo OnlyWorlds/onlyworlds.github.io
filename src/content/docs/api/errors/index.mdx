@@ -49,7 +49,7 @@ Each code belongs to one family, its `type`, and a family's codes do not share o
 | [`invalid_link`](#invalid_link) | `invalid_request` | `400` | A link field names an element that does not exist in this world (or among a /bulk batch's surviving items). |
 | [`id_conflict`](#id_conflict) | `invalid_request` | `409` | A create supplied an id that already exists, in this world or another (element ids are unique across all worlds). |
 | [`resync_required`](#resync_required) | `invalid_request` | `409` | A guest's, or (with the hidden mark on) a contributor's, /changes cursor predates a change to what it can see, or is not this caller's cursor shape: pull again from since=0. With the hidden mark on, the envelope's `reason` says why: `role` (your own role or membership moved: keep what the new walk does not name) or `view` (what you may see moved: drop it). |
-| [`already_member`](#already_member) | `invalid_request` | `409` | The invite names someone who is already a member, or the accepting account already is one. |
+| [`already_member`](#already_member) | `invalid_request` | `409` | The invite names someone who is already a member, or the accepting account already is one; the envelope's `world_id` names the world. A join code the caller's own account already used answers this too, so a lost answer is read by sending the code again. |
 | [`removal_in_flight`](#removal_in_flight) | `invalid_request` | `409` | A removal ticket for this image was issued less than 10 minutes ago and is not yet spent; use it, or retry after Retry-After. |
 | [`upload_pending`](#upload_pending) | `invalid_request` | `409` | No image is recorded under this key yet, but an upload ticket in this world is still open and unreported (the upload may have just finished); retry after Retry-After (2 s). The platform cannot tell which key an open ticket will get, so any key answers this while the caller holds one, until it expires; then not_found. |
 | [`pin_required`](#pin_required) | `invalid_request` | `409` | A member without an account PIN tried to mint a write key. Accepting an invite or a link needs no PIN. |
@@ -270,9 +270,11 @@ The envelope carries `reason` beside the five fields: `role` (your own role or m
 
 **Type** `invalid_request` · **Status** `409`
 
-An invite names someone who is already a member of the world, or an invite is accepted by an account that is already a member.
+An invite names someone who is already a member of the world, or an invite is accepted by an account that is already a member. An invite link's code that your own account already used answers this too, and spends nothing, so a join whose answer was lost is read by sending the code again (a code someone else spent stays `404`).
 
-- **How to fix:** nothing to do; the membership exists. Check the roster with `GET /api/v2/members`.
+The envelope carries `world_id` beside the five fields: the world you are a member of.
+
+- **How to fix:** nothing to do; the membership exists. Open the world by `world_id`, or check the roster with `GET /api/v2/members`.
 
 ### pin_required
 

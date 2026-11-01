@@ -22,7 +22,7 @@
   "already_member": {
     "type": "invalid_request",
     "status": 409,
-    "summary": "The invite names someone who is already a member, or the accepting account already is one."
+    "summary": "The invite names someone who is already a member, or the accepting account already is one; the envelope's `world_id` names the world. A join code the caller's own account already used answers this too, so a lost answer is read by sending the code again."
   },
   "removal_in_flight": {
     "type": "invalid_request",
