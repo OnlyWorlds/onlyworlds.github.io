@@ -97,6 +97,8 @@ With the token, `GET /api/v2/account` reads the account itself: `id`, `username`
 
 `PATCH /api/v2/account` changes `username`, or the OnlyWorld with `only_world`: the id of a world the account owns, or `null` to clear the choice so the oldest world serves again. An id that names no world of the account's is a `404`, and nothing in the body is written. It answers the account as the `GET` does. The person can make the same choice on the site.
 
+`GET /api/v2/account/worlds/holding/{narrative_id}` says which of the account's own worlds holds a story, so a page that sent a story to be made into a world can ask where it went (since 2026-11-01): `200` with `world_id` and `door` (the world's page on onlyworlds.com, a path on this host) when a world the account owns holds that Narrative, and one identical `404` [`not_found`](/api/errors/#not_found) for anything else (a stranger's story, one in a world the account only has a seat in, an unknown or malformed id, another type's id). Any account credential, the site's session included.
+
 ## Errors
 
 | Status | Code | When |

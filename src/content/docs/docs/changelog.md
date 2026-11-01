@@ -9,6 +9,9 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-01
 
+- **[A person link takes where it opens](/docs/development/api/members#managing-members):** `lands_on`, `site` (the default) or `dashboard`, the Dashboard's /join page; every link carries it. [TypeScript](/docs/development/typescript) 4.125.0's `createWorldLink` takes `landsOn`.
+- **[Reading a lens as another reader skips a lens that reader cannot see](/docs/development/api/lenses):** its row carries `skipped: "not_found"` and `reading: null`. Typed in [TypeScript](/docs/development/typescript) 4.125.0 (`OwWorldLens.skipped`).
+- **[Which of your worlds holds a story](/docs/development/api/signin#the-account):** `GET /api/v2/account/worlds/holding/{narrative_id}`, the account's own worlds only.
 - **[A lost join answer is read by sending the code again](/docs/development/api/members#invite-links):** an invite link's code your own account already used answers `409` [`already_member`](/api/errors/#already_member) and spends nothing, and every `already_member` carries the world's id as `world_id` in the envelope; a code someone else spent stays `404`.
 - **[Unity](/docs/development/unity#read-a-world) v0.30.0: `OWRecord`, the record profile's reader, and the account's tokens** (`ListAccountTokensAsync`, `RevokeAccountTokenAsync`); a path value that is not one segment is refused before sending, the link forwarder takes a game's own scheme, and doubles go through the SDK's JSON exactly under Mono.
 - **[TypeScript](/docs/development/typescript) 4.124.2 orders tied records by code point, and [Python](/docs/development/python) 0.100.2 reads only ASCII digits in a record's `played_at`**, as the record profile says: an id above U+FFFF sorted out of place in TypeScript, and a full-width year read as a date in Python.
