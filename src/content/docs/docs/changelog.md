@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-02
 
+- **[onlyworlds.com](/docs/tools/onlyworlds-com)'s Open with menu on a public page** now shows Atlas and Lantern grey, with "Needs an account", where before a signed-out visitor did not see them.
 - **[TypeScript](/docs/development/typescript#the-open-with-menu-drawn) 4.130.0 and [Python](/docs/development/python#what-it-covers) 0.105.0: a signed-out visitor sees the tools that need an account.** The Open with menu's public rows now include each tool that needs a sign-in, saying "Needs an account"; the drawn menu shows it grey, and pressing it does nothing. A tool that needs the world on the device is still not offered to a visitor.
 - **[The Obsidian plugin](/docs/tools/obsidian-plugin#features) 3.17.0: two commands for an element's address.** **Open this note on onlyworlds.com** opens the element's page on the site; **Open a note from an address** opens the vault's note for a pasted address. A sign-in with your browser that fails or times out clears what it left at once.
 - **[TypeScript](/docs/development/typescript#lenses) 4.129.2: `mapSpace` reads a number past 2^53 as not whole.** JavaScript parses a larger integer to the nearest double; a value it had to round no longer passes as a coordinate.
