@@ -46,9 +46,24 @@ jobs:
         # The newest published serial (a v*-dist.* tag), never main: a tag's MANIFEST.json matches its
         # files, and main can move between serials (a README edit on 2026-10-24 failed every deploy).
         # The same run rewrites contract/folder-example.json (the example world the folders page draws).
+        # And never ahead of production: a serial that moves the standard (v0.34.0 is 00.34.00) is
+        # drawn once onlyworlds.com serves that version (X-OW-Schema-Version), so the pages describe
+        # the fields the API returns (serial 103's `vehicle` failed every deploy until keel served it,
+        # 2026-11-02). Unreadable, the newest serial is used, with a warning.
         run: |
-          TAG=$(git ls-remote --tags --refs https://github.com/OnlyWorlds/schema-dist 'v*-dist.*' | awk '{print $2}' | sed 's#refs/tags/##' | sort -V | tail -1)
-          test -n "$TAG" || { echo "::error::no v*-dist.* tag on schema-dist"; exit 1; }
+          TAGS=$(git ls-remote --tags --refs https://github.com/OnlyWorlds/schema-dist 'v*-dist.*' | awk '{print $2}' | sed 's#refs/tags/##' | sort -V)
+          test -n "$TAGS" || { echo "::error::no v*-dist.* tag on schema-dist"; exit 1; }
+          PROD=$(curl -sfI --max-time 20 https://www.onlyworlds.com/api/v2/health | tr -d '\r' | awk -F': ' 'tolower($1)=="x-ow-schema-version"{print $2}')
+          if echo "$PROD" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            PV=$(echo "$PROD" | awk -F. '{printf "%d.%d.%d", $1, $2, $3}')
+            TAG=$(for t in $TAGS; do v=${t#v}; v=${v%%-dist.*}; [ "$(printf '%s\n%s\n' "$v" "$PV" | sort -V | tail -1)" = "$PV" ] && echo "$t"; done | tail -1)
+            test -n "$TAG" || { echo "::error::no serial at or below production's $PROD"; exit 1; }
+            NEWEST=$(echo "$TAGS" | tail -1)
+            [ "$TAG" = "$NEWEST" ] || echo "::notice::schema-dist $NEWEST moves the standard past production's $PROD: drawing $TAG until it is served"
+          else
+            TAG=$(echo "$TAGS" | tail -1)
+            echo "::warning::production's X-OW-Schema-Version unreadable ('$PROD'): drawing the newest serial, $TAG"
+          fi
           echo "schema-dist $TAG"
           git clone --depth 1 --branch "$TAG" https://github.com/OnlyWorlds/schema-dist "$RUNNER_TEMP/schema-dist"
           python scripts/gen_elements.py --dist "$RUNNER_TEMP/schema-dist"
