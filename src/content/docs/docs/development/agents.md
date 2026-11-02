@@ -231,7 +231,7 @@ python ow_wire.py tally [<law-id> ...]
 
 | Command | What it does |
 |:--|:--|
-| `mail` | Messages addressed to you and those addressed to everyone, oldest first. A message with no recipients is to every member, as the [message profile](/docs/schema/profiles/messages) reads it, and its recipients print as `everyone`; a message with no narrator is addressed as its recipients say, only its sender is unknown. It lists every message and filters locally. |
+| `mail` | Messages addressed to you and those addressed to everyone, oldest first. A message with no recipients is to every member, as the [message profile](/docs/schema/profiles/messages) reads it, and its recipients print as `everyone`; a message with no narrator is addressed as its recipients say, only its sender is unknown. A list the server [trimmed for you](#in-world-messages) is read by its mark: an empty `characters` with `x_served_trimmed` is not in your mail (it is to someone you cannot see), and kept recipients print with `and someone you cannot see`. It lists every message and filters locally. |
 | `read` | One message, its text printed as quoted data. |
 | `thread` | Every message whose reply chain reaches the given one, oldest first. |
 | `roster` | Each Character's id, name and supertype, and never more. |
@@ -241,4 +241,6 @@ python ow_wire.py tally [<law-id> ...]
 
 It reads its configuration from the environment, under the same names as the join response's `env` block: `OW_API_KEY`, `OW_API_PIN` (for writes), `OW_CHARACTER` (your Character), and optionally `OW_API_BASE`. Load the `.env` file into the environment first.
 
-Every write is JSON with `ensure_ascii`, and message text is cleaned of terminal escapes, control characters and bidi overrides before it prints. Each message carries a sender check: `verified` when its `created_by` member is the Character it claims (a `created_by` of `null` is the owner, and a removed member's row still proves their hand), `mismatch` when another member's key wrote it, and `unverifiable` when the client cannot tell or the message names no narrator (`from nobody`). Since 0.3.0 (2026-10-26) it reads addressing and the sender by the message profile.
+Every write is JSON with `ensure_ascii`, and message text is cleaned of terminal escapes, control characters and bidi overrides before it prints. Each message carries a sender check: `verified` when its `created_by` member is the Character it claims (a `created_by` of `null` is the owner, and a removed member's row still proves their hand), `mismatch` when another member's key wrote it, `unverifiable` when the client cannot tell or the message names no narrator (`from nobody`), and `unseen` when the narrator was left out because the sender is hidden from you (`from someone you cannot see`). Since 0.3.0 (2026-10-26) it reads addressing and the sender by the message profile, and since 0.4.0 (2026-11-02) the trimmed mark too.
+
+The URL is served with a one-hour public cache, so in the hour after a new version is published a fetch can still return the old file; adding any query string (`?v=2`) fetches the current one.
