@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-02
 
+- **[The Obsidian plugin](/docs/tools/obsidian-plugin#features) 3.17.0: two commands for an element's address.** **Open this note on onlyworlds.com** opens the element's page on the site; **Open a note from an address** opens the vault's note for a pasted address. A sign-in with your browser that fails or times out clears what it left at once.
 - **[TypeScript](/docs/development/typescript#lenses) 4.129.2: `mapSpace` reads a number past 2^53 as not whole.** JavaScript parses a larger integer to the nearest double; a value it had to round no longer passes as a coordinate.
 - **[Unity](/docs/development/unity) v0.32.0: three profile readers.** `OWLanding.Of` (the landing), `OWMapSpace.Of` (map space, serial 105) and `OWGraphOptions.ReadingAids` (the reading aids back in an unlensed graph); an empty review mark on a record reads as settled; Location's `vehicle`. The producer line's version is 0.32.0.
 - **[The map-space profile](/docs/schema/profiles#map-space)** (serial 106): two rows of one type with one id read as the last one served; a measured frame reads only placed points; a `z` that is not a whole number reads as 0; a Zone with no placed Marker counts as `no_markers`; `type` and `shape` are read as written. The fixture holds 34 cases.
