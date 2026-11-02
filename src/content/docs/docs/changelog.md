@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-02
 
+- **[The Lenses page](/docs/lenses#on-onlyworldscom) proposes a lens from a sentence.** A box beside Start from takes plain words and fills the lens's settings with a proposal you change and save; a line under the box says what the words chose, or names the next step when nothing matched.
 - **[Atlas](/docs/tools/atlas#getting-started) 1.120.0 to 1.120.2: a new world's Home asks for its first story, one question at a time.** The story, one event in it, its location, who was involved and where they are now, each a box joined to the one before; a browser-only world asks for a copy once the story is whole.
 - **[onlyworlds.com](/docs/tools/onlyworlds-com)'s Open with menu on a public page** now shows Atlas and Lantern grey, with "Needs an account", where before a signed-out visitor did not see them.
 - **[TypeScript](/docs/development/typescript#the-open-with-menu-drawn) 4.130.0 and [Python](/docs/development/python#what-it-covers) 0.105.0: a signed-out visitor sees the tools that need an account.** The Open with menu's public rows now include each tool that needs a sign-in, saying "Needs an account"; the drawn menu shows it grey, and pressing it does nothing. A tool that needs the world on the device is still not offered to a visitor.
