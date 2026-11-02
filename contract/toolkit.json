@@ -1,7 +1,7 @@
 {
   "source": "github.com/OnlyWorlds/toolkit at its newest release tag: the frontmatter name of each skills/*/SKILL.md and agents/*.md",
-  "tag": "v5.6.0",
-  "commit": "6ce6e4f562febc11e65bbb0434a5dfdb6c35543e",
+  "tag": "v5.6.1",
+  "commit": "90be6a3f88283abb5e947a8f3ab79d8feb88b618",
   "read_at": "2026-11-02",
   "skills": ["onlyworlds-carry","onlyworlds-context","onlyworlds-council","onlyworlds-develop","onlyworlds-draw","onlyworlds-import","onlyworlds-model","onlyworlds-read","onlyworlds-setup","onlyworlds-start","onlyworlds-update"],
   "agents": ["ow-agent"]
