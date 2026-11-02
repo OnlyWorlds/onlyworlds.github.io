@@ -132,7 +132,7 @@ The world page's **Download JSON** button (Access, **This world as a file**; the
 ```json
 {
   "format": "onlyworlds-world-export",
-  "schema_version": "00.33.00",
+  "schema_version": "00.34.00",
   "exported_at": "…",
   "world": {
     "id": "…", "name": "Hyperion", "description": "…", "time_basic_unit": "Year",
