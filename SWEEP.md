@@ -8,7 +8,7 @@ The docs state facts that other people's work changes: the API, the MCP server, 
 
 ## The procedure
 
-1. **Run it.** `node scripts/sweep.mjs` (add `--no-links` for a quick one). Fix every STALE it prints: bump a pin, refresh a snapshot, mend a link, replace a word, follow a release (a changelog line that links its page and names its version, a serial by its number, or `<!-- <repo> <tag>: no docs change -->` when it moved no claim).
+1. **Run it.** `node scripts/sweep.mjs` (add `--no-links` for a quick one). Fix every STALE it prints: bump a pin, refresh a snapshot, mend a link, replace a word, follow a release (a changelog line that links its page and names its version, a serial by its number, or `<!-- <repo> <tag>: no docs change -->` when it moved no claim). Atlas publishes no GitHub releases: the check reads its drops from its own release data at master (`src/changelog/changelog.data.ts`), a line may cover several as `1.120.0 to 1.120.2`, and its marker is `<!-- atlas <version>: no docs change -->`.
 2. **Read MOVED against the pages that state it.** Each commit line names a source; the page to read is:
    - keel: `docs/development/api-reference.mdx`, `api/*` (reads, writes, links, changes, errors, images, members, cors, lenses, draught), `mcp.md`, `agents.md`, the error table, `schema/worlds.md`, the draught's concept page `world-graph/draught.md`
    - schema-dist: `schema/*`, `schema/conventions.mdx`, the profile pages `schema/profiles.md` and `schema/profiles/*`, the World graph pages `world-graph.md`, `lenses.mdx` and `lenses/graph.md`; the element tables regenerate on their own

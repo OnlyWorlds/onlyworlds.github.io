@@ -42,6 +42,12 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 - **[Unity](/docs/development/unity#read-a-world) v0.31.0: the Open with menu leaves out a tool that cannot open the element, and invite links carry `LandsOn`.** `OWOpeners.For` takes the element (`OWOpenersOptions.Element`) and reads the tools list's `element_skips`, as TypeScript 4.126.0 does; a link says where it opens, `site` or `dashboard`. `OWGraph.Read` without a lens is about twice as fast, with no answer changed.
 - **[Python](/docs/development/python#what-it-covers) 0.101.1: the review readers read any mapping.** `proposed_mark_of` and `hands_on_as_proposed` took only a `dict`, so an element or a mark held in another mapping read as settled; they read any mapping now, as TypeScript reads any object.
 
+<!-- atlas 1.118.0: no docs change -->
+<!-- atlas 1.118.1: no docs change -->
+<!-- atlas 1.118.2: no docs change -->
+<!-- atlas 1.119.0: no docs change -->
+<!-- atlas 1.119.1: no docs change -->
+
 ## 2026-11-01
 
 - **[TypeScript](/docs/development/typescript#addresses) 4.126.0 and [Python](/docs/development/python#what-it-covers) 0.101.0: the Open with menu leaves out a tool that cannot open the element.** Pass the element as served (`{ element }`, `element=`); a tool whose `open.element_skips` in the [tools list](/docs/development/list-your-tool#open-with) names a mark it carries (room, hidden, proposed, map space, a reading aid) has no row. The Waymark passes its element on its own.
