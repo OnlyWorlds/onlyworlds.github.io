@@ -435,12 +435,12 @@ view.clusters[0]; // { head, members: [{ id, hops, degree }, ...] }
 
 Since 4.129.0 the [map-space profile](/docs/schema/profiles#map-space) has its reader. `mapSpace(elements)` takes the elements as the reader is served them and returns `{ maps, zones, pins, out }`, all four always present:
 
-- `maps` holds each Map's frame: `width`, `height`, `depth`, `z_max` (the largest z among its own points), `scale` (metres per pixel from `x_metres_per_pixel`, else `null`), `location` and `parent_map`. A missing `width` or `height` is measured from the Map's own points and marked `extent: "points"`.
+- `maps` holds each Map's frame: `width`, `height`, `depth`, `z_max` (the largest z among its own points), `scale` (metres per pixel from `x_metres_per_pixel`, else `null`), `location` and `parent_map`. A missing `width` or `height` is measured from the Map's own placed points and marked `extent: "points"`.
 - `zones` holds one outline per Map a Zone has Markers on, `{ zone, map, shape, points }`, each point `[x, y, z]`, the Markers in `order` and then by id.
 - `pins` holds each Pin's point and its element: `{ pin, map, element_type, element_id, x, y, z }`.
 - `out` counts what was left aside by reason: `no_point`, `no_markers`, `dangling`, `no_map`; a reason with nothing counted is absent.
 
-A number counts when it is whole by value (`2.0` is 2), and a row without a non-empty string `id` is no element. `z` is an elevation, never a height. The types are `OwMapSpace`, `OwMapSpaceMap`, `OwMapSpaceOutline`, `OwMapSpacePin`, `OwMapSpacePoint` and `OwMapSpaceOutReason`.
+A number counts when it is whole by value (`2.0` is 2), and a row without a non-empty string `id` is no element. Since 4.129.1 (serial 106) two rows of one type with one id read as the last one served. `z` is an elevation, never a height. The types are `OwMapSpace`, `OwMapSpaceMap`, `OwMapSpaceOutline`, `OwMapSpacePin`, `OwMapSpacePoint` and `OwMapSpaceOutReason`.
 
 ```typescript
 import { mapSpace } from '@onlyworlds/sdk';
