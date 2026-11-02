@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-02
 
+- **[A signed-out reader of a closed world's address is sent to sign in](/docs/development/api/public#what-a-visitor-sees)**, and back: a `302` to the sign-in page with the same address, for the world's page, an element's and the graph page of a world with no public page. A signed-in reader who may not read it still meets the `404` page, and a made-up address is sent on the same way.
 - **[Toolkit](/docs/development/toolkit) 5.6.0: the draw skill's graph is the Python package's `world_graph`** (onlyworlds 0.101.0 or later), so a world drawn by the skill shows the nodes, edges and left-out counts the [graph reader](/docs/lenses/graph) gives. A Zone is a node, a link to itself a small loop.
 - **[Unity](/docs/development/unity#read-a-world) v0.31.0: the Open with menu leaves out a tool that cannot open the element, and invite links carry `LandsOn`.** `OWOpeners.For` takes the element (`OWOpenersOptions.Element`) and reads the tools list's `element_skips`, as TypeScript 4.126.0 does; a link says where it opens, `site` or `dashboard`. `OWGraph.Read` without a lens is about twice as fast, with no answer changed.
 - **[Python](/docs/development/python#what-it-covers) 0.101.1: the review readers read any mapping.** `proposed_mark_of` and `hands_on_as_proposed` took only a `dict`, so an element or a mark held in another mapping read as settled; they read any mapping now, as TypeScript reads any object.

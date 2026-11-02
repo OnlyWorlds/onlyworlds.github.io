@@ -103,7 +103,7 @@ export function publicWords(data, code = (s) => `\`${s}\``) {
       { key: 'deleted', say: 'deleted elements', note: `a ${code(String(data.misses.element.status))}, never ${code('410')}; the public reads no tombstones` },
     ],
     none: 'One answer for nothing',
-    noneNote: `A mistyped address, a world whose page is off, and a private world get the same page, status ${code(String(data.misses.world.status))}: "${data.misses.world.head}."`,
+    noneNote: `A mistyped address, a world whose page is off, and a private world get the same page, status ${code(String(data.misses.world.status))}, for a reader signed in: "${data.misses.world.head}." A signed-out reader is sent to sign in first.`,
     noneElement: `Under a live page, a hidden, deleted or unknown element gets one other, also ${code(String(data.misses.element.status))}: "${data.misses.element.text}"`,
     caption: `Generated from the platform's own public reader, the one the keyless API, the public page and the graph share, and the API's own document (${code('openapi.json')}), as read on ${data.callersAt}.`,
   };
