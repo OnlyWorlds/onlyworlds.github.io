@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-02
 
+- **[A world's landing file](/docs/development/api/public#what-a-visitor-sees)**: `/w/<address>/landing.json`, the world's first picture as the landing profile reads it from the public graph, with the lenses the owner chose for it and the change number it was read at; the graph page's file carries the same number.
 - **[The map-space profile](/docs/schema/profiles#map-space)** (serial 105): how a reader turns a world's Maps, Zones, Markers and Pins into geometry, with a fixture of 24 cases. The answer is `{ maps, zones, pins, out }`: each Map's frame, each Zone's outline per Map, each Pin's point with its element, and what was left aside counted by reason. `z` is a point's elevation, never a height. It adds no field; the standard stays 00.34.00.
 - **[TypeScript](/docs/development/typescript#lenses) 4.129.0: `mapSpace`, the map-space profile's reader.** It takes the elements as the reader is served them and returns `{ maps, zones, pins, out }`; the schema pin moves to serial 105.
 - **[Python](/docs/development/python#what-it-covers) 0.104.0: `map_space`, the map-space profile's reader**, the same answer as TypeScript's `mapSpace`; the schema pin moves to serial 105 (`SCHEMA_VERSION` `00.34.00`).
