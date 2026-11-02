@@ -1336,7 +1336,7 @@ for (const [k, m] of Object.entries(vSnap.misses ?? {})) {
 // The figure's words: each a phrase of the page's source, and in the built figure.
 const PHRASES = [
   'are off for every world until its owner turns them on', 'the links to them and their counts', 'with its fields, links and pictures',
-  'a picture is public by its own link', 'api-key header', '?world=<world id>', 'every public element as a point and every link between two as a line',
+  'a picture is public by its own link', 'api-key header', '?world=<world id>', 'every public element as a point and every link as a line',
   'the roster of who plays whom', 'owner_character', 'never 410', 'the public reads no tombstones',
   'a mistyped address, a world whose page is off, and a private world', 'the same page, status 404', 'under a live page', 'a hidden, deleted or unknown element',
 ];

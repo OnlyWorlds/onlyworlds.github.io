@@ -95,7 +95,7 @@ export function publicWords(data, code = (s) => `\`${s}\``) {
     ways: 'Three ways in',
     apiNote: `No ${code('API-Key')} header, and ${code('?world=<world id>')}; ${code('{type}')} is any of the ${data.types} element types.`,
     pageNote: `${code(data.idPage)} answers too, whatever address the owner chose.`,
-    graphNote: `Every public element as a point and every link between two as a line; ${list(data.left.map((l) => l.label))} are left out.`,
+    graphNote: `Every public element as a point and every link as a line; ${list(data.left.map((l) => l.label))} are left out.`,
     never: 'Never shown',
     nevers: [
       { key: 'files', say: 'files', note: 'no route that reads a file takes a request with no key' },
