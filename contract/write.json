@@ -1,6 +1,6 @@
 {
   "source": "https://www.onlyworlds.com/api/v2/openapi.json: the 22 categories' write schemas, <Category>Write (POST, PUT) and <Category>Patch (PATCH)",
-  "read_at": "2026-10-29",
+  "read_at": "2026-11-02",
   "write": {
     "says": "A full {type} write (POST creates; PUT creates or fully replaces, resetting omitted fields to empty). Any key that is neither a field below nor an extension field (atlas_*, shadow_*, x_*) is a 422, including the server-managed type, created_at, updated_at and change_seq.",
     "required": [
@@ -181,7 +181,7 @@
     "institution": ["doctrine","status","founding_date","parent_institution","zones","objects","creatures","allies","adversaries","constructs"],
     "language": ["phonology","grammar","lexicon","writing","status","classification","spread","dialects"],
     "law": ["declaration","purpose","date","parent_law","author","penalties","locations","zones","prohibitions","adjudicators","enforcers"],
-    "location": ["form","function","political_climate","customs","infrastructure","architecture","defensibility","founding_date","elevation","parent_location","primary_power","governing_title","zone","rival","partner","populations","secondary_powers","founders","cults","delicacies","extraction_methods","extraction_goods","industry_methods","industry_goods","extraction_markets","industry_markets","currencies","buildings","building_methods","fighters","defensive_objects"],
+    "location": ["form","function","political_climate","customs","infrastructure","architecture","defensibility","founding_date","elevation","parent_location","vehicle","primary_power","governing_title","zone","rival","partner","populations","secondary_powers","founders","cults","delicacies","extraction_methods","extraction_goods","industry_methods","industry_goods","extraction_markets","industry_markets","currencies","buildings","building_methods","fighters","defensive_objects"],
     "map": ["background_color","hierarchy","width","height","depth","parent_map","location"],
     "marker": ["x","y","z","order","map","zone"],
     "narrative": ["story","consequences","start_date","end_date","order","parent_narrative","protagonist","antagonist","narrator","conservator","events","characters","objects","locations","species","creatures","institutions","traits","collectives","zones","abilities","phenomena","languages","families","relations","titles","constructs","laws"],

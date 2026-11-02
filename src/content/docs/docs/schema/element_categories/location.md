@@ -41,6 +41,7 @@ Integers are whole numbers: the API truncates a decimal, and a range is a displa
 | `function` | text | Main use, role, or purpose of the location within the world |
 | `founding_date` | integer | Date on which the location was founded, established, or designated |
 | `parent_location` | link to Location | Wider location that this location is part of |
+| `vehicle` | link to Object | The Object this place is the inside of: a ship, a train, an airship, a walking city, a station that moves. Set it when the place moves with the thing; a place inside another place uses parent_location instead |
 | `populations` | links to Collective | Distinct collective groups or communities residing within the location |
 
 ### Politics
