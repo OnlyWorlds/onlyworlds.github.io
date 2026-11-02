@@ -399,23 +399,29 @@ if (!flag('--no-links')) {
       }
     }
   }
-  // Atlas publishes no GitHub releases: its releases are the entries of its own changelog data on its published
-  // branch, each a version and the date it shipped (1.120.0 and 1.121.0 went unread this way, 2026-11-02).
+  // Atlas publishes no GitHub releases: its releases are the entries of its own changelog data, each a version and
+  // the date it shipped (1.118.0 to 1.120.2 went unread this way, 2026-11-02). master runs ahead of the site (a drop
+  // is committed, then deployed), and a page describes the released tool: a drop counts only once the live
+  // changelog page names it (1.121.0 was followed from master an hour before it went live, docs 2b268a0).
   {
-    const ATLAS = 'https://raw.githubusercontent.com/OnlyWorlds/atlas/master/src/changelog/changelog.data.ts';
-    let data = null;
-    try {
-      const r = await fetch(ATLAS, { headers: { 'User-Agent': 'onlyworlds-docs sweep' }, signal: AbortSignal.timeout(20000) });
-      if (r.ok) data = await r.text();
-    } catch { /* unreadable: said below */ }
+    const get = async (url) => {
+      try {
+        const r = await fetch(url, { headers: { 'User-Agent': 'onlyworlds-docs sweep' }, signal: AbortSignal.timeout(20000) });
+        return r.ok ? await r.text() : null;
+      } catch { return null; }
+    };
+    const data = await get('https://raw.githubusercontent.com/OnlyWorlds/atlas/master/src/changelog/changelog.data.ts');
+    const live = await get('https://atlas.onlyworlds.com/changelog');
     const drops = data === null ? [] : [...data.matchAll(/version:\s*'(\d+\.\d+(?:\.\d+)?)',\s*date:\s*'(\d{4}-\d{2}-\d{2})'/g)];
     if (data === null || !drops.length) bad('releases: could not read Atlas\'s release data (src/changelog/changelog.data.ts at master): not checked');
+    else if (live === null || !drops.some(([, v]) => live.includes(v))) bad('releases: could not read Atlas\'s live changelog (atlas.onlyworlds.com/changelog), or it names none of the drops: not checked');
+    else for (const [, v, date] of drops) if (date >= SINCE && !live.includes(v)) note(`releases: atlas ${v} is on master, not live yet: followed once it is`);
     // A line may follow several drops at once, "Atlas 1.120.0 to 1.120.2": the range covers every drop between.
     const num = (v) => v.split('.').map(Number).reduce((a, n, i) => a + n * 1000 ** (2 - i), 0);
     const ranges = lines.filter((l) => l.includes('/docs/tools/atlas'))
       .flatMap((l) => [...l.matchAll(/(\d+\.\d+\.\d+) to (\d+\.\d+\.\d+)/g)].map((m) => [num(m[1]), num(m[2])]));
     for (const [, version, date] of drops) {
-      if (date < SINCE) continue;
+      if (date < SINCE || live === null || !live.includes(version)) continue;
       read++;
       const lined = lines.some((l) => l.includes('/docs/tools/atlas') && l.includes(version))
         || ranges.some(([a, b]) => a <= num(version) && num(version) <= b);
