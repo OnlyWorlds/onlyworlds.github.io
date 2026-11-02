@@ -440,7 +440,7 @@ Since 4.129.0 the [map-space profile](/docs/schema/profiles#map-space) has its r
 - `pins` holds each Pin's point and its element: `{ pin, map, element_type, element_id, x, y, z }`.
 - `out` counts what was left aside by reason: `no_point`, `no_markers`, `dangling`, `no_map`; a reason with nothing counted is absent.
 
-A number counts when it is whole by value (`2.0` is 2), and a row without a non-empty string `id` is no element. Since 4.129.1 (serial 106) two rows of one type with one id read as the last one served. `z` is an elevation, never a height. The types are `OwMapSpace`, `OwMapSpaceMap`, `OwMapSpaceOutline`, `OwMapSpacePin`, `OwMapSpacePoint` and `OwMapSpaceOutReason`.
+A number counts when it is whole by value (`2.0` is 2) and a double holds it exactly (since 4.129.2, a value past 2^53 that the parse had to round is not whole), and a row without a non-empty string `id` is no element. Since 4.129.1 (serial 106) two rows of one type with one id read as the last one served. `z` is an elevation, never a height. The types are `OwMapSpace`, `OwMapSpaceMap`, `OwMapSpaceOutline`, `OwMapSpacePin`, `OwMapSpacePoint` and `OwMapSpaceOutReason`.
 
 ```typescript
 import { mapSpace } from '@onlyworlds/sdk';
@@ -553,7 +553,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.129.1, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.129.2, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
