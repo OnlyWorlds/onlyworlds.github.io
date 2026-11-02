@@ -41,7 +41,7 @@ Nine query parameters, all optional. The SDKs take the same nine. The MCP tool `
 | `since` | For `recent`: a cursor from [`/changes`](/docs/development/api/changes), or an ISO 8601 date and time, as `/changes` takes `after` | None: `recent` is empty |
 | `budget` | Items per section, 1 to 1000 | `50` |
 | `depth` | The sheet's reach: `1` serves what the Character's own element links to, `0` none | `1` |
-| `compact` | `true` leaves out every empty section and an empty `cut` ([Compact](#compact)); `false` serves the fixed shape | `true` (since 2026-11-02) |
+| `compact` | `true` leaves out every empty section and an empty `cut` ([Compact](#compact)); `false` serves the fixed shape | `false` (`true` from 2027-05-02) |
 | `lens` | A [lens](/docs/lenses) id: the packet adds `lenses`, one frame with that lens read for your own view. The lens carries its own reach and limit, so `lens` beside `depth` or `budget` is a 422; a lens you cannot see is the 404. Without it, and with no policy parameter but `compact`, the packet adds one frame per lens you chose (`PUT /api/v2/me/lenses`) | none |
 
 **Past the budget,** a section drops items: `sheet` and `names` those with the fewest `her_links`, `knowledge`, `messages` and `recent` the oldest, `events` the oldest dated first, then the undated by rank, `room` and `proposed` the oldest. `self`, `role` and `work` are never cut. `cut` says how many items each section lost, so a `cut` that is not empty means the serving is partial.
@@ -91,7 +91,7 @@ Undated rows rank by the latest date among the dated elements each links to, the
 
 ## Compact
 
-Since 2026-11-02 the packet is compact by default; `compact=false` asks for the fixed shape, every section there, empty or not. Compact (since 2026-10-23) leaves out every empty array section (`role`, `work`, `events`, `knowledge`, `sheet`, `recent`, `messages`, `room`, `proposed`, `roster`), `names` when it is empty and `cut` when nothing was cut. An absent section means nothing in it, never that it was not read: `policy.components` says what was read, and `policy.compact` which shape you got.
+By default the packet keeps its fixed shape: every section is there, empty or not. **From 2027-05-02 the default becomes compact** (announced 2026-11-02): a caller that needs every section sends `compact=false` from now. `compact=true` (since 2026-10-23) leaves out every empty array section (`role`, `work`, `events`, `knowledge`, `sheet`, `recent`, `messages`, `room`, `proposed`, `roster`), `names` when it is empty and `cut` when nothing was cut. An absent section means nothing in it, never that it was not read: `policy.components` says what was read, and `policy.compact` which shape you got.
 
 ```bash
 curl -s "https://www.onlyworlds.com/api/v2/character/{id}/context?compact=true" \
@@ -102,7 +102,7 @@ curl -s "https://www.onlyworlds.com/api/v2/character/{id}/context?compact=true" 
 - **Always there:** `world`, `calendar`, `as_of`, `now`, `mode`, `reader` and `policy`, whatever they hold.
 - **A null that is an answer stays:** `character` null means the Character is hidden from this reader, `style` null that they have no style element, `recent_cursor` null that the read had no `since`. `recent_more` is a boolean and stays.
 - **The value** is `true` or `false` (in any case, in the query); anything else is `422` [`invalid_request`](/api/errors/#invalid_request) with `param` `compact`.
-- **The route and the MCP tool agree:** both serve the compact packet unless told `compact: false` (the route's default was `false` until 2026-11-02). The TypeScript SDK (4.128.1) and the Python package (0.103.1) send `compact=false` when you leave it out, so their typed fixed shape holds; pass `compact: true` for the short form.
+- **The MCP tool's default is the other way:** `get_draught` serves the compact packet unless told `compact: false`; the route joins it on 2027-05-02. The TypeScript SDK (4.128.1) and the Python package (0.103.1) send `compact=false` when you leave it out, so their typed fixed shape holds through the change; pass `compact: true` for the short form.
 
 ## The horizon
 
