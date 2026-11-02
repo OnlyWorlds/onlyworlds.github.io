@@ -19,7 +19,7 @@ A tool climbs in that order: nothing is signed in that is not listed, and nothin
 
 ## What we read
 
-1. **It is what it says.** The URL serves the tool. The source is public, or your submission says why not. Your row on onlyworlds.com/tools shows the source after the maker: a link when `source` in the list's `tools.json` is an https address, or "source: not public." followed by the row's `source_note`, the reason, when it has one.
+1. **It is what it says.** The URL serves the tool, and we can read its code: the source is public, or it is private and you give the maintainers read access to the repository, with one sentence on why it is private. A tool whose code we can't read is not listed; you can still build it on OnlyWorlds and offer it anywhere. Your row on onlyworlds.com/tools shows the source after the maker: a link when `source` in the list's `tools.json` is an https address, or "source: not public." followed by the row's `source_note`, the reason, when it has one.
 2. **Keys stay with the person.** The key and PIN someone gives your tool are kept on their device or in their own environment, never on your server.
 3. **It names itself.** Your writes send a client name (`X-OW-Client`, see [Writes](/docs/development/api/writes#agent-writes)), your own fields sit under an `x_<tool>_` prefix (Atlas keeps its older `atlas_`, which the server keeps as written), and folders you make carry the `producer` line.
 4. **It speaks the wire.** Your calls are ones the [API document](https://www.onlyworlds.com/api/docs) describes; a folder you write passes the folder lint; an `.owworld` file you write opens in the reference reader.
@@ -27,7 +27,7 @@ A tool climbs in that order: nothing is signed in that is not listed, and nothin
 6. **The host answers.** Read from outside, signed out: https and its certificate, no dangling domain, the other hosts your first page loads from. We never go past the first click.
 7. **Its core is open and free.** What your tool is for works for anyone, without paying and without an invite: opening, reading and changing a world. Extras can cost (hosting, models, exports, premium views). Your submission names the free core and the paid parts.
 
-Lines 2 and 5 can't be seen from outside, so a row marks them **claimed** (you said so), or **read in source** when your source is public and we read it. Every line carries the date it was read.
+Lines 2 and 5 can't be seen from outside, so we read them in your code: a row marks them **read in source** when your source is public, and **read in private source** when it isn't, which tells a reader that nobody outside can check them. A listed row never rests them on your word alone. Every line carries the date it was read.
 
 What a listing does not claim: that a tool is good, safe beyond these seven lines, or maintained. The date says when it was last true.
 
