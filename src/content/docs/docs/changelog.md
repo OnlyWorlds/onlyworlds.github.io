@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-02
 
+- **[Unity](/docs/development/unity) v0.32.0: three profile readers.** `OWLanding.Of` (the landing), `OWMapSpace.Of` (map space, serial 105) and `OWGraphOptions.ReadingAids` (the reading aids back in an unlensed graph); an empty review mark on a record reads as settled; Location's `vehicle`. The producer line's version is 0.32.0.
 - **[The map-space profile](/docs/schema/profiles#map-space)** (serial 106): two rows of one type with one id read as the last one served; a measured frame reads only placed points; a `z` that is not a whole number reads as 0; a Zone with no placed Marker counts as `no_markers`; `type` and `shape` are read as written. The fixture holds 34 cases.
 - **[TypeScript](/docs/development/typescript#lenses) 4.129.1 and [Python](/docs/development/python#what-it-covers) 0.104.1: the map-space readers keep one row per id**, the last served, for every type (TypeScript read each repeated Marker and Pin row as one of its own, Python each repeated Marker row); the schema pin moves to serial 106 (`SCHEMA_VERSION` `00.34.00`).
 - **[A world's landing file](/docs/development/api/public#what-a-visitor-sees)**: `/w/<address>/landing.json`, the world's first picture as the landing profile reads it from the public graph, with the lenses the owner chose for it and the change number it was read at; the graph page's file carries the same number.
