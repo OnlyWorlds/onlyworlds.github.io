@@ -10,6 +10,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 ## 2026-11-03
 
 - **[The practice world](/docs/getting-started/keys#the-practice-world): a world anyone can write to without an account.** Its key and PIN are on Keys and PINs, and the [TypeScript](/docs/development/typescript#write) and [Python](/docs/development/python#write) Write examples now run against it as written. It is a copy of Moppetopia under its own ids that goes back to the same copy every night at 03:00 UTC. It takes no files or members, holds at most 2,000 elements, allows 60 requests a minute per address, and never locks on a wrong PIN.
+- **[Atlas](/docs/tools/atlas#getting-started) 1.121.0: a new world's story asks who it is about before what happens.** The questions now go: the story, who it is about, what happens to them, where, and whether they are still there. On Strand each filled box says where it goes next, and on Picture the story and its parts stand first, in the same places every time.
 
 ## 2026-11-02
 
