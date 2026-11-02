@@ -61,6 +61,17 @@ Three have pages of their own: [Messages](/docs/schema/profiles/messages), [Addr
 
 **[The landing](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/landing.md)** (serial 103): a world's first picture at a door, such as an account's OnlyWorld on onlyworlds.com's landing. It adds no field. It reads the graph the [lens profile](/docs/lenses) defines for the visitor, so it shows exactly what they may see and nothing more. A real world shows its most-linked Characters, each with the elements one link away. A small world, with fewer elements in the visitor's graph than a size (24 by default), shows its gaps first: orphans and near-orphans, a Character whose `location` names no Location in the visitor's graph, and a Location no Character's `location` names. The packages' reader is `landingOf` in TypeScript and `landing_of` in Python (4.127.0, 0.102.0).
 
+### Map space
+
+**[Map space](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/map-space.md)** (serial 105): how a reader turns a world's Maps, Zones, Markers and Pins into geometry. It adds no field and stores nothing; the standard already says what each field means, and this page states the reading once, with a fixture of 24 cases. It reads the elements as the reader is served them, so a hidden Zone and its Markers are not in a member's or a visitor's input and never come back. The answer has four parts, `{ maps, zones, pins, out }`, its coordinates whole numbers in the Map's pixels:
+
+- `maps`: each Map's frame (`width`, `height`, `depth`, `z_max`, `scale`, `location`, `parent_map`). `scale` is metres per pixel, read from `x_metres_per_pixel` when the Map carries a positive number there, else `null`. A Map without a `width` or `height` reports the extent of its own points there, marked `extent: "points"`.
+- `zones`: one outline per Map a Zone has Markers on, its points taken from the Markers in `order`, then by id. `shape` closes it as a `polygon` or leaves it a `line`; empty, absent or any other value reads as `polygon`.
+- `pins`: each Pin's point, with the element it stands for as `element_type` and `element_id`, both `null` for a Pin with neither or only one of the two.
+- `out`: what the reading left aside, counted by reason: `no_point`, `no_markers`, `dangling`, `no_map`.
+
+`x` and `y` count from the bottom left. `z` is a point's elevation upward, never a height: a Marker at `z` 300 sits 300 pixels up, and a missing `z` reads as 0. A `z` past the Map's `depth` is kept as written, and the Map's `z_max` shows the overrun. The packages' reader is `mapSpace` in [TypeScript](/docs/development/typescript#lenses) and `map_space` in [Python](/docs/development/python#what-it-covers) (4.129.0, 0.104.0).
+
 ### Import map
 
 The import map is not a field at all, but a table a door reads when it brings a world in from another tool.

@@ -433,6 +433,23 @@ view.mode; // 'graph' or 'gaps'
 view.clusters[0]; // { head, members: [{ id, hops, degree }, ...] }
 ```
 
+Since 4.129.0 the [map-space profile](/docs/schema/profiles#map-space) has its reader. `mapSpace(elements)` takes the elements as the reader is served them and returns `{ maps, zones, pins, out }`, all four always present:
+
+- `maps` holds each Map's frame: `width`, `height`, `depth`, `z_max` (the largest z among its own points), `scale` (metres per pixel from `x_metres_per_pixel`, else `null`), `location` and `parent_map`. A missing `width` or `height` is measured from the Map's own points and marked `extent: "points"`.
+- `zones` holds one outline per Map a Zone has Markers on, `{ zone, map, shape, points }`, each point `[x, y, z]`, the Markers in `order` and then by id.
+- `pins` holds each Pin's point and its element: `{ pin, map, element_type, element_id, x, y, z }`.
+- `out` counts what was left aside by reason: `no_point`, `no_markers`, `dangling`, `no_map`; a reason with nothing counted is absent.
+
+A number counts when it is whole by value (`2.0` is 2), and a row without a non-empty string `id` is no element. `z` is an elevation, never a height. The types are `OwMapSpace`, `OwMapSpaceMap`, `OwMapSpaceOutline`, `OwMapSpacePin`, `OwMapSpacePoint` and `OwMapSpaceOutReason`.
+
+```typescript
+import { mapSpace } from '@onlyworlds/sdk';
+
+const { maps, zones, pins, out } = mapSpace(elements);
+zones[0]; // { zone, map, shape: 'polygon', points: [[x, y, z], ...] }
+out; // e.g. { dangling: 1 }
+```
+
 Since 4.100.0 a lens's rows for a reader below the owner are the bodies the API serves that reader: a link to an element the reader cannot see is left out, a lens kept as an element keeps only the notes on elements the reader sees, and `x_served_trimmed` names a message's `characters` and `narrator`, or a lens's anchor fields, for a contributor or a guest, never for the public. The owner's rows are the bodies as stored. Since 4.100.1 a contributor's or a guest's row keeps a link to a proposed element it sees, and a lens's note keyed to one, as the API serves them; the public rung loses both. No row carries a stored `x_served_trimmed`: the mark names only what this reading trimmed.
 
 ## Reading aids
@@ -536,7 +553,7 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.128.1, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.129.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
