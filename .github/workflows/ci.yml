@@ -48,5 +48,8 @@ jobs:
       - name: schema-dist's counts against its newest serial (report only)
         run: |
           node scripts/verify-sd-counts.mjs --live || echo "::warning::schema-dist's newest serial has other fixture counts, refusal reasons or canonical version: run node scripts/verify-sd-counts.mjs --refresh and mend the pages"
+      - name: The practice world's key and PIN against production (report only)
+        run: |
+          node scripts/verify-practice.mjs --live || echo "::warning::production does not answer the practice world's key and PIN as contract/practice.json says: copy keel's contract/practice.json and mend the pages"
       - run: npm run build
       - run: npm run verify

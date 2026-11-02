@@ -31,6 +31,13 @@ Elements are plain dicts. Two demo keys read public sample worlds: `0000000000` 
 
 ## Write
 
+The example reads the write key and PIN from the environment. These two are the [practice world](/docs/getting-started/keys#the-practice-world)'s, which anyone may write to and which goes back to the same copy every night; for your own world, put in its `ow_w_` key and your PIN.
+
+```bash
+export OW_API_KEY=ow_w_QRRMlAFPF9vPZSqmiV6QJm2HDJH_sP28x2RccPmYP1A
+export OW_API_PIN=1234
+```
+
 ```python
 import os
 from onlyworlds import Client

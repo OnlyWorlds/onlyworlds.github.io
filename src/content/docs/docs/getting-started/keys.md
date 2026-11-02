@@ -41,6 +41,23 @@ The legacy keys `0000000000` to `0000000009` are reserved for demo worlds. They 
 
 The rest of the range is not for public use; unassigned keys answer `401` [`invalid_credentials`](/api/errors/#invalid_credentials).
 
+## The practice world
+
+:::tip[No account yet? Write to the practice world]
+Key `ow_w_QRRMlAFPF9vPZSqmiV6QJm2HDJH_sP28x2RccPmYP1A`, PIN `1234`.
+
+Everyone shares this key. Every night at 03:00 UTC the world goes back to the same copy, so write freely: whatever you make is gone by morning, and until then anyone who has this page can see it. Put nothing private in it.
+:::
+
+The practice world is a copy of Moppetopia under its own ids. Read examples use the [demo key](#demo-keys) on the real Moppetopia, and write examples use this key, so an id you read in one world is not found in the other. The key is the world's owner key, so it reads and writes everything in it, and `GET /api/v2/me` with it answers the world `Practice`.
+
+It differs from your own world in four ways, each refused or limited by the real error:
+
+- **No files and no members.** A file upload is refused with `403`, and the world takes no invites or seats. For those, [make your own world](https://www.onlyworlds.com/account/).
+- **At most 2,000 elements.** A create past that is refused until the next reset.
+- **60 requests a minute per address**, not a key's 300, so that one person's loop never uses up the shared key for everyone else. Over the limit is `429` [`too_many_requests`](/api/errors/#too_many_requests), with `Retry-After`. <!-- limit: requests_per_minute requests_per_minute_keyless -->
+- **A wrong PIN never locks the key.** It answers `401` [`invalid_credentials`](/api/errors/#invalid_credentials) with `param` `API-Pin`, as it does everywhere, but here the failures are never counted toward a lockout.
+
 ## The PIN
 
 The PIN is a 4-digit number (1000 to 9999) set on your account in [account settings](https://www.onlyworlds.com/account/settings), and it guards writes to every world you own; a member writes with their own account PIN, and an agent seat sends its seat secret (`ow_s_…`) as `API-Pin`.

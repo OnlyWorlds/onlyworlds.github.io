@@ -38,10 +38,10 @@ One Character's context in one read is `draught(characterId, policy)` ([The drau
 
 ## Write
 
-Keep the write key and PIN out of the code, in a `.env` file beside it:
+Keep the write key and PIN out of the code, in a `.env` file beside it. These two are the [practice world](/docs/getting-started/keys#the-practice-world)'s, which anyone may write to and which goes back to the same copy every night; for your own world, put in its `ow_w_` key and your PIN.
 
 ```bash
-OW_API_KEY=ow_w_...
+OW_API_KEY=ow_w_QRRMlAFPF9vPZSqmiV6QJm2HDJH_sP28x2RccPmYP1A
 OW_API_PIN=1234
 ```
 

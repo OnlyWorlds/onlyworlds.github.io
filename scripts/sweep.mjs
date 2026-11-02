@@ -260,6 +260,17 @@ console.log('CHECKS');
   else note('could not read schema-dist (node scripts/verify-sd-counts.mjs --live says why): the counts snapshot was not checked');
 }
 
+// ---- 2p: the practice world's literals against production (exit 2 from the reader is BLIND: production
+// unreadable, never a pass) ---------------------------------------------------------------------------------
+{
+  let code = 0;
+  try { execFileSync('node', ['scripts/verify-practice.mjs', '--live'], { cwd: ROOT, timeout: 60000, stdio: 'ignore' }); }
+  catch (e) { code = e.status ?? 2; }
+  if (code === 0) pass('the practice world\'s key and PIN on the pages answer on production');
+  else if (code === 1) bad('the practice world\'s literals differ from the pages or from production (node scripts/verify-practice.mjs --live says which; copy keel\'s contract/practice.json, then mend the pages)');
+  else note('could not read production (node scripts/verify-practice.mjs --live says why): the practice world\'s literals were not checked');
+}
+
 // ---- 3: the API reference against keel's OpenAPI ---------------------------------------------------------
 let openapi = null;
 try {

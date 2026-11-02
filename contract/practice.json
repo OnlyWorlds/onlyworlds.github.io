@@ -1,0 +1,8 @@
+{
+  "_about": "The practice world: a world anyone can write to without an account. Its key and PIN are published on purpose; the docs' Keys and PINs page carries them from this file, and the docs' verify fails on any page whose literal differs. Every night at 03:00 UTC the world goes back to the same copy (manage.py practice_reset).",
+  "world_id": "a3eae04c-a454-45e0-8243-905466cde460",
+  "key": "ow_w_QRRMlAFPF9vPZSqmiV6QJm2HDJH_sP28x2RccPmYP1A",
+  "pin": "1234",
+  "reset_utc": "03:00",
+  "source": "a copy of Moppetopia under its own ids"
+}

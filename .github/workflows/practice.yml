@@ -1,0 +1,34 @@
+# Nightly: run the TypeScript and Python pages' Write sections as written, against the practice world
+# (the world anyone may write to, whose key and PIN the pages print). It runs after the world's 03:00 UTC
+# reset, so each night starts from the same copy. A red run means a page's Write example no longer runs:
+# the page, the packages or the practice key moved.
+name: Practice world
+
+on:
+  schedule:
+    - cron: "30 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  write-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install the SDK as pinned, and the newest Python package
+        run: |
+          npm ci
+          pip install onlyworlds
+      - name: The pages' literals answer on production
+        run: node scripts/verify-practice.mjs --live
+      - name: The Write sections run as written
+        run: node scripts/run-practice.mjs

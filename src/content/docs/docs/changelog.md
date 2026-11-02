@@ -7,6 +7,10 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 What changed on onlyworlds.com for everyone is on its own [Changelog](https://www.onlyworlds.com/changelog); this page stays the developer log.
 
+## 2026-11-03
+
+- **[The practice world](/docs/getting-started/keys#the-practice-world): a world anyone can write to without an account.** Its key and PIN are on Keys and PINs, and the [TypeScript](/docs/development/typescript#write) and [Python](/docs/development/python#write) Write examples now run against it as written. It is a copy of Moppetopia under its own ids that goes back to the same copy every night at 03:00 UTC. It takes no files or members, holds at most 2,000 elements, allows 60 requests a minute per address, and never locks on a wrong PIN.
+
 ## 2026-11-02
 
 - **[The Lenses page](/docs/lenses#on-onlyworldscom) proposes a lens from a sentence.** A box beside Start from takes plain words and fills the lens's settings with a proposal you change and save; a line under the box says what the words chose, or names the next step when nothing matched.
