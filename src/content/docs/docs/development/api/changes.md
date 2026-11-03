@@ -13,7 +13,7 @@ curl -s "https://www.onlyworlds.com/api/v2/changes?limit=1" -H "API-Key: 0000000
 
 <!-- shape: ChangesPage -->
 ```json
-{ "cursor": "1:068e2e60-fc37-789e-8000-a64560195ff8", "has_more": true, "head": 124, "epoch": null, "epoch_reason": null, "changes": [
+{ "cursor": "1:068e2e60-fc37-789e-8000-a64560195ff8", "has_more": true, "head": 226, "epoch": null, "epoch_reason": null, "changes": [
     { "op": "upsert", "type": "ability", "id": "068e2e60-fc37-789e-8000-a64560195ff8", "change_seq": 1,
       "updated_at": "2025-10-05T21:41:35.764549+00:00", "element": { "type": "ability", "name": "Piano Playing", "…": "…" } } ] }
 ```

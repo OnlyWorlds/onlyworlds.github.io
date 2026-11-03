@@ -9,7 +9,7 @@ sidebar:
 
 A Character represents an individual with agency and the capacity to make choices that affect their world. Characters are self-directed actors who can respond to situations, form relationships, and drive narrative change through their decisions and actions.
 
-Its own link fields point to: **Species, Traits and Abilities** (`species`, `traits`, `abilities`); **Languages and Objects** (`languages`, `objects`); **Locations** (`birthplace`, `location`); **Institutions and Families** (`institutions`, `family`); **other Characters** (`friends`, `rivals`). Other elements link to a Character from their side: an Event, Collective, Construct, Narrative, Relation or Title lists it in `characters`, and a Relation names it as `actor`. Find those with a filter, e.g. `GET /api/v2/event?characters={id}`.
+Its own link fields point to: **Species, Traits and Abilities** (`species`, `traits`, `abilities`); **Languages and Objects** (`languages`, `objects`); **Locations** (`birthplace`, `location`); **Institutions and Families** (`institutions`, `family`); **other Characters** (`friends`, `rivals`). Other elements link to a Character from their side: an Event, Collective, Construct, Narrative, Relation or Title lists it in `characters`; a Relation names it as `actor`; a Title as one of its `holders`, a Family as one of its `ancestors`, a Location as one of its `founders`, a Construct as its `founder`, a Phenomenon as one of its `wielders`, and a Narrative as its `protagonist`, `antagonist` or `narrator`. A Family or an Institution has no field for its members: membership is set on the Character (`family`, `institutions`). Find those with a filter, e.g. `GET /api/v2/event?characters={id}`.
 
 They are distinct from:
 
@@ -18,7 +18,7 @@ They are distinct from:
 
 [Character discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/character)
 
-Every field below is optional. The TTRPG group (`level`, `hit_points` and six ability scores) is for worlds that run a game system. `charisma` (Personality) and `CHA` (TTRPG) are separate fields.
+Every field below is optional. The TTRPG group (`level`, `hit_points` and six ability scores) is for worlds that run a game system. `charisma` (Personality) and `CHA` (TTRPG) are separate fields. The six Personality scores (`charisma` to `courage`) run from 0 to 100 in the standard.
 
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->
 

@@ -51,7 +51,7 @@ A Character has no field for titles. The link lives on the Title: Admiral is a T
 curl -s "https://www.onlyworlds.com/api/v2/title?name=Admiral&expand=holders,body&fields=name,body,holders" -H "API-Key: 0000000001"
 ```
 
-So to find what a Character holds, read the Titles and check their `holders`: there is no reverse lookup, and a filter on a link field is a `422` ([Filters](/docs/development/api/reads#filters)). Each link sits on the element that holds the field; the element pages ([Title](/docs/schema/element_categories/title), [Character](/docs/schema/element_categories/character)) show which side that is.
+So to find what a Character holds, read the Titles and check their `holders`: `holders` has no filter (`?holders=` is a `422`), though a few link fields do, such as a Title's `body` ([Filters](/docs/development/api/reads#filters)). The [draught](/docs/world-graph/draught) in its `act` mode lists the Titles a Character holds in one read. Each link sits on the element that holds the field; the element pages ([Title](/docs/schema/element_categories/title), [Character](/docs/schema/element_categories/character)) show which side that is.
 
 <a id="places-within-places"></a>
 

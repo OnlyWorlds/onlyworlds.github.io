@@ -55,14 +55,14 @@ Nine query parameters, all optional. The SDKs take the same nine. The MCP tool `
   "character": { "self": true, "grade": "whole", "element": { … } },
   "role": [ … ], "work": [], "style": null, "events": [ … ], "knowledge": [ … ],
   "names": { "relation": [ … ] }, "sheet": [ … ], "recent": [], "roster": [ … ],
-  "recent_cursor": null, "recent_more": null }
+  "recent_cursor": null, "recent_more": false }
 ```
 
 {/* shape: Draught partial */}
 | Section | Holds |
 |:--|:--|
 | `character` | The Character's own element, with `self: true` and its `grade`: the voice, where every other section is what that voice may mention. `null` when, read as the Character, their own element is hidden from them. Named `self` in `components` (`components=character` is a 422) |
-| `role` | Titles whose `holders` name them, Collectives whose `characters` name them, and Relations whose `actor` is the Character with supertype `Tenure` or `Membership` |
+| `role` | Titles whose `holders` name them, Collectives whose `characters` name them, and Relations whose `actor` is the Character with supertype `Tenure` or `Membership`; in `voice`, only those the Character's own slice shows, so a Title that names them in `holders` can be missing |
 | `work` | Relations whose `actor` is the Character with supertype `Work item` and subtype `open` or `taken`. Each row adds `packet`, the item's `x_packet_elements` (`[]` when it has none) |
 | `style` | The Construct with supertype `Working style` whose `characters` name them (the most recently edited), or `null` |
 | `events` | Events whose `characters` name them: the dated by `start_date` up to `as_of`, then the undated. Each row adds `dated` |
@@ -137,7 +137,7 @@ Two list filters came with the draught, on every element type: `ids=` (up to 200
 
 Both packages turn a packet into plain text to paste into a prompt or a note: `draughtText(draught)` in the [TypeScript SDK](/docs/development/typescript) from 4.86.0, `draught_text(draught)` in [Python](/docs/development/python) from 0.70.0. The two give the same bytes for the same packet, full or compact, and are held to it by one shared set of cases. The text reads the packet alone and looks nothing up: a link to an element the packet does not hold is counted as "not in this draught".
 
-An excerpt of the real text for Admiral Fluffington at Year 300 on the demo world Moppetopia. Square brackets mark the cuts, and the two Names rows' descriptions are left out here:
+An excerpt of the real text for Admiral Fluffington at Year 300 on the demo world Moppetopia. Square brackets mark the cuts, and the Names rows' descriptions are left out here:
 
 ```
 # Admiral Fluffington, in Moppetopia
@@ -149,6 +149,7 @@ Character · Military / Admiral
   rivals: Captain Snoot
 
 ## Names
+  [two rows first: the world's lenses Admiral Fluffington's web and The spine, Constructs with supertype Lens]
 - We Sail Where the Puddles Flow (Construct · Society / Tradition) · via characters · undated
 - Year Zero Anniversary (Construct · Society / Ritual) · via characters · Year 250
 
@@ -161,7 +162,7 @@ Character · Military / Admiral
 
 ## Members
 - owner
-- co_builder · Atlas seat · plays a Character not in this draught · removed from the world
+- co_builder · [the seat's name] · plays a Character not in this draught · removed from the world
 
 Nothing in: role, work, style, events, knowledge, recent.
 
@@ -175,4 +176,4 @@ The title says what the record holds up to the [horizon](#the-horizon), never wh
 
 - **[MCP server](/docs/development/mcp):** `get_draught` takes `id` and `policy`, one JSON object with the same keys, and answers the same packet. It also takes `compact` as an argument of its own, true unless the caller says false, so it serves the [compact](#compact) packet by default; a `compact` inside `policy` wins when both are sent.
 - **[TypeScript SDK](/docs/development/typescript), from 4.47.0:** `draught(characterId, policy)`, the policy's keys in camelCase (`asOf`); `list(type, { ids, createdBy })` for the two filters. Since 4.67.0 `OwDraughtComponent` names `room` and `proposed`, and each row is typed as keel serves it, `{via, her_links, grade, element}`, the element under `element`; before, the type spread the element onto the row, so `row.name` compiled and read `undefined`. From 4.69.0, `draught(characterId, { compact: true })` asks for the [compact](#compact) packet, typed `OwDraughtCompact` (`cut` optional); without `compact`, or with `compact: false`, the answer is the fixed `OwDraught`.
-- **[Python](/docs/development/python), from 0.14.0:** `draught(character_id, mode=…, as_of=…)`, every key as a keyword argument (`components` a list). From 0.43.0 `compact=True` asks for the [compact](#compact) packet and `compact=False` the fixed one; left at `None` it sends nothing, and anything but a bool is a `TypeError` before anything is sent; `list_page(type, ids=…, created_by=…)` for the two filters.
+- **[Python](/docs/development/python), from 0.14.0:** `draught(character_id, mode=…, as_of=…)`, every key as a keyword argument (`components` a list). From 0.43.0 `compact=True` asks for the [compact](#compact) packet and `compact=False` the fixed one; left at `None` it sends `compact=false` (since 0.103.1; before, nothing), so the fixed shape holds, and anything but a bool is a `TypeError` before anything is sent; `list_page(type, ids=…, created_by=…)` for the two filters.

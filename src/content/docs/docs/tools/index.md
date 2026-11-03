@@ -5,7 +5,7 @@ description: The tools that read and write OnlyWorlds worlds, with a link to eac
 
 These tools all read and write the same world format, so a world can move between them: as a folder on disk, or through the [API](/docs/development/api-reference). Each tool works with its own part of it: a field, profile or view one tool shows can be missing in another. The live directory is at [onlyworlds.com/tools](https://www.onlyworlds.com/tools). Built one yourself? [List your tool](/docs/development/list-your-tool).
 
-## Build
+## Build and view
 
 | Tool | What it does | Where |
 |---|---|---|
@@ -36,6 +36,14 @@ These tools all read and write the same world format, so a world can move betwee
 | Foundry Converter | Converts a world folder into an installable Foundry VTT module. | [GitHub](https://github.com/OnlyWorlds/foundry-converter) |
 | Azgaar Converter | Turns an Azgaar Fantasy Map Generator export into a world, with a map and pins. | [GitHub](https://github.com/OnlyWorlds/azgaar-converter) |
 | Unity SDK | Typed C# models and a client for worlds in the Unity engine. | [Unity SDK](/docs/development/unity) |
+
+## Bring in your notes
+
+Three ways to turn notes you already have into a world, none of them needing code:
+
+- **An AI assistant, then Atlas.** Ask a chat assistant to turn your notes into OnlyWorlds JSON (give it the [LLM guide](/docs/development/llm-guide), or use [OnlyWorldsBot](/docs/development/ai#in-a-chat)), then in [Atlas](/docs/tools/atlas), before you have a world, **Other ways in → Bring in a file, notes or JSON**: you review what it read, and **Create world** makes the world.
+- **The toolkit's `import`**, if you use Claude Code or another coding agent: it reads notes, a manuscript, PDFs or a wiki and writes a world folder Atlas opens ([Toolkit](/docs/development/toolkit#skills)).
+- **One note at a time, in [Lantern](/docs/tools/lantern#catch-and-unsorted)**: **Catch** keeps a note in a world, and **Sort your notes** has an AI propose the elements it makes.
 
 For AI tooling see [AI agents](/docs/development/ai), the [MCP server](/docs/development/mcp) and the [Toolkit](/docs/development/toolkit).
 

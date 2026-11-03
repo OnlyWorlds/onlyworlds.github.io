@@ -27,7 +27,7 @@ The [LLM guide](/docs/development/llm-guide) is a single text file, [ow_llm_guid
 
 **Pages as Markdown.** An agent can read both sites as Markdown:
 - **This site:** every page has a Markdown copy at the same path with `.md`, and [llms.txt](/llms.txt) lists them.
-- **onlyworlds.com:** every public page answers as Markdown when the request's `Accept` header prefers `text/markdown`, and it has its own [llms.txt](https://www.onlyworlds.com/llms.txt).
+- **onlyworlds.com:** every public page answers as Markdown when the request's `Accept` header prefers `text/markdown`, except the interactive API docs (`/api/docs`) and the MCP endpoint (`/mcp`, which serves a browser its page and answers any other `GET` with `405`), and it has its own [llms.txt](https://www.onlyworlds.com/llms.txt).
 
 ## In a coding agent
 

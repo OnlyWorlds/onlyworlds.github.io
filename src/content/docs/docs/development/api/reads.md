@@ -85,7 +85,7 @@ Besides these filters, a list takes the parameters `limit`, `cursor`, `expand`, 
 ```json
 { "error": { "type": "invalid_request", "code": "invalid_request",
   "message": "Unknown filter 'foo'. Filters: name, name__icontains, supertype, subtype, ids, created_by, birthplace, location.",
-  "param": "foo", "doc_url": "https://onlyworlds.github.io/api/errors#invalid_request" } }
+  "param": "foo", "doc_url": "https://onlyworlds.github.io/api/errors/#invalid_request" } }
 ```
 
 The [TypeScript SDK](/docs/development/typescript) sends these under `filter`: `client.list('character', { filter: { name__icontains: 'consul' } })`. An empty value under `filter` is sent as `key=` (since 4.108.1; until then it was dropped and the list came back whole). A filter written at the top level of the parameters instead, or any key `list` does not know, is a `TypeError` before anything is sent (since 4.51.0; until then the key was dropped without a word and the list came back whole).
@@ -140,14 +140,15 @@ curl -s "https://www.onlyworlds.com/api/v2/character/{id}?expand=location,instit
 
 <!-- shape: GET /api/v2/world -->
 ```json
-{ "id": "…", "name": "Hyperion", "description": "…", "image_url": "",
+{ "id": "…", "name": "Hyperion", "description": "", "image_url": "https://i.imgur.com/Damdiwv.jpeg",
   "time_format_names": [], "time_format_equivalents": [], "time_basic_unit": "Year",
-  "time_range_min": 0, "time_range_max": 500, "time_range_current": 500,
+  "time_range_min": -300, "time_range_max": 100, "time_range_current": 0,
   "length_unit": "", "mass_unit": "", "distance_unit": "",
-  "public_read": false, "agent_narrator_rule": false, "agent_writes_proposed": false, "owner_character": null,
+  "public_read": true, "agent_narrator_rule": false, "agent_writes_proposed": false, "owner_character": null,
   "slug": null, "public_page": { "on": false, "palette": null, "hero": "", "sections": [], "pin": null, "index": false },
   "origin": { "source": null, "producer": null },
-  "created_at": "…", "updated_at": "…" }
+  "created_at": "…", "updated_at": "…",
+  "counts": { "total": 35, "types": { "ability": 1, "character": 3, "collective": 1, "…": "…", "zone": 1 } } }
 ```
 
 `origin` (2026-10-23) is where the world first came from: `{source, producer}`, both keys always present, each the [folder format's provenance line](/docs/schema/folders#worldjson) as the tool that made the world from a folder gave it, or `null`. It is read-only under that name (`origin` in a `PATCH` is a `422`); a tool sets it by sending `source` and `producer` ([Writes](/docs/development/api/writes#the-world)).

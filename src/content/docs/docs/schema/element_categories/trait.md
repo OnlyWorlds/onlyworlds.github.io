@@ -22,6 +22,8 @@ They are distinct from:
 
 [Trait discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/trait)
 
+The six Quantitative fields (`charisma` to `courage`) run from -100 to 100 in the standard: a change to the Character's score of the same name, which runs from 0 to 100.
+
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->
 
 ## Fields

@@ -13,7 +13,7 @@ Because a world is a graph, you can read part of it: start from a few elements a
 - **[The draught](/docs/world-graph/draught)** is one Character's reading of the world in one call: who they are, the Titles they hold, the Events they were in, in story order, and what names them. Given a lens, it adds that lens's reading as one more frame in the answer.
 - **[The graph itself](/docs/lenses/graph)**: the SDKs read a world, or a lens's reading of it, as nodes and edges (`worldGraph`, `world_graph`), and count each element's links (`degreeOf`, `degree_of`, its degree), which is what "most linked" means when a search ranks its results. What a lens's budget or rules leave out, and every link to an element outside the reading, is counted by its reason, never dropped silently.
 
-[Atlas](/docs/tools/atlas) draws any element's connections as a small graph, if you want to see one.
+To see a world's graph: [Atlas](/docs/tools/atlas) draws any element's connections as a small graph, [onlyworlds.com](/docs/tools/onlyworlds-com) draws a whole world (**Graph** on the world page's Elements pane), and [Little Lens](/docs/tools/) draws a whole world as a web, or its reading through one lens.
 
 ## Related ideas
 

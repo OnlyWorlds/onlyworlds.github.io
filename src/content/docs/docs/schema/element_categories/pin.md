@@ -20,6 +20,8 @@ They are distinct from:
 
 [Pin discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/pin)
 
+The element a Pin places is the standard's one generic link, `element`, which the API carries as two keys, `element_type` and `element_id`, set together or not at all. While a Pin places nothing, `element_type` reads as an empty string.
+
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->
 
 ## Fields

@@ -3,7 +3,7 @@ title: Lantern
 description: Lantern holds your OnlyWorlds worlds on your phone, works without signal, and lets a friend read a world as their Character with no account.
 ---
 
-Lantern holds your worlds on your phone. Find anything, follow its links, change a field, catch an idea, and run a game from the phone at the table. It is a web page you add to your home screen: it opens without signal and sends your changes when it can. A friend you invite can read a world in Lantern as their Character, with no account.
+Lantern holds your worlds on your phone. Find anything, ask about it, follow its links, change a field, catch an idea, and run a game from the phone at the table. It is a web page you add to your home screen: it opens without signal and sends your changes when it can. A friend you invite can read a world in Lantern as their Character, with no account.
 
 | | |
 |---|---|
@@ -20,7 +20,7 @@ The first screen offers:
 - **Sign in to OnlyWorlds**: your worlds, the same ones Atlas opens.
 - **Explore Moppetopia**: the demo world, to read, with nothing to sign up for.
 - **Start a world on this phone**: no account needed; put it online later.
-- **I have an invite link**, **I have a world key** and **I have a world file**.
+- **I have a link**, **I have a world key** and **I have a world file**.
 
 On Android, a long press on Lantern's icon offers **Catch**, to keep an idea in one of your worlds.
 
@@ -30,7 +30,7 @@ On Android, a long press on Lantern's icon offers **Catch**, to keep an idea in 
 
 Changes to an online world need your account's four-digit [PIN](/docs/getting-started/keys#the-pin). Lantern asks for it once for all your account's worlds and keeps it on this phone until you sign out. A member whose account has no PIN yet opens a shared world to read; **Read only · why** says where to set one and tries again.
 
-**Sign out** (Settings) keeps the worlds already on the phone. On a shared phone, **Sign out and remove your worlds from this phone** takes your account's worlds off too; a second tap says what goes, unsent changes counted.
+**Sign out** (Settings) keeps the worlds already on the phone. On a shared phone, **Sign out and remove your worlds from this phone** (the button counts them) takes your account's worlds off too; a second tap says what goes, unsent changes counted.
 
 ## Your worlds
 
@@ -51,9 +51,13 @@ A world file is one `.zip` or `.owworld` holding a world folder, the way Atlas k
 
 The world's home shows **Unsorted** with its count. From a note, **Make it an element** turns it into an element of the type you pick, by hand, in a world on this phone only too, and files the note as Sorted. In a world from your account, signed in, **Sort your notes** has an AI read the notes beside what the world already has and propose what they make, link and add (it spends your account's daily [token rating](/docs/development/ai#sort-notes-into-a-world)); nothing is written until you tick what is true.
 
+## Ask
+
+**Ask**, a tab at the bottom of a world, takes a question about anything in it. On the phone it finds what the world says, with or without signal. In a world from your account, signed in and with signal, it also answers in a sentence, made only from what is written in the world. That answer spends your account's daily [token rating](/docs/development/ai#ask-your-world-without-a-key-of-your-own), then your own AI key if you saved one; a refused question costs nothing. The demo world, a world on this phone only, and a world opened with a key get the search, not the sentence.
+
 ## Joining a world
 
-An invite link looks like `https://www.onlyworlds.com/join#ow_j_…`. Paste it on **Join a world** (**I have an invite link** on the first screen, **Join with an invite link** on Your worlds), or tap **Open in Lantern** on onlyworlds.com's join page, which brings the link straight in. On Android, a link shared to Lantern from a chat opens the same screen. Lantern shows who invites you, to which world, as what, and until when the link works. A link works once. Joining needs signal.
+An invite link looks like `https://www.onlyworlds.com/join#ow_j_…`. Paste it on **Open a link** (**I have a link** on the first screen, **Open a link** on Your worlds), or tap **Open in Lantern** on onlyworlds.com's join page, which brings the link straight in. On Android, a link shared to Lantern from a chat opens the same screen. Lantern shows who invites you, to which world, as what, and until when the link works. A link works once. Joining needs signal.
 
 What Lantern does with each kind of link:
 
@@ -97,7 +101,7 @@ Your name, as they will see it, goes with the link, and the phone remembers it f
 
 Once opened online, Lantern opens without signal, and every world on the phone stays readable. A change is kept on the phone first and sent by itself when the phone has signal. **Waiting to send** (the pill on the world's home) lists what has not gone yet, with **Send now**. If someone changed the same field meanwhile, Lantern shows both values and asks which to keep; otherwise it sends yours without asking.
 
-Signing in, joining, making an invite link and a player's first shared note need signal. Settings says whether the phone has agreed to keep your worlds; when it has not, **Ask the phone to keep your worlds** asks it, and adding Lantern to the home screen helps.
+Signing in, joining, making an invite link and a player's first shared note need signal. Settings says whether the phone has agreed to keep your worlds; when it has not, **Ask it to keep them** asks it, and adding Lantern to the home screen helps.
 
 ## What Lantern does not do
 

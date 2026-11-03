@@ -11,7 +11,7 @@ Institutions are organized bodies with purpose and structure. They shape the wor
 
 Institutions are executive structures of meaning in a world. They interact with:
 
-- **Characters and Titles** (placing people in institutions)
+- **Characters and Titles** (placing people in institutions; a member is set on the Character, in its `institutions`)
 - **Zones, Objects, and Creatures** (what they define or control)
 - **Laws and Constructs** (what they enforce, create or utilize)
 

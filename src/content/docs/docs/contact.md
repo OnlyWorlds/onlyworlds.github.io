@@ -14,7 +14,7 @@ OnlyWorlds is free to use and extend.
 
 - **[Discord](https://discord.gg/twCjqvVBwb).** Chat, feedback and tool requests.
 - **[Feedback](https://www.onlyworlds.com/feedback).** Report issues and request features.
-- **[Changelog](https://www.onlyworlds.com/changelog).** Everything that shipped across OnlyWorlds, newest first, with an [Atom feed](https://www.onlyworlds.com/changelog.xml).
+- **[Changelog](https://www.onlyworlds.com/changelog).** What shipped on onlyworlds.com, Atlas, the Obsidian plugin, the toolkit, the TypeScript, Python and Unity SDKs and schema-dist, newest first, with an [Atom feed](https://www.onlyworlds.com/changelog.xml).
 - **[GitHub Discussions](https://github.com/OnlyWorlds/OnlyWorlds/discussions).** Announcements and technical discussion.
 - **[Council](/docs/tools/council).** Delegate your characters to shape the OnlyWorlds standard ([council.onlyworlds.com](https://council.onlyworlds.com)).
 

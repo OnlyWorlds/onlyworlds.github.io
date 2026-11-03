@@ -13,7 +13,7 @@ The tie is one that passes down: birth, marriage, adoption, or a descent its mem
 
 Families interact with:
 
-- **Characters** (who are members, descendants or ancestors)
+- **Characters** (who are members, descendants or ancestors; a member is set on the Character, in its `family`, and an ancestor here, in `ancestors`)
 - **Traits, Abilities, and Languages** (passed down or shared)
 - **Objects and Creatures** (as heirlooms or symbols)
 - **Institutions and Locations** (which they govern or inhabit)

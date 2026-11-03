@@ -51,7 +51,7 @@ curl -s -X PATCH "https://www.onlyworlds.com/api/v2/creature/{id}" \
   -d '{ "image_url": "{url}" }'
 ```
 
-For the world's own picture, `PATCH /api/v2/world` with the same body (owner only).
+For the world's own picture, `PATCH /api/v2/world` with the same body (the owner or a co-builder).
 
 ## Removing an image
 

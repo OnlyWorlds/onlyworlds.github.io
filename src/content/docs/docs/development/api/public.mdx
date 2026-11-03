@@ -101,14 +101,14 @@ That is Moppetopia. The answer is what the owner's own key gets with [`?as=publi
 ```json
 { "id": "0695db52-…", "name": "Moppetopia", "public_read": true, "owner_character": null,
   "slug": null, "public_page": { "on": false, "palette": null, "hero": "", "sections": [], "pin": null, "index": false },
-  "counts": { "total": 310, "types": { "ability": 1, "character": 23, "location": 32, "marker": 131 } } }
+  "counts": { "total": 319, "types": { "ability": 1, "character": 23, "location": 32, "marker": 131 } } }
 ```
 
 (Shortened.) Here `world` may also be the page's address: an id is tried first, any other value as an address, which names a world only while its page is on. The element, search and metadata routes take the id only.
 
 ### What it does not serve
 
-- `/changes`, `/members`, `/me`, files, the hidden routes, the [MCP server](/docs/development/mcp) and every write answer a keyless request as before: `401` [`invalid_credentials`](/api/errors/#invalid_credentials). The [proposals](/docs/development/api/proposals) lists answer it `404`. A follower who wants the live feed needs a read key.
+- `/changes`, `/members`, `/me`, files, the hidden routes and every write answer a keyless request as before: `401` [`invalid_credentials`](/api/errors/#invalid_credentials). The [MCP server](/docs/development/mcp)'s read and write tools answer a keyless call with a tool error, "API-Key header required." (HTTP `200`, `isError: true`); its schema tools need no key. The [proposals](/docs/development/api/proposals) lists answer it `404`. A follower who wants the live feed needs a read key.
 - An element read keyless carries no `created_by`, `changed_by`, `changed_via`, `changed_client` or `doors` (since 2026-10-29): who wrote an element, and with which tool, is for the world's members. A keyless `created_by=` filter is a `422` naming it.
 - A keyless request without `?world=` is the `401` it always was.
 - `as` on a keyless read is `422` [`invalid_request`](/api/errors/#invalid_request), `param` `as`: view as is the owner's.
@@ -120,7 +120,7 @@ That is Moppetopia. The answer is what the owner's own key gets with [`?as=publi
 - **`Cache-Control: no-store`** on every keyless answer, errors included, so turning public reading off closes the door at once. `ETag` and `If-None-Match` work as with a key.
 - **The budget**: 60 a minute per address, shared with the public pages ([Limits](/docs/development/api-reference#limits)). {/* limit: requests_per_minute_keyless */}
 
-The TypeScript and Python SDKs send a key on every read and have no keyless call yet; a keyless read is a plain HTTP `GET`.
+The [TypeScript SDK](/docs/development/typescript) reads a public world with no key: `new OwV2Client({ world: id })` (since 4.88.0; reads only). The [Python package](/docs/development/python) sends a key on every read and has no keyless call yet; there a keyless read is a plain HTTP `GET`.
 
 ### How big OnlyWorlds is
 

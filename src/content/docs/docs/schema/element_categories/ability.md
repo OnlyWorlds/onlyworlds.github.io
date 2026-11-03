@@ -24,6 +24,8 @@ They are distinct from:
 
 [Ability discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/ability)
 
+`potency` runs from 0 to 100 in the standard.
+
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->
 
 ## Fields

@@ -54,14 +54,10 @@ To install the APK, enable installation from unknown sources in your Android set
 
 ## Little Lens (Element Viewer)
 
-A read-only viewer for browsing, searching and exploring a world's elements and their connections.
+The Element Viewer is now Little Lens, a current tool, listed under [Tools](/docs/tools/). [little-lens.onlyworlds.com](https://little-lens.onlyworlds.com/)
 
-- **Status:** online, no longer developed. [little-lens.onlyworlds.com](https://little-lens.onlyworlds.com/)
-- Card grid with type-coloured icons, descriptions and link counts.
-- Filters across 18 browsable element types, search over names and descriptions, and sorting alphabetically or by connections.
-- Detail view with all fields, outgoing and reverse connections, and element images.
-- A radial connection graph, a timeline bar, and a breadcrumb trail with browser back and forward support.
-- Moppetopia pre-loaded as a demo world.
+- It only reads: a whole world as a web of its elements and links, each element with what it links to and what links to it, a world's lenses, its dated elements on a time strip, a Character's draught at a moment, and a world's messages.
+- It opens a public world with no account, a world file or folder in the browser with nothing sent anywhere, or, signed in with OnlyWorlds, the worlds you own or joined.
 
 ## Tool history
 

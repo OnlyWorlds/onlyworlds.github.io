@@ -14,7 +14,7 @@ Every error from the current API (`/api/v2/`, including `/bulk` and `/changes`) 
     "code": "invalid_link",
     "message": "friends references Character '0123…' which does not exist.",
     "param": "friends",
-    "doc_url": "https://onlyworlds.github.io/api/errors#invalid_link"
+    "doc_url": "https://onlyworlds.github.io/api/errors/#invalid_link"
   }
 }
 ```
@@ -115,7 +115,7 @@ Each code belongs to one family, its `type`, and a family's codes do not share o
 The request body or query is malformed: an unknown field, a server-managed field in a write, an unknown query parameter, a value that fails validation, text over its length limit, extension fields over the size cap, a malformed id, or a wrong-shaped payload.
 
 - **Common cause:** a misspelled field name (`freinds`); a `_ids` or `_id` suffix carried over from the [Classic API](/docs/development/api/classic) (the current API uses bare link names); an unknown query parameter, such as a mistyped filter (`nmae__icontains`) or `?ordering=`; sending a read body back with `type`, `created_at`, `updated_at` or `change_seq` still in it; a bulk request whose `items` is not an array.
-- **How to fix:** read `param`: it names the field or parameter at fault. Correct the spelling, drop the suffix or the server field, or remove the parameter. The list filters are `name`, `name__icontains`, `supertype`, `subtype`, `ids` and `created_by`, plus `characters` on the six element types with that link; the other accepted parameters are `limit`, `cursor`, `expand`, `fields`, `as` and `world`. Any other query parameter is rejected, never ignored.
+- **How to fix:** read `param`: it names the field or parameter at fault. Correct the spelling, drop the suffix or the server field, or remove the parameter. The list filters are `name`, `name__icontains`, `supertype`, `subtype`, `ids` and `created_by`, plus `characters` on the six element types with that link, and each element type's single links (`?parent_location=<id>`; the `422`'s message lists the type's own filters, [Filters](/docs/development/api/reads#filters)); the other accepted parameters are `limit`, `cursor`, `expand`, `fields`, `as` and `world`. Any other query parameter is rejected, never ignored.
 
 Unknown fields are a hard error, not a silent drop, so a mistyped field name fails loudly instead of vanishing. Fields under the extension namespaces `atlas_*`, `shadow_*` and `x_*` are the exception: they are stored as written.
 
@@ -406,7 +406,7 @@ The account token was issued to a hosted MCP client, and it is good at the [MCP 
 
 The credential is valid but lacks the scope for this route.
 
-- **Common cause:** a read key (`ow_r_…`) on a write route: create, update, delete, link operations, bulk, or an image ticket.
+- **Common cause:** a read key (`ow_r_…`) on a write route: create, update, delete, link operations, bulk, or an image ticket. Also a file added to the [practice world](/docs/getting-started/keys#the-practice-world), which takes no files ("The practice world takes no files.").
 - **How to fix:** use a write key (`ow_w_…`, or a legacy key) for writes. A `403` means the key is genuine and cannot do this; a `401` [`invalid_credentials`](#invalid_credentials) means the key itself is not accepted.
 
 ### not_author
@@ -643,7 +643,7 @@ Image or file upload is not configured on the server right now: `POST /api/v2/me
         "code": "invalid_link",
         "message": "location references Location '…' which does not exist in this world or among the batch's surviving items.",
         "param": "location",
-        "doc_url": "https://onlyworlds.github.io/api/errors#invalid_link"
+        "doc_url": "https://onlyworlds.github.io/api/errors/#invalid_link"
       } }
   ]
 }

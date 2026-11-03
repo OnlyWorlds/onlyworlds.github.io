@@ -368,7 +368,9 @@ import { openersFor, TOOLS, parseOwLink } from '@onlyworlds/sdk';
 const rows = openersFor(TOOLS, 'element', parseOwLink(link), { audience: 'member', tool: 'lantern', signedIn: false });
 // [{ id: 'onlyworlds', name: 'onlyworlds.com', href: 'https://www.onlyworlds.com/w/<world id>/character/<id>', state: null },
 //  { id: 'atlas', name: 'Atlas', href: 'https://atlas.onlyworlds.com/#/open/…', state: 'Sign in to Atlas first' },
-//  { id: 'lantern', name: 'Lantern', href: 'https://lantern.onlyworlds.com/#/open/…', state: 'You are here' }]
+//  { id: 'lantern', name: 'Lantern', href: 'https://lantern.onlyworlds.com/#/open/…', state: 'You are here' },
+//  { id: 'little-lens', name: 'Little Lens', href: 'https://little-lens.onlyworlds.com/#/open/…', state: null },
+//  { id: 'tangle', name: 'Tactical Tangle', href: 'https://tangle.onlyworlds.com/#/open/…', state: 'Sign in to Tactical Tangle first' }]
 ```
 
 Since 4.107.0 `doorsOf(element, tools = TOOLS)` reads an element's [door history](/docs/development/api/reads), the `doors` field a world's members are served: which tools wrote it, newest first, each `{ door, at, tool, last, from }`. `tool` is the listed tool whose client name is the door, or null for a door word (`site`, `mcp`, …). `last` marks the entry that made the element's last write, so a "by you" line compares `changed_by` with the reader's own membership there. An element with no `doors` yet reads one entry from its last write (`from: 'last-write'`), and a public read gives `[]`. It returns data, never words. Since 4.108.0 `doorWhere(entry)` gives one entry's where in the words a "Last shaped" line uses: `in <tool name>` for a listed tool (such as `in Atlas`), `on onlyworlds.com` for `site`, `with an AI` for `seat`, `mcp` and `declared`, `by OnlyWorlds` for `server`, and `in code` for any other door. The rest of the sentence ("Last shaped", "by you", the time) stays the caller's.
@@ -492,9 +494,11 @@ Messages between members follow the [message profile](/docs/schema/profiles/mess
 ```typescript
 import { isMessage, isAddressedTo, senderStatus, readMarkOf, unreadFor } from '@onlyworlds/sdk';
 
-const messages = (await Array.fromAsync(client.listAll('narrative', { filter: { supertype: 'Message' } }))).filter(isMessage);
+const messages = [];
+for await (const n of client.listAll('narrative', { filter: { supertype: 'Message' } })) if (isMessage(n)) messages.push(n);
 const members = await client.members();
-const marks = await Array.fromAsync(client.listAll('relation', { filter: { supertype: 'Read' } }));
+const marks = [];
+for await (const r of client.listAll('relation', { filter: { supertype: 'Read' } })) marks.push(r);
 const mark = readMarkOf(marks, myCharacter, members);   // only a mark in my own hand counts
 for (const m of unreadFor(messages, myCharacter, mark, members)) {   // members: only a verified sender makes a message mine
   const { status, claimed, writtenBy } = senderStatus(m, members);
@@ -512,6 +516,8 @@ An element an AI seat wrote as [proposed](/docs/development/api/proposals) follo
 ## Errors
 
 Every non-2xx answer throws `OwApiError` with the platform's error envelope: `.status`, `.type`, `.code`, `.param` (the field that failed, or `API-Pin` when a PIN was refused) and `.docUrl`, which links to the code on [the errors page](/api/errors). Show `docUrl` to your users. Transport failures throw `OwNetworkError`. `err.isValidationError` covers the common case. A write sent with `ifMatch` that found the element moved throws `OwPreconditionFailedError` (412, `err.isPreconditionFailed`), an `OwApiError` that also carries `current`. `signInWithPassword` throws `OwSignInError` instead, which is not an `OwApiError`: its `reason` says why, `status` and `code` are keel's answer when one came back, and `retryAfter` comes with a rate limit.
+
+The client never retries. On a 429 `too_many_requests` or a 503 `server_busy`, wait `err.retryAfter` seconds (read from `Retry-After`) and send the request again; the [Python package](/docs/development/python) retries those itself.
 
 A write a world's switch turned into a [proposal](#proposed-changes) throws `OwProposedError` (202, `err.isProposed`, `err.proposal`) since 4.58.0, and an accept on a moved field `OwStaleProposalError` (409, `err.isStaleProposal`, `err.conflicts`, `err.current`).
 

@@ -13,7 +13,7 @@ Events are defined occurrences. They pull in and affect:
 
 - **Characters, Collectives, and Institutions** (as agents or sufferers)
 - **Zones and Locations** (as settings or battlegrounds)
-- **Constructs and Laws** (as outcomes or contested forces)
+- **Constructs** (as outcomes or contested forces; an Event has no link to a Law, so a Law it moves is named in its text, or linked from a Narrative)
 - **Traits, Titles, and Abilities** (as qualities or catalysts)
 - **Phenomena, Creatures, and Objects** (as elements in motion)
 

@@ -17,7 +17,14 @@ The REST API at `https://www.onlyworlds.com/api/v2/` serves every element type a
 | [Writes and bulk](/docs/development/api/writes) | Create, upsert, patch, delete, bulk |
 | [Changes and export](/docs/development/api/changes) | The change feed, for keeping a cache or mirror in step, and the world export |
 | [Members](/docs/development/api/members) | Worlds shared with people and agents, and their roles |
+| [Hidden elements](/docs/development/api/hidden) | Hiding an element from everyone but the owner, the co-builders and its creator |
+| [Public worlds](/docs/development/api/public) | A world open to everyone: its page and the keyless reads |
+| [Proposed changes](/docs/development/api/proposals) | Proposing a change to an element, and accepting or declining it |
+| [The draught](/docs/development/api/draught) | One Character's context in one read |
+| [Lenses on the API](/docs/development/api/lenses) | A world's lenses and the lenses a member starts with |
+| [Sign in with OnlyWorlds](/docs/development/api/signin) | Signing a person in from your tool, for an account token |
 | [Images](/docs/development/api/images) | Uploading images |
+| [Files](/docs/development/api/files) | Attaching PDFs, text files and world bundles to an element |
 | [CORS](/docs/development/api/cors) | Calling the API from a browser |
 | [Classic API](/docs/development/api/classic) | The original `/api/worldapi/` dialect, still supported |
 | [Errors](/api/errors/) | The error envelope and every error code |
