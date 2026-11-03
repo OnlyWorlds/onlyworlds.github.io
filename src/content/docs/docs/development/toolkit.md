@@ -79,7 +79,7 @@ Toolkit 5.0 has eleven skills where 4.8 had fourteen. The old names no longer lo
 | `api`, `dev` | `develop` |
 | `start`, `context`, `setup`, `council` | unchanged |
 
-The retired knowledge files (`onlyworlds-core.md`, `ai-builders.md`, `ecosystem.md`, `tangle-conventions.md`) still answer at their old addresses as two-line pointers to where the text went. With the skills CLI, delete the ten 4.8 folders still in your skills folder (`onlyworlds-parsing` to `onlyworlds-project-setup`), or your AI sees two skills for one job. The [release notes](https://github.com/OnlyWorlds/toolkit/releases/tag/v5.0.0) have the rest.
+Links to the old knowledge files still work: each now points to where its text went. With the skills CLI, delete the ten 4.8 folders still in your skills folder (`onlyworlds-parsing` to `onlyworlds-project-setup`), or your AI sees two skills for one job. The [release notes](https://github.com/OnlyWorlds/toolkit/releases/tag/v5.0.0) have the rest.
 
 ## A world folder or an account world
 

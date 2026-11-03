@@ -15,7 +15,7 @@ Anyone can build a tool on OnlyWorlds now, with no sign-up: the [API](/docs/deve
 | **Listed** | read against the seven lines below, every one passed, on a date | the OnlyWorlds maintainer, tool by tool |
 | **Signed in** | people can [sign in with OnlyWorlds](/docs/development/api/signin) to it | the maintainer, per tool, after it is listed |
 
-A tool climbs in that order: nothing is signed in that is not listed, and nothing is listed that is not built.
+Each rung needs the one before it.
 
 ## What we read
 

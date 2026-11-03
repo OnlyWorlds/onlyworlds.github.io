@@ -425,7 +425,7 @@ Since 4.127.0 the [landing profile](/docs/schema/profiles#landing) has its reade
 - `gaps` lists `orphan`, `near_orphan`, `no_place` (a Character whose `location` names no Location in the graph) and `nobody_here` (a Location no Character's `location` names).
 - `mode` is `gaps` when the graph has fewer nodes than `size` (24 by default), else `graph`.
 
-It returns structure only: a layout is yours, keyed by id. Any door may serve the answer, keyless or signed in, each read from the graph that door's reader is served. A key beside the five (keel's `baked`, its `lenses`) is the door's own and outside the profile: read the five and pass the rest through.
+It returns structure only: a layout is yours, keyed by id. Any door may serve the answer, keyless or signed in, each read from the graph that door's reader is served. A key beside the five (onlyworlds.com's `baked`, its `lenses`) is the door's own and outside the profile: read the five and pass the rest through.
 
 ```typescript
 import { landingOf, worldGraph } from '@onlyworlds/sdk';

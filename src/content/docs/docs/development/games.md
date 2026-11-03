@@ -26,7 +26,7 @@ What a live read can count on:
 - **300 requests a minute per key**, reads and writes together. Every copy of a game that ships the same key shares that key's 300; each reply's `RateLimit-Remaining` header says what is left, and over the budget the server answers `429` [`too_many_requests`](/api/errors/#too_many_requests) with a `Retry-After` header. See [Limits](/docs/development/api-reference#limits). <!-- limit: requests_per_minute -->
 - **Under load the server answers `503`** [`server_busy`](/api/errors/#server_busy) with a `Retry-After` header. Wait that long, then retry.
 - **Image uploads have a daily cap** per world.
-- **There is no uptime guarantee.**
+- **The API can be briefly unavailable**, and there is no uptime guarantee.
 
 So a game that must never break should bake its world in, and read live only the content that may change.
 

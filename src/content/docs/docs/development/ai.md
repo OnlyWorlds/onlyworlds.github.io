@@ -54,7 +54,7 @@ The [MCP server](/docs/development/mcp) at `https://www.onlyworlds.com/mcp` lets
 claude mcp add --transport http onlyworlds https://www.onlyworlds.com/mcp
 ```
 
-Add your key and PIN as headers to reach your own world. There is no delete tool, on purpose.
+Add your key and PIN as headers to reach your own world. There is no delete tool, on purpose: an assistant can create and edit, and deleting stays with you, in the REST API and on onlyworlds.com.
 
 ## Inside the world
 

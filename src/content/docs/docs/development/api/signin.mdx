@@ -34,7 +34,7 @@ curl -s "https://www.onlyworlds.com/api/v2/auth/clients"
 | `redirect_uris` | The exact return addresses: a `redirect_uri` must equal one of them byte for byte, except a native app's loopback ones (below) |
 | `native` | `true` for a desktop or mobile app, `false` for every other tool |
 
-The answer is sent `Cache-Control: public, max-age=60`, so a removed address stops being served within a minute. The list is kept by OnlyWorlds; no route adds to it.
+The answer is sent `Cache-Control: public, max-age=60`, so a removed address stops being served within a minute. The list is kept by OnlyWorlds: a tool can be added once it is on the tools list ([List your tool](/docs/development/list-your-tool)).
 
 **Return addresses.** A web tool's are exact `https://` addresses. A native app's (RFC 8252) may also be:
 

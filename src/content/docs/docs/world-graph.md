@@ -28,6 +28,4 @@ Reading part of a large structure from a focus has a long history, and four earl
 
 Knowledge kept for AI agents comes in several forms today. Markdown knowledge bases link files without saying what a link means. Graph and ontology platforms type their knowledge, and the ones we've read fill it by binding, syncing or mining other sources. Enterprise search fills its index by pulling from connected tools. A world is a typed layer whose elements people write on purpose, alone or with their AI, and which can live as a [folder of files](/docs/schema/folders).
 
-Several common graph-building tools merge entities by matching their names ([GraphRAG](https://arxiv.org/abs/2404.16130); [Zheng et al. 2025](https://arxiv.org/abs/2510.14271)). In a world, links and identity rest on ids, so two elements are never merged because their names match.
-
-Whether an AI answers better from a world than from the same content as files is not yet known.
+Because every link points at an id rather than a name, a world keeps apart things that only share a name. Two Characters called Mara stay two Characters, and renaming a Location breaks none of the links to it. A tool that builds its graph from plain text has to guess which mentions are the same thing, and many guess by the name ([GraphRAG](https://arxiv.org/abs/2404.16130) is one well-known example). In a world, you or your AI decide that once, when you make the link.
