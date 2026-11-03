@@ -279,6 +279,9 @@ console.log('CHECKS');
   if (out === null) note('could not read the practice-world runs (gh): the Write sections\' nightly run was not checked');
   else if (!run) bad('the Write sections\' nightly run (practice.yml) has never run');
   else if (run.status !== 'completed') note(`the Write sections' nightly run of ${run.createdAt.slice(0, 16)}Z is still running`);
+  // A green run that old means a night with no run: GitHub drops scheduled runs under load (the first
+  // night's 04:30 never fired, 2026-11-03), and an old pass must not stand in for tonight's.
+  else if (Date.now() - Date.parse(run.createdAt) > 30 * 3600 * 1000) bad(`the Write sections' newest run is of ${run.createdAt.slice(0, 16)}Z, over 30 hours ago: the nightly schedule did not fire since (gh workflow run practice.yml -R OnlyWorlds/onlyworlds.github.io runs it now)`);
   else if (run.conclusion === 'success') pass(`the Write sections ran as written against the practice world (${run.createdAt.slice(0, 16)}Z)`);
   else bad(`the Write sections' nightly run of ${run.createdAt.slice(0, 16)}Z ended ${run.conclusion} (gh run list --workflow practice.yml says which; node scripts/run-practice.mjs runs it here)`);
 }
