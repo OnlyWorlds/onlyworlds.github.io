@@ -35,7 +35,7 @@ The first screen offers:
 
 - **Web**: every element once, coloured by its type, with the most linked drawn larger and named. The same world always lands the same way. Filter by type, or search names and descriptions.
 - **List**: the same elements as cards.
-- **Time**: the world's dated elements on a strip, each at its own date (a Character's birth date, a Location's founding date, an Event's start), with the world's now marked. Dates are written in the world's calendar when it has exactly one. Drag along the strip, or use the arrow keys, to pick a moment: the list below shows what comes after it. Elements that could have a date but have none are counted, not placed.
+- **Time**: the world's dated elements on a strip, each at its own date (a Character's birth date, a Location's founding date, an Event's start), with the world's now marked. Dates are written in the world's calendar when it has exactly one. Drag along the strip, or use the arrow keys, to pick a moment: a line counts what is dated up to it, and the list below marks each element dated after it. Elements that could have a date but have none are counted, not placed.
 
 **The Lens box** lists the world's [lenses](/docs/lenses) by name. Choosing one redraws the web and the list through it: exactly the elements the lens keeps, and the links between them. An element's own page still shows all of its links.
 
