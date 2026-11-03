@@ -54,10 +54,7 @@ To install the APK, enable installation from unknown sources in your Android set
 
 ## Little Lens (Element Viewer)
 
-The Element Viewer is now Little Lens, a current tool, listed under [Tools](/docs/tools/). [little-lens.onlyworlds.com](https://little-lens.onlyworlds.com/)
-
-- It only reads: a whole world as a web of its elements and links, each element with what it links to and what links to it, a world's lenses, its dated elements on a time strip, a Character's draught at a moment, and a world's messages.
-- It opens a public world with no account, a world file or folder in the browser with nothing sent anywhere, or, signed in with OnlyWorlds, the worlds you own or joined.
+The Element Viewer is now Little Lens, a current tool with [its own page](/docs/tools/little-lens).
 
 ## Tool history
 
