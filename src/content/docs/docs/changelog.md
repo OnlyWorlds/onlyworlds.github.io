@@ -10,6 +10,8 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 ## 2026-11-03
 
 - **[The practice world](/docs/getting-started/keys#the-practice-world): a world anyone can write to without an account.** Its key and PIN are on Keys and PINs, and the [TypeScript](/docs/development/typescript#write) and [Python](/docs/development/python#write) Write examples now run against it as written. It is a copy of Moppetopia under its own ids that goes back to the same copy every night at 03:00 UTC. It takes no files or members, holds at most 2,000 elements, allows 60 requests a minute per address, and never locks on a wrong PIN.
+- **[Your own AI key](/docs/development/ai#ask-your-world-without-a-key-of-your-own): asking and sorting keep running once the day's token rating is spent.** An account can save an Anthropic or OpenAI key on its account page; past the rating, its asks and sorts run on that key, billed by the provider. Each answer's `paid_by` says `rating` or `own_key`, the allowance carries `own_key`, and a key the provider refuses answers [`own_key_refused`](/api/errors/#own_key_refused), never retried.
+- **[TypeScript](/docs/development/typescript) 4.131.0: `paid_by` on `ask` and `sort`, `own_key` on `allowance`, and `isOwnKeyRefused`.**
 
 ## 2026-11-02
 

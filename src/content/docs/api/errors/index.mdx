@@ -102,6 +102,7 @@ Each code belongs to one family, its `type`, and a family's codes do not share o
 | [`api_error`](#api_error) | `api_error` | `500` | An unexpected server-side error; the envelope is kept even here. |
 | [`ask_failed`](#ask_failed) | `api_error` | `502` | The AI proxy could not get an answer from the model; try again in a moment. Nothing was counted. |
 | [`ask_unavailable`](#ask_unavailable) | `api_error` | `503` | Asking your world is not switched on for this server, or is paused for the day (the server-wide cap); nothing was counted. |
+| [`own_key_refused`](#own_key_refused) | `invalid_request` | `422` | Today's token rating is spent and the call ran on the account's own AI key, which its provider refused (a key revoked, wrong or out of credit). Nothing was counted and the call was not retried on the platform's key; the account page shows the refusal's date. Check or replace the key on the account page. |
 | [`server_busy`](#server_busy) | `api_error` | `503` | Every request slot stayed full for 10 seconds; retry after Retry-After. |
 | [`payload_too_large`](#payload_too_large) | `api_error` | `413` | The request body is over 2.5 MB; split a large /bulk into several calls. |
 | [`media_unavailable`](#media_unavailable) | `api_error` | `503` | Image or file upload is not configured on the server right now. |
@@ -347,6 +348,14 @@ A write carried an empty `x_review_proposed` (`param` `x_review_proposed`): an e
 A player opened a player link, a [table](/docs/development/api/members#a-table-of-players) or a link for one, and the world already has its 50 players. Nothing was spent.
 
 - **How to fix:** the world's owner removes a player to free a place; the same link can then be tried again while it has not expired.
+
+### own_key_refused
+
+**Type** `invalid_request` · **Status** `422`
+
+`POST /api/v2/account/ask` or `POST /api/v2/account/sort`: the account's daily token rating is spent, so the call ran on the account's [own AI key](/docs/development/ai#ask-your-world-without-a-key-of-your-own), and its provider refused the key (revoked, wrong, or out of credit). Nothing was counted, and the call was not retried on the platform's key. The account page shows when the key was last refused.
+
+- **How to fix:** check or replace the key on the account page, then ask again. Retrying unchanged meets the same refusal; the token rating resets at midnight UTC.
 
 ### removal_in_flight
 

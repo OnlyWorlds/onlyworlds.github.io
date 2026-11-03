@@ -287,6 +287,11 @@
     "status": 503,
     "summary": "Asking your world is not switched on for this server, or is paused for the day (the server-wide cap); nothing was counted."
   },
+  "own_key_refused": {
+    "type": "invalid_request",
+    "status": 422,
+    "summary": "Today's token rating is spent and the call ran on the account's own AI key, which its provider refused (a key revoked, wrong or out of credit). Nothing was counted and the call was not retried on the platform's key; the account page shows the refusal's date. Check or replace the key on the account page."
+  },
   "server_busy": {
     "type": "api_error",
     "status": 503,
