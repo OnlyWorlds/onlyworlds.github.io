@@ -12,7 +12,9 @@
  * TypeScript as `node --env-file=.env write.mjs` beside this repo's installed @onlyworlds/sdk (the
  * version package.json pins, the newest), Python as a script with the variables exported, on the
  * onlyworlds package the environment has (CI installs the newest from PyPI). Each writes a few
- * elements to the practice world, which goes back to the same copy every night at 03:00 UTC.
+ * elements to the practice world, and the run then deletes what it made (found in the feed by its start,
+ * its client and the names in the page's code), so the world's count reads the seed; a cleanup that
+ * finds or deletes nothing it made fails the run. The world also goes back to its copy at 03:00 UTC.
  * Nightly in .github/workflows/practice.yml, after the reset.
  *
  * Exit: 0 every block ran, 1 a block failed, 2 BLIND (a section, its env lines or its code not found:
@@ -64,6 +66,51 @@ function envOf(file, blocks) {
   return env;
 }
 
+// What a run made, deleted again: the elements the feed shows created at or after the run's start,
+// written by the page's own client (the packages' defaults: sdk, python), named as the page's own code
+// names them. The 03:00 UTC reset would clear them too, but a run leaves the world as it found it, so a
+// morning count reads the seed and a stranger's example of the same name is never ours to delete.
+const API = 'https://www.onlyworlds.com/api/v2';
+const CLIENT = { typescript: 'sdk', python: 'python' };
+function namesIn(code) {
+  const names = new Set();
+  // `name: '…'` in TypeScript, `"name": "…"` in Python
+  for (const m of code.matchAll(/(?<![\w.])(["']?)name\1\s*:\s*(["'])([^"']+)\2/g)) names.add(m[3]);
+  return names;
+}
+async function call(path, env, method = 'GET') {
+  for (let attempt = 0; attempt < 4; attempt++) {
+    const r = await fetch(`${API}${path}`, { method, headers: { 'API-Key': env.OW_API_KEY, ...(method === 'GET' ? {} : { 'API-Pin': env.OW_API_PIN }) } });
+    if (r.status === 429 || r.status === 503) { await new Promise((ok) => setTimeout(ok, 1000 * Number(r.headers.get('retry-after') || 2))); continue; }
+    return r;
+  }
+  throw new Error(`${method} ${path}: still refused after four tries`);
+}
+async function cleanUp(lang, code, env, start) {
+  const names = namesIn(code);
+  if (!names.size) return { error: 'the page code names no element, so nothing can be told apart as its own' };
+  const made = [];
+  let since = '0';
+  for (;;) {
+    const r = await call(`/changes?since=${encodeURIComponent(since)}&after=${encodeURIComponent(start)}&limit=500`, env);
+    if (!r.ok) return { error: `the feed answered ${r.status}` };
+    const page = await r.json();
+    for (const c of page.changes) {
+      const e = c.element;
+      // times compared as instants: keel writes microseconds and +00:00, JavaScript milliseconds and Z
+      if (c.op === 'upsert' && e && Date.parse(e.created_at) >= Date.parse(start) && e.changed_client === CLIENT[lang] && names.has(e.name)) made.push([c.type, c.id, e.name]);
+    }
+    if (!page.has_more) break;
+    since = page.cursor;
+  }
+  const failedDeletes = [];
+  for (const [type, id, name] of made) {
+    const r = await call(`/${type}/${id}`, env, 'DELETE');
+    if (r.status !== 204) failedDeletes.push(`${type} ${name} ${r.status}`);
+  }
+  return { made, failedDeletes };
+}
+
 const WORK = join(ROOT, 'node_modules', '.practice-run'); // inside node_modules, so the script resolves the installed SDK
 let failed = 0;
 for (const w of which) {
@@ -72,6 +119,7 @@ for (const w of which) {
   const env = envOf(file, blocks);
   const code = blocks.filter((b) => b.lang === lang).map((b) => b.body).join('\n\n');
   if (!code.trim()) blind(`${file}: the Write section has no ${lang} block`);
+  const start = new Date(Date.now() - 2000).toISOString(); // two seconds of slack for the clocks
   rmSync(WORK, { recursive: true, force: true });
   mkdirSync(WORK, { recursive: true });
   let r;
@@ -87,6 +135,11 @@ for (const w of which) {
   const out = `${r.stdout ?? ''}${r.stderr ?? ''}`.trim();
   if (r.status === 0) console.log(`  PASS   ${file}: the Write section ran as written (${blocks.filter((b) => b.lang === lang).length} ${lang} block(s))${out ? `\n${out.split('\n').map((l) => `         ${l}`).join('\n')}` : ''}`);
   else { failed++; console.log(`  FAIL   ${file}: the Write section exited ${r.status ?? r.error?.code}\n${out.split('\n').slice(-15).map((l) => `         ${l}`).join('\n')}`); }
+  const c = await cleanUp(lang, code, env, start);
+  if (c.error) { failed++; console.log(`  FAIL   ${file}: cleanup: ${c.error}`); }
+  else if (c.failedDeletes.length) { failed++; console.log(`  FAIL   ${file}: cleanup: ${c.failedDeletes.length} of ${c.made.length} not deleted: ${c.failedDeletes.join('; ')}`); }
+  else if (r.status === 0 && !c.made.length) { failed++; console.log(`  FAIL   ${file}: cleanup found none of the elements the run made in the feed (looked for ${[...namesIn(code)].join(', ')} by ${CLIENT[lang]})`); }
+  else console.log(`         cleaned up: ${c.made.length} element(s) the run made deleted (${c.made.map((m) => m[2]).join(', ')})`);
 }
 rmSync(WORK, { recursive: true, force: true });
 if (failed) { console.log(`run-practice: FAIL: ${failed} of ${which.length} page(s)`); process.exit(1); }
