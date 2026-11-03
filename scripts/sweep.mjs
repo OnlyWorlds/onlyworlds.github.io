@@ -271,6 +271,18 @@ console.log('CHECKS');
   else note('could not read production (node scripts/verify-practice.mjs --live says why): the practice world\'s literals were not checked');
 }
 
+// ---- 2q: the newest nightly run of the Write sections against the practice world (practice.yml). Its red
+// sits in GitHub Actions, where nothing else here reads it -----------------------------------------------
+{
+  const out = sh('gh', ['run', 'list', '-R', 'OnlyWorlds/onlyworlds.github.io', '--workflow', 'practice.yml', '--limit', '1', '--json', 'conclusion,status,createdAt,headSha']);
+  const run = out === null ? undefined : JSON.parse(out)[0];
+  if (out === null) note('could not read the practice-world runs (gh): the Write sections\' nightly run was not checked');
+  else if (!run) bad('the Write sections\' nightly run (practice.yml) has never run');
+  else if (run.status !== 'completed') note(`the Write sections' nightly run of ${run.createdAt.slice(0, 16)}Z is still running`);
+  else if (run.conclusion === 'success') pass(`the Write sections ran as written against the practice world (${run.createdAt.slice(0, 16)}Z)`);
+  else bad(`the Write sections' nightly run of ${run.createdAt.slice(0, 16)}Z ended ${run.conclusion} (gh run list --workflow practice.yml says which; node scripts/run-practice.mjs runs it here)`);
+}
+
 // ---- 3: the API reference against keel's OpenAPI ---------------------------------------------------------
 let openapi = null;
 try {
