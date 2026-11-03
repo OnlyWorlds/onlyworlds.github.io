@@ -23,6 +23,12 @@ They are distinct from:
 - **Zones** (which represent a specific marked area)
 - **Institutions** (which organize power and policy within and towards them)
 
+A Location is a place you can name and visit; a Zone is a region that matters because of a border, a jurisdiction or an effect, and takes its shape from Markers.
+
+Materials and goods are Constructs: the kind of matter, not one piece of it.
+
+`fighters` takes Constructs: the kind of force that defends a place (a militia, a garrison type). The force itself, as a group that acts, is a Collective; the command that directs it, an Institution.
+
 [Location discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/location)
 
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->

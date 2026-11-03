@@ -18,7 +18,7 @@ Laws are formalized rules that govern behavior within a jurisdiction. They inter
 
 They are distinct from:
 
-- **Constructs** (which describe the abstract concepts they prohibit or rely on)
+- **Constructs** (a Construct is the idea or system; a Law is a rule about it)
 - **Institutions** (which often issue them but are not rules themselves)
 - **Titles** (which define authority but not the rules themselves)
 

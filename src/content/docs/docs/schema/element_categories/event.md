@@ -23,6 +23,8 @@ They are distinct from:
 - **Constructs** (which represent ideas or systems that persist over time)
 - **Relations** (which define ongoing bonds or tensions between actors)
 
+A storm that struck in year 400 is an Event; the storm season that returns every year is a Phenomenon.
+
 Events are about what happens. The rest of the schema gives it meaning, context, and consequence.
 
 [Event discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/event)

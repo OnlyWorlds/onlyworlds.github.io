@@ -17,7 +17,7 @@ Institutions are executive structures of meaning in a world. They interact with:
 
 They are distinct from:
 
-- **Collectives** (which model informal or non-agentic groups)
+- **Collectives** (informal groups that act as a unit, with no offices or rules of their own)
 - **Families** (which have implications of kinship and ancestry)
 
 [Institution discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/institution)

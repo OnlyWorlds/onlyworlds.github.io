@@ -14,7 +14,9 @@ Creatures help populate the world with living presence. They interact with:
 - **Species** (defining their biological origin or variation)
 - **Traits and Abilities** (for what they can do or how they can act)
 - **Locations and Zones** (the spaces they inhabit)
-- **Characters and Institutions** (as caretakers, enemies, or breeders)
+- **Characters and Institutions** (as caretakers, enemies, or breeders; Characters in descriptions)
+
+Some of these are links between fields; others are written in descriptions, or through a Construct or Location both link.
 
 They are distinct from:
 

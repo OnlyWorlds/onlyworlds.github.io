@@ -11,6 +11,8 @@ Relations are non-material and capture meaningful connections between world elem
 
 Every field is optional, `actor` included. A treaty between two Institutions is a Relation with both in `institutions` and no `actor`. Set `actor` only when one Character is the side the relation belongs to.
 
+Two conventions use Relations: `Tenure` keeps who held a [Title](/docs/schema/element_categories/title) when, and `Membership` who belonged to a body when.
+
 Relations are special definitions between world elements. They interact with:
 
 - **Characters and Institutions** (defining personal and organizational relationships)
@@ -20,7 +22,7 @@ Relations are special definitions between world elements. They interact with:
 They are distinct from:
 
 - **Titles** (which indicate formal authority, not interpersonal context)
-- **Events** (which define a point in time, not a social span)
+- **Events** (a happening, with its own start and end; a Relation is the standing bond between its sides, with its own span)
 - **Constructs** (which encode rules or structures, not associations between elements)
 - **Families and Collectives** (which describe structure, not necessarily activity)
 

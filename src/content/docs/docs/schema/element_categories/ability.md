@@ -17,6 +17,8 @@ An Ability is a performable effect or power. They interact with:
 - **Phenomena** (which may result from or trigger them)  
 - **Institutions** (which can teach or restrict them)  
 
+Some of these are links between fields; others (an Institution teaching an Ability) are written in descriptions, or through a Construct or Location both link.
+
 They are distinct from:
 
 - **Traits** (which describe qualities, not actions)   

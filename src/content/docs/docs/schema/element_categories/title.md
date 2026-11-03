@@ -24,7 +24,7 @@ They are distinct from:
 
 - **Traits** (which describe personal attributes)
 - **Abilities** (which define actions that can physically be taken)
-- **Relations** (which describe personal or emotional bonds)
+- **Relations** (a bond between elements; a holding over time is kept as a Relation with supertype `Tenure`, as above)
 
 [Title discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/title)
 

@@ -15,6 +15,8 @@ Languages are a world's methods of communication. They interact with:
 - **Locations and Zones** (where languages are regionally dominant or isolated)
 - **Constructs** (for classifying broader typological or ancestral groups)
 
+Some of these are links between fields; others are written in descriptions, or through a Construct or Location both link.
+
 They are distinct from:
 
 - **Constructs** (which include ideas, systems, or tools not tied to speech)

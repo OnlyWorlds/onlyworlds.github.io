@@ -11,16 +11,20 @@ Zones represent abstract or meaningful areas within the world that hold signific
 
 Zones are spatial definitions within a world. They interact with:
 
-- **Maps** (that a zone exists on)
+- **Maps** (a Zone is drawn on a Map through its Markers)
 - **Institutions** (which define or claim zones)
 - **Creatures** (that dominate or traverse them)
 - **Phenomena** (that enrich or transform the area)
 - **Titles** (for roles tied to management or protection)
 
+Some of these are links between fields; others are written in descriptions, or through a Construct or Location both link.
+
 They are distinct from:
 
 - **Locations** (which are specific places of interest or activity)
 - **Markers** (which define the geometry of a zone on a map)
+
+A Location is a place you can name and visit; a Zone is a region that matters because of a border, a jurisdiction or an effect, and takes its shape from Markers.
 
 [Zone discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/zone)
 

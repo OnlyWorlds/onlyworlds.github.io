@@ -182,9 +182,10 @@ export default defineConfig({
             '- [Reading](https://onlyworlds.github.io/docs/development/api/reads.md) · [Link fields](https://onlyworlds.github.io/docs/development/api/links.md) · [Writes and bulk](https://onlyworlds.github.io/docs/development/api/writes.md) · [Changes](https://onlyworlds.github.io/docs/development/api/changes.md)',
             '- [Errors](https://onlyworlds.github.io/api/errors.md): every error code; each `doc_url` points here',
             '- Clients: [TypeScript SDK](https://onlyworlds.github.io/docs/development/typescript.md) · [Python package](https://onlyworlds.github.io/docs/development/python.md) · [MCP server](https://onlyworlds.github.io/docs/development/mcp.md) · [all packages](https://onlyworlds.github.io/docs/development/packages.md) · [list your tool](https://onlyworlds.github.io/docs/development/list-your-tool.md)',
-            '- [Schema](https://onlyworlds.github.io/docs/schema.md) and [fields](https://onlyworlds.github.io/docs/schema/fields.md); one page per element type under /docs/schema/element_categories/',
+            '- [Schema](https://onlyworlds.github.io/docs/schema.md) and [fields](https://onlyworlds.github.io/docs/schema/fields.md); one page per element type, such as [Character](https://onlyworlds.github.io/docs/schema/element_categories/character.md)',
+            '- [Agent seats](https://onlyworlds.github.io/docs/development/agents.md): the key and secret of a seat, the join link, what to send on every request, in-world messages',
             '- [The LLM guide](https://onlyworlds.github.io/assets/ow_llm_guide.txt): the whole standard in one text file',
-            '- [Agent policy](https://www.onlyworlds.com/agents): what an agent may do in a world, what is asked of it and what the platform keeps',
+            '- [Agent policy](https://www.onlyworlds.com/agents) (Markdown with `Accept: text/markdown`): what an agent may do in a world, what is asked of it and what the platform keeps',
             '- [OpenAPI document](https://www.onlyworlds.com/api/v2/openapi.json): the API, machine-readable',
           ].join('\n'),
           customSets: [

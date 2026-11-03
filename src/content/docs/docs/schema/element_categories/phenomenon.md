@@ -16,11 +16,15 @@ Phenomena interact with the rest of the world in some meaningful ways, including
 - **Objects and Constructs** (trigger or affected)
 - **Locations** (appear or enrich)
 
+Some of these are links between fields; others are written in descriptions, or through a Construct or Location both link.
+
 They are distinct from:
 
 - **Events** (which are dated incidents of history)
 - **Constructs** (which are designed or conceptual structures)
 - **Abilities** (which are agent-bound)
+
+A storm that struck in year 400 is an Event; the storm season that returns every year is a Phenomenon.
 
 [Phenomenon discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/phenomenon)
 
