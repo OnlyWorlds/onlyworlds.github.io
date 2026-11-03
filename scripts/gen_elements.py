@@ -93,6 +93,14 @@ def kind_label(f: dict) -> str:
     if k == "scalar_str":
         return "text"
     if k == "scalar_int":
+        # The standard's advisory bounds, as decode_schema carries them (schema.json since serial 61).
+        lo, hi = f.get("minimum"), f.get("maximum")
+        if lo is not None and hi is not None:
+            return f"integer, {lo} to {hi}"
+        if lo is not None:
+            return f"integer, at least {lo}"
+        if hi is not None:
+            return f"integer, at most {hi}"
         return "integer"
     if k == "single":
         return f"link to {f['target'].capitalize()}"
@@ -146,6 +154,9 @@ def main() -> int:
     version = dict(l.split(": ", 1) for l in (a.dist / "VERSION").read_text(encoding="utf-8").splitlines() if ": " in l)
     notes: list[str] = []
     stale, written = [], 0
+    # decode_schema is what schema.json holds: flatten_fields' fields plus each bounded integer's
+    # minimum and maximum (advisory; rulings.yaml maximum-is-advisory-and-zero-means-unbounded).
+    decoded = walk.decode_schema(a.dist / "schema", note=notes.append)
     for slug in walk.ELEMENT_TYPES:
         page = PAGES / f"{slug}.md"
         if not page.exists():
@@ -154,9 +165,7 @@ def main() -> int:
         if MARKER not in text:
             sys.exit(f"{page.name} has no generated-fields marker line")
         head = text.split(MARKER, 1)[0]
-        doc = walk.load_yaml(a.dist / "schema", slug)
-        fields = walk.flatten_fields(doc, slug, note=notes.append,
-                                     include_required=True, include_desc=True, include_sections=True)
+        fields = decoded["types"][slug]
         new = head + MARKER + "\n\n" + render(fields, slug)
         if new != text:
             stale.append(page.name)

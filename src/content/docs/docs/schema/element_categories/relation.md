@@ -43,7 +43,7 @@ Integers are whole numbers: the API truncates a decimal, and a range is a displa
 | `background` | text | History and origin of the relation |
 | `start_date` | integer | Date when the relation began, defined in world TIME units |
 | `end_date` | integer | Date when the relation ended if any, defined in world TIME units |
-| `intensity` | integer | Significance of the relation, on a relative scale of 0 to 100 |
+| `intensity` | integer, 0 to 100 | Significance of the relation, on a relative scale of 0 to 100 |
 | `actor` | link to Character | Primary character defining the relation |
 | `events` | links to Event | Events where the relation is involved or relevant |
 

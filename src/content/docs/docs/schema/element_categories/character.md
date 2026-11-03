@@ -18,7 +18,7 @@ They are distinct from:
 
 [Character discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/character)
 
-Every field below is optional. The TTRPG group (`level`, `hit_points` and six ability scores) is for worlds that run a game system. `charisma` (Personality) and `CHA` (TTRPG) are separate fields. The six Personality scores (`charisma` to `courage`) run from 0 to 100 in the standard.
+Every field below is optional. The TTRPG group (`level`, `hit_points` and six ability scores) is for worlds that run a game system. `charisma` (Personality) and `CHA` (TTRPG) are separate fields.
 
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->
 
@@ -63,12 +63,12 @@ Integers are whole numbers: the API truncates a decimal, and a range is a displa
 
 | Field | Type | Description |
 |---|---|---|
-| `charisma` | integer | Ability to attract, inspire, and influence others |
-| `coercion` | integer | Capacity to dominate, intimidate, or apply force to shape outcomes |
-| `competence` | integer | Skill in planning, understanding, and managing complex systems or situations |
-| `compassion` | integer | Willingness to empathize with and care for others |
-| `creativity` | integer | Ability to generate novel ideas, perspectives, or solutions |
-| `courage` | integer | Readiness to face danger, risk, or adversity |
+| `charisma` | integer, 0 to 100 | Ability to attract, inspire, and influence others |
+| `coercion` | integer, 0 to 100 | Capacity to dominate, intimidate, or apply force to shape outcomes |
+| `competence` | integer, 0 to 100 | Skill in planning, understanding, and managing complex systems or situations |
+| `compassion` | integer, 0 to 100 | Willingness to empathize with and care for others |
+| `creativity` | integer, 0 to 100 | Ability to generate novel ideas, perspectives, or solutions |
+| `courage` | integer, 0 to 100 | Readiness to face danger, risk, or adversity |
 
 ### Social
 

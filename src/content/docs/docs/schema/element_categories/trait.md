@@ -22,7 +22,7 @@ They are distinct from:
 
 [Trait discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/trait)
 
-The six Quantitative fields (`charisma` to `courage`) run from -100 to 100 in the standard: a change to the Character's score of the same name, which runs from 0 to 100.
+The six Quantitative fields (`charisma` to `courage`) are a change to the Character's score of the same name, so they can be negative.
 
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->
 
@@ -46,12 +46,12 @@ Integers are whole numbers: the API truncates a decimal, and a range is a displa
 
 | Field | Type | Description |
 |---|---|---|
-| `charisma` | integer | Affecting a character's charisma score |
-| `coercion` | integer | Affecting a character's coercion score |
-| `competence` | integer | Affecting a character's competence score |
-| `compassion` | integer | Affecting a character's compassion score |
-| `creativity` | integer | Affecting a character's creativity score |
-| `courage` | integer | Affecting a character's courage score |
+| `charisma` | integer, -100 to 100 | Affecting a character's charisma score |
+| `coercion` | integer, -100 to 100 | Affecting a character's coercion score |
+| `competence` | integer, -100 to 100 | Affecting a character's competence score |
+| `compassion` | integer, -100 to 100 | Affecting a character's compassion score |
+| `creativity` | integer, -100 to 100 | Affecting a character's creativity score |
+| `courage` | integer, -100 to 100 | Affecting a character's courage score |
 
 ### World
 

@@ -26,8 +26,6 @@ They are distinct from:
 
 [Ability discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/ability)
 
-`potency` runs from 0 to 100 in the standard.
-
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->
 
 ## Fields
@@ -42,7 +40,7 @@ Integers are whole numbers: the API truncates a decimal, and a range is a displa
 |---|---|---|
 | `activation` | text | Method or conditions under which the ability is activated |
 | `duration` | integer | Length of time the ability remains active or its effects persist, measured in TIME units |
-| `potency` | integer | Relative measure of the ability's inherent potency or force, used for scaling or comparison purposes |
+| `potency` | integer, 0 to 100 | Relative measure of the ability's inherent potency or force, used for scaling or comparison purposes |
 | `range` | integer | Effective reach or distance at which the ability can be used, in the world's distance unit (World distance_unit) |
 | `effects` | links to Phenomenon | Phenomena that result from the ability's use, such as environmental changes or sensory effects |
 | `challenges` | text | Describes specific difficulties or constraints that make the ability hard to master or use effectively |

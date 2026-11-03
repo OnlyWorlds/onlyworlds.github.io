@@ -52,7 +52,7 @@ Integers are whole numbers: the API truncates a decimal, and a range is a displa
 | `sociality` | text | Typical patterns of social behavior |
 | `temperament` | text | Overall behavioral disposition |
 | `communication` | text | Typical methods and approaches of interaction |
-| `aggression` | integer | General aggressiveness level, on relative scale of 0 to 100 |
+| `aggression` | integer, 0 to 100 | General aggressiveness level, on relative scale of 0 to 100 |
 | `traits` | links to Trait | Behavioral patterns associated with the species |
 
 ### World
