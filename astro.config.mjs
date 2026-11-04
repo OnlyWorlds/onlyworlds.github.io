@@ -124,6 +124,7 @@ export default defineConfig({
           items: [
             { slug: 'docs/development/packages', label: 'Overview' },
             { slug: 'docs/development/typescript' },
+            { slug: 'docs/development/typescript-readers' },
             { slug: 'docs/development/python' },
             { slug: 'docs/development/python-import', label: 'Python importers' },
             { slug: 'docs/development/list-your-tool' },

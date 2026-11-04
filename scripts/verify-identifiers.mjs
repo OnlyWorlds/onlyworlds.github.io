@@ -8,8 +8,8 @@
  * declares (an interface, type, class, function, const or enum, an export's public name) and every member
  * (a property, a method, a getter). A backticked token on a page counts as a TypeScript name when it is
  * shaped like one: camelCase (`listAll`, `isNotFound`, `ifMatch`) or an Ow type (`OwApiError`), with a
- * trailing call `()` and a leading `client.`, `err.` or `sdk.` taken off; on the TypeScript page also an
- * ALL_CAPS constant (`ELEMENT_GROUPS`), there being the SDK's page. The generated reference below the
+ * trailing call `()` and a leading `client.`, `err.` or `sdk.` taken off; on the TypeScript page and its
+ * readers page also an ALL_CAPS constant (`ELEMENT_GROUPS`), those being the SDK's pages. The generated reference below the
  * TypeScript page's marker is the SDK's own text and is not read.
  *
  * Fails: a TypeScript-shaped name the SDK does not declare, unless OTHERS names it with whose it is.
@@ -27,6 +27,8 @@ const DOCS = join(ROOT, 'src', 'content', 'docs');
 const DTS = join(ROOT, 'node_modules', '@onlyworlds', 'sdk', 'dist', 'index.d.ts');
 const MARKER = '<!-- generated:sdk-reference';
 const TS_PAGE = 'docs/development/typescript.md';
+// The SDK's own pages, where an ALL_CAPS name is one of its constants too.
+const SDK_PAGES = new Set([TS_PAGE, 'docs/development/typescript-readers.md']);
 // Names shaped like the SDK's that are someone else's, each with whose. A new one is added here with its reason.
 const OTHERS = {
   sessionStorage: "the browser's storage (the sign-in page keeps the verifier there)",
@@ -60,13 +62,13 @@ for (const f of pages) {
     if (at < 0) blind(`${TS_PAGE} has no "${MARKER}" marker: the generated reference cannot be told from the page`);
     text = text.slice(0, at);
   }
-  const shape = path === TS_PAGE ? /^(?:[a-z]+[A-Z][A-Za-z0-9]*|Ow[A-Z][A-Za-z0-9]*|[A-Z][A-Z0-9]*_[A-Z0-9_]+)$/ : /^(?:[a-z]+[A-Z][A-Za-z0-9]*|Ow[A-Z][A-Za-z0-9]*)$/;
+  const shape = SDK_PAGES.has(path) ? /^(?:[a-z]+[A-Z][A-Za-z0-9]*|Ow[A-Z][A-Za-z0-9]*|[A-Z][A-Z0-9]*_[A-Z0-9_]+)$/ : /^(?:[a-z]+[A-Z][A-Za-z0-9]*|Ow[A-Z][A-Za-z0-9]*)$/;
   const seen = new Set();
   for (const m of text.matchAll(/`([^`\s]+)`/g)) {
     const name = m[1].replace(/\(.*\)$/, '').replace(/^(?:client|err|sdk)\./, '');
     if (!shape.test(name) || seen.has(name)) continue;
     seen.add(name);
-    if (path === TS_PAGE && ENV.test(name)) continue;
+    if (SDK_PAGES.has(path) && ENV.test(name)) continue;
     names++;
     if (declared.has(name)) continue;
     if (OTHERS[name]) { others.add(name); continue; }

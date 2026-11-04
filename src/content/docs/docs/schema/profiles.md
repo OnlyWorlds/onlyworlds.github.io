@@ -70,7 +70,7 @@ Three have pages of their own: [Messages](/docs/schema/profiles/messages), [Addr
 - `pins`: each Pin's point, with the element it stands for as `element_type` and `element_id`, both `null` for a Pin with neither or only one of the two.
 - `out`: what the reading left aside, counted by reason: `no_point`, `no_markers`, `dangling`, `no_map`.
 
-`x` and `y` count from the bottom left. `z` is a point's elevation upward, never a height: a Marker at `z` 300 sits 300 pixels up, and a `z` that is missing or not a whole number reads as 0. A `z` past the Map's `depth` is kept as written, and the Map's `z_max` shows the overrun. Two rows of one type with one id read as the last one served, and `type` is read as written: `Map` is no Map. The packages' reader is `mapSpace` in [TypeScript](/docs/development/typescript#lenses) and `map_space` in [Python](/docs/development/python#what-it-covers) (since 4.129.0 and 0.104.0; serial 106's rules since 4.129.1 and 0.104.1).
+`x` and `y` count from the bottom left. `z` is a point's elevation upward, never a height: a Marker at `z` 300 sits 300 pixels up, and a `z` that is missing or not a whole number reads as 0. A `z` past the Map's `depth` is kept as written, and the Map's `z_max` shows the overrun. Two rows of one type with one id read as the last one served, and `type` is read as written: `Map` is no Map. The packages' reader is `mapSpace` in [TypeScript](/docs/development/typescript-readers#map-space) and `map_space` in [Python](/docs/development/python#what-it-covers) (since 4.129.0 and 0.104.0; serial 106's rules since 4.129.1 and 0.104.1).
 
 ### Import map
 
