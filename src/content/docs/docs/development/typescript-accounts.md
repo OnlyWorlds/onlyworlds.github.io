@@ -74,7 +74,9 @@ const membership = await account.acceptJoin(code);        // account: the invite
 
 A bad code is one 404 (`err.isNotFound`). Accepting can answer `err.isAlreadyMember`; it needs no account PIN, though a write key for the new membership waits for one. A refusal never uses up the code.
 
-`reader: 'agent'` makes a link an AI agent redeems for a seat instead (an [agent seat](/docs/development/api/members#agent-seats): the AI's own membership, key and secret), with `redeemJoin`: the answer has `kind: 'agent'`, the seat's key and secret, and its `.env` lines. Anyone but the owner gets a 404.
+`reader: 'agent'` makes a link an AI agent redeems for a seat instead (an [agent seat](/docs/development/api/members#agent-seats): the AI's own membership, key and secret), with `redeemJoin`: the answer has `kind: 'agent'`, the seat's key and secret, and its `.env` lines.
+
+`createWorldLink` is the owner's own: any other account gets a 404. A co-builder makes guest and contributor links through the API ([a co-builder's links](/docs/development/api/members#a-co-builders-links)), which has no SDK call yet.
 
 `reader: 'player'` makes a link for a friend with no account, who reads the world as a guest playing one Character and writes nothing (see [Members and sharing](/docs/development/api/members)). The friend's side needs no key at all:
 

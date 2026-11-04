@@ -261,7 +261,7 @@ A hand is the member whose key wrote an element: `created_by` records the hand t
 ```typescript
 import { isMessage, isAddressedTo, senderStatus, readMarkOf, unreadFor } from '@onlyworlds/sdk';
 
-const { character: myCharacter } = await client.me(); // the id of the Character you play here
+const { character: myCharacter } = await client.me(); // the id of the Character you play here: a member's key (null for an owner's or the demo key)
 const messages = [];
 for await (const n of client.listAll('narrative', { filter: { supertype: 'Message' } })) if (isMessage(n)) messages.push(n);
 const members = await client.members();
