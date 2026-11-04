@@ -7,6 +7,10 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 What changed on onlyworlds.com for everyone is on its own [Changelog](https://www.onlyworlds.com/changelog); this page stays the developer log.
 
+## 2026-11-04
+
+- **[TypeScript](/docs/development/typescript) 4.132.3: `me()` is documented, and the reference names the server as onlyworlds.com.** The reference's `me()` row now says what `GET /me` answers and that the PIN is sent there. A refused `element_types` lists the 22 type words in the standard's order, as the other packages do. The shared Open with test set has 103 cases.
+
 ## 2026-11-03
 
 - **[Little Lens](/docs/tools/little-lens) has its own page.** How to open a world in it (a public world with no account, a world file or folder, Sign in with OnlyWorlds, a link from another tool), its Web, List and Time views, the Lens box, a Character's draught at a moment, messages, and what it leaves out. The old Element Viewer address leads there.
