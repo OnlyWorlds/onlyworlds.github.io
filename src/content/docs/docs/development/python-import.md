@@ -129,7 +129,7 @@ A project written by an OnlyWorlds push comes back as the same elements: a uuid 
 Reads a Markdown & CSV export from Notion into a world folder, with no AI and no account. Since 0.19.0.
 
 ```bash
-python -m onlyworlds.notion EXPORT.zip OUT-DIR
+python -m onlyworlds.notion EXPORT.zip OUT-DIR [--plan]
 ```
 
 From Python: `import_notion`. `--plan` prints the same report and writes nothing.
