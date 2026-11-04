@@ -5,11 +5,13 @@ description: "The @onlyworlds/sdk calls that work with a person's account: signi
 
 These calls are part of [`@onlyworlds/sdk`](/docs/development/typescript). They work with a person's OnlyWorlds account rather than one world: signing in, inviting people and AIs into a world, making a world, and changes a member proposes instead of writing.
 
-Most of them need an account token (`ow_a_`), which stands for the person's account on one device (see [Keys and PINs](/docs/getting-started/keys#account-tokens)). In the examples, `account` is a client made with one: `new OwV2Client({ apiKey: token })`. Installing the package, reading and writing are on the [TypeScript SDK](/docs/development/typescript) page.
+Most of them need an account token (`ow_a_`), which stands for the person's account on one device (see [Keys and PINs](/docs/getting-started/keys#account-tokens)). In the examples, `account` is a client made with one: `new OwV2Client({ apiKey: token })`. `client` is a client made with a world key, as on the [TypeScript SDK](/docs/development/typescript) page, where installing the package, reading and writing are.
+
+Everyone in a world has a [role](/docs/development/api/members#roles): `owner`, `co_builder`, `contributor` or `guest`, from the most they may see and change to the least. A keeper is the owner or a co-builder, who accepts or declines what others propose.
 
 ## Sign in with a password
 
-`signInWithPassword` turns an OnlyWorlds email (or username) and password into an account token (`ow_a_`) for this device. A client with no key can call it. With `OW_EMAIL` and `OW_PASSWORD` in a `.env` file, run this with `node --env-file=.env signin.mjs`:
+`signInWithPassword` turns an OnlyWorlds email (or username) and password into an account token (`ow_a_`) for this device, so the person needs an account on onlyworlds.com. A client with no key can call it. With `OW_EMAIL` and `OW_PASSWORD` in a `.env` file, run this with `node --env-file=.env signin.mjs`:
 
 ```typescript
 import { OwV2Client } from '@onlyworlds/sdk';
@@ -24,9 +26,14 @@ const account = new OwV2Client({ apiKey: token }); // store the token: it is sho
 
 Pass exactly one of `email` and `username`; both or neither is a `TypeError` before anything is sent.
 
-The SDK signs in at onlyworlds.com's sign-in service, mints the token with `POST /api/v2/account/tokens`, then ends the sign-in session, whether the mint worked or not. Only the token is kept: the password is sent once and held nowhere.
+The answer is `{ token, id, name, last4 }`. The token is listed under `tokenName` on the account's tokens page (**Settings → Account tokens** in the [account portal](https://www.onlyworlds.com/account/)), where it can be revoked. Only the token is kept: the password is sent once and held nowhere.
 
-The answer is `{ token, id, name, last4 }`. The token is listed under `tokenName` on the account's tokens page (**Settings → Account tokens** in the [account portal](https://www.onlyworlds.com/account/)), where it can be revoked.
+<details>
+<summary>What the call sends</summary>
+
+The SDK signs in at onlyworlds.com's sign-in service, mints the token with `POST /api/v2/account/tokens`, then ends the sign-in session, whether the mint worked or not.
+
+</details>
 
 A refusal throws `OwSignInError`, whose `reason` is one of:
 
@@ -39,29 +46,35 @@ A refusal throws `OwSignInError`, whose `reason` is one of:
 
 The password is never in an error.
 
-A tool with a web page can instead send the person to onlyworlds.com to sign in, so the tool never sees a password: [Sign in with OnlyWorlds](/docs/development/api/signin#in-the-sdk) has the SDK's `signInWithOnlyWorlds` and `completeSignIn`.
+## Sign in with OnlyWorlds
+
+A tool with a web page, or a native app, can instead send the person to onlyworlds.com to sign in, so the tool never sees a password. The tool registers first ([Registered tools](/docs/development/api/signin#registered-tools)). On a client with no key, `signInWithOnlyWorlds({ clientId, redirectUri })` sends the browser to onlyworlds.com's sign-in page, and on the return page `completeSignIn({ clientId })` gives back the account token. [Sign in with OnlyWorlds](/docs/development/api/signin#in-the-sdk) has the SDK's `signInWithOnlyWorlds` and `completeSignIn` in full.
 
 ## Invite links
 
-A world's owner can invite a person with a link (see [Invite links](/docs/development/api/members#invite-links)). The code is the part after `#`:
-
-```typescript
-const invite = await client.previewJoin(code);    // who invites, which world, what role; sends no key
-const membership = await account.acceptJoin(code); // account: a client with an ow_a_ token
-```
-
-A bad code is one 404 (`err.isNotFound`). Accepting can answer `err.isAlreadyMember`; it needs no account PIN, though a write key for the new membership waits for one. A refusal never uses up the code.
-
-The owner makes, lists and revokes the links with the account token. The code comes back once, in the answer that makes it:
+A world's owner can invite a person with a link (see [Invite links](/docs/development/api/members#invite-links)). The owner makes, lists and revokes the links with the account token. The code comes back once, in the answer that makes it:
 
 ```typescript
 const made = await account.createWorldLink(worldId, { reader: 'person', role: 'contributor', days: 7 });
-// made.line: the one line to send (who invites, to which world, the link); made.code: the ow_j_ code
+// made.link: https://www.onlyworlds.com/join#ow_j_…  (the link to send)
+// made.code: ow_j_…  (the code: the part of the link after #)
+// made.line: the one line to send (who invites, to which world, the link)
 const links = await account.listWorldLinks(worldId);  // no codes: status pending | used | revoked | expired
 await account.revokeWorldLink(worldId, made.id);
 ```
 
-`reader: 'agent'` makes a link an AI agent redeems for a seat instead, with `redeemJoin`: the answer has `kind: 'agent'`, the seat's key and secret, and its `.env` lines. Anyone but the owner gets a 404.
+`reader` says who the link is for: `person` here, `agent` or `player` below.
+
+On the invited person's side, the code is the part after `#`. Any client can preview it, since the preview sends no key, and the person accepts it with their own account token:
+
+```typescript
+const invite = await new OwV2Client().previewJoin(code); // who invites, which world, what role; sends no key
+const membership = await account.acceptJoin(code);        // account: the invited person's client with an ow_a_ token
+```
+
+A bad code is one 404 (`err.isNotFound`). Accepting can answer `err.isAlreadyMember`; it needs no account PIN, though a write key for the new membership waits for one. A refusal never uses up the code.
+
+`reader: 'agent'` makes a link an AI agent redeems for a seat instead (an [agent seat](/docs/development/api/members#agent-seats): the AI's own membership, key and secret), with `redeemJoin`: the answer has `kind: 'agent'`, the seat's key and secret, and its `.env` lines. Anyone but the owner gets a 404.
 
 `reader: 'player'` makes a link for a friend with no account, who reads the world as a guest playing one Character and writes nothing (see [Members and sharing](/docs/development/api/members)). The friend's side needs no key at all:
 
@@ -123,9 +136,9 @@ None of these sends an `Idempotency-Key`, so a key is never stored for a replay:
 
 An account token makes a world: `createAccountWorld({ name, pin, keyName, source, producer })` answers the world and its one write key, shown once.
 
-A fresh account has no PIN yet, so the first create answers `422` with `err.param === 'pin'` until you send one, which becomes the account's PIN. An account that has one must leave `pin` out.
+`pin` is for an account's first world. A fresh account has no PIN yet, so send four digits as `pin` on the first create, and they become the account's PIN; without it, the first create answers `422` with `err.param === 'pin'`. An account that has one must leave `pin` out.
 
-`keyName` names the key (1 to 80 characters). `source` and `producer` are the [folder's provenance lines](/docs/schema/folders#worldjson), for a tool that makes the world from a folder, kept as the world's `origin`.
+`keyName` names the key (1 to 80 characters). `source` and `producer` are the [folder's provenance lines](/docs/schema/folders#worldjson), for a tool that makes the world from a folder, kept as the world's `origin`. `producer` names the tool that made the world and from what: `input: 'bare'` is a world born empty in a tool, one word from the folder format's closed list.
 
 ```typescript
 const acct = new OwV2Client({ apiKey: 'ow_a_…' });
@@ -146,7 +159,7 @@ A tool that stores a world key on the device mints it with `mintWorldKey(worldId
 
 ## Proposed changes
 
-A member can [propose a change](/docs/development/api/proposals) for a keeper to accept instead of writing it, and a world's owner can make every agent seat work that way.
+A member can [propose a change](/docs/development/api/proposals) for a keeper to accept instead of writing it. A world's owner can make every agent seat work that way, with the switch **AI seats propose, a person accepts** on the world page ([the switch](/docs/development/api/proposals#the-switch)).
 
 ```typescript
 const row = await client.propose('character', id, { fields: { reputation: 'Feared' }, evidence: 'Chapter 12', expires: new Date(Date.now() + 14 * 86_400_000).toISOString() });
@@ -157,7 +170,12 @@ await client.withdrawProposal('character', id, row.id);               // the pro
 for (const r of queue.data) if (r.kind === 'new_element') await client.reviewNewElement(r.element_type, r.element_id, { decision: 'accept' }); // a seat's new element: accept clears the mark, decline deletes it
 ```
 
-The queue holds two kinds of row, `OwProposal` (`kind: 'proposal'`, its `fields` only what differs and `omitted` what an upsert left empty) and `OwProposedNewElement` (`kind: 'new_element'`): narrow on `kind` before reading a proposal's own keys. `next_cursor` is opaque.
+The queue holds two kinds of row, told apart by `kind`; narrow on it before reading a proposal's own keys:
+
+- `OwProposal` (`kind: 'proposal'`): a proposed change. Its `fields` hold only the fields whose proposed value differs from the element's, and `omitted` names the fields an upsert (a whole replace) left out that were not empty on the element.
+- `OwProposedNewElement` (`kind: 'new_element'`): a new element written as proposed, settled with `reviewNewElement`.
+
+`next_cursor` is opaque.
 
 `reviewNewElement` settles a new element a seat made under the switch; an element with no mark throws with `err.isNotProposed`.
 
