@@ -1,15 +1,15 @@
 ---
 title: Reading worlds as a tool
-description: "The @onlyworlds/sdk readers that turn a world into what a tool shows: lenses, the graph, a world's landing, map space, reading aids, the strand, records and the Open with menu."
+description: "The @onlyworlds/sdk readers that turn a world into what a tool shows: search, lenses, the graph, a world's landing, map space, reading aids, the strand, records, messages, calendars, addresses and the Open with menu."
 ---
 
-These functions are part of [`@onlyworlds/sdk`](/docs/development/typescript). Each takes a world you have already read, as its reader is served it, and gives back what a tool shows: a lens's reading, a graph, a first picture, map space, the reading aids, a world's story in miniature, a Character's records. The last section draws the Open with menu on a page.
+These functions are part of [`@onlyworlds/sdk`](/docs/development/typescript). Each takes a world you have already read, as its reader is served it, and gives back what a tool shows: search hits, a lens's reading, a graph, a first picture, map space, the reading aids, a world's story in miniature, a Character's records, messages, dates and links. The last section draws the Open with menu on a page.
 
-Installing the package and reading a world are on the [TypeScript SDK](/docs/development/typescript) page.
+Installing the package and reading a world are on the [TypeScript SDK](/docs/development/typescript) page; signing in, members and proposed changes on [Accounts, members and sharing](/docs/development/typescript-accounts).
 
 ## What every reader takes
 
-The world is `{ elements }`: every element you read, of all 22 types (`mapSpace` and `recordsOf` take the array itself). The demo key reads the sample world:
+The world is `{ elements }`: every element you read, of all 22 types (`mapSpace`, `recordsOf`, `buildWorldIndex` and the calendar readers take the array itself). The demo key reads the sample world:
 
 ```typescript
 import { OwV2Client, ELEMENT_TYPES } from '@onlyworlds/sdk';
@@ -19,7 +19,7 @@ const elements = [];
 for (const type of ELEMENT_TYPES) for await (const el of client.listAll(type)) elements.push(el);
 ```
 
-The reader is who the result is for, given as `{ rung }`:
+Lenses, the graph, the reading aids and the strand also take the reader: who the result is for, given as `{ rung }`:
 
 - `owner`: the whole world.
 - `contributor`: the world less its hidden elements.
@@ -27,6 +27,47 @@ The reader is who the result is for, given as `{ rung }`:
 - `public`: the world less its hidden elements and its [room elements](/docs/schema/profiles#room).
 
 Pass the rung of whoever will see the result, so a tool never shows a person more than they may see.
+
+<a id="find-things-in-a-world"></a>
+
+## Find elements in a world
+
+With a world's elements in memory (`elements`, read as in [What every reader takes](#what-every-reader-takes)), `lookupWorld` finds the ones a plain question is about. It uses no model and no network, and runs in a few milliseconds.
+
+```typescript
+import { buildWorldIndex, lookupWorld, renderElement } from '@onlyworlds/sdk';
+
+const index = buildWorldIndex(elements); // once per world; each element needs id and type
+const hits = lookupWorld(index, 'who runs the mill in Ostvik?');
+// hits[0].element, hits[0].reasons: best first, with why each matched
+const card = renderElement(hits[0].element, index); // a short text card, links by name
+```
+
+Names come first, then supertype and subtype, then one link step in either direction, then the elements' other text, custom fields (`x_*`) included. A card shows a custom field by its own name: `x_eye_colour` reads `eye colour: grey`.
+
+For an answer in a sentence, a signed-in account can use OnlyWorlds' [AI proxy](/docs/development/ai#ask-your-world-without-a-key-of-your-own). It needs an account token ([Accounts, members and sharing](/docs/development/typescript-accounts#sign-in-with-a-password)):
+
+```typescript
+import { buildAskContext } from '@onlyworlds/sdk';
+
+const { context, kept, leftOut } = buildAskContext(hits.slice(0, 8), index); // the hits you show, within the proxy's limits
+const reply = await account.ask({ worldId, question, context });    // account: a client with an ow_a_ token
+// reply.answer comes from those elements only, or is "The world doesn't say."
+```
+
+`kept` says which elements were sent, so the sources you show are the ones the answer used.
+
+Since 4.72.0 `buildAskContext` hands nothing on that a world holds back from an AI: proposed elements (the [review profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/review.md)), [hidden](/docs/development/api/hidden) ones and the room's are left out unless you pass `includeProposed`, `includeHidden` or `includeRoom`, and `leftOut` lists them by id so you can say how many. A proposed element you include carries `[proposed, not yet reviewed]` on its first line, and a kept element's link to a left-out one reads as not present, so its name stays out too.
+
+Each account has a token rating: the number of AI tokens it may spend on the proxy each day. Asking spends from it: `reply.tokens_remaining` and `reply.token_rating`, and `reply.remaining` counts the answers of this size still in it. Used up, it throws with `err.isQuotaExceeded`. `account.allowance()` reads the token rating without spending anything: `{ token_rating, tokens_used_today, tokens_remaining, resets_at }`.
+
+The same proxy can also [sort loose notes](/docs/development/ai#sort-notes-into-a-world) into a world. You send a person's notes with a slice, the elements your lookup found for them, and get back rows for the person to review: each row makes an element, adds to one, links two, or asks which of some candidates is meant. Every id in a row comes from the slice, and nothing is written until your app applies what the person accepts:
+
+```typescript
+const slice = hits.slice(0, 100).map(({ element: e }) => ({ id: e.id, type: e.type, name: e.name }));
+const { rows, not_proposed } = await account.sort({ worldId, notes: ['Mira moved to Ostvik.'], slice });
+// rows: make, add_to, link, or ask (with candidates); one question from the same token rating
+```
 
 ## Lenses
 
@@ -38,7 +79,10 @@ The reading's date is `asOf`, else the world's own now; the mail rule's thirty d
 
 The profile's date table is exported: `DATE_FIELD` gives each dated type's date field (an Event's `start_date`, a Character's `birth_date`; the ten timeless types are not in it), and `dateOf(el)` gives an element's date as that table reads it, the whole number in its type's date field, else null. A timeline dates elements exactly as the lens's fence does.
 
-A lens's rows for a reader below the owner are the bodies the API serves that reader:
+A lens's rows for a reader below the owner are the bodies the API serves that reader, so they never show more than that reader may see.
+
+<details>
+<summary>What a row keeps for each reader (the profile's rules)</summary>
 
 - a link to an element the reader cannot see is left out
 - a lens kept as an element keeps only the notes on elements the reader sees
@@ -47,11 +91,13 @@ A lens's rows for a reader below the owner are the bodies the API serves that re
 
 The owner's rows are the bodies as stored. No row carries a stored `x_served_trimmed`: the mark names only what this reading trimmed.
 
+</details>
+
 ## A world as a graph
 
 The profile's graph section ([A world as a graph](/docs/lenses/graph)) has its reader: `worldGraph(world, reader, options)` reads the same snapshot, for the same reader, as nodes and edges. It returns:
 
-- `nodes`: `{ id, type, name, family, icon }`, by id
+- `nodes`: `{ id, type, name, family, icon }`, by id; `family` is the type's colour group (`blue`, `green`, `pink` or `amber`, as [`ELEMENT_GROUPS`](/docs/development/typescript#schema-constants) gives it), a key for drawing, never a label
 - `edges`: `{ source, field, target, index }`, one per link
 - `edgesCut`: links to elements that are not nodes, counted by reason
 - `cut`
@@ -101,8 +147,6 @@ The [map-space profile](/docs/schema/profiles#map-space) has its reader. `mapSpa
 - `pins` holds each Pin's point and its element: `{ pin, map, element_type, element_id, x, y, z }`.
 - `out` counts what was left aside by reason: `no_point`, `no_markers`, `dangling`, `no_map`; a reason with nothing counted is absent.
 
-A number counts when it is whole by value (`2.0` is 2) and a double holds it exactly: a value past 2^53 that the parse had to round is not whole. A row without a non-empty string `id` is no element, and two rows of one type with one id read as the last one served.
-
 `z` is an elevation, never a height. The types are `OwMapSpace`, `OwMapSpaceMap`, `OwMapSpaceOutline`, `OwMapSpacePin`, `OwMapSpacePoint` and `OwMapSpaceOutReason`.
 
 ```typescript
@@ -112,6 +156,13 @@ const { maps, zones, pins, out } = mapSpace(elements);
 zones[0]; // { zone, map, shape: 'polygon', points: [[x, y, z], ...] }
 out; // e.g. { dangling: 1 }
 ```
+
+<details>
+<summary>Which numbers and rows count (the profile's rules)</summary>
+
+A number counts when it is whole by value (`2.0` is 2) and a double holds it exactly: a value past 2^53 that the parse had to round is not whole. A row without a non-empty string `id` is no element, and two rows of one type with one id read as the last one served.
+
+</details>
 
 ## Reading aids
 
@@ -153,7 +204,7 @@ const strand = strandOf(world, { rung: 'owner' });
 if (strand.narrative) console.log(strand.narrative.name, strand.same ? 'then and now one place' : '');
 ```
 
-`me()` and an agent's `redeemJoin` answer carry the same reading as the server serves it, `reading_aids.strand` (`OwServedReadingAids` is `charterOf`'s three plus `strand`), so a tool can read a world's story from its first call.
+A tool that talks to the server may not need to compute the strand at all, because the server serves the same reading. [`me()`](/docs/development/typescript-accounts#who-is-in-a-world) and an agent's `redeemJoin` answer carry it as `reading_aids.strand` (`OwServedReadingAids` is `charterOf`'s three plus `strand`), so a tool can read a world's story from its first call.
 
 ## Records
 
@@ -163,7 +214,7 @@ A record is an Event whose `x_record` (`RECORD_FIELD`) names the game (`tool`) a
 
 Each entry is `{ event: { id, name }, tool, played_at, version, seed, outcome, seat, stories }`. `seat` is this Character's seat when the mark names one, and `stories` are the Narratives that list the run in `events` and name them as `protagonist`, `narrator` or `both`.
 
-A run or a story still proposed is not read: that is exactly what [`proposedMarkOf`](/docs/development/typescript#messages) reads as proposed, so a run or story with an empty mark (`{}`, `""` or `[]`) is settled and read. An Event or a Narrative whose `id` is not a string is never read.
+A run or a story still [proposed](#proposed-elements) is not read.
 
 `recordMarkOf(element)` reads one Event's mark, or null when its shape is not the profile's.
 
@@ -175,11 +226,134 @@ for (const r of recordsOf(character.id, elements)) {
 }
 ```
 
+<details>
+<summary>Which runs and stories are read (the profile's rules)</summary>
+
+A run or a story is proposed exactly when [`proposedMarkOf`](#proposed-elements) reads it as proposed, so a run or story with an empty mark (`{}`, `""` or `[]`) is settled and read. An Event or a Narrative whose `id` is not a string is never read.
+
+</details>
+
+## Messages
+
+Messages between members follow the [message profile](/docs/schema/profiles/messages): who a message is for, whether its sender is proved, what is unread, and a thread. The readers take the roster from [`client.members()`](/docs/development/typescript-accounts#who-is-in-a-world).
+
+```typescript
+import { isMessage, isAddressedTo, senderStatus, readMarkOf, unreadFor } from '@onlyworlds/sdk';
+
+const messages = [];
+for await (const n of client.listAll('narrative', { filter: { supertype: 'Message' } })) if (isMessage(n)) messages.push(n);
+const members = await client.members();
+const marks = [];
+for await (const r of client.listAll('relation', { filter: { supertype: 'Read' } })) marks.push(r);
+const mark = readMarkOf(marks, myCharacter, members);   // only a mark in my own hand counts
+for (const m of unreadFor(messages, myCharacter, mark, members)) {   // members: only a verified sender makes a message mine
+  const { status, claimed, writtenBy } = senderStatus(m, members);
+  // 'verified': show the sender; 'mismatch': "claims to be from <claimed>, written by <writtenBy>'s key";
+  // 'unverifiable': "claims to be from <claimed>" (or "from nobody" when claimed is null)
+}
+```
+
+`isAddressedTo(m, id)` is true for a message to everyone (an empty `characters`), and `isToEveryone(m)` asks only that. `threadOf(messages, rootId)` lists a thread in order.
+
+The readers know a message the server trimmed for its reader (`x_served_trimmed`): an empty `characters` with the mark is to someone you cannot see, never to everyone. `hasUnseenRecipients(m)` says so, and a hidden sender is `senderStatus` `'unseen'` ("from someone you cannot see").
+
+A body read with no key, as the public reader is served, carries no hands and no trim mark. There, pass `{ keyless: true }`: `readMarkOf(marks, id, members, { keyless: true })` is `null`, `isToEveryone` is false, and `hasUnseenRecipients` is `null` (unknown).
+
+`editedBy(m, members)` says whether a later hand changed a message, and whose. A Note (supertype `Note`) is a member's own line, never a message: `isNote(el)`, and `noteOf(narratives, characterId, members)` gives the id of that Character's newest Note in its own hand.
+
+## Proposed elements
+
+An element an AI seat wrote as [proposed](/docs/development/api/proposals) follows the [review profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/review.md): `proposedMarkOf(el)` gives its mark as a viewer shows it, `{ by, expires, lapsed }`, or `null` for a settled element. `handsOnAsProposed(el)` is what a reader that hands a world on (a context for an AI, a share) leaves out, a malformed mark included. `buildAskContext` reads the same function.
+
+## World calendars
+
+A world's time is an integer line: the world's now (`time_range_current`) and an Event's `start_date` are points on it. A calendar names those points with months, days and eras.
+
+Atlas keeps a calendar on an element in its `atlas_calendar` field, and the SDK reads it with its calendar code, which Atlas uses too. Atlas owns that field: read it, never write it (the Python package's LegendKeeper import writes one from a source calendar, by Atlas's rules).
+
+```typescript
+import { worldCalendars, resolveCalendar, formatStep, parseDate } from '@onlyworlds/sdk';
+
+const calendars = worldCalendars(elements); // every element with a valid atlas_calendar
+const cal = resolveCalendar(elements, chosenId, { fallbackToOnly: true }); // the picked calendar, or the world's only one when none was picked
+if (cal) {
+  formatStep(cal.config, 400);               // "4 Alturiak, 1 DR"
+  parseDate(cal.config, '4 Alturiak, 1 DR'); // { step: 400 }
+}
+```
+
+The second argument is the id of the calendar the person picked. With `fallbackToOnly`, when none was ever picked (`undefined`) and the world holds exactly one calendar, that one is used; `null` means no calendar.
+
+The dates in the example come from Harptos, a calendar in Atlas's tests: point 400 is day 4 of the month Alturiak, in year 1 of the era written DR.
+
+No calendar, or a broken one, gives null: show the bare number.
+
+The SDK reads the calendar profile's version 2: a leap day's rule can carry `except`, divisors that flip it in order, and `offset`, added to the year index before the rule (1 for a calendar with no year 0). Gregorian is `every_years: 4, except: [100, 400], offset: 1`. A reader that knows only version 1 gives null for a version-2 calendar, so it shows the bare number, never a wrong date.
+
+Eras count up by default; one that counts down toward its start (years before a founding) is a down era. An era that counts up and has no `end` runs to the start of the next era that counts up, whatever order the eras are listed in.
+
+## Addresses
+
+The [address profile](/docs/schema/profiles/addresses) reads and writes an element's link: `parseOwLink(text)` reads any of the three spellings (the site's address, `ow://<type>/<id>`, `ow://<world>/<type>/<id>`) with its moment and lens, and `elementAddress(address)` writes one. A string the profile refuses throws an `OwAddressError` whose `reason` is the profile's own name.
+
+```typescript
+import { parseOwLink, elementAddress } from '@onlyworlds/sdk';
+
+const r = parseOwLink('ow://character/0193f1c2-7a00-7000-8000-000000000001');   // { form: 'text', world: null, type: 'character', id, lens: null, moment: null, canonical: true, … }
+const link = elementAddress({ form: 'human', world: worldId, type: 'character', id });   // https://www.onlyworlds.com/w/<world>/character/<id>
+```
+
+### Open with
+
+`openersFor(tools, kind, address, surface)` gives the rows of an **Open with** menu for a world or an element: onlyworlds.com first, then each [listed tool](/docs/development/list-your-tool) whose `open` key has a door for it, in the list's order. `TOOLS` is the tools list baked at this release.
+
+Each row is `{ id, name, href, state }`. `state` is null when the row opens now, or one of `You are here`, `Needs a connection`, `Needs an account`, `Sign in to <tool> first`, `Opens in your browser`, `Needs the world on this phone` or `Opens the world`.
+
+`surface` says what the page knows:
+
+- `audience`: `member` or `public`. A public page (`audience: 'public'`, the signed-out reader) gets the tools that need nothing, and each tool that needs an account as a row that says `Needs an account` and opens nothing; a tool that needs the world on the device is not there.
+- `tool` (optional): your own tool's client name; `onlyworlds` for the site itself, whose own row then says `You are here`.
+- `online` (optional): with `online: false` every row whose link is a web address says `Needs a connection`, the site's own row included; a row whose link opens an app is unaffected.
+- `signedIn`, `browser` and `phone` (optional).
+
+An element's menu takes the element as you were served it, `openersFor(tools, 'element', address, surface, { element })`. A tool whose element door does not open what it carries (a room element, a hidden or proposed one, a Map, Pin or Marker, a reading aid: the list's `element_skips`, each read as [`worldGraph`](#a-world-as-a-graph) reads it) has no row, rather than a link to a page that cannot open it. Without it every row is there.
+
+A tool whose `element_types` leaves out the element's type (read from the address) has no row on that element's menu, its world door included; a world's menu is unchanged.
+
+```typescript
+import { openersFor, TOOLS, parseOwLink } from '@onlyworlds/sdk';
+
+const rows = openersFor(TOOLS, 'element', parseOwLink(link), { audience: 'member', tool: 'lantern', signedIn: false });
+// [{ id: 'onlyworlds', name: 'onlyworlds.com', href: 'https://www.onlyworlds.com/w/<world id>/character/<id>', state: null },
+//  { id: 'atlas', name: 'Atlas', href: 'https://atlas.onlyworlds.com/#/open/…', state: 'Sign in to Atlas first' },
+//  { id: 'lantern', name: 'Lantern', href: 'https://lantern.onlyworlds.com/#/open/…', state: 'You are here' },
+//  { id: 'little-lens', name: 'Little Lens', href: 'https://little-lens.onlyworlds.com/#/open/…', state: null },
+//  { id: 'tangle', name: 'Tactical Tangle', href: 'https://tangle.onlyworlds.com/#/open/…', state: 'Sign in to Tactical Tangle first' }]
+```
+
+### Door history
+
+`doorsOf(element, tools = TOOLS)` reads an element's [door history](/docs/development/api/reads), the `doors` field a world's members are served: which tools wrote it, newest first, each `{ door, at, tool, last, from }`.
+
+- `tool` is the listed tool whose client name is the door, or null for a door word (`site`, `mcp`, …).
+- `last` marks the entry that made the element's last write, so a "by you" line compares `changed_by` with the reader's own membership there.
+- An element with no `doors` yet reads one entry from its last write (`from: 'last-write'`), and a public read gives `[]`.
+
+It returns data, never words. `doorWhere(entry)` gives one entry's where in the words a "Last shaped" line uses: `in <tool name>` for a listed tool (such as `in Atlas`), `on onlyworlds.com` for `site`, `with an AI` for `seat`, `mcp` and `declared`, `by OnlyWorlds` for `server`, and `in code` for any other door. The rest of the sentence ("Last shaped", "by you", the time) stays the caller's.
+
+```typescript
+import { doorsOf, doorWhere } from '@onlyworlds/sdk';
+
+const [newest] = doorsOf(element);
+// { door: 'atlas', at: '2026-10-29T14:31:07.123456+00:00', tool: { id: 'atlas', name: 'Atlas' }, last: true, from: 'doors' }
+doorWhere(newest); // 'in Atlas'
+```
+
 ## The Open with menu, drawn
 
-The subpath `@onlyworlds/sdk/waymark` draws the [Open with menu](/docs/development/typescript#open-with) for a page: `mountWaymark(target, options)` puts the OnlyWorlds mark beside a world's or an element's name, and the mark opens the menu (the name line, the Open with rows, the lenses you pass, Copy link). It returns a function that removes everything it added.
+The subpath `@onlyworlds/sdk/waymark` draws the [Open with menu](#open-with) for a page: `mountWaymark(target, options)` puts the OnlyWorlds mark beside a world's or an element's name, and the mark opens the menu (the name line, the Open with rows, the lenses you pass, Copy link). It returns a function that removes everything it added.
 
-Every word in it comes from the readers on the TypeScript SDK page: the rows and their state words from `openersFor`, a member's "Last shaped" line from `doorsOf` and `doorWhere`. The main `@onlyworlds/sdk` import never loads it, so a server or a script that only reads worlds carries no page code.
+Every word in it comes from the readers above: the rows and their state words from `openersFor`, a member's "Last shaped" line from `doorsOf` and `doorWhere`. The main `@onlyworlds/sdk` import never loads it, so a server or a script that only reads worlds carries no page code.
 
 ```typescript
 import { mountWaymark } from '@onlyworlds/sdk/waymark';
@@ -201,7 +375,10 @@ Its stylesheet is `@onlyworlds/sdk/waymark.css`, for a dark or a paper page (`gr
 - `reader` is `member`, `guest` or `public`. A public page shows the rows that need nothing, and a tool that needs an account as a grey row that says "Needs an account" and does nothing when pressed.
 - `entry` picks the way in: the mark (`'mark'`, the default), an Open with item for your page's own menu (`'menu'`, given back as `entry` on the returned function), or both.
 
-How the menu behaves:
+The menu opens toward the room it has, becomes a sheet from the bottom on a narrow screen, greys the rows that need a connection while offline, and works from the keyboard.
+
+<details>
+<summary>How the menu behaves, in detail</summary>
 
 - An Escape it handles stops there, so a page's own Escape on `document` does not also run.
 - The fan-out measures the nearest box that clips it when it opens and opens toward the room it has (to the left of a right edge, above a bottom edge), or as the sheet from the bottom when neither side has room. At 480 px wide or less the menu is a sheet from the bottom.
@@ -211,3 +388,5 @@ How the menu behaves:
 - The mark sits a little under the name's capitals (0.6em, never under 16 px).
 
 From the keyboard, Tab goes from the mark through every row in order (in Safari too), the arrow keys, Home and End move within the menu, and Escape closes it and gives focus back to what opened it. Focus that leaves the menu closes it, including focus that comes back to the page on another control after the window lost it.
+
+</details>

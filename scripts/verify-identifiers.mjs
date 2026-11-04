@@ -28,7 +28,7 @@ const DTS = join(ROOT, 'node_modules', '@onlyworlds', 'sdk', 'dist', 'index.d.ts
 const MARKER = '<!-- generated:sdk-reference';
 const TS_PAGE = 'docs/development/typescript.md';
 // The SDK's own pages, where an ALL_CAPS name is one of its constants too.
-const SDK_PAGES = new Set([TS_PAGE, 'docs/development/typescript-readers.md']);
+const SDK_PAGES = new Set([TS_PAGE, 'docs/development/typescript-readers.md', 'docs/development/typescript-accounts.md']);
 // Names shaped like the SDK's that are someone else's, each with whose. A new one is added here with its reason.
 const OTHERS = {
   sessionStorage: "the browser's storage (the sign-in page keeps the verifier there)",

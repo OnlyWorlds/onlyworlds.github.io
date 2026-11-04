@@ -132,6 +132,7 @@
 /docs/development/toolkit	load-bearing	200	keel:web/templates/web/home.html
 /docs/development/typescript	load-bearing	200	sdk:README.md
 /docs/development/typescript-readers	page	200	source docs/development/typescript-readers.md (new 2026-11-04, the readers' sections moved from /docs/development/typescript)
+/docs/development/typescript-accounts	page	200	source docs/development/typescript-accounts.md (new 2026-11-04, the account and membership sections moved from /docs/development/typescript)
 /docs/development/unity	page	200	source docs/development/unity.md
 /docs/getting-started/keys	page	200	source docs/getting-started/keys.md
 /docs/lenses	page	200	source docs/lenses.mdx (new 2026-10-28, from the conventions page)
