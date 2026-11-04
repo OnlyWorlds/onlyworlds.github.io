@@ -143,7 +143,7 @@ Only a person's key can pick. An agent seat's Character and a player's are set b
 | `422` | [`invalid_request`](/api/errors/#invalid_request) | The body is not exactly `{"character"}`; a guest named a Character it did not make; or the Character is the owner's, or one another member plays. `param` names it |
 | `429` | [`rate_limited`](/api/errors/#rate_limited) | Too many wrong PINs on this key |
 
-In the [TypeScript SDK](/docs/development/typescript), `setMyCharacter(characterId)` (or `null`) returns the `/me` body, from 4.50.0. The Python package has no call for it yet.
+In the [TypeScript SDK](/docs/development/typescript), `setMyCharacter(characterId)` (or `null`) returns the `/me` body, from 4.50.0. The Python package has no call for it yet: send `PUT /me/character` with `{"character": "<id>"}` (or `null`) over HTTP, with the world key and its PIN.
 
 ## Guests
 

@@ -173,7 +173,7 @@ It is schema-dist's own [folder checker](/docs/schema/folders#rules-for-tools), 
 - **Errors**: `ApiError` carries the envelope's `code`, `param` and `doc_url`, with flags such as `is_id_conflict`, `is_not_author`, `is_resync_required`, `is_idempotency_in_flight`, `is_validation_error` and `is_hidden_not_allowed` (since 0.43.0: a create carried `hidden: true` from a key that may not hide, and nothing was created). Pass `if_match=el["change_seq"]` to `patch` or `edit_links` to write only if nobody changed the element since you read it (since 0.2.0); if it moved, `PreconditionFailed` carries `current`, the element as it is now. See [Only if unchanged](/docs/development/api/writes#only-if-unchanged).
 - **Export**: `export_world` (an account world to a folder; since 0.7.0 its `world.json` says where it came from and which part of the world it is, `source` and `exported_as`, read from `/me`), and `onlyworlds.okf.export_okf` (a folder to an OKF bundle, since 0.6.0).
 
-Not yet: typed element models, the account routes, `members()` (the TypeScript SDK has it), hiding, `adopt`, images and files, `set_my_character`, sign-in, and the snapshot writer.
+**Not in the Python package yet**: typed element models, the account routes, `members()`, hiding, `adopt` (moving who made an element), images and files, `set_my_character`, sign-in, and the snapshot writer. For these, use the [TypeScript SDK](/docs/development/typescript), which has them, or call the [REST API](/docs/development/api-reference) directly. To ask for one, open an issue on [python-sdk](https://github.com/OnlyWorlds/python-sdk/issues).
 
 ## Links
 

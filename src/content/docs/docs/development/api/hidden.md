@@ -75,7 +75,7 @@ curl -s -X PUT "https://www.onlyworlds.com/api/v2/character/{id}/hidden" \
 
 - **Who.** The owner's keys, and a co-builder's key, a person's or an agent seat's. Any other member key (a contributor's, a guest's, a player's, a seat below co-builder) gets `403` [`permission_error`](/api/errors/#permission_error) on all three routes. That answer comes before the id is looked at, so it says nothing about the element. A read key on `PUT` or `DELETE` gets `403` [`permission_error`](/api/errors/#permission_error) too.
 - **Which element.** One of this world's, of the element type in the path; any other id is `404` [`not_found`](/api/errors/#not_found).
-- **The body.** None, or `{"fields": []}`. `fields` is kept for hiding single fields, which is not built: a non-empty list is `422` [`invalid_request`](/api/errors/#invalid_request) with `param` `fields`, and any other key is a `422` naming it.
+- **The body.** None, or `{"fields": []}`. Send no body, or an empty `fields` list: `fields` is reserved for hiding single fields later, and a non-empty list is `422` [`invalid_request`](/api/errors/#invalid_request) with `param` `fields`, and any other key is a `422` naming it.
 - **Repeats.** Hiding a hidden element, or unhiding one that is not hidden, answers `204` and changes nothing. These routes take no `Idempotency-Key`.
 
 `GET /api/v2/world/hidden` lists every hidden element, newest first, with `Cache-Control: no-store`:
@@ -126,7 +126,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/narrative" \
 
 ## The feed
 
-Every `delete` op on [`/changes`](/docs/development/api/changes) says why, in `reason`: `deleted` for an element that was deleted, `hidden` for one hidden from this key. (`out_of_view` is reserved; nothing sends it yet.) A hide takes one place in the world's change sequence, so `head` moves by one, and so does an unhide that clears a mark (a second unhide takes none).
+Every `delete` op on [`/changes`](/docs/development/api/changes) says why, in `reason`: `deleted` for an element that was deleted, `hidden` for one hidden from this key. (A third reason, `out_of_view`, is reserved for later and not sent today.) A hide takes one place in the world's change sequence, so `head` moves by one, and so does an unhide that clears a mark (a second unhide takes none).
 
 | Reader | When an element is hidden from it | When it is unhidden |
 |:--|:--|:--|

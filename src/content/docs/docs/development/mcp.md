@@ -75,7 +75,7 @@ The tools fall into three groups by what they need. Arguments in **bold** are re
 
 ### Read: a key
 
-Every read tool takes an optional `world`: a world's id, or its public page's address. It is for a hosted client signed in to an account, which cannot connect yet: the server has no OAuth sign-in today, and a call with no key answers "API-Key header required." With a key, `world` may name only the key's own world; leave it out.
+Every read tool takes an optional `world`: a world's id, or its public page's address. With a key you can leave it out, since `world` may name only the key's own world. It is there for hosted clients that sign in to an account, which cannot connect yet: the server has no OAuth sign-in today, so a call with no key answers "API-Key header required."
 
 | Tool | Arguments | Returns |
 |:--|:--|:--|

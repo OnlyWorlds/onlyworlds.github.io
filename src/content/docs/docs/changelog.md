@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-04
 
+- **"Not yet" lines say what to do instead.** [Python](/docs/development/python)'s missing calls point to the TypeScript SDK, the REST API and where to ask; [Hiding](/docs/development/api/hidden) says what body to send; [Public worlds](/docs/development/api/public) says a public world stays out of search results; [Members](/docs/development/api/members) gives the route for picking your Character from Python; [MCP](/docs/development/mcp)'s `world` leads with who can use it; [Packages](/docs/development/packages) says to pin the Unity SDK's version.
 - **[TypeScript](/docs/development/typescript) 4.132.3: `me()` is documented, and the reference names the server as onlyworlds.com.** The reference's `me()` row now says what `GET /me` answers and that the PIN is sent there. A refused `element_types` lists the 22 type words in the standard's order, as the other packages do. The shared Open with test set has 103 cases.
 
 ## 2026-11-03

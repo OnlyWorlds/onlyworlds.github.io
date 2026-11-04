@@ -9,7 +9,7 @@ Every client below speaks the same REST API v2. Pick by language, or by where yo
 |---|---|---|---|
 | [TypeScript SDK](/docs/development/typescript) | web apps, Node tools, browser games | `npm install @onlyworlds/sdk` | published on npm |
 | [Python package](/docs/development/python) | scripts, pipelines, world folders | `pip install onlyworlds` | published on PyPI |
-| [Unity SDK](/docs/development/unity) | Unity games and tools | Package Manager, by git URL | public, interface not yet stable |
+| [Unity SDK](/docs/development/unity) | Unity games and tools | Package Manager, by git URL | public; may change between releases, so pin a version |
 | [MCP server](/docs/development/mcp) | AI assistants and agents | nothing to install: `https://www.onlyworlds.com/mcp` | live |
 | Plain REST | any other language or engine | none | live |
 
