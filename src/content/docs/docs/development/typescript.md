@@ -47,7 +47,7 @@ For your own world, use its read-only key (`ow_r_`), which needs no PIN. The oth
 
 ## Write
 
-Keep the write key and PIN out of the code, in a `.env` file beside it. These two are the [practice world](/docs/getting-started/keys#the-practice-world)'s, which anyone may write to and which goes back to the same copy every night; for your own world, put in its `ow_w_` key and your PIN.
+Keep the write key and PIN out of the code, in a `.env` file beside it. These two are the [practice world](/docs/getting-started/keys#the-practice-world)'s, which anyone may write to and which goes back to the same copy every night; for your own world, put in its `ow_w_` key, minted on the world's page on onlyworlds.com ([Key types](/docs/getting-started/keys#key-types)), and your account's [PIN](/docs/getting-started/keys#the-pin).
 
 ```bash
 OW_API_KEY=ow_w_QRRMlAFPF9vPZSqmiV6QJm2HDJH_sP28x2RccPmYP1A
@@ -65,7 +65,7 @@ const ranger = await writer.create('character', { name: 'Ilse the Ranger' });
 console.log('made', ranger.name, ranger.id);
 ```
 
-That makes one Character and prints its name and id; the read above, run with this key, now lists it. Links and edits go the same way:
+That makes one Character and prints its name and id. To see it in the world, run the read above with `apiKey: process.env.OW_API_KEY` in place of the demo key. Each type's fields and links are listed on its [element page](/docs/schema/element_categories), and in code `FIELD_SCHEMA` gives them ([Schema constants](#schema-constants)). Links and edits go the same way:
 
 ```typescript
 const peak = await writer.create('location', { name: 'Dragon Peak' });
@@ -117,7 +117,7 @@ if (res.errors) {
 }
 ```
 
-`{ atomic: true }` makes the batch all or nothing. After a failed atomic batch nothing was written, but the slots that would have succeeded still report 201: do not record those ids as created.
+A slot holds the API's own answer for that item, so its fields keep the API's spelling (`doc_url`), where a thrown `OwApiError` says `docUrl`. `{ atomic: true }` makes the batch all or nothing. After a failed atomic batch nothing was written, but the slots that would have succeeded still report 201: do not record those ids as created.
 
 To retry a bulk write safely:
 
