@@ -7,7 +7,11 @@ description: The @onlyworlds/sdk package, a typed client for the v2 API and the 
 
 The 4.x line speaks v2 only and is ESM-only (Node 18 or later). Tools on the v1 API dialect (`OnlyWorldsClient`) or on CommonJS `require()` stay on the 3.x line, which is still published.
 
-The readers a tool uses to show a world it has read (lenses, the graph, map space, the strand, records and the Open with menu) have their own page: [Reading worlds as a tool](/docs/development/typescript-readers).
+The readers a tool uses to show a world it has read (lenses, the graph, map space, the strand, records and the Open with menu) have their own page: [Reading worlds as a tool](/docs/development/typescript-readers). Every method of the client, with the route it calls and what it returns, is in the [Reference](#reference) at the end of this page.
+
+## SDK or MCP?
+
+Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI exploring a world from a chat or an agent, use the [MCP server](/docs/development/mcp) at `https://www.onlyworlds.com/mcp`. It takes the same `API-Key` and `API-Pin` headers.
 
 ## Install
 
@@ -60,7 +64,7 @@ const ranger = await writer.create('character', { name: 'Ilse the Ranger' });
 console.log('made', ranger.name, ranger.id);
 ```
 
-That makes one Character; open the world in Atlas and it is there. Links and edits go the same way:
+That makes one Character and prints its name and id; the read above, run with this key, now lists it. Links and edits go the same way:
 
 ```typescript
 const peak = await writer.create('location', { name: 'Dragon Peak' });
@@ -73,7 +77,7 @@ const breath = await writer.create('ability', { name: 'Ember Breath' });
 await writer.editLinks('creature', dragon.id, 'abilities', { add: [breath.id], remove: [] });
 ```
 
-The client sends the PIN only where the server checks it: on writes, on `me()`, and on every call with a 10-digit legacy key. A prefixed key's reads go without it, which spares the server a verification per read.
+The client sends the PIN only where the server checks it: on writes, on `me()`, and on every call with a 10-digit legacy key, when you gave one (the public demo keys read without a PIN). A prefixed key's reads go without it, which spares the server a verification per read.
 
 The v2 rules the client follows:
 
@@ -84,7 +88,7 @@ The v2 rules the client follows:
 - `patch` replaces every field it sends, and an array replaces the whole list. To add or remove links without replacing them, use `editLinks`.
 - To write only if nobody changed the element since you read it, pass `{ ifMatch: el.change_seq }` to `patch` or `editLinks`. If it moved, nothing is written and the call throws `OwPreconditionFailedError`, whose `current` is the element as it is now. See [Only if unchanged](/docs/development/api/writes#only-if-unchanged).
 - If your code is an AI agent, say so: `new OwV2Client({ ..., agent: true })` sends `X-OW-Agent` on its element writes, and OnlyWorlds records your writes as agent-made. A tool people use leaves it off, since it would mark every person's edit. See [Agents](/docs/development/agents).
-- Every element read carries `changed_by` and `changed_via`, the last write's member and door; `isAgentDoor(el.changed_via)` is true for an agent seat, the MCP server or a client that declared itself.
+- Every element read carries `changed_by` and `changed_via`, the last write's member and door (the way it came in: [the doors](/docs/development/api/reads)); `isAgentDoor(el.changed_via)` is true for an agent seat, the MCP server or a client that declared itself.
 - Name your tool: `new OwV2Client({ ..., client: 'atlas' })` sends `X-OW-Client` on every element write (and on a proposal, its accept and a review), never on a read or another write, and OnlyWorlds keeps the name on the element as `changed_client` ([a write can name its client](/docs/development/api/writes#agent-writes)). The default is `sdk`; a name outside lower case letters, digits and hyphens, 1 to 32 characters, is a `TypeError` at construction.
 
 ## Bulk writes
@@ -125,6 +129,8 @@ For a progress bar, call `createMediaTicket()` and POST the bytes to its `upload
 In a browser, shrink a phone photo before uploading it:
 
 ```typescript
+import { preparePhoto } from '@onlyworlds/sdk';
+
 const photo = await preparePhoto(file); // longest side 2048, webp (JPEG where the browser can't encode webp)
 const image = await writer.uploadImage(photo.blob);
 ```
@@ -570,10 +576,6 @@ Colour marks a type's colour group and the icon marks the type. Always pair a co
 `dragField(a, b)` says what a tool writes when a person drags one type onto another: `on`, the type that carries the field; `field`, the link; and `holds`, whether the drop puts the dragged element inside the target or only draws a line. The two types can come in either order, and a pair the table does not offer (two of the same type, a pair with no link between them, or one whose only link names a role) is `null`. It reads schema-dist's `pairs.json`, presentation data like the colours, not part of the standard.
 
 The package also ships `SCHEMA.md` (every field and its meaning, generated) and `AGENTS.md` for AI agents working in a codebase that uses it.
-
-## SDK or MCP?
-
-Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI exploring a world from a chat or an agent, use the [MCP server](/docs/development/mcp) at `https://www.onlyworlds.com/mcp`. It takes the same `API-Key` and `API-Pin` headers.
 
 ## Links
 

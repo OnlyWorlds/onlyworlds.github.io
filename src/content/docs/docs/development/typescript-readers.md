@@ -7,6 +7,27 @@ These functions are part of [`@onlyworlds/sdk`](/docs/development/typescript). E
 
 Installing the package and reading a world are on the [TypeScript SDK](/docs/development/typescript) page.
 
+## What every reader takes
+
+The world is `{ elements }`: every element you read, of all 22 types (`mapSpace` and `recordsOf` take the array itself). The demo key reads the sample world:
+
+```typescript
+import { OwV2Client, ELEMENT_TYPES } from '@onlyworlds/sdk';
+
+const client = new OwV2Client({ apiKey: '0000000001' });
+const elements = [];
+for (const type of ELEMENT_TYPES) for await (const el of client.listAll(type)) elements.push(el);
+```
+
+The reader is who the result is for, given as `{ rung }`:
+
+- `owner`: the whole world.
+- `contributor`: the world less its hidden elements.
+- `guest`: only the elements the guest was given, listed in `whole`, and those it knows of only by name, in `known_of`.
+- `public`: the world less its hidden elements and its [room elements](/docs/schema/profiles#room).
+
+Pass the rung of whoever will see the result, so a tool never shows a person more than they may see.
+
 ## Lenses
 
 The [lens profile](/docs/lenses) has its reader: `resolveLens(world, lens, reader, { asOf, clock })` reads a world snapshot through a lens for one reader and returns the kept elements in order, the cut counted by reason, and the mail part when the lens names one; it never writes.
@@ -61,7 +82,7 @@ The [landing profile](/docs/schema/profiles#landing) has its reader. `landingOf(
 
 It returns structure only: a layout is yours, keyed by id.
 
-Any place that shows a world may serve the answer, keyless or signed in, each read from the graph its visitor is served. A key beside the five (onlyworlds.com's `baked`, its `lenses`) is that place's own and outside the profile: read the five and pass the rest through.
+A site may serve a landing too, keyless or signed in, each read from the graph its visitor is served. One served by a site may carry keys beside these five (onlyworlds.com adds `baked` and `lenses`). Those are the site's own and outside the profile: read `mode`, `size`, `clusters`, `unclustered` and `gaps`, and pass the rest through.
 
 ```typescript
 import { landingOf, worldGraph } from '@onlyworlds/sdk';
