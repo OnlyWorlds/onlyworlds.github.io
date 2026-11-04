@@ -1266,7 +1266,7 @@ const text = low(strip(vf[1]));
 const vRem = [...vf[1].matchAll(/<li\b([^>]*\bdata-remove="[^"]*"[^>]*)>([\s\S]*?)<\/li>/g)].map((m) => ({ key: attr(m[1], 'data-remove'), mark: attr(m[1], 'data-mark') || null, text: low(strip(m[2])) }));
 const wantRem = vSnap.removed.map((r) => ({ key: r.key, mark: r.mark })).sort((a, b) => (a.key < b.key ? -1 : 1));
 if (!same(vRem.map((r) => ({ key: r.key, mark: r.mark })).sort((a, b) => (a.key < b.key ? -1 : 1)), wantRem)) bad(`the figure removes ${vRem.map((r) => `${r.key}${r.mark ? ` (${r.mark})` : ''}`).join(', ')}; the public reader removes ${wantRem.map((r) => `${r.key}${r.mark ? ` (${r.mark})` : ''}`).join(', ')}`);
-const REM_SAY = { hidden: 'hidden elements', proposed: 'elements still proposed', room: "a parlor's room elements" };
+const REM_SAY = { hidden: 'hidden elements', proposed: 'elements still proposed', room: "a world's chat-room elements" };
 for (const r of vRem) {
   const say = REM_SAY[r.key];
   if (!say) { bad(`the figure removes ${r.key}, which this check has no word for`); continue; }

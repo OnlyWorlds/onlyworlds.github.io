@@ -425,7 +425,7 @@ Since 4.127.0 the [landing profile](/docs/schema/profiles#landing) has its reade
 - `gaps` lists `orphan`, `near_orphan`, `no_place` (a Character whose `location` names no Location in the graph) and `nobody_here` (a Location no Character's `location` names).
 - `mode` is `gaps` when the graph has fewer nodes than `size` (24 by default), else `graph`.
 
-It returns structure only: a layout is yours, keyed by id. Any door may serve the answer, keyless or signed in, each read from the graph that door's reader is served. A key beside the five (onlyworlds.com's `baked`, its `lenses`) is the door's own and outside the profile: read the five and pass the rest through.
+It returns structure only: a layout is yours, keyed by id. Any place that shows a world may serve the answer, keyless or signed in, each read from the graph its visitor is served. A key beside the five (onlyworlds.com's `baked`, its `lenses`) is that place's own and outside the profile: read the five and pass the rest through.
 
 ```typescript
 import { landingOf, worldGraph } from '@onlyworlds/sdk';
@@ -530,7 +530,7 @@ import {
   ELEMENT_LABELS,   // plural display labels
   ELEMENT_SECTIONS, // the field groups and their display order
   FIELD_SCHEMA,     // type and target of every field
-  ROOM_PAIRS,       // the nine type-and-supertype pairs a parlor keeps in a world (since 4.55.0; Take since 4.75.0)
+  ROOM_PAIRS,       // the nine type-and-supertype pairs a world's chat room keeps as elements (since 4.55.0; Take since 4.75.0)
   CHARTER_PAIRS,    // the three reading aids' pairs: Law Charter, Construct Guide, Construct Domain (since 4.100.0)
   ELEMENT_GROUPS,   // each type's colour group: blue, green, pink or amber (since 4.102.0)
   GROUP_COLORS,     // each group's light and dark colour

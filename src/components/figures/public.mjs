@@ -12,7 +12,7 @@ import { credentialsOf, PREFIX } from './callers.mjs';
 export const REMOVED = {
   hidden: 'hidden elements',
   proposed: 'elements still proposed',
-  room: "a parlor's room elements",
+  room: "a world's chat-room elements",
 };
 // A mark's value that keeps an element in: the proposal mark removes it with any value but this or an empty one
 // (keel's rule: an empty mark, "", whitespace, [] or {}, reads as absent).

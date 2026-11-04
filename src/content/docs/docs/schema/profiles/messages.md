@@ -3,7 +3,7 @@ title: Messages
 description: "The message profile: who a message between members is for, whether its sender is proved, what is unread, and what onlyworlds.com adds."
 ---
 
-In-world messages are [Narratives](/docs/schema/element_categories/narrative) with supertype `Message`. The `narrator` is the Character credited with the message, `characters` names its recipients, `story` is the body and `parent_narrative` the message it answers. The [message profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/message.md) is the one definition, with a conformance fixture every reader agrees on.
+In-world messages are [Narratives](/docs/schema/element_categories/narrative) with supertype `Message`. The `narrator` is the Character credited with the message, `characters` names its recipients, `story` is the body and `parent_narrative` the message it answers. The [message profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/message.md) is the one definition, with a shared set of test cases that every reader must pass.
 
 ## What every reader does
 

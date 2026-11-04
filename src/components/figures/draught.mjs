@@ -20,7 +20,7 @@ export const SAYS = {
   recent: 'what changed around them',
   roster: 'who plays whom',
   messages: 'the Messages they sent or that name them',
-  room: "a parlor's room elements",
+  room: "a world's chat-room elements",
   proposed: 'no keeper has settled yet',
 };
 // The query parameter that is not the policy: the world a keyless or account-token reader names
