@@ -371,7 +371,7 @@ Both functions follow the folder format's archive section (§4.7, the `.owworld`
 
 The reader checks the archive's directory before it inflates anything, and refuses a file before returning anything. `err.reason` on the `OwWorldFileError` says why:
 
-- a path that could land outside the folder (`unsafe_path`), more than 2 GiB or 500,000 files uncompressed, or an entry that inflates past the size it declares (`too_big`, `too_many`)
+- a path that could land outside the folder (`unsafe_path`), more than 500,000 files (`too_many`), or more than 2 GiB uncompressed or an entry that inflates past the size it declares (`too_big`)
 - no `world.json` with an `id` (`not_a_world`)
 - more than one world (`more_than_one`; a `world.json` under `records/` is a producer's data, not a second world)
 - a file that is not a zip it can read (`not_openable`)
@@ -395,7 +395,7 @@ Hidden elements stay in unless the file is a share. `includeHidden` follows the 
 - a file there that is not UTF-8 JSON, or not an object, is kept
 - nothing else is rewritten: a visible element's link to a hidden one keeps its id
 
-`report: r => …` is called once with `{ hiddenLeftOut }`, the count left out, after the archive is made and never on a refusal; the return stays the bytes. An `includeHidden` that is not a boolean, or a `report` that is not a function, is a `TypeError` before anything is written.
+`report: r => …` is called once with `{ hiddenLeftOut, authorFieldsLeftOut }`, the hidden elements and the author-field files left out, after the archive is made and never on a refusal; the return stays the bytes. An `includeHidden` that is not a boolean, or a `report` that is not a function, is a `TypeError` before anything is written.
 
 ## World calendars
 
