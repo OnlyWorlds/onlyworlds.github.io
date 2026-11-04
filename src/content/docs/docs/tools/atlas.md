@@ -116,7 +116,7 @@ In a world on OnlyWorlds, the foot of an element's page says where it was last c
 
 When others can change a world with you (people you invited, or an agent with a seat), Atlas holds an element changed both in your copy and online, marks it ⚠ and lets you choose which version stays, instead of letting your copy replace their newer words. A shared world also pulls the latest changes when it opens. Settings → This world shows the rule and can turn it off. Working alone, nothing changes.
 
-In a world someone shared with you, Atlas sends a change to the world's own details, such as its description, whole. onlyworlds.com takes those details from the owner and from a co-builder, all but the owner's Character, which Atlas never sends. When it refuses them, as it does for a contributor or a guest, Atlas sends the world's now on its own, keeps the rest of the change in your copy, says so once, and tries again when you change those details again.
+In a world someone shared with you, Atlas sends a change to the world's own details, such as its description, whole. onlyworlds.com takes those details from the owner and from a co-builder, all but the owner's Character, which Atlas never sends. When it refuses them, as it does for a contributor or a guest, Atlas sends only the world's current date (its now), keeps the rest of the change in your copy, says so once, and tries again when you change those details again.
 
 If the owner makes you a guest, your copy keeps everything you had and Atlas says so once. What you no longer see online stays as it is and stops syncing, your changes to it stay in your copy, and a bigger role later brings those elements back into sync. Settings → This world names your role and how many elements are kept.
 
