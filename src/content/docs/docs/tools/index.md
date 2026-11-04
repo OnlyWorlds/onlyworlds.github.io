@@ -45,6 +45,8 @@ Three ways to turn notes you already have into a world, none of them needing cod
 - **The toolkit's `import`**, if you use Claude Code or another coding agent: it reads notes, a manuscript, PDFs or a wiki and writes a world folder Atlas opens ([Toolkit](/docs/development/toolkit#skills)).
 - **One note at a time, in [Lantern](/docs/tools/lantern#catch-and-unsorted)**: **Catch** keeps a note in a world, and **Sort your notes** has an AI propose the elements it makes.
 
+Coming from another worldbuilding app? The Python package reads an export from Campfire, Kanka, LegendKeeper, Notion or World Anvil into a world folder with one command: [Import from other apps](/docs/development/python-import).
+
 For AI tooling see [AI agents](/docs/development/ai), the [MCP server](/docs/development/mcp) and the [Toolkit](/docs/development/toolkit).
 
 ## Retired tools
