@@ -284,7 +284,7 @@ if (cal) {
 
 The second argument is the id of the calendar the person picked. With `fallbackToOnly`, when none was ever picked (`undefined`) and the world holds exactly one calendar, that one is used; `null` means no calendar.
 
-The dates in the example come from Harptos, a calendar in Atlas's tests: point 400 is day 4 of the month Alturiak, in year 1 of the era written DR.
+The dates in the example come from Harptos, one of the calendars the SDK's own tests read: point 400 is day 4 of the month Alturiak, in year 1 of the era written DR.
 
 No calendar, or a broken one, gives null: show the bare number.
 
