@@ -36,7 +36,7 @@ Integers are whole numbers: the API truncates a decimal, and a range is a displa
 | Field | Type | Description |
 |---|---|---|
 | `background_color` | text | Color of the space around the map when zoomed out |
-| `hierarchy` | integer | To associate or differentiate between maps with a common parent |
+| `hierarchy` | integer | An integer to order or group the maps that share a parent; how a tool reads it is the tool's own |
 | `width` | integer | In pixels |
 | `height` | integer | In pixels |
 | `depth` | integer | In pixels |

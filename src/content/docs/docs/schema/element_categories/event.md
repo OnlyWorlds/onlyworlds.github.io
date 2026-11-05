@@ -67,4 +67,4 @@ Integers are whole numbers: the API truncates a decimal, and a range is a displa
 | `families` | links to Family | Families relevant to the event |
 | `relations` | links to Relation | Interpersonal or political relations relevant to the event |
 | `titles` | links to Title | Titles relevant to the event |
-| `constructs` | links to Construct | Concepts, laws, or built entities relevant to the event |
+| `constructs` | links to Construct | Concepts, systems or built entities relevant to the event |

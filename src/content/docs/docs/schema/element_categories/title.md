@@ -42,8 +42,8 @@ Integers are whole numbers: the API truncates a decimal, and a range is a displa
 |---|---|---|
 | `authority` | text | Rights or powers granted by the title |
 | `eligibility` | text | Conditions or qualifications for receiving or holding the title |
-| `grant_date` | integer | Date on which the title was created or first granted, defined in world TIME units; a holder's own span is a Relation, not this field |
-| `revoke_date` | integer | Date on which the title ended or was abolished, defined in world TIME units; a holder's own span is a Relation, not this field |
+| `grant_date` | integer | Date on which the title was created or first granted, in the world's time unit (World time_basic_unit); a holder's own span is a Relation, not this field |
+| `revoke_date` | integer | Date on which the title ended or was abolished, in the world's time unit (World time_basic_unit); a holder's own span is a Relation, not this field |
 | `issuer` | link to Institution | Institution that formally created or granted the title |
 | `body` | link to Institution | Institution in which the title functions or holds relevance |
 | `superior_title` | link to Title | Another title that has authority over this one |

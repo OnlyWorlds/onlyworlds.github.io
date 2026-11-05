@@ -1,6 +1,6 @@
 {
   "source": "schema-dist example/hyperion, written by scripts/gen_elements.py from a checkout verified against its MANIFEST.json",
-  "serial": "107",
+  "serial": "108",
   "canonical": "00.34.00",
   "folder": "hyperion",
   "kinds": [

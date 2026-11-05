@@ -112,7 +112,7 @@
 // to the snapshot, every phrase the figure says to the page's source, the twin the same, and the
 // snapshot against the live document, printed STALE, never failed.
 //
-// The draught (/docs/development/api/draught, DraughtRead): built from the API document's route
+// The draught (drawn on /docs/world-graph/draught, its words from /docs/development/api/draught; DraughtRead): built from the API document's route
 // GET /api/v2/character/{id}/context through the snapshot contract/draught.json (gen_draught.mjs).
 // This derives by rules of its own the sections served by default and only when named (the
 // components parameter's words), the ones the budget never cuts (its clause, and the packet's own
@@ -1542,8 +1542,10 @@ if (doc) {
 // against the built figure, the page's own tables and sentences, and the live document. In a block of
 // its own: its names stay its own.
 {
-const dPage = read('docs/development/api/draught.html');
-const dTwin = read('docs/development/api/draught.md');
+// The figure is drawn on the World graph's draught page (since 2026-11-05); its words are held to the
+// API page's source, where the tables it draws from live.
+const dPage = read('docs/world-graph/draught.html');
+const dTwin = read('docs/world-graph/draught.md');
 const df = dPage.match(/<figure\b[^>]*\bdata-ow-figure="draught"[^>]*>([\s\S]*?)<\/figure>/);
 if (!df) blind('the draught page carries no draught figure (data-ow-figure="draught")');
 const dSnap = JSON.parse(readFileSync(join(DIST, '..', 'contract', 'draught.json'), 'utf8'));

@@ -140,7 +140,7 @@
 /docs/lenses/graph	page	200	source docs/lenses/graph.md (new 2026-10-28, from the conventions page; in the World graph section)
 /docs/development/api/lenses	page	200	source docs/development/api/lenses.md (new 2026-10-28, moved from /docs/lenses/api)
 /docs/world-graph	page	200	source docs/world-graph.md (new 2026-10-28, the World graph section's overview)
-/docs/world-graph/draught	page	200	source docs/world-graph/draught.md (new 2026-10-28; the route stays on /docs/development/api/draught)
+/docs/world-graph/draught	page	200	source docs/world-graph/draught.mdx (new 2026-10-28; the draught figure since 2026-11-05; the route stays on /docs/development/api/draught)
 /docs/schema/conventions	load-bearing	200	toolkit:knowledge/atlas-conventions.md; toolkit:skills/onlyworlds-context/knowledge/atlas-conventions.md; toolkit:skills/onlyworlds-import/knowledge/atlas-conventions.md; toolkit:skills/onlyworlds-read/knowledge/atlas-conventions.md; toolkit:skills/onlyworlds-update/knowledge/atlas-conventions.md
 /docs/schema/conventions#messages-between-members	page	200	kept anchor: its section moved to /docs/schema/profiles/messages (2026-10-28); one paragraph points on, for bookmarks and old links
 /docs/schema/conventions#addresses	page	200	kept anchor: its section moved to /docs/schema/profiles/addresses (2026-10-28); one paragraph points on, for bookmarks and old links

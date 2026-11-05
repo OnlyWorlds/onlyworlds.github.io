@@ -42,7 +42,7 @@ Integers are whole numbers: the API truncates a decimal, and a range is a displa
 |---|---|---|
 | `expression` | text | How the phenomenon manifests or takes shape in the world |
 | `effects` | text | The primary outcomes or changes caused by the phenomenon |
-| `duration` | integer | The amount of time the phenomenon lasts, measured in world TIME units |
+| `duration` | integer | The amount of time the phenomenon lasts, in the world's time unit (World time_basic_unit) |
 | `catalysts` | links to Object | Objects or materials that initiate or enhance the phenomenon |
 | `empowerments` | links to Ability | Abilities that initiate or enhance the phenomenon, or are initiated or enhanced by it |
 

@@ -39,7 +39,7 @@ Integers are whole numbers: the API truncates a decimal, and a range is a displa
 | Field | Type | Description |
 |---|---|---|
 | `activation` | text | Method or conditions under which the ability is activated |
-| `duration` | integer | Length of time the ability remains active or its effects persist, measured in TIME units |
+| `duration` | integer | Length of time the ability remains active or its effects persist, in the world's time unit (World time_basic_unit) |
 | `potency` | integer, 0 to 100 | Relative measure of the ability's inherent potency or force, used for scaling or comparison purposes |
 | `range` | integer | Effective reach or distance at which the ability can be used, in the world's distance unit (World distance_unit) |
 | `effects` | links to Phenomenon | Phenomena that result from the ability's use, such as environmental changes or sensory effects |

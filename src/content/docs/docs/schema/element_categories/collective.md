@@ -40,7 +40,7 @@ Integers are whole numbers: the API truncates a decimal, and a range is a displa
 |---|---|---|
 | `composition` | text | Internal structure or demographic makeup of the collective |
 | `count` | integer | Number of members in the collective (approximate or exact) |
-| `formation_date` | integer | Date the collective was formed, using world TIME units |
+| `formation_date` | integer | Date the collective was formed, in the world's time unit (World time_basic_unit) |
 | `operator` | link to Institution | Institution that manages or directs the collective |
 | `equipment` | links to Object | Tools or gear in possession of and/or regularly used by the collective |
 

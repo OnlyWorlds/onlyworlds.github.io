@@ -46,7 +46,7 @@ Integers are whole numbers: the API truncates a decimal, and a range is a displa
 |---|---|---|
 | `background` | text | History, upbringing, or formative experiences of the character |
 | `motivations` | text | Core desires, goals, or values that drive the character's choices and behavior |
-| `birth_date` | integer | Moment of birth, expressed in the world's TIME units |
+| `birth_date` | integer | Moment of birth, in the world's time unit (World time_basic_unit) |
 | `birthplace` | link to Location | Location where the character was born |
 | `languages` | links to Language | Languages the character can understand, speak, or use for communication |
 

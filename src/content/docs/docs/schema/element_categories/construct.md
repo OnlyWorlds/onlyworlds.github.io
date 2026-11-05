@@ -40,7 +40,7 @@ Integers are whole numbers: the API truncates a decimal, and a range is a displa
 | `history` | text | The historical development or ideation of the construct, and its place in wider historical contexts |
 | `status` | text | The present condition or operational status of the construct |
 | `reach` | text | The geographic, cultural, or political extent of the construct's influence |
-| `start_date` | integer | The point in time when the construct began or was first established (uses world's TIME definition) |
+| `start_date` | integer | The point in time when the construct began or was first established, in the world's time unit (World time_basic_unit) |
 | `end_date` | integer | The point in time when the construct ceased to function or lost its meaning |
 | `founder` | link to Character | Character who conceived or initiated the construct |
 | `custodian` | link to Institution | Institution maintaining, enforcing, or exploiting the construct |

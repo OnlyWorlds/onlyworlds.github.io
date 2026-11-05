@@ -38,7 +38,7 @@ Integers are whole numbers: the API truncates a decimal, and a range is a displa
 | Field | Type | Description |
 |---|---|---|
 | `appearance` | text | Typical physical or form features of the species |
-| `life_span` | integer | Average or typical life expectancy of an individual, defined in world TIME units |
+| `life_span` | integer | Average or typical life expectancy of an individual, in the world's time unit (World time_basic_unit) |
 | `weight` | integer | Average or typical adult weight, in the world's mass unit (World mass_unit) |
 | `nourishment` | links to Species | Other species consumed as food sources |
 | `reproduction` | links to Construct | Reproductive method(s) of the species |

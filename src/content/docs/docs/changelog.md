@@ -7,6 +7,11 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 What changed on onlyworlds.com for everyone is on its own [Changelog](https://www.onlyworlds.com/changelog); this page stays the developer log.
 
+## 2026-11-05
+
+- **[The draught](/docs/world-graph/draught)'s picture moves to World graph.** The figure of a Character's sections, served by default or only when named, with the policy's parameters, now sits on the plainer page; [the route's page](/docs/development/api/draught) links to it and keeps the tables.
+- **Three field descriptions are clearer (schema-dist serial 108; the standard's version is unchanged, `00.34.00`).** Event's [`constructs`](/docs/schema/element_categories/event) no longer says laws; the seventeen time fields, from a Character's [`birth_date`](/docs/schema/element_categories/character) to a Zone's dates, say in one phrasing that they count in the World's `time_basic_unit`; Map's [`hierarchy`](/docs/schema/element_categories/map) says it is a number to order or group the maps that share a parent, read as each tool chooses. No field was added or removed. [TypeScript](/docs/development/typescript) 4.132.4 and [Python](/docs/development/python#what-it-covers) 0.106.3 carry the new words.
+
 ## 2026-11-04
 
 - **The [TypeScript SDK](/docs/development/typescript) pages explain their words.** Roles, doors, the proposals switch, keepers, seats, profiles, lenses, rungs and hands are said or linked where they first appear; the readers' person is the viewer. The SDK page gains short sections on [files](/docs/development/typescript#files) and [hidden elements](/docs/development/typescript#hidden-elements), a draught call, and its world file rules under details; the [readers](/docs/development/typescript-readers#lenses) page gains a lens example and the server's lens calls; [Accounts](/docs/development/typescript-accounts#sign-in-with-onlyworlds) gains Sign in with OnlyWorlds and leads invite links with making one. The five kept version notes now trail what the call does today.

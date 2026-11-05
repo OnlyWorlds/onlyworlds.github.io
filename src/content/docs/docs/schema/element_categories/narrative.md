@@ -40,8 +40,8 @@ Integers are whole numbers: the API truncates a decimal, and a range is a displa
 |---|---|---|
 | `story` | text | Content of the narrative, as told or remembered |
 | `consequences` | text | Outcomes or legacy of the narrative |
-| `start_date` | integer | Date when the narrative is first told or recorded, measured in world TIME units; the span it recounts lives on its events |
-| `end_date` | integer | Date when the narrative stops being told, measured in world TIME units; empty while it is still told |
+| `start_date` | integer | Date when the narrative is first told or recorded, in the world's time unit (World time_basic_unit); the span it recounts lives on its events |
+| `end_date` | integer | Date when the narrative stops being told, in the world's time unit (World time_basic_unit); empty while it is still told |
 | `order` | integer | Position of this narrative within a parent narrative's sequence |
 | `parent_narrative` | link to Narrative | Larger narrative that this narrative takes place in |
 | `protagonist` | link to Character | Primary character of the narrative |

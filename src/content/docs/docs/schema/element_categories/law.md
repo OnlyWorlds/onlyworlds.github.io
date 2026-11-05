@@ -38,7 +38,7 @@ Integers are whole numbers: the API truncates a decimal, and a range is a displa
 |---|---|---|
 | `declaration` | text | The formal wording, expression, or decree of the law |
 | `purpose` | text | The intent, motivation, or justification for the law's creation |
-| `date` | integer | Date the law was formally established, in world TIME units |
+| `date` | integer | Date the law was formally established, in the world's time unit (World time_basic_unit) |
 | `parent_law` | link to Law | A law that this law derives from, modifies, or enhances |
 | `penalties` | links to Construct | Consequences intended to be applied when the law is contravened |
 

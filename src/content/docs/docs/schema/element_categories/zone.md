@@ -42,8 +42,8 @@ Integers are whole numbers: the API truncates a decimal, and a range is a displa
 |---|---|---|
 | `role` | text | The operational function or intent of the zone |
 | `shape` | text | How the zone's markers are joined: polygon (a closed area: the last marker joins the first) or line (an open path, drawn in marker order). Lowercase. Empty, absent, or any other value means the shape is not stated, and a reader draws a polygon |
-| `start_date` | integer | Date when the zone becomes extant or relevant, defined in world TIME units |
-| `end_date` | integer | Date when the zone ceases to be meaningful or enforced, defined in world TIME units |
+| `start_date` | integer | Date when the zone becomes extant or relevant, in the world's time unit (World time_basic_unit) |
+| `end_date` | integer | Date when the zone ceases to be meaningful or enforced, in the world's time unit (World time_basic_unit) |
 | `phenomena` | links to Phenomenon | Phenomena that affect, define, or occur within the zone |
 | `linked_zones` | links to Zone | Other zones that are associated with the zone |
 

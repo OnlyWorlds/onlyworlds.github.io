@@ -58,7 +58,7 @@ Integers are whole numbers: the API truncates a decimal, and a range is a displa
 | Field | Type | Description |
 |---|---|---|
 | `status` | text | Current situation or classification of the creature |
-| `birth_date` | integer | The time of the creature's birth, recorded in the world's defined TIME unit |
+| `birth_date` | integer | The time of the creature's birth, in the world's time unit (World time_basic_unit) |
 | `location` | link to Location | Specific location where the creature is currently found or most associated with |
 | `zone` | link to Zone | Larger area or region commonly inhabited or currently claimed by the creature |
 

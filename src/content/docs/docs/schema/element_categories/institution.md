@@ -35,7 +35,7 @@ Integers are whole numbers: the API truncates a decimal, and a range is a displa
 | Field | Type | Description |
 |---|---|---|
 | `doctrine` | text | Core belief, mission, or purpose that drives the institution |
-| `founding_date` | integer | Date when the institution was established, in the world's TIME format |
+| `founding_date` | integer | Date when the institution was established, in the world's time unit (World time_basic_unit) |
 | `parent_institution` | link to Institution | Institution that governs, embodies, or originated this one |
 
 ### Claims
