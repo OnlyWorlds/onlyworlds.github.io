@@ -162,6 +162,10 @@ An invite link opened in Atlas joins you with your own OnlyWorlds account. A pla
 
 A link to open a world works once. If the download is cancelled, closed or cut off by a reload, the world stays in your list as not downloaded yet: selecting it downloads it with nothing more spent, or you can remove it.
 
+A link to a world whose owner has made it public on OnlyWorlds works with no account. Atlas asks first, in a card in the middle of the page (Open or Not now), then brings the world into this browser as a view-only copy: what its owner made public, with hidden elements and files left out, and nothing goes back to OnlyWorlds. If the world is yours, Sign in opens it as your own instead. The same link again opens the copy you already have, and says so if the world is no longer public.
+
+A link can also open a world straight into its writing room, on one chapter or scene or at the start, and it still lands there after you sign in on the way.
+
 A player link for a whole table ([A table of players](/docs/development/api/members#a-table-of-players)) says how many places are left and lists the Characters you may pick, taken ones greyed. Pick one and the world opens as that Character; a link with no list asks your name and makes one.
 
 Playing a Character, you also see what your Character points to, one step out. What you only know of shows its name, picture and description, says so, and is never changed or sent back. A message whose sender or recipient your key may not see says "someone you cannot see", never who or how many.
@@ -170,6 +174,6 @@ A link made for an AI agent asks first, and says it joins as a seat its maker an
 
 ### View-only worlds
 
-A world you can only view (a read key, or a player's link) offers nothing it would refuse. Element pages show their values plainly, Writing and Knowledge open as text to read, pages open as their visitors see them, maps and charts move and zoom with nothing to drag into place, and no + appears.
+A world you can only view (a read key, a player's link, or a public world's copy) offers nothing it would refuse. Element pages show their values plainly, Writing and Knowledge open as text to read, pages open as their visitors see them, maps and charts move and zoom with nothing to drag into place, and no + appears.
 
 Search, Find, opening and your own view settings work as before.
