@@ -335,7 +335,7 @@ Each row is `{ id, name, href, state }`. `state` is null when the row opens now,
 
 `surface` says what the page knows:
 
-- `audience` (required): who is looking. `member` is anyone with a seat in the world, a guest included; `public` is a signed-out visitor. A public page (`audience: 'public'`) gets the tools that need nothing, and each tool that needs an account as a row that says `Needs an account` and opens nothing; a tool that needs the world on the device is not there.
+- `audience` (required): who is looking. `member` is anyone with a seat in the world, a guest included; `public` is a signed-out visitor. A public page (`audience: 'public'`) gets the tools that need nothing, and each tool that needs an account as a row that says `Needs an account` and opens nothing, unless its row's `open.opens_public` is true (its links open a public world with no account), when it is a row that opens; a tool that needs the world on the device is not there.
 - `tool`: your own tool's client name, whose row then says `You are here`; `onlyworlds` for the site itself.
 - `online`: with `online: false` every row whose link is a web address says `Needs a connection`, the site's own row included; a row whose link opens an app is unaffected. Default true.
 - `signedIn`: whether the viewer is signed in. Signed out in a browser, a tool that needs an account says `Sign in to <tool> first`. Null or absent when the page cannot know, and then no row says so.
@@ -398,7 +398,7 @@ const remove = mountWaymark(document.querySelector('#title'), {
 
 Its stylesheet is `@onlyworlds/sdk/waymark.css`. The options:
 
-- `reader` is who is looking: `member`, `guest` or `public`. It plays the part of `openersFor`'s `audience`, with `member` and `guest` both read as `member`. A public page shows the rows that need nothing, and a tool that needs an account as a grey row that says "Needs an account" and does nothing when pressed.
+- `reader` is who is looking: `member`, `guest` or `public`. It plays the part of `openersFor`'s `audience`, with `member` and `guest` both read as `member`. A public page shows the rows that need nothing, and a tool that needs an account as a grey row that says "Needs an account" and does nothing when pressed, unless its row opens a public world with no account (`open.opens_public`).
 - `tool`, `signedIn`, `browser` and `phone` are `openersFor`'s, as in [Open with](#open-with).
 - `ground` is the page behind the menu: `dark` (the default, the mark in the brand cyan) or `paper` (the mark in a dark ink).
 - `entry` picks the way in: the mark (`'mark'`, the default), an Open with item for your page's own menu (`'menu'`, given back as `entry` on the returned function), or both.

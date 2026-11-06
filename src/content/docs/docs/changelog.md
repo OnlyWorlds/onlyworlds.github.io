@@ -7,6 +7,10 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 What changed on onlyworlds.com for everyone is on its own [Changelog](https://www.onlyworlds.com/changelog); this page stays the developer log.
 
+## 2026-11-06
+
+- **A listed tool can say its links open a public world with no account.** A row's new `opens_public` (beside `needs: "account"`) makes a world's public page offer the tool as a row that opens, where it said "Needs an account"; members' menus read as before ([List your tool](/docs/development/list-your-tool#open-with); the packages' menus since TypeScript SDK 4.133.0 and Python 0.107.0, [the readers](/docs/development/typescript-readers)).
+
 ## 2026-11-05
 
 - **[The draught](/docs/world-graph/draught)'s picture moves to World graph.** The figure of a Character's sections, served by default or only when named, with the policy's parameters, now sits on the plainer page; [the route's page](/docs/development/api/draught) links to it and keeps the tables.
