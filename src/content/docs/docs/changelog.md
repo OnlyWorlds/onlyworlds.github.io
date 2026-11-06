@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-06
 
+- **[onlyworlds.com](/docs/tools/onlyworlds-com)'s Open with menu on a public page offers Atlas as a row that opens.** A signed-out visitor who picks it is offered a view-only copy of the world in Atlas; Lantern and Tactical Tangle still show grey with "Needs an account".
 - **A listed tool can say its links open a public world with no account.** A row's new `opens_public` (beside `needs: "account"`) makes a world's public page offer the tool as a row that opens, where it said "Needs an account"; members' menus read as before ([List your tool](/docs/development/list-your-tool#open-with); the packages' menus since TypeScript SDK 4.133.0 and Python 0.107.0, [the readers](/docs/development/typescript-readers)).
 
 ## 2026-11-05
