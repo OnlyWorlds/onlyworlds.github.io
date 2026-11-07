@@ -27,7 +27,7 @@ A world can have **members** besides its owner: people the owner invites by emai
 
 ## `created_by`
 
-Every element body carries `created_by`: the id of the membership that created it, or `null` when the owner did (and for everything created before memberships existed). The server keeps it; sent in a write body, it is ignored.
+Every element body a member reads carries `created_by`: the id of the membership that created it, or `null` when the owner did (and for everything created before memberships existed). A keyless read of a [public world](/docs/development/api/public#what-a-visitor-sees) carries none. The server keeps it; sent in a write body, it is ignored.
 
 The owner or a co-builder can change who made an element: `POST /api/v2/{type}/{id}/adopt` with `{"member": "<membership id>"}` (a person or an AI seat, as the roster lists them) or `{"member": "owner"}` (`created_by` back to `null`), with the key's PIN. A contributor's key gets `403 not_author`. Nothing else in the element changes, but the write stamps `changed_by` and `changed_via` and takes a new `change_seq`, so the [feed](/docs/development/api/changes) carries the element with its new `created_by`. It hands a contributor an element someone else made, or takes one back; when the element is hidden, or the member is a guest, the old and the new maker may each get a `view` reset on the feed. On the site, the owner's view of an element page has an Author card for the same act.
 
