@@ -314,7 +314,7 @@ No calendar, or a broken one, gives null: show the bare number.
 
 The SDK reads the calendar profile's version 2: a leap day's rule can carry `except`, divisors that flip it in order, and `offset`, added to the year index before the rule (1 for a calendar with no year 0). Gregorian is `every_years: 4, except: [100, 400], offset: 1`. A calendar reader that knows only version 1 gives null for a version-2 calendar, so it shows the bare number, never a wrong date.
 
-Eras count up by default; one that counts down toward its start (years before a founding) is a down era. An era that counts up and has no `end` runs to the start of the next era that counts up, whatever order the eras are listed in.
+Eras count up by default; one that counts down toward its start (years before a founding) is a down era. An era that counts up and has no `end` runs to the start of the next era that counts up, whatever order the eras are listed in. An era's `year_base` says whether its first year is numbered 0 or 1 (1 when left out); any other value makes the calendar unreadable, so the reader gives null.
 
 ## Addresses
 

@@ -7,6 +7,10 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 What changed on onlyworlds.com for everyone is on its own [Changelog](https://www.onlyworlds.com/changelog); this page stays the developer log.
 
+## 2026-11-08
+
+- **A calendar era's `year_base` is 0 or 1 (schema-dist serial 109; the standard's version is unchanged, `00.34.00`).** The [calendar profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/calendar.md) said so in its field table, but its refusal rule only refused a value that was not a whole number. It now refuses any value other than 0 or 1, and its fixture gains the case. A calendar with such an era reads as no calendar, so a tool shows the bare number ([TypeScript readers](/docs/development/typescript-readers)). [TypeScript](/docs/development/typescript) 4.133.2 and [Python](/docs/development/python#what-it-covers) 0.107.2 already refused it and now carry the case.
+
 ## 2026-11-07
 
 - **[Making a world on the account](/docs/getting-started/keys#account-tokens) checks a PIN that is sent.** An account that has a PIN may now send it with `POST /api/v2/account/worlds` or the hand-over, and a wrong one is a `401` [`invalid_credentials`](/api/errors/#invalid_credentials) with `param` `pin` before any world is made; before, any `pin` from such an account was a `422`. Left out, the world takes the account's PIN as before.

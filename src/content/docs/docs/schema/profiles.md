@@ -15,7 +15,7 @@ Three have pages of their own: [Messages](/docs/schema/profiles/messages), [Addr
 
 ### Calendar
 
-**[`atlas_calendar`](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/calendar.md)**: a world's own calendar, the names it gives its time line. It changes no date. Read by Atlas and by the TypeScript and Unity SDKs; it keeps its name from before the profile grammar. Version 2 (serial 68) adds a leap rule's exceptions and offset, enough for the Gregorian calendar.
+**[`atlas_calendar`](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/calendar.md)**: a world's own calendar, the names it gives its time line. It changes no date. Read by Atlas, the TypeScript SDK, the Python package and the Unity SDK; it keeps its name from before the profile grammar. Version 2 (serial 68) adds a leap rule's exceptions and offset, enough for the Gregorian calendar.
 
 ### Charter
 
