@@ -157,7 +157,7 @@ for await (const el of reader.listAll('character', { signal })) { /* … */ }
 const open = new OwV2Client({ world: worldId });   // no key: what the public reads
 ```
 
-A tool that stores a world key on the device mints it with `mintWorldKey(worldId, { keep: true })`, so signing out keeps the key; without `keep`, revoking the token revokes the keys it minted.
+A tool that stores a world key on the device mints it with `mintWorldKey(worldId, { keep: true })`, so signing out keeps the key; without `keep`, revoking a token from Sign in with OnlyWorlds revokes the keys it minted, unless another live token of the same tool remains. A token from `signInWithPassword`, or one made by hand on the account page, never takes its keys: those stay until revoked one by one ([the keys a token minted](/docs/development/api/signin#consent-and-revoking)).
 
 ## Proposed changes
 
