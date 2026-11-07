@@ -7,6 +7,13 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 What changed on onlyworlds.com for everyone is on its own [Changelog](https://www.onlyworlds.com/changelog); this page stays the developer log.
 
+## 2026-11-07
+
+- **[Making a world on the account](/docs/getting-started/keys#account-tokens) checks a PIN that is sent.** An account that has a PIN may now send it with `POST /api/v2/account/worlds` or the hand-over, and a wrong one is a `401` [`invalid_credentials`](/api/errors/#invalid_credentials) with `param` `pin` before any world is made; before, any `pin` from such an account was a `422`. Left out, the world takes the account's PIN as before.
+- **[Both routes that make a world take an `Idempotency-Key`](/docs/getting-started/keys#a-world-with-its-first-elements)**, so a retry after a lost answer makes no second world. A replay of the plain create answers the world without its key, which is shown only once.
+- **[A public element page](/docs/development/api/public) shows its own element type's fields**: Details and Connected to follow the schema for every type, where every page used a Character's fields before.
+- **[TypeScript](/docs/development/typescript-accounts#a-world-on-the-account): `createAccountWorld`'s `pin`** reads the new rule: an account with a PIN may send it to have it checked.
+
 ## 2026-11-06
 
 - **[Unity](/docs/development/unity#ship-a-world-with-your-game) 0.35.0: a world file a web player can read, and calls that return in one.** `StoreForWebPlayers` packs an `.owworld` with every entry stored, for a web player built with DiskSizeLTO, which halts on a deflated one; a web player's calls after the first now return. The Open with rows read `opens_public`, and the baked tools list offers Atlas live on a public page.

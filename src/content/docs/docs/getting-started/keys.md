@@ -67,7 +67,7 @@ The PIN is a 4-digit number (1000 to 9999) set on your account in [account setti
 - **Reads with a prefixed key (`ow_w_`, `ow_r_`) never need the PIN.** Only a legacy 10-digit key (other than the demo keys) must send it, on every read of a world that has a PIN, whether or not the world is open to read. A PIN that is sent is checked all the same: a wrong one is refused on a read too, so a connection test learns of it at once. A demo key never checks it, and a member's key checks it only on a write.
 - Failed PIN attempts are throttled. Too many answer `429` [`rate_limited`](/api/errors/#rate_limited) with a `Retry-After` header, and repeated failures escalate to a temporary lockout.
 
-Creating a world through the API with an account token: an account without a PIN sends `pin` (4 digits, 1000 to 9999) with its first world; an account that has one sends `name` only, and a `pin` alongside it is a `422`.
+Creating a world through the API with an account token: an account without a PIN sends `pin` (4 digits, 1000 to 9999) with its first world, and it becomes the account's PIN. An account that has one may send its `pin` too, to have it checked before the world is made: a wrong one answers `401` [`invalid_credentials`](/api/errors/#invalid_credentials) with `param` `pin` and nothing is made, counted toward the same lockout as a write's PIN. Left out, the world takes the account's PIN.
 
 ## Member keys
 
@@ -188,6 +188,8 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/account/worlds" \
 
 `key_name` is optional: it names that write key as the website's key list shows it (1 to 80 characters once trimmed; a blank or longer name is a `422` and nothing is made). Without it the key has no name. Either way the route makes exactly one key.
 
+Since 2026-11-07 the route takes an `Idempotency-Key`, as [`/bulk`](/docs/development/api/writes#idempotency) does, so a retry after a lost answer makes no second world: the same key and body answer the same world with `Idempotent-Replay: true`, but without `key`, which is shown only the once it is minted (mint another with the keys route above). The same key with another body is `409` [`idempotency_error`](/api/errors/#idempotency_error).
+
 Since 2026-10-31 this route, and the hand-over's `world` below, also take the World's extension keys (`x_…`, `atlas_…`, `shadow_…`), as [`PATCH /world`](/docs/development/api/writes#the-world) does: each kept as given, a `null` one not stored, all of them within the same 64 KB, written with the world and echoed on the answer. Any other key the route does not name is ignored.
 
 ### A world with its first elements
@@ -201,9 +203,9 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/account/worlds/handover" \
         "items": [ { "type": "character", "element": { "id": "019a…", "name": "Mira" } } ] }'
 ```
 
-- **All or nothing.** It writes the account PIN first when the account has none (a PIN-less account sends `world.pin`, 1000 to 9999; an account with a PIN omits it), then the World, then every item. On success: `201` with `world`, `items` (each item's result) and `door`, the world's page.
+- **All or nothing.** It writes the account PIN first when the account has none (a PIN-less account sends `world.pin`, 1000 to 9999; an account with a PIN may send it to have it checked first, as on the create above, or leave it out), then the World, then every item. On success: `201` with `world`, `items` (each item's result) and `door`, the world's page.
 - **A refusal writes nothing**, not the world and not the PIN: [`handover_refused`](/api/errors/#handover_refused), `409` when an id is held in another world (that slot says `id_conflict`: give it a new id and send again), else `422`, with each item's result in `items`.
-- **No `Idempotency-Key`**: there is no world before the call. A retry after a lost answer meets `409` on every id, and the first world stands under the account's worlds.
+- **An `Idempotency-Key` makes a retry safe** (since 2026-11-07): the same key and body answer the same `201` again with `Idempotent-Replay: true`, the one world; the same key with another body is `409` [`idempotency_error`](/api/errors/#idempotency_error). The key belongs to the account, since there is no world before the call. Without one, a retry after a lost answer meets `409` on every id, and the first world stands under the account's worlds.
 - The website's own page sends it with its session cookie; a client sends an account token or `X-Session-Token`.
 
 The routes for invites, members, seats, links and watched worlds are on [Members and sharing](/docs/development/api/members#managing-members). A missing or invalid account credential answers `401`.

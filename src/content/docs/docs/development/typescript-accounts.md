@@ -138,7 +138,7 @@ None of these sends an `Idempotency-Key`, so a key is never stored for a replay:
 
 An account token makes a world: `createAccountWorld({ name, pin, keyName, source, producer })` answers the world and its one write key, shown once.
 
-`pin` is for an account's first world. A fresh account has no PIN yet, so send four digits as `pin` on the first create, and they become the account's PIN; without it, the first create answers `422` with `err.param === 'pin'`. An account that has one must leave `pin` out.
+`pin` is the account's PIN. A fresh account has no PIN yet, so send four digits as `pin` on the first create, and they become the account's PIN; without it, the first create answers `422` with `err.param === 'pin'`. An account that has one may send it too, and the server checks it before it makes the world: a wrong one is a `401` with `err.param === 'pin'`, and nothing is made. Left out, the world takes the account's PIN, so a tool that holds the person's PIN can always send it.
 
 `keyName` names the key (1 to 80 characters). `source` and `producer` are the [folder's provenance lines](/docs/schema/folders#worldjson), for a tool that makes the world from a folder, kept as the world's `origin`. `producer` names the tool that made the world and from what: `input: 'bare'` is a world born empty in a tool, one word from the folder format's closed list.
 
