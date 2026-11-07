@@ -78,6 +78,7 @@ curl -s -X POST "{remove_url}" \
 
 - **Removing doesn't touch the elements.** Clear or replace their `image_url` yourself; `referenced` says how many there are.
 - **A copy can linger.** Images are cached as unchanging for a year, so a copy that the network or a visitor's browser already holds can keep answering for days or longer after removal. `cache: "may_linger"` says so.
+- **Deleting a world removes its images.** Every image uploaded with a ticket for that world is removed with it, as its [files](/docs/development/api/files) are; one whose removal the upload host doesn't confirm is removed by a nightly sweep. A cached copy can still linger, and an `image_url` copied into another world or a folder stops answering.
 - **Only ticket uploads.** Images uploaded any other way answer `404` [`not_found`](/api/errors/#not_found).
 - **Right after an upload.** Asked before the upload host has recorded the image, the ticket route answers `409` [`upload_pending`](/api/errors/#upload_pending) with `Retry-After: 2`: wait and ask again.
 - **One removal at a time.** A second ticket for the same image within 10 minutes answers `409` [`removal_in_flight`](/api/errors/#removal_in_flight), with `Retry-After`.
@@ -88,4 +89,4 @@ curl -s -X POST "{remove_url}" \
 - **1 GB of images per uploading account** (1,073,741,824 bytes) by default; an account's cap can be raised. Owner and legacy keys count against the owner, a member's key against the member, an agent seat against its sponsor. A full account gets `403` [`storage_full`](/api/errors/#storage_full) and no ticket. <!-- limit: image_account_bytes -->
 - When image upload is not configured on the server, the ticket route answers `503` [`media_unavailable`](/api/errors/#media_unavailable).
 
-Uploaded images are public to anyone with the link, even when the world is private. They stay until their uploader or the world's owner removes them.
+Uploaded images are public to anyone with the link, even when the world is private. They stay until their uploader or the world's owner removes them, or the world is deleted.
