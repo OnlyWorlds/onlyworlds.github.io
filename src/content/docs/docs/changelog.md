@@ -11,6 +11,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 - **[Making a world on the account](/docs/getting-started/keys#account-tokens) checks a PIN that is sent.** An account that has a PIN may now send it with `POST /api/v2/account/worlds` or the hand-over, and a wrong one is a `401` [`invalid_credentials`](/api/errors/#invalid_credentials) with `param` `pin` before any world is made; before, any `pin` from such an account was a `422`. Left out, the world takes the account's PIN as before.
 - **[Both routes that make a world take an `Idempotency-Key`](/docs/getting-started/keys#a-world-with-its-first-elements)**, so a retry after a lost answer makes no second world. A replay of the plain create answers the world without its key, which is shown only once.
+- **[A lost answer is found by its key](/docs/getting-started/keys#a-world-with-its-first-elements)**: `GET /api/v2/account/worlds/made?key=` answers the world a hand-over or create made under that `Idempotency-Key`, past the day the key replays. [Which world holds an element](/docs/development/api/signin#the-account) now answers for any element's id, not only a Narrative's.
 - **[A public element page](/docs/development/api/public) shows its own element type's fields**: Details and Connected to follow the schema for every type, where every page used a Character's fields before.
 - **[TypeScript](/docs/development/typescript-accounts#a-world-on-the-account): `createAccountWorld`'s `pin`** reads the new rule: an account with a PIN may send it to have it checked.
 
