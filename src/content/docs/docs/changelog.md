@@ -11,6 +11,8 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 - **[A lost key mint can be found](/docs/getting-started/keys#a-lost-mint).** The mint now takes an `Idempotency-Key`. It is never replayed, since a stored answer would keep the key, but the key's row remembers it, and `GET /api/v2/account/worlds/{world_id}/keys/made?key=` answers that row without the key, or `404` when the mint made none. A tool whose mint answer was lost revokes that id and mints again with a new `Idempotency-Key`: the same one sent again makes a second key, and the lookup keeps naming the first. [TypeScript](/docs/development/typescript) 4.134.0: `mintWorldKey` takes `idempotencyKey` and `signal`, and `madeWorldKey` is the lookup.
 
+- **[TypeScript](/docs/development/typescript) 4.134.1 exports `OwWorldKeyRow` and `OwWorldKeyMember`**, the row `madeWorldKey` answers and the membership on a member-bound key, so `import { type OwWorldKeyRow }` compiles; 4.134.0 named them without exporting them.
+
 - **A calendar era's `year_base` is 0 or 1 (schema-dist serial 109; the standard's version is unchanged, `00.34.00`).** The [calendar profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/calendar.md) said so in its field table, but its refusal rule only refused a value that was not a whole number. It now refuses any value other than 0 or 1, and its fixture gains the case. A calendar with such an era reads as no calendar, so a tool shows the bare number ([TypeScript readers](/docs/development/typescript-readers)). [TypeScript](/docs/development/typescript) 4.133.2 and [Python](/docs/development/python#what-it-covers) 0.107.2 already refused it and now carry the case.
 
 ## 2026-11-07
