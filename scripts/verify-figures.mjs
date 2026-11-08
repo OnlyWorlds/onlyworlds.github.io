@@ -360,13 +360,18 @@ try {
 if (doc) {
   const deref = (o) => { for (let i = 0; o?.$ref && i < 10; i++) o = o.$ref.replace(/^#\//, '').split('/').reduce((a, k) => a?.[k], doc); return o; };
   const hasRetry = (resp) => Object.keys(deref(resp)?.headers ?? {}).some((h) => h.toLowerCase() === 'retry-after');
-  const declared = new Set(), keyed = [];
+  const declared = new Set(), keyed = [], remembered = [];
   for (const ops of Object.values(doc.paths ?? {})) for (const [m, op] of Object.entries(ops)) {
     if (!op?.responses) continue;
     for (const [st, resp] of Object.entries(op.responses)) if (hasRetry(resp)) declared.add(Number(st));
     const params = [...(ops.parameters ?? []), ...(op.parameters ?? [])].map(deref);
-    if (params.some((p) => p?.in === 'header' && p.name?.toLowerCase() === 'idempotency-key')) keyed.push(op);
+    const key = params.find((p) => p?.in === 'header' && p.name?.toLowerCase() === 'idempotency-key');
+    // A key the server only remembers (x-ow-remembered: the key mint) is never replayed, so the
+    // operation never answers idempotency_in_flight and declares no Retry-After for it.
+    if (key?.['x-ow-remembered'] === true) remembered.push(op);
+    else if (key) keyed.push(op);
   }
+  if (remembered.length) console.log(`idempotency: ${remembered.map((o) => o.operationId ?? '?').join(', ')} only ${remembered.length === 1 ? 'remembers' : 'remember'} the key (x-ow-remembered), held to no in-flight Retry-After`);
   if (!declared.size) fails.push(`the API document declares no Retry-After header at all (has its shape moved?)`);
   for (const [c, s] of marked) for (const st of s.statuses) if (!declared.has(st)) fails.push(`errors figure: ${c} is marked Retry-After, and no operation in the API document declares Retry-After on a ${st}`);
   // idempotency_in_flight answers on any write that takes an Idempotency-Key: every such operation

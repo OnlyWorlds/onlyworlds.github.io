@@ -154,6 +154,7 @@ curl -s "https://www.onlyworlds.com/api/v2/character/?world=<world_id>" \
 | POST | `/api/v2/account/worlds/handover` | Create a world with its first elements, all or nothing ([below](#a-world-with-its-first-elements)): `201` with the world, each item's result and `door`, the world's page; no key is made |
 | POST | `/api/v2/account/worlds/{world_id}/keys` | Mint a world key, shown once |
 | GET | `/api/v2/account/worlds/{world_id}/keys` | List a world's keys (last four characters only) |
+| GET | `/api/v2/account/worlds/{world_id}/keys/made?key=` | The key a mint sent with that `Idempotency-Key` made, without the key itself ([below](#a-lost-mint)) |
 | DELETE | `/api/v2/account/worlds/{world_id}/keys/{key_id}` | Revoke a world key |
 | POST | `/api/v2/account/tokens` | Mint an account token, shown once. A client that signed in through the login API (`/api/v2/auth/app/v1/auth/login`) may send its `X-Session-Token` here instead of a Bearer token, which is how an app on a phone gets a token of its own after sign-in |
 | GET | `/api/v2/account/tokens` | List your account tokens (last four characters only), each with `keys_minted`: the live world keys it minted |
@@ -191,6 +192,17 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/account/worlds" \
 Since 2026-11-07 the route takes an `Idempotency-Key`, as [`/bulk`](/docs/development/api/writes#idempotency) does, so a retry after a lost answer makes no second world: the same key and body answer the same world with `Idempotent-Replay: true`, but without `key`, which is shown only the once it is minted (mint another with the keys route above). The same key with another body is `409` [`idempotency_error`](/api/errors/#idempotency_error). Past the day a key replays, `GET /api/v2/account/worlds/made?key=<the key>` still finds the world (below).
 
 Since 2026-10-31 this route, and the hand-over's `world` below, also take the World's extension keys (`x_…`, `atlas_…`, `shadow_…`), as [`PATCH /world`](/docs/development/api/writes#the-world) does: each kept as given, a `null` one not stored, all of them within the same 64 KB, written with the world and echoed on the answer. Any other key the route does not name is ignored.
+
+### A lost mint
+
+A mint is never replayed, because a stored answer would keep the key: a second mint makes a second key. Since 2026-11-08 the mint takes an `Idempotency-Key` header and remembers it on the key's row instead. If the answer is lost, `GET /api/v2/account/worlds/{world_id}/keys/made?key=<the Idempotency-Key>` answers that key's row, the same fields as the mint's answer without `key`, or `404` when the mint made none. A revoked key still answers, with `revoked: true`. The owner finds the keys they minted, and a member only the keys bound to their seat. So a tool that keeps a key on the device:
+
+- keeps the `Idempotency-Key` on the device before it sends the mint;
+- treats a `4xx` as no key made;
+- after a network error or a timeout, asks the lookup, revokes the id it names, and mints again with a new `Idempotency-Key`;
+- believes a `404` only a couple of minutes after the send: a request it gave up waiting for may still be running on the server.
+
+In the [TypeScript SDK](/docs/development/typescript), `mintWorldKey` takes `idempotencyKey` and `madeWorldKey(worldId, idempotencyKey)` is the lookup, null when none was made (from 4.134.0).
 
 ### A world with its first elements
 

@@ -385,7 +385,7 @@ The package also ships `SCHEMA.md` (every field and its meaning, generated) and 
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.133.2, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.134.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -464,6 +464,7 @@ Generated from the types of `@onlyworlds/sdk` 4.133.2, the version these docs pi
 | `listAccountWorlds()` | `GET /account/worlds` | every world the account owns or is a member of, with its keys by name and last four (a member sees only their own keys on a shared world). | `Promise<OwAccountWorld[]>` |
 | `createAccountWorld(opts)` | `POST /account/worlds` | make a world on the account, with its one write key. | `Promise<OwCreatedAccountWorld>` |
 | `mintWorldKey(worldId, opts?)` | `POST /account/worlds/{id}/keys` | mint a world key, `scope` `'write'` (the default) or `'read'`, `name` as the key list shows it (trimmed, at most 80 characters, else a 422; null or blank: no name). | `Promise<OwMintedKey>` |
+| `madeWorldKey(worldId, idempotencyKey, opts?)` | `GET /account/worlds/{worldId}/keys/made?key=` | the key a mintWorldKey call sent with this `idempotencyKey` made, as a row without the key itself (`OwWorldKeyRow`), or null when it made none. | `Promise<OwWorldKeyRow | null>` |
 | `revokeWorldKey(worldId, keyId, opts?)` | `DELETE /account/worlds/{worldId}/keys/{keyId}` | revoke a world key, by the `id` mintWorldKey returned: from then on it answers 401 `key_revoked`. | `Promise<void>` |
 | `listAccountTokens()` | `GET /account/tokens` | the account's tokens, each by name and last four, never the token itself: when it was last used, whether it is revoked, when it expires, how many live world keys it minted, and who it is for (`audience`). | `Promise<OwAccountToken[]>` |
 | `revokeAccountToken(tokenId, opts?)` | `DELETE /account/tokens/{tokenId}` | revoke one of the account's tokens, this client's own included (a tool done with a sign-in revokes it by the `tokenId` the sign-in answered); every other token stays live. | `Promise<void>` |
