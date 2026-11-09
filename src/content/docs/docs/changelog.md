@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-09
 
+- **[Public pages](/docs/development/api/public#turning-it-on): the switch reads "Give it a public page at onlyworlds.com/w/…"**, as onlyworlds.com now says public page and world page everywhere; the two pages that quote it follow.
 - **[MCP](/docs/development/mcp#credentials): calls count against the request budget.** The same 300 a minute per key and 60 per address as the API, with the three `RateLimit` headers on every answer and a `429` with `Retry-After` over it.
 - **[Python](/docs/development/python#what-it-covers) 0.108.0: `trail_by_place`, the same layout method as TypeScript's.** The same input and the same answer as `trailByPlace`, held by one shared set of cases.
 - **[TypeScript](/docs/development/typescript-readers#a-layout-along-a-route) 4.135.1: `trailByPlace` refuses a row of the frame with no free point left**, where it ran forever: more Pins on one row than the frame is wide plus one.
