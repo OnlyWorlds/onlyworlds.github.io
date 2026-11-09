@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-09
 
+- **[TypeScript](/docs/development/typescript-readers#a-layout-along-a-route) 4.135.2: a tool that never lays out carries no tier table.** 4.135.0 and 4.135.1 put `TRAIL_TIERS` (about 450 bytes) into every bundle; now a bundler leaves it out unless the tool reads it.
 - **[MCP](/docs/development/mcp): three lines trued to the server.** Its instructions say some writes land as proposed; `create_element`'s description carries the room rule; `get_draught` leaves `messages` and `proposed` out unless named, as it does `room`; and the REST side of the comparison lists every list filter.
 - **[Public pages](/docs/development/api/public#turning-it-on): the switch reads "Give it a public page at onlyworlds.com/w/…"**, as onlyworlds.com now says public page and world page everywhere; the two pages that quote it follow.
 - **[MCP](/docs/development/mcp#credentials): calls count against the request budget.** The same 300 a minute per key and 60 per address as the API, with the three `RateLimit` headers on every answer and a `429` with `Retry-After` over it.
