@@ -385,7 +385,7 @@ The package also ships `SCHEMA.md` (every field and its meaning, generated) and 
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.136.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.137.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -473,4 +473,6 @@ Generated from the types of `@onlyworlds/sdk` 4.136.0, the version these docs pi
 | `ask(req)` | `POST /account/ask` | a question about a world the account owns or is in, answered by onlyworlds.com's AI proxy from `context` only (build it with buildAskContext from the elements the user sees; it leaves proposed, hidden and room elements out unless asked). | `Promise<OwAskAnswer>` |
 | `sort(req)` | `POST /account/sort` | the user's unsorted notes, and the elements the app's own search found for them (`slice`: id, lowercase type, name, optional anchor; build it from lookupWorld's hits), sorted by the same proxy as ask into rows to review: `make`, `add_to`, `link`, `ask`. | `Promise<OwSortAnswer>` |
 | `allowance()` | `GET /account/allowance` | the account's token rating, the one daily meter ask, sort and the Council spend from: the rating, what is used and left today, and when it resets (the next midnight UTC), and `own_key` (`{provider}` when the account saved its own AI key, which ask and sort use once the rating is spent; else null). | `Promise<OwAllowance>` |
+| `aiUses(opts?)` | `GET /account/ai` | the AI uses onlyworlds.com runs, each a named call a tool makes with ai(): its owner, provider, model and effort, the hash of its system prompt, what its body may hold, its answer cap, its price, its daily ceiling, this account's calls left today, and whether it is on. | `Promise<OwAiUse[]>` |
+| `ai(use, body, opts?)` | `POST /account/ai/{use}` | one call of an AI use (aiUses lists them), metered on the account's daily token rating, then its own saved AI key, as ask and sort are. | `Promise<OwAiAskAnswer>` or `Promise<OwAiSortAnswer>` or `Promise<Record<string, unknown> & OwAiMeter>` |
 | `request(method, path, opts?)` |  | Raw authenticated request against this client's baseUrl. | `Promise<T>` |

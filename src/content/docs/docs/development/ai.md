@@ -125,6 +125,10 @@ Asking and sorting also run through one door, where a tool names a use instead o
 
 An `Idempotency-Key` header makes a retry safe: the same key and the same body bytes answer the first answer again and bill nothing, its meter included, so read [`/allowance`](#ask-your-world-without-a-key-of-your-own) for today's numbers after a replay. Only a `200` is kept; after a refusal the same key runs again. The door's refusals, each with `param: "use"`: `429` [`use_ceiling`](/api/errors/#use_ceiling) (today's calls to this use are made; retry after midnight UTC), `429` [`use_in_flight`](/api/errors/#use_in_flight) (another call to this use is still running for this account; retry after a few seconds) and `503` [`ask_unavailable`](/api/errors/#ask_unavailable) (this use is switched off or has spent its own budget today). The token rating's refusals are the same as above. Nothing is counted on any refusal.
 
+A `409` `idempotency_in_flight` on a key means its first call is still running: retry with the same key and body after `Retry-After`, a few times at most, and never under a new key to get past it. When the server could not store an answer, its key stays in flight for a day although the call ran and was billed, so a new key would pay a second time.
+
+In the [TypeScript SDK](/docs/development/typescript) (4.137.0 on), `client.aiUses()` reads the list and `client.ai('ask', body, { idempotencyKey })` calls a use with its body as above (`world_id`, `question`, `context`); the answer adds `wasReplay`, read from the `Idempotent-Replay` header. `err.isUseCeiling` and `err.isUseInFlight` tell the door's two `429`s apart. The SDK never retries on its own. The Python package has no account calls yet.
+
 ## The same data everywhere
 
 Every path reaches the same worlds. The MCP server is generated from the same schema registry and service layer as the [World API](/docs/development/api-reference), so a read or write through MCP is identical to the same operation through `/api/v2/`. The API's full reference is interactive at [onlyworlds.com/api/docs](https://www.onlyworlds.com/api/docs).
