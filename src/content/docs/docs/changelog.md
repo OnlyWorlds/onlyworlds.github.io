@@ -9,7 +9,23 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-09
 
-- **[TypeScript](/docs/development/ai#the-ai-door-a-use-by-name) 4.137.0: the AI door in the SDK.** `client.aiUses()` lists the uses and `client.ai(use, body, { idempotencyKey })` calls one with its own body, typed for `ask` and `sort`; the answer adds `use_remaining` and `wasReplay`, and `err.isUseCeiling` and `err.isUseInFlight` read the door's two `429`s. `ask()` and `sort()` keep their own routes. The AI page now says how to retry an `idempotency_in_flight` key.
+- **[Toolkit](/docs/development/toolkit) 5.7.0: the skills say what onlyworlds.com does today.** An audit of every skill against the live API document found seventeen sentences behind, each now true: the schema page at serial 109 (`Location.vehicle`), the draught's `depth`, `lens`, `since` and `compact`, the draw skill's map on the map-space profile, and the two page names, a public page and a world page.
+- **[Atlas](/docs/tools/atlas#features) 1.123.16: a map laid out by a method shows its recipe as a card**: the method, the map it stands on, and that Atlas draws it flat, where its page showed raw custom fields.
+<!-- atlas 1.123.2: no docs change -->
+<!-- atlas 1.123.3: no docs change -->
+<!-- atlas 1.123.4: no docs change -->
+<!-- atlas 1.123.5: no docs change -->
+<!-- atlas 1.123.6: no docs change -->
+<!-- atlas 1.123.7: no docs change -->
+<!-- atlas 1.123.8: no docs change -->
+<!-- atlas 1.123.9: no docs change -->
+<!-- atlas 1.123.10: no docs change -->
+<!-- atlas 1.123.11: no docs change -->
+<!-- atlas 1.123.12: no docs change -->
+<!-- atlas 1.123.13: no docs change -->
+<!-- atlas 1.123.14: no docs change -->
+<!-- atlas 1.123.15: no docs change -->
+- **[TypeScript](/docs/development/typescript) 4.137.0: the AI door in the SDK.** `client.aiUses()` lists the uses and `client.ai(use, body, { idempotencyKey })` calls one with its own body, typed for `ask` and `sort`; the answer adds `use_remaining` and `wasReplay`, and `err.isUseCeiling` and `err.isUseInFlight` read the door's two `429`s. `ask()` and `sort()` keep their own routes. The [AI page](/docs/development/ai#the-ai-door-a-use-by-name) now says how to retry an `idempotency_in_flight` key.
 - **[The AI door](/docs/development/ai#the-ai-door-a-use-by-name): a tool calls a model by a named use.** `POST /api/v2/account/ai/ask` and `/ai/sort` take the old routes' bodies and answer `use_remaining` too; `GET /api/v2/account/ai` lists each use with its caps and calls left; an `Idempotency-Key` makes a retry safe. New refusals [`use_ceiling`](/api/errors/#use_ceiling) and [`use_in_flight`](/api/errors/#use_in_flight), and [`ask_unavailable`](/api/errors/#ask_unavailable) with `param: "use"`. The old routes are unchanged.
 - **[TypeScript](/docs/development/typescript-readers#a-layout-along-a-route) 4.136.0 and [Python](/docs/development/python#what-it-covers) 0.109.0: a layout's recipe names its ground map.** `ground.map`, the ground Map's element id, travels in the recipe, so a tool reading a laid-out Map finds the picture under its pins.
 - **[TypeScript](/docs/development/typescript-readers#a-layout-along-a-route) 4.135.2: a tool that never lays out carries no tier table.** 4.135.0 and 4.135.1 put `TRAIL_TIERS` (about 450 bytes) into every bundle; now a bundler leaves it out unless the tool reads it.
@@ -32,6 +48,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-07
 
+- **[Toolkit](/docs/development/toolkit) 5.6.2: a session on an account world can open with one character's draught or a lens**, beside the brief built from files, as the README and the start skill's routing now say.
 - **[Deleting a world removes its images](/docs/development/api/images#removing-an-image).** Every image uploaded with a ticket for the world is removed with it, as its files already were, and a nightly sweep removes any whose removal the upload host didn't confirm. Before, a deleted world's images stayed served at their addresses.
 - **[The practice world's key is counted by address](/docs/development/api-reference#limits), 60 requests a minute, not a key's 300**, so one loop never uses it up for everyone; the API reference's Limits row now says so.
 
