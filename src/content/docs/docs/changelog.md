@@ -7,6 +7,10 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 What changed on onlyworlds.com for everyone is on its own [Changelog](https://www.onlyworlds.com/changelog); this page stays the developer log.
 
+## 2026-11-09
+
+- **[Unity](/docs/development/unity) v0.36.0: a lost key mint can be found, and the calendar holds to the TypeScript SDK's answers.** `MintWorldKeyAsync` takes an `idempotencyKey` and `MadeWorldKeyAsync` answers the key a lost mint made ([a lost mint](/docs/getting-started/keys#a-lost-mint)). `OWCalendar` replays the TypeScript SDK's recorded answers, gains `ValidateValue` and a `FormatDuration` for a span that need not be whole, and refuses an era `year_base` other than 0 or 1.
+
 ## 2026-11-08
 
 - **[A lost key mint can be found](/docs/getting-started/keys#a-lost-mint).** The mint now takes an `Idempotency-Key`. It is never replayed, since a stored answer would keep the key, but the key's row remembers it, and `GET /api/v2/account/worlds/{world_id}/keys/made?key=` answers that row without the key, or `404` when the mint made none. A tool whose mint answer was lost revokes that id and mints again with a new `Idempotency-Key`: the same one sent again makes a second key, and the lookup keeps naming the first. [TypeScript](/docs/development/typescript) 4.134.0: `mintWorldKey` takes `idempotencyKey` and `signal`, and `madeWorldKey` is the lookup.

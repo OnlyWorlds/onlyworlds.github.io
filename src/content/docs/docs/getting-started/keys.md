@@ -202,7 +202,7 @@ A mint is never replayed, because a stored answer would keep the key: a second m
 - after a network error or a timeout, asks the lookup, revokes the id it names, and mints again with a new `Idempotency-Key` (the same one sent again makes a second key, and the lookup keeps naming the first, so the second can never be found);
 - believes a `404` only a couple of minutes after the send: a request it gave up waiting for may still be running on the server.
 
-In the [TypeScript SDK](/docs/development/typescript), `mintWorldKey` takes `idempotencyKey` and `madeWorldKey(worldId, idempotencyKey)` is the lookup, null when none was made (from 4.134.0).
+In the [TypeScript SDK](/docs/development/typescript), `mintWorldKey` takes `idempotencyKey` and `madeWorldKey(worldId, idempotencyKey)` is the lookup, null when none was made (from 4.134.0). In [Unity](/docs/development/unity) the same pair is `MintWorldKeyAsync` with an `idempotencyKey` and `MadeWorldKeyAsync` (from v0.36.0).
 
 ### A world with its first elements
 
