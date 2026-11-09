@@ -183,6 +183,35 @@ A number counts when it is whole by value (`2.0` is 2) and a double holds it exa
 
 </details>
 
+## A layout along a route
+
+`trailByPlace(input)` lays a world out along a route on a ground map and answers a layout in the standard's own fields: a Map frame (`width`, `height`, `depth`) and one Pin per element, whole numbers in the Map's pixels, so `mapSpace` reads it back. It places and does not read: you hand it which elements are in, the order of travel and what hangs where, and it answers the same points for the same input.
+
+- `places`, in travel order: each sits at its own `pin` on the ground map (the `margin` is added on every side), evenly `between` two pinned places, or on a ring inside a `parent` place.
+- `hangers`: every other element, with the places it belongs to (`at`). Each sits on one spiral round the mean of those places' points, lifted to its kind's floor (`tiers`; `TRAIL_TIERS` is the default: places and things on the ground, the living above, what happened higher, what is told highest). A `hero` stands first on its spiral.
+- Nothing shares a place's own point, and no two Pins share a point: a taken point moves along x from its own point, by element id order. Points round half to even.
+- The answer is `{ map, pins, route, recipe, nudged, clamped }`. Each Pin carries `by`, why it stands there (your words, then the method's). `recipe` is the method's name and the settings it ran with, so the same layout runs again from the Map alone.
+
+An input it cannot place is a `TypeError` naming what: an unknown key at any level, a place with none or two of `pin`, `between` and `parent`, a reference to a place it does not hold, a kind with no floor, an id given twice. The types are `OwTrailInput`, `OwTrailPlace`, `OwTrailHanger`, `OwTrailTier`, `OwTrailSpiral`, `OwTrailSettings`, `OwTrailLayout` and `OwTrailPin`.
+
+```typescript
+import { trailByPlace } from '@onlyworlds/sdk';
+
+const layout = trailByPlace({
+  ground: { width: 3462, height: 4676 }, // the route map's own frame
+  margin: 300,
+  depth: 900,
+  places: [
+    { id: stLouis, type: 'location', name: 'Saint Louis', pin: [2118, 4313] },
+    { id: river, type: 'location', name: 'The Mississippi', between: [stLouis, orleans] },
+    { id: orleans, type: 'location', name: 'New Orleans', pin: [2163, 484] },
+  ],
+  hangers: [{ id: boat, type: 'object', name: 'The boat', at: [river] }],
+});
+layout.map;     // { width: 4062, height: 5276, depth: 900 }
+layout.pins[0]; // { element_type, element_id, name, x, y, z, by }
+```
+
 ## Reading aids
 
 `charterOf(world, reader)` returns what a world's front door shows first, `{ charter, guide, domains }`, as that viewer sees them, by the [charter profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/charter.md) (the API's own copy is [`reading_aids`](/docs/development/api/members#reading-aids)).

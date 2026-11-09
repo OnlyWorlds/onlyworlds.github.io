@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-09
 
+- **[TypeScript](/docs/development/typescript-readers#a-layout-along-a-route) 4.135.0: `trailByPlace`, the first layout method.** It lays a world out along a route on a ground map and answers a Map frame and one Pin per element in the standard's own fields, which `mapSpace` reads back, with the route and the settings it ran with. You hand it the travel order and what hangs where; it places them.
 - **One word for each page.** A world's [public page](/docs/development/api/public#what-a-visitor-sees) (`onlyworlds.com/w/<address>`) and an element's public page are called that throughout; the world page is the signed-in page where its owner and members keep keys, members and settings ([onlyworlds.com](/docs/tools/onlyworlds-com)); the 22 pages of the schema's element types are type pages.
 - **[Unity](/docs/development/unity) v0.36.0: a lost key mint can be found, and the calendar holds to the TypeScript SDK's answers.** `MintWorldKeyAsync` takes an `idempotencyKey` and `MadeWorldKeyAsync` answers the key a lost mint made ([a lost mint](/docs/getting-started/keys#a-lost-mint)). `OWCalendar` replays the TypeScript SDK's recorded answers, gains `ValidateValue` and a `FormatDuration` for a span that need not be whole, and refuses an era `year_base` other than 0 or 1.
 
