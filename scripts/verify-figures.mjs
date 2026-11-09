@@ -780,16 +780,18 @@ const want = new Map();   // "GET /api/v2/x" -> { fam, cols, mark, session }
 for (const [m, p, sec] of callSnap.operations) {
   const seg = p.split('/')[3];
   const fam = ELEMENT_TYPES.includes(seg) ? '{type}' : seg;
-  let cols = new Set(), mark = 'list', session = false;
+  let cols = new Set(), mark = 'list', session = false, ai = false;
   if (sec === null) { cols.add('none'); mark = 'absent'; }
   else if (sec.length === 0) { cols.add('none'); mark = 'empty'; }
   else for (const alt of sec) {
     const s = [...alt].sort().join('+');
     if (s === 'SessionToken') session = true;
+    else if (s === 'AiToken') ai = true;
     else if (SCHEME_COL[s]) cols.add(SCHEME_COL[s]);
     else fails.push(`credentials: ${m} ${p} lists ${s}, which no column of the figure is`);
   }
   if (session && !cols.has('account')) fails.push(`credentials: ${m} ${p} takes a session token and no account token, so the account token column does not hold it`);
+  if (ai && !cols.has('account')) fails.push(`credentials: ${m} ${p} takes an AI door token and no account token, so the account token column does not hold it`);
   want.set(opKey(m, p), { fam, cols: COLS.filter((c) => cols.has(c)), mark, session });
 }
 const wantFams = new Map();
@@ -1002,13 +1004,15 @@ routeOf(tok, 'token', `${st.method} ${st.path}`);
 const takesNone = Array.isArray(st.security) && st.security.every((alt) => !Object.keys(alt ?? {}).length);
 if ((attr(tok.tag, 'data-credential') === 'none') !== takesNone || /data-mark="no-credential"/.test(tok.body) !== takesNone) bad(`the token hop ${takesNone ? 'does not say it takes no credential' : 'says it takes no credential'}; the snapshot's security is ${JSON.stringify(st.security)}`);
 const body = listed(tok, 'data-field');
-if (!same(body.map((f) => f.name), st.body) || body.some((f) => f.text !== f.name)) bad(`the token hop posts ${body.map((f) => f.text).join(', ')}; the snapshot's body is ${st.body.join(', ')}`);
-if (!same([...st.required].sort(), [...st.body].sort())) bad(`the figure draws every body field as sent; the document requires only ${st.required.join(', ')}`);
+// The figure draws the exchange every tool makes: the required fields; the optional ones are the page's table
+if (!same(body.map((f) => f.name), st.required) || body.some((f) => f.text !== f.name)) bad(`the token hop posts ${body.map((f) => f.text).join(', ')}; the snapshot's required body is ${st.required.join(', ')}`);
+if (!st.required.length || !st.required.every((f) => st.body.includes(f))) bad(`the snapshot's required body fields ${st.required.join(', ')} are not all in its body ${st.body.join(', ')}`);
 const ans = hop('answer');
 ends(ans, 'answer', 'site', 'tool');
 if (ans.codes.find((c) => attr(c.at, 'data-status'))?.text !== '200') bad('the answer hop does not show its 200');
 const answer = listed(ans, 'data-field');
-if (!same(answer.map((f) => f.name), st.answer) || answer.some((f) => f.text !== f.name)) bad(`the answer hop shows ${answer.map((f) => f.text).join(', ')}; the snapshot's answer is ${st.answer.join(', ')}`);
+if (!Array.isArray(st.answer_required) || !st.answer_required.length || !st.answer_required.every((k) => st.answer.includes(k))) bad(`the snapshot's required answer keys ${JSON.stringify(st.answer_required)} are not all in its answer ${st.answer.join(', ')}`);
+if (!same(answer.map((f) => f.name), st.answer_required ?? []) || answer.some((f) => f.text !== f.name)) bad(`the answer hop shows ${answer.map((f) => f.text).join(', ')}; the snapshot's required answer is ${(st.answer_required ?? []).join(', ')}`);
 const tokenField = answer.find((f) => f.name === 'token');
 if (tokenField?.prefix !== st.prefix || !ans.codes.some((c) => c.text === `${st.prefix}…`)) bad(`the token shows the prefix ${tokenField?.prefix}; the snapshot gives ${st.prefix}`);
 const refused = sf[1].match(/<p\b[^>]*\bclass="ow-sig-refused\b[^>]*\bdata-status="(\d+)"[^>]*>([\s\S]*?)<\/p>/);
@@ -1037,7 +1041,11 @@ if (!curl || `${curl[1]} ${curl[2]}` !== `${st.method} ${st.path}`) bad(`the pag
 if (trading.includes(`\`${st.method} ${st.path}\`, as JSON, with no credential`) !== takesNone) bad(`the page ${takesNone ? 'does not say' : 'says'} the exchange takes no credential; the snapshot's security is ${JSON.stringify(st.security)}`);
 let example = null;
 try { example = JSON.parse(trading.match(/```json\n(\{ "token"[\s\S]*?)\n```/)?.[1] ?? 'null'); } catch { /* reported below */ }
-if (!example || !same(Object.keys(example), st.answer) || !String(example.token).startsWith(st.prefix)) bad(`the page's answer example has ${example ? Object.keys(example).join(', ') : 'no JSON'}; the snapshot's answer is ${st.answer.join(', ')}, the token ${st.prefix}…`);
+if (!example || !same(Object.keys(example), st.answer_required ?? []) || !String(example.token).startsWith(st.prefix)) bad(`the page's answer example has ${example ? Object.keys(example).join(', ') : 'no JSON'}; the snapshot's required answer is ${(st.answer_required ?? []).join(', ')}, the token ${st.prefix}…`);
+// each optional answer key is shown in an example of its own on the page, after the plain one
+for (const k of st.answer.filter((x) => !(st.answer_required ?? []).includes(x))) {
+  if (!new RegExp(`^\\s*"${k}": \\{`, 'm').test(trading) && !trading.includes(`"${k}":`)) bad(`the page shows no example with the optional answer key ${k}`);
+}
 const life = sTwin.match(/\*\*A code lives (\d+) seconds and is spent by its first exchange,\*\*/);
 if (!life || Number(life[1]) !== st.code_seconds) bad(`the page says a code lives ${life?.[1]} seconds; the snapshot gives ${st.code_seconds}`);
 const pageCancel = sTwin.match(/Cancel sends `redirect_uri\?error=([a-z_]+)&state=…`/)?.[1];
@@ -1051,7 +1059,7 @@ else {
   const t1 = sTwin.match(/^1\. \*\*Send\.\*\* .*? to `GET ([^`]+)` on \S+ with (.*)\.$/m);
   const t4 = sTwin.match(/^4\. \*\*Trade\.\*\* The tool posts (.*?) to `(\w+ [^`]+)`, no credential\. The answer, `200`: (.*)\.$/m);
   if (!t1 || t1[1] !== authPath || !same(ticks(t1[2]).map((p) => p.split('=')[0]), sa.params)) bad(`the twin's step 1 reads ${t1?.[0] ?? 'nothing'}`);
-  if (!t4 || t4[2] !== `${st.method} ${st.path}` || !same(ticks(t4[1]), st.body) || !same(ticks(t4[3]).filter((f) => !f.endsWith('…')), st.answer)) bad(`the twin's step 4 reads ${t4?.[0] ?? 'nothing'}`);
+  if (!t4 || t4[2] !== `${st.method} ${st.path}` || !same(ticks(t4[1]), st.required) || !same(ticks(t4[3]).filter((f) => !f.endsWith('…')), st.answer_required ?? [])) bad(`the twin's step 4 reads ${t4?.[0] ?? 'nothing'}`);
 }
 // The three words signin.mjs types, which no document holds (keel's code does, and keel is private:
 // gen_signin.mjs reads it, CI never does). Read from the module itself, not the build, so a changed

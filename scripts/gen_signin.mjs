@@ -85,6 +85,7 @@ function snapshotOf(doc) {
       grant_type: grant,
       code_seconds: Number(seconds),
       answer: Object.keys(answer.properties),
+      answer_required: answer.required ?? [],
       prefix,
     },
   };
@@ -123,10 +124,20 @@ function keelDiffs(s) {
   want('portal/signin.py: a redirect is HttpResponseRedirect (302)', (/HttpResponseRedirect\(signin\.back_to_tool/.test(portal) || (/^class _ToolRedirect\(HttpResponseRedirect\):/m.test(portal) && /_ToolRedirect\(signin\.back_to_tool/.test(portal))) ? 302 : null, REDIRECT_STATUS);
   want('portal/signin.py: a refusal\'s page status', Number(portal.match(/except signin\.Refusal as refusal:\s*\n\s*return _page\([^\n]*status=(\d+)\)/)?.[1]), REFUSED_STATUS);
   want('accounts/signin_api.py: the token route', api.match(/@router\.post\("([^"]+)"[^\n]*\n\s*def exchange_signin_code/)?.[1], s.token.path.replace('/api/v2/auth', ''));
-  want('accounts/signin_api.py: the fields it reads', ['grant_type', ...(tuple(api, '_FIELDS') ?? [])], s.token.body);
+  // the optional pair for an AI door token: read through ai_token's constants when the exchange uses them
+  const aiTok = /ai_token\.USES_PARAM/.test(api) ? show('accounts/ai_token.py') : '';
+  const constant = (src, name) => src.match(new RegExp(`^${name}\\s*=\\s*"([^"]+)"`, 'm'))?.[1];
+  const optional = aiTok ? [constant(aiTok, 'USES_PARAM'), constant(aiTok, 'LIFETIME_PARAM')] : [];
+  want('accounts/signin_api.py: the fields it reads', ['grant_type', ...(tuple(api, '_FIELDS') ?? []), ...optional], s.token.body);
   want('accounts/signin_api.py: the grant_type it takes', api.match(/payload\.get\("grant_type"\) != "([^"]+)"/)?.[1], s.token.grant_type);
-  const ok = api.match(/return _no_store\(JsonResponse\(\{([\s\S]*?)\n\s*\}\)\)/)?.[1] ?? '';
-  want('accounts/signin_api.py: the answer\'s keys', [...ok.matchAll(/^\s*"([a-z_]+)":/gm)].map((m) => m[1]), s.token.answer);
+  // the answer: a literal returned whole, or a `body = {...}` the exchange then adds keys to (`body["ai_token"] = …`)
+  const exch = api.slice(api.search(/def exchange_signin_code/));
+  const whole = exch.match(/return _no_store\(JsonResponse\(\{([\s\S]*?)\n\s*\}\)\)/)?.[1];
+  const built = exch.match(/\n\s*body = \{([\s\S]*?)\n\s*\}\n/)?.[1];
+  const added = built != null && /return _no_store\(JsonResponse\(body\)\)/.test(exch)
+    ? [...exch.slice(0, exch.search(/return _no_store\(JsonResponse\(body\)\)/)).matchAll(/body\["([a-z_]+)"\] =/g)].map((m) => m[1]) : [];
+  const answerKeys = [...(whole ?? built ?? '').matchAll(/^\s*"([a-z_]+)":/gm)].map((m) => m[1]).concat(whole ? [] : added);
+  want('accounts/signin_api.py: the answer\'s keys', answerKeys, s.token.answer);
   want('accounts/models.py AccountToken.PREFIX', models.match(/class AccountToken\b[\s\S]*?PREFIX\s*=\s*"([^"]+)"/)?.[1], s.token.prefix);
   return { commit, diffs };
 }

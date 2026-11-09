@@ -20,7 +20,8 @@ export const LANES = [
 
 export function signinSteps(snap) {
   const { authorize: a, token: t } = snap;
-  if (!a?.params?.length || !t?.body?.length || !t?.answer?.length) throw new Error('signin: contract/signin.json lacks the authorize parameters, the token body or its answer');
+  if (!a?.params?.length || !t?.required?.length || !t?.answer_required?.length) throw new Error('signin: contract/signin.json lacks the authorize parameters, the token body\'s required fields or its answer\'s');
+  // the figure draws the exchange every tool makes, its required fields; the optional ones (an AI door token's) are the page's
   if (!Array.isArray(t.security)) throw new Error(`signin: POST ${t.path} states no security in the snapshot; the figure draws only a listed one`);
   // [] lists no credential; the figure says so, and would say nothing it cannot read
   if (t.security.length && !t.security.some((alt) => !alt || !Object.keys(alt).length)) throw new Error(`signin: POST ${t.path} takes a credential (${JSON.stringify(t.security)}); the figure draws it as taking none`);
@@ -60,8 +61,8 @@ export function signinSteps(snap) {
       {
         name: 'Trade',
         hops: [
-          { hop: 'token', from: 'tool', to: 'site', method: t.method, path: t.path, credential: 'none', fields: t.body },
-          { hop: 'answer', from: 'site', to: 'tool', status: 200, fields: t.answer, prefix: t.prefix },
+          { hop: 'token', from: 'tool', to: 'site', method: t.method, path: t.path, credential: 'none', fields: t.required },
+          { hop: 'answer', from: 'site', to: 'tool', status: 200, fields: t.answer_required, prefix: t.prefix },
         ],
       },
     ],

@@ -119,7 +119,7 @@ Message wording may change: branch on `code`, and use the message only to tell a
 
 ## Account tokens
 
-An `ow_a_` token acts on your account: it lists your worlds, creates worlds, mints and revokes world keys, and manages invites, members, seats, links and watched worlds. Mint one in the account portal under **Settings → Account tokens**, or with `POST /api/v2/account/tokens`; an app can make one from the user's email and password (the TypeScript SDK's `signInWithPassword`, which calls that route after the login API). Like a key, it is shown once.
+An `ow_a_` token acts on your account: it lists your worlds, creates worlds, mints and revokes world keys, and manages invites, members, seats, links and watched worlds. Mint one in the account portal under **Settings → Account tokens**, or with `POST /api/v2/account/tokens`; an app can make one from the user's email and password (the TypeScript SDK's `signInWithPassword`, which calls that route after the login API). Like a key, it is shown once. With `ai_uses`, the same route mints a token that opens only the [AI door](/docs/development/ai#the-ai-door-a-use-by-name)'s uses it names, until midnight UTC at the latest.
 
 It is sent as a bearer token, not as `API-Key`:
 

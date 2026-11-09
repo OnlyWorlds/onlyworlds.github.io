@@ -1,6 +1,6 @@
 {
   "source": "https://www.onlyworlds.com/api/v2/openapi.json: GET /api/v2/auth/clients's description (the authorize page) and POST /api/v2/auth/token",
-  "read_at": "2026-10-28",
+  "read_at": "2026-11-09",
   "authorize": {
     "url": "https://www.onlyworlds.com/signin/authorize",
     "params": [
@@ -25,7 +25,9 @@
       "code",
       "code_verifier",
       "client_id",
-      "redirect_uri"
+      "redirect_uri",
+      "ai_uses",
+      "ai_lifetime_minutes"
     ],
     "required": [
       "grant_type",
@@ -37,6 +39,14 @@
     "grant_type": "authorization_code",
     "code_seconds": 60,
     "answer": [
+      "token",
+      "token_id",
+      "token_type",
+      "expires_at",
+      "account",
+      "ai_token"
+    ],
+    "answer_required": [
       "token",
       "token_id",
       "token_type",

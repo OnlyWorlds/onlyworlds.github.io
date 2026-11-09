@@ -160,7 +160,7 @@
   "wrong_audience": {
     "type": "authentication_error",
     "status": 401,
-    "summary": "The account token is a hosted client's, for the MCP server at /mcp only: every other route refuses it."
+    "summary": "The account token is a hosted client's, for the MCP server at /mcp only, or an AI door token, for GET /account/ai and the uses it names only: every other route refuses it."
   },
   "permission_error": {
     "type": "permission_error",
@@ -171,6 +171,11 @@
     "type": "permission_error",
     "status": 403,
     "summary": "A write (POST, PUT, PATCH, DELETE) to an /account route signed in only by the site's own session cookie came without Django's CSRF token: the page sends the `csrftoken` cookie's value in the `X-CSRFToken` header (or the `csrfmiddlewaretoken` form field). Nothing was written. An `ow_a_` token or an `X-Session-Token` needs no CSRF token."
+  },
+  "use_not_granted": {
+    "type": "permission_error",
+    "status": 403,
+    "summary": "An AI door token called a use it was not minted for (`param` use): it opens only the uses it names. Mint one that names this use, or call with an account credential. Nothing was counted."
   },
   "not_author": {
     "type": "permission_error",

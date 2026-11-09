@@ -76,9 +76,10 @@ Each code belongs to one family, its `type`, and a family's codes do not share o
 | [`file_too_large`](#file_too_large) | `invalid_request` | `413` | A file asked to be attached to an element is over 25 MB; the message gives both sizes (`param` size). |
 | [`invalid_credentials`](#invalid_credentials) | `authentication_error` | `401` | The API key or PIN is missing, unrecognised or wrong. A PIN refusal names param API-Pin and says whether the PIN was missing or wrong. |
 | [`key_revoked`](#key_revoked) | `authentication_error` | `401` | The API key was recognised but has been revoked. |
-| [`wrong_audience`](#wrong_audience) | `authentication_error` | `401` | The account token is a hosted client's, for the MCP server at /mcp only: every other route refuses it. |
+| [`wrong_audience`](#wrong_audience) | `authentication_error` | `401` | The account token is a hosted client's, for the MCP server at /mcp only, or an AI door token, for GET /account/ai and the uses it names only: every other route refuses it. |
 | [`permission_error`](#permission_error) | `permission_error` | `403` | The credential is valid but lacks the scope for this route (e.g. a read key on a write route). |
 | [`csrf_required`](#csrf_required) | `permission_error` | `403` | A write (POST, PUT, PATCH, DELETE) to an /account route signed in only by the site's own session cookie came without Django's CSRF token: the page sends the `csrftoken` cookie's value in the `X-CSRFToken` header (or the `csrfmiddlewaretoken` form field). Nothing was written. An `ow_a_` token or an `X-Session-Token` needs no CSRF token. |
+| [`use_not_granted`](#use_not_granted) | `permission_error` | `403` | An AI door token called a use it was not minted for (`param` use): it opens only the uses it names. Mint one that names this use, or call with an account credential. Nothing was counted. |
 | [`not_author`](#not_author) | `permission_error` | `403` | A contributor or guest key changed, replaced, relinked or deleted an element someone else created. |
 | [`not_reader`](#not_reader) | `permission_error` | `403` | A key wrote a Read mark (a Relation whose supertype is Read, the message profile's record of what one reader has read) that is not its own, or a write would make someone else's Relation one: a Read mark is written only by the reader whose mark it is, the world's owner and its co-builders included. The reader adds to its own mark with POST /api/v2/account/worlds/\{world_id\}/read. |
 | [`hidden_not_allowed`](#hidden_not_allowed) | `permission_error` | `403` | A create (POST, a PUT of a new id, a /bulk item that creates) carried `hidden: true` from a key that may not hide: only the world's owner and its co-builders (person or seat) may. Nothing was created. Leave `hidden` out, or ask a keeper. |
@@ -397,10 +398,19 @@ The API key was recognized but has been revoked.
 
 **Type** `authentication_error` · **Status** `401`
 
-The account token was issued to a hosted MCP client, and it is good at the [MCP server](/docs/development/mcp) at `/mcp` only.
+The account token is good on some routes only: one issued to a hosted MCP client works at the [MCP server](/docs/development/mcp) at `/mcp` only, and an [AI door token](/docs/development/ai#the-ai-door-a-use-by-name) works on `GET /api/v2/account/ai`, the uses it names and its own revoke only.
 
-- **Common cause:** a token a hosted client was given through its OAuth sign-in, sent as a bearer to a REST route, the account routes included.
-- **How to fix:** use that token only at `/mcp`. For the REST API, send a world key (`API-Key`), or an account token from [Sign in with OnlyWorlds](/docs/development/api/signin) for the account routes.
+- **Common cause:** a token a hosted client was given through its OAuth sign-in, sent as a bearer to a REST route, the account routes included; or an AI door token sent to any other route.
+- **How to fix:** use each token only where it works. For the REST API, send a world key (`API-Key`), or an account token from [Sign in with OnlyWorlds](/docs/development/api/signin) for the account routes.
+
+### use_not_granted
+
+**Type** `permission_error` · **Status** `403`
+
+An [AI door token](/docs/development/ai#the-ai-door-a-use-by-name) called a use it was not minted for. `param` is `use`. Nothing was counted.
+
+- **Common cause:** a token minted with `ai_uses: ["ask"]` calling `POST /api/v2/account/ai/sort`.
+- **How to fix:** mint an AI door token that names this use, or call with an account credential.
 
 ### permission_error
 

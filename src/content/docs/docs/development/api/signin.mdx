@@ -81,6 +81,8 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/auth/token" \
 | `code` | The code from the return address |
 | `code_verifier` | The PKCE verifier, 43 to 128 characters, whose S256 hash was the `code_challenge` {/* limit: signin_verifier_min_chars signin_verifier_max_chars */} |
 | `client_id`, `redirect_uri` | Exactly as the authorize request sent them |
+| `ai_uses` | Optional: also an [AI door token](#an-ai-door-token) for these AI uses, 1 to 8 by slug |
+| `ai_lifetime_minutes` | Optional, with `ai_uses` only: that token ends this many minutes after the exchange (1 to 1440), or at midnight UTC if that comes first |
 
 {/* shape: POST /api/v2/auth/token */}
 ```json
@@ -90,6 +92,17 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/auth/token" \
 The answer is sent `Cache-Control: no-store`. `expires_at` is when the token stops working, for a tool whose registration asks for a lifetime (1 to 720 hours; Little Lens's tokens last six); null for one with none, whose token works until it is revoked. An expired token is refused as a revoked one is, the same 401. `token` is shown only here: the tool keeps it and sends it as `Authorization: Bearer ow_a_…` on the [account routes](/docs/getting-started/keys#account-tokens), such as [managing members](/docs/development/api/members#managing-members), and to [read a world's elements](/docs/getting-started/keys#reading-a-world-with-an-account-token) as the person's own access there, with no key minted. On the person's account page, under Account tokens, it is listed by the tool's name and the browser (`Atlas on Firefox`), and they can revoke it there. `token_id` (since 2026-10-25) is the token's id: a tool done with the token revokes it with `DELETE /api/v2/account/tokens/{token_id}`, sending the token itself as the bearer. That revoke ends the tool's consent only when it was the tool's last live token for the person, or for a tool that asks each time ([Consent and revoking](#consent-and-revoking)). {/* limit: signin_token_lifetime_max_hours */}
 
 **A code lives 60 seconds and is spent by its first exchange,** whether that succeeds or fails. A code sent again is refused and also revokes the token its first exchange minted: a replayed code is treated as a stolen one. So take `code` out of the address bar before the exchange, and send the exchange before any other request: a reload would spend the code on a refusal. {/* limit: signin_code_seconds */}
+
+### An AI door token
+
+A tool that calls the [AI door](/docs/development/ai#the-ai-door-a-use-by-name) for the person can ask the exchange for a token that opens nothing else (since 2026-11-09), with `ai_uses` in the body (the uses by slug, as `GET /api/v2/account/ai` lists them). The answer then carries the AI door token beside the account token:
+
+```json
+{ "token": "ow_a_…", "token_id": "…", "token_type": "bearer", "expires_at": null, "account": { "id": "…", "username": "…" },
+  "ai_token": { "token": "ow_a_…", "token_id": "…", "token_type": "bearer", "audience": "ai", "ai_uses": ["ask"], "expires_at": "2026-11-10T00:00:00Z" } }
+```
+
+It calls `GET /api/v2/account/ai` and the uses it names, as the person and on their token rating. A use it does not name answers `403` [`use_not_granted`](/api/errors/#use_not_granted), and every other route `401` [`wrong_audience`](/api/errors/#wrong_audience). It ends at the next midnight UTC, or sooner with `ai_lifetime_minutes`. The two tokens are independent: the tool may revoke the account token at once and keep the AI door token for its calls. The AI door token revokes itself with `DELETE /api/v2/account/tokens/{token_id}`, sent as its own bearer, and touches no other token, consent or key. It never counts as one of the tool's live tokens for consent or keys. Disconnecting the tool and a replayed code end it. An `ai_uses` that is not 1 to 8 uses this server runs is a `422`, and the code is spent.
 
 ## The account
 

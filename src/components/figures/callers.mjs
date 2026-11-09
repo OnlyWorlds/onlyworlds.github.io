@@ -21,9 +21,11 @@ export const CREDENTIALS = [
 // Each security alternative the document can list, as its scheme names sorted, and what it is.
 // SessionToken is the app sign-in's X-Session-Token, which Keys and PINs says an account route takes
 // in place of the account token: it is no column of its own, and an operation listing it without
+// AccountToken fails the build. AiToken is the AI door token, an account token minted for a few AI
+// uses (the AI page says where it works): no column either, and an operation listing it without
 // AccountToken fails the build. Any other alternative fails the build too, so a new credential is
 // never drawn under an old name.
-const ALTERNATIVES = { '': 'none', ApiKey: 'key', 'ApiKey ApiPin': 'keypin', AccountToken: 'account', SessionToken: 'session' };
+const ALTERNATIVES = { '': 'none', ApiKey: 'key', 'ApiKey ApiPin': 'keypin', AccountToken: 'account', SessionToken: 'session', AiToken: 'ai' };
 
 export const PREFIX = '/api/v2';
 const cp = (a, b) => (a < b ? -1 : a > b ? 1 : 0);
@@ -40,6 +42,7 @@ export function credentialsOf(op) {
     got.add(k);
   }
   if (got.has('session') && !got.has('account')) throw new Error(`callers: ${method} ${path} takes a session token without an account token`);
+  if (got.has('ai') && !got.has('account')) throw new Error(`callers: ${method} ${path} takes an AI door token without an account token`);
   return { creds: CREDENTIALS.map((c) => c.key).filter((k) => got.has(k)), declared: 'list', session: got.has('session') };
 }
 
