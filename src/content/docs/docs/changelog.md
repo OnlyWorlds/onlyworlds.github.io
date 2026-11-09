@@ -10,6 +10,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 ## 2026-11-09
 
 - **[Toolkit](/docs/development/toolkit) 5.7.0: the skills say what onlyworlds.com does today.** An audit of every skill against the live API document found seventeen sentences behind, each now true: the schema page at serial 109 (`Location.vehicle`), the draught's `depth`, `lens`, `since` and `compact`, the draw skill's map on the map-space profile, and the two page names, a public page and a world page.
+- **[Atlas](/docs/tools/atlas#features) 1.123.17: a laid-out map draws its ground map under its pins**: when it has no picture of its own, the map it stands on shows beneath it, its picture and its rivers, roads and regions as faint lines and areas.
 - **[Atlas](/docs/tools/atlas#features) 1.123.16: a map laid out by a method shows its recipe as a card**: the method, the map it stands on, and that Atlas draws it flat, where its page showed raw custom fields.
 <!-- atlas 1.123.2: no docs change -->
 <!-- atlas 1.123.3: no docs change -->
