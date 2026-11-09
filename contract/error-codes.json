@@ -257,6 +257,16 @@
     "status": 429,
     "summary": "A daily limit is used up (the world's image upload tickets, its file upload tickets, or the account's token rating for AI); retry after Retry-After."
   },
+  "use_ceiling": {
+    "type": "rate_limited",
+    "status": 429,
+    "summary": "This account has made today's calls to this AI use (`param` use): its daily ceiling is reached; retry after Retry-After (midnight UTC). Nothing was counted. A saved AI key does not lift it: the limit is the use's, not the token rating's."
+  },
+  "use_in_flight": {
+    "type": "rate_limited",
+    "status": 429,
+    "summary": "Another call to this AI use (`param` use) is still running for this account: a use allows one at a time. Retry after Retry-After (a few seconds); nothing was counted."
+  },
   "too_many_requests": {
     "type": "rate_limited",
     "status": 429,
@@ -285,7 +295,7 @@
   "ask_unavailable": {
     "type": "api_error",
     "status": 503,
-    "summary": "Asking your world is not switched on for this server, or is paused for the day (the server-wide cap); nothing was counted."
+    "summary": "Asking your world is not switched on for this server, or is paused for the day (the server-wide cap); nothing was counted. With `param` use: this AI use is switched off, or has spent its own budget for today."
   },
   "own_key_refused": {
     "type": "invalid_request",

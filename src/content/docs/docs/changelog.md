@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-09
 
+- **[The AI door](/docs/development/ai#the-ai-door-a-use-by-name): a tool calls a model by a named use.** `POST /api/v2/account/ai/ask` and `/ai/sort` take the old routes' bodies and answer `use_remaining` too; `GET /api/v2/account/ai` lists each use with its caps and calls left; an `Idempotency-Key` makes a retry safe. New refusals [`use_ceiling`](/api/errors/#use_ceiling) and [`use_in_flight`](/api/errors/#use_in_flight), and [`ask_unavailable`](/api/errors/#ask_unavailable) with `param: "use"`. The old routes are unchanged.
 - **[TypeScript](/docs/development/typescript-readers#a-layout-along-a-route) 4.136.0 and [Python](/docs/development/python#what-it-covers) 0.109.0: a layout's recipe names its ground map.** `ground.map`, the ground Map's element id, travels in the recipe, so a tool reading a laid-out Map finds the picture under its pins.
 - **[TypeScript](/docs/development/typescript-readers#a-layout-along-a-route) 4.135.2: a tool that never lays out carries no tier table.** 4.135.0 and 4.135.1 put `TRAIL_TIERS` (about 450 bytes) into every bundle; now a bundler leaves it out unless the tool reads it.
 - **[MCP](/docs/development/mcp): three lines trued to the server.** Its instructions say some writes land as proposed; `create_element`'s description carries the room rule; `get_draught` leaves `messages` and `proposed` out unless named, as it does `room`; and the REST side of the comparison lists every list filter.

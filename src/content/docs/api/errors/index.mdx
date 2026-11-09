@@ -96,12 +96,14 @@ Each code belongs to one family, its `type`, and a family's codes do not share o
 | [`gone`](#gone) | `not_found` | `410` | The element was deleted from this world; the body carries the deletion's `change_seq` and `deleted_at` beside the envelope (GET of one element only). |
 | [`rate_limited`](#rate_limited) | `rate_limited` | `429` | Too many failed PIN attempts, counted on the key and across every key of the account whose PIN it is (a world's PIN is its owner's; a member's key takes the member's own), or too many sign-in attempts from one address (the password sign-in and POST /api/v2/auth/token share one count); retry after the Retry-After header's seconds. |
 | [`quota_exceeded`](#quota_exceeded) | `rate_limited` | `429` | A daily limit is used up (the world's image upload tickets, its file upload tickets, or the account's token rating for AI); retry after Retry-After. |
+| [`use_ceiling`](#use_ceiling) | `rate_limited` | `429` | This account has made today's calls to this AI use (`param` use): its daily ceiling is reached; retry after Retry-After (midnight UTC). Nothing was counted. A saved AI key does not lift it: the limit is the use's, not the token rating's. |
+| [`use_in_flight`](#use_in_flight) | `rate_limited` | `429` | Another call to this AI use (`param` use) is still running for this account: a use allows one at a time. Retry after Retry-After (a few seconds); nothing was counted. |
 | [`too_many_requests`](#too_many_requests) | `rate_limited` | `429` | Over the request budget: 300 requests a minute per key or account token, 60 a minute per address for a request with neither, reads and writes together (a /bulk call is one request); retry after Retry-After. Every reply carries RateLimit-Limit, RateLimit-Remaining and RateLimit-Reset. |
 | [`idempotency_error`](#idempotency_error) | `idempotency_error` | `409` | An Idempotency-Key was reused with a different request body. |
 | [`idempotency_in_flight`](#idempotency_in_flight) | `idempotency_error` | `409` | A request with this Idempotency-Key is still running; retry after Retry-After (1 s): once it has answered, the same key and body replay its answer. |
 | [`api_error`](#api_error) | `api_error` | `500` | An unexpected server-side error; the envelope is kept even here. |
 | [`ask_failed`](#ask_failed) | `api_error` | `502` | The AI proxy could not get an answer from the model; try again in a moment. Nothing was counted. |
-| [`ask_unavailable`](#ask_unavailable) | `api_error` | `503` | Asking your world is not switched on for this server, or is paused for the day (the server-wide cap); nothing was counted. |
+| [`ask_unavailable`](#ask_unavailable) | `api_error` | `503` | Asking your world is not switched on for this server, or is paused for the day (the server-wide cap); nothing was counted. With `param` use: this AI use is switched off, or has spent its own budget for today. |
 | [`own_key_refused`](#own_key_refused) | `invalid_request` | `422` | Today's token rating is spent and the call ran on the account's own AI key, which its provider refused (a key revoked, wrong or out of credit). Nothing was counted and the call was not retried on the platform's key; the account page shows the refusal's date. Check or replace the key on the account page. |
 | [`server_busy`](#server_busy) | `api_error` | `503` | Every request slot stayed full for 10 seconds; retry after Retry-After. |
 | [`payload_too_large`](#payload_too_large) | `api_error` | `413` | The request body is over 2.5 MB; split a large /bulk into several calls. |
@@ -539,9 +541,25 @@ A daily limit is used up. These routes answer it:
 
 - `POST /api/v2/media/ticket`: the world has asked for 200 image upload tickets in the last 24 hours ([Images](/docs/development/api/images#limits)). {/* limit: image_tickets_per_day */}
 - `POST /api/v2/{type}/{id}/files`: the world has asked for 200 file tickets in the last 24 hours ([Files](/docs/development/api/files#limits)). {/* limit: file_tickets_per_day */}
-- `POST /api/v2/account/ask` and `POST /api/v2/account/sort`: the account has used its daily token rating (fewer tokens left than the call's output cap). Tokens used reset at midnight UTC.
+- `POST /api/v2/account/ask` and `POST /api/v2/account/sort`, and the AI door's `POST /api/v2/account/ai/{use}`: the account has used its daily token rating (fewer tokens left than the call's output cap). Tokens used reset at midnight UTC.
 
 - **How to fix:** retry after the `Retry-After` header's seconds.
+
+### use_ceiling
+
+**Type** `rate_limited` · **Status** `429`
+
+`POST /api/v2/account/ai/{use}`: this account has made today's calls to this use (`param` is `use`). Its daily ceiling is reached until midnight UTC, and nothing was counted. A saved AI key does not lift it: the limit is the use's, not the token rating's. [`GET /api/v2/account/ai`](/docs/development/ai#the-ai-door-a-use-by-name) shows each use's `ceiling` and `calls_left`.
+
+- **How to fix:** retry after the `Retry-After` header's seconds (midnight UTC).
+
+### use_in_flight
+
+**Type** `rate_limited` · **Status** `429`
+
+`POST /api/v2/account/ai/{use}`: another call to this use is still running for this account (`param` is `use`). A use allows one call at a time; nothing was counted.
+
+- **How to fix:** retry after the `Retry-After` header's seconds (a few). With an `Idempotency-Key`, send the same key and body.
 
 ### too_many_requests
 
@@ -599,7 +617,7 @@ Every request slot on the server stayed full for 10 seconds. {/* limit: server_b
 
 **Type** `api_error` · **Status** `503`
 
-`POST /api/v2/account/ask`: asking is switched off on this server, or paused for the rest of the day because the server-wide spending cap was reached. The question was not counted.
+`POST /api/v2/account/ask`: asking is switched off on this server, or paused for the rest of the day because the server-wide spending cap was reached. The question was not counted. With `param` set to `use` (on the [AI door](/docs/development/ai#the-ai-door-a-use-by-name)'s routes and on ask and sort), this one use is switched off or has spent its own budget for today.
 
 - **How to fix:** try again tomorrow (UTC). Your world's own search still works without it.
 
