@@ -71,7 +71,7 @@ const ranger = await writer.create('character', { name: 'Ilse the Ranger' });
 console.log('made', ranger.name, ranger.id);
 ```
 
-That makes one Character and prints its name and id. To see it in the world, run the read above with `apiKey: process.env.OW_API_KEY` in place of the demo key. Each type's fields and links are listed on its [element page](/docs/schema/element_categories), and in code `FIELD_SCHEMA` gives them ([Schema constants](#schema-constants)). Links and edits go the same way:
+That makes one Character and prints its name and id. To see it in the world, run the read above with `apiKey: process.env.OW_API_KEY` in place of the demo key. Each type's fields and links are listed on its [type page](/docs/schema/element_categories), and in code `FIELD_SCHEMA` gives them ([Schema constants](#schema-constants)). Links and edits go the same way:
 
 ```typescript
 const peak = await writer.create('location', { name: 'Dragon Peak' });
