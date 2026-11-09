@@ -190,7 +190,7 @@ A number counts when it is whole by value (`2.0` is 2) and a double holds it exa
 - `places`, in travel order: each sits at its own `pin` on the ground map (the `margin` is added on every side), evenly `between` two pinned places, or on a ring inside a `parent` place.
 - `hangers`: every other element, with the places it belongs to (`at`). Each sits on one spiral round the mean of those places' points, lifted to its kind's floor (`tiers`; `TRAIL_TIERS` is the default: places and things on the ground, the living above, what happened higher, what is told highest). A `hero` stands first on its spiral.
 - Nothing shares a place's own point, and no two Pins share a point: a taken point moves along x from its own point, by element id order. Points round half to even.
-- The answer is `{ map, pins, route, recipe, nudged, clamped }`. Each Pin carries `by`, why it stands there (your words, then the method's). `recipe` is the method's name and the settings it ran with, so the same layout runs again from the Map alone.
+- The answer is `{ map, pins, route, recipe, nudged, clamped }`. Each Pin carries `by`, why it stands there (your words, then the method's). `recipe` is the method's name and the settings it ran with, so the same layout runs again from the Map alone. Give `ground.map`, the ground Map's element id, and the recipe carries it, so a tool reading the Map finds the picture its pins stand on.
 
 An input it cannot place is a `TypeError` naming what: an unknown key at any level, a place with none or two of `pin`, `between` and `parent`, a reference to a place it does not hold, a kind with no floor, an id given twice, a row of the frame (one height, one y) with more Pins than the frame is wide plus one. The same input and answer in Python: [`trail_by_place`](/docs/development/python#what-it-covers). The types are `OwTrailInput`, `OwTrailPlace`, `OwTrailHanger`, `OwTrailTier`, `OwTrailSpiral`, `OwTrailSettings`, `OwTrailLayout` and `OwTrailPin`.
 
@@ -198,7 +198,7 @@ An input it cannot place is a `TypeError` naming what: an unknown key at any lev
 import { trailByPlace } from '@onlyworlds/sdk';
 
 const layout = trailByPlace({
-  ground: { width: 3462, height: 4676 }, // the route map's own frame
+  ground: { map: routeMap, width: 3462, height: 4676 }, // the route map and its own frame
   margin: 300,
   depth: 900,
   places: [
