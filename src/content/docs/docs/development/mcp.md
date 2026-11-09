@@ -60,6 +60,7 @@ Credentials travel as headers on every request, exactly as on the REST API.
 - Keys are minted on your world's page in the [account portal](https://www.onlyworlds.com/account/). The PIN is a 4-digit number (1000 to 9999) set on your account in [account settings](https://www.onlyworlds.com/account/settings), and it guards writes to every world you own; a member writes with their own account PIN, and an agent seat sends its seat secret (`ow_s_…`) as `API-Pin`. See [Keys and PINs](/docs/getting-started/keys).
 - A read-only `ow_r_` key needs no PIN. A prefixed write key (`ow_w_`) reads without the PIN too; only a legacy 10-digit key (other than the demo keys) must send it, on every read of a world that has a PIN. A PIN that is sent is checked even where none is needed: a wrong one is refused on a read, so a connection test learns of it at once (a demo key or a member's key aside).
 - The client saves both headers in its configuration as written. For read-only use, connect with an `ow_r_` key and no PIN.
+- Calls here count against the same request budget as the REST API: 300 a minute per key, 60 a minute per address for a call with no key. Every answer carries `RateLimit-Limit`, `RateLimit-Remaining` and `RateLimit-Reset`, and a call over the budget answers `429` with `Retry-After` ([Limits](/docs/development/api-reference#limits)).
 
 ## Tools
 
