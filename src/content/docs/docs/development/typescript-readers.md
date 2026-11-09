@@ -192,7 +192,7 @@ A number counts when it is whole by value (`2.0` is 2) and a double holds it exa
 - Nothing shares a place's own point, and no two Pins share a point: a taken point moves along x from its own point, by element id order. Points round half to even.
 - The answer is `{ map, pins, route, recipe, nudged, clamped }`. Each Pin carries `by`, why it stands there (your words, then the method's). `recipe` is the method's name and the settings it ran with, so the same layout runs again from the Map alone.
 
-An input it cannot place is a `TypeError` naming what: an unknown key at any level, a place with none or two of `pin`, `between` and `parent`, a reference to a place it does not hold, a kind with no floor, an id given twice. The types are `OwTrailInput`, `OwTrailPlace`, `OwTrailHanger`, `OwTrailTier`, `OwTrailSpiral`, `OwTrailSettings`, `OwTrailLayout` and `OwTrailPin`.
+An input it cannot place is a `TypeError` naming what: an unknown key at any level, a place with none or two of `pin`, `between` and `parent`, a reference to a place it does not hold, a kind with no floor, an id given twice, a row of the frame (one height, one y) with more Pins than the frame is wide plus one. The same input and answer in Python: [`trail_by_place`](/docs/development/python#what-it-covers). The types are `OwTrailInput`, `OwTrailPlace`, `OwTrailHanger`, `OwTrailTier`, `OwTrailSpiral`, `OwTrailSettings`, `OwTrailLayout` and `OwTrailPin`.
 
 ```typescript
 import { trailByPlace } from '@onlyworlds/sdk';
