@@ -385,7 +385,7 @@ The package also ships `SCHEMA.md` (every field and its meaning, generated) and 
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.137.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.138.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -468,6 +468,7 @@ Generated from the types of `@onlyworlds/sdk` 4.137.0, the version these docs pi
 | `revokeWorldKey(worldId, keyId, opts?)` | `DELETE /account/worlds/{worldId}/keys/{keyId}` | revoke a world key, by the `id` mintWorldKey returned: from then on it answers 401 `key_revoked`. | `Promise<void>` |
 | `listAccountTokens()` | `GET /account/tokens` | the account's tokens, each by name and last four, never the token itself: when it was last used, whether it is revoked, when it expires, how many live world keys it minted, and who it is for (`audience`). | `Promise<OwAccountToken[]>` |
 | `revokeAccountToken(tokenId, opts?)` | `DELETE /account/tokens/{tokenId}` | revoke one of the account's tokens, this client's own included (a tool done with a sign-in revokes it by the `tokenId` the sign-in answered); every other token stays live. | `Promise<void>` |
+| `mintAiToken(uses, opts?)` |  | POST /account/tokens with `ai_uses` -- trade this client's account token down to an AI door token: an `ow_a_` token that opens only `aiUses()` and the uses named here (1 to 8, by slug, as `aiUses()` lists them), as this account and on its token rating. | `Promise<OwMintedAiToken>` |
 | `signInWithOnlyWorlds(opts)` |  | Start Sign in with OnlyWorlds from a tool's page: mint `state` and a PKCE verifier, keep them under `clientId` in `storage` (sessionStorage by default; in Node pass one), and send the browser to `https://www.onlyworlds.com/signin/authorize` (or only return the URL with `navigate: false`). | `Promise<OwSignInBegun>` |
 | `completeSignIn(opts)` |  | Finish Sign in with OnlyWorlds on the callback page: check `state` against the record and the page against the registered address (scheme, host with port, and path, each exactly), take `code` and `state` out of the address bar (only when `url` is not given: a native app passes the address its loopback server or scheme handler received), trade the code once at `POST /auth/token` with the PKCE verifier and no credential, and return the `ow_a_` token with the account and `resume`. | `Promise<OwSignInResult>` |
 | `ask(req)` | `POST /account/ask` | a question about a world the account owns or is in, answered by onlyworlds.com's AI proxy from `context` only (build it with buildAskContext from the elements the user sees; it leaves proposed, hidden and room elements out unless asked). | `Promise<OwAskAnswer>` |

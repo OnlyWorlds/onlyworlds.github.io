@@ -7,6 +7,10 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 What changed on onlyworlds.com for everyone is on its own [Changelog](https://www.onlyworlds.com/changelog); this page stays the developer log.
 
+## 2026-11-10
+
+- **[TypeScript](/docs/development/typescript) 4.138.0: the AI door token in the SDK.** `completeSignIn({ ..., aiUses, aiLifetimeMinutes })` asks [the sign-in](/docs/development/api/signin#an-ai-door-token) for one and returns it as `aiToken`, and `client.mintAiToken(uses, { lifetimeMinutes })` trades an account token down to one ([the AI page](/docs/development/ai#the-ai-door-a-use-by-name)). `err.isUseNotGranted` and `err.isWrongAudience` read its two refusals.
+
 ## 2026-11-09
 
 - **[Toolkit](/docs/development/toolkit) 5.7.0: the skills say what onlyworlds.com does today.** An audit of every skill against the live API document found seventeen sentences behind, each now true: the schema page at serial 109 (`Location.vehicle`), the draught's `depth`, `lens`, `since` and `compact`, the draw skill's map on the map-space profile, and the two page names, a public page and a world page.

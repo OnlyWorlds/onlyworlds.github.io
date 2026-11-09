@@ -129,7 +129,7 @@ An `Idempotency-Key` header makes a retry safe: the same key and the same body b
 
 A `409` `idempotency_in_flight` on a key means its first call is still running: retry with the same key and body after `Retry-After`, a few times at most, and never under a new key to get past it. When the server could not store an answer, its key stays in flight for a day although the call ran and was billed, so a new key would pay a second time.
 
-In the [TypeScript SDK](/docs/development/typescript) (4.137.0 on), `client.aiUses()` reads the list and `client.ai('ask', body, { idempotencyKey })` calls a use with its body as above (`world_id`, `question`, `context`); the answer adds `wasReplay`, read from the `Idempotent-Replay` header. `err.isUseCeiling` and `err.isUseInFlight` tell the door's two `429`s apart. The SDK never retries on its own. The Python package has no account calls yet.
+In the [TypeScript SDK](/docs/development/typescript) (4.137.0 on), `client.aiUses()` reads the list and `client.ai('ask', body, { idempotencyKey })` calls a use with its body as above (`world_id`, `question`, `context`); the answer adds `wasReplay`, read from the `Idempotent-Replay` header. `err.isUseCeiling` and `err.isUseInFlight` tell the door's two `429`s apart. The SDK never retries on its own. Since 4.138.0, `completeSignIn({ ..., aiUses })` asks the sign-in for an AI door token (`aiToken` on the result), `client.mintAiToken(['ask'], { lifetimeMinutes })` mints one from an account token, and `err.isUseNotGranted` and `err.isWrongAudience` read its two refusals. A client built on the AI door token calls `aiUses()`, `ai()` and `revokeAccountToken(its id)`. The Python package has no account calls yet.
 
 ## The same data everywhere
 
