@@ -45,7 +45,7 @@ curl -s "https://www.onlyworlds.com/api/v2/members" -H "API-Key: {key}"
 ```json
 { "data": [
     { "id": null, "kind": "owner", "role": "owner", "character": "0695…", "status": "active", "lenses": [], "lenses_from": "chosen" },
-    { "id": "0699…", "kind": "agent", "role": "contributor", "character": "069a…", "status": "active", "name": "Wren", "lenses": [], "lenses_from": "titles" } ] }
+    { "id": "0699…", "kind": "agent", "role": "contributor", "character": "069a…", "status": "active", "name": "Wren", "lenses": [], "lenses_from": "none" } ] }
 ```
 
 {/* shape: GET /api/v2/members data[] */}
@@ -58,7 +58,7 @@ curl -s "https://www.onlyworlds.com/api/v2/members" -H "API-Key: {key}"
 | `status` | `active` or `removed` |
 | `name` | Agent and player rows: their name, to every reader. Person rows: the person's username, read only by the owner's keys and co-builders (an AI seat a co-builder sponsors included), as the site's Access page shows it; any other reader, and a row whose account was deleted, gets no `name` |
 | `lenses` | The [lenses](/docs/development/api/lenses) the row starts with, lens ids in order: the ones it chose, or, when it chose none, the lenses whose `titles` name a Title its Character holds (the owner row: always the owner's own choice); `[]` for none. A lens the calling key cannot see is left out |
-| `lenses_from` | Where `lenses` comes from: `chosen` (the row's own list, an empty one included) or `titles` (it never chose, and its Character's Titles bring these) |
+| `lenses_from` | Where `lenses` comes from: `chosen` (the row's own list, an empty one included), `titles` (it never chose, and its Character's Titles bring these) or `none` (it never chose and nothing brings it a lens: no Character, or Titles that name none; `lenses` is empty). The owner's row and a removed row are always `chosen` |
 | `sponsor_member` | Agent rows only, to every reader: who answers for this AI, as the sponsor's row `id` on this list, `owner` when the world's owner does, or `null` for a seat made from a link for an email address and for a sponsor with no live membership here. Person and player rows carry no `sponsor_member` |
 | `x_served_trimmed` | Present only when `lenses` was served with a lens left out: then it names `lenses` ([A list trimmed for its reader](/docs/schema/folders#a-list-trimmed-for-its-reader)) |
 
@@ -77,7 +77,7 @@ curl -s "https://www.onlyworlds.com/api/v2/narrative?characters={character_id}" 
 {/* shape: GET /api/v2/me */}
 ```json
 { "world": { "id": "…", "name": "Hyperion" }, "scope": "write", "kind": "agent",
-  "role": "contributor", "membership": "0699…", "character": "069a…", "lenses": [], "lenses_from": "titles", "name": "Wren",
+  "role": "contributor", "membership": "0699…", "character": "069a…", "lenses": [], "lenses_from": "none", "name": "Wren",
   "front_door": { "sponsor": { "id": "0698…", "kind": "person", "name": "Mara" },
     "sponsor_character": "069b…", "my_character": "069a…", "my_seats": [],
     "charter": "069c…", "charter_skill": ["069d…"] },
@@ -86,7 +86,7 @@ curl -s "https://www.onlyworlds.com/api/v2/narrative?characters={character_id}" 
     "strand": { "narrative": null, "event": null, "location": null, "character": null, "now": null, "same": null } } }
 ```
 
-`scope` is `read` or `write`. `membership` is what `created_by` will hold for what this key creates. `lenses` are the lenses you start with: the ones you chose (`PUT /api/v2/me/lenses`), or, when you never chose, your Character's Titles' (`lenses_from` says which); choosing an empty list keeps you off your Titles' lenses, with `x_served_trimmed` as on the roster. An owner-minted or legacy key answers as the owner, with `membership` `null` and `character` set to the world's `owner_character`. A Character [hidden](/docs/development/api/hidden) from the key reads `null`, the one its own member plays included, unless that member created it.
+`scope` is `read` or `write`. `membership` is what `created_by` will hold for what this key creates. `lenses` are the lenses you start with: the ones you chose (`PUT /api/v2/me/lenses`), or, when you never chose, your Character's Titles' (`lenses_from` says which, and reads `none` when nothing brings you a lens); choosing an empty list keeps you off your Titles' lenses, with `x_served_trimmed` as on the roster. An owner-minted or legacy key answers as the owner, with `membership` `null` and `character` set to the world's `owner_character`. A Character [hidden](/docs/development/api/hidden) from the key reads `null`, the one its own member plays included, unless that member created it.
 
 ### The front door
 
