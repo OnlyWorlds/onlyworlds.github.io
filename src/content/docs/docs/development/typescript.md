@@ -43,6 +43,8 @@ for await (const character of client.listAll('character')) { // every page
 }
 ```
 
+`await client.search('Fluffington', { limit: 200 })` finds the elements whose name or text holds every word you give ([Search](/docs/development/api/reads#search)).
+
 For your own world, use its read-only key (`ow_r_`), which needs no PIN. The other demo key, `0000000000`, reads Hyperion. See [Keys and PINs](/docs/getting-started/keys) for the key types.
 
 With no key at all, a client given a world's id reads what the public reads of it ([the keyless reads](/docs/development/api/public#the-keyless-reads)), and `getWorld()` then carries `counts`:
@@ -389,7 +391,7 @@ The package also ships `SCHEMA.md` (every field and its meaning, generated) and 
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.149.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.150.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -423,6 +425,7 @@ Generated from the types of `@onlyworlds/sdk` 4.149.0, the version these docs pi
 | `draught(characterId, policy?)` | `GET /character/{id}/context` | the draught: what one Character knows, as the recorded world holds it, in one read: her element, what she holds and sits in, her open work, how she works, the Events she was in, the Narratives she knows, everything else that names her, her sheet, what changed around her (`since`), and who plays whom; the world's name and calendar beside; the room's messages (`messages`), its other elements (`room`) and elements written as proposed (`proposed`) only when `components` names them. | `Promise<OwDraught>` or `Promise<OwDraughtCompact>` |
 | `listAll(type, params?)` |  | Cursor-walk every page of a type. | `AsyncGenerator<OwElement>` |
 | `get(type, id, opts?)` | `GET /{type}/{id}/` | optional one-level stub expansion / sparse fields, and `viewAs` (the owner reads as another reader; see ListParams.viewAs). | `Promise<OwElement>` |
+| `search(q, opts?)` | `GET /search` | the world's elements whose `name` or text fields (`description` and the type's other prose fields; never supertype, subtype or image_url) hold every word of `q` as a whole word, ignoring case. | `Promise<OwSearchResults>` |
 | `create(type, element, opts?)` | `POST /{type}/` | create one element, minting an id on the client when you leave id out. | `Promise<OwElement>` |
 | `upsert(type, id, element)` | `PUT /{type}/{id}/` | The local-first write primitive. | `Promise<OwElement>` |
 | `patch(type, id, partial, opts?)` | `PATCH /{type}/{id}/` | DESTRUCTIVE on sent fields: arrays replace wholesale, omitted fields stay untouched. | `Promise<OwElement>` |

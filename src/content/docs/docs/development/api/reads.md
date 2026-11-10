@@ -94,7 +94,7 @@ The [TypeScript SDK](/docs/development/typescript) sends these under `filter`: `
 
 ## Search
 
-`GET /api/v2/search?q=` finds the elements whose name or text holds every word of `q` as a whole word, ignoring case. The text is the name, the description and each element type's own prose fields, such as a Character's background or a Narrative's story; supertype, subtype and `image_url` are not searched. There is no stemming: `drip` does not find "Drippers", and `quiet valley` needs both words somewhere in the element.
+`GET /api/v2/search?q=` finds the elements whose name or text holds every word of `q` as a whole word, ignoring case. The text is the name, the description and each element type's own prose fields, such as a Character's background or a Narrative's story; supertype, subtype and `image_url` are not searched. There is no stemming: `drip` does not find "Drippers", and `quiet valley` needs both words somewhere in the element. A word is a run of letters, digits or underscores, so a key like `APP-142` is searched as the two words `APP` and `142`: when a key must appear whole, read the elements found and keep those whose text holds it.
 
 <!-- shape: GET /api/v2/search query partial -->
 | Parameter | Meaning |
@@ -121,7 +121,7 @@ curl -s "https://www.onlyworlds.com/api/v2/search?q=drippers&limit=2" -H "API-Ke
   "count": 2, "truncated": true }
 ```
 
-Elements whose name matches come first, then the rest, each by element type and then by name. `field` is where the words were found, and `snippet` is up to 160 characters of that field around the first match. `truncated` is `true` when more elements matched than `limit`; there are no further pages, so narrow the query or raise the limit. A row for an element the reader only [knows of](/docs/development/api/members#known-of) carries `known_of: true` (it matches on what the stub keeps). A guest key searches only what it may read, and no key finds an element hidden from it. The MCP server's [`search_elements`](/docs/development/mcp#read-a-key) runs the same search.
+Elements whose name matches come first, then the rest, each by element type and then by name. `field` is where the words were found, and `snippet` is up to 160 characters of that field around the first match. `truncated` is `true` when more elements matched than `limit`; there are no further pages, so narrow the query or raise the limit. A row for an element the reader only [knows of](/docs/development/api/members#known-of) carries `known_of: true` (it matches on what the stub keeps). A guest key searches only what it may read, and no key finds an element hidden from it. The MCP server's [`search_elements`](/docs/development/mcp#read-a-key) runs the same search, and both packages call it: `client.search(q, { type, limit })` in [TypeScript](/docs/development/typescript#read-a-world), `client.search(q, element_type=..., limit=...)` in [Python](/docs/development/python#read-a-world).
 
 ## Expansion and sparse fields
 
