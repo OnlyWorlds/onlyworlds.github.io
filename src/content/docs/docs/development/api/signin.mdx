@@ -95,7 +95,7 @@ The answer is sent `Cache-Control: no-store`. `expires_at` is when the token sto
 
 ### An AI door token
 
-A tool that calls the [AI door](/docs/development/ai#the-ai-door-a-use-by-name) for the person can ask the exchange for a token that opens nothing else (since 2026-11-09), with `ai_uses` in the body (the uses by slug, as `GET /api/v2/account/ai` lists them). The answer then carries the AI door token beside the account token:
+A tool that calls the [AI door](/docs/development/ai#the-ai-door-a-use-by-name) for the person can ask the exchange for a token that opens nothing else (since 2026-11-09), with `ai_uses` in the body (the uses by slug, as `GET /api/v2/account/ai` lists them). A use named twice is kept once, where it first stands (the limit of 8 counts the list as sent). The answer then carries the AI door token beside the account token; its own `ai_uses` is what the server took, so read that, never the list you sent:
 
 ```json
 { "token": "ow_a_…", "token_id": "…", "token_type": "bearer", "expires_at": null, "account": { "id": "…", "username": "…" },
