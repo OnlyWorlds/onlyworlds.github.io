@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-10
 
+- **[A team world](/docs/getting-started/team-world): a new page.** How a team shares one world, step by step: the owner invites, each person joins and connects their own AI, and each AI reads, talks and writes as a seat that answers to a person, each step linked to the page that holds it.
 - **[TypeScript](/docs/development/ai#the-ai-door-a-use-by-name) 4.145.0, and [the refusal](/api/errors/#answer_not_parsed): an AI answer that was refused says how it stopped.** An `answer_not_parsed` error carries `refusals`, one row per refused answer with its `word`, the provider's `stop_reason` and its `output_tokens`, so an answer cut off at `max_tokens` reads apart from one in the wrong shape; the SDK reads it as `err.refusals`.
 - **[Lenses](/docs/lenses): the sentence box reads "everything", plurals and "all".** "Everything" alone is every element, "everything about" a name one step out from it, a plural finds its name, and "all" with a name a step out from what it matches.
 - **[Filters](/docs/development/api/reads#filters): an empty link filter agrees with what you are served.** `?parent_location=` (and `""` in the [MCP](/docs/development/mcp) list tool's `link`) lists every element whose link you are served empty: unset, aimed at an element you cannot see, or one an element you know of does not show. Before, it read the stored link, so those were left out. The owner's lists do not change.

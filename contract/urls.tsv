@@ -136,6 +136,7 @@
 /docs/development/unity	page	200	source docs/development/unity.md
 /docs/getting-started/keys	page	200	source docs/getting-started/keys.md
 /docs/getting-started/keys#the-practice-world	load-bearing	200	toolkit:skills/onlyworlds-develop/SKILL.md; toolkit:skills/onlyworlds-start/SKILL.md
+/docs/getting-started/team-world	page	200	source docs/getting-started/team-world.md
 /docs/lenses	page	200	source docs/lenses.mdx (new 2026-10-28, from the conventions page)
 /docs/lenses/api	page	200	source docs/lenses/api.md (new 2026-10-28, from the conventions page); since its content moved to /docs/development/api/lenses the same day, a short page that names the routes and points on
 /docs/lenses/graph	page	200	source docs/lenses/graph.md (new 2026-10-28, from the conventions page; in the World graph section)

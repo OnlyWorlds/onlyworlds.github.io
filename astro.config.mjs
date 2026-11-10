@@ -58,6 +58,7 @@ export default defineConfig({
             { label: 'Overview', link: '/' },
             { slug: 'docs/getting-started' },
             { slug: 'docs/getting-started/keys' },
+            { slug: 'docs/getting-started/team-world' },
             { slug: 'docs/development' },
           ],
         },
