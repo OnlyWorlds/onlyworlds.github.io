@@ -339,13 +339,14 @@ import {
   ELEMENT_LABELS,   // plural display labels
   ELEMENT_SECTIONS, // the field groups and their display order
   FIELD_SCHEMA,     // type and target of every field
-  ROOM_PAIRS,       // the nine type-and-supertype pairs a world's chat room keeps as elements
+  ROOM_PAIRS,       // the ten type-and-supertype pairs a world's chat room keeps as elements
   CHARTER_PAIRS,    // the three reading aids' pairs: Law Charter, Construct Guide, Construct Domain
   ELEMENT_GROUPS,   // each type's colour group: blue, green, pink or amber
   GROUP_COLORS,     // each group's light and dark colour
   elementColor,     // the colour of a type's group
   fieldLabel,       // a field name as the words a tool shows
   dragField,        // the link a drag between two types writes
+  viewOf,           // how an element is shown by its kind: its row, its one sentence, its banners
   isRoomElement,    // whether an element belongs to a world's chat room
   typeWord,         // the word a world uses for a type, or null
 } from '@onlyworlds/sdk';
@@ -353,6 +354,7 @@ import {
 elementColor('character', 'dark');
 fieldLabel('image_url'); // "Image URL"
 dragField('location', 'character'); // { on: 'character', field: 'location', holds: true }
+viewOf({ type: 'narrative', supertype: 'Message', story: 'See you at the gate.\nBring the map.' }).sentence; // 'See you at the gate.'
 ```
 
 Colour marks a type's colour group and the icon marks the type. Always pair a colour with its icon and label, because colour alone is not accessible. The four groups are a visual aid for drawing the 22 types, not part of the standard. Their names before 4.102.0, `ELEMENT_FAMILIES`, `FAMILY_COLORS` and `FAMILY_ORDER`, stay, deprecated, in their old words until 5.0. A [graph node](/docs/development/typescript-readers#a-world-as-a-graph) still names its type's group in a field called `family`.
@@ -374,6 +376,8 @@ Colour marks a type's colour group and the icon marks the type. Always pair a co
 
 `dragField(a, b)` says what a tool writes when a person drags one type onto another: `on`, the type that carries the field; `field`, the link; and `holds`, whether the drop puts the dragged element inside the target or only draws a line. The two types can come in either order, and a pair the table does not offer (two of the same type, a pair with no link between them, or one whose only link names a role) is `null`. It reads schema-dist's `pairs.json`, presentation data like the colours, not part of the standard.
 
+`viewOf(element)` says how an element is shown by its kind (since 4.147.0), from the distribution's `views.json`: `row`, the row that matches (with its `lead` and `fold` fields and its `layout`), or `null` when the element draws as its type; `sentence`, the one line for a card, a list row or a hover (the first field the row names that holds text, up to its first line break), or `null`; and `banners`, the marks to show at the head of its page, in order (`known_of`, `hidden`, the review marks, `x_served_trimmed`, then the row's own, such as `x_room_of`). A row matches a profile's pair only with that profile's mark, then a type with a supertype, then a type alone. Today's rows are a report, a charter, a message and a line in a room. Pass the element as you were served it: the banners read what was served. `VIEWS` is the table itself. Like the colours, it is presentation, not part of the standard, and it says nothing about who may see what.
+
 The package also ships `SCHEMA.md` (every field and its meaning, generated) and `AGENTS.md` for AI agents working in a codebase that uses it.
 
 ## Links
@@ -385,7 +389,7 @@ The package also ships `SCHEMA.md` (every field and its meaning, generated) and 
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.146.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.147.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
