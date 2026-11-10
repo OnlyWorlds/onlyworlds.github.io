@@ -101,7 +101,7 @@ Each calendar a timeline names becomes a Construct with supertype `calendar`, th
 
 Of the six preset calendars every project carried when read on 2026-10-25, five are exact (Gregorian and Harptos in the profile's version 2); Scrolls keeps its minutes only, and the report says why.
 
-A leap day's `day` is not read: LegendKeeper's API document says the app does not read it, and one calendar made twice with `day` 0 and 1 gave the same dates (2026-10-25). The report counts the Events dated before a calendar's first era, which the profile reads with no era.
+A leap day's `day` is not read: LegendKeeper's API document (3.0.0, `CalendarLeapDay.day`) says date arithmetic does not read it, and one calendar made twice with `day` 0 and 1 gave the same dates (2026-10-25). The report counts the Events dated before a calendar's first era, which the profile reads with no era.
 
 ### Hidden content
 
