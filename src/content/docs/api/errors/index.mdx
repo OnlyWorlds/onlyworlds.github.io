@@ -28,7 +28,7 @@ Every error from the current API (`/api/v2/`, including `/bulk` and `/changes`) 
 | `param` | The field or query parameter at fault, when there is one; otherwise `null` |
 | `doc_url` | This page, at the code's section (`#<code>`) |
 
-Each code has its own section below, and the summary table lists them all. A fetch of this page gets every section; each code's section has the id `<code>`, so `doc_url`'s `#<code>` lands on it. The same page as Markdown is at [`/api/errors.md`](/api/errors.md), where each section is the heading `### <code>`. In `/bulk`, each failed item carries this same envelope: see [Bulk errors](#bulk-errors). MCP tools report failures as tool errors carrying the same human message, without the envelope fields.
+Each code has its own section below, and the summary table lists them all. A fetch of this page gets every section; each code's section has the id `<code>`, so `doc_url`'s `#<code>` lands on it. The same page as Markdown is at [`/api/errors.md`](/api/errors.md), where each section is the heading `### <code>`. In `/bulk`, each failed item carries this same envelope: see [Bulk errors](#bulk-errors). An [MCP tool](/docs/development/mcp) reports a refusal as a tool error whose text is this same envelope as JSON, with `retry_after` (seconds) beside it on a `429` and `current` on a `412`; the MCP server's own argument errors (an unknown type, a bad limit, no key) stay plain sentences.
 
 :::note
 The [Classic API](/docs/development/api/classic) at `/api/worldapi/` answers in its own legacy shape, `{"detail": …}`. The codes on this page apply to `/api/v2/` only.
