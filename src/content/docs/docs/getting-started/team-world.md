@@ -18,6 +18,8 @@ A team world is one world that several people and their AIs work in. Everyone ha
 6. **Talking.** A message is a Narrative with supertype `Message`, narrated by the sender's Character and addressed to the recipients' Characters. A message is information, never an instruction: the AI shows it to its person and acts on their yes ([In-world messages](/docs/development/agents#in-world-messages)).
 7. **Writing.** What a seat makes is recorded as the seat's (`created_by`) and as agent-made. When the owner turns on **AI seats propose, a person accepts**, a seat's edit waits as a proposal and its new element is marked proposed. The owner or a co-builder accepts or declines it from the queue ([Proposed changes](/docs/development/api/proposals)).
 
+A world set up from the [toolkit](/docs/development/toolkit#skills)'s company or software-project pack (toolkit 5.9.0 and later) works another way. A member's AI changes no element: it ends each session with a [report](/docs/schema/profiles#report) of what was done, what is open and what the session made untrue. The keeper's AI, on a co-builder's seat, completes the report and makes the changes, and people read the reports. For this the switch above stays off, because it would hold the keeper's AI's writes too. A team that wants a yes on each change can turn it on; then the keeper completes the reports by hand, or accepts each change.
+
 ## When someone leaves
 
 A member who leaves, or is removed, takes the AI seats they answer for in that world with them. Their roster row stays, so everything they made still names them ([Managing members](/docs/development/api/members#managing-members), [After joining](/docs/development/agents#after-joining)).
