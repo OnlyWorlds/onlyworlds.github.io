@@ -43,7 +43,7 @@ From Python: `import_kanka`.
 
 **Hidden content.** What Kanka hides, the folder hides: a private entity becomes an element carrying `hidden: true`, and a private post or a part players cannot see becomes its own hidden Narrative linked to its entity.
 
-**Starter entries.** Kanka seeds starter entries into a new campaign and nothing in the export marks them, so they are imported, and the report names the ones made within seconds of the campaign.
+**Starter entries.** In the export read when the importer was built (2026-10-23), the new campaign held template entries with bracketed names, and nothing in the data told them from what the person typed. So every entry is imported, and the report names the ones made within five seconds of the campaign as possibly starter content: a note, never a leave-out.
 
 **Tags.** A tag becomes a Narrative that links what carries it, but a visible tag never links a hidden element (since 0.49.0).
 
@@ -85,7 +85,7 @@ A titled link list becomes a link field when the element's type has one of that 
 
 ### Maps
 
-A map becomes a Map: its width and height from the map's bounds, its picture's address as `image_url`, which loads only while the LegendKeeper account's picture exists. Each pin becomes a Pin on it, placed from the bottom left and pointing at the page it links, the same pins on the same pixels from the export file and through the API.
+A map becomes a Map: its width and height from the map's bounds, its picture's address as `image_url`, as given and never copied, so the picture stays on LegendKeeper's host; the report says so. Each pin becomes a Pin on it, placed from the bottom left and pointing at the page it links, the same pins on the same pixels from the export file and through the API.
 
 Each region and path on a map becomes a Zone (`shape` `polygon` or `line`) with a Marker at each of its points, in order and placed the way pins are. A feature linking a page that comes in as a Zone, as an OnlyWorlds push writes them, gives its Markers to that Zone. Any other gets a Zone of its own naming the page in `x_legendkeeper_page`, which also becomes a Location's `zone` when the page is a Location with none set.
 
@@ -99,9 +99,9 @@ A timeline's events become Events with the raw minutes and the formatted date ke
 
 Each calendar a timeline names becomes a Construct with supertype `calendar`, the LegendKeeper calendar kept whole in `x_legendkeeper_calendar`. When the [calendar profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/calendar.md) can say it exactly, the Construct carries `atlas_calendar` (one step a day), the Events on it get `start_date` and `end_date` in days, and the world's `time_basic_unit` is `day`.
 
-Five of LegendKeeper's six preset calendars are exact (Gregorian and Harptos in the profile's version 2); Scrolls keeps its minutes only, and the report says why.
+Of the six preset calendars every project carried when read on 2026-10-25, five are exact (Gregorian and Harptos in the profile's version 2); Scrolls keeps its minutes only, and the report says why.
 
-A leap day's `day` is not read (LegendKeeper does not read it either), and the report counts the Events dated before a calendar's first era, which LegendKeeper still names and the profile reads with no era.
+A leap day's `day` is not read: LegendKeeper's API document says the app does not read it, and one calendar made twice with `day` 0 and 1 gave the same dates (2026-10-25). The report counts the Events dated before a calendar's first era, which the profile reads with no era.
 
 ### Hidden content
 
