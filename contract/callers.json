@@ -27,6 +27,7 @@
     ["PATCH","/api/v2/account",[["AccountToken"],["SessionToken"]]],
     ["GET","/api/v2/account/ai",[["AccountToken"],["SessionToken"],["AiToken"]]],
     ["POST","/api/v2/account/ai/ask",[["AccountToken"],["SessionToken"],["AiToken"]]],
+    ["POST","/api/v2/account/ai/lens",[["AccountToken"],["SessionToken"],["AiToken"]]],
     ["POST","/api/v2/account/ai/sort",[["AccountToken"],["SessionToken"],["AiToken"]]],
     ["POST","/api/v2/account/ai/subs-captain",[["AccountToken"],["SessionToken"],["AiToken"]]],
     ["POST","/api/v2/account/ai/subs-jev",[["AccountToken"],["SessionToken"],["AiToken"]]],
