@@ -365,7 +365,7 @@ A player opened a player link, a [table](/docs/development/api/members#a-table-o
 
 **Type** `invalid_request` · **Status** `422`
 
-`POST /api/v2/account/ai/{use}` for a use whose answer is checked JSON (today `subs-captain`, whose order must be valid on its wire): the model answered, but not in the shape the use promises (`param` `answer`), and asked once more it again gave no usable answer. The provider billed both answers, so they count against the use's own daily budget, not the account's [token rating](/docs/development/ai#the-ai-door-a-use-by-name) (or the account's own AI key paid them). The model's text is not returned. Under an `Idempotency-Key`, a retry with the same key and body replays this refusal and bills nothing.
+`POST /api/v2/account/ai/{use}` for a use whose answer is checked JSON (today `subs-captain`, whose order must be valid on its wire): the model answered, but not in the shape the use promises (`param` `answer`), and asked once more it again gave no usable answer. The provider billed both answers, so they count against the use's own daily budget, not the account's [token rating](/docs/development/ai#the-ai-door-a-use-by-name) (or the account's own AI key paid them). The model's text is not returned. The error carries `refusals` beside the envelope's fields: one row for each answer refused, in order, with its `word` (why it was refused), the provider's `stop_reason` (`max_tokens` means it ran out of room, unlike an answer that finished in the wrong shape) and its `output_tokens`. Under an `Idempotency-Key`, a retry with the same key and body replays this refusal, `refusals` included, and bills nothing.
 
 - **How to fix:** do not retry: carry out your tool's own fallback for this decision, and call again for the next one.
 
