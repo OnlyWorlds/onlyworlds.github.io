@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-10
 
+- **[TypeScript](/docs/development/typescript) 4.139.0: `ask()` and `sort()` deprecated.** Call `ai('ask', body)` and `ai('sort', body)` instead ([the AI door](/docs/development/ai#the-ai-door-a-use-by-name)): the same answers, with the use's meter and an idempotency key, under which a retry is billed nothing. The body takes the API's spelling, `world_id`. The old names keep working until 5.0; the [readers page](/docs/development/typescript-readers) shows the new calls, and the reference marks the two.
 - **[TypeScript](/docs/development/typescript) 4.138.0: the AI door token in the SDK.** `completeSignIn({ ..., aiUses, aiLifetimeMinutes })` asks [the sign-in](/docs/development/api/signin#an-ai-door-token) for one and returns it as `aiToken`, and `client.mintAiToken(uses, { lifetimeMinutes })` trades an account token down to one ([the AI page](/docs/development/ai#the-ai-door-a-use-by-name)). `err.isUseNotGranted` and `err.isWrongAudience` read its two refusals.
 
 ## 2026-11-09

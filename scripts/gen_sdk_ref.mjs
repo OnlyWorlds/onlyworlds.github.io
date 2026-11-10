@@ -68,12 +68,22 @@ for (const m of cls.members.filter((m) => ts.isMethodDeclaration(m) && isPublic(
   if (last && last.name === name) { if (!last.rets.includes(ret)) last.rets.push(ret); continue; }
   methods.push({ name, m, rets: [ret] });
 }
+// A method's @deprecated tag ends its row, so the table never reads a retiring name as current
+// (ask and sort, SDK 4.139.0). The tag's own words: "Since X. Use `Y`...", else its first sentence.
+const textOf = (c) => (typeof c === 'string' ? c : Array.isArray(c) ? c.map((p) => p.text).join('') : '').replace(/\s+/g, ' ').trim();
+const deprecatedOf = (node) => {
+  const tag = ts.getJSDocDeprecatedTag(node);
+  if (!tag) return '';
+  const t = textOf(tag.comment);
+  const m = t.match(/^Since (\S+?)\.\s+Use (`[^`]+`)/);
+  return m ? ` **Deprecated** since ${m[1]}: use ${m[2]}.` : ` **Deprecated**${t ? `: ${firstSentence(t)}` : '.'}`;
+};
 const methodRows = methods.map(({ name, m, rets }) => {
   const params = m.parameters.map((p) => p.name.getText(sf) + (p.questionToken ? '?' : '')).join(', ');
   const doc = docOf(m);
   const route = doc.match(/^((?:GET|POST|PUT|PATCH|DELETE)\s+\S+(?:\s+with\s+\{[^}]*\})?)\s+--\s+(.*)$/);
   const what = route ? route[2] : doc;
-  return `| ${code(`${name}(${params})`)} | ${route ? code(route[1]) : ''} | ${esc(firstSentence(what))} | ${rets.map(code).join(' or ')} |`;
+  return `| ${code(`${name}(${params})`)} | ${route ? code(route[1]) : ''} | ${esc(firstSentence(what) + deprecatedOf(m))} | ${rets.map(code).join(' or ')} |`;
 });
 
 const body = [

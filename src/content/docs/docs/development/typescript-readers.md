@@ -53,11 +53,11 @@ For an answer in a sentence, a signed-in account can use OnlyWorlds' [AI proxy](
 import { buildAskContext } from '@onlyworlds/sdk';
 
 const { context, kept, leftOut } = buildAskContext(hits.slice(0, 8), index); // the hits you show, within the proxy's limits
-const reply = await account.ask({ worldId, question, context });    // account: a client with an ow_a_ token
+const reply = await account.ai('ask', { world_id: worldId, question, context }, { idempotencyKey: crypto.randomUUID() }); // account: a client with an ow_a_ token
 // reply.answer comes from those elements only, or is "The world doesn't say."
 ```
 
-`kept` says which elements were sent, so the sources you show are the ones the answer used.
+`kept` says which elements were sent, so the sources you show are the ones the answer used. Keep the idempotency key until the answer lands: a retry under it is answered from the first call and billed nothing ([the AI door](/docs/development/ai#the-ai-door-a-use-by-name)). The older `account.ask({ worldId, question, context })` and `account.sort(...)` still work; both are deprecated since 4.139.0 and leave in 5.0.
 
 `buildAskContext` hands nothing on that a world holds back from an AI: proposed elements (the [review profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/review.md)), [hidden](/docs/development/api/hidden) ones and the room's are left out unless you pass `includeProposed`, `includeHidden` or `includeRoom`, and `leftOut` lists them by id so you can say how many. (Versions before 4.72.0 do not leave them out.)
 
@@ -69,7 +69,7 @@ The same proxy can also [sort loose notes](/docs/development/ai#sort-notes-into-
 
 ```typescript
 const slice = hits.slice(0, 100).map(({ element: e }) => ({ id: e.id, type: e.type, name: e.name }));
-const { rows, not_proposed } = await account.sort({ worldId, notes: ['Mira moved to Ostvik.'], slice });
+const { rows, not_proposed } = await account.ai('sort', { world_id: worldId, notes: ['Mira moved to Ostvik.'], slice });
 // rows: make, add_to, link, or ask (with candidates); one question from the same token rating
 ```
 
