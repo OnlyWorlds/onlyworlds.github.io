@@ -302,6 +302,11 @@
     "status": 503,
     "summary": "Asking your world is not switched on for this server, or is paused for the day (the server-wide cap); nothing was counted. With `param` use: this AI use is switched off, or has spent its own budget for today."
   },
+  "answer_not_parsed": {
+    "type": "invalid_request",
+    "status": 422,
+    "summary": "The AI use's model answered, but not in the shape the use promises (`param` answer), and asked again gave no usable answer either: the provider billed the answers, so they count against the use's budget, not the account's token rating (or the account's own AI key paid them); the text is not returned. A retry under the same Idempotency-Key replays this answer. Carry out your own fallback."
+  },
   "own_key_refused": {
     "type": "invalid_request",
     "status": 422,

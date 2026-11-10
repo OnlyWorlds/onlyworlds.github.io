@@ -1,6 +1,6 @@
 {
   "source": "https://www.onlyworlds.com/api/v2/openapi.json: each operation's security, and the security schemes",
-  "read_at": "2026-11-09",
+  "read_at": "2026-11-10",
   "schemes": {"AccountToken":{"scheme":"bearer","type":"http"},"AiToken":{"scheme":"bearer","type":"http"},"ApiKey":{"in":"header","name":"API-Key","type":"apiKey"},"ApiPin":{"in":"header","name":"API-Pin","type":"apiKey"},"SessionToken":{"in":"header","name":"X-Session-Token","type":"apiKey"}},
   "operations": [
     ["GET","/api/v2/ability",[["ApiKey"],["ApiKey","ApiPin"],["AccountToken"],[]]],
@@ -28,6 +28,8 @@
     ["GET","/api/v2/account/ai",[["AccountToken"],["SessionToken"],["AiToken"]]],
     ["POST","/api/v2/account/ai/ask",[["AccountToken"],["SessionToken"],["AiToken"]]],
     ["POST","/api/v2/account/ai/sort",[["AccountToken"],["SessionToken"],["AiToken"]]],
+    ["POST","/api/v2/account/ai/subs-captain",[["AccountToken"],["SessionToken"],["AiToken"]]],
+    ["POST","/api/v2/account/ai/subs-jev",[["AccountToken"],["SessionToken"],["AiToken"]]],
     ["GET","/api/v2/account/allowance",[["AccountToken"],["SessionToken"]]],
     ["POST","/api/v2/account/ask",[["AccountToken"],["SessionToken"]]],
     ["DELETE","/api/v2/account/clients/{client_id}",[["AccountToken"],["SessionToken"]]],
