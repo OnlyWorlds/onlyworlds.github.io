@@ -16,7 +16,7 @@ As with [images](/docs/development/api/images), the API never handles the bytes:
 | `png`, `jpg`, `webp`, `avif` | The kind; `.jpeg` counts as `jpg` | The first bytes are that image kind's own signature. No `svg` or `gif` |
 | `zip` | `.zip` | Only a world's own bundle: refused for zip64, an encrypted entry, an absolute name or one holding `..`, more than 10,000 entries, or more than 250 MB unpacked |
 
-Any other kind is refused when the ticket is asked for, a `422` [`invalid_request`](/api/errors/#invalid_request) with `param` `kind`. The message names the kinds and, for a Word or PowerPoint file, says to export it as a pdf, for a spreadsheet as a csv.
+Any other kind is refused when the ticket is asked for, a `422` [`invalid_request`](/api/errors/#invalid_request) with `param` `kind`. The message names the kinds and says what to export instead: a Word or PowerPoint file as a pdf, a spreadsheet as a csv, an svg or a gif as a png, a heic photo as a jpg. A jpeg's kind is `jpg` (the name may still end `.jpeg`): `jpeg` as the kind is refused, and the message says so.
 
 ## Limits
 
@@ -124,7 +124,7 @@ curl -s "https://www.onlyworlds.com/api/v2/world/files" -H "API-Key: 0000000001"
 
 ## Downloading a file
 
-`GET /api/v2/{type}/{id}/files/{file_id}/download` answers `{url, exp, name, kind, size}`. The `url` is on `files.onlyworlds.com` and needs no key: the link is the credential. It lives 5 minutes (`exp`, in Unix seconds) and may be fetched more than once, so a PDF viewer's range requests work. The host sends the file as an attachment under its `name` and lets any origin fetch it; onlyworlds.com never shows a file inside its own pages. For a link past its time, ask for a new one.
+`GET /api/v2/{type}/{id}/files/{file_id}/download` answers `{url, exp, name, kind, size}`. The `url` is on `files.onlyworlds.com` and needs no key: the link is the credential. It lives 5 minutes (`exp`, in Unix seconds) and may be fetched more than once, so a PDF viewer's range requests work. The host sends the file as an attachment under its `name`, with its kind's content type (an image as `image/png`, `image/jpeg`, `image/webp` or `image/avif`), and lets any origin fetch it; onlyworlds.com never shows a file inside its own pages. The bytes come back exactly as they went in: nothing is re-encoded, and a photo keeps what it carries, its location included. For a link past its time, ask for a new one.
 
 ## Removing a file
 
