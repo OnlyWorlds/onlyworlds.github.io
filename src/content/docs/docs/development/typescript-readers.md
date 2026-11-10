@@ -212,6 +212,21 @@ layout.map;     // { width: 4062, height: 5276, depth: 900 }
 layout.pins[0]; // { element_type, element_id, name, x, y, z, by }
 ```
 
+## The layout of a map
+
+`layoutOf(map, maps, pins)` (4.142.0 on) reads a Map's two layout marks, as the [map-space profile](/docs/schema/profiles#map-space)'s layout rules state them: `x_layout` on the Map and `x_hand` on its Pins. Pass the Map, the Maps you are served and every Pin you hold; it keeps the Pins whose `map` is this Map.
+
+```typescript
+import { layoutOf } from '@onlyworlds/sdk';
+
+const { layout, ground, hand } = layoutOf(map, maps, pins);
+// layout: 'trail-by-place', 'hand' (a board), a method no page names, or null on a plain map
+// ground: the id of the served Map the layout stands on, or null
+// hand: the ids of the Pins a new lay-out keeps where they are, in code point order
+```
+
+A tool that cannot run the method draws the Pins where they are and never lays them out again. `layoutOf` returns neither the method's settings nor the ground's size: read `map.x_layout.settings` and the ground Map itself for those.
+
 ## Reading aids
 
 `charterOf(world, reader)` returns what a world's front door shows first, `{ charter, guide, domains }`, as that viewer sees them, by the [charter profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/charter.md) (the API's own copy is [`reading_aids`](/docs/development/api/members#reading-aids)).
