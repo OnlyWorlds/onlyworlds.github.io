@@ -169,7 +169,7 @@ const image = await writer.uploadImage(photo.blob);
 
 ## Files
 
-An element can carry files: PDF, text, Markdown, JSON, CSV, YAML, TOML, or a zip that is a world's own bundle. A file sits beside its element, never in its body or the change feed ([Files](/docs/development/api/files)).
+An element can carry files: PDF, text, Markdown, JSON, CSV, YAML, TOML, an image (PNG, JPEG, WebP, AVIF), or a zip that is a world's own bundle. A file sits beside its element, never in its body or the change feed ([Files](/docs/development/api/files)).
 
 `uploadFile(type, id, file)` attaches one, the same two steps as an image: a ticket from the API, then the bytes straight to the upload host. `listFiles(type, id)` lists an element's files, and `worldFiles()` every file in the world with the world's total. `fileDownloadLink(type, id, fileId)` gives a link to one that works for five minutes, and `removeFile(type, id, fileId)` deletes it.
 

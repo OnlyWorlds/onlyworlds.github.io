@@ -1,9 +1,9 @@
 ---
 title: Files
-description: How to attach a PDF, a text file or a world bundle to an element, list and download the files, and remove them.
+description: How to attach a PDF, a text file, an image or a world bundle to an element, list and download the files, and remove them.
 ---
 
-An element can carry files: a PDF, a text file or a world's own bundle, kept on onlyworlds.com beside the element. A file is not a field. It never appears in the element's body, in [`/changes`](/docs/development/api/changes), in a folder or in an export, and adding or removing one leaves the element's `change_seq` alone. A copy of a world leaves its files behind.
+An element can carry files: a PDF, a text file, an image or a world's own bundle, kept on onlyworlds.com beside the element. A file is not a field. It never appears in the element's body, in [`/changes`](/docs/development/api/changes), in a folder or in an export, and adding or removing one leaves the element's `change_seq` alone. A copy of a world leaves its files behind.
 
 As with [images](/docs/development/api/images), the API never handles the bytes: it issues a ticket, and the upload host takes the file. The world's owner can also add, download and remove files on an element's page on onlyworlds.com. In TypeScript, the [SDK](/docs/development/typescript) does both steps in one call, `uploadFile`, beside `listFiles`, `fileDownloadLink`, `removeFile` and `worldFiles` (since 4.32.0).
 
@@ -13,6 +13,7 @@ As with [images](/docs/development/api/images), the API never handles the bytes:
 |:--|:--|:--|
 | `pdf` | `.pdf` | The first five bytes are `%PDF-` |
 | `txt`, `md`, `json`, `csv`, `yaml`, `toml` | The kind; `.markdown` and `.yml` count too | The first 8 KB hold no NUL byte and are valid UTF-8. A `json` file is never parsed |
+| `png`, `jpg`, `webp`, `avif` | The kind; `.jpeg` counts as `jpg` | The first bytes are that image kind's own signature. No `svg` or `gif` |
 | `zip` | `.zip` | Only a world's own bundle: refused for zip64, an encrypted entry, an absolute name or one holding `..`, more than 10,000 entries, or more than 250 MB unpacked |
 
 Any other kind is refused when the ticket is asked for, a `422` [`invalid_request`](/api/errors/#invalid_request) with `param` `kind`. The message names the kinds and, for a Word or PowerPoint file, says to export it as a pdf, for a spreadsheet as a csv.
@@ -59,7 +60,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/character/{id}/files" \
 | Field | Meaning |
 |:--|:--|
 | `name` | The file's name, ending in its kind's extension. Only its last path part is kept, control characters are dropped, and each run of whitespace becomes one space; at most 255 characters (UTF-16 units) |
-| `kind` | One of `pdf`, `txt`, `md`, `json`, `csv`, `yaml`, `toml`, `zip` |
+| `kind` | One of `pdf`, `txt`, `md`, `json`, `csv`, `yaml`, `toml`, `zip`, `png`, `jpg`, `webp`, `avif` |
 | `size` | The file's size in bytes, a whole number from 1 |
 | `label` | Optional: the field of the element the file belongs to, or your own words; at most 80 characters |
 
@@ -123,7 +124,7 @@ curl -s "https://www.onlyworlds.com/api/v2/world/files" -H "API-Key: 0000000001"
 
 ## Downloading a file
 
-`GET /api/v2/{type}/{id}/files/{file_id}/download` answers `{url, exp, name, kind, size}`. The `url` is on `files.onlyworlds.com` and needs no key: the link is the credential. It lives 5 minutes (`exp`, in Unix seconds) and may be fetched more than once, so a PDF viewer's range requests work. The host sends the file as an attachment under its `name`, never shown inside a page, and lets any origin fetch it. For a link past its time, ask for a new one.
+`GET /api/v2/{type}/{id}/files/{file_id}/download` answers `{url, exp, name, kind, size}`. The `url` is on `files.onlyworlds.com` and needs no key: the link is the credential. It lives 5 minutes (`exp`, in Unix seconds) and may be fetched more than once, so a PDF viewer's range requests work. The host sends the file as an attachment under its `name` and lets any origin fetch it; onlyworlds.com never shows a file inside its own pages. For a link past its time, ask for a new one.
 
 ## Removing a file
 
