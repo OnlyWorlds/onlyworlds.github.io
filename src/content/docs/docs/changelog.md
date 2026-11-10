@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-10
 
+- **[Filters](/docs/development/api/reads#filters): the empty `characters` filter agrees with what you are served.** `?characters=` lists every element you are served with `characters` empty and no `x_served_trimmed` naming it; a Message whose addressees were all hidden from you stays out, as before.
 - **[The report profile](/docs/schema/profiles#report): a session's report is a room element.** A Narrative with supertype `Report` and the room's mark is what a session, or a closed talk, leaves behind: handed in by the reporter's AI, completed by the keeper's, with `x_report_answers` naming the work items it answers. The [room profile](/docs/schema/profiles#room) gains it as its tenth pair, and [TypeScript](/docs/development/typescript) 4.146.0 and [Python](/docs/development/python) 0.112.0 count a marked report as a room element. A [work item](/docs/schema/profiles#packet) may name whom it is for by role, `x_packet_for`.
 - **[Python](/docs/development/python) 0.112.0: `ApiError.refusals`.** A 422 [`answer_not_parsed`](/api/errors/#answer_not_parsed) says each answer an AI use refused, as TypeScript's `err.refusals` does.
 - **[A team world](/docs/getting-started/team-world): a new page.** How a team shares one world, step by step: the owner invites, each person joins and connects their own AI, and each AI reads, talks and writes as a seat that answers to a person, each step linked to the page that holds it.
