@@ -59,10 +59,10 @@
 /write-tool/	internal	200	onlyworlds.github.io:docs/tools/index.md; onlyworlds.github.io:docs/tools/write-tool.md
 /docs/contact	page	200	source docs/contact.md
 /docs/development/ai	page	200	source docs/development/ai.md
-/docs/development/api/draught	page	200	source docs/development/api/draught.mdx (new 2026-10-22)
-/docs/development/api/signin	page	200	source docs/development/api/signin.mdx (new 2026-10-22)
-/docs/development/api/proposals	page	200	source docs/development/api/proposals.mdx (new 2026-10-22)
-/docs/development/api/public	page	200	source docs/development/api/public.mdx (new 2026-10-23)
+/docs/development/api/draught	load-bearing	200	toolkit:skills/onlyworlds-context/SKILL.md; source docs/development/api/draught.mdx (new 2026-10-22)
+/docs/development/api/signin	load-bearing	200	toolkit:skills/onlyworlds-develop/SKILL.md; source docs/development/api/signin.mdx (new 2026-10-22)
+/docs/development/api/proposals	load-bearing	200	toolkit:skills/onlyworlds-update/SKILL.md; source docs/development/api/proposals.mdx (new 2026-10-22)
+/docs/development/api/public	load-bearing	200	toolkit:skills/onlyworlds-start/SKILL.md; source docs/development/api/public.mdx (new 2026-10-23)
 /docs/development/schema	page	200	source docs/development/schema.md
 /docs/development/python-import	page	200	source docs/development/python-import.md (new 2026-11-04, the import tools from the Python page)
 /docs/getting-started/	page	200	source docs/getting-started/index.md
@@ -90,9 +90,9 @@
 /docs/schema/element_categories/trait	page	200	source docs/schema/element_categories/trait.md
 /docs/schema/element_categories/zone	page	200	source docs/schema/element_categories/zone.md
 /docs/schema/fields	page	200	source docs/schema/fields.mdx
-/docs/schema/folders	page	200	source docs/schema/folders.mdx
+/docs/schema/folders	load-bearing	200	toolkit:knowledge/atlas-conventions.md and 18 more files (v5.8.0); source docs/schema/folders.mdx
 /docs/schema/worlds	page	200	source docs/schema/worlds.mdx
-/docs/tools/atlas	page	200	source docs/tools/atlas.md
+/docs/tools/atlas	load-bearing	200	toolkit:knowledge/atlas-conventions.md and 4 more files (v5.8.0); source docs/tools/atlas.md
 /docs/tools/base-tool	page	200	source docs/tools/base-tool.md
 /docs/tools/council	page	200	source docs/tools/council.md
 /docs/tools/easy-mobile	page	200	source docs/tools/easy-mobile.md
@@ -108,7 +108,7 @@
 /docs/tools/zoner	page	200	source docs/tools/zoner.md
 /docs/schema/element_categories/base_properties	page	200	source docs/schema/element_categories/base_properties.md (found 2026-10-08 by diffing against jekyll-final)
 /docs/schema/element_categories/world	page	200	source docs/schema/element_categories/world.md (found 2026-10-08 by diffing against jekyll-final)
-/docs	page	301 -> https://onlyworlds.github.io/docs/	onlyworlds.github.io:the docs root and its namespaces, typed or linked (Skeld, the LegendKeeper lane; 404 on the live site 2026-10-17)
+/docs	load-bearing	301 -> https://onlyworlds.github.io/docs/	toolkit:skills/onlyworlds-develop/SKILL.md; toolkit:skills/onlyworlds-start/SKILL.md; onlyworlds.github.io:the docs root and its namespaces, typed or linked (Skeld, the LegendKeeper lane; 404 on the live site 2026-10-17)
 /api	page	301 -> https://onlyworlds.github.io/api/	onlyworlds.github.io:the docs root and its namespaces, typed or linked (Skeld, the LegendKeeper lane; 404 on the live site 2026-10-17)
 /docs/development/api	page	301 -> https://onlyworlds.github.io/docs/development/api/	onlyworlds.github.io:the docs root and its namespaces, typed or linked (Skeld, the LegendKeeper lane; 404 on the live site 2026-10-17)
 /.well-known/security.txt	load-bearing	200	RFC 9116, where a reporter looks first (Kael, 2026-10-24)
@@ -118,9 +118,9 @@
 /docs/development/api/changes	page	200	source docs/development/api/changes.md
 /docs/development/api/classic	page	200	source docs/development/api/classic.md
 /docs/development/api/cors	load-bearing	200	toolkit:skills/onlyworlds-develop/knowledge/deployment.md
-/docs/development/api/files	page	200	source docs/development/api/files.md
+/docs/development/api/files	load-bearing	200	toolkit:skills/onlyworlds-develop/SKILL.md; source docs/development/api/files.md
 /docs/development/api/hidden	page	200	source docs/development/api/hidden.md
-/docs/development/api/images	page	200	source docs/development/api/images.md
+/docs/development/api/images	load-bearing	200	toolkit:skills/onlyworlds-develop/SKILL.md; source docs/development/api/images.md
 /docs/development/api/links	page	200	source docs/development/api/links.md
 /docs/development/api/members	page	200	source docs/development/api/members.mdx
 /docs/development/api/reads	page	200	source docs/development/api/reads.md
@@ -135,10 +135,11 @@
 /docs/development/typescript-accounts	page	200	source docs/development/typescript-accounts.md (new 2026-11-04, the account and membership sections moved from /docs/development/typescript)
 /docs/development/unity	page	200	source docs/development/unity.md
 /docs/getting-started/keys	page	200	source docs/getting-started/keys.md
+/docs/getting-started/keys#the-practice-world	load-bearing	200	toolkit:skills/onlyworlds-develop/SKILL.md; toolkit:skills/onlyworlds-start/SKILL.md
 /docs/lenses	page	200	source docs/lenses.mdx (new 2026-10-28, from the conventions page)
 /docs/lenses/api	page	200	source docs/lenses/api.md (new 2026-10-28, from the conventions page); since its content moved to /docs/development/api/lenses the same day, a short page that names the routes and points on
 /docs/lenses/graph	page	200	source docs/lenses/graph.md (new 2026-10-28, from the conventions page; in the World graph section)
-/docs/development/api/lenses	page	200	source docs/development/api/lenses.md (new 2026-10-28, moved from /docs/lenses/api)
+/docs/development/api/lenses	load-bearing	200	toolkit:skills/onlyworlds-context/SKILL.md; source docs/development/api/lenses.md (new 2026-10-28, moved from /docs/lenses/api)
 /docs/world-graph	page	200	source docs/world-graph.md (new 2026-10-28, the World graph section's overview)
 /docs/world-graph/draught	page	200	source docs/world-graph/draught.mdx (new 2026-10-28; the draught figure since 2026-11-05; the route stays on /docs/development/api/draught)
 /docs/schema/conventions	load-bearing	200	toolkit:knowledge/atlas-conventions.md; toolkit:skills/onlyworlds-context/knowledge/atlas-conventions.md; toolkit:skills/onlyworlds-import/knowledge/atlas-conventions.md; toolkit:skills/onlyworlds-read/knowledge/atlas-conventions.md; toolkit:skills/onlyworlds-update/knowledge/atlas-conventions.md
