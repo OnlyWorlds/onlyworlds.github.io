@@ -233,7 +233,7 @@ A tool that cannot run the method draws the Pins where they are and never lays t
 
 - `charter` is `{ id, name, rules, skill }` or null: the newest marked Charter, its `x_checks_rules` list (`[]` when none) and the Objects its text names, at most five.
 - `guide` is `{ id, name }` or null.
-- Each Domain is `{ id, name, sentence, hubs }`: its description up to the first line break, and the elements its links name that the reader sees, as `{ type, id }`.
+- Each Domain is `{ id, name, sentence, hubs }`: its description trimmed, cut at its first line break, and trimmed again, and the elements its links name that the reader sees, as `{ type, id }`.
 
 `domainsOf(world, reader)` returns the Domains alone. `world` holds the elements as the owner is served them, with `open: true` for a world open to anyone (only then does a public viewer see anything), and `reader` is the viewer's `{ rung }`, as in [What every reader takes](#what-every-reader-takes).
 
