@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-11
 
+- **[A review mark's `by` is the writer's own](/api/errors/#review_by_another), and both packages read the refusal: TypeScript 4.152.0 and Python 0.115.0.** Below co-builder, an `x_review_proposed` or `x_review_checked` mark that carries a `by` is stored only when it is exactly the mark the element holds or its `by` is the writer's own membership id; any other `by`, a Character's id included, is a `403` `review_by_another` with `param` the mark, and nothing is written. The owner and co-builders write any `by`. `OwApiError.isReviewByAnother` and `ApiError.is_review_by_another` tell it apart; the [review profile](/docs/schema/profiles#review) says the rule.
 - **[The account](/docs/development/api/signin#the-account): one rule for a username.** `PATCH /api/v2/account` now holds a new `username` to the rule sign-up holds it to: the letters a to z in either case, the digits and `@ . + - _`, with at least one letter or digit, at most 30 characters, not another account's name in any case, never the word `owner`. A refused name is a `422` `invalid_request` with `param` `username`, and nothing is written. Until now that route checked nothing. Existing names stay as they are.
 
 ## 2026-11-10

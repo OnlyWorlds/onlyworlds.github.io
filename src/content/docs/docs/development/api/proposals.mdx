@@ -22,6 +22,7 @@ A proposal carries `kind` (`"proposal"`), `id`, `element_type`, `element_id`, `s
 - A proposer may hold five open proposals on one element and fifty in one world: past either, `422 too_many_open`. Lapsed rows do not count. {/* limit: proposals_open_per_element proposals_open_per_world */}
 - `Idempotency-Key` is honoured as on a create: since 2026-10-28 a retry after a failed answer never proposes twice, and a key whose proposal is gone since (withdrawn, or deleted with its element) answers `409 idempotency_error`: send again with a new key.
 - An element the caller cannot see, and the keyless public view, answer `404`; a read key that belongs to no member answers `403`.
+- Below co-builder, `fields` that set a [review mark](/docs/schema/profiles#review) (`x_review_proposed` or `x_review_checked`) with a `by` other than the proposer's own membership id, in a mark that is not exactly the one the element holds, answer `403` [`review_by_another`](/api/errors/#review_by_another) (since 2026-11-11), as the same mark does on a write.
 
 `GET /api/v2/{type}/{id}/proposals` lists an element's proposals: keepers see every row, other members their own.
 

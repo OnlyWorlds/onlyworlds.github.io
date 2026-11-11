@@ -197,6 +197,11 @@
     "status": 403,
     "summary": "A key that is not a keeper's (a contributor's, a guest's, a player's or a seat's below co-builder) set, changed or removed `x_charter_of`, the mark that makes a Charter, a Guide or a Domain the world's reading aid. Nothing was written. The owner's own keys and a co-builder's write it; sending it unchanged passes."
   },
+  "review_by_another": {
+    "type": "permission_error",
+    "status": 403,
+    "summary": "A key below co-builder (a contributor's or a guest's, a person's or a seat's) wrote a review mark, `x_review_proposed` or `x_review_checked` (`param` names which), with a `by` that is not its own: below co-builder, a mark with a `by` is either the mark exactly as the element holds it (the same JSON value: every key and value, numbers by value, so 1 and 1.0 are one and true is never 1) or the writer's own, `by` its membership id. Nothing was written. Send your own membership id as `by`, or send the mark exactly as the element holds it now (read the element again if it changed since). null, a mark with no `by`, and every write by the owner's keys or a co-builder's pass. On every element write and proposal, /bulk item by item."
+  },
   "owner_only": {
     "type": "permission_error",
     "status": 403,
@@ -305,7 +310,7 @@
   "answer_not_parsed": {
     "type": "invalid_request",
     "status": 422,
-    "summary": "The AI use's model answered, but not in the shape the use promises (`param` answer), and asked again gave no usable answer either: the provider billed the answers, so they count against the use's budget, not the account's token rating (or the account's own AI key paid them); the text is not returned. A retry under the same Idempotency-Key replays this answer. Carry out your own fallback."
+    "summary": "The AI use's model answered, but not in the shape the use promises (`param` answer), and asked again gave no usable answer either: the provider billed the answers, so they count against the use's budget, not the account's token rating (or the account's own AI key paid them); the text is not returned. The error's `refusals` lists each refused answer's word, stop reason and output tokens, never its text. A retry under the same Idempotency-Key replays this answer. Carry out your own fallback."
   },
   "own_key_refused": {
     "type": "invalid_request",
@@ -397,7 +402,7 @@
     "type": null,
     "status": 415,
     "host": "upload.onlyworlds.com",
-    "summary": "An image must be webp, png, jpeg or avif; a file on an element must be a pdf, a text kind (txt, md, json, csv, yaml, toml) or a world's own zip bundle (the type is read from the bytes)."
+    "summary": "An image must be webp, png, jpeg or avif; a file on an element must be a pdf, a text kind (txt, md, json, csv, yaml, toml), an image (png, jpg, webp, avif) or a world's own zip bundle (the type is read from the bytes)."
   },
   "write_failed": {
     "type": null,
