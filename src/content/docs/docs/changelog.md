@@ -9,6 +9,10 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-11
 
+- **Both packages on schema-dist serial 117: TypeScript 4.155.1 and Python 0.117.2.** The views table now says that a tool's own words for a heading or a fold are its drawing, and a fold's label is the word a tool uses where it has none of its own; which fields, in what order, open or folded, stay the row's ([`viewOf`](/docs/development/typescript#schema-constants)). Its fixture gains a case: a Pin whose link has one key holding and the other blank holds nothing. No reader's answer moved.
+
+- **A review mark's `by` is your own membership id exactly as `GET /api/v2/me` gives it.** Below co-builder, the same id in capitals, without hyphens, in braces or after `urn:uuid:` is refused like any other `by` ([`review_by_another`](/api/errors/#review_by_another)), and the [queue](/docs/development/api/proposals#the-queue) shows such a member the marked new elements whose `by` is exactly its own id. The [draught](/docs/development/api/draught)'s `proposed` section names what counts as no mark: `null`, an empty string or whitespace alone, `[]` and `{}`.
+
 - **[The review queue](/docs/development/api/proposals#the-queue): a new element's `by` is the mark's own, and `null` when it names nobody.** The queue's `new_element` row serves the mark's `by` as the writer's word, a claim, and `null` for one that is not a string or is whitespace alone (it was the text of the value). The [`proposed_only`](/api/errors/#proposed_only) summary says "a new element whose mark names it". onlyworlds.com's own pages now say a mark as "the mark names Ada".
 
 - **[Python](/docs/development/python) 0.117.1: the Markdown pack says "marked proposed".** Its opening line counts the elements "marked proposed and not yet reviewed by a keeper" it left out or kept, where it said "proposed by an AI agent": a review mark says an element is proposed, never who made it.
