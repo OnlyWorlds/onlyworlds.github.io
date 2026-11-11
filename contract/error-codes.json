@@ -200,7 +200,7 @@
   "review_by_another": {
     "type": "permission_error",
     "status": 403,
-    "summary": "A key below co-builder (a contributor's or a guest's, a person's or a seat's) wrote a review mark, `x_review_proposed` or `x_review_checked` (`param` names which), with a `by` that is not its own: below co-builder, a mark with a `by` is either the mark exactly as the element holds it (the same JSON value: every key and value, numbers by value, so 1 and 1.0 are one and true is never 1) or the writer's own, `by` its membership id. Nothing was written. Send your own membership id as `by`, or send the mark exactly as the element holds it now (read the element again if it changed since). null, a mark with no `by`, and every write by the owner's keys or a co-builder's pass. On every element write and proposal, /bulk item by item."
+    "summary": "A key below co-builder (a contributor's or a guest's, a person's or a seat's) wrote a review mark, `x_review_proposed` or `x_review_checked` (`param` names which), with a `by` that is not its own: below co-builder, a mark with a `by` is either the mark exactly as the element holds it (the same JSON value: every key and value, numbers by value, so 1 and 1.0 are one and true is never 1) or the writer's own, `by` its membership id exactly as `GET /me` gives it (another spelling of that id is refused). Nothing was written. Send your own membership id as `by`, exactly as `GET /me` gives it, or send the mark exactly as the element holds it now (read the element again if it changed since). null, a mark with no `by`, and every write by the owner's keys or a co-builder's pass. On every element write and proposal, /bulk item by item."
   },
   "owner_only": {
     "type": "permission_error",
