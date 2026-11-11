@@ -7,6 +7,10 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 What changed on onlyworlds.com for everyone is on its own [Changelog](https://www.onlyworlds.com/changelog); this page stays the developer log.
 
+## 2026-11-12
+
+- **[Python](/docs/development/python) 0.118.2: one source, one world.** Every importer's `--help` now ends with the rule the [import page](/docs/development/python-import) states: the world's id and every element's id are made from the source, so importing it again gives the same ids, and onlyworlds.com refuses an id another world already holds.
+
 ## 2026-11-11
 
 - **Both packages on schema-dist serial 118: [TypeScript](/docs/development/typescript) 4.157.1 and [Python](/docs/development/python) 0.118.1.** The [checks profile](/docs/schema/profiles#checks) says a field is present only when something is left after trimming by the room profile's whitespace, so a unit separator alone is present, and gains two rules a team's world keeps (every work item and every report carries the room's mark), which the Python doctor replays. The [room profile](/docs/schema/profiles#room) says a sitting's own mark holds the world's id and that a sitting names its winning spec in `x_star`. The views table's conversation layout says a tool that shows one element and no thread draws it as a document. No answer of either package moved.
