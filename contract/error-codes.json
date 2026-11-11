@@ -230,7 +230,7 @@
   "proposed_only": {
     "type": "permission_error",
     "status": 403,
-    "summary": "The world takes an agent seat's writes as proposals (its owner's setting), and this act has no proposal form: a seat deleting an element it did not create, or accepting or declining a proposal. Propose instead, or ask a keeper. Also, on any world, a member accepting or declining a new element its own mark proposed: a keeper settles it."
+    "summary": "The world takes an agent seat's writes as proposals (its owner's setting), and this act has no proposal form: a seat deleting an element it did not create, or accepting or declining a proposal. Propose instead, or ask a keeper. Also, on any world, a member accepting or declining a new element whose mark names it: a keeper settles it."
   },
   "own_proposal": {
     "type": "permission_error",

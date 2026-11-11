@@ -9,6 +9,8 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-11
 
+- **[The review queue](/docs/development/api/proposals#the-queue): a new element's `by` is the mark's own, and `null` when it names nobody.** The queue's `new_element` row serves the mark's `by` as the writer's word, a claim, and `null` for one that is not a string or is whitespace alone (it was the text of the value). The [`proposed_only`](/api/errors/#proposed_only) summary says "a new element whose mark names it". onlyworlds.com's own pages now say a mark as "the mark names Ada".
+
 - **[Python](/docs/development/python) 0.117.1: the Markdown pack says "marked proposed".** Its opening line counts the elements "marked proposed and not yet reviewed by a keeper" it left out or kept, where it said "proposed by an AI agent": a review mark says an element is proposed, never who made it.
 
 - **[Who a review mark's `by` names](/docs/schema/profiles#review) (schema-dist serial 116), in both packages: TypeScript 4.155.0 and Python 0.117.0.** A mark's `by` is the writer's own word for who made the mark, a claim: read as stored and never trimmed, naming nobody when it is not a string or is whitespace alone, and shown as the mark's word ("the mark names Ada"), never as a fact. `proposedMarkOf` and `proposed_mark_of` no longer trim it (`" owner "` came back as `owner` before).
