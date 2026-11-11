@@ -7,6 +7,8 @@ The [`onlyworlds` Python package](/docs/development/python) brings a world in fr
 
 Install the package first ([Install](/docs/development/python#install)). If you use a coding agent, the [toolkit](/docs/development/toolkit)'s `carry` skill also brings in an export from these apps.
 
+**One source, one world.** Every importer makes the world's id and each element's id from the source itself, so importing the same source again gives the same ids. onlyworlds.com refuses an id another world already holds, so one source goes online as one world: a second world made from the same source is refused.
+
 ## Campfire
 
 Reads the html from Campfire's web app (File, Export Elements) into a world folder, with no AI and no account. Since 0.41.0.
