@@ -108,7 +108,7 @@ The upload host answers errors in its own shape: see [Upload host errors](/api/e
 | `id` | The file's id |
 | `name`, `kind`, `size` | As uploaded; `size` in bytes, as the upload host stored them |
 | `label` | The label, or `null` |
-| `added_by` | `{name, membership, agent}`: a member's or a seat's name (the owner's username for the owner's keys), the membership id (`null` for the owner's keys), and `true` when an agent added it: a seat, the MCP server, or a key that declared an agent ([Agent writes](/docs/development/api/writes#agent-writes)) |
+| `added_by` | `{name, membership, agent, owner}`: a member's or a seat's name (the owner's username for the owner's keys), the membership id, `true` when an agent added it (a seat, the MCP server, or a key that declared an agent: [Agent writes](/docs/development/api/writes#agent-writes)), and `owner`, `true` when the world's current owner added it, through any door (a seat the owner sponsors is the seat's, `false`). `membership` is `null` for the owner's files and for a file whose membership no longer exists, and `owner` tells the two apart: a `null` membership with `owner` `false` is a former member, and the file is named "a former member". A removed member's file keeps its membership id and name; a file whose member's account was deleted keeps its membership id and is named "a former member" |
 | `added_at` | When the upload host reported it stored |
 
 `GET /api/v2/world/files` lists every file the key may see, each row with its element's `element_type` and `element_id`, plus the world's total: `used_bytes` and `cap_bytes`.
