@@ -329,7 +329,7 @@ A body read with no key, as the public is served it, carries no hands and no tri
 
 ## Proposed elements
 
-An element an AI seat wrote as [proposed](/docs/development/api/proposals) follows the [review profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/review.md): `proposedMarkOf(el)` gives its mark as a viewer shows it, `{ by, expires, lapsed }`, or `null` for a settled element. `handsOnAsProposed(el)` is what a reader function that hands a world on (a context for an AI, a share) leaves out, a malformed mark included. `buildAskContext` reads the same function.
+An element an AI seat wrote as [proposed](/docs/development/api/proposals) follows the [review profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/review.md): `proposedMarkOf(el)` gives its mark as a viewer shows it, `{ by, expires, lapsed }`, or `null` for a settled element. `by` is the mark's own word, read as stored and never trimmed since 4.155.0 (`null` when it is not a string or is whitespace alone), to be shown as [the review profile](/docs/schema/profiles#review) says, as the mark's word and never as a fact. `handsOnAsProposed(el)` is what a reader function that hands a world on (a context for an AI, a share) leaves out, a malformed mark included. `buildAskContext` reads the same function.
 
 ## World calendars
 
