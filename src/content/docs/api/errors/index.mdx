@@ -47,7 +47,7 @@ Each code belongs to one family, its `type`, and a family's codes do not share o
 |:--|:--|:--|:--|
 | [`invalid_request`](#invalid_request) | `invalid_request` | `422` | The body or query is malformed: an unknown field or query parameter, a bad value, or a wrong-shaped payload; `param` names the culprit. |
 | [`invalid_link`](#invalid_link) | `invalid_request` | `400` | A link field names an element that does not exist in this world (or among a /bulk batch's surviving items). |
-| [`id_conflict`](#id_conflict) | `invalid_request` | `409` | A create supplied an id that already exists, in this world or another (element ids are unique across all worlds). |
+| [`id_conflict`](#id_conflict) | `invalid_request` | `409` | A create supplied an id that already exists, in this world or another (element ids are unique across all worlds), or an id a membership already holds (a member's or a seat's, in any world, a removed member's too). |
 | [`resync_required`](#resync_required) | `invalid_request` | `409` | A guest's, or (with the hidden mark on) a contributor's, /changes cursor predates a change to what it can see, or is not this caller's cursor shape: pull again from since=0. With the hidden mark on, the envelope's `reason` says why: `role` (your own role or membership moved: keep what the new walk does not name) or `view` (what you may see moved: drop it). |
 | [`already_member`](#already_member) | `invalid_request` | `409` | The invite names someone who is already a member, or the accepting account already is one; the envelope's `world_id` names the world. A join code the caller's own account already used answers this too, so a lost answer is read by sending the code again. |
 | [`removal_in_flight`](#removal_in_flight) | `invalid_request` | `409` | A removal ticket for this image was issued less than 10 minutes ago and is not yet spent; use it, or retry after Retry-After. |
@@ -181,10 +181,10 @@ A read sent both an `API-Key` and an account token (`Authorization: Bearer ow_a_
 
 **Type** `invalid_request` · **Status** `409`
 
-A `POST`, a creating `PUT` or a `/bulk` item supplied an `id` another element already holds: one of the same type, one of another type in this world (since 2026-10-29), or one in another world. Element ids are unique across **all** worlds and **every** type, so the message says which case it is, and names the type when this world holds the id as another one you can see.
+A `POST`, a creating `PUT` or a `/bulk` item supplied an `id` another element already holds: one of the same type, one of another type in this world (since 2026-10-29), or one in another world. Element ids are unique across **all** worlds and **every** type, so the message says which case it is, and names the type when this world holds the id as another one you can see. Since 2026-11-11 an element also never takes an id a membership holds (a member's or a seat's, in any world, a removed member's too): that create is refused the same way, `param` `id`, and the message says only that the id is in use and to give the element a new one. An element that already exists keeps its id.
 
 - **Common cause:** retrying a create with a client-minted UUID that already landed, reusing ids copied from another world, or minting the same id for two elements of different types.
-- **How to fix:** if the id exists in this world as this type, use `PUT /api/v2/{type}/{id}`, the upsert: `POST` only creates. If this world holds it as another type, `PUT` it as that type, or mint a new id. If it exists in another world, mint a new id. To retry a request that may have completed, send an `Idempotency-Key` header instead of posting again.
+- **How to fix:** if the id exists in this world as this type, use `PUT /api/v2/{type}/{id}`, the upsert: `POST` only creates. If this world holds it as another type, `PUT` it as that type, or mint a new id. If it exists in another world, or a membership holds it, mint a new id. To retry a request that may have completed, send an `Idempotency-Key` header instead of posting again.
 
 ### handover_refused
 
@@ -192,7 +192,7 @@ A `POST`, a creating `PUT` or a `/bulk` item supplied an `id` another element al
 
 `POST /api/v2/account/worlds/handover` ([a world with its first elements](/docs/getting-started/keys#a-world-with-its-first-elements)) refused one of its items, so nothing was written: not the world, not its elements, not the account PIN. Beside the error, `items` holds each item's result, and the refused ones carry their own `error`.
 
-- **`409`:** an item's `id` is held in another world; that slot says `id_conflict`. Give it a new id and send the whole call again.
+- **`409`:** an item's `id` is held in another world, or by a membership (since 2026-11-11); that slot says `id_conflict`. Give it a new id and send the whole call again.
 - **`422`:** any other refusal, named in the slot that failed.
 - **A retry after a lost answer** meets `409` on every id, because they landed in the first world: that world is under the account's worlds (`GET /api/v2/account/worlds`). Since 2026-11-07 the route takes an `Idempotency-Key`: send one, and the same key and body answer the first `201` again, the one world.
 

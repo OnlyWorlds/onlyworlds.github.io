@@ -12,7 +12,7 @@
   "id_conflict": {
     "type": "invalid_request",
     "status": 409,
-    "summary": "A create supplied an id that already exists, in this world or another (element ids are unique across all worlds)."
+    "summary": "A create supplied an id that already exists, in this world or another (element ids are unique across all worlds), or an id a membership already holds (a member's or a seat's, in any world, a removed member's too)."
   },
   "resync_required": {
     "type": "invalid_request",
