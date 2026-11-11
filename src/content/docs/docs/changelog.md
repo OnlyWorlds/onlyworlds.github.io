@@ -9,6 +9,8 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-11
 
+- **[Python](/docs/development/python) 0.118.0: the doctor tells a room thing by the profiles.** A finding is set apart with the messages and room things only when its element is a message, or a room element by its pair and its `x_room_of` mark. A work item or a report made by hand without the mark is lore to every tool, so its finding now counts with the rest, and a [house rule](/docs/schema/profiles) such as `{"where": {"type": "relation", "supertype": "Work item"}, "require": {"field": "x_room_of", "present": true}}` lists each one.
+
 - **Both packages on schema-dist serial 117: TypeScript 4.155.1 and Python 0.117.2.** The views table now says that a tool's own words for a heading or a fold are its drawing, and a fold's label is the word a tool uses where it has none of its own; which fields, in what order, open or folded, stay the row's ([`viewOf`](/docs/development/typescript#schema-constants)). Its fixture gains a case: a Pin whose link has one key holding and the other blank holds nothing. No reader's answer moved.
 
 - **A review mark's `by` is your own membership id exactly as `GET /api/v2/me` gives it.** Below co-builder, the same id in capitals, without hyphens, in braces or after `urn:uuid:` is refused like any other `by` ([`review_by_another`](/api/errors/#review_by_another)), and the [queue](/docs/development/api/proposals#the-queue) shows such a member the marked new elements whose `by` is exactly its own id. The [draught](/docs/development/api/draught)'s `proposed` section names what counts as no mark: `null`, an empty string or whitespace alone, `[]` and `{}`.
