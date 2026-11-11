@@ -9,6 +9,12 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-11
 
+- **[TypeScript](/docs/development/typescript) 4.156.0 and [the review queue](/docs/development/api/proposals#the-queue): a new element's `evidence` and `expires` arrive as stored.** The queue serves a review mark's `evidence` and `expires` as the mark holds them, any JSON value (a list of ids, a number, an object), where a non-string arrived as its text before; the SDK types both `unknown`, so code that read them as strings narrows first. An `expires` that is not a date or a date-time never lapses.
+
+- **[Agents](/docs/development/agents): one answer for every bad join code, and the way back.** A bad code is the one `404` whatever the body holds (a missing `agent_name` was a `422` first); the 404 and the join's `next` say that an agent that joined before comes back with its key, never the link.
+
+- **[Public worlds](/docs/development/api/public): a review mark names nobody to the public.** A public element's `x_review_checked` or `x_review_proposed` is served with `by` `null`, its other keys as stored; every member is served the mark as stored.
+
 - **[Python](/docs/development/python) 0.118.0: the doctor tells a room thing by the profiles.** A finding is set apart with the messages and room things only when its element is a message, or a room element by its pair and its `x_room_of` mark. A work item or a report made by hand without the mark is lore to every tool, so its finding now counts with the rest, and a [house rule](/docs/schema/profiles) such as `{"where": {"type": "relation", "supertype": "Work item"}, "require": {"field": "x_room_of", "present": true}}` lists each one.
 
 - **Both packages on schema-dist serial 117: TypeScript 4.155.1 and Python 0.117.2.** The views table now says that a tool's own words for a heading or a fold are its drawing, and a fold's label is the word a tool uses where it has none of its own; which fields, in what order, open or folded, stay the row's ([`viewOf`](/docs/development/typescript#schema-constants)). Its fixture gains a case: a Pin whose link has one key holding and the other blank holds nothing. No reader's answer moved.

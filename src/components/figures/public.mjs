@@ -109,7 +109,7 @@ export function publicWords(data, code = (s) => `\`${s}\``) {
   };
 }
 
-export const markSay = (r, code = (s) => `\`${s}\``) => (r.mark ? (r.settled ? `${code(r.mark)} with a value that is neither ${code(r.settled)} nor empty` : code(r.mark)) : '');
+export const markSay = (r, code = (s) => `\`${s}\``) => (r.mark ? (r.settled ? `${code(r.mark)} with a value that counts as present` : code(r.mark)) : '');
 export const routeSay = (r) => `${r.method} ${r.path.slice(PREFIX.length)}`;
 
 export function publicMarkdown(snap, callers, types, labels) {
