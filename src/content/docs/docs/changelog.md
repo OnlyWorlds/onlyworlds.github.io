@@ -9,6 +9,8 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-11
 
+- **[Python](/docs/development/python) 0.117.1: the Markdown pack says "marked proposed".** Its opening line counts the elements "marked proposed and not yet reviewed by a keeper" it left out or kept, where it said "proposed by an AI agent": a review mark says an element is proposed, never who made it.
+
 - **[Who a review mark's `by` names](/docs/schema/profiles#review) (schema-dist serial 116), in both packages: TypeScript 4.155.0 and Python 0.117.0.** A mark's `by` is the writer's own word for who made the mark, a claim: read as stored and never trimmed, naming nobody when it is not a string or is whitespace alone, and shown as the mark's word ("the mark names Ada"), never as a fact. `proposedMarkOf` and `proposed_mark_of` no longer trim it (`" owner "` came back as `owner` before).
 
 - **[A file row says whether the owner added it](/docs/development/api/files#listing-files), and TypeScript 4.154.0 reads it.** Every file row's `added_by` now carries `owner`, `true` when the world's current owner added the file. `membership` is `null` both for the owner's files and for a file whose membership no longer exists, so `owner` tells them apart, and a file whose member's account was deleted is named "a former member" (its name was empty before). `OwFileAddedBy.owner` in the TypeScript SDK.
