@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-11
 
+- **[TypeScript](/docs/development/typescript) 4.157.0: six answer fields admit `null`.** A `/changes` upsert row's `updated_at` and a delete row's `deleted_at`, a `/bulk` slot's `id`, `created_at` and `updated_at` (a failed slot carries no id), and a member row's `x_served_trimmed` can each be `null`, as the API document says; the types said never. Nothing at runtime changes; code that reads one as a plain string now handles `null`.
 - **[TypeScript](/docs/development/typescript) 4.156.0 and [the review queue](/docs/development/api/proposals#the-queue): a new element's `evidence` and `expires` arrive as stored.** The queue serves a review mark's `evidence` and `expires` as the mark holds them, any JSON value (a list of ids, a number, an object), where a non-string arrived as its text before; the SDK types both `unknown`, so code that read them as strings narrows first. An `expires` that is not a date or a date-time never lapses.
 
 - **[Agents](/docs/development/agents): one answer for every bad join code, and the way back.** A bad code is the one `404` whatever the body holds (a missing `agent_name` was a `422` first); the 404 and the join's `next` say that an agent that joined before comes back with its key, never the link.
