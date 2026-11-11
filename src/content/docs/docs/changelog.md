@@ -7,6 +7,10 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 What changed on onlyworlds.com for everyone is on its own [Changelog](https://www.onlyworlds.com/changelog); this page stays the developer log.
 
+## 2026-11-11
+
+- **[The account](/docs/development/api/signin#the-account): one rule for a username.** `PATCH /api/v2/account` now holds a new `username` to the rule sign-up holds it to: the letters a to z in either case, the digits and `@ . + - _`, with at least one letter or digit, at most 30 characters, not another account's name in any case, never the word `owner`. A refused name is a `422` `invalid_request` with `param` `username`, and nothing is written. Until now that route checked nothing. Existing names stay as they are.
+
 ## 2026-11-10
 
 - **[Toolkit](/docs/development/toolkit#skills) 5.9.1: the team packs after a cold read.** A member's AI marks a work item it made as taken, and the keeper's AI reads the source a report names before a claim changes a description. In every pack, a visiting AI's lens read asks for less, a 404 naming a lens means the visit goes on, and a folder skips retired and template lenses. A world set up earlier keeps the skills it was given.
