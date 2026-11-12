@@ -9,6 +9,8 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-12
 
+- **Both packages on schema-dist serial 119: [TypeScript](/docs/development/typescript) 4.157.2 and [Python](/docs/development/python) 0.119.0.** The [map-space profile](/docs/schema/profiles#map-space) gains rule 11: a layout map is never the Map a tool picks for the world's space, and a Pin or Marker on one is a place in that drawing, never in the world. Both readers answer as before; the fixture holds 23 layout cases and 35 map-space cases. Python's folder writers stamp [folder format](/docs/schema/folders) 0.3.22.
+- **[Folders](/docs/schema/folders): format 0.3.22.** A draft (a world no account holds yet) is an ordinary folder whose element ids go online unchanged, and an element file carries no `world` key.
 - **[Python](/docs/development/python) 0.118.3: an imported LegendKeeper board is marked a board.** Each board's Map now carries `x_layout` `{"method": "hand"}`, the [map-space profile](/docs/schema/profiles#map-space)'s mark for a board, so a tool that picks a Map for the world's space leaves it out and its Pins read as places on the board ([importing from LegendKeeper](/docs/development/python-import)). The profiles page's count of the layout reading's fixture cases is corrected to 21.
 - **[Python](/docs/development/python) 0.118.2: one source, one world.** Every importer's `--help` now ends with the rule the [import page](/docs/development/python-import) states: the world's id and every element's id are made from the source, so importing it again gives the same ids, and onlyworlds.com refuses an id another world already holds.
 
