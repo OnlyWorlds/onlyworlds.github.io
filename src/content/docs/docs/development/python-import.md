@@ -118,7 +118,7 @@ A board becomes a Map with supertype `Board` from either road, the API or the ex
 - each arrow between two cards or frames a Relation (supertype `Board link`);
 - each note and text a Narrative pinned where it sits.
 
-Positions are in the Map's own units from its bottom left, and the rest of the board is counted in the report. The board's records are kept whole in the folder's `records/legendkeeper/boards/`, named on the Map, so nothing is dropped and every element stays within the API's size limit.
+The board's Map is marked a board, `x_layout` `{"method": "hand"}` (since 0.118.3; the [map-space profile](/docs/schema/profiles#map-space)'s layout maps): a tool that picks a Map for the world's space leaves it out, and its Pins are places on the board, not positions in the world. Positions are in the Map's own units from its bottom left, and the rest of the board is counted in the report. The board's records are kept whole in the folder's `records/legendkeeper/boards/`, named on the Map, so nothing is dropped and every element stays within the API's size limit.
 
 ### Ids and the round trip
 

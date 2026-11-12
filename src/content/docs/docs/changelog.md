@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-12
 
+- **[Python](/docs/development/python) 0.118.3: an imported LegendKeeper board is marked a board.** Each board's Map now carries `x_layout` `{"method": "hand"}`, the [map-space profile](/docs/schema/profiles#map-space)'s mark for a board, so a tool that picks a Map for the world's space leaves it out and its Pins read as places on the board ([importing from LegendKeeper](/docs/development/python-import)). The profiles page's count of the layout reading's fixture cases is corrected to 21.
 - **[Python](/docs/development/python) 0.118.2: one source, one world.** Every importer's `--help` now ends with the rule the [import page](/docs/development/python-import) states: the world's id and every element's id are made from the source, so importing it again gives the same ids, and onlyworlds.com refuses an id another world already holds.
 
 ## 2026-11-11
