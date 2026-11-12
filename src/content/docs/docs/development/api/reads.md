@@ -76,6 +76,13 @@ Fields under the extension namespaces `atlas_*`, `shadow_*` and `x_*` appear inl
 | `ids` | Comma-separated ids, 1 to 200: only these elements, in the list's own order. An id the key cannot see, or that names nothing of this element type, is simply absent. More than 200, or a malformed id, is a `422` with `param` `ids` <!-- limit: list_ids_max --> |
 | `created_by` | A membership id, as [`GET /api/v2/members`](/docs/development/api/members#the-roster) lists them: the elements that member created. `owner` selects the owner's own writes (`created_by` `null`). An element the key knows only as [known-of](/docs/development/api/members#known-of) never matches. Anything else is a `422` with `param` `created_by`, and so is the filter on a [keyless read](/docs/development/api/public) |
 
+The Pin list takes one more, for a Pin's [generic link](/docs/schema/element_categories/pin) to the element it places (since 2026-11-12):
+
+<!-- shape: GET /api/v2/pin query partial -->
+| Parameter | Matches |
+|:--|:--|
+| `element` | The Pins you are served whose element is that id, of any element type, so one call gives an element the maps it is pinned on. With `map=<id>` beside it, it says whether that element is on that map; with `expand=map`, each Pin carries its map's name where you can see the map. An empty value lists the Pins you are served with no element. An element you cannot see, or an id that names nothing, gives an empty list; a malformed id is a `422` with `param` `element` |
+
 ```bash
 curl -s "https://www.onlyworlds.com/api/v2/character?name__icontains=consul" -H "API-Key: {key}"
 ```
