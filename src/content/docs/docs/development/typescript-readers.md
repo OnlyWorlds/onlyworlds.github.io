@@ -327,6 +327,25 @@ A body read with no key, as the public is served it, carries no hands and no tri
 
 `editedBy(m, members)` says whether a later hand changed a message, and whose. A Note (supertype `Note`) is a member's own line, never a message: `isNote(el)`, and `noteOf(narratives, characterId, members)` gives the id of that Character's newest Note in its own hand.
 
+## Report threads
+
+A report that continues earlier work names the first report of that work as its `parent_narrative`, and a closed talk's report names the board entry it hangs on. `reportThreadsOf(narratives)` reads the reports among the Narratives you give it, in the order you were served them, and tells the two apart, as the [report profile](/docs/schema/profiles#report)'s rule 9 says:
+
+```typescript
+import { reportThreadsOf } from '@onlyworlds/sdk';
+
+const narratives = [];   // the reports and the board entries they may hang on: a parent not given reads 'missing'
+for (const supertype of ['Report', 'Board'])
+  for await (const n of client.listAll('narrative', { filter: { supertype } })) narratives.push(n);
+const { parents, groups, lints } = reportThreadsOf(narratives);
+for (const g of groups) {
+  // g.kind 'report': a thread, g.parent its first report; 'board': the closed talks' reports under one board entry
+  // g.reports: the ids that name g.parent, by created_at (equal times keep the order given)
+}
+```
+
+`parents` says, for each report, what its parent is: `none`, `report`, `board`, `missing` (an id whose element you were not given), `other` or `self`. Only a Narrative with the pair and the room's mark `x_room_of` is a report or a board entry; without the mark it is lore. Nothing is walked further up: a report under a report that itself names another report is shown under the one it names, with a `chain` lint, and one that names itself gets a `self` lint and heads the thread of the reports that name it. A thread takes nothing away from where a report hangs: its `relations` still name its work item. `threadOf` reads messages; reports group by `reportThreadsOf`.
+
 ## Proposed elements
 
 An element an AI seat wrote as [proposed](/docs/development/api/proposals) follows the [review profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/review.md): `proposedMarkOf(el)` gives its mark as a viewer shows it, `{ by, expires, lapsed }`, or `null` for a settled element. `by` is the mark's own word, read as stored and never trimmed since 4.155.0 (`null` when it is not a string or is whitespace alone), to be shown as [the review profile](/docs/schema/profiles#review) says, as the mark's word and never as a fact. `handsOnAsProposed(el)` is what a reader function that hands a world on (a context for an AI, a share) leaves out, a malformed mark included. `buildAskContext` reads the same function.

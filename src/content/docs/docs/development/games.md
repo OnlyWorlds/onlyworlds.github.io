@@ -90,4 +90,4 @@ The line between Character and Creature is agency, not species: an intelligent m
 
 ## On OnlyWorlds today
 
-[Tactical Tangle](https://tangle.onlyworlds.com) is a hoplite battle game in which your OnlyWorlds characters fight in the ranks of a phalanx. Everything else built on OnlyWorlds is listed under [Tools](/docs/tools/).
+[Tactical Tangle](https://tangle.onlyworlds.com) is a hoplite battle game in which your OnlyWorlds characters fight in the ranks of a phalanx. [Subs](https://subs.onlyworlds.com) is a convoy-escort game of the Second World War, in which one of your Characters captains the lead escort and the crossing is written back into the world as a record. Everything else built on OnlyWorlds is listed under [Tools](/docs/tools/).

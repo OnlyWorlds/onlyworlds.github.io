@@ -27,6 +27,7 @@ These tools all read and write the same world format, so a world can move betwee
 | Tool | What it does | Where |
 |---|---|---|
 | Tactical Tangle | A hoplite battle game where your OnlyWorlds characters fight in the ranks of a phalanx. | [tangle.onlyworlds.com](https://tangle.onlyworlds.com) |
+| Subs | A convoy-escort game of the Second World War: one of your Characters captains the lead escort, and the crossing is written back into the world as a record. | [subs.onlyworlds.com](https://subs.onlyworlds.com) |
 | DCC Viewer | A parsed book series (Dungeon Crawler Carl) explored as a 3D world graph. | [dcc.onlyworlds.com](https://dcc.onlyworlds.com) |
 
 ## Integrations
