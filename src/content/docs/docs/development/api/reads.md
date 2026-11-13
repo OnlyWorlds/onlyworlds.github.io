@@ -84,8 +84,9 @@ The Pin list takes one more, for a Pin's [generic link](/docs/schema/element_cat
 | `element` | The Pins you are served whose element is that id, of any element type, so one call gives an element the maps it is pinned on. With `map=<id>` beside it, it says whether that element is on that map; with `expand=map`, each Pin carries its map's name where you can see the map. An empty value lists the Pins you are served with no element. The readers served the stored link (above, at `operator`) match the stored element, whatever it names; for any other reader an element it cannot see, or an id that names nothing, gives an empty list; a malformed id is a `422` with `param` `element` |
 
 ```bash
-curl -s "https://www.onlyworlds.com/api/v2/character?name__icontains=consul" -H "API-Key: {key}"
+curl -s "https://www.onlyworlds.com/api/v2/character?name__icontains=consul" -H "API-Key: 0000000000"
 ```
+<!-- run: GET /api/v2/character?name__icontains=consul API-Key:0000000000 -->
 
 Besides these filters, a list takes the parameters `limit`, `cursor`, `expand`, `fields`, [`as`](/docs/development/api/hidden#view-as) and [`world`](/docs/development/api/public). Any other query parameter is a `422` [`invalid_request`](/api/errors/#invalid_request) whose message lists the element type's filters, so a typo fails loudly instead of returning the unfiltered list:
 
@@ -113,9 +114,9 @@ The [TypeScript SDK](/docs/development/typescript) sends these under `filter`: `
 Any other parameter is a `422` [`invalid_request`](/api/errors/#invalid_request) naming the three.
 
 ```bash
-curl -s "https://www.onlyworlds.com/api/v2/search?q=drippers&limit=2" -H "API-Key: 0000000001"
+curl -s "https://www.onlyworlds.com/api/v2/search?q=drippers&limit=3" -H "API-Key: 0000000001"
 ```
-<!-- run: GET /api/v2/search?q=drippers&limit=2 API-Key:0000000001 -->
+<!-- run: GET /api/v2/search?q=drippers&limit=3 API-Key:0000000001 -->
 
 <!-- shape: GET /api/v2/search -->
 ```json
@@ -123,10 +124,12 @@ curl -s "https://www.onlyworlds.com/api/v2/search?q=drippers&limit=2" -H "API-Ke
   "results": [
     { "type": "collective", "id": "069959a3-e99e-7862-8000-f1fb6761af2c", "name": "The Drippers",
       "supertype": "Covert", "subtype": "Cabal", "field": "name", "snippet": "The Drippers" },
+    { "type": "pin", "id": "01a1ccc7-9797-7cb3-9ff5-da13873e3fe4", "name": "The Drippers (layout)",
+      "supertype": "", "subtype": "", "field": "name", "snippet": "The Drippers (layout)" },
     { "type": "construct", "id": "069945ca-acf6-7764-8000-e085272bf98f", "name": "Puddle Futures",
       "supertype": "Society", "subtype": "Economy", "field": "description",
       "snippet": "is, well, eternal. A small group of traders called 'the Drippers' have noticed micro-fluctuations in delivery volume and are quietly buying long-term" } ],
-  "count": 2, "truncated": true }
+  "count": 3, "truncated": true }
 ```
 
 Elements whose name matches come first, then the rest, each by element type and then by name. `field` is where the words were found, and `snippet` is up to 160 characters of that field around the first match. `truncated` is `true` when more elements matched than `limit`; there are no further pages, so narrow the query or raise the limit. A row for an element the reader only [knows of](/docs/development/api/members#known-of) carries `known_of: true` (it matches on what the stub keeps). A guest key searches only what it may read, and no key finds an element hidden from it. The MCP server's [`search_elements`](/docs/development/mcp#read-a-key) runs the same search, and both packages call it: `client.search(q, { type, limit })` in [TypeScript](/docs/development/typescript#read-a-world), `client.search(q, element_type=..., limit=...)` in [Python](/docs/development/python#read-a-world).

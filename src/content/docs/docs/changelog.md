@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-13
 
+- **Run buttons on [Reads](/docs/development/api/reads#filters) and [Writes](/docs/development/api/writes): press Run and a sample sends its request from your browser, with its answer shown under it.** A read runs with the public demo key it shows; the Location create runs on the practice world and offers to delete what it made. The search example on Reads now asks for three results, the third found in a description.
 - **[Unity](/docs/development/unity) v0.39.1: ids compared as written, on the newest schema distribution.** A Charter's skills and the Open with check read an id held in the world exactly as it is written, the same rule the TypeScript and Python packages follow; the tools list it carries names Windrose. No call is added or changed; an export's `producer` line says 0.39.1.
 - **[Your first hour](/docs/getting-started/first-hour): a new page that takes you from nothing to a working read and write, with no account.** Read Moppetopia and count it, write two linked elements to the practice world, change one, read it back and delete both, in TypeScript, Python or curl; then what the rest of these docs cover, for later. The home page, Getting started and both package pages link it first.
 - **[World folders](/docs/schema/folders#folders-and-onlyworldscom): the hidden mark stated on the page**, and the folder format's rules quoted where they apply instead of cited by section, on the folders, Python, TypeScript and Unity pages.
