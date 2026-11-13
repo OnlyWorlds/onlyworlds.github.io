@@ -16,6 +16,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/location" \
   -H "API-Key: {key}" -H "API-Pin: {pin}" -H "Content-Type: application/json" \
   -d '{ "name": "The Time Tombs", "description": "Structures on Hyperion that move backward through time." }'
 ```
+<!-- run: POST /api/v2/location {"name": "The Time Tombs", "description": "Structures on Hyperion that move backward through time."} -->
 
 - You may supply an `id`: any RFC 4122 UUID is accepted, and UUIDv7 is recommended. Omit it and the server mints a UUIDv7.
 - An `id` that already exists is `409` [`id_conflict`](/api/errors/#id_conflict). Element ids are unique across all worlds and every type, so the message says which case it is: the id exists in this world as this type (use `PUT` to upsert), in this world as another type (the message names it: `PUT` it there), or in another world (mint a new id). Since 2026-11-11 an id a membership holds (a member's or a seat's, in any world) is refused the same way, with a message that says only "in use": mint a new id. The same holds for a `PUT` that would create, and for each `/bulk` item.
@@ -120,6 +121,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/character" \
   -H "Idempotency-Key: 6f1c2a9e-3b7d-4e0a-9c55-2f8d1b4a7e10" \
   -d '{ "id": "0199a1c2-7d3e-7f00-8a11-3c5e7b9d2f40", "name": "The Consul" }'
 ```
+<!-- run: POST /api/v2/character Idempotency-Key:6f1c2a9e-3b7d-4e0a-9c55-2f8d1b4a7e10 {"id": "0199a1c2-7d3e-7f00-8a11-3c5e7b9d2f40", "name": "The Consul"} -->
 
 A key is held while its request runs, so two sends with it do not both write; the hold and the store are best-effort, not a ledger. Without the header, mint the `id` on the client: two concurrent creates without client ids can make two elements.
 ## Bulk
@@ -178,6 +180,7 @@ curl -s -X PATCH "https://www.onlyworlds.com/api/v2/world" \
   -H "API-Key: {key}" -H "API-Pin: {pin}" -H "Content-Type: application/json" \
   -d '{ "time_basic_unit": "Year", "time_range_current": 2732 }'
 ```
+<!-- run: PATCH /api/v2/world {"time_basic_unit": "Year", "time_range_current": 2732} -->
 
 - Unknown fields are a `422`, and the whole patch is refused before anything is written.
 - The world's `name` cannot be empty, unlike an element's.

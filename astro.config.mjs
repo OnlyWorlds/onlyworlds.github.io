@@ -11,6 +11,8 @@ import starlight from '@astrojs/starlight';
 import starlightPageActions from 'starlight-page-actions';
 import starlightLlmsTxt from 'starlight-llms-txt';
 import starlightLinksValidator from 'starlight-links-validator';
+import owRun from './src/run/integration.mjs';
+import { pluginRun } from './src/run/ec-run.mjs';
 
 export default defineConfig({
   site: 'https://onlyworlds.github.io',
@@ -31,12 +33,16 @@ export default defineConfig({
     '/docs/schema/element_categories': '/docs/schema/', // its index contradicted the verbatim definitions there
   },
   integrations: [
+    // Run buttons: a run marker under a sample (src/run/marker.mjs) becomes a Run button in its header
+    // bar (pluginRun, below) and an answer panel; only a page with a marker loads the runner.
+    owRun(),
     starlight({
       title: 'OnlyWorlds',
       description: 'Documentation for OnlyWorlds: the open schema for world data, its API, SDKs and AI tools.',
       logo: { src: './src/assets/owmark.svg', alt: 'OnlyWorlds' },
       favicon: '/assets/images/favicon.ico',
       customCss: ['./src/styles/ow.css'],
+      expressiveCode: { plugins: [pluginRun()] },
       head: [
         { tag: 'link', attrs: { rel: 'preconnect', href: 'https://fonts.googleapis.com' } },
         { tag: 'link', attrs: { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: true } },
@@ -203,6 +209,8 @@ export default defineConfig({
           ],
           // llms-small keeps asides and line breaks: the reader found notes like "no delete tool, by design" dropped
           minify: { note: false, tip: false, whitespace: false },
+          // the Run buttons are for a browser: their line, button, panel and script stay out of the text
+          customSelectors: { all: ['.ow-run-note', '.ow-run-bar', '.ow-run-panel', 'script[data-ow-run]'] },
           // llms-small gets small by leaving whole pages out instead: tools, contact, changelog, and the
           // 22 element pages (their fields are in _llms-txt/schema.txt and on each page's .md copy)
           exclude: ['docs/tools/**', 'docs/contact', 'docs/changelog', 'docs/schema/element_categories/**'],

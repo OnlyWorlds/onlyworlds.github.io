@@ -189,3 +189,77 @@ header.header {
    every browser and draws a blank line under each code line; this selector outranks that reset.
    postbuild fails the build when the spans ship without this rule. */
 .expressive-code span[hidden] { display: none; }
+
+/* Run buttons (src/run/, public/assets/ow-run.js) ------------------------------------------- */
+/* Run sits in a runnable sample's header bar, at its right, with "on the practice world" beside it;
+   the answer panel goes under the sample. Colours are Starlight's tokens, plus one warning colour
+   (amber on dark, a dark brown on light) for an error's status. Unlayered, so these outrank
+   Expressive Code's `all: revert` reset inside the frame. */
+:root { --ow-warn: #f59e0b; }
+:root[data-theme='light'] { --ow-warn: #92400e; }
+
+.expressive-code .ow-run-bar { display: flex; align-items: center; gap: 0.25rem; margin-inline-start: auto; padding-inline-start: 1rem; }
+.expressive-code .ow-run {
+  display: inline-flex; align-items: center; gap: 0.5rem; margin: 0;
+  font: 600 0.8125rem/1 var(--sl-font); color: var(--sl-color-accent-high);
+  background: transparent; border: 1px solid var(--sl-color-accent); border-radius: 0.375rem;
+  padding: 0.375rem 0.7rem; cursor: pointer; white-space: nowrap;
+}
+.expressive-code .ow-run:hover { background: var(--sl-color-accent-low); }
+.expressive-code .ow-run:focus-visible { outline: 2px solid var(--sl-color-text-accent); outline-offset: 2px; }
+.expressive-code .ow-run[disabled] { cursor: default; color: var(--sl-color-gray-3); border-color: var(--sl-color-gray-4); background: transparent; }
+.expressive-code .ow-run svg, .ow-run-panel .ow-code svg { display: block; width: 0.75rem; height: 0.75rem; flex: none; }
+.expressive-code .ow-run-where {
+  font: 0.75rem/1.2 var(--sl-font); color: var(--sl-color-gray-2); margin-inline-start: 0.75rem; white-space: nowrap;
+  text-decoration: underline; text-underline-offset: 2px;
+}
+.expressive-code .ow-run-where:hover { color: var(--sl-color-accent-high); }
+@media (prefers-reduced-motion: no-preference) {
+  .ow-spin { animation: ow-spin 1s linear infinite; transform-origin: 50% 50%; }
+  @keyframes ow-spin { to { transform: rotate(360deg); } }
+}
+@media (max-width: 480px) {
+  .expressive-code .ow-run-where { display: none; }
+}
+
+.ow-run-note { font-size: 0.875rem; color: var(--sl-color-gray-2); }
+.ow-run-panel:empty { margin: 0; }
+.ow-run-panel:not(:empty) { margin: 0.5rem 0 1rem; }
+.ow-run-panel .ow-ans { border: 1px solid var(--sl-color-gray-5); border-radius: 0.5rem; overflow: hidden; background: var(--sl-color-gray-6); }
+:root[data-theme='light'] .ow-run-panel .ow-ans { background: var(--sl-color-gray-7); }
+.ow-run-panel .ow-st {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.9rem; margin: 0;
+  padding: 0.55rem 0.85rem; border-bottom: 1px solid var(--sl-color-gray-5); font: 600 0.8125rem/1.3 var(--sl-font);
+}
+.ow-run-panel .ow-st:last-child { border-bottom: 0; }
+.ow-run-panel .ow-code { display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--sl-font-mono); font-size: 0.875rem; }
+.ow-run-panel .ow-meta { font-weight: 400; color: var(--sl-color-gray-3); }
+.ow-run-panel .ow-act { margin-inline-start: auto; display: flex; gap: 0.5rem; }
+.ow-run-panel .ow-ok .ow-code { color: var(--sl-color-accent-high); }
+.ow-run-panel .ow-err .ow-code { color: var(--ow-warn); }
+.ow-run-panel .ow-b {
+  display: inline-flex; align-items: center; height: 1.9rem; margin: 0;
+  font: 0.8125rem/1 var(--sl-font); color: var(--sl-color-text); background: transparent;
+  border: 1px solid var(--sl-color-gray-4); border-radius: 0.375rem; padding: 0.3rem 0.6rem; cursor: pointer;
+}
+.ow-run-panel .ow-b:hover { border-color: var(--sl-color-accent); }
+.ow-run-panel .ow-b:focus-visible, .ow-run-panel .ow-foldbar:focus-visible, .ow-run-panel .ow-json:focus-visible { outline: 2px solid var(--sl-color-text-accent); outline-offset: -2px; }
+.ow-run-panel .ow-b.ow-del { border-color: var(--ow-warn); color: var(--ow-warn); }
+.ow-run-panel .ow-b[disabled] { color: var(--sl-color-gray-3); border-color: var(--sl-color-gray-5); cursor: default; }
+.ow-run-panel .ow-json {
+  margin: 0; padding: 0.75rem 0.85rem; border: 0; border-radius: 0; background: transparent;
+  font: 0.8125rem/1.5 var(--sl-font-mono); color: var(--sl-color-text); overflow: auto; white-space: pre;
+}
+.ow-run-panel .ow-json.ow-fold {
+  max-height: calc(1.5em * 14 + 1.5rem); overflow-y: hidden;
+  -webkit-mask-image: linear-gradient(#000 82%, transparent); mask-image: linear-gradient(#000 82%, transparent);
+}
+.ow-run-panel .ow-json.ow-open { max-height: 60vh; overflow-y: auto; }
+.ow-run-panel .ow-foldbar {
+  display: block; width: 100%; margin: 0; text-align: start; padding: 0.5rem 0.85rem;
+  font: 0.8125rem/1.2 var(--sl-font); color: var(--sl-color-accent-high); background: transparent;
+  border: 0; border-top: 1px solid var(--sl-color-gray-5); cursor: pointer;
+}
+.ow-run-panel .ow-note { margin: 0; padding: 0.55rem 0.85rem; font: 0.8125rem/1.5 var(--sl-font); color: var(--sl-color-gray-2); }
+.ow-run-panel .ow-note b { color: var(--sl-color-white); }
+.ow-run-panel .ow-foldbar + .ow-note, .ow-run-panel .ow-json + .ow-note { border-top: 1px solid var(--sl-color-gray-5); }
