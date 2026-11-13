@@ -9,6 +9,13 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-13
 
+- **[Getting started](/docs/getting-started#3-write): a first write needs no account.** The Write step names the practice world's key and PIN, and says that the server mints an id when you send none while both packages mint it on your side.
+- **[Writes](/docs/development/api/writes): the practice world, for a write without an account.**
+- **[Home](/): Moppetopia's demo key in the quickstart, and the practice world for a first write.**
+- **[Packages](/docs/development/packages#plain-rest): the plain-REST sample sends the PIN only on its write.** A read sends the key alone.
+- **[Python](/docs/development/python#read-a-world): counts, one element, a world as files, and a delete.** `get_world()["counts"]`, `get`, `export_world` with `read_folder`, and in the Write example a read back and a `delete`, whose read afterwards is a 410 `gone`.
+- **[TypeScript](/docs/development/typescript#read-a-world): counts and one element**, and on [Errors](/docs/development/typescript#errors) the 410 `gone` after a delete.
+- **[Worlds](/docs/schema/worlds) and [World folders](/docs/schema/folders): a world's name.** onlyworlds.com refuses an empty name on a write; a folder may hold one.
 - **[TypeScript](/docs/development/typescript) 4.160.1: the Waymark draws the OnlyWorlds mark in true curves.** The mark is the logo redrawn with exact arcs, so it stays clean at any size; the same drawing is now this site's logo and favicon.
 - **[Links](/docs/development/api/links#setting-and-clearing-links): a list of links keeps each element once, and a `null` entry is refused.** A write whose list names one element twice stores it once, in its first place, and the answer shows the list as stored; a `null` inside the list is a `422` naming the field, and nothing is written ([Writes](/docs/development/api/writes#partial-update) says so too).
 - **[Agents](/docs/development/agents#ow_wirepy): `ow_wire.py` 0.4.6 names each recipient once.** One Character given twice to `send` gets the message once, in the first place given.

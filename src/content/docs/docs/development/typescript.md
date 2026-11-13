@@ -45,6 +45,8 @@ for await (const character of client.listAll('character')) { // every page
 
 `await client.search('Fluffington', { limit: 200 })` finds the elements whose name or text holds every word you give ([Search](/docs/development/api/reads#search)).
 
+`(await client.getWorld()).counts` says how many elements the key may read, in all and per type: `{ total, types: { character, location, … } }`. `await client.get('character', id)` reads one element.
+
 For your own world, use its read-only key (`ow_r_`), which needs no PIN. The other demo key, `0000000000`, reads Hyperion. See [Keys and PINs](/docs/getting-started/keys) for the key types.
 
 With no key at all, a client given a world's id reads what the public reads of it ([the keyless reads](/docs/development/api/public#the-keyless-reads)), and `getWorld()` then carries `counts`:
@@ -141,7 +143,7 @@ To retry a bulk write safely:
 
 Every non-2xx answer throws `OwApiError` with the platform's error envelope: `.status`, `.type`, `.code`, `.param` (the field that failed, or `API-Pin` when a PIN was refused) and `.docUrl`, which links to the code on [the errors page](/api/errors). Show `docUrl` to your users.
 
-Transport failures throw `OwNetworkError`. `err.isValidationError` covers the common case. A write sent with `ifMatch` that found the element moved throws `OwPreconditionFailedError` (412, `err.isPreconditionFailed`), an `OwApiError` that also carries `current`.
+Transport failures throw `OwNetworkError`. `err.isValidationError` covers the common case. A read of an element this world deleted throws with `status` 410 and `code` `'gone'`; `err.isNotFound` is the 404 alone. A write sent with `ifMatch` that found the element moved throws `OwPreconditionFailedError` (412, `err.isPreconditionFailed`), an `OwApiError` that also carries `current`.
 
 The client never retries. On a 429 `too_many_requests` or a 503 `server_busy`, wait `err.retryAfter` seconds (read from `Retry-After`) and send the request again; the [Python package](/docs/development/python) retries those itself.
 

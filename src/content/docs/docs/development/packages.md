@@ -24,9 +24,11 @@ The API needs no SDK. Send the key (and, for writes, the PIN) as headers:
 ```python
 import requests
 
-headers = {"API-Key": "your-key", "API-Pin": "your-pin"}
-r = requests.get("https://www.onlyworlds.com/api/v2/character/", headers=headers)
+r = requests.get("https://www.onlyworlds.com/api/v2/character/", headers={"API-Key": "your-key"})
 characters = r.json()["data"]
+
+write = {"API-Key": "your-write-key", "API-Pin": "your-pin"}
+requests.post("https://www.onlyworlds.com/api/v2/character/", headers=write, json={"name": "The Consul"})
 ```
 
 List responses come back in a `{data, has_more, next_cursor}` envelope, so paginate on `next_cursor`. To generate a client in another language, start from the OpenAPI document at `https://www.onlyworlds.com/api/v2/openapi.json`; the [interactive reference](https://www.onlyworlds.com/api/docs) is built from the same document.

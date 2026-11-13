@@ -29,6 +29,8 @@ This runs as written. A write key also takes a PIN: `Client(key, pin)`. The PIN 
 
 Elements are plain dicts. Two demo keys read public sample worlds: `0000000000` (Hyperion) and `0000000001` (Moppetopia). `client.search("Fluffington", limit=200)` finds the elements whose name or text holds every word you give ([Search](/docs/development/api/reads#search)).
 
+`client.get_world()["counts"]` says how many elements the key may read, in all and per type: `{"total": …, "types": {"character": …, "location": …}}`. `client.get("character", element_id)` reads one element. To keep a whole world as files, `export_world("moppetopia", api_key="0000000001")` writes it as a folder (one that does not exist yet), and `read_folder("moppetopia")` reads it back; both are imported from `onlyworlds`.
+
 ## Write
 
 The example reads the write key and PIN from the environment. These two are the [practice world](/docs/getting-started/keys#the-practice-world)'s, which anyone may write to and which goes back to the same copy every night; for your own world, put in its `ow_w_` key and your PIN.
@@ -51,7 +53,13 @@ writer.patch("location", peak["id"], {"supertype": "Mountain"})
 
 # add or remove links on a multi-link field without replacing the list
 writer.edit_links("location", peak["id"], "founders", add=[ranger["id"]])
+
+# read one back, then delete it
+print(writer.get("character", ranger["id"])["name"])
+writer.delete("character", ranger["id"])
 ```
+
+`delete` removes the element and takes its id out of every link to it. A read of it afterwards raises `ApiError` with `status` 410 and `code` `"gone"`, not a 404.
 
 `create` gives an element without an `id` one, and always sends an `Idempotency-Key`. So retrying a create after a lost answer is safe: it replays the stored result instead of making a second element. `patch` replaces every field it sends, and a list replaces the whole list. Use `edit_links` to add or remove links. `bulk` takes up to about 1,000 `{"type", "element"}` items: it succeeds partly by default (check each slot's `status`), or all or nothing with `atomic=True`.
 

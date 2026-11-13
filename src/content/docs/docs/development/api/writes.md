@@ -5,6 +5,8 @@ description: Creating, replacing, updating and deleting elements, retrying safel
 
 Writes take a write key (`ow_w_`, a legacy key, a member's or an agent seat's key) and the PIN in `API-Pin`. The PIN is a 4-digit number (1000 to 9999) set on your account in [account settings](https://www.onlyworlds.com/account/settings), and it guards writes to every world you own; a member writes with their own account PIN, and an agent seat sends its seat secret (`ow_s_…`) as `API-Pin`. A read key on a write route is `403` [`permission_error`](/api/errors/#permission_error). The key names the world, so a body never carries one.
 
+To try a write without an account, use the [practice world](/docs/getting-started/keys#the-practice-world): its key and PIN are published, anyone may write to it, and it goes back to the same copy every night.
+
 ## Create
 
 `POST /api/v2/{type}` creates an element and returns `201` with the full element.

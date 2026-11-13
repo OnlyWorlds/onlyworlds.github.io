@@ -53,6 +53,8 @@ Every element type has the same routes at its singular name: `/api/v2/location/`
 
 Create a Character with a write key and the PIN. Only `name` is required: the key must be present, and an empty string is accepted.
 
+No account yet? The [practice world](/docs/getting-started/keys#the-practice-world) takes writes from anyone: key `ow_w_QRRMlAFPF9vPZSqmiV6QJm2HDJH_sP28x2RccPmYP1A`, PIN `1234`. It goes back to the same copy every night at 03:00 UTC, so put nothing private in it.
+
 ```bash
 curl -X POST "https://www.onlyworlds.com/api/v2/character/" \
   -H "API-Key: ow_w_your_key" \
@@ -61,7 +63,7 @@ curl -X POST "https://www.onlyworlds.com/api/v2/character/" \
   -d '{"name": "The Consul"}'
 ```
 
-The response is `201` with the full element, including its server-assigned `id`. Change it with `PATCH`, sending only the fields you change. A link is the id of the element it points to:
+The response is `201` with the full element, including its `id`: the server mints one when you send none, and the [TypeScript](/docs/development/typescript) and [Python](/docs/development/python) packages mint it on your side instead. Change it with `PATCH`, sending only the fields you change. A link is the id of the element it points to:
 
 ```bash
 curl -X PATCH "https://www.onlyworlds.com/api/v2/character/<character-id>/" \

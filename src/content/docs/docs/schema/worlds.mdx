@@ -12,7 +12,7 @@ A world is the top-level container for elements, representing a complete setting
 | Field | Type | Required | Description |
 | :--- | :--- | :--- | :--- |
 | `id` | string (uuid) | No (server-assigned) | Unique world identifier (UUIDv7) |
-| `name` | string | Yes | Display name; it cannot be empty |
+| `name` | string | Yes | Display name; onlyworlds.com refuses an empty one (`422`), though a [world folder](/docs/schema/folders) may hold it |
 | `description` | string | No | Text description |
 | `image_url` | string (url) | No | Cover image or representative visual |
 | `public_read` | boolean | No (default `false`) | Whether the world can be read by anyone, without a credential. On onlyworlds.com the owner sets it on the world page, and anyone then reads the world with no key ([Public worlds](/docs/development/api/public)) |
