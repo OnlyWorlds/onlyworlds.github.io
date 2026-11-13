@@ -28,7 +28,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/location" \
 `PATCH /api/v2/{type}/{id}` changes only the fields sent and returns `200` with the full element.
 
 - Omitted fields are left untouched.
-- **Arrays replace.** A `PATCH` to `friends` sets the whole list; to add or remove single ids, use the [link operations route](/docs/development/api/links#link-operations).
+- **Arrays replace.** A `PATCH` to `friends` sets the whole list; to add or remove single ids, use the [link operations route](/docs/development/api/links#link-operations). A list of links keeps each element once, in its first place, and a `null` entry in it is a `422` ([Links](/docs/development/api/links#setting-and-clearing-links)).
 - Extension fields merge by key.
 - To clear a field, send its empty shape:
 
