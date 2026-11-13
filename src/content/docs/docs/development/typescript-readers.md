@@ -273,7 +273,7 @@ A tool that talks to the server may not need to compute the strand at all, becau
 
 `recordsOf(characterId, elements)` returns one Character's records, the game runs they took part in, newest first, by the [record profile](/docs/schema/profiles#record). `elements` are the world as the viewer is served them.
 
-A record is an Event whose `x_record` (`RECORD_FIELD`) names the game (`tool`) and when it was played (`played_at`, a real instant in UTC), with optional `version`, `seed`, `outcome` and `seats`. Who took part is the Event's `characters`.
+A record is an Event whose `x_record` (`RECORD_FIELD`) names the game (`tool`) and when it was played (`played_at`, a real instant, written as `2026-11-01T00:30:00Z` and read by the message profile's time grammar since 4.161.0: a time without its seconds is no record), with optional `version`, `seed`, `outcome` and `seats`. Who took part is the Event's `characters`.
 
 Each entry is `{ event: { id, name }, tool, played_at, version, seed, outcome, seat, stories }`. `seat` is this Character's seat when the mark names one, and `stories` are the Narratives that list the run in `events` and name them as `protagonist`, `narrator` or `both`.
 
@@ -319,7 +319,7 @@ for (const m of unreadFor(messages, myCharacter, mark, members)) {   // members:
 }
 ```
 
-`isAddressedTo(m, id)` is true for a message to everyone (an empty `characters`), and `isToEveryone(m)` asks only that. `threadOf(messages, rootId)` lists a thread in order.
+`isAddressedTo(m, id)` is true for a message to everyone (an empty `characters`), and `isToEveryone(m)` asks only that. Of several marks in your hand, `readMarkOf` takes the one with the newest readable `updated_at`; at the same instant, or when none can be read, the higher id by code point (since 4.161.0). `threadOf(messages, rootId)` lists a thread in order.
 
 ### Times
 
@@ -402,6 +402,17 @@ import { parseOwLink, elementAddress } from '@onlyworlds/sdk';
 
 const r = parseOwLink('ow://character/0193f1c2-7a00-7000-8000-000000000001');   // { form: 'text', world: null, type: 'character', id, lens: null, moment: null, canonical: true, … }
 const link = elementAddress({ form: 'human', world: worldId, type: 'character', id });   // https://www.onlyworlds.com/w/<world>/character/<id>
+```
+
+To find an address inside prose, `readOwLinkAt(text, index)` (since 4.161.0) reads the address that starts at `index` and answers `{ reading, end }`, or `null` when none starts there. What follows the address is prose, a full stop included; [An address in prose](/docs/schema/profiles/addresses#an-address-in-prose) has the rule. `index` and `end` count JavaScript string indexes (UTF-16 code units), so they match a string's own slice and search.
+
+```typescript
+import { readOwLinkAt } from '@onlyworlds/sdk';
+
+const line = 'Built the gate: ow://object/01a1d4ef-0000-7000-8000-000000000084.';
+const found = readOwLinkAt(line, line.indexOf('ow://'));
+found?.end;          // 64: line[64] is the full stop
+found?.reading.id;   // '01a1d4ef-0000-7000-8000-000000000084'
 ```
 
 ### Open with

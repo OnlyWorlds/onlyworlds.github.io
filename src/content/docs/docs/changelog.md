@@ -9,6 +9,10 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-13
 
+- **[An address in prose](/docs/schema/profiles/addresses#an-address-in-prose) (serial 123).** A reader that finds an address inside text reads it from its prefix; a full stop, another query key or a fragment after it is prose. After `/w/` the run is read whole: exactly an id's form is the world's id, 32 hex digits without hyphens are a slug. TypeScript 4.161.0's [`readOwLinkAt`](/docs/development/typescript-readers#addresses) and Python 0.122.0's [`read_ow_link_at`](/docs/development/python) find one.
+- **[Messages](/docs/schema/profiles/messages): the read mark among several** is the one with the newest readable `updated_at`; at the same instant, or when none can be read, the higher id (serial 123).
+- **[Lenses](/docs/lenses): `changed_within` reads each element's clock**, the newest readable of `updated_at`, `server_updated_at` and `local_updated_at`, and never cuts an element with no readable clock (serial 123).
+- **[Records](/docs/schema/profiles#record): `played_at` is read by the message profile's time grammar.** A lower-case `t` and `z`, an offset and no zone read; a time without its seconds is no record (serial 123).
 - **[Atlas](/docs/tools/atlas): a folder on your drive needs desktop Chrome, Edge or Brave.** The page said Chrome, Edge or Brave without the word desktop; the toolkit's README says desktop since 5.10.1.
 <!-- toolkit v5.10.1 -->
 - **[Links](/docs/development/api/links#try-it-on-the-practice-world): try it on the practice world.** Three Run buttons in order make a Location, a Character who lives there, and add the Character to the Location's `founders`; each fills in the ids the ones above it made.
