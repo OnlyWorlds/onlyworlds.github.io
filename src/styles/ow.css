@@ -198,7 +198,9 @@ header.header {
 :root { --ow-warn: #f59e0b; }
 :root[data-theme='light'] { --ow-warn: #92400e; }
 
-.expressive-code .ow-run-bar { display: flex; align-items: center; gap: 0.25rem; margin-inline-start: auto; padding-inline-start: 1rem; }
+.expressive-code .ow-run-bar { display: flex; align-items: center; gap: 0.25rem; margin-inline-start: auto; padding-inline: 1rem 0.75rem; }
+/* The bar makes the header 37px, not 34px: the copy button keeps its gap below the header */
+.expressive-code .frame.is-terminal.ow-runnable { --button-spacing: calc(2.1rem + var(--ec-brdWd) + 2 * var(--ec-uiPadBlk)); }
 .expressive-code .ow-run {
   display: inline-flex; align-items: center; gap: 0.5rem; margin: 0;
   font: 600 0.8125rem/1 var(--sl-font); color: var(--sl-color-accent-high);
