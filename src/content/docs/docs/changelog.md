@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-13
 
+- **[Tools](/docs/tools/): the OnlyWorlds mapper is listed.** A world's maps and layouts in the browser, read only, at [maps.onlyworlds.com](https://maps.onlyworlds.com); an element's link opens it on every map it is on.
 - **[TypeScript](/docs/development/typescript#reference) 4.160.3: the reference names `list`'s parameters** (`limit`, `cursor`, `filter` and the rest) in its row.
 - **[Members](/docs/development/api/members#guests): a guest, a player and a Character's AI see the Titles she holds and the Relations she acts in.** A Title whose `holders` names her Character and a Relation whose `actor` is it are hers to read, as an element naming her in `characters` is; hiding still keeps either from her, and the `characters` filter is unchanged. The [draught](/docs/development/api/draught)'s `role` in `voice` now carries them too.
 - **Run buttons on [Reads](/docs/development/api/reads#filters) and [Writes](/docs/development/api/writes): press Run and a sample sends its request from your browser, with its answer shown under it.** A read runs with the public demo key it shows; the Location create runs on the practice world and offers to delete what it made. The search example on Reads now asks for three results, the third found in a description. The [worked example](/docs/schema/example), [Changes](/docs/development/api/changes) and [Files](/docs/development/api/files) carry Run on their demo-key reads too.
