@@ -333,7 +333,7 @@ instantOf('2026-11-12T10:00:00+02:00'); // { seconds: 1794470400, microseconds: 
 instantOf('2026-11-12');                // null: a date alone is not read
 ```
 
-It reads the whole value as `YYYY-MM-DDTHH:MM:SS`, an optional fraction after `.`, then `Z`, `+HH:MM`, `-HH:MM` or nothing (read as UTC); `T` and `Z` in either case; each part in its range (a day that month has, an hour to 23, a minute and a second to 59). A fraction counts to its sixth digit, later digits dropped, never rounded. Not read: a date alone, a space for the `T`, a time without its seconds, an offset without its colon, a leap second, a trailing line break.
+It reads the whole value as `YYYY-MM-DDTHH:MM:SS`, an optional fraction after `.`, then `Z`, `+HH:MM`, `-HH:MM` or nothing (read as UTC); `T` and `Z` in either case; each part in its range (a day that month has, an hour to 23, a minute and a second to 59). A year is any four of the digits 0 to 9, 0000 among them, on the Gregorian calendar run on in both directions, so 0000 is a leap year and an offset can carry an instant before 0000 or past the end of 9999. A fraction counts to its sixth digit, later digits dropped, never rounded. Not read: a date alone, a space for the `T`, a time without its seconds, an offset without its colon, a leap second, a trailing line break.
 
 The readers know a message the server trimmed for its viewer (`x_served_trimmed`): an empty `characters` with the mark is to someone you cannot see, never to everyone. `hasUnseenRecipients(m)` says so, and a hidden sender is `senderStatus` `'unseen'` ("from someone you cannot see").
 
