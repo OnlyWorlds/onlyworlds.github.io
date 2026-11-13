@@ -34,7 +34,7 @@ export default defineConfig({
     starlight({
       title: 'OnlyWorlds',
       description: 'Documentation for OnlyWorlds: the open schema for world data, its API, SDKs and AI tools.',
-      logo: { src: './src/assets/owlogo.png', alt: 'OnlyWorlds' },
+      logo: { src: './src/assets/owmark.svg', alt: 'OnlyWorlds' },
       favicon: '/assets/images/favicon.ico',
       customCss: ['./src/styles/ow.css'],
       head: [
