@@ -222,6 +222,10 @@ header.header {
 }
 @media (max-width: 480px) {
   .expressive-code .ow-run-where { display: none; }
+  /* a thumb target on a phone (Seethe's live read): 36px, not the desktop's 27 */
+  .expressive-code .ow-run { min-height: 36px; }
+  /* the header is then 46px, not 37: the copy button keeps its gap below it */
+  .expressive-code .frame.is-terminal.ow-runnable { --button-spacing: calc(2.1rem + 9px + var(--ec-brdWd) + 2 * var(--ec-uiPadBlk)); }
 }
 
 .ow-run-note { font-size: 0.875rem; color: var(--sl-color-gray-2); }
