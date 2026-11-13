@@ -116,6 +116,7 @@ The upload host answers errors in its own shape: see [Upload host errors](/api/e
 ```bash
 curl -s "https://www.onlyworlds.com/api/v2/world/files" -H "API-Key: 0000000001"
 ```
+<!-- run: GET /api/v2/world/files API-Key:0000000001 -->
 
 <!-- shape: GET /api/v2/world/files -->
 ```json

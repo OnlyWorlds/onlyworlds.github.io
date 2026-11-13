@@ -8,6 +8,7 @@ Moppetopia is a demo world: a civilization of felt beings called moppets, a navy
 ```bash
 curl -s "https://www.onlyworlds.com/api/v2/world" -H "API-Key: 0000000001"
 ```
+<!-- run: GET /api/v2/world API-Key:0000000001 -->
 
 ## One element
 
@@ -16,6 +17,7 @@ Admiral Fluffington is a Character: an individual with agency. His text fields (
 ```bash
 curl -s "https://www.onlyworlds.com/api/v2/character?name__icontains=fluffington" -H "API-Key: 0000000001"
 ```
+<!-- run: GET /api/v2/character?name__icontains=fluffington API-Key:0000000001 -->
 
 The answer is a page of results, trimmed here to the link fields:
 
@@ -40,6 +42,7 @@ The answer is a page of results, trimmed here to the link fields:
 ```bash
 curl -s "https://www.onlyworlds.com/api/v2/character/0695db83-afd7-76ee-8000-00f4295f8866?expand=location,family,rivals&fields=name,location,family,rivals" -H "API-Key: 0000000001"
 ```
+<!-- run: GET /api/v2/character/0695db83-afd7-76ee-8000-00f4295f8866?expand=location,family,rivals&fields=name,location,family,rivals API-Key:0000000001 -->
 
 He is in Feltropolis, an orbital station; his family is House Stuffington, a naval dynasty; his rival is Captain Snoot.
 
@@ -50,6 +53,7 @@ A Character has no field for titles. The link lives on the Title: Admiral is a T
 ```bash
 curl -s "https://www.onlyworlds.com/api/v2/title?name=Admiral&expand=holders,body&fields=name,body,holders" -H "API-Key: 0000000001"
 ```
+<!-- run: GET /api/v2/title?name=Admiral&expand=holders,body&fields=name,body,holders API-Key:0000000001 -->
 
 So to find what a Character holds, read the Titles and check their `holders`: `holders` has no filter (`?holders=` is a `422`), though a few link fields do, such as a Title's `body` ([Filters](/docs/development/api/reads#filters)). The [draught](/docs/world-graph/draught) in its `act` mode lists the Titles a Character holds in one read. Each link sits on the element that holds the field; the type pages ([Title](/docs/schema/element_categories/title), [Character](/docs/schema/element_categories/character)) show which side that is.
 
@@ -76,6 +80,7 @@ The Moistened Valley Massacre is an Event: a time-bound happening, with `trigger
 ```bash
 curl -s "https://www.onlyworlds.com/api/v2/narrative?expand=narrator,conservator,events&fields=name,narrator,conservator,events" -H "API-Key: 0000000001"
 ```
+<!-- run: GET /api/v2/narrative?expand=narrator,conservator,events&fields=name,narrator,conservator,events API-Key:0000000001 -->
 
 The call lists all of the world's Narratives, these three among them. The Event records what happened; each Narrative is one account of it, with a teller or a keeper and its own selection of Events. A fourth, What Happened in the Moistened Valley, has `subtype` `knowledge`: it holds what is actually true, and its `narrator` (Captain Snoot) and `collectives` are the ones who know. Descriptions say what the world believes; a knowledge Narrative says who knows better.
 
