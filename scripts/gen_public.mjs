@@ -81,8 +81,14 @@ function facts(show) {
     if (!p) throw new Error(`web/urls.py: no path to public_views.${view}`);
     pages.push({ view, path: `/${p.replace(/<str:([a-z_]+)>/g, '<$1>')}` });
     const body = views.match(new RegExp(`\\ndef ${view}\\(request, addr[^)]*\\):\\n([\\s\\S]*?)(?=\\n\\S|$(?![\\s\\S]))`))?.[1] ?? '';
-    if (!/^ {4}world = _world_for\(addr\)\n {4}if world is None:\n {8}return _none\(\)$/m.test(body)) throw new Error(`web/public_views.py: ${view} does not answer _none() for a world _world_for does not find`);
+    if (!/^ {4}world = _world_for\(addr\)\n {4}if world is None:\n {8}return _closed\(request\)$/m.test(body)) throw new Error(`web/public_views.py: ${view} does not answer _closed(request) for a world _world_for does not find`);
   }
+  // The closed door (keel since 2026-11-02): a signed-in reader gets the 404 page, a signed-out one the
+  // sign-in redirect back to the same address.
+  const closed = views.match(/\ndef _closed\(request\):[\s\S]*?(?=\ndef )/)?.[0] ?? '';
+  if (!/\n {4}if _signed_in\(request\):\n {8}return _none\(\)\n/.test(closed)) throw new Error('web/public_views.py: _closed no longer answers _none() to a signed-in reader');
+  const signedOut = /\n {4}r = redirect_to_login\(request\.get_full_path\(\)\)\n[\s\S]*\n {4}return r\n/.test(closed) ? 'redirect to sign-in, back to the same address' : null;
+  if (!signedOut) throw new Error('web/public_views.py: _closed no longer sends a signed-out reader to sign in');
   const wf = views.match(/\ndef _world_for\(addr\):[\s\S]*?(?=\ndef )/)?.[0] ?? '';
   const opens = wf.match(/World\.objects\.filter\(([^)]*)\)/)?.[1];
   if (!opens || !/ident = uuid\.UUID\(addr\)/.test(wf) || !/if ident is not None:\n\s+return pages\.filter\(id=ident\)\.first\(\)\n\s+return pages\.filter\(public_slug=addr\)\.first\(\)/.test(wf)) throw new Error('web/public_views.py: _world_for no longer reads the address as an id first, then as the page\'s address');
@@ -98,7 +104,7 @@ function facts(show) {
   const graph = show('portal/world_graph.py');
   const left = graph.match(/^LEFT_OUT = frozenset\(\{([^}]*)\}\)$/m)?.[1];
   if (!left) throw new Error('portal/world_graph.py: no LEFT_OUT = frozenset({…})');
-  if (!/return world_graph\.baked\(world, public_viewer\(world\)/.test(views)) throw new Error('web/public_views.py: the graph is not baked through public_viewer(world)');
+  if (!/return world_graph\.baked\(world, (?:Reader\()?public_viewer\(world\)/.test(views)) throw new Error('web/public_views.py: the graph is not baked through public_viewer(world)');
 
   return {
     removed,
@@ -108,7 +114,7 @@ function facts(show) {
     pages,
     address: { id_first: true, opens: opens.split(',').map((s) => s.trim()) },
     misses: {
-      world: { status: noneStatus, head: none[1], text: none[2] },
+      world: { status: noneStatus, head: none[1], text: none[2], signed_out: signedOut },
       element: { status: goneStatus, text: gone },
     },
     graph_left_out: [...left.matchAll(/"([a-z]+)"/g)].map((m) => m[1]).sort(),

@@ -61,15 +61,24 @@ async function readSource() {
   const files = Object.keys(JSON.parse(await raw(tag, 'MANIFEST.json')).files ?? {});
   const names = files.map((f) => f.match(/^profiles\/([a-z0-9-]+)\.fixture\.json$/)?.[1]).filter(Boolean).sort();
   if (!names.length) throw new Error(`${tag}:MANIFEST.json lists no profile fixture`);
-  const profiles = {};
+  // A profile's count is its `cases` list, or, with none, its one `<name>_cases` list (the report
+  // fixture's `thread_cases`, serial 120). Every other `*_cases` list is held by name in case_lists
+  // (map-space's `layout_cases`), so a move in it reads STALE; anything else is refused by name.
+  const profiles = {}, caseLists = {};
   for (const n of names) {
-    const cases = JSON.parse(await raw(tag, `profiles/${n}.fixture.json`)).cases;
-    if (!Array.isArray(cases)) throw new Error(`${tag}:profiles/${n}.fixture.json has no cases list`);
-    profiles[n] = cases.length;
+    const fx = JSON.parse(await raw(tag, `profiles/${n}.fixture.json`));
+    const extra = Object.keys(fx).filter((k) => k.endsWith('_cases') && Array.isArray(fx[k])).sort();
+    let main = 'cases';
+    if (!Array.isArray(fx.cases)) {
+      if (extra.length !== 1) throw new Error(`${tag}:profiles/${n}.fixture.json has no cases list and ${extra.length} *_cases lists (${extra.join(', ') || 'none'})`);
+      main = extra.shift();
+    }
+    profiles[n] = fx[main].length;
+    for (const k of extra) caseLists[`${n}/${k}`] = fx[k].length;
   }
   const reasons = JSON.parse(await raw(tag, 'fixtures/owworld/verdicts.json')).reasons;
   if (!reasons || typeof reasons !== 'object') throw new Error(`${tag}:fixtures/owworld/verdicts.json has no reasons`);
-  return { tag, canonical, profiles, owworld_reasons: Object.keys(reasons).length };
+  return { tag, canonical, profiles, case_lists: caseLists, owworld_reasons: Object.keys(reasons).length };
 }
 const same = (a, b) => JSON.stringify({ ...a, read_at: 0 }) === JSON.stringify({ ...b, read_at: 0 });
 let snap = null;
@@ -84,6 +93,7 @@ if (args.has('--live') || args.has('--refresh')) {
     console.log(`verify-sd-counts: STALE: contract/sd-counts.json differs from ${src.tag}; run --refresh and mend the pages`);
     for (const k of ['canonical', 'owworld_reasons']) if (snap?.[k] !== src[k]) console.log(`  ${k}: ${snap?.[k]} in the snapshot, ${src[k]} at ${src.tag}`);
     for (const n of new Set([...Object.keys(snap?.profiles ?? {}), ...Object.keys(src.profiles)])) if (snap?.profiles?.[n] !== src.profiles[n]) console.log(`  ${n}: ${snap?.profiles?.[n]} cases in the snapshot, ${src.profiles[n]} at ${src.tag}`);
+    for (const n of new Set([...Object.keys(snap?.case_lists ?? {}), ...Object.keys(src.case_lists)])) if (snap?.case_lists?.[n] !== src.case_lists[n]) console.log(`  ${n}: ${snap?.case_lists?.[n]} in the snapshot, ${src.case_lists[n]} at ${src.tag}`);
     process.exit(1);
   }
   if (snap && same({ ...snap, source: 0, tag: 0 }, { ...fresh, source: 0, tag: 0 })) console.log(`verify-sd-counts: the snapshot already holds ${src.tag}'s counts (kept as read at ${snap.tag})`);
@@ -107,7 +117,8 @@ for (const f of pages) {
   lines.forEach((line, i) => {
     const where = `${rel(f)}:${i + 1}`;
     // (a) fixture cases, attributed to the one profile its line names
-    for (const m of line.matchAll(new RegExp(`\\b${NUM} fixture cases\\b`, 'gi'))) {
+    for (const m0 of line.matchAll(new RegExp(`\\b${NUM} fixture cases\\b|\\ba fixture of ${NUM} cases\\b`, 'gi'))) {
+      const m = Object.assign([m0[0], m0[1] ?? m0[2]], { index: m0.index });
       const sentence = line.slice(Math.max(0, line.lastIndexOf('. ', m.index) + 1), line.indexOf('. ', m.index) < 0 ? undefined : line.indexOf('. ', m.index));
       if (DATED.test(sentence)) { dated.push(`${where}: "${m[0]}" (${sentence.match(DATED)[0]})`); continue; }
       // the profile its sentence names, else the one its line names

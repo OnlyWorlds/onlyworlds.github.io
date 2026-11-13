@@ -1,6 +1,6 @@
 {
   "source": "keel origin/main: elements/visibility.py (scoped, reads_tombstones), core/world_api.py (_public_world), web/urls.py, web/public_views.py, web/public_page.py, portal/world_graph.py",
-  "read_at": "ac3aa27",
+  "read_at": "35e53a4",
   "removed": [
     {
       "key": "room",
@@ -54,7 +54,8 @@
     "world": {
       "status": 404,
       "head": "This world has no public page",
-      "text": "The address may be mistyped, or the owner has not turned the page on. If someone sent you this link, ask them to check it."
+      "text": "The address may be mistyped, or the owner has not turned the page on. If someone sent you this link, ask them to check it.",
+      "signed_out": "redirect to sign-in, back to the same address"
     },
     "element": {
       "status": 404,

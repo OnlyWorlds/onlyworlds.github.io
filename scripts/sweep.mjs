@@ -62,6 +62,9 @@ process.on('exit', (code) => {
 const pass = (m) => console.log(`  PASS   ${m}`);
 const bad = (m) => { stale.push(m); console.log(`  STALE  ${m}`); };
 const note = (m) => console.log(`  note   ${m}`);
+// A check that could not see is BLIND: never a pass, so a sweep with one ends INCOMPLETE (exit 2).
+const unseen = [];
+const blind = (m) => { unseen.push(m); console.log(`  BLIND  ${m}`); };
 
 const walk = (d) => readdirSync(d).flatMap((f) => {
   const p = join(d, f);
@@ -89,7 +92,7 @@ console.log('CHECKS');
 {
   const pinned = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8')).devDependencies?.['@onlyworlds/sdk'];
   const latest = sh('npm', ['view', '@onlyworlds/sdk', 'version'], ROOT);
-  if (!latest) note('could not ask npm for the SDK version: the pin was not checked');
+  if (!latest) blind('could not ask npm for the SDK version: the pin was not checked');
   else if (pinned !== latest) bad(`the TypeScript reference is generated from @onlyworlds/sdk ${pinned}; npm's latest is ${latest} (bump the dev dependency, rebuild)`);
   else pass(`the TypeScript reference is generated from the latest SDK (${latest})`);
 }
@@ -109,7 +112,7 @@ console.log('CHECKS');
   catch (e) { code = e.status ?? 2; }
   if (code === 0) pass('the palettes snapshot matches keel\'s palette table on origin/main');
   else if (code === 1) bad('the palettes snapshot differs from keel\'s palette table (node scripts/gen_palettes.mjs --refresh)');
-  else note('could not read keel\'s palette table (node scripts/gen_palettes.mjs says why): the palettes were not checked');
+  else blind('could not read keel\'s palette table (node scripts/gen_palettes.mjs says why): the palettes were not checked');
 }
 
 // ---- 2c: the API document's security against the credentials figure's snapshot (exit 2 from the
@@ -120,7 +123,7 @@ console.log('CHECKS');
   catch (e) { code = e.status ?? 2; }
   if (code === 0) pass('the credentials snapshot matches the live API document');
   else if (code === 1) bad('the credentials snapshot differs from the live API document (node scripts/gen_callers.mjs says which routes; --refresh)');
-  else note('could not read the live API document (node scripts/gen_callers.mjs says why): the credentials snapshot was not checked');
+  else blind('could not read the live API document (node scripts/gen_callers.mjs says why): the credentials snapshot was not checked');
 }
 
 // ---- 2d: the sign-in figure's snapshot against the API document, and the document's words against
@@ -131,7 +134,7 @@ console.log('CHECKS');
   catch (e) { code = e.status ?? 2; }
   if (code === 0) pass('the sign-in snapshot matches the live API document, and keel\'s code says the same');
   else if (code === 1) bad('the sign-in snapshot differs from the live API document, or the document from keel\'s code (node scripts/gen_signin.mjs says which)');
-  else note('could not read the live API document or keel\'s code (node scripts/gen_signin.mjs says why): the sign-in snapshot was not checked');
+  else blind('could not read the live API document or keel\'s code (node scripts/gen_signin.mjs says why): the sign-in snapshot was not checked');
 }
 
 // ---- 2e: the time figure's snapshot against schema-dist's newest tag, the API document and the demo
@@ -142,7 +145,7 @@ console.log('CHECKS');
   catch (e) { code = e.status ?? 2; }
   if (code === 0) pass('the time snapshot matches schema-dist\'s newest tag, the API document and Moppetopia');
   else if (code === 1) bad('the time snapshot differs from schema-dist\'s newest tag, the API document or Moppetopia (node scripts/gen_time.mjs says which)');
-  else note('could not read schema-dist, the API document or Moppetopia (node scripts/gen_time.mjs says why): the time snapshot was not checked');
+  else blind('could not read schema-dist, the API document or Moppetopia (node scripts/gen_time.mjs says why): the time snapshot was not checked');
 }
 
 // ---- 2f: the public view figure's snapshot against keel's public reader on origin/main (exit 2 from
@@ -153,7 +156,7 @@ console.log('CHECKS');
   catch (e) { code = e.status ?? 2; }
   if (code === 0) pass('the public view snapshot matches keel\'s public reader on origin/main');
   else if (code === 1) bad('the public view snapshot differs from keel\'s public reader (node scripts/gen_public.mjs says which; --refresh)');
-  else note('could not read keel\'s code (node scripts/gen_public.mjs says why): the public view snapshot was not checked');
+  else blind('could not read keel\'s code (node scripts/gen_public.mjs says why): the public view snapshot was not checked');
 }
 
 // ---- 2g: the write body figure's snapshot against the API document's write schemas (exit 2 from the
@@ -164,7 +167,7 @@ console.log('CHECKS');
   catch (e) { code = e.status ?? 2; }
   if (code === 0) pass('the write body snapshot matches the live API document');
   else if (code === 1) bad('the write body snapshot differs from the live API document (node scripts/gen_write.mjs says which fields; --refresh)');
-  else note('could not read the live API document (node scripts/gen_write.mjs says why): the write body snapshot was not checked');
+  else blind('could not read the live API document (node scripts/gen_write.mjs says why): the write body snapshot was not checked');
 }
 
 // ---- 2h: the draught figure's snapshot against the API document's context route (exit 2 from the
@@ -175,7 +178,7 @@ console.log('CHECKS');
   catch (e) { code = e.status ?? 2; }
   if (code === 0) pass('the draught snapshot matches the live API document');
   else if (code === 1) bad('the draught snapshot differs from the live API document (node scripts/gen_draught.mjs says which parameters or keys; --refresh)');
-  else note('could not read the live API document (node scripts/gen_draught.mjs says why): the draught snapshot was not checked');
+  else blind('could not read the live API document (node scripts/gen_draught.mjs says why): the draught snapshot was not checked');
 }
 
 // ---- 2i: the proposals figure's snapshot against the API document's proposal routes, queue and schemas
@@ -186,7 +189,7 @@ console.log('CHECKS');
   catch (e) { code = e.status ?? 2; }
   if (code === 0) pass('the proposals snapshot matches the live API document');
   else if (code === 1) bad('the proposals snapshot differs from the live API document (node scripts/gen_proposals.mjs says which routes or schemas; --refresh)');
-  else note('could not read the live API document (node scripts/gen_proposals.mjs says why): the proposals snapshot was not checked');
+  else blind('could not read the live API document (node scripts/gen_proposals.mjs says why): the proposals snapshot was not checked');
 }
 
 // ---- 2j: the MCP page's snapshot against the live MCP server's tool and resource lists (exit 2 from the
@@ -197,7 +200,7 @@ console.log('CHECKS');
   catch (e) { code = e.status ?? 2; }
   if (code === 0) pass('the MCP snapshot matches the live server\'s tools and resources');
   else if (code === 1) bad('the MCP snapshot differs from the live server (node scripts/verify-mcp.mjs --live says which tools or parameters; --refresh, then mend the page)');
-  else note('could not read the live MCP server (node scripts/verify-mcp.mjs --live says why): the MCP snapshot was not checked');
+  else blind('could not read the live MCP server (node scripts/verify-mcp.mjs --live says why): the MCP snapshot was not checked');
 }
 
 // ---- 2k: the CORS page's snapshot against keel's settings (keel is private: read from its local
@@ -212,7 +215,7 @@ console.log('CHECKS');
     catch (e) { code = e.status ?? 2; }
     if (code === 0) pass(`the CORS snapshot matches ${what}`);
     else if (code === 1) bad(`the CORS snapshot differs from ${what} (node scripts/verify-cors.mjs ${flag} says which; --refresh, then mend the page)`);
-    else note(gone);
+    else blind(gone);
   }
 }
 
@@ -224,7 +227,7 @@ console.log('CHECKS');
   catch (e) { code = e.status ?? 2; }
   if (code === 0) pass('the toolkit snapshot names the newest release\'s skills and agents');
   else if (code === 1) bad('the toolkit\'s newest release has other skills or agents than its snapshot (node scripts/verify-toolkit.mjs --live says which; --refresh, then mend the Toolkit page and the LLM guide)');
-  else note('could not read the toolkit\'s newest release (node scripts/verify-toolkit.mjs --live says why): the toolkit snapshot was not checked');
+  else blind('could not read the toolkit\'s newest release (node scripts/verify-toolkit.mjs --live says why): the toolkit snapshot was not checked');
 }
 
 // ---- 2m: the API pages' examples' snapshot against the live API document's schemas (exit 2 from the
@@ -235,7 +238,7 @@ console.log('CHECKS');
   catch (e) { code = e.status ?? 2; }
   if (code === 0) pass('the shapes snapshot matches the live API document');
   else if (code === 1) bad('the shapes snapshot differs from the live API document (node scripts/verify-shapes.mjs --live says which schemas; --refresh, then mend the examples and tables)');
-  else note('could not read the live API document (node scripts/verify-shapes.mjs --live says why): the shapes snapshot was not checked');
+  else blind('could not read the live API document (node scripts/verify-shapes.mjs --live says why): the shapes snapshot was not checked');
 }
 
 // ---- 2n: the limits snapshot against the live API document's x-ow-limits (exit 2 from the reader is
@@ -246,7 +249,7 @@ console.log('CHECKS');
   catch (e) { code = e.status ?? 2; }
   if (code === 0) pass('the limits snapshot matches the live API document');
   else if (code === 1) bad('the limits snapshot differs from the live API document (node scripts/verify-limits.mjs --live says which limits; --refresh, then mend the pages)');
-  else note('could not read the live API document (node scripts/verify-limits.mjs --live says why): the limits snapshot was not checked');
+  else blind('could not read the live API document (node scripts/verify-limits.mjs --live says why): the limits snapshot was not checked');
 }
 
 // ---- 2o: schema-dist's counts snapshot against its newest serial (exit 2 from the reader is BLIND:
@@ -257,7 +260,7 @@ console.log('CHECKS');
   catch (e) { code = e.status ?? 2; }
   if (code === 0) pass('the schema-dist counts snapshot matches its newest serial');
   else if (code === 1) bad('the schema-dist counts snapshot differs from its newest serial (node scripts/verify-sd-counts.mjs --live says which; --refresh, then mend the pages)');
-  else note('could not read schema-dist (node scripts/verify-sd-counts.mjs --live says why): the counts snapshot was not checked');
+  else blind('could not read schema-dist (node scripts/verify-sd-counts.mjs --live says why): the counts snapshot was not checked');
 }
 
 // ---- 2p: the practice world's literals against production (exit 2 from the reader is BLIND: production
@@ -268,7 +271,7 @@ console.log('CHECKS');
   catch (e) { code = e.status ?? 2; }
   if (code === 0) pass('the practice world\'s key and PIN on the pages answer on production');
   else if (code === 1) bad('the practice world\'s literals differ from the pages or from production (node scripts/verify-practice.mjs --live says which; copy keel\'s contract/practice.json, then mend the pages)');
-  else note('could not read production (node scripts/verify-practice.mjs --live says why): the practice world\'s literals were not checked');
+  else blind('could not read production (node scripts/verify-practice.mjs --live says why): the practice world\'s literals were not checked');
 }
 
 // ---- 2q: the newest nightly run of the Write sections against the practice world (practice.yml). Its red
@@ -276,7 +279,7 @@ console.log('CHECKS');
 {
   const out = sh('gh', ['run', 'list', '-R', 'OnlyWorlds/onlyworlds.github.io', '--workflow', 'practice.yml', '--limit', '1', '--json', 'conclusion,status,createdAt,headSha']);
   const run = out === null ? undefined : JSON.parse(out)[0];
-  if (out === null) note('could not read the practice-world runs (gh): the Write sections\' nightly run was not checked');
+  if (out === null) blind('could not read the practice-world runs (gh): the Write sections\' nightly run was not checked');
   else if (!run) bad('the Write sections\' nightly run (practice.yml) has never run');
   else if (run.status !== 'completed') note(`the Write sections' nightly run of ${run.createdAt.slice(0, 16)}Z is still running`);
   // A green run that old means a night with no run: GitHub drops scheduled runs under load (the first
@@ -290,7 +293,7 @@ console.log('CHECKS');
 let openapi = null;
 try {
   openapi = await (await fetch(OPENAPI, { signal: AbortSignal.timeout(20000) })).json();
-} catch (e) { note(`could not read keel's OpenAPI (${e.message}): the routes were not checked`); }
+} catch (e) { blind(`could not read keel's OpenAPI (${e.message}): the routes were not checked`); }
 if (openapi?.paths) {
   const TYPES = 'ability character collective construct creature event family institution language law location map marker narrative object phenomenon pin relation species title trait zone'.split(' ');
   // /api/v2/<type>[/<id>[/links/<field>]] all become {type} routes, ids and params become {}
@@ -463,7 +466,7 @@ const repos = [
 for (const [name, dir, extra] of repos) {
   const args = ['log', `--since=${SINCE}`, '--no-merges', '--format=%h %ad %s', '--date=short', ...extra];
   const out = existsSync(dir) ? sh('git', args, dir) : null;
-  if (out === null) { console.log(`  ${name}: could not read ${dir}`); continue; }
+  if (out === null) { blind(`MOVED: could not read ${name} at ${dir}`); continue; }
   const lines = out.split('\n').filter(Boolean);
   console.log(`  ${name}: ${lines.length} commit(s)`);
   for (const l of lines.slice(0, 12)) console.log(`      ${l.slice(0, 150)}`);
@@ -472,6 +475,7 @@ for (const [name, dir, extra] of repos) {
 
 console.log('');
 if (stale.length) { console.log(`STALE — ${stale.length} check(s) failed. Fix them, then read the MOVED list against the pages (SWEEP.md).`); deckLine = `STALE — ${stale.length} check(s) failed`; process.exit(1); }
+if (unseen.length) { console.log(`INCOMPLETE — ${unseen.length} check(s) could not see (BLIND above); every other check holds. Run each again until it reads, then stamp "Last swept".`); deckLine = `INCOMPLETE — ${unseen.length} check(s) could not see`; process.exit(2); }
 console.log('PASS — every check holds. The MOVED list is still yours to read (SWEEP.md), then stamp "Last swept".');
 deckLine = 'PASS — every check holds';
 process.exit(0);

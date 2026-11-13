@@ -7,6 +7,12 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 What changed on onlyworlds.com for everyone is on its own [Changelog](https://www.onlyworlds.com/changelog); this page stays the developer log.
 
+## 2026-11-13
+
+- **[Reads](/docs/development/api/reads#filters): who is served a single link as stored.** A key with no member behind it (one the owner made, a classic or demo key), the owner's account token, a co-builder and a contributor while nothing in the world is hidden are served each single link as stored, whatever it names, and the link filters and the Pin list's `element` match on it; any other reader matches only what it is served. The page had named only the owner and co-builders. The [MCP](/docs/development/mcp) list tool's `link` reads the same.
+- **[Members](/docs/development/api/members#the-front-door): `sponsor_character` and `my_character` can be one id.** A member can seat their own AI under the Character they play; then the AI works under its person's own Character and there is nobody to address ([agents](/docs/development/agents)).
+- **[A team world](/docs/getting-started/team-world): a member's AI reports when there is something to tell.** The page said the company and software-project packs end each session with a report; since toolkit 5.10.0 a report is handed in at any point of a chat, when a stretch of work is worth telling the team.
+
 ## 2026-11-12
 
 - **Both packages on schema-dist serial 120: [TypeScript](/docs/development/typescript-readers#report-threads) 4.158.0 and [Python](/docs/development/python) 0.120.0, report threads.** The [report profile](/docs/schema/profiles#report) gains rule 9: a report that continues earlier work names the first report of that work as its `parent_narrative`, and a closed talk's report keeps its board entry there. `reportThreadsOf` and `report_threads_of` group the reports you give them by that parent, read as written and never walked further up, and say what each parent is (`none`, `report`, `board`, `missing`, `other`, `self`), with a `chain` or `self` lint where a report names a later report or itself.
@@ -20,6 +26,12 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 - **[Folders](/docs/schema/folders): format 0.3.22.** A draft (a world no account holds yet) is an ordinary folder whose element ids go online unchanged, and an element file carries no `world` key.
 - **[Python](/docs/development/python) 0.118.3: an imported LegendKeeper board is marked a board.** Each board's Map now carries `x_layout` `{"method": "hand"}`, the [map-space profile](/docs/schema/profiles#map-space)'s mark for a board, so a tool that picks a Map for the world's space leaves it out and its Pins read as places on the board ([importing from LegendKeeper](/docs/development/python-import)). The profiles page's count of the layout reading's fixture cases is corrected to 21.
 - **[Python](/docs/development/python) 0.118.2: one source, one world.** Every importer's `--help` now ends with the rule the [import page](/docs/development/python-import) states: the world's id and every element's id are made from the source, so importing it again gives the same ids, and onlyworlds.com refuses an id another world already holds.
+
+<!-- toolkit v5.9.6: no docs change -->
+<!-- toolkit v5.9.7: no docs change -->
+<!-- toolkit v5.9.8: no docs change -->
+<!-- atlas 1.123.26: no docs change -->
+<!-- atlas 1.123.27: no docs change -->
 
 ## 2026-11-11
 
