@@ -103,7 +103,7 @@ Moppetopia holds 501 elements, 23 of them Characters
 - Commander Vex
 ```
 
-Every element type has the same routes and calls at its singular name: `location`, `event`, `creature` and the rest of the [22 types](/docs/schema/).
+Every element type has the same routes and calls at its singular name: `location`, `event`, `creature` and the rest of the [22 types](/docs/schema/). Each type's page lists its fields and what each link points to, such as [Creature](/docs/schema/element_categories/creature).
 
 ## 3. Write, read back, delete
 
@@ -116,7 +116,7 @@ export OW_API_PIN=1234
 
 In Windows PowerShell, set each as `$env:OW_API_KEY = "ow_w_..."`.
 
-The example makes a Location and a Character who lives there. A link field holds the id of the element it points to. Then it reads the Character back, deletes both, and shows what a read of a deleted element answers.
+The example makes a Location and a Character who lives there. A link field holds the id of the element it points to. Then it changes the Character's description, reads the Character back, deletes both, and shows what a read of a deleted element answers.
 
 <Tabs syncKey="lang">
 <TabItem label="TypeScript">
@@ -133,9 +133,13 @@ const harbour = await writer.create('location', { name: 'Saltmarsh Harbour' });
 const keeper = await writer.create('character', { name: 'Wren the Lamplighter', location: harbour.id });
 console.log('made', keeper.name, keeper.id);
 
+// change a field: a patch sends only the fields it changes
+await writer.patch('character', keeper.id, { description: 'Keeps the harbour lamps lit.' });
+
 // read it back
 const again = await writer.get('character', keeper.id);
 console.log(again.name, 'lives at', again.location === harbour.id ? harbour.name : again.location);
+console.log(again.description);
 
 // delete both; a read of a deleted element answers 410 gone
 await writer.delete('character', keeper.id);
@@ -164,9 +168,13 @@ harbour = writer.create("location", {"name": "Saltmarsh Harbour"})
 keeper = writer.create("character", {"name": "Wren the Lamplighter", "location": harbour["id"]})
 print("made", keeper["name"], keeper["id"])
 
+# change a field: a patch sends only the fields it changes
+writer.patch("character", keeper["id"], {"description": "Keeps the harbour lamps lit."})
+
 # read it back
 again = writer.get("character", keeper["id"])
 print(again["name"], "lives at", harbour["name"] if again["location"] == harbour["id"] else again["location"])
+print(again["description"])
 
 # delete both; a read of a deleted element answers 410 gone
 writer.delete("character", keeper["id"])
@@ -189,7 +197,13 @@ curl -X POST "https://www.onlyworlds.com/api/v2/character/" \
   -H "Content-Type: application/json" \
   -d '{"name": "Wren the Lamplighter"}'
 
-# read it back, then delete it (put in the id from the answer)
+# change a field (put in the id from the answer): a patch sends only the fields it changes
+curl -X PATCH "https://www.onlyworlds.com/api/v2/character/<id>/" \
+  -H "API-Key: $OW_API_KEY" -H "API-Pin: $OW_API_PIN" \
+  -H "Content-Type: application/json" \
+  -d '{"description": "Keeps the harbour lamps lit."}'
+
+# read it back, then delete it
 curl -H "API-Key: $OW_API_KEY" "https://www.onlyworlds.com/api/v2/character/<id>/"
 curl -X DELETE "https://www.onlyworlds.com/api/v2/character/<id>/" \
   -H "API-Key: $OW_API_KEY" -H "API-Pin: $OW_API_PIN"
@@ -205,13 +219,14 @@ It prints:
 ```
 made Wren the Lamplighter 01a1d4ef-8b76-73ea-828f-7f3c1b38fd8e
 Wren the Lamplighter lives at Saltmarsh Harbour
+Keeps the harbour lamps lit.
 after the delete: 410 gone
 ```
 
 That is what a tool that reads and writes needs. Four rules cover the rest of the basics:
 
 - `name` is the one required field. Every other field may be left out.
-- A change goes as a patch, which replaces each field it sends: a list of links is replaced whole. The packages' `editLinks` and `edit_links` add or remove single links instead ([Link fields](/docs/development/api/links)).
+- A patch replaces each field it sends and leaves the rest: a list of links is replaced whole. The packages' `editLinks` and `edit_links` add or remove single links instead ([Link fields](/docs/development/api/links)).
 - The key decides the world. You never send a world id.
 - A refusal answers with a code, such as `gone` above, and a link to that code on the [errors page](/api/errors/).
 

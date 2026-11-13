@@ -173,6 +173,7 @@ for (const w of which) {
     else if (r.status === 0 && !printed.length) { failed++; console.log(`  FAIL   ${file}: the run printed no id, so its deletes cannot be read in the feed`); }
     else if (notDeleted.length) { failed++; console.log(`  FAIL   ${file}: ${notDeleted.length} printed id(s) not deleted by ${CLIENT[lang]} in the feed: ${notDeleted.join(', ')}`); }
     else if (r.status === 0) console.log(`         its own deletes read in the feed: ${printed.length} printed id(s), nothing left`);
+    else console.log(`         cleanup: nothing it named is left in the feed since the start (${printed.length} printed id(s), each deleted)`);
   }
   else if (r.status === 0 && !c.made.length) { failed++; console.log(`  FAIL   ${file}: cleanup found none of the elements the run made in the feed (looked for ${[...namesIn(code)].join(', ')} by ${CLIENT[lang]})`); }
   else console.log(`         cleaned up: ${c.made.length} element(s) the run made deleted (${c.made.map((m) => m[2]).join(', ')})`);
