@@ -285,7 +285,7 @@ Besides the `api` block, the writer leaves two things out by default and keeps o
 <details>
 <summary>What the writer does, in detail (the folder format's rules)</summary>
 
-Both functions follow the folder format's [archive section](/docs/schema/folders#folders-and-onlyworldscom) (§4.7, the `.owworld` file) and give its verdict on every fixture of its conformance set.
+Both functions follow the folder format's [archive rules](/docs/schema/folders#folders-and-onlyworldscom) (the `.owworld` file) and give its verdict on every fixture of its conformance set.
 
 The writer gives one set of bytes for one input: the marker first and stored, entries ordered by the UTF-8 bytes of their names, every entry stamped 1980-01-01, and only `world.json`, `elements/`, `spatial/`, `media/`, `records/` and a tool's dot-folder it is handed.
 
@@ -293,7 +293,7 @@ An element file holding an author field is written without it, in the folder's o
 
 A private `records/<producer>/` is matched by name after the same fold as a `collision`, and `RECORDS.json` is kept as it is. A manifest the writer cannot read throws a `TypeError` unless you pass `includePrivateRecords: true`.
 
-`includeHidden` follows the folder format's §4.8. With `{ includeHidden: false }`:
+`includeHidden` follows the folder format's [hidden mark](/docs/schema/folders#folders-and-onlyworldscom). With `{ includeHidden: false }`:
 
 - every `.json` file directly in a type folder of `elements/` or `spatial/` whose JSON has a top-level `hidden` (anything but absent, `null` or `false`, so `"true"` and `1` count) is left out whole
 - a file there that is not UTF-8 JSON, or not an object, is kept

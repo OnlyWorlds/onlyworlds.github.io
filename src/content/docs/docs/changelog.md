@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-13
 
+- **[World folders](/docs/schema/folders#folders-and-onlyworldscom): the hidden mark stated on the page**, and the folder format's rules quoted where they apply instead of cited by section, on the folders, Python, TypeScript and Unity pages.
 - **[Getting started](/docs/getting-started#3-write): a first write needs no account.** The Write step names the practice world's key and PIN, and says that the server mints an id when you send none while both packages mint it on your side.
 - **[Writes](/docs/development/api/writes): the practice world, for a write without an account.**
 - **[Home](/): Moppetopia's demo key in the quickstart, and the practice world for a first write.**
