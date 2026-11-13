@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-13
 
+- **[Public worlds](/docs/development/api/public#the-address): a world's id is read only in its written form.** `onlyworlds.com/w/<id>` and `?world=` take the id with its four hyphens; 32 hex digits without them are an address, which a page may take, and no longer open the world. A key that names its own world that way answers `422`.
 - **[An address in prose](/docs/schema/profiles/addresses#an-address-in-prose) (serial 123).** A reader that finds an address inside text reads it from its prefix; a full stop, another query key or a fragment after it is prose. After `/w/` the run is read whole: exactly an id's form is the world's id, 32 hex digits without hyphens are a slug. TypeScript 4.161.0's [`readOwLinkAt`](/docs/development/typescript-readers#addresses) and Python 0.122.0's [`read_ow_link_at`](/docs/development/python) find one.
 - **[Messages](/docs/schema/profiles/messages): the read mark among several** is the one with the newest readable `updated_at`; at the same instant, or when none can be read, the higher id (serial 123).
 - **[Lenses](/docs/lenses): `changed_within` reads each element's clock**, the newest readable of `updated_at`, `server_updated_at` and `local_updated_at`, and never cuts an element with no readable clock (serial 123).

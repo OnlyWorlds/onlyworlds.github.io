@@ -31,8 +31,8 @@ The demo worlds (Moppetopia, Hyperion and the others read with a [demo key](/doc
 
 - 3 to 40 characters: lowercase letters, numbers and hyphens, with no hyphen at either end and never two in a row.
 - Unique across onlyworlds.com, first come first served.
-- Not one of the site's own words (`about`, `start`, `tools`, `develop`, `docs`, `join`, `worlds`, `api`, `admin`, `static`, `account`, `w`, `agents`, `privacy`, `whatsnew`) and not an element type's name (`character`, `location` and the rest); not a value that reads as a world id.
-- The page also answers at `onlyworlds.com/w/<world id>`, whatever address the owner chose. That address cannot be taken or changed.
+- Not one of the site's own words (`about`, `start`, `tools`, `develop`, `docs`, `join`, `worlds`, `api`, `admin`, `static`, `account`, `w`, `agents`, `privacy`, `whatsnew`) and not an element type's name (`character`, `location` and the rest); not a world id in its written form (36 characters, four hyphens). Since 2026-11-13, 32 hex digits without hyphens are an address like any other and may be taken.
+- The page also answers at `onlyworlds.com/w/<world id>`, whatever address the owner chose. That address cannot be taken or changed. The id is read only in its written form; the same id as 32 hex digits without hyphens no longer opens the world (since 2026-11-13, as [the address profile](/docs/schema/profiles/addresses#an-address-in-prose) reads it).
 - An address exists only while the page is on. Turning the page off frees it, and turning it back on asks for one again; "A name given up before may be taken by now." Changing the address frees the old one at once, with no redirect from it.
 
 ### The look
@@ -104,7 +104,7 @@ That is Moppetopia. The answer is what the owner's own key gets with [`?as=publi
   "counts": { "total": 319, "types": { "ability": 1, "character": 23, "location": 32, "marker": 131 } } }
 ```
 
-(Shortened.) Here `world` may also be the page's address: an id is tried first, any other value as an address, which names a world only while its page is on. The element, search and metadata routes take the id only.
+(Shortened.) Here `world` may also be the page's address: a world's id in its written form (36 characters, four hyphens, hex in either case) is the id, and any other value, 32 hex digits without hyphens included (since 2026-11-13), is tried as an address, which names a world only while its page is on. The element, search and metadata routes take the id only.
 
 ### What it does not serve
 
@@ -116,7 +116,7 @@ That is Moppetopia. The answer is what the owner's own key gets with [`?as=publi
 ### Answers
 
 - **One `404` for every closed door.** A world that is not open to read, an unknown id and a value that is no id at all answer the same `404` [`not_found`](/api/errors/#not_found), "World not found.", so the answer never tells whether a world exists.
-- **With a key**, `world` naming the key's own world is ignored, and any other value, an address included, is `422` [`invalid_request`](/api/errors/#invalid_request) with `param` `world`: a key reads its own world only.
+- **With a key**, `world` naming the key's own world by its id is ignored, and any other value, an address or the same id as 32 hex digits without hyphens included, is `422` [`invalid_request`](/api/errors/#invalid_request) with `param` `world`: a key reads its own world only.
 - **`Cache-Control: no-store`** on every keyless answer, errors included, so turning public reading off closes the door at once. `ETag` and `If-None-Match` work as with a key.
 - **The budget**: 60 a minute per address, shared with the public pages ([Limits](/docs/development/api-reference#limits)). {/* limit: requests_per_minute_keyless */}
 
