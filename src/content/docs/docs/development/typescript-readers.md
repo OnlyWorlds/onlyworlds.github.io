@@ -419,7 +419,7 @@ Each row is `{ id, name, href, state }`. `state` is null when the row opens now,
 - `browser`: false in a desktop app, which cannot see the browser's sign-in; a tool that needs an account then says `Opens in your browser`. Default true.
 - `phone`: true on a phone, where a tool that needs the world on the device says `Needs the world on this phone`. Default false.
 
-An element's menu takes the element as you were served it, `openersFor(tools, 'element', address, surface, { element })`. A tool whose element door does not open what it carries (a room element, a hidden or proposed one, a Map, Pin or Marker, a reading aid: the list's `element_skips`, each read as [`worldGraph`](#a-world-as-a-graph) reads it) has no row, rather than a link to a page that cannot open it. Without it every row is there.
+An element's menu takes the element as you were served it, `openersFor(tools, 'element', address, surface, { element })`. A tool whose element door does not open what it carries (a room element, a hidden or proposed one, a Map, Pin or Marker, a reading aid: the list's `element_skips`, each read as [`worldGraph`](#a-world-as-a-graph) reads it) has no row, rather than a link to a page that cannot open it. Without it every row is there. The element must be the one the address names: the address's id is read in either case, the element's own `id` as written ([the same id](/docs/schema/profiles/addresses#the-same-id)), so an element held in upper case is refused with a `TypeError` (`its id differs`).
 
 A tool can also list the kinds of element it opens, in its row's `element_types`. On an element's menu, a tool whose list leaves out that element's type (read from the address) has no row, not even one to its world door. A world's menu is unchanged.
 
