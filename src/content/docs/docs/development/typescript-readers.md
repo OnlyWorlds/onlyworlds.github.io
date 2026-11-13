@@ -321,6 +321,20 @@ for (const m of unreadFor(messages, myCharacter, mark, members)) {   // members:
 
 `isAddressedTo(m, id)` is true for a message to everyone (an empty `characters`), and `isToEveryone(m)` asks only that. `threadOf(messages, rootId)` lists a thread in order.
 
+### Times
+
+Every reader here orders by `created_at` as an instant, and the reader it uses is exported (since 4.159.0), so a tool that sorts with it orders exactly as they do. `instantOf(value)` gives `{ seconds, microseconds }` (whole seconds since 1970-01-01 UTC, and the fraction's first six digits), or `null` when the value cannot be read; `compareInstants(a, b)` puts earlier first, a `null` after every readable one, and two equal instants at 0, so a stable sort keeps the order given:
+
+```typescript
+import { instantOf, compareInstants } from '@onlyworlds/sdk';
+
+items.sort((a, b) => compareInstants(instantOf(a.created_at), instantOf(b.created_at)));
+instantOf('2026-11-12T10:00:00+02:00'); // { seconds: 1794470400, microseconds: 0 }
+instantOf('2026-11-12');                // null: a date alone is not read
+```
+
+It reads the whole value as `YYYY-MM-DDTHH:MM:SS`, an optional fraction after `.`, then `Z`, `+HH:MM`, `-HH:MM` or nothing (read as UTC); `T` and `Z` in either case; each part in its range (a day that month has, an hour to 23, a minute and a second to 59). A fraction counts to its sixth digit, later digits dropped, never rounded. Not read: a date alone, a space for the `T`, a time without its seconds, an offset without its colon, a leap second, a trailing line break.
+
 The readers know a message the server trimmed for its viewer (`x_served_trimmed`): an empty `characters` with the mark is to someone you cannot see, never to everyone. `hasUnseenRecipients(m)` says so, and a hidden sender is `senderStatus` `'unseen'` ("from someone you cannot see").
 
 A body read with no key, as the public is served it, carries no hands and no trim mark. There, pass `{ keyless: true }`: `readMarkOf(marks, id, members, { keyless: true })` is `null`, `isToEveryone` is false, and `hasUnseenRecipients` is `null` (unknown).
