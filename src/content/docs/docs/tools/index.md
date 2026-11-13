@@ -28,6 +28,7 @@ These tools all read and write the same world format, so a world can move betwee
 |---|---|---|
 | Tactical Tangle | A hoplite battle game where your OnlyWorlds characters fight in the ranks of a phalanx. | [tangle.onlyworlds.com](https://tangle.onlyworlds.com) |
 | Subs | A convoy-escort game of the Second World War: one of your Characters captains the lead escort, and the crossing is written back into the world as a record. | [subs.onlyworlds.com](https://subs.onlyworlds.com) |
+| Windrose | A map of one world, Moppetopia, in the browser: pan and zoom the map, open the Index and any element's card and follow its links, take the guided tour. It only reads. | [windrose.onlyworlds.com](https://windrose.onlyworlds.com) |
 | DCC Viewer | A parsed book series (Dungeon Crawler Carl) explored as a 3D world graph. | [dcc.onlyworlds.com](https://dcc.onlyworlds.com) |
 
 ## Integrations
