@@ -8,7 +8,7 @@ Atlas reads and writes your world as plain JSON files, in a folder on your own m
 | | |
 |---|---|
 | **URL** | [atlas.onlyworlds.com](https://atlas.onlyworlds.com) |
-| **Type** | Local-first web application (any modern browser; a folder on your drive needs Chrome, Edge or Brave) |
+| **Type** | Local-first web application (any modern browser; a folder on your drive needs desktop Chrome, Edge or Brave) |
 | **Changelog** | [atlas.onlyworlds.com/changelog](https://atlas.onlyworlds.com/changelog) |
 
 ## Getting started
@@ -19,7 +19,7 @@ Below them, **Watch how it works** is the guided tour, and **Other ways in** ope
 
 ### Create a world
 
-On Chrome, Edge and Brave, a new world asks whether it goes in a folder on your drive, where your AI and other tools can work on it, or in this browser. A browser world can be moved to a folder later.
+On desktop Chrome, Edge and Brave, a new world asks whether it goes in a folder on your drive, where your AI and other tools can work on it, or in this browser. A browser world can be moved to a folder later.
 
 On Firefox and Safari a world lives in the browser, and that is a full home. Either way the world is plain JSON files you own, and Atlas works offline.
 
