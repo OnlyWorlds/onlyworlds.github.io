@@ -3,6 +3,8 @@ title: TypeScript SDK
 description: The @onlyworlds/sdk package, a typed client for the v2 API and the standard's constants, generated from schema-dist.
 ---
 
+New to OnlyWorlds? [Your first hour](/docs/getting-started/first-hour) reads a world, writes to the practice world and deletes again, in one short page. This page covers the whole package.
+
 `@onlyworlds/sdk` is the typed client for the OnlyWorlds REST API v2. It also exports the standard's constants (the 22 element types, their icons, colour groups and field schema), generated from [schema-dist](https://github.com/OnlyWorlds/schema-dist) at a pinned, hash-verified tag. The generated files name that tag in their header.
 
 The 4.x line speaks v2 only and is ESM-only (Node 18 or later). Tools on the v1 API dialect (`OnlyWorldsClient`) or on CommonJS `require()` stay on the 3.x line, which is still published.

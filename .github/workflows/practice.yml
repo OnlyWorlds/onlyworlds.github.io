@@ -1,4 +1,5 @@
-# Nightly: run the TypeScript and Python pages' Write sections as written, against the practice world
+# Nightly: run the TypeScript and Python pages' Write sections, and Your first hour's read and write in both
+# languages, as written, against the practice world
 # (the world anyone may write to, whose key and PIN the pages print). It runs after the world's 03:00 UTC
 # reset, so each night starts from the same copy. A red run means a page's Write example no longer runs:
 # the page, the packages or the practice key moved.

@@ -3,7 +3,7 @@ title: Getting started
 description: What OnlyWorlds is, and how to make a first read and write against a world.
 ---
 
-This page is for developers and AI agents that read and write worlds through the API. To build a world without code, start at [onlyworlds.com/start](https://www.onlyworlds.com/start) or open [Atlas](https://atlas.onlyworlds.com).
+This page is for developers and AI agents that read and write worlds through the API. To get a read and a write working in a few minutes, with no account, follow [Your first hour](/docs/getting-started/first-hour). To build a world without code, start at [onlyworlds.com/start](https://www.onlyworlds.com/start) or open [Atlas](https://atlas.onlyworlds.com).
 
 OnlyWorlds is an open standard for world data. It structures a world into [22 element types](/docs/schema/) (Characters, Locations, Events and more) with fields and typed links between them, so any tool or AI agent that speaks the standard can read and write the same worlds.
 

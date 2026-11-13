@@ -1,0 +1,232 @@
+---
+title: Your first hour
+description: "Read a world, count it, write two linked elements, read them back and delete them: in TypeScript, Python or plain REST, with no account."
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+This page takes you from nothing to a working read and write, with no account. You read Moppetopia, a public sample world, then write to the practice world, a world anyone may write to. Every example on this page runs as written. Pick a language once and the page keeps it.
+
+## 1. Install
+
+<Tabs syncKey="lang">
+<TabItem label="TypeScript">
+
+TypeScript needs Node 18 or later. The package is ESM, so save each example as a `.mjs` file.
+
+```bash
+npm install @onlyworlds/sdk
+```
+
+</TabItem>
+<TabItem label="Python">
+
+Python needs 3.12 or later. The package has no other dependencies.
+
+```bash
+pip install onlyworlds
+```
+
+</TabItem>
+<TabItem label="curl">
+
+With curl there is nothing to install. Every request goes to `https://www.onlyworlds.com/api/v2/` with the key in the `API-Key` header.
+
+</TabItem>
+</Tabs>
+
+## 2. Read a world
+
+`0000000001` is a public demo key. It reads Moppetopia and needs no PIN. The world's own record carries `counts`, how many elements it holds in all and per type.
+
+<Tabs syncKey="lang">
+<TabItem label="TypeScript">
+
+In TypeScript, save this as `read.mjs` and run `node read.mjs`:
+
+```typescript
+import { OwV2Client } from '@onlyworlds/sdk';
+
+// 0000000001 is a public demo key: it reads the sample world Moppetopia, no PIN
+const client = new OwV2Client({ apiKey: '0000000001' });
+
+const world = await client.getWorld();
+console.log(world.name, 'holds', world.counts.total, 'elements,', world.counts.types.character, 'of them Characters');
+
+const page = await client.list('character', { limit: 5 });
+for (const character of page.data) console.log('-', character.name);
+```
+
+</TabItem>
+<TabItem label="Python">
+
+In Python, save this as `read.py` and run `python read.py`:
+
+```python
+from onlyworlds import Client
+
+# 0000000001 is a public demo key: it reads the sample world Moppetopia, no PIN
+client = Client("0000000001")
+
+world = client.get_world()
+counts = world["counts"]
+print(world["name"], "holds", counts["total"], "elements,", counts["types"]["character"], "of them Characters")
+
+page = client.list_page("character", limit=5)
+for character in page["data"]:
+    print("-", character["name"])
+```
+
+</TabItem>
+<TabItem label="curl">
+
+With curl:
+
+```bash
+curl -H "API-Key: 0000000001" "https://www.onlyworlds.com/api/v2/world/"
+curl -H "API-Key: 0000000001" "https://www.onlyworlds.com/api/v2/character/?limit=5&fields=id,name"
+```
+
+The first answer is the world, with `counts` among its keys. The second is a page of Characters: `{"data": [...], "has_more": true, "next_cursor": "..."}`. Pass `next_cursor` back as `?cursor=` for the next page.
+
+</TabItem>
+</Tabs>
+
+It prints something like this (the world changes now and then, so the numbers can differ):
+
+```
+Moppetopia holds 501 elements, 23 of them Characters
+- Lieutenant Jonas
+- Wrinkles
+- Governor Threadsworth
+- Old Biscuit
+- Commander Vex
+```
+
+Every element type has the same routes and calls at its singular name: `location`, `event`, `creature` and the rest of the [22 types](/docs/schema/).
+
+## 3. Write, read back, delete
+
+A write needs a write key and a PIN. These two are the [practice world](/docs/getting-started/keys#the-practice-world)'s. It goes back to the same copy every night at 03:00 UTC, takes 60 requests a minute from one address, and anyone can read what you put in it, so put nothing private there. Keep them out of your code, in the environment: {/* limit: requests_per_minute_keyless */}
+
+```bash
+export OW_API_KEY=ow_w_QRRMlAFPF9vPZSqmiV6QJm2HDJH_sP28x2RccPmYP1A
+export OW_API_PIN=1234
+```
+
+In Windows PowerShell, set each as `$env:OW_API_KEY = "ow_w_..."`.
+
+The example makes a Location and a Character who lives there. A link field holds the id of the element it points to. Then it reads the Character back, deletes both, and shows what a read of a deleted element answers.
+
+<Tabs syncKey="lang">
+<TabItem label="TypeScript">
+
+In TypeScript, save this as `write.mjs` and run `node write.mjs`:
+
+```typescript
+import { OwV2Client, OwApiError } from '@onlyworlds/sdk';
+
+const writer = new OwV2Client({ apiKey: process.env.OW_API_KEY, apiPin: process.env.OW_API_PIN });
+
+// make two elements and link them: a link is the id of the element it points to
+const harbour = await writer.create('location', { name: 'Saltmarsh Harbour' });
+const keeper = await writer.create('character', { name: 'Wren the Lamplighter', location: harbour.id });
+console.log('made', keeper.name, keeper.id);
+
+// read it back
+const again = await writer.get('character', keeper.id);
+console.log(again.name, 'lives at', again.location === harbour.id ? harbour.name : again.location);
+
+// delete both; a read of a deleted element answers 410 gone
+await writer.delete('character', keeper.id);
+await writer.delete('location', harbour.id);
+try {
+  await writer.get('character', keeper.id);
+} catch (err) {
+  if (err instanceof OwApiError) console.log('after the delete:', err.status, err.code);
+  else throw err;
+}
+```
+
+</TabItem>
+<TabItem label="Python">
+
+In Python, save this as `write.py` and run `python write.py`:
+
+```python
+import os
+from onlyworlds import ApiError, Client
+
+writer = Client(os.environ["OW_API_KEY"], os.environ["OW_API_PIN"])
+
+# make two elements and link them: a link is the id of the element it points to
+harbour = writer.create("location", {"name": "Saltmarsh Harbour"})
+keeper = writer.create("character", {"name": "Wren the Lamplighter", "location": harbour["id"]})
+print("made", keeper["name"], keeper["id"])
+
+# read it back
+again = writer.get("character", keeper["id"])
+print(again["name"], "lives at", harbour["name"] if again["location"] == harbour["id"] else again["location"])
+
+# delete both; a read of a deleted element answers 410 gone
+writer.delete("character", keeper["id"])
+writer.delete("location", harbour["id"])
+try:
+    writer.get("character", keeper["id"])
+except ApiError as err:
+    print("after the delete:", err.status, err.code)
+```
+
+</TabItem>
+<TabItem label="curl">
+
+With curl:
+
+```bash
+# make a Character; the answer is the element, with its id
+curl -X POST "https://www.onlyworlds.com/api/v2/character/" \
+  -H "API-Key: $OW_API_KEY" -H "API-Pin: $OW_API_PIN" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Wren the Lamplighter"}'
+
+# read it back, then delete it (put in the id from the answer)
+curl -H "API-Key: $OW_API_KEY" "https://www.onlyworlds.com/api/v2/character/<id>/"
+curl -X DELETE "https://www.onlyworlds.com/api/v2/character/<id>/" \
+  -H "API-Key: $OW_API_KEY" -H "API-Pin: $OW_API_PIN"
+```
+
+A create answers `201` with the whole element. A delete answers `204`, and a read of the deleted id afterwards answers `410` with the code `gone`. A read sends the key alone; the PIN goes only on writes. To link two elements, send the other element's id in a link field, such as `"location": "<location-id>"`.
+
+</TabItem>
+</Tabs>
+
+It prints:
+
+```
+made Wren the Lamplighter 01a1d4ef-8b76-73ea-828f-7f3c1b38fd8e
+Wren the Lamplighter lives at Saltmarsh Harbour
+after the delete: 410 gone
+```
+
+That is what a tool that reads and writes needs. Four rules cover the rest of the basics:
+
+- `name` is the one required field. Every other field may be left out.
+- A change goes as a patch, which replaces each field it sends: a list of links is replaced whole. The packages' `editLinks` and `edit_links` add or remove single links instead ([Link fields](/docs/development/api/links)).
+- The key decides the world. You never send a world id.
+- A refusal answers with a code, such as `gone` above, and a link to that code on the [errors page](/api/errors/).
+
+## 4. Your own world
+
+When you want a world of your own, sign up at [onlyworlds.com](https://www.onlyworlds.com/accounts/signup/), make a world, and mint a key on its page. An `ow_r_` key reads and is safe to share; an `ow_w_` key reads and writes with your account's PIN. Put them in `OW_API_KEY` and `OW_API_PIN` in place of the practice world's, and the examples above run against your world. [Keys and PINs](/docs/getting-started/keys) covers every kind of key.
+
+## What you can leave for later
+
+The rest of these docs cover things a tool needs only when it does them. None of it is needed for the steps above.
+
+- **Many writes at once, retries, conflicts**: [Writes and bulk](/docs/development/api/writes).
+- **Following a world as it changes**: [Changes](/docs/development/api/changes).
+- **Sharing a world**: members, roles and invite links in [Members](/docs/development/api/members), and the [Hidden elements](/docs/development/api/hidden) only some members see.
+- **AI agents**: seats, the MCP server and the context for one Character, under [AI agents](/docs/development/ai).
+- **Signing people in to your tool**: [Accounts, members and sharing](/docs/development/typescript-accounts).
+- **A world as files on disk**: [World folders](/docs/schema/folders).
+- **Everything a package does**: the [TypeScript](/docs/development/typescript) and [Python](/docs/development/python) pages, and Unity and the other engines under [SDKs](/docs/development/packages).

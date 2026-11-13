@@ -57,6 +57,7 @@ export default defineConfig({
           items: [
             { label: 'Overview', link: '/' },
             { slug: 'docs/getting-started' },
+            { slug: 'docs/getting-started/first-hour' },
             { slug: 'docs/getting-started/keys' },
             { slug: 'docs/getting-started/team-world' },
             { slug: 'docs/development' },
@@ -181,6 +182,7 @@ export default defineConfig({
           details: [
             'Start with these pages (Markdown copies):',
             '',
+            '- [Your first hour](https://onlyworlds.github.io/docs/getting-started/first-hour.md): read a world, write to the practice world, read back and delete, in TypeScript, Python or curl, with no account',
             '- [Getting started](https://onlyworlds.github.io/docs/getting-started.md): what OnlyWorlds is and a first call',
             '- [Keys and PINs](https://onlyworlds.github.io/docs/getting-started/keys.md): which key and PIN a request needs',
             '- [API overview](https://onlyworlds.github.io/docs/development/api-reference.md): base URL, headers, the error envelope',
