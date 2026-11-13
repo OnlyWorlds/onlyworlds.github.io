@@ -395,7 +395,7 @@ The package also ships `SCHEMA.md` (every field and its meaning, generated) and 
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.160.1, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.160.3, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -425,7 +425,7 @@ Generated from the types of `@onlyworlds/sdk` 4.160.1, the version these docs pi
 | `worldLenses(worldId, opts?)` | `GET /world/{worldId}/lenses` | every lens in the world this key can see, templates included and marked, each with its recipe echoed (`x_lens`, defaults filled in), the Titles it is the default for and whether this key chose it. | `Promise<OwWorldLenses>` |
 | `me()` | `GET /me` | who this key is in its world: the world, the key's scope, kind and role, its membership and Character, the lenses it starts with, the world's reading aids, and the front door (`front_door`: the sponsor and their Character, your own Character, the Charter and the Objects it names, the seats you sponsor). | `Promise<OwMe>` |
 | `members()` | `GET /members` | the world's roster: each member's id (null for the owner), kind, role, Character and status (`removed` rows stay, so their elements keep `created_by`). | `Promise<OwMember[]>` |
-| `list(type, params?)` | `GET /{type}/` | one cursor page. | `Promise<OwPage>` |
+| `list(type, params?)` | `GET /{type}/` | one cursor page, shaped by `params`: `limit` (up to 1000), `cursor` (a page's `next_cursor`), `filter` (the wire filters), `ids`, `createdBy`, `expand`, `fields`, `viewAs` (an owner key) and `signal`. | `Promise<OwPage>` |
 | `draught(characterId, policy?)` | `GET /character/{id}/context` | the draught: what one Character knows, as the recorded world holds it, in one read: her element, what she holds and sits in, her open work, how she works, the Events she was in, the Narratives she knows, everything else that names her, her sheet, what changed around her (`since`), and who plays whom; the world's name and calendar beside; the room's messages (`messages`), its other elements (`room`) and elements written as proposed (`proposed`) only when `components` names them. | `Promise<OwDraught>` or `Promise<OwDraughtCompact>` |
 | `listAll(type, params?)` |  | Cursor-walk every page of a type. | `AsyncGenerator<OwElement>` |
 | `get(type, id, opts?)` | `GET /{type}/{id}/` | optional one-level stub expansion / sparse fields, and `viewAs` (the owner reads as another reader; see ListParams.viewAs). | `Promise<OwElement>` |
