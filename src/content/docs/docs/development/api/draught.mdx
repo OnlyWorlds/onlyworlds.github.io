@@ -60,7 +60,7 @@ Nine query parameters, all optional. The SDKs take the same nine. The MCP tool `
 | Section | Holds |
 |:--|:--|
 | `character` | The Character's own element, with `self: true` and its `grade`: the voice, where every other section is what that voice may mention. `null` when, read as the Character, their own element is hidden from them. Named `self` in `components` (`components=character` is a 422) |
-| `role` | Titles whose `holders` name them, Collectives whose `characters` name them, and Relations whose `actor` is the Character with supertype `Tenure` or `Membership`; in `voice`, only those the Character's own slice shows, so a Title that names them in `holders` can be missing |
+| `role` | Titles whose `holders` name them, Collectives whose `characters` name them, and Relations whose `actor` is the Character with supertype `Tenure` or `Membership`; in `voice`, only those the Character's own slice shows: a Title they hold and a Relation they act in are in it (since 2026-11-13), so one is missing only when the owner hid it |
 | `work` | Relations whose `actor` is the Character with supertype `Work item` and subtype `open` or `taken`. Each row adds `packet`, the item's `x_packet_elements` (`[]` when it has none) |
 | `style` | The Construct with supertype `Working style` whose `characters` name them (the most recently edited), or `null` |
 | `events` | Events whose `characters` name them: the dated by `start_date` up to `as_of`, then the undated. Each row adds `dated` |
