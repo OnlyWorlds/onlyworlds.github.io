@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-13
 
+- **[TypeScript](/docs/development/typescript) 4.160.1: the Waymark draws the OnlyWorlds mark in true curves.** The mark is the logo redrawn with exact arcs, so it stays clean at any size; the same drawing is now this site's logo and favicon.
 - **[Links](/docs/development/api/links#setting-and-clearing-links): a list of links keeps each element once, and a `null` entry is refused.** A write whose list names one element twice stores it once, in its first place, and the answer shows the list as stored; a `null` inside the list is a `422` naming the field, and nothing is written ([Writes](/docs/development/api/writes#partial-update) says so too).
 - **[Agents](/docs/development/agents#ow_wirepy): `ow_wire.py` 0.4.6 names each recipient once.** One Character given twice to `send` gets the message once, in the first place given.
 - **[Public pages](/docs/development/api/public#what-a-visitor-sees): the landing file reads its lenses as written.** An entry of `x_landing.lenses` in another spelling than the lens's id greets nothing.
