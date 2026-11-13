@@ -60,6 +60,24 @@ A figure is an Astro component in `src/components/figures/`, placed in a page's 
 - **Its height fits its width**, with no inner scroll: it lays out by its own width (a container query), from the phone to the content column.
 - **A check holds it to its source.** `scripts/verify-figures.mjs`, first in `npm run verify`, reads the built pages: the link map against the element pages (generated from schema-dist, a second source), and the address the four nouns show parsed by the SDK's `parseOwLink`. A new figure adds its check there, watched failing on a planted error before it is trusted.
 
+## Run buttons
+
+A curl sample on a `.md` page can carry a Run button: pressed, it sends the sample's request from the reader's browser and shows the answer in a panel under the sample. The request is declared on the line right under the code block, never parsed out of the sample:
+
+```markdown
+<!-- run: POST /api/v2/location {"name": "The Time Tombs", "description": "Structures on Hyperion that move backward through time."} -->
+<!-- run: GET /api/v2/search?q=drippers&limit=2 API-Key:0000000001 -->
+```
+
+The method, the path (from `/api/v2/`, query included), then any header the sample sends as `Name:value` with no space, then the JSON body when there is one. Postbuild drops the line from the page's Markdown twin, and the llms texts leave the button, panel and line out.
+
+- **Which key it sends.** A read whose sample sends a demo key (`0000000000` to `0000000009`) names that key in its marker (`API-Key:0000000001`) and runs with it on the world it names, with no PIN; its button reads "with the demo key". A demo key is read-only, so only a `GET` may name one. Every other Run goes to the [practice world](https://onlyworlds.github.io/docs/getting-started/keys#the-practice-world) with its key, and its PIN on a write only (never on a `GET`); the button reads "on the practice world". The practice key, PIN and reset hour are read from `contract/practice.json` at build time, never typed into a page or a script.
+- **Only a sample that runs as written gets a marker.** No placeholder (`{id}`, `<id>`, `…`, `$VAR`) in its URL, body or headers, and one curl request in the block. A sample that names an id stays without one: don't invent an id, and don't change a page's text to make a sample runnable.
+- **What a page gets.** A create's panel offers Delete for exactly the id it made. A page with a practice-world Run carries one line above its first such sample, saying that the world is shared and resets nightly. Only a page with a marker loads the runner (`public/assets/ow-run.js`).
+- **The parts.** `src/run/marker.mjs` (the marker's grammar), `src/run/integration.mjs` (a Sätteri plugin: the request into the code block's meta, the panel, the line, the script), `src/run/ec-run.mjs` (an Expressive Code plugin: Run and its label in the sample's header bar, before the copy button in the tab order), the styles at the end of `src/styles/ow.css`.
+
+`scripts/verify-run.mjs`, in `npm run verify`, holds each marker to the sample above it: a code block right above, one curl request in it, the same method (its `-X`, else `POST` with `-d`, else `GET`), the same URL, the same `-d` body as JSON, the same headers both ways (but `API-Key`, `API-Pin` and `Content-Type`), no placeholder, and the demo key rules above. On the built site it checks one button per marker with the marker's request and the right label, a panel under each block, the practice line only where a practice-world Run is and right above the first, the practice key and PIN in the runner only there, and no button, panel, line or runner on any other page, twin or llms text. `scripts/mutants-run.mjs`, run after it, plants faults in memory copies of the real pages and watches each fail as named, with the unchanged pages passing.
+
 ## Contributing
 
 Issues are welcome: a bug, a wrong word, a thing you could not do. Pull requests are read; a small fix is usually taken as is, and a change to what a page does is better opened as an issue first, since it may already be built or ruled out. A reply can take a few days. A vulnerability goes privately, never in an issue: `SECURITY.md`. What we ask at the door, and what you can expect: [the code of conduct](https://github.com/OnlyWorlds/OnlyWorlds/blob/main/CODE_OF_CONDUCT.md). The field descriptions on the element pages are the schema's own text, so raise a change to one on [the standard's repository](https://github.com/OnlyWorlds/OnlyWorlds) rather than here; the next deploy picks it up.
