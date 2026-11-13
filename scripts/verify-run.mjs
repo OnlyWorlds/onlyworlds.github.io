@@ -5,9 +5,10 @@
  * Usage: node scripts/verify-run.mjs     the sources, then the built site (offline; in `npm run verify`)
  *
  * A run marker (src/run/marker.mjs) declares, on the line right under a code sample, the request the
- * sample's Run button sends to the practice world: <!-- run: METHOD PATH [Header:value ...] [JSON body] -->.
- * The request is declared, never parsed out of the sample, so this reads the sample on its own and
- * holds the two together.
+ * sample's Run button sends: <!-- run: METHOD PATH [API-Key:<demo key>] [Header:value ...] [JSON body] -->.
+ * A read that names a demo key runs with it on the world it names; any other runs on the practice
+ * world. The request is declared, never parsed out of the sample, so this reads the sample on its
+ * own and holds the two together.
  *
  * Checks (fail), on the sources (src/content/docs):
  *   (a) every run marker is a whole line of a .md page and parses (marker.mjs's rules); one in an
@@ -19,15 +20,23 @@
  *   (f) every header it sends but API-Key, API-Pin and Content-Type is in the marker with the same
  *       value, and the marker carries no other;
  *   (g) it runs as written: no placeholder ({id}, <id>, …, ..., $VAR) in its URL, body or those
- *       headers. API-Key and API-Pin are the runner's (the practice world's), whatever the sample shows.
+ *       headers;
+ *   (h) the key: when the sample sends a demo key (0000000000 to 0000000009), the marker names that
+ *       same key, and a marker that names one runs a GET (marker.mjs refuses a demo key on any other
+ *       method); a marker names no key the sample does not send. Any other key in the sample, and its
+ *       API-Pin, are the runner's (the practice world's), whatever the sample shows.
  * And on the built site (dist/, after `npm run build`):
- *   (h) each page with markers carries one Run button per marker, in order, each in a code block's
- *       header bar, before that block's copy button, with the marker's request; one answer panel
- *       right under each block; one line, above the first button, in the words and link the
- *       runner's integration writes; one runner script, with contract/practice.json's key, PIN and
- *       reset hour, and the hash of dist/assets/ow-run.js in its URL;
- *   (i) no other page carries a Run button, a panel, the line or the runner;
- *   (j) no Markdown twin and no llms text carries a marker, the line or a button.
+ *   (i) each page with markers carries one Run button per marker, in order, each in a code block's
+ *       header bar, before that block's copy button, with the marker's request, its accessible name
+ *       and its label link saying where it runs ("on the practice world" or "with the demo key");
+ *       one answer panel right under each block; one runner script, with the hash of
+ *       dist/assets/ow-run.js in its URL;
+ *   (j) a page with a practice-world Run also carries one line, right above its first practice-world
+ *       sample, in the words and link the integration writes, and its runner carries
+ *       contract/practice.json's key, PIN and reset hour; a page whose Runs all use a demo key carries
+ *       neither the line nor the practice key and PIN;
+ *   (k) no other page carries a Run button, a panel, the line or the runner;
+ *   (l) no Markdown twin and no llms text carries a marker, the line or a button.
  * Not checked here: what the server answers (the browser walk), the look (the design sheets).
  *
  * Exit: 0 PASS, 1 FAIL, 2 BLIND (no marker found, no dist/, or contract/practice.json unreadable:
@@ -37,13 +46,12 @@ import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join, dirname, relative } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createHash } from 'node:crypto';
-import { API_ORIGIN, RUNNER_HEADERS, MARKER_LINE, MARKER_ANY, parseMarker, decodeRequest } from '../src/run/marker.mjs';
+import { API_ORIGIN, RUNNER_HEADERS, DEMO_KEY, BOX, MARKER_LINE, MARKER_ANY, parseMarker, decodeRequest, where as whereOf } from '../src/run/marker.mjs';
 import { noteText } from '../src/run/integration.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const CONTENT = join(ROOT, 'src', 'content', 'docs');
 const DIST = join(ROOT, 'dist');
-const BOX = '/docs/getting-started/keys#the-practice-world';
 const PLACEHOLDER = /\{[A-Za-z_][\w-]*\}|<[A-Za-z][\w-]*>|…|\.\.\.|\$/;
 
 // ---- the sample -----------------------------------------------------------------------------------
@@ -163,6 +171,11 @@ export function checkSource(rel, text) {
     for (const k of Object.keys(req.headers)) {
       if (!own2.some(([n]) => n.toLowerCase() === k.toLowerCase())) fails.push(`${where}: the marker sends ${k}; the sample does not`);
     }
+    const key = s.headers.find(([n]) => n.toLowerCase() === 'api-key')?.[1];
+    if (key !== undefined && DEMO_KEY.test(key)) {
+      if (!req.demoKey) fails.push(`${where}: the sample reads with the demo key ${key}; the marker does not name it, so Run would read the practice world instead`);
+      else if (req.demoKey !== key) fails.push(`${where}: the marker's API-Key is ${req.demoKey}; the sample's is ${key}`);
+    } else if (req.demoKey) fails.push(`${where}: the marker names the demo key ${req.demoKey}; the sample sends ${key === undefined ? 'no key' : 'another key'}`);
   }
   return { markers, fails };
 }
@@ -182,6 +195,10 @@ export function checkPage(page, html, markers, p, jsHash) {
     let req;
     try { req = decodeRequest(b[1]); } catch { fails.push(`${page}: Run button ${i + 1} carries no request it can read`); return; }
     if (canon(req) !== canon(m.req)) fails.push(`${page}: Run button ${i + 1} sends ${canon(req)}; its marker (line ${m.line}) says ${canon(m.req)}`);
+    const w = whereOf(m.req);
+    if (attr(b[0], 'aria-label') !== `Run ${w.label}`) fails.push(`${page}: Run button ${i + 1}'s name is "${attr(b[0], 'aria-label')}", not "Run ${w.label}"`);
+    const label = html.slice(b.index).match(/^[\s\S]*?<\/button>\s*<a class="ow-run-where" href="([^"]*)">([^<]*)<\/a>/);
+    if (!label || label[2] !== w.label || label[1] !== w.href) fails.push(`${page}: Run button ${i + 1}'s label is ${label ? `"${label[2]}" to ${label[1]}` : 'missing'}; it runs ${w.label} (${w.href})`);
     const before = html.slice(0, b.index);
     const cap = before.lastIndexOf('<figcaption class="header"');
     if (cap < 0 || before.lastIndexOf('</figcaption>') > cap) fails.push(`${page}: Run button ${i + 1} is not in a code block's header bar`);
@@ -196,22 +213,28 @@ export function checkPage(page, html, markers, p, jsHash) {
   const panels = (html.match(/data-ow-run-panel="/g) ?? []).length;
   if (panels !== markers.length) fails.push(`${page}: ${panels} answer panel(s) for ${markers.length} marker(s)`);
   const notes = [...html.matchAll(/<p class="ow-run-note">([\s\S]*?)<\/p>/g)];
-  if (notes.length !== 1) fails.push(`${page}: ${notes.length} "Run sends the sample" line(s); one is wanted`);
+  const practiceAt = markers.findIndex((m) => !m.req.demoKey);
+  const firstPractice = buttons[practiceAt];
+  if (practiceAt < 0) {
+    if (notes.length) fails.push(`${page}: ${notes.length} "Run sends the sample" line(s) on a page whose Runs all use a demo key; none is wanted`);
+  } else if (notes.length !== 1) fails.push(`${page}: ${notes.length} "Run sends the sample" line(s); one is wanted`);
   else {
     const said = unesc(notes[0][1].replace(/<[^>]+>/g, ''));
     if (said !== noteText(p.reset_utc)) fails.push(`${page}: the line says "${said}"`);
     if (attr(notes[0][1].match(/<a\b[^>]*>/)?.[0] ?? '', 'href') !== BOX) fails.push(`${page}: the line does not link ${BOX}`);
-    if (buttons[0] && notes[0].index > buttons[0].index) fails.push(`${page}: the line comes after the first Run button`);
+    if (firstPractice && notes[0].index > firstPractice.index) fails.push(`${page}: the line comes after the first practice-world Run button`);
     const nextBlock = html.indexOf('<div class="expressive-code"', notes[0].index);
-    if (buttons[0] && html.lastIndexOf('<div class="expressive-code"', buttons[0].index) !== nextBlock) fails.push(`${page}: the line is not right above the first runnable sample`);
+    if (firstPractice && html.lastIndexOf('<div class="expressive-code"', firstPractice.index) !== nextBlock) fails.push(`${page}: the line is not right above the first practice-world sample`);
   }
   const scripts = [...html.matchAll(/<script\b[^>]*\bdata-ow-run\b[^>]*>/g)].map((m) => m[0]);
   if (scripts.length !== 1) fails.push(`${page}: ${scripts.length} runner script(s); one is wanted`);
   else {
     const s = scripts[0];
-    if (unesc(attr(s, 'data-key') ?? '') !== p.key) fails.push(`${page}: the runner's key is not contract/practice.json's`);
-    if (unesc(attr(s, 'data-pin') ?? '') !== p.pin) fails.push(`${page}: the runner's PIN is not contract/practice.json's`);
-    if (attr(s, 'data-reset') !== p.reset_utc) fails.push(`${page}: the runner's reset hour is not contract/practice.json's`);
+    if (practiceAt >= 0) {
+      if (unesc(attr(s, 'data-key') ?? '') !== p.key) fails.push(`${page}: the runner's key is not contract/practice.json's`);
+      if (unesc(attr(s, 'data-pin') ?? '') !== p.pin) fails.push(`${page}: the runner's PIN is not contract/practice.json's`);
+      if (attr(s, 'data-reset') !== p.reset_utc) fails.push(`${page}: the runner's reset hour is not contract/practice.json's`);
+    } else if (attr(s, 'data-key') !== undefined || attr(s, 'data-pin') !== undefined) fails.push(`${page}: the runner carries the practice key or PIN on a page whose Runs all use a demo key`);
     if (attr(s, 'src') !== `/assets/ow-run.js?v=${jsHash}`) fails.push(`${page}: the runner's src (${attr(s, 'src')}) is not /assets/ow-run.js?v=${jsHash}, the built file's hash`);
   }
   return fails;

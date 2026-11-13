@@ -86,7 +86,6 @@ The Pin list takes one more, for a Pin's [generic link](/docs/schema/element_cat
 ```bash
 curl -s "https://www.onlyworlds.com/api/v2/character?name__icontains=consul" -H "API-Key: {key}"
 ```
-<!-- run: GET /api/v2/character?name__icontains=consul -->
 
 Besides these filters, a list takes the parameters `limit`, `cursor`, `expand`, `fields`, [`as`](/docs/development/api/hidden#view-as) and [`world`](/docs/development/api/public). Any other query parameter is a `422` [`invalid_request`](/api/errors/#invalid_request) whose message lists the element type's filters, so a typo fails loudly instead of returning the unfiltered list:
 
@@ -116,7 +115,7 @@ Any other parameter is a `422` [`invalid_request`](/api/errors/#invalid_request)
 ```bash
 curl -s "https://www.onlyworlds.com/api/v2/search?q=drippers&limit=2" -H "API-Key: 0000000001"
 ```
-<!-- run: GET /api/v2/search?q=drippers&limit=2 -->
+<!-- run: GET /api/v2/search?q=drippers&limit=2 API-Key:0000000001 -->
 
 <!-- shape: GET /api/v2/search -->
 ```json

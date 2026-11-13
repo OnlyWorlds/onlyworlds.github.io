@@ -1,8 +1,10 @@
-// The docs' Run buttons: send a page's sample to the practice world and show the answer under it.
-// Loaded only on a page with a runnable sample (src/run/remark-run.mjs writes the script tag, with
-// the practice world's key and PIN read from contract/practice.json at build time). Each Run button
-// carries its request (method, path, extra headers, body) as base64url JSON, declared beside the
-// sample in the page source and held to it by scripts/verify-run.mjs.
+// The docs' Run buttons: send a page's sample from the browser and show the answer under it.
+// Loaded only on a page with a runnable sample (src/run/integration.mjs writes the script tag, with
+// the practice world's key and PIN read from contract/practice.json at build time when the page has
+// a practice-world Run). Each Run button carries its request (method, path, extra headers, body, and
+// a demo key when the sample reads with one) as base64url JSON, declared beside the sample in the
+// page source and held to it by scripts/verify-run.mjs. A demo-key Run sends that key and no PIN;
+// any other sends the practice world's key, and its PIN on a write only.
 const API = 'https://www.onlyworlds.com';
 const FOLD = 14; // lines shown before "Show the other N lines"
 const WAIT = 20; // seconds before a request counts as no answer
@@ -10,7 +12,8 @@ const cfg = document.querySelector('script[data-ow-run]');
 const KEY = cfg?.dataset.key;
 const PIN = cfg?.dataset.pin;
 const RESET = cfg?.dataset.reset || '03:00';
-const RATE = cfg?.dataset.rate || '60';
+const RATE = cfg?.dataset.rate;        // the practice world's limit, per address
+const RATE_KEY = cfg?.dataset.rateKey; // a key's, so a demo key's
 
 const ICON = {
   play: '<svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 1.2v9.6L10.5 6z" fill="currentColor"/></svg>',
@@ -40,7 +43,8 @@ const runs = [...document.querySelectorAll('button[data-ow-run]')].map((button) 
   const wrap = button.closest('.expressive-code');
   let panel = wrap?.nextElementSibling;
   if (!panel?.matches('.ow-run-panel')) panel = null;
-  return { button, panel, req: decode(button.dataset.owRun), ran: false, busy: false };
+  const req = decode(button.dataset.owRun);
+  return { button, panel, req, where: req.demoKey ? 'with the demo key' : 'on the practice world', ran: false, busy: false };
 });
 
 // ---- the button's states ------------------------------------------------------------------------
@@ -48,7 +52,7 @@ let heldUntil = 0;
 let holdTimer = null;
 function setButton(run, label, icon, disabled) {
   run.button.innerHTML = `${ICON[icon]}<span class="ow-run-label">${label}</span>`;
-  run.button.setAttribute('aria-label', `${label} on the practice world`);
+  run.button.setAttribute('aria-label', `${label} ${run.where}`);
   run.button.disabled = disabled;
 }
 const idle = (run) => setButton(run, run.ran ? 'Run again' : 'Run', 'play', false);
@@ -71,9 +75,9 @@ function hold(seconds) {
 }
 
 // ---- the request ----------------------------------------------------------------------------------
-async function send(method, path, headers, body) {
-  const h = { 'API-Key': KEY, ...headers };
-  if (method !== 'GET') h['API-Pin'] = PIN; // never the PIN on a read
+async function send(method, path, headers, body, demoKey) {
+  const h = { 'API-Key': demoKey || KEY, ...headers };
+  if (!demoKey && method !== 'GET') h['API-Pin'] = PIN; // never the PIN on a read, never with a demo key
   const init = { method, headers: h, credentials: 'omit', cache: 'no-store' };
   if (body !== undefined) { h['Content-Type'] = 'application/json'; init.body = JSON.stringify(body); }
   const t0 = performance.now();
@@ -94,11 +98,11 @@ async function send(method, path, headers, body) {
 }
 
 // ---- the panel ------------------------------------------------------------------------------------
-function statusRow(kind, status, meta) {
+function statusRow(r, kind, status, meta) {
   const row = make('div', `ow-st ${kind === 'ok' ? 'ow-ok' : 'ow-err'}`);
   const code = make('span', 'ow-code', ICON[kind === 'ok' ? 'ok' : 'warn']);
   code.append(textEl('span', null, status));
-  row.append(code, textEl('span', 'ow-meta', `${meta} · on the practice world`), make('span', 'ow-act'));
+  row.append(code, textEl('span', 'ow-meta', `${meta} · ${r.where}`), make('span', 'ow-act'));
   return row;
 }
 function copyButton(text) {
@@ -136,27 +140,29 @@ function note(html) { return make('div', 'ow-note', html); }
 function show(run, nodes) {
   const p = run.panel;
   p.setAttribute('role', 'region');
-  p.setAttribute('aria-label', 'Answer from the practice world');
+  p.setAttribute('aria-label', run.req.demoKey ? 'Answer to the demo key' : 'Answer from the practice world');
   const box = make('div', 'ow-ans');
   box.append(...nodes);
   p.replaceChildren(box);
 }
 
-const noAnswer = (r) => [
-  statusRow('err', 'No answer', r.timedOut ? `none within ${WAIT} s` : `after ${r.s} s`),
-  note('The practice world could not be reached from this browser (offline, or a blocker in the way). Nothing was sent twice.'),
+const noAnswer = (run, r) => [
+  statusRow(run, 'err', 'No answer', r.timedOut ? `none within ${WAIT} s` : `after ${r.s} s`),
+  note(`${run.req.demoKey ? 'onlyworlds.com' : 'The practice world'} could not be reached from this browser (offline, or a blocker in the way). Nothing was sent twice.`),
 ];
 const pretty = (r) => (r.json !== undefined ? JSON.stringify(r.json, null, 2) : r.text);
-function limited(r) {
+function limited(run, r) {
   const after = parseInt(r.res.headers.get('Retry-After'), 10);
   const seconds = Number.isFinite(after) && after > 0 ? after : 60;
   hold(seconds);
-  const row = statusRow('err', `${r.res.status} Too many requests`, `Retry-After ${seconds} s`);
+  const row = statusRow(run, 'err', `${r.res.status} Too many requests`, `Retry-After ${seconds} s`);
   if (r.text) row.querySelector('.ow-act').append(copyButton(pretty(r)));
   return [
     row,
     ...(r.text ? [answerBody(pretty(r), 'err')] : []),
-    note(`The practice world allows <b>${RATE} requests a minute per address</b>. Run is held until the count ends; nothing was lost.`),
+    note(run.req.demoKey
+      ? `A key allows <b>${RATE_KEY} requests a minute</b>, and everyone reading with the demo key shares it. Run is held until the count ends; nothing was lost.`
+      : `The practice world allows <b>${RATE} requests a minute per address</b>. Run is held until the count ends; nothing was lost.`),
   ];
 }
 function words(r, deleting) {
@@ -177,21 +183,21 @@ async function run(r) {
   if (r.busy || Date.now() < heldUntil) return;
   r.busy = true;
   setButton(r, 'Running', 'wait', true);
-  const { method, path, headers, body } = r.req;
-  const a = await send(method, path, headers, body);
+  const { method, path, headers, body, demoKey } = r.req;
+  const a = await send(method, path, headers, body, demoKey);
   r.busy = false;
   r.ran = true;
-  if (a.failed) { idle(r); show(r, noAnswer(a)); return; }
-  if (a.res.status === 429) { show(r, limited(a)); return; }
+  if (a.failed) { idle(r); show(r, noAnswer(r, a)); return; }
+  if (a.res.status === 429) { show(r, limited(r, a)); return; }
   idle(r);
   const kind = a.res.ok ? 'ok' : 'err';
-  const row = statusRow(kind, words(a), meta(a));
+  const row = statusRow(r, kind, words(a), meta(a));
   const nodes = [row];
   if (a.text) {
     row.querySelector('.ow-act').append(copyButton(pretty(a)));
     nodes.push(answerBody(pretty(a), kind));
   }
-  const made = a.res.status === 201 && (method === 'POST' || method === 'PUT') && a.json?.id && /^[a-z]+$/.test(a.json?.type || '');
+  const made = !demoKey && a.res.status === 201 && (method === 'POST' || method === 'PUT') && a.json?.id && /^[a-z]+$/.test(a.json?.type || '');
   if (made) row.querySelector('.ow-act').append(deleteButton(r, a.json.type, a.json.id));
   show(r, nodes);
 }
@@ -205,7 +211,7 @@ function deleteButton(r, type, id) {
     b.textContent = 'Deleting';
     const a = await send('DELETE', `/api/v2/${type}/${encodeURIComponent(id)}`, {});
     if (!a.failed && a.res.status === 204) {
-      const row = statusRow('ok', words(a, true), meta(a));
+      const row = statusRow(r, 'ok', words(a, true), meta(a));
       const done = textEl('button', 'ow-b', 'Deleted');
       done.type = 'button';
       done.disabled = true;
@@ -217,10 +223,10 @@ function deleteButton(r, type, id) {
     b.disabled = false;
     b.textContent = 'Delete this element';
     let nodes;
-    if (a.failed) nodes = noAnswer(a);
-    else if (a.res.status === 429) nodes = limited(a);
+    if (a.failed) nodes = noAnswer(r, a);
+    else if (a.res.status === 429) nodes = limited(r, a);
     else {
-      const row = statusRow('err', words(a, true), meta(a));
+      const row = statusRow(r, 'err', words(a, true), meta(a));
       if (a.text) row.querySelector('.ow-act').append(copyButton(pretty(a)));
       nodes = [row, ...(a.text ? [answerBody(pretty(a), 'err')] : [])];
     }
@@ -232,4 +238,4 @@ function deleteButton(r, type, id) {
   return b;
 }
 
-if (KEY && PIN) for (const r of runs) if (r.panel) r.button.addEventListener('click', () => run(r));
+for (const r of runs) if (r.panel && (r.req.demoKey || (KEY && PIN))) r.button.addEventListener('click', () => run(r));

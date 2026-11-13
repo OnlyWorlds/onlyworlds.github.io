@@ -121,7 +121,6 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/character" \
   -H "Idempotency-Key: 6f1c2a9e-3b7d-4e0a-9c55-2f8d1b4a7e10" \
   -d '{ "id": "0199a1c2-7d3e-7f00-8a11-3c5e7b9d2f40", "name": "The Consul" }'
 ```
-<!-- run: POST /api/v2/character Idempotency-Key:6f1c2a9e-3b7d-4e0a-9c55-2f8d1b4a7e10 {"id": "0199a1c2-7d3e-7f00-8a11-3c5e7b9d2f40", "name": "The Consul"} -->
 
 A key is held while its request runs, so two sends with it do not both write; the hold and the store are best-effort, not a ledger. Without the header, mint the `id` on the client: two concurrent creates without client ids can make two elements.
 ## Bulk
@@ -180,7 +179,6 @@ curl -s -X PATCH "https://www.onlyworlds.com/api/v2/world" \
   -H "API-Key: {key}" -H "API-Pin: {pin}" -H "Content-Type: application/json" \
   -d '{ "time_basic_unit": "Year", "time_range_current": 2732 }'
 ```
-<!-- run: PATCH /api/v2/world {"time_basic_unit": "Year", "time_range_current": 2732} -->
 
 - Unknown fields are a `422`, and the whole patch is refused before anything is written.
 - The world's `name` cannot be empty, unlike an element's.

@@ -1,11 +1,13 @@
 // ec-run.mjs: an Expressive Code plugin that puts the Run button in a sample's own header bar.
 //
-// remark-run.mjs gives a runnable sample's code block the meta option ow-run=<base64url request>.
+// integration.mjs gives a runnable sample's code block the meta option ow-run=<base64url request>.
 // After every block of a group is rendered (so the frames plugin has built the header), this adds,
-// at the header's right: the Run button, carrying the request, and the short label "on the
-// practice world", a link to where the practice world is explained. The header comes before the
-// code and its copy button in the document, so Run comes first in the tab order.
-const BOX = '/docs/getting-started/keys#the-practice-world';
+// at the header's right: the Run button, carrying the request, and a short label saying where it
+// runs, a link to where that is explained: "on the practice world", or "with the demo key" for a
+// read that sends the sample's demo key (marker.mjs). The header comes before the code and its copy
+// button in the document, so Run comes first in the tab order.
+import { decodeRequest, where } from './marker.mjs';
+
 const el = (tagName, properties, children = []) => ({ type: 'element', tagName, properties, children });
 const text = (value) => ({ type: 'text', value });
 const PLAY = el('svg', { viewBox: '0 0 12 12', ariaHidden: 'true', focusable: 'false' }, [
@@ -34,11 +36,12 @@ export function pluginRun() {
           if (!header) throw new Error('ec-run: a runnable sample has no header bar to carry its Run button (a terminal frame has one: is it a bash block?)');
           const frame = find(renderedBlockAst, (n) => hasClass(n, 'frame'));
           frame.properties.className = [].concat(frame.properties.className ?? [], 'ow-runnable');
+          const w = where(decodeRequest(req));
           header.children.push(el('span', { className: ['ow-run-bar'] }, [
-            el('button', { type: 'button', className: ['ow-run'], dataOwRun: req, ariaLabel: 'Run on the practice world' }, [
+            el('button', { type: 'button', className: ['ow-run'], dataOwRun: req, ariaLabel: `Run ${w.label}` }, [
               PLAY, el('span', { className: ['ow-run-label'] }, [text('Run')]),
             ]),
-            el('a', { className: ['ow-run-where'], href: BOX }, [text('on the practice world')]),
+            el('a', { className: ['ow-run-where'], href: w.href }, [text(w.label)]),
           ]));
         }
       },

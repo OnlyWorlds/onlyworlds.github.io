@@ -50,34 +50,46 @@ const srcFails = (k, text) => checkSource(SRC[k], text).fails;
 const pageFails = (k, html) => checkPage(k, html, checkSource(SRC[k], src[k]).markers, p, jsHash);
 
 const LOC = '<!-- run: POST /api/v2/location {';
-const CHAR = 'Idempotency-Key:6f1c2a9e-3b7d-4e0a-9c55-2f8d1b4a7e10 ';
-const WORLD = '<!-- run: PATCH /api/v2/world';
+const SEARCH = '<!-- run: GET /api/v2/search?q=drippers&limit=2 API-Key:0000000001 -->';
+const LOC_CURL = 'curl -s -X POST "https://www.onlyworlds.com/api/v2/location" \\\n  -H "API-Key: {key}" -H "API-Pin: {pin}" -H "Content-Type: application/json" \\\n';
 const ID_READ = 'curl -s "https://www.onlyworlds.com/api/v2/character/{id}" -H "API-Key: {key}"\n```\n';
 const PAGES_READ = 'curl -s "https://www.onlyworlds.com/api/v2/character?limit=100&cursor={next_cursor}" -H "API-Key: {key}"\n```\n';
 const firstButton = (html) => html.match(/data-ow-run="([^"]*)"/)[1];
+// the location sample with one more header, and its marker with or without it
+const withHeader = (inMarker) => swap(swap(src.writes, LOC_CURL, `${LOC_CURL}  -H "Idempotency-Key: 6f1c2a9e" \\\n`), LOC, inMarker === undefined ? LOC : `<!-- run: POST /api/v2/location Idempotency-Key:${inMarker} {`);
 
 const MUTANTS = [
   // the sources: a marker held to its sample
   ['the marker\'s method differs', () => srcFails('writes', swap(src.writes, LOC, '<!-- run: PUT /api/v2/location {')), 'the marker runs PUT; the sample sends POST'],
   ['the marker\'s path differs', () => srcFails('writes', swap(src.writes, LOC, '<!-- run: POST /api/v2/locations {')), 'the marker runs /api/v2/locations'],
-  ['the sample\'s query differs', () => srcFails('reads', swap(src.reads, 'character?name__icontains=consul" -H', 'character?name__icontains=hyperion" -H')), 'the sample sends /api/v2/character?name__icontains=hyperion'],
-  ['the sample\'s method differs', () => srcFails('writes', swap(src.writes, 'curl -s -X PATCH "https://www.onlyworlds.com/api/v2/world"', 'curl -s -X PUT "https://www.onlyworlds.com/api/v2/world"')), 'the marker runs PATCH; the sample sends PUT'],
+  ['the sample\'s query differs', () => srcFails('reads', swap(src.reads, 'search?q=drippers&limit=2" -H', 'search?q=drippers&limit=3" -H')), 'the sample sends /api/v2/search?q=drippers&limit=3'],
+  ['the sample\'s method differs', () => srcFails('writes', swap(src.writes, 'curl -s -X POST "https://www.onlyworlds.com/api/v2/location"', 'curl -s -X PUT "https://www.onlyworlds.com/api/v2/location"')), 'the marker runs POST; the sample sends PUT'],
   ['the marker\'s body differs', () => srcFails('writes', swap(src.writes, '{"name": "The Time Tombs", "description"', '{"name": "The Time Tomb", "description"')), 'the marker\'s body is not the sample\'s'],
-  ['the marker drops the body', () => srcFails('writes', swap(src.writes, ' {"time_basic_unit": "Year", "time_range_current": 2732} -->', ' -->')), 'the sample sends a body; the marker has none'],
-  ['the marker\'s header value differs', () => srcFails('writes', swap(src.writes, CHAR, 'Idempotency-Key:00000000-0000-4000-8000-000000000000 ')), 'the marker\'s Idempotency-Key is'],
-  ['the marker drops a header the sample sends', () => srcFails('writes', swap(src.writes, CHAR, '')), 'the sample sends Idempotency-Key; the marker does not'],
-  ['the marker adds a header the sample does not send', () => srcFails('writes', swap(src.writes, WORLD, `${WORLD} If-Match:"41"`)), 'the marker sends If-Match; the sample does not'],
-  ['no code block above the marker', () => srcFails('writes', swap(src.writes, `\`\`\`\n${WORLD}`, `\`\`\`\nA paragraph between.\n${WORLD}`)), 'a run marker with no code block right above it'],
+  ['the marker drops the body', () => srcFails('writes', swap(src.writes, ' {"name": "The Time Tombs", "description": "Structures on Hyperion that move backward through time."} -->', ' -->')), 'the sample sends a body; the marker has none'],
+  ['the marker\'s header value differs', () => srcFails('writes', withHeader('00000000')), 'the marker\'s Idempotency-Key is 00000000; the sample\'s is 6f1c2a9e'],
+  ['the marker drops a header the sample sends', () => srcFails('writes', withHeader()), 'the sample sends Idempotency-Key; the marker does not'],
+  ['the marker adds a header the sample does not send', () => srcFails('writes', swap(src.writes, LOC, '<!-- run: POST /api/v2/location If-Match:"41" {')), 'the marker sends If-Match; the sample does not'],
+  ['no code block above the marker', () => srcFails('writes', swap(src.writes, `\`\`\`\n${LOC}`, `\`\`\`\nA paragraph between.\n${LOC}`)), 'a run marker with no code block right above it'],
   ['a marker on a sample with a placeholder', () => srcFails('reads', swap(src.reads, ID_READ, `${ID_READ}<!-- run: GET /api/v2/character/{id} -->\n`)), 'holds a placeholder'],
   ['a marker on a sample that sends two requests', () => srcFails('reads', swap(src.reads, PAGES_READ, `${PAGES_READ}<!-- run: GET /api/v2/character?limit=100 -->\n`)), 'the sample sends 2 curl requests, not one'],
   ['a marker inside a line', () => srcFails('reads', swap(src.reads, 'Treat the cursor as opaque:', 'Treat the cursor <!-- run: GET /api/v2/world --> as opaque:')), 'a run marker that is not a line of its own'],
-  ['a marker that does not parse', () => srcFails('writes', swap(src.writes, WORLD, '<!-- run: PATCH api/v2/world')), 'does not start /api/v2/'],
+  ['a marker that does not parse', () => srcFails('writes', swap(src.writes, LOC, '<!-- run: POST api/v2/location {')), 'does not start /api/v2/'],
   ['a marker in an .mdx page', () => checkSource(SRC.first, swap(src.first, '## 2. Read a world', '{/* run: GET /api/v2/world */}\n\n## 2. Read a world')).fails, 'a run marker in an .mdx page'],
+  // the sources: the demo key
+  ['a demo key on a write', () => srcFails('writes', swap(src.writes, LOC, '<!-- run: POST /api/v2/location API-Key:0000000001 {')), 'a demo key runs only a GET, never a POST'],
+  ['the sample reads with a demo key the marker does not name', () => srcFails('reads', swap(src.reads, SEARCH, '<!-- run: GET /api/v2/search?q=drippers&limit=2 -->')), 'the sample reads with the demo key 0000000001; the marker does not name it'],
+  ['the marker names another demo key', () => srcFails('reads', swap(src.reads, SEARCH, '<!-- run: GET /api/v2/search?q=drippers&limit=2 API-Key:0000000002 -->')), 'the marker\'s API-Key is 0000000002; the sample\'s is 0000000001'],
+  ['the marker names a key that is not a demo key', () => srcFails('reads', swap(src.reads, SEARCH, '<!-- run: GET /api/v2/search?q=drippers&limit=2 API-Key:ow_w_abcdefghij -->')), 'is not a demo key'],
+  ['the marker names a demo key the sample does not send', () => srcFails('reads', swap(src.reads, 'search?q=drippers&limit=2" -H "API-Key: 0000000001"', 'search?q=drippers&limit=2" -H "API-Key: {key}"')), 'the marker names the demo key 0000000001; the sample sends another key'],
   // the built page
   ['a Run button sends another request', () => pageFails('writes', swap(built.writes, firstButton(built.writes), encodeRequest({ method: 'POST', path: '/api/v2/location', headers: {}, body: { name: 'Elsewhere' } }))), 'Run button 1 sends'],
-  ['a Run button is missing', () => pageFails('reads', built.reads.replace(/<span class="ow-run-bar">[\s\S]*?<\/span><\/figcaption>/, '</figcaption>')), '1 Run button(s) for 2 marker(s)'],
+  ['a Run button is missing', () => pageFails('reads', built.reads.replace(/<span class="ow-run-bar">[\s\S]*?<\/span><\/figcaption>/, '</figcaption>')), '0 Run button(s) for 1 marker(s)'],
+  ['a demo-key Run labelled for the practice world', () => pageFails('reads', swap(built.reads, '>with the demo key</a>', '>on the practice world</a>')), 'Run button 1\'s label is "on the practice world"'],
+  ['a demo-key Run named for the practice world', () => pageFails('reads', swap(built.reads, 'aria-label="Run with the demo key"', 'aria-label="Run on the practice world"')), 'not "Run with the demo key"'],
+  ['the practice line on a page whose Runs all use a demo key', () => pageFails('reads', swap(built.reads, '<div class="ow-run-panel', '<p class="ow-run-note">Run sends the sample to the practice world.</p><div class="ow-run-panel')),'on a page whose Runs all use a demo key; none is wanted'],
+  ['the practice key on a page whose Runs all use a demo key', () => pageFails('reads', built.reads.replace(' data-ow-run data-rate-key', ` data-ow-run data-key="${p.key}" data-rate-key`)), 'the runner carries the practice key or PIN on a page whose Runs all use a demo key'],
   ['an answer panel is missing', () => pageFails('writes', built.writes.replace(/<div class="ow-run-panel[^>]*><\/div>/, '')), 'no empty answer panel right under Run button 1'],
-  ['the line is missing', () => pageFails('reads', built.reads.replace(/<p class="ow-run-note">[\s\S]*?<\/p>/, '')), '0 "Run sends the sample" line(s)'],
+  ['the line is missing', () => pageFails('writes', built.writes.replace(/<p class="ow-run-note">[\s\S]*?<\/p>/, '')), '0 "Run sends the sample" line(s)'],
   ['the line comes twice', () => pageFails('writes', built.writes.replace(/(<p class="ow-run-note">[\s\S]*?<\/p>)/, '$1$1')), '2 "Run sends the sample" line(s)'],
   ['the runner script is missing', () => pageFails('writes', built.writes.replace(/<script\b[^>]*\bdata-ow-run\b[^>]*><\/script>/, '')), '0 runner script(s)'],
   ['the runner carries another key', () => pageFails('writes', swap(built.writes, `data-key="${p.key}"`, 'data-key="ow_w_not_the_practice_key"')), 'the runner\'s key is not contract/practice.json\'s'],
