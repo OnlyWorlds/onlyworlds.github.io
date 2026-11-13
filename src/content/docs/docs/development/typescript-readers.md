@@ -344,7 +344,7 @@ for (const g of groups) {
 }
 ```
 
-`parents` says, for each report, what its parent is: `none`, `report`, `board`, `missing` (an id whose element you were not given), `other` or `self`. Only a Narrative with the pair and the room's mark `x_room_of` is a report or a board entry; without the mark it is lore. Nothing is walked further up: a report under a report that itself names another report is shown under the one it names, with a `chain` lint, and one that names itself gets a `self` lint and heads the thread of the reports that name it. A thread takes nothing away from where a report hangs: its `relations` still name its work item. `threadOf` reads messages; reports group by `reportThreadsOf`.
+`parents` says, for each report, what its parent is: `none`, `report`, `board`, `missing` (an id whose element you were not given), `other` or `self`. Only a Narrative with the pair and the room's mark `x_room_of` is a report or a board entry; without the mark it is lore. Nothing is walked further up: a report under a report that itself names another report is shown under the one it names, with a `chain` lint, and one that names itself gets a `self` lint and heads the thread of the reports that name it. A thread takes nothing away from where a report hangs: its `relations` still name its work item. `threadOf` reads messages; reports group by `reportThreadsOf`. Give it the reports as listed, with `parent_narrative` an id: a list read with `expand=parent_narrative` serves the parent as an object, which reads as no parent, so every report heads a thread of its own.
 
 ## Proposed elements
 
