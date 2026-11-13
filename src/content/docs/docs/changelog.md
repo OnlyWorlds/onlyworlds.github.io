@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-13
 
+- **[Links](/docs/development/api/links#try-it-on-the-practice-world): try it on the practice world.** Three Run buttons in order make a Location, a Character who lives there, and add the Character to the Location's `founders`; each fills in the ids the ones above it made.
 - **[Tools](/docs/tools/): the OnlyWorlds mapper is listed.** A world's maps and layouts in the browser, read only, at [maps.onlyworlds.com](https://maps.onlyworlds.com); an element's link opens it on every map it is on.
 - **[TypeScript](/docs/development/typescript#reference) 4.160.3: the reference names `list`'s parameters** (`limit`, `cursor`, `filter` and the rest) in its row.
 - **[Members](/docs/development/api/members#guests): a guest, a player and a Character's AI see the Titles she holds and the Relations she acts in.** A Title whose `holders` names her Character and a Relation whose `actor` is it are hers to read, as an element naming her in `characters` is; hiding still keeps either from her, and the `characters` filter is unchanged. The [draught](/docs/development/api/draught)'s `role` in `voice` now carries them too.
