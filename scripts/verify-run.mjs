@@ -20,15 +20,23 @@
  *   (f) every header it sends but API-Key, API-Pin and Content-Type is in the marker with the same
  *       value, and the marker carries no other;
  *   (g) it runs as written: no placeholder ({id}, <id>, …, ..., $VAR) in its URL, body or those
- *       headers;
+ *       headers, but a made id's (m);
  *   (h) the key: when the sample sends a demo key (0000000000 to 0000000009), the marker names that
  *       same key, and a marker that names one runs a GET (marker.mjs refuses a demo key on any other
  *       method); a marker names no key the sample does not send. Any other key in the sample, and its
- *       API-Pin, are the runner's (the practice world's), whatever the sample shows.
+ *       API-Pin, are the runner's (the practice world's), whatever the sample shows;
+ *   (m) a made id: each {made:<type>} the marker names has an earlier marker on the page that creates
+ *       that type (POST /api/v2/<type>), and sits where the sample shows <type-id>, in the URL or the
+ *       body; a <type-id> in the sample with no {made:<type>} at its place in the marker fails the
+ *       same way (marker.mjs refuses a {made…} that is not {made:<type>}, inside a longer string, or
+ *       with a demo key);
  * And on the built site (dist/, after `npm run build`):
  *   (i) each page with markers carries one Run button per marker, in order, each in a code block's
  *       header bar, before that block's copy button, with the marker's request, its accessible name
  *       and its label link saying where it runs ("on the practice world" or "with the demo key");
+ *       a Run that names a made id built disabled, its label and name both "Run after the <Type>
+ *       above" for the type whose first create comes first on the page, any other enabled and
+ *       reading "Run";
  *       one answer panel right under each block; one runner script, with the hash of
  *       dist/assets/ow-run.js in its URL;
  *   (j) a page with a practice-world Run also carries one line, right above its first practice-world
@@ -46,7 +54,7 @@ import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join, dirname, relative } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createHash } from 'node:crypto';
-import { API_ORIGIN, RUNNER_HEADERS, DEMO_KEY, BOX, MARKER_LINE, MARKER_ANY, parseMarker, decodeRequest, where as whereOf } from '../src/run/marker.mjs';
+import { API_ORIGIN, RUNNER_HEADERS, DEMO_KEY, BOX, MARKER_LINE, MARKER_ANY, parseMarker, decodeRequest, where as whereOf, MADE, holder, madeTypes, createdType, withHolders, waitLabel, firstWait } from '../src/run/marker.mjs';
 import { noteText } from '../src/run/integration.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -116,6 +124,26 @@ export function readSample(code) {
 
 const canon = (v) => JSON.stringify(v, (k, x) => (x && typeof x === 'object' && !Array.isArray(x) ? Object.fromEntries(Object.entries(x).sort()) : x));
 
+// A made id's place: the marker's {made:<type>} and the sample's <type-id>, read side by side from the
+// start of both texts. Each pair must meet; the first other difference ends the reading (the checks
+// that compare the whole URL or body name it). what: "URL" or "body".
+const HOLDER = /^<([a-z]+)-id>/;
+const MADE_AT = /^\{made:([a-z]+)\}/;
+function pairMade(sample, marker, what) {
+  for (let i = 0, j = 0; i < sample.length || j < marker.length;) {
+    const m = marker.slice(j).match(MADE_AT);
+    const h = sample.slice(i).match(HOLDER);
+    if (m && h && m[1] === h[1]) { i += h[0].length; j += m[0].length; continue; }
+    if (m) return [`the marker's {made:${m[1]}} has no ${holder(m[1])} at its place in the sample's ${what}`];
+    if (h) return [`the sample's ${h[0]} has no {made:${h[1]}} at its place in the marker's ${what}`];
+    if (sample[i] !== marker[j]) return [];
+    i++; j++;
+  }
+  return [];
+}
+// the sample's text with the made ids' places taken out, once they pair, for the placeholder rule
+const bare = (text, types) => text.replace(/<([a-z]+)-id>/g, (h, t) => (types.includes(t) ? '' : h));
+
 // The code block whose closing fence is lines[at - 1], or null: the page's fences read from the top.
 function blockAbove(lines, at) {
   let open = null;
@@ -135,6 +163,7 @@ function blockAbove(lines, at) {
 export function checkSource(rel, text) {
   const fails = [];
   const markers = [];
+  const creates = new Set(); // the types the page's markers so far create
   const lines = text.split(/\r?\n/);
   const mdx = rel.endsWith('.mdx');
   for (const m of text.matchAll(MARKER_ANY)) {
@@ -145,21 +174,33 @@ export function checkSource(rel, text) {
     if (!own || m[0].startsWith('{')) { fails.push(`${where}: a run marker that is not a line of its own`); continue; }
     let req;
     try { req = parseMarker(own[1]); } catch (e) { fails.push(`${where}: ${e.message}`); continue; }
+    const types = madeTypes(req);
+    for (const t of types) if (!creates.has(t)) fails.push(`${where}: {made:${t}} names a ${t} that no earlier Run on this page creates`);
+    if (createdType(req)) creates.add(createdType(req));
     markers.push({ line, req });
     const block = blockAbove(lines, line - 1);
     if (!block) { fails.push(`${where}: a run marker with no code block right above it`); continue; }
     const s = readSample(block.code);
     if (s.error) { fails.push(`${where}: ${s.error}`); continue; }
     if (s.method !== req.method) fails.push(`${where}: the marker runs ${req.method}; the sample sends ${s.method}`);
+    let url = s.url;
     if (!s.url.startsWith(API_ORIGIN + '/')) fails.push(`${where}: the sample's URL (${s.url}) is not on ${API_ORIGIN}`);
-    else if (s.url.slice(API_ORIGIN.length) !== req.path) fails.push(`${where}: the marker runs ${req.path}; the sample sends ${s.url.slice(API_ORIGIN.length)}`);
-    if (PLACEHOLDER.test(s.url)) fails.push(`${where}: the sample's URL holds a placeholder (${s.url}), so it does not run as written`);
+    else {
+      const sent = s.url.slice(API_ORIGIN.length);
+      const pair = pairMade(sent, req.path, 'URL');
+      fails.push(...pair.map((f) => `${where}: ${f}`));
+      if (!pair.length && sent !== req.path.replace(MADE, (_, t) => holder(t))) fails.push(`${where}: the marker runs ${req.path}; the sample sends ${sent}`);
+      if (!pair.length) url = bare(s.url, types);
+    }
+    if (PLACEHOLDER.test(url)) fails.push(`${where}: the sample's URL holds a placeholder (${s.url}), so it does not run as written`);
     if (s.data !== undefined) {
-      if (PLACEHOLDER.test(s.data)) fails.push(`${where}: the sample's body holds a placeholder, so it does not run as written`);
       let body;
       try { body = JSON.parse(s.data); } catch { fails.push(`${where}: the sample's -d body is not JSON`); }
+      const pair = body !== undefined && req.body !== undefined ? pairMade(canon(body), canon(req.body), 'body') : [];
+      fails.push(...pair.map((f) => `${where}: ${f}`));
+      if (PLACEHOLDER.test(pair.length ? s.data : bare(s.data, types))) fails.push(`${where}: the sample's body holds a placeholder, so it does not run as written`);
       if (body !== undefined && req.body === undefined) fails.push(`${where}: the sample sends a body; the marker has none`);
-      else if (body !== undefined && canon(body) !== canon(req.body)) fails.push(`${where}: the marker's body is not the sample's (${canon(req.body)} against ${canon(body)})`);
+      else if (body !== undefined && !pair.length && canon(body) !== canon(withHolders(req.body))) fails.push(`${where}: the marker's body is not the sample's (${canon(req.body)} against ${canon(body)})`);
     } else if (req.body !== undefined) fails.push(`${where}: the marker has a body; the sample sends none`);
     const own2 = s.headers.filter(([n]) => !RUNNER_HEADERS.includes(n.toLowerCase()));
     for (const [n, v] of own2) {
@@ -196,7 +237,14 @@ export function checkPage(page, html, markers, p, jsHash) {
     try { req = decodeRequest(b[1]); } catch { fails.push(`${page}: Run button ${i + 1} carries no request it can read`); return; }
     if (canon(req) !== canon(m.req)) fails.push(`${page}: Run button ${i + 1} sends ${canon(req)}; its marker (line ${m.line}) says ${canon(m.req)}`);
     const w = whereOf(m.req);
-    if (attr(b[0], 'aria-label') !== `Run ${w.label}`) fails.push(`${page}: Run button ${i + 1}'s name is "${attr(b[0], 'aria-label')}", not "Run ${w.label}"`);
+    // a Run that fills in a made id is built waiting for its first create: disabled, saying so
+    const after = firstWait(m.req, markers.map((x) => x.req));
+    const name = after ? waitLabel(after) : `Run ${w.label}`;
+    const text = html.slice(b.index).match(/^[^]*?<span class="ow-run-label">([^<]*)<\/span>/)?.[1];
+    const disabled = /\sdisabled(?=[\s>=])/.test(b[0]);
+    if (attr(b[0], 'aria-label') !== name) fails.push(`${page}: Run button ${i + 1}'s name is "${attr(b[0], 'aria-label')}", not "${name}"`);
+    if (text !== (after ? waitLabel(after) : 'Run')) fails.push(`${page}: Run button ${i + 1} reads "${text}", not "${after ? waitLabel(after) : 'Run'}"`);
+    if (disabled !== Boolean(after)) fails.push(`${page}: Run button ${i + 1} is ${disabled ? 'disabled' : 'enabled'}; ${after ? `it waits for a ${after} a Run above makes` : 'it sends as written'}`);
     const label = html.slice(b.index).match(/^[\s\S]*?<\/button>\s*<a class="ow-run-where" href="([^"]*)">([^<]*)<\/a>/);
     if (!label || label[2] !== w.label || label[1] !== w.href) fails.push(`${page}: Run button ${i + 1}'s label is ${label ? `"${label[2]}" to ${label[1]}` : 'missing'}; it runs ${w.label} (${w.href})`);
     const before = html.slice(0, b.index);

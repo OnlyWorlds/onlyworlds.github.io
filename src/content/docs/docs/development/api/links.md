@@ -5,6 +5,37 @@ description: How links between elements read and write, and how to add or remove
 
 A **link field** points from one element to others, such as a Character's `location` or `friends`. Which fields link to which element types is in [Fields](/docs/schema/fields) and on each element type's page.
 
+## Try it on the practice world
+
+Run these three in order: each one fills in the ids the ones above it made.
+
+Create a Location:
+
+```bash
+curl -s -X POST "https://www.onlyworlds.com/api/v2/location" \
+  -H "API-Key: {key}" -H "API-Pin: {pin}" -H "Content-Type: application/json" \
+  -d '{ "name": "Keats", "description": "The capital city of Hyperion." }'
+```
+<!-- run: POST /api/v2/location {"name": "Keats", "description": "The capital city of Hyperion."} -->
+
+Create a Character whose `location` is that Location:
+
+```bash
+curl -s -X POST "https://www.onlyworlds.com/api/v2/character" \
+  -H "API-Key: {key}" -H "API-Pin: {pin}" -H "Content-Type: application/json" \
+  -d '{ "name": "Sad King Billy", "location": "<location-id>" }'
+```
+<!-- run: POST /api/v2/character {"name": "Sad King Billy", "location": "{made:location}"} -->
+
+Add the Character to the Location's `founders` with the [link operations route](#link-operations); the answer is the whole Location, with the Character's id in `founders`:
+
+```bash
+curl -s -X POST "https://www.onlyworlds.com/api/v2/location/<location-id>/links/founders" \
+  -H "API-Key: {key}" -H "API-Pin: {pin}" -H "Content-Type: application/json" \
+  -d '{ "add": ["<character-id>"] }'
+```
+<!-- run: POST /api/v2/location/{made:location}/links/founders {"add": ["{made:character}"]} -->
+
 ## One shape, both directions
 
 A link field has one bare name and one value shape, in reads and writes alike:

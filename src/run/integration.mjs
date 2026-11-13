@@ -4,7 +4,9 @@
 // processor, and this integration adds one Markdown-tree plugin beside them. For each run marker
 // (marker.mjs) in a .md page:
 //   - the code block right above it takes the request in its meta (ow-run=<base64url>), which
-//     ec-run.mjs reads to put the Run button in the block's header bar;
+//     ec-run.mjs reads to put the Run button in the block's header bar; a request that names a made
+//     id ({made:<type>}) also takes the type it waits for first (ow-run-after=<type>), and an earlier
+//     marker on the page must create each type it names, or the build fails;
 //   - the marker itself becomes the empty answer panel under the block;
 // and, on a page with at least one marker:
 //   - one script, the runner (public/assets/ow-run.js), is loaded at the end;
@@ -17,7 +19,7 @@
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
-import { MARKER_LINE, BOX, parseMarker, encodeRequest } from './marker.mjs';
+import { MARKER_LINE, BOX, parseMarker, encodeRequest, madeTypes, createdType, firstWait } from './marker.mjs';
 
 const ROOT = new URL('../../', import.meta.url);
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -64,8 +66,16 @@ function runMarkers({ fileURL, sourceFormat, source }) {
     },
     after(root, ctx) {
       if (!runs.length) return;
+      const reqs = runs.map((r) => r.req);
       runs.forEach((r, n) => {
-        ctx.setProperty(r.code, 'meta', `${r.code.meta ? r.code.meta + ' ' : ''}ow-run=${encodeRequest(r.req)}`);
+        let meta = `ow-run=${encodeRequest(r.req)}`;
+        const types = madeTypes(r.req);
+        if (types.length) {
+          const before = reqs.slice(0, n);
+          for (const t of types) if (!before.some((q) => createdType(q) === t)) throw new Error(`ow-run: ${where}: {made:${t}} names a ${t} that no earlier Run on this page creates`);
+          meta += ` ow-run-after=${firstWait(r.req, reqs)}`;
+        }
+        ctx.setProperty(r.code, 'meta', `${r.code.meta ? r.code.meta + ' ' : ''}${meta}`);
         ctx.replaceNode(r.marker, { type: 'html', value: `<div class="ow-run-panel not-content" data-ow-run-panel="${n}" aria-live="polite"></div>` });
       });
       const practiceRuns = runs.filter((r) => !r.req.demoKey);

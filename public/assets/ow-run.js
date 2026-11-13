@@ -4,7 +4,10 @@
 // a practice-world Run). Each Run button carries its request (method, path, extra headers, body, and
 // a demo key when the sample reads with one) as base64url JSON, declared beside the sample in the
 // page source and held to it by scripts/verify-run.mjs. A demo-key Run sends that key and no PIN;
-// any other sends the practice world's key, and its PIN on a write only.
+// any other sends the practice world's key, and its PIN on a write only. A request may name an id an
+// earlier Run on the page made ({made:<type>}, src/run/marker.mjs): it is filled with the newest
+// element of that type made here and not deleted since, and until there is one the button waits,
+// disabled, saying which create it waits for.
 const API = 'https://www.onlyworlds.com';
 const FOLD = 14; // lines shown before "Show the other N lines"
 const WAIT = 20; // seconds before a request counts as no answer
@@ -39,23 +42,52 @@ const textEl = (tag, cls, text) => {
   return e;
 };
 
+// ---- made ids (marker.mjs's grammar and words, which verify-run holds on the built page) ----------
+const MADE = /\{made:([a-z]+)\}/g;
+const MADE_WHOLE = /^\{made:([a-z]+)\}$/;
+const strings = (v) => (typeof v === 'string' ? [v] : Array.isArray(v) ? v.flatMap(strings)
+  : v && typeof v === 'object' ? Object.entries(v).flatMap(([k, x]) => [k, ...strings(x)]) : []);
+const madeTypes = (req) => [...new Set([
+  ...[...req.path.matchAll(MADE)].map((m) => m[1]),
+  ...strings(req.body).map((s) => s.match(MADE_WHOLE)?.[1]).filter(Boolean),
+])];
+const createdType = (req) => (req.method === 'POST' ? req.path.match(/^\/api\/v2\/([a-z]+)$/)?.[1] : undefined);
+const waitLabel = (t) => `Run after the ${t[0].toUpperCase()}${t.slice(1)} above`;
+const madeIds = new Map(); // type -> the ids Runs on this page made and did not delete, oldest first
+const newest = (t) => madeIds.get(t)?.at(-1);
+const fill = (v) => (typeof v === 'string' ? v.replace(MADE_WHOLE, (_, t) => newest(t))
+  : Array.isArray(v) ? v.map(fill)
+    : v && typeof v === 'object' ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, fill(x)])) : v);
+
 const runs = [...document.querySelectorAll('button[data-ow-run]')].map((button) => {
   const wrap = button.closest('.expressive-code');
   let panel = wrap?.nextElementSibling;
   if (!panel?.matches('.ow-run-panel')) panel = null;
   const req = decode(button.dataset.owRun);
-  return { button, panel, req, where: req.demoKey ? 'with the demo key' : 'on the practice world', ran: false, busy: false };
+  return { button, panel, req, needs: madeTypes(req), where: req.demoKey ? 'with the demo key' : 'on the practice world', ran: false, busy: false };
 });
+const firstCreate = (t) => runs.findIndex((r) => createdType(r.req) === t);
+// the type a Run still waits for: of those it names with none made yet, the one created first on the page
+const waitingFor = (run) => run.needs.filter((t) => !newest(t)).sort((a, b) => firstCreate(a) - firstCreate(b))[0];
 
 // ---- the button's states ------------------------------------------------------------------------
 let heldUntil = 0;
 let holdTimer = null;
-function setButton(run, label, icon, disabled) {
+function setButton(run, label, icon, disabled, name = `${label} ${run.where}`) {
   run.button.innerHTML = `${ICON[icon]}<span class="ow-run-label">${label}</span>`;
-  run.button.setAttribute('aria-label', `${label} ${run.where}`);
+  run.button.setAttribute('aria-label', name);
   run.button.disabled = disabled;
 }
-const idle = (run) => setButton(run, run.ran ? 'Run again' : 'Run', 'play', false);
+function idle(run) {
+  const t = waitingFor(run);
+  if (t) setButton(run, waitLabel(t), 'play', true, waitLabel(t));
+  else setButton(run, run.ran ? 'Run again' : 'Run', 'play', false);
+}
+// after a create or a delete: each Run that names a made id waits or is ready again (a held one
+// keeps its count, which ends in idle)
+function refresh() {
+  for (const r of runs) if (r.needs.length && !r.busy && (Date.now() >= heldUntil || waitingFor(r))) idle(r);
+}
 
 // A 429 holds every Run on the page: the limit counts per address, not per sample.
 function hold(seconds) {
@@ -65,7 +97,7 @@ function hold(seconds) {
     const left = Math.ceil((heldUntil - Date.now()) / 1000);
     for (const r of runs) {
       if (r.busy) continue;
-      if (left > 0) setButton(r, `Run again in ${left} s`, 'wait', true);
+      if (left > 0 && !waitingFor(r)) setButton(r, `Run again in ${left} s`, 'wait', true);
       else idle(r);
     }
     if (left <= 0) { clearInterval(holdTimer); holdTimer = null; }
@@ -180,10 +212,12 @@ function meta(r) {
 
 // ---- Run and Delete -------------------------------------------------------------------------------
 async function run(r) {
-  if (r.busy || Date.now() < heldUntil) return;
+  if (r.busy || Date.now() < heldUntil || waitingFor(r)) return;
   r.busy = true;
   setButton(r, 'Running', 'wait', true);
-  const { method, path, headers, body, demoKey } = r.req;
+  const { method, headers, demoKey } = r.req;
+  const path = r.req.path.replace(MADE, (_, t) => encodeURIComponent(newest(t)));
+  const body = fill(r.req.body);
   const a = await send(method, path, headers, body, demoKey);
   r.busy = false;
   r.ran = true;
@@ -198,7 +232,11 @@ async function run(r) {
     nodes.push(answerBody(pretty(a), kind));
   }
   const made = !demoKey && a.res.status === 201 && (method === 'POST' || method === 'PUT') && a.json?.id && /^[a-z]+$/.test(a.json?.type || '');
-  if (made) row.querySelector('.ow-act').append(deleteButton(r, a.json.type, a.json.id));
+  if (made) {
+    row.querySelector('.ow-act').append(deleteButton(r, a.json.type, a.json.id));
+    madeIds.set(a.json.type, [...(madeIds.get(a.json.type) ?? []), a.json.id]);
+    refresh();
+  }
   show(r, nodes);
 }
 
@@ -211,6 +249,8 @@ function deleteButton(r, type, id) {
     b.textContent = 'Deleting';
     const a = await send('DELETE', `/api/v2/${type}/${encodeURIComponent(id)}`, {});
     if (!a.failed && a.res.status === 204) {
+      madeIds.set(type, (madeIds.get(type) ?? []).filter((x) => x !== id));
+      refresh();
       const row = statusRow(r, 'ok', words(a, true), meta(a));
       const done = textEl('button', 'ow-b', 'Deleted');
       done.type = 'button';
@@ -239,3 +279,4 @@ function deleteButton(r, type, id) {
 }
 
 for (const r of runs) if (r.panel && (r.req.demoKey || (KEY && PIN))) r.button.addEventListener('click', () => run(r));
+refresh();
