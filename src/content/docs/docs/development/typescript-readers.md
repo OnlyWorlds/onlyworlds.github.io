@@ -117,7 +117,7 @@ The owner's rows are the bodies as stored. No row carries a stored `x_served_tri
 `worldGraph(world, reader, options)` reads the same snapshot, for the same viewer, as nodes and edges, by the lens profile's graph section ([A world as a graph](/docs/lenses/graph)). It returns:
 
 - `nodes`: `{ id, type, name, family, icon }`, by id; `family` is the type's colour group (`blue`, `green`, `pink` or `amber`, as [`ELEMENT_GROUPS`](/docs/development/typescript#schema-constants) gives it), a key for drawing, never a label
-- `edges`: `{ source, field, target, index }`, one per link
+- `edges`: `{ source, field, target, index }`, one per link: each link field of the schema, and the extension lists a profile reads as links, `DECLARED_LINKS` (`x_lens_leads_to`, `x_spine_depends_on`; since 4.168.0 exported, for a writer that builds one and must name each element once)
 - `edgesCut`: links to elements that are not nodes, counted by reason
 - `cut`: the elements left out, counted by reason: with a lens, the lens's own cut; without one, the kinds left out by default (`room`, `hidden` and `proposed` for the owner only, `map_space`, `reading_aid`)
 - `unreadable`: the `x_lens` key a lens could not be read by, else null
