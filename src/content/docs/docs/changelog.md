@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-14
 
+- **[TypeScript SDK](/docs/development/typescript-readers) 4.167.1: `findOwLinks` reads a line of addresses whose moments do not read faster**, a moment of more than 11 characters, with a leading zero or past the 32-bit range. No answer changes.
 - **[Unity](/docs/development/unity) v0.40.1: an address glued to a word is prose** (serial 127): `OWAddress.ReadLinkAt` finds no address that begins inside a word, as `readOwLinkAt` reads it; the folder writer's producer line says 0.40.1.
 - **[onlyworlds.com's Changelog](/docs/tools/onlyworlds-com) reads in plain words too**: `/changelog?view=plain` shows each change by its title and one plain sentence, and `/changelog.json` carries that sentence as `plain`. The site's changes carry one from today; the rest show their title alone.
 - **[A world's default picture](/docs/development/typescript-readers#a-worlds-default-picture)**: TypeScript SDK 4.167.0's `layoutByKind` and `layoutAround`, and the Python package 0.127.0's `layout_by_kind` and `layout_around`, lay out a world nobody laid out from its graph. The points are the same in every browser and in both languages.
