@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-14
 
+- **[A world's default picture](/docs/development/typescript-readers#a-worlds-default-picture)**: TypeScript SDK 4.167.0's `layoutByKind` and `layoutAround`, and the Python package 0.127.0's `layout_by_kind` and `layout_around`, lay out a world nobody laid out from its graph. The points are the same in every browser and in both languages.
 - **[An AI that joins by link](/docs/development/agents#making-a-link) is seated at most at its sponsor's role** on the day it joins: a link made when the sponsor stood higher seats it at the lower role. The preview and the join answer say the role granted.
 - **[A multi-link names each element once](/docs/schema/folders) (serial 128).** A reader served a list that names one element twice reads it once, in its first place: [the graph](/docs/lenses/graph) draws one edge, and [only a message has recipients](/docs/schema/profiles/messages), so a Story's `characters` address nobody. [Addresses found in a text](/docs/schema/profiles/addresses#an-address-in-prose) do not overlap. Folders are written at format 0.3.24. TypeScript SDK 4.166.0 and Python package 0.126.0 read it so.
 - **[TypeScript SDK](/docs/development/typescript-readers) 4.165.1 and 4.165.2: `findOwLinks` reads a line of `ow://` starts that hold no address faster**, whether a start has no id or an id after a word that is not a type. No answer changes.
