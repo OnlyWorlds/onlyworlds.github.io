@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-14
 
+- **[Sign in with OnlyWorlds](/docs/development/api/signin#a-read-only-token): a read-only token.** A tool that only reads asks `scope=world:read` on the authorize request; the answer says `"scope": "world:read"`, and every write with the token but its own revoke is `403` `permission_error`. The [TypeScript SDK](/docs/development/typescript) 4.164.0 takes `scope: 'world:read'` and answers the scope granted.
 - **[Unity](/docs/development/unity) v0.39.3: an empty list or object is no room or charter mark** (schema-dist serial 126), so such an element shows no view banner; the folder writer's producer line says 0.39.3.
 - **[TypeScript SDK](/docs/development/typescript) 4.163.1 and [Python](/docs/development/python) 0.124.1: the room and charter readers' descriptions say an empty list or object is no mark**, as 4.163.0 and 0.124.0 already read it. No code changes.
 - **[Profiles](/docs/schema/profiles): an empty list or an empty object is no room or charter mark** (schema-dist serial 126): `x_room_of` and `x_charter_of` set to `[]` or `{}` read as absent, as the review mark already reads its own, so a full and a compact read of one element agree; `false` still counts. The checks profile's `present` reads an empty object as short. The [TypeScript SDK](/docs/development/typescript-readers) 4.163.0 and the [Python package](/docs/development/python) 0.124.0 read it so.

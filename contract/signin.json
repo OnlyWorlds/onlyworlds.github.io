@@ -1,6 +1,6 @@
 {
   "source": "https://www.onlyworlds.com/api/v2/openapi.json: GET /api/v2/auth/clients's description (the authorize page) and POST /api/v2/auth/token",
-  "read_at": "2026-11-09",
+  "read_at": "2026-11-14",
   "authorize": {
     "url": "https://www.onlyworlds.com/signin/authorize",
     "params": [
@@ -42,6 +42,7 @@
       "token",
       "token_id",
       "token_type",
+      "scope",
       "expires_at",
       "account",
       "ai_token"
