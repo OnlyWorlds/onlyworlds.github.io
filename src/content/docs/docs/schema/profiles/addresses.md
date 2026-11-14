@@ -17,11 +17,11 @@ The lens key is `lens` exactly. `LENS` or `Lens` is refused as `bad_lens`, and a
 
 ## An address in prose
 
-A reader that finds an address inside other text reads it from its prefix, and the address continues only with `@` and a moment, then `?lens=` and a lens. Any other query key or a fragment is not part of it, and what follows is prose, a full stop included: in `See ow://object/<id>.` the full stop is the sentence's.
+A reader that finds an address inside other text reads it from its prefix. An address begins there only when the text starts there, or when the character before the prefix is neither a letter of any script, a combining mark nor an underscore: `elbow://…` and `_ow://…` hold no address, while `x-ow://…`, `3ow://…`, `(ow://…` and `"ow://…` do. The character before is one code point, read whole, never one UTF-16 unit or one UTF-8 byte. The address continues only with `@` and a moment, then `?lens=` and a lens. Any other query key or a fragment is not part of it, and what follows is prose, a full stop included: in `See ow://object/<id>.` the full stop is the sentence's.
 
 After `/w/` the run is read whole: it is the world's id only when it is exactly an id's form (36 characters, hex in either case, four hyphens), otherwise a legal slug, otherwise no address. It is never cut back to an id or a shorter slug, so 32 hex digits without hyphens are a slug. A run followed by a letter, a combining mark or an underscore is cut inside a word and is no address. After the world, `/<type>/<id>` continues it only when the type word is one of the 22 in lowercase: `…/w/hyperion/Event/<id>` and a misspelt type word are the world's own address, and so is `ow://<world id>/Character/<id>`. An id found in a text a profile searches for ids, as a Charter's is, is still its 36 characters whatever follows them.
 
-The TypeScript SDK finds an address with `readOwLinkAt(text, index)`, the Python package with `read_ow_link_at(text, index)`: each reads the address that starts at `index` and answers the reading and the index just past it, counted as the language counts a string.
+The TypeScript SDK finds an address with `readOwLinkAt(text, index)`, the Python package with `read_ow_link_at(text, index)`: each reads the address that starts at `index` and answers the reading and the index just past it, counted as the language counts a string. To find every address in a text, in order, the TypeScript SDK has `findOwLinks(text)` (since 4.165.0) and the Python package `find_ow_links(text)` (since 0.125.0).
 
 ## The same id
 

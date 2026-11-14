@@ -404,7 +404,7 @@ const r = parseOwLink('ow://character/0193f1c2-7a00-7000-8000-000000000001');   
 const link = elementAddress({ form: 'human', world: worldId, type: 'character', id });   // https://www.onlyworlds.com/w/<world>/character/<id>
 ```
 
-To find an address inside prose, `readOwLinkAt(text, index)` (since 4.161.0) reads the address that starts at `index` and answers `{ reading, end }`, or `null` when none starts there. What follows the address is prose, a full stop included; [An address in prose](/docs/schema/profiles/addresses#an-address-in-prose) has the rule. `index` and `end` count JavaScript string indexes (UTF-16 code units), so they match a string's own slice and search.
+To find an address inside prose, `readOwLinkAt(text, index)` (since 4.161.0) reads the address that starts at `index` and answers `{ reading, end }`, or `null` when none starts there; since 4.165.0 it also answers `null` when the address would begin inside a word (after a letter, a combining mark or an underscore). What follows the address is prose, a full stop included; [An address in prose](/docs/schema/profiles/addresses#an-address-in-prose) has the rule. `index` and `end` count JavaScript string indexes (UTF-16 code units), so they match a string's own slice and search.
 
 ```typescript
 import { readOwLinkAt } from '@onlyworlds/sdk';
@@ -414,6 +414,8 @@ const found = readOwLinkAt(line, line.indexOf('ow://'));
 found?.end;          // 64: line[64] is the full stop
 found?.reading.id;   // '01a1d4ef-0000-7000-8000-000000000084'
 ```
+
+`findOwLinks(text)` (since 4.165.0) finds every address in a text, in order, as `{ start, end, reading }` each, none overlapping; it reads at each place a prefix starts, so it answers what `readOwLinkAt` answers there, in time linear in the text.
 
 ### Open with
 
