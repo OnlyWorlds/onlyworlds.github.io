@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-14
 
+- **[Unity](/docs/development/unity) v0.40.0: an address found in prose, a read-only sign-in, and three fields of a changes row.** `OWAddress.ReadLinkAt` reads [an address in prose](/docs/schema/profiles/addresses#an-address-in-prose) as `readOwLinkAt` does; `SignInWithOnlyWorlds(clientId, redirectUri, OWSignIn.ReadScope)` asks a [read-only token](/docs/development/api/signin#a-read-only-token), with `OWSignInResult.Scope` and `OWAccountToken.Scope`; `OWChange` reads `UpdatedAt`, `DeletedAt` and `Reason`. The folder writer's producer line says 0.40.0.
 - **[Sign in with OnlyWorlds](/docs/development/api/signin#a-read-only-token): a read-only token.** A tool that only reads asks `scope=world:read` on the authorize request; the answer says `"scope": "world:read"`, and every write with the token but its own revoke is `403` `permission_error`. The [TypeScript SDK](/docs/development/typescript) 4.164.0 takes `scope: 'world:read'` and answers the scope granted.
 - **[Unity](/docs/development/unity) v0.39.3: an empty list or object is no room or charter mark** (schema-dist serial 126), so such an element shows no view banner; the folder writer's producer line says 0.39.3.
 - **[TypeScript SDK](/docs/development/typescript) 4.163.1 and [Python](/docs/development/python) 0.124.1: the room and charter readers' descriptions say an empty list or object is no mark**, as 4.163.0 and 0.124.0 already read it. No code changes.
