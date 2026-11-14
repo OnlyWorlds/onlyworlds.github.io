@@ -187,7 +187,7 @@ A number counts when it is whole by value (`2.0` is 2) and a double holds it exa
 
 `layoutByKind(graph)` (since 4.167.0) lays out a world nobody laid out, from its graph as `worldGraph` answers it. Each kind gets a point on a circle, links pull, neighbours push apart, and the points are fitted into a frame of -1 to 1 on the longer axis. It answers `{ method: 'by-kind', version: 1, points }`, one `{ id, x, y }` per node in the order you passed them. `layoutAround(graph, focus, { steps })` draws one element at 0, 0 with its neighbours on rings, one or two steps out, as `{ id, depth, x, y }`.
 
-The picture depends only on the world. Both functions put the graph in one order first, whatever order you hand it. The circle's points come from a table rather than from the runtime's `cos` and `sin`, so every browser and the Python package's `layout_by_kind` draw the same points, bit for bit. Nothing is saved: to keep a picture, save it as a layout Map yourself.
+The picture depends only on the world. Both functions put the graph in one order first, whatever order you hand it. An edge's `index` is its place in the list as that reader is served it, so two readers of one world (the owner and the public, say) can hold different numbers for one edge; the order is what counts, and it holds. The circle's points come from a table rather than from the runtime's `cos` and `sin`, so every browser and the Python package's `layout_by_kind` draw the same points, bit for bit. Nothing is saved: to keep a picture, save it as a layout Map yourself.
 
 ```typescript
 import { worldGraph, layoutByKind } from '@onlyworlds/sdk';
