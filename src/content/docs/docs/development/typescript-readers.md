@@ -373,6 +373,22 @@ for (const g of groups) {
 
 `parents` says, for each report, what its parent is: `none`, `report`, `board`, `missing` (an id whose element you were not given), `other` or `self`. Only a Narrative with the pair and the room's mark `x_room_of` is a report or a board entry; without the mark it is lore. Nothing is walked further up: a report under a report that itself names another report is shown under the one it names, with a `chain` lint, and one that names itself gets a `self` lint and heads the thread of the reports that name it. A thread takes nothing away from where a report hangs: its `relations` still name its work item. `threadOf` reads messages; reports group by `reportThreadsOf`. Give it the reports as listed, with `parent_narrative` an id: a list read with `expand=parent_narrative` serves the parent as an object, which reads as no parent, so every report heads a thread of its own.
 
+## Report lines
+
+A completed report's `consequences` holds one line per change, and a line names the element it changed by its address. `readReportLines(text, { world })` splits the text and reads each line as the [report profile](/docs/schema/profiles#report) says; `readReportLine(line, { world })` reads one:
+
+```typescript
+import { readReportLines } from '@onlyworlds/sdk';
+
+for (const l of readReportLines(report.consequences ?? '', { world: worldId })) {
+  // l.words: what to show; l.address: the element the line names, 'ow://<type>/<id>', or null
+}
+// "Renamed the Consul's Steinway: ow://object/01a1d4ef-0000-7000-8000-000000000084."
+//   words: "Renamed the Consul's Steinway."   address: 'ow://object/01a1d4ef-0000-7000-8000-000000000084'
+```
+
+The text splits at every carriage return and line feed, and each line is trimmed of White_Space; an empty line is no line. A line's address is the last one in it that names an element of this world: an `ow://` or site address, in either letter case, whose world is `world` (this world's id, as written) or left out. An address of another world, a world alone or a slug is part of the words, and a line with none names nothing, which is no fault: a line may count many changes in words. The address leaves `words` only when nothing the writer wrote is lost: it is written exactly as the address profile writes it, with no moment and no lens, and stands apart (the line's start, White_Space or one colon before it; the end, White_Space or a closing mark `. , ; : ! ) ] } ' " ’ ” »` after it), alone or in a matched pair of brackets or quotes. Then it goes with the White_Space around it and one colon before it, and the halves join with one space. In any other shape, or when nothing stands before the address, the whole line is the words and `address` still names its element. Whether that element exists is yours to read. `reading`, `start` and `end` give the address as parsed and where it stands in the line.
+
 ## Proposed elements
 
 An element an AI seat wrote as [proposed](/docs/development/api/proposals) follows the [review profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/review.md): `proposedMarkOf(el)` gives its mark as a viewer shows it, `{ by, expires, lapsed }`, or `null` for a settled element. `by` is the mark's own word, read as stored and never trimmed since 4.155.0 (`null` when it is not a string or is whitespace alone), to be shown as [the review profile](/docs/schema/profiles#review) says, as the mark's word and never as a fact. `handsOnAsProposed(el)` is what a reader function that hands a world on (a context for an AI, a share) leaves out, a malformed mark included. `buildAskContext` reads the same function.
