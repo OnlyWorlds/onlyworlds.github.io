@@ -29,6 +29,13 @@
  *   lists, the max age and the credentials flag must equal the snapshot, and the disallowed origin
  *   must get no Access-Control-Allow-Origin. The regexes cannot be enumerated over the wire: the
  *   set is held to keel's settings (--source), the live answer only for those samples.
+ * Since keel's D182 (2026-11-14) every /api/ route answers any origin, `null` included (core/cors.py, a
+ *   check_request_enabled receiver connected in core/apps.py), and the lists above govern the site's other
+ *   pages only. The snapshot's api_any_origin holds that prefix, read from the code in its one written shape
+ *   (another shape is BLIND). With it the page has "## Origins" saying any origin, `null`, the prefix and
+ *   never `*`, no origin table, the old #allowed-origins anchor kept; --live then needs the unlisted sample
+ *   and `null` echoed on the API, and a site page (/account/) answering the listed origin and not the
+ *   unlisted one, the control that the list is still read there.
  * Not checked, printed: the Platform column; the 503 line; the caution's advice.
  *
  * Exit: 0 PASS (or the snapshot matches), 1 FAIL or STALE, 2 BLIND (keel or the server unreadable, or
@@ -124,32 +131,50 @@ function formOf(re) {
 const regexesOf = (s) => s.origin_regexes.map((r) => new RegExp(r));
 const allowed = (s, origin) => s.origins.includes(origin) || regexesOf(s).some((r) => r.test(origin));
 
+// The API's own rule (keel D182, 2026-11-14): a check_request_enabled receiver in core/cors.py, connected in
+// core/apps.py, lets every path under one prefix answer any origin; the settings' lists then govern the
+// site's other pages only. Read as code, in the one shape it was written: a file that exists in another shape
+// is BLIND, and no file means no such rule (null).
+const CORS_PY = 'core/cors.py';
+const APPS_PY = 'core/apps.py';
+function apiRuleOf(cors, apps) {
+  if (cors === null) return null;
+  const prefix = cors.match(/^API_PREFIX = "([^"\\]+)"\s*$/m)?.[1];
+  if (!prefix) throw new Error(`${CORS_PY} has no API_PREFIX = "<path>" line`);
+  if (!/^def answers_any_origin\(path\):[\s\S]*?^\s+return \(path or ""\)\.startswith\(API_PREFIX\)\s*$/m.test(cors)) throw new Error(`${CORS_PY}: answers_any_origin is not "return (path or \\"\\").startswith(API_PREFIX)"`);
+  if (!/^def api_answers_any_origin\(sender, request, \*\*kwargs\):[\s\S]*?^\s+return answers_any_origin\(request\.path_info\)\s*$/m.test(cors)) throw new Error(`${CORS_PY}: api_answers_any_origin does not return answers_any_origin(request.path_info)`);
+  if (!/check_request_enabled\.connect\(api_answers_any_origin\b/.test(apps ?? '')) throw new Error(`${APPS_PY} does not connect api_answers_any_origin to check_request_enabled`);
+  return prefix;
+}
+
 function readKeel() {
   const git = (...a) => execFileSync('git', ['-C', KEEL, ...a], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
   try { git('fetch', '-q', 'origin'); } catch (e) {
     blind(`git fetch in ${KEEL} failed (${String(e.stderr || e.message).trim().split('\n')[0]}); origin/main cannot be trusted as published`);
   }
-  let src, prod, commit;
+  let src, prod, commit, cors = null, apps = null;
   try {
     src = git('show', `origin/main:${FILE}`);
     prod = git('show', `origin/main:${PROD}`);
-    commit = git('log', '-1', '--format=%h', 'origin/main', '--', FILE).trim();
+    commit = git('log', '-1', '--format=%h', 'origin/main', '--', FILE, CORS_PY).trim();
   } catch (e) { blind(`cannot read origin/main:${FILE} in ${KEEL} (${String(e.stderr || e.message).trim().split('\n')[0]})`); }
-  try { return { commit, ...settingsOf(src, prod) }; } catch (e) { blind(e.message); }
+  try { cors = git('show', `origin/main:${CORS_PY}`); apps = git('show', `origin/main:${APPS_PY}`); } catch { /* no API rule file: null below */ }
+  try { return { commit, ...settingsOf(src, prod), api_any_origin: apiRuleOf(cors, apps) }; } catch (e) { blind(e.message); }
 }
 
 // One list per line, so a diff names the one that moved.
 const format = (s) => [
   '{',
-  `  "source": ${JSON.stringify(`keel ${FILE} on origin/main (${PROD} imports it): ${Object.values(NAMES).join(', ')}`)},`,
+  `  "source": ${JSON.stringify(`keel ${FILE} on origin/main (${PROD} imports it): ${Object.values(NAMES).join(', ')}; and ${CORS_PY} with its receiver in ${APPS_PY}: api_any_origin, the path prefix every route under which answers any origin (null: no such rule; the lists then govern every page)`)},`,
   `  "commit": ${JSON.stringify(s.commit)},`,
   `  "read_at": ${JSON.stringify(s.read_at)},`,
+  `  "api_any_origin": ${JSON.stringify(s.api_any_origin ?? null)},`,
   ...Object.keys(NAMES).map((k, i, a) => `  ${JSON.stringify(k)}: ${JSON.stringify(s[k])}${i < a.length - 1 ? ',' : ''}`),
   '}',
   '',
 ].join('\n');
-const body = (s) => JSON.stringify(Object.keys(NAMES).map((k) => s[k]));
-const summary = (s) => `${s.origins.length} origins, ${s.origin_regexes.length} origin regexes, ${s.allow_headers.length} allowed and ${s.expose_headers.length} exposed headers, credentials ${s.allow_credentials ? 'on' : 'off'}, max age ${s.preflight_max_age}`;
+const body = (s) => JSON.stringify([s.api_any_origin ?? null, ...Object.keys(NAMES).map((k) => s[k])]);
+const summary = (s) => `${s.api_any_origin ? `every ${s.api_any_origin} route any origin; the site's pages ` : ''}${s.origins.length} origins, ${s.origin_regexes.length} origin regexes, ${s.allow_headers.length} allowed and ${s.expose_headers.length} exposed headers, credentials ${s.allow_credentials ? 'on' : 'off'}, max age ${s.preflight_max_age}`;
 const readSnap = () => { try { return JSON.parse(readFileSync(SNAP, 'utf8')); } catch { return null; } };
 
 if (args.has('--source') || args.has('--refresh')) {
@@ -165,6 +190,7 @@ if (args.has('--source') || args.has('--refresh')) {
     const moved = snap.commit !== keel.commit ? `; ${FILE} has moved since (now ${keel.commit}), its CORS settings unchanged` : '';
     if (unchanged) { console.log(`verify-cors: contract/cors.json matches keel origin/main (read at ${snap.commit}, ${snap.read_at}${moved}): ${summary(keel)}`); process.exit(0); }
     console.log(`verify-cors: STALE: keel origin/main at ${keel.commit} differs from contract/cors.json (read at ${snap.commit}, ${snap.read_at}); run --refresh, then mend the page`);
+    if ((snap.api_any_origin ?? null) !== keel.api_any_origin) console.log(`  ${CORS_PY} (the API's any-origin prefix): ${JSON.stringify(snap.api_any_origin ?? null)} -> ${JSON.stringify(keel.api_any_origin)}`);
     for (const k of Object.keys(NAMES)) {
       if (JSON.stringify(snap[k]) === JSON.stringify(keel[k])) continue;
       if (Array.isArray(keel[k]) && Array.isArray(snap[k])) {
@@ -221,8 +247,27 @@ if (args.has('--live')) {
   const g = answers.get;
   if (g.headers.get('access-control-allow-origin') !== exact) fails.push(`the GET from ${exact}: Access-Control-Allow-Origin is ${JSON.stringify(g.headers.get('access-control-allow-origin'))} (HTTP ${g.status})`);
   else sameSet(list(g, 'access-control-expose-headers'), snap.expose_headers, `the GET from ${exact}, Access-Control-Expose-Headers`);
-  const leak = answers.none.headers.get('access-control-allow-origin');
-  if (leak !== null) fails.push(`the preflight from ${none}, which no pattern allows: Access-Control-Allow-Origin is ${JSON.stringify(leak)}`);
+  if (snap.api_any_origin) {
+    // The API answers any origin: the unlisted sample and a page from disk (`null`) are echoed on the API, and a
+    // site page (outside the prefix) still answers the listed origin and not the unlisted one, the control that
+    // shows the list is still read there.
+    if (!new URL(URL_).pathname.startsWith(snap.api_any_origin)) blind(`${URL_} is outside ${snap.api_any_origin}; pick an API sample`);
+    const SITE = 'https://www.onlyworlds.com/account/';
+    if (new URL(SITE).pathname.startsWith(snap.api_any_origin)) blind(`${SITE} is inside ${snap.api_any_origin}; pick a site page`);
+    const site = async (origin) => { const r = await fetch(SITE, { headers: { Origin: origin }, redirect: 'manual', signal: AbortSignal.timeout(20000) }); await r.arrayBuffer(); return r; };
+    let fromDisk, siteListed, siteNone;
+    try { fromDisk = await ask('OPTIONS', 'null'); siteListed = await site(exact); siteNone = await site(none); } catch (e) { blind(`a sample (${e.message})`); }
+    for (const [origin, r] of [[none, answers.none], ['null', fromDisk]]) {
+      const got = r.headers.get('access-control-allow-origin');
+      if (got !== origin) fails.push(`the preflight from ${origin} on the API: Access-Control-Allow-Origin is ${JSON.stringify(got)}, not the origin (HTTP ${r.status}); contract/cors.json says every ${snap.api_any_origin} route answers any origin`);
+    }
+    if (siteListed.headers.get('access-control-allow-origin') !== exact) fails.push(`the control: ${SITE} from ${exact}, which the list allows, has Access-Control-Allow-Origin ${JSON.stringify(siteListed.headers.get('access-control-allow-origin'))} (HTTP ${siteListed.status}), so the site page's answer reads nothing`);
+    const leak = siteNone.headers.get('access-control-allow-origin');
+    if (leak !== null) fails.push(`${SITE} from ${none}, which no pattern allows: Access-Control-Allow-Origin is ${JSON.stringify(leak)}; the site's pages keep the list`);
+  } else {
+    const leak = answers.none.headers.get('access-control-allow-origin');
+    if (leak !== null) fails.push(`the preflight from ${none}, which no pattern allows: Access-Control-Allow-Origin is ${JSON.stringify(leak)}`);
+  }
   console.log(`  not checked  the other ${snap.origin_regexes.length - 1} origin regexes and ${snap.origins.length - 1} exact origins over the wire: a regex cannot be enumerated live, so the set is held to keel's settings (--source), the answer only for ${exact}, ${viaRegex} and ${none}`);
   for (const f of fails) console.log(`  FAIL  ${f}`);
   if (fails.length) { console.log(`verify-cors: STALE: the live server differs from contract/cors.json (read at ${snap.commit}, ${snap.read_at}): ${fails.length} difference(s); read keel's settings (--source), then mend the page`); process.exit(1); }
@@ -243,9 +288,25 @@ const section = (head) => {
 };
 const ticks = (s) => [...s.matchAll(/`([^`]+)`/g)].map((m) => m[1]);
 
-// ---- the origins table ----
+// ---- the origins: the API's any-origin rule, or the table of keel's list ----
 const forms = new Map(snap.origin_regexes.map((r) => [formOf(r), r]));
 const named = new Map();   // origin as the page writes it -> its platform
+let covered = [];
+if (snap.api_any_origin) {
+  const o = section('Origins');
+  const wants = [
+    [`\`${snap.api_any_origin}\``, `the prefix every route under which answers any origin`],
+    ['any origin', 'that the API answers any origin'],
+    ['`null`', 'the origin of a page opened from disk'],
+    ['never `*`', 'that the answer echoes the origin'],
+  ];
+  for (const [w, what] of wants) if (!o.includes(w)) fail(`## Origins does not say ${what} (${w}); keel's ${CORS_PY} answers any origin under ${snap.api_any_origin}`);
+  if (/^\|/m.test(o)) fail('## Origins carries a table; the API answers any origin, so a list of origins on this page is not the API\'s');
+  if (/get no CORS headers|from the origins below/.test(page)) fail('the page still says an origin outside a list gets no CORS headers; every API route answers any origin');
+  if (page.includes('\n## Allowed origins\n')) fail('the page still has "## Allowed origins"; its anchor stays as an <a id> above "## Origins"');
+  if (!page.includes('<a id="allowed-origins"></a>')) fail('the old anchor #allowed-origins is gone: keep <a id="allowed-origins"></a> above "## Origins" (older changelog lines link it)');
+  if (snap.allow_all_origins) fail('keel allows every origin on every page (CORS_ALLOW_ALL_ORIGINS), and the page says the site\'s own pages keep a list');
+} else {
 for (const line of section('Allowed origins').split('\n')) {
   const c = line.split('|').slice(1, -1).map((x) => x.trim());
   if (c.length !== 2 || /^:?-+/.test(c[0]) || c[0] === 'Platform') continue;
@@ -263,8 +324,9 @@ for (const o of snap.origins) {
   if (!named.has(o) && !regexesOf(snap).some((r) => r.test(o))) fail(`${o}: keel allows it (CORS_ALLOWED_ORIGINS), no regex covers it, and the table does not name it`);
 }
 for (const [o, p] of named) if (!forms.has(o) && !snap.origins.includes(o)) fail(`${o} (${p}): named on the page, but keel allows no such origin or pattern`);
-const covered = snap.origins.filter((o) => !named.has(o) && regexesOf(snap).some((r) => r.test(o)));
+covered = snap.origins.filter((o) => !named.has(o) && regexesOf(snap).some((r) => r.test(o)));
 if (snap.allow_all_origins) fail('keel allows every origin (CORS_ALLOW_ALL_ORIGINS), and the page says any other origin gets no CORS headers');
+}
 
 // ---- the headers, credentials and cache ----
 const heads = section('Headers');
@@ -296,8 +358,8 @@ const seconds = (/^\d+$/.test(dm[1]) ? Number(dm[1]) : 1) * UNITS[dm[2]];
 if (seconds !== snap.preflight_max_age) fail(`the page says preflight answers may be cached for ${dm[1]} ${dm[2]} (${seconds} s); keel's ${NAMES.preflight_max_age} is ${snap.preflight_max_age}`);
 
 if (covered.length) console.log(`  not named    ${covered.join(', ')}: exact origins a regex already allows`);
-console.log('  not checked  the Platform column; the 503 line (the admission gate sends the CORS headers itself); the caution\'s advice');
+console.log(snap.api_any_origin ? '  not checked  the site\'s own origin list (not on the page: no page of the site is an API); the 503 line (the admission gate sends the CORS headers itself); the caution\'s advice' : '  not checked  the Platform column; the 503 line (the admission gate sends the CORS headers itself); the caution\'s advice');
 for (const f of fails) console.log(`  FAIL  ${f}`);
-console.log(`verify-cors: ${named.size} origins and patterns, ${nReq} request and ${nRes} response headers, credentials and max age held to contract/cors.json (keel ${snap.commit}, read ${snap.read_at})`);
+console.log(`verify-cors: ${snap.api_any_origin ? `any origin under ${snap.api_any_origin}, the site's list not on the page` : `${named.size} origins and patterns`}, ${nReq} request and ${nRes} response headers, credentials and max age held to contract/cors.json (keel ${snap.commit}, read ${snap.read_at})`);
 if (fails.length) { console.log(`FAIL: ${fails.length} problem(s) on the CORS page`); process.exit(1); }
 console.log('PASS');

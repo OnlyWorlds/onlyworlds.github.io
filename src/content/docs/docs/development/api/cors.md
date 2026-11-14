@@ -1,39 +1,17 @@
 ---
 title: CORS
-description: Which browser origins may call the OnlyWorlds API directly, and which headers they may send and read.
+description: Calling the OnlyWorlds API from a browser page on any origin, and which headers a page may send and read.
 ---
 
-Browser code may call the API directly from the origins below. Requests from any other origin get no CORS headers, so the browser blocks the response. Server-side code, scripts and curl are not affected by CORS.
+Browser code may call the API directly from a page on any origin, a page opened from disk included. The key in the request decides what it may do. Server-side code, scripts and curl are not affected by CORS.
 
-## Allowed origins
+<a id="allowed-origins"></a>
 
-| Platform | Origins |
-|:--|:--|
-| OnlyWorlds | `https://onlyworlds.com`, `https://www.onlyworlds.com`, `https://*.onlyworlds.com`, `http://onlyworlds.com`, `http://www.onlyworlds.com`, `https://onlyworlds.github.io` |
-| GitHub Pages | `https://*.github.io` |
-| GitHub Codespaces | `https://*.app.github.dev` (a forwarded port's page) |
-| GitLab Pages | `https://*.gitlab.io` |
-| Cloudflare Pages | `https://*.pages.dev`, including branch previews (`https://*.*.pages.dev`) |
-| Vercel | `https://*.vercel.app`, `https://*.now.sh` |
-| Netlify | `https://*.netlify.app`, `https://*.netlify.com` |
-| Render | `https://*.onrender.com` |
-| Railway | `https://*.up.railway.app` |
-| Fly.io | `https://*.fly.dev` |
-| Heroku | `https://*.herokuapp.com` |
-| AWS Amplify | `https://*.amplifyapp.com` |
-| Firebase Hosting | `https://*.web.app`, `https://*.firebaseapp.com` |
-| Surge | `https://*.surge.sh` |
-| Glitch | `https://*.glitch.me` |
-| Replit | `https://*.repl.co`, `https://*.replit.app` |
-| CodeSandbox | `https://*.csb.app`, `https://*.codesandbox.io` |
-| StackBlitz | `https://*.stackblitz.io` |
-| CodePen | `https://codepen.io`, `https://cdpn.io` |
-| JSFiddle | `https://jsfiddle.net` |
-| Local development | `http://localhost`, `http://127.0.0.1` and `http://[::1]`, on any port |
+## Origins
 
-The `*` stands for one subdomain label: `my-app.vercel.app` is allowed, `preview.my-app.vercel.app` is not. Hosting platform origins must use `https`.
+Every route under `/api/` (the API, the v1 adapter and the Council's routes) answers any origin, and a page opened from disk, whose origin is `null`, too (since 2026-11-14). The answer names the request's own origin in `Access-Control-Allow-Origin`, never `*`. So a page on your own domain, on any host, or on your machine reads a world with its key.
 
-For a custom domain, contact [info@onlyworlds.com](mailto:info@onlyworlds.com).
+The site's own pages on onlyworlds.com are not the API and keep a short list of origins of their own; nothing there is meant to be called from another page.
 
 ## Headers
 
@@ -47,5 +25,5 @@ A `503` [`server_busy`](/api/errors/#server_busy) also carries the CORS headers,
 :::caution
 A key in browser code is visible to anyone who opens the page. Ship only an `ow_r_` read key in a public page, and keep write keys and PINs out of it.
 
-The origin list is not access control: anyone can host a page on these platforms. The key decides what a request may do. See [Keeping credentials safe](/docs/getting-started/keys#keeping-credentials-safe).
+Any page may call the API, so the origin is no protection: the key decides what a request may do. See [Keeping credentials safe](/docs/getting-started/keys#keeping-credentials-safe).
 :::

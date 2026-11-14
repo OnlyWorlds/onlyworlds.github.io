@@ -45,4 +45,4 @@ We read listed tools again from time to time and whenever someone reports a prob
 
 - Send your client name on writes: `new OwV2Client({ ..., client: 'mytool' })` in [TypeScript](/docs/development/typescript), `Client("ow_w_...", "1234", client="mytool")` in [Python](/docs/development/python).
 - Keep your tool's own fields under `x_mytool_`: they round-trip as written, while an unknown key with no prefix is refused on write ([Writes](/docs/development/api/writes#field-rules)).
-- If your tool runs in a browser on your own domain, check [CORS](/docs/development/api/cors) first.
+- A tool in a browser may call the API from any domain, its own included ([CORS](/docs/development/api/cors)).
