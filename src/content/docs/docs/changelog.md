@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-14
 
+- **[TypeScript SDK](/docs/development/typescript-readers) 4.165.1: `findOwLinks` reads a line with many `ow://` starts and no ids faster.** No answer changes.
 - **[An address in prose](/docs/schema/profiles/addresses#an-address-in-prose) begins only outside a word (serial 127).** An `ow://` glued to a letter, a combining mark or an underscore before it holds no address (`elbow://…`); a hyphen, a digit, a bracket or a quote before it does. TypeScript SDK 4.165.0 and Python package 0.125.0 read it so, and each finds every address in a text in order: [`findOwLinks`](/docs/development/typescript-readers) and [`find_ow_links`](/docs/development/python).
 - **[The AI door](/docs/development/ai): a fault after the answer was charged replays under its key.** A `500` after the charge is kept like a billed refusal, so the same key and body answer it again and never run or bill a second time.
 - **[CORS](/docs/development/api/cors#origins): the API answers a browser page on any origin**, a page opened from disk (`Origin: null`) included, with the request's own origin echoed and never `*`; the key decides what a request may do, and credentials stay off. The list of hosting platforms is gone from the page: it now governs only the site's own pages. [Listing your tool](/docs/development/list-your-tool) no longer asks a tool on its own domain to check CORS first.
