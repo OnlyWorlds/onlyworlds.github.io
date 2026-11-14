@@ -374,7 +374,7 @@ Colour marks a type's colour group and the icon marks the type. Always pair a co
 <details>
 <summary>How the room and the names are read (the profiles' rules)</summary>
 
-`isRoomElement(el)` is true when an element's type and supertype, trimmed and compared without regard to case, match one of the `ROOM_PAIRS` and it carries a non-empty `x_room_of`, the id of the world or sitting the room belongs to. A pair without the mark is lore, so a novel's Message Narratives stay in view. This is the [room profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/room.md), schema-dist serial 45.
+`isRoomElement(el)` is true when an element's type and supertype, trimmed and compared without regard to case, match one of the `ROOM_PAIRS` and it carries a non-empty `x_room_of`, the id of the world or sitting the room belongs to (since 4.163.0 an empty list or an empty object is no mark). A pair without the mark is lore, so a novel's Message Narratives stay in view. This is the [room profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/room.md), schema-dist serial 45.
 
 `typeWord` reads the world's `x_names` map. A supertype's own word wins over the type's, and the word is printed as written: the [names profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/names.md), schema-dist serial 48.
 
@@ -395,7 +395,7 @@ The package also ships `SCHEMA.md` (every field and its meaning, generated) and 
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.162.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.163.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 

@@ -237,7 +237,7 @@ A tool that cannot run the method draws the Pins where they are and never lays t
 
 `domainsOf(world, reader)` returns the Domains alone. `world` holds the elements as the owner is served them, with `open: true` for a world open to anyone (only then does a public viewer see anything), and `reader` is the viewer's `{ rung }`, as in [What every reader takes](#what-every-reader-takes).
 
-`isCharterElement(el)` reads the mark `x_charter_of` by its presence: any value but null, and a string only when something is left after trimming. `CHARTER_PAIRS` lists the three type-and-supertype pairs.
+`isCharterElement(el)` reads the mark `x_charter_of` by its presence: any value but null, a string only when something is left after trimming, and since 4.163.0 an empty list or an empty object is no mark either. `CHARTER_PAIRS` lists the three type-and-supertype pairs.
 
 `readingAidOf(element)` answers which aid an element's type and supertype make it, `'charter'`, `'guide'`, `'domain'` or null, with the mark ignored: what a tool offers to mark it as.
 

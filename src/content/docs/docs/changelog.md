@@ -7,6 +7,14 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 What changed on onlyworlds.com for everyone is on its own [Changelog](https://www.onlyworlds.com/changelog); this page stays the developer log.
 
+## 2026-11-14
+
+- **[Profiles](/docs/schema/profiles): an empty list or an empty object is no room or charter mark** (schema-dist serial 126): `x_room_of` and `x_charter_of` set to `[]` or `{}` read as absent, as the review mark already reads its own, so a full and a compact read of one element agree; `false` still counts. The checks profile's `present` reads an empty object as short. The [TypeScript SDK](/docs/development/typescript-readers) 4.163.0 and the [Python package](/docs/development/python) 0.124.0 read it so.
+- **[Layout maps](/docs/schema/profiles): empty-string ids and links written down** (serial 126): a row without a non-empty string id is no element, and an empty-string link is null; the fixture holds 26 layout cases beside 39. Every published reader already answered so.
+- **[Addresses](/docs/schema/profiles/addresses#an-address-in-prose): what follows a world in prose.** `/<type>/<id>` continues the address only when the type word is one of the 22 in lowercase; an upper-case or misspelt type word leaves the world's own address (serial 126's four prose cases).
+- **[Python](/docs/development/python) 0.124.0: the pack and the OKF export read an in-prose type word as the address profile does**, lowercase and one of the 22; an id is still read as written.
+- **[Changes](/docs/development/api/changes#the-export-file): the export example carries `schema_version` 00.34.01**, the standard since 2026-11-13.
+
 ## 2026-11-13
 
 - **[Map](/docs/schema/element_categories/map): `hierarchy` says which maps it orders** (the standard 00.34.01): the maps with the same `parent_map`, without one the maps of the same `location`, without either the maps of the world itself; lower is deeper or earlier, and nesting is said by `parent_map` and `location`. TypeScript 4.162.0 and Python 0.123.0 carry the version.
