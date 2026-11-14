@@ -319,7 +319,7 @@ for (const m of unreadFor(messages, myCharacter, mark, members)) {   // members:
 }
 ```
 
-`isAddressedTo(m, id)` is true for a message to everyone (an empty `characters`), and `isToEveryone(m)` asks only that. Of several marks in your hand, `readMarkOf` takes the one with the newest readable `updated_at`; at the same instant, or when none can be read, the higher id by code point (since 4.161.0). `threadOf(messages, rootId)` lists a thread in order.
+Only a message is addressed: for any other Narrative `recipientsOf` answers `[]` and `isAddressedTo` false (since 4.166.0). `isAddressedTo(m, id)` is true for a message to everyone (an empty `characters`), and `isToEveryone(m)` asks only that. Of several marks in your hand, `readMarkOf` takes the one with the newest readable `updated_at`; at the same instant, or when none can be read, the higher id by code point (since 4.161.0). `threadOf(messages, rootId)` lists a thread in order.
 
 ### Times
 
