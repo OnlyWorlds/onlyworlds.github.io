@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-14
 
+- **[Unity](/docs/development/unity) v0.42.0: a world's default picture.** `OWLayout.LayoutByKind` and `LayoutAround` give the same points as `layoutByKind` and `layoutAround`; the folder writer's producer line says 0.42.0.
 - **[A world's graph page](/docs/development/api/public#what-a-visitor-sees) draws the packages' default picture**: its points are `layoutByKind`'s for the public graph, worked out on the server, so every tool on the packages draws the same picture; a field that names one element twice is one line.
 - **[Unity](/docs/development/unity) v0.41.0: each element once, and every address in a text** (serial 128). `OWAddress.FindLinks` finds every address in a text as `findOwLinks` does; a link list that names one element twice reads as one link; `OWMessage`'s readers answer only for a message; the folder writer stamps format 0.3.24 and its producer line says 0.41.0.
 - **[TypeScript SDK](/docs/development/typescript-readers) 4.167.1: `findOwLinks` reads a line of addresses whose moments do not read faster**, a moment of more than 11 characters, with a leading zero or past the 32-bit range. No answer changes.
