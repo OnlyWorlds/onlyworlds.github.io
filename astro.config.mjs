@@ -13,6 +13,16 @@ import starlightLlmsTxt from 'starlight-llms-txt';
 import starlightLinksValidator from 'starlight-links-validator';
 import owRun from './src/run/integration.mjs';
 import { pluginRun } from './src/run/ec-run.mjs';
+import { readFileSync } from 'node:fs';
+
+// Old addresses no page answers any more (contract/old-urls.tsv: old, then the page that replaced
+// it). Each becomes a redirect stub; scripts/verify-urls.mjs holds every row to the build.
+const oldUrls = Object.fromEntries(
+  readFileSync(new URL('./contract/old-urls.tsv', import.meta.url), 'utf8')
+    .split(/\r?\n/)
+    .filter((l) => l && !l.startsWith('#'))
+    .map((l) => l.split('\t')),
+);
 
 export default defineConfig({
   site: 'https://onlyworlds.github.io',
@@ -31,6 +41,7 @@ export default defineConfig({
     '/docs/schema/element_categories/world': '/docs/schema/worlds',
     '/docs/development/schema': '/docs/schema/',
     '/docs/schema/element_categories': '/docs/schema/', // its index contradicted the verbatim definitions there
+    ...oldUrls,
   },
   integrations: [
     // Run buttons: a run marker under a sample (src/run/marker.mjs) becomes a Run button in its header

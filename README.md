@@ -30,6 +30,7 @@ The API's error responses link to `/api/errors#<code>`, the LLM guide lives at `
 - **load-bearing** rows must answer 200 with the real page, on this host. Never a redirect stub: agents read the stub, not its target.
 - **floor** rows are the error codes keel links to; each must be an id on `/api/errors/`.
 - **page** rows are old pages nothing outside links to; a stub redirect is enough if one moves.
+- **Old addresses**: the site was reorganised several times before this build, and search engines still list addresses from each layout. `contract/old-urls.tsv` maps every such address that no page answers (found in the repository's own history) to the page that replaced it; the build writes a redirect stub for each, and `npm run verify` holds every row to its stub and its target. A row of `urls.tsv` that was already 404 may answer through one of these stubs.
 
 Two checks read that file: `npm run verify` on every build (CI and the deploy), and the outside check on the live site. A page keeps its path; to move one that the contract lists, change the contract first.
 

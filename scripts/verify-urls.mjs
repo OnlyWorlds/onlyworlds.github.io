@@ -2,7 +2,7 @@
 /**
  * verify-urls.mjs: does the built site still answer every URL the world links to?
  *
- * Run:  node scripts/verify-urls.mjs [--dist dist] [--contract contract/urls.tsv]
+ * Run:  node scripts/verify-urls.mjs [--dist dist] [--contract contract/urls.tsv] [--old contract/old-urls.tsv]
  *
  * The contract (contract/urls.tsv) lists every page of the old site and every onlyworlds.github.io
  * URL found in the OnlyWorlds repos. An outside check reads the same file against the live site;
@@ -14,7 +14,9 @@
  *                 #anchor, if any, is an id in that page
  *   floor         as load-bearing; these are the error codes keel links to on /api/errors/
  *   page          200, or a stub whose target answers 200
- * A row the old site already answered 404 is reported, not failed. A 'template' row is a pattern
+ * A row the old site already answered 404 is reported, not failed, and may answer with a stub to the
+ * page that replaced it. contract/old-urls.tsv lists the old addresses that have such a stub: each
+ * must be in the build, point where its row says, and land on a real page. A 'template' row is a pattern
  * (keel builds #{code}); it is reported as a pattern and checked through the floor rows.
  * Structural: no page may exist both as <path>.html and <path>/index.html.
  *
@@ -223,15 +225,52 @@ for (const line of rows) {
   const html = r.file.endsWith('.html') ? readFileSync(r.file, 'utf8') : '';
   const stub = html && stubTarget(html);
   if (stub) {
-    if (strict) { fail.push(`${url}: a redirect stub (to ${stub}) where the contract wants the real page; agents read the stub`); continue; }
+    // A row the old site already answered 404 may answer with a stub to the page that replaced it
+    // (contract/old-urls.tsv): a pointer is more than the 404 it had. Its target is held there.
+    if (strict && !wasBroken) { fail.push(`${url}: a redirect stub (to ${stub}) where the contract wants the real page; agents read the stub`); continue; }
     const t = follow(stub.split('#')[0]);
     if (t.status !== 200) fail.push(`${url}: stub to ${stub}, which answers ${t.status}`);
+    else if (wasBroken) { already++; notes.push(`${url}: 404 on the old site, now a stub to ${stub}`); checked--; }
     continue;
   }
   if (frag !== undefined && frag !== '') {
     if (!ids(html).has(frag)) fail.push(`${url}: the page answers, but has no id "${frag}"`);
   }
   if (path.endsWith('.txt') && !r.file.endsWith('.txt')) fail.push(`${url}: served from ${r.file}, not as a text file`);
+}
+
+// ---- the old addresses ------------------------------------------------------------------------
+// contract/old-urls.tsv: an address of an older layout of this site, and the page that replaced it.
+// Each row must be a stub in the build that points where the row says, at a real page (never
+// another stub, never a missing anchor). A stub the list does not hold is checked as before, by
+// its own contract row. An unreadable list is a gap, never a pass.
+const OLD = resolvePath(ROOT, arg('--old', join('contract', 'old-urls.tsv')));
+let oldRows = 0;
+if (!existsSync(OLD)) gaps.push(`no list of old addresses at ${OLD}`);
+else {
+  const seen = new Set();
+  for (const line of readFileSync(OLD, 'utf8').split(/\r?\n/).filter((l) => l && !l.startsWith('#'))) {
+    const [from, to, more] = line.split('\t');
+    if (!from || !to || more !== undefined || !from.startsWith('/') || !to.startsWith('/') || /\.html$|.\/$/.test(from)) {
+      gaps.push(`old address row unreadable (old, then new; old without .html or a trailing slash): ${line.slice(0, 80)}`);
+      continue;
+    }
+    oldRows++;
+    if (seen.has(from)) { fail.push(`old address ${from}: listed twice`); continue; }
+    seen.add(from);
+    const file = join(DIST, decodeURIComponent(from).replace(/^\/+/, '') + '.html');
+    if (!isFile(file)) { fail.push(`old address ${from}: the build holds no stub for it`); continue; }
+    const stub = stubTarget(readFileSync(file, 'utf8'));
+    if (!stub) { fail.push(`old address ${from}: a real page answers there now; take the row out`); continue; }
+    if (stub !== to) { fail.push(`old address ${from}: the stub points to ${stub}, the list says ${to}`); continue; }
+    const [path, frag] = to.split('#');
+    const t = follow(path);
+    if (t.status !== 200) { fail.push(`old address ${from}: its new page ${to} answers ${t.status}`); continue; }
+    const html = readFileSync(t.file, 'utf8');
+    if (stubTarget(html)) { fail.push(`old address ${from}: its new page ${to} is itself a stub (to ${stubTarget(html)})`); continue; }
+    if (frag !== undefined && !ids(html).has(frag)) fail.push(`old address ${from}: its new page ${path} has no id "${frag}"`);
+  }
+  if (!oldRows && !gaps.length) gaps.push(`the list of old addresses at ${OLD} holds no row`);
 }
 
 // Every page the sitemap lists has a row: a page added after the list was built had none, and
@@ -246,7 +285,7 @@ for (const line of rows) {
   }
 }
 
-console.log(`verify-urls: ${hrefs} internal links resolved on Pages rules · ${rows.length} contract rows · ${checked} answered · ${templates} pattern rows (checked through the floor) · ${already} already 404 on the old site`);
+console.log(`verify-urls: ${hrefs} internal links resolved on Pages rules · ${rows.length} contract rows · ${checked} answered · ${templates} pattern rows (checked through the floor) · ${already} already 404 on the old site · ${oldRows} old address(es) held to their stubs`);
 for (const n of notes) console.log(`  note   ${n}`);
 for (const g of gaps) console.log(`  GAP    ${g}`);
 for (const f of fail) console.log(`  DRIFT  ${f}`);
