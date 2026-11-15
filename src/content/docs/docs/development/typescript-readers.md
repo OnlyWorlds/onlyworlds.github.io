@@ -375,7 +375,7 @@ for (const g of groups) {
 
 ## Report lines
 
-A completed report's `consequences` holds one line per change, and a line names the element it changed by its address. `readReportLines(text, { world })` splits the text and reads each line as the [report profile](/docs/schema/profiles#report) says; `readReportLine(line, { world })` reads one:
+A completed report's `consequences` holds one line per change, and a line names the element it changed by its address. `readReportLines(text, { world })` (since 4.169.0) splits the text and reads each line as the [report profile](/docs/schema/profiles#report) says; `readReportLine(line, { world })` reads one:
 
 ```typescript
 import { readReportLines } from '@onlyworlds/sdk';

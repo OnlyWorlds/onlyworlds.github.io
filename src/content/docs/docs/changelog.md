@@ -7,6 +7,10 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 What changed on onlyworlds.com for everyone is on its own [Changelog](https://www.onlyworlds.com/changelog); this page stays the developer log.
 
+## 2026-11-15
+
+- **[A report's lines](/docs/development/typescript-readers#report-lines) (serial 129): TypeScript SDK 4.169.0's `readReportLines` and `readReportLine`, and [Python](/docs/development/python) 0.128.0's `read_report_lines` and `read_report_line`**, read a line of a report's `consequences` as the [report profile](/docs/schema/profiles#report)'s rule 10 says: where the text breaks into lines, which address is the line's, and which words are shown with it taken out. Both are held to the profile's second fixture, `report-lines.fixture.json`.
+
 ## 2026-11-14
 
 - **[TypeScript SDK](/docs/development/typescript-readers) 4.168.0: `DECLARED_LINKS`**, the extension lists a profile reads as links (`x_lens_leads_to`, `x_spine_depends_on`), for a writer that builds one and must name each element once.
