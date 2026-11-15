@@ -350,7 +350,7 @@ It reads the whole value as `YYYY-MM-DDTHH:MM:SS`, an optional fraction after `.
 
 The readers know a message the server trimmed for its viewer (`x_served_trimmed`): an empty `characters` with the mark is to someone you cannot see, never to everyone. `hasUnseenRecipients(m)` says so, and a hidden sender is `senderStatus` `'unseen'` ("from someone you cannot see").
 
-A body read with no key, as the public is served it, carries no hands and no trim mark. There, pass `{ keyless: true }`: `readMarkOf(marks, id, members, { keyless: true })` is `null`, `isToEveryone` is false, and `hasUnseenRecipients` is `null` (unknown).
+A body read with no key, as the public is served it, carries no hands and no trim mark. There, pass `{ keyless: true }`: `readMarkOf(marks, id, members, { keyless: true })` is `null`, `isToEveryone` is false, and `hasUnseenRecipients` is `null` (unknown) for a message. A body that is not a message (a Story, a Note) has no recipients, so `hasUnseenRecipients` is false for it, with a key or without.
 
 `editedBy(m, members)` says whether a later hand changed a message, and whose. A Note (supertype `Note`) is a member's own line, never a message: `isNote(el)`, and `noteOf(narratives, characterId, members)` gives the id of that Character's newest Note in its own hand.
 

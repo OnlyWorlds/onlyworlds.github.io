@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-15
 
+- **[A message read with no key](/docs/development/typescript-readers) (serial 130)**: a body that is not a message (a Story, a Note) has no recipients, so `hasUnseenRecipients` is false for it with a key or without; only a message read with no key answers unknown. The [message profile](/docs/schema/profiles/messages) says so. TypeScript SDK 4.169.1 and [Python](/docs/development/python) 0.128.1 carry the serial; both already answered this way.
 - **[A report's lines](/docs/development/typescript-readers#report-lines) (serial 129): TypeScript SDK 4.169.0's `readReportLines` and `readReportLine`, and [Python](/docs/development/python) 0.128.0's `read_report_lines` and `read_report_line`**, read a line of a report's `consequences` as the [report profile](/docs/schema/profiles#report)'s rule 10 says: where the text breaks into lines, which address is the line's, and which words are shown with it taken out. Both are held to the profile's second fixture, `report-lines.fixture.json`.
 
 ## 2026-11-14

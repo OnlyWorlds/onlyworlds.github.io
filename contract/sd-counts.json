@@ -1,7 +1,7 @@
 {
-  "source": "schema-dist v0.34.1-dist.128: VERSION, profiles/*.fixture.json cases, fixtures/owworld/verdicts.json reasons",
-  "read_at": "2026-11-14",
-  "tag": "v0.34.1-dist.128",
+  "source": "schema-dist v0.34.1-dist.130: VERSION, profiles/*.fixture.json cases, fixtures/owworld/verdicts.json reasons",
+  "read_at": "2026-11-15",
+  "tag": "v0.34.1-dist.130",
   "canonical": "00.34.01",
   "profiles": {
     "address": 218,
@@ -12,10 +12,11 @@
     "landing": 33,
     "lens": 235,
     "map-space": 39,
-    "message": 102,
+    "message": 103,
     "names": 29,
     "record": 46,
     "report": 29,
+    "report-lines": 101,
     "room": 38,
     "spine": 46,
     "strand": 27
