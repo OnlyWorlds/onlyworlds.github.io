@@ -25,6 +25,8 @@ jobs:
           cache: npm
       - run: npm ci
       - name: The TypeScript reference against the pinned SDK
-        run: node scripts/gen_sdk_ref.mjs --check || { echo "::error::typescript.md's reference is not what the pinned SDK writes: run node scripts/gen_sdk_ref.mjs and commit the page"; exit 1; }
+        run: |
+          node scripts/gen_sdk_ref.mjs --check || { echo "::error::typescript.md's reference is not what the pinned SDK writes: run node scripts/gen_sdk_ref.mjs and commit the page"; exit 1; }
       - name: The errors table against contract/error-codes.json
-        run: node scripts/gen_errors.mjs --check || { echo "::error::the errors page or the URL contract's floor is not what contract/error-codes.json writes: run node scripts/gen_errors.mjs and commit"; exit 1; }
+        run: |
+          node scripts/gen_errors.mjs --check || { echo "::error::the errors page or the URL contract's floor is not what contract/error-codes.json writes: run node scripts/gen_errors.mjs and commit"; exit 1; }
