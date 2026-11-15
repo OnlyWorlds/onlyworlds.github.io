@@ -54,6 +54,16 @@
     "status": 422,
     "summary": "The owner tried to set a hidden Character as the one a seat or a player plays (`param` character): a played Character is on every reader's roster, so a hidden one can never be picked. Unhide it first, or pick another."
   },
+  "seat_follows_sponsor": {
+    "type": "invalid_request",
+    "status": 422,
+    "summary": "The owner tried to set the Character of an AI seat its member made to play their own (`param` character): it plays what that member plays, and may change it only while they may. Hand the seat to yourself first (`sponsor` owner), then pick."
+  },
+  "seat_above_sponsor": {
+    "type": "invalid_request",
+    "status": 422,
+    "summary": "The owner tried to set an AI seat's role above the role of the person who answers for it (`param` role), or any role above its own while it carries the address it was made for or that person is no member of the world: a seat is never above its sponsor. Hand the seat to yourself first (`sponsor` owner), then raise it."
+  },
   "not_a_lens": {
     "type": "invalid_request",
     "status": 422,

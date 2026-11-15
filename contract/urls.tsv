@@ -163,6 +163,8 @@
 /api/errors#precondition_failed	load-bearing	floor	keel's error-code list (contract/error-codes.json)
 /api/errors#player_role_fixed	load-bearing	floor	keel's error-code list (contract/error-codes.json)
 /api/errors#character_hidden	load-bearing	floor	keel's error-code list (contract/error-codes.json)
+/api/errors#seat_follows_sponsor	load-bearing	floor	keel's error-code list (contract/error-codes.json)
+/api/errors#seat_above_sponsor	load-bearing	floor	keel's error-code list (contract/error-codes.json)
 /api/errors#not_a_lens	load-bearing	floor	keel's error-code list (contract/error-codes.json)
 /api/errors#lens_is_template	load-bearing	floor	keel's error-code list (contract/error-codes.json)
 /api/errors#lens_hidden	load-bearing	floor	keel's error-code list (contract/error-codes.json)
