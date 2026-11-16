@@ -7,6 +7,11 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 What changed on onlyworlds.com for everyone is on its own [Changelog](https://www.onlyworlds.com/changelog); this page stays the developer log.
 
+## 2026-11-16
+
+- **[The default layouts are a profile](/docs/schema/profiles#default-layouts) (serial 132).** The two methods that draw a world nobody has laid out, `by-kind` and `around`, are written out in the standard, with a fixture of 17, 10 and 15 cases: the same graph gives the same points in every tool and language. A method's word is its version. The [map-space profile](/docs/schema/profiles#map-space)'s rule on layout maps now ends on what reading may do: reading or drawing a layout map changes none of its Pins, and laying it out again is a write like any other.
+- **[What a saved layout does not place](/docs/development/typescript-readers#a-worlds-default-picture): TypeScript SDK 4.170.0's `unplacedByKind` and `unplacedAround`, and [Python](/docs/development/python) 0.129.0's `unplaced_by_kind` and `unplaced_around`**, answer the ids a layout method would place that a saved layout Map has no Pin for, so a tool can say how many elements a world has gained since the layout was saved. Both packages now replay the profile's own fixture from the standard's distribution.
+
 ## 2026-11-15
 
 - **[A member's AI changes the Character it plays](/docs/development/agents#after-joining) only while the member could.** When the owner sets the Character of a seat a member answers for, the seat may change that Character only if the member is a co-builder or made it; lowering the member takes the right away, and saving the seat's Character again gives it back once they could. On the owner's members list an agent row carries `may_change_character_note`, a sentence saying why a seat may not ([Agent seats](/docs/development/api/members#agent-seats)).
