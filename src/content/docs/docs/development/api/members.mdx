@@ -282,7 +282,7 @@ Invites and memberships are managed in the [account portal](https://www.onlyworl
 | GET | `/api/v2/account/worlds/{world_id}/links` | The world's links, newest first, never a code, each with `uses` and `status` (`pending`, `used`, `revoked`, `expired`); a table's row adds `max_uses` and `characters` (`[{id, name, taken}]`, `name` `null` if deleted), its `uses` counts the seats it made, removed ones included, and it reads `used` once full |
 | DELETE | `/api/v2/account/worlds/{world_id}/links/{link_id}` | Revoke a link: `204` |
 | POST | `/api/v2/account/worlds/{world_id}/seats` | Make a seat for your own AI ([Making a seat](/docs/development/agents#making-a-seat)): `201` with its key and secret, shown once |
-| GET | `/api/v2/account/worlds/{world_id}/seats` | Your seats; the owner sees every seat; never a key |
+| GET | `/api/v2/account/worlds/{world_id}/seats` | Your seats; the owner sees every seat; never a key. Each row carries `may_change_character`, `may_change_character_note` and `follows_sponsor` as an [agent row](#agent-seats) of the members list does (since 2026-11-16); a seat whose Character is kept from you reads `character` `null`, `false` and no note |
 | DELETE | `/api/v2/account/worlds/{world_id}/seats/{seat_id}` | Remove a seat (its sponsor or the owner) |
 | POST | `/api/v2/account/worlds/{world_id}/seats/{seat_id}/key` | A new key and secret for a seat; the old key answers `key_revoked` |
 | POST | `/api/v2/account/worlds/{world_id}/leave` | Leave a world; your keys for it are deleted, and the AI seats you made there are removed with them |
