@@ -216,7 +216,7 @@ It answers one row per node, in the order you passed them:
 
 The same input gives the same points in every browser and in the Python package's `layout_by_links_3d`: to the last bit for a centre, a grouped element and a pinned one, and within a billionth of a rest for the rest. The package's tests replay a fixture both packages hold.
 
-To keep a picture still as a world grows, hand an earlier answer's points back as `held` (element id to `[x, y, z]`), with `heldUnit: 1` when you saved them as whole numbers. A held element stays where it was, and what is new is placed round it. Nothing is saved: to keep a picture, save it as a layout Map yourself. A saved layout keeps points only; the groups are read again from the world.
+To keep a picture still as a world grows, hand an earlier answer's points back as `held` (element id to `[x, y, z]`), with `heldUnit: 1` when you saved them as whole numbers. A held element stays where it was (one with a Pin on the map stands at its Pin, held or not), and what is new is placed round it. Nothing is saved: to keep a picture, save it as a layout Map yourself. A saved layout keeps points only; the groups are read again from the world.
 
 The method's word, `by-links-3d`, is the tool's own until its page in the standard is published. Until then a release may move its points.
 
