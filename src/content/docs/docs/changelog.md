@@ -11,6 +11,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 - **[The default layouts are a profile](/docs/schema/profiles#default-layouts) (serial 132).** The two methods that draw a world nobody has laid out, `by-kind` and `around`, are written out in the standard, with a fixture of 17, 10 and 15 cases: the same graph gives the same points in every tool and language. A method's word is its version. The [map-space profile](/docs/schema/profiles#map-space)'s rule on layout maps now ends on what reading may do: reading or drawing a layout map changes none of its Pins, and laying it out again is a write like any other.
 - **[What a saved layout does not place](/docs/development/typescript-readers#a-worlds-default-picture): TypeScript SDK 4.170.0's `unplacedByKind` and `unplacedAround`, and [Python](/docs/development/python) 0.129.0's `unplaced_by_kind` and `unplaced_around`**, answer the ids a layout method would place that a saved layout Map has no Pin for, so a tool can say how many elements a world has gained since the layout was saved. Both packages now replay the profile's own fixture from the standard's distribution.
+- **[Unity SDK](/docs/development/unity) v0.43.1** follows serials 130 and 131: the pin and the fixtures move (the room page's exact case fold, a value that is no object read as no element, a body that is not a message never unknown). No reader changes; a folder it writes names 0.43.1 on its producer line.
 
 ## 2026-11-15
 
