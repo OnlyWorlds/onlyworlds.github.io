@@ -24,8 +24,6 @@ They are distinct from:
 - **Objects** (which are inanimate)
 - **Phenomena** (which are forces or occurrences, not beings)
 
-[Creature discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/creature)
-
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->
 
 ## Fields

@@ -18,8 +18,6 @@ They are distinct from:
 
 - **Pins** (which locate an element at a specific coordinate on a Map)
 
-[Marker discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/marker)
-
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->
 
 ## Fields

@@ -21,8 +21,6 @@ They are distinct from:
 - **Locations** (which are named places with properties and relationships)
 - **Zones** (which are meaningful areas defined by Markers on a Map)
 
-[Map discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/map)
-
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->
 
 ## Fields

@@ -23,8 +23,6 @@ They are distinct from:
 - **Institutions** (which organize for more general purposes)
 - **Collectives** (which group by circumstance, not inheritance)
 
-[Family discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/family)
-
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->
 
 ## Fields

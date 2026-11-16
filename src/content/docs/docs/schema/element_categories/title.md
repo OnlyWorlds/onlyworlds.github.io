@@ -26,8 +26,6 @@ They are distinct from:
 - **Abilities** (which define actions that can physically be taken)
 - **Relations** (a bond between elements; a holding over time is kept as a Relation with supertype `Tenure`, as above)
 
-[Title discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/title)
-
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->
 
 ## Fields

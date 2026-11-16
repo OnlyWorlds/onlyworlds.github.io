@@ -22,8 +22,6 @@ They are distinct from:
 - **Constructs** (which include ideas, systems, or tools not tied to speech)
 - **Traits** (which describe how a character expresses themselves, but not the system of expression)
 
-[Language discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/language)
-
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->
 
 ## Fields

@@ -26,8 +26,6 @@ They are distinct from:
 
 A Location is a place you can name and visit; a Zone is a region that matters because of a border, a jurisdiction or an effect, and takes its shape from Markers.
 
-[Zone discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/zone)
-
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->
 
 ## Fields

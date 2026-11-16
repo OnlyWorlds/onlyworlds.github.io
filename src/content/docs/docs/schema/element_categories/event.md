@@ -27,8 +27,6 @@ A storm that struck in year 400 is an Event; the storm season that returns every
 
 Events are about what happens. The rest of the schema gives it meaning, context, and consequence.
 
-[Event discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/event)
-
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->
 
 ## Fields

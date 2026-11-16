@@ -24,8 +24,6 @@ They are distinct from:
 - **Institutions** (which govern, plan, and wield power)
 - **Families** (which define genetic or cultural lineage)
 
-[Collective discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/collective)
-
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->
 
 ## Fields

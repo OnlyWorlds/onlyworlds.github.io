@@ -20,8 +20,6 @@ They are distinct from:
 - **Collectives** (informal groups that act as a unit, with no offices or rules of their own)
 - **Families** (which have implications of kinship and ancestry)
 
-[Institution discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/institution)
-
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->
 
 ## Fields

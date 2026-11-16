@@ -22,8 +22,6 @@ They are distinct from:
 - **Institutions** (which often issue them but are not rules themselves)
 - **Titles** (which define authority but not the rules themselves)
 
-[Law discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/law)
-
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->
 
 ## Fields

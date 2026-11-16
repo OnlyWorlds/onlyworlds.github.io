@@ -24,8 +24,6 @@ They are distinct from:
 
 Materials and goods are Constructs: the kind of matter, not one piece of it.
 
-[Object discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/object)
-
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->
 
 ## Fields

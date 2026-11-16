@@ -16,8 +16,6 @@ They are distinct from:
 - **Creatures** (which lack reasoned choices or structured goals)  
 - **Collectives** (which model group entities without individual agency)  
 
-[Character discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/character)
-
 Every field below is optional. The TTRPG group (`level`, `hit_points` and six ability scores) is for worlds that run a game system. `charisma` (Personality) and `CHA` (TTRPG) are separate fields.
 
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->

@@ -23,8 +23,6 @@ They are distinct from:
 - **Creatures** (instinct-driven individuals)
 - **Collectives** (behavioral groups of individuals)
 
-[Species discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/species)
-
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->
 
 ## Fields

@@ -26,8 +26,6 @@ They are distinct from:
 - **Constructs** (which encode rules or structures, not associations between elements)
 - **Families and Collectives** (which describe structure, not necessarily activity)
 
-[Relation discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/relation)
-
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->
 
 ## Fields

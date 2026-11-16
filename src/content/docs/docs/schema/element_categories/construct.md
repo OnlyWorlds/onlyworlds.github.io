@@ -22,8 +22,6 @@ They are distinct from:
 - **Phenomena** (conditions or processes that act in the world, whatever their cause: natural, made or supernatural)
 - **Narratives** (which explain or contain constructs)
 
-[Construct discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/construct)
-
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->
 
 ## Fields

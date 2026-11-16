@@ -20,8 +20,6 @@ They are distinct from:
 - **Constructs** (frameworks a world holds or works by, such as a tradition or a currency, where a Trait is a quality of one being or kind)
 - **Titles** (which are formally constructed, not potentially natural)
 
-[Trait discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/trait)
-
 The six Quantitative fields (`charisma` to `courage`) are a change to the Character's score of the same name, so they can be negative.
 
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->

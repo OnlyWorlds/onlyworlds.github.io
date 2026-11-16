@@ -29,8 +29,6 @@ Materials and goods are Constructs: the kind of matter, not one piece of it.
 
 `fighters` takes Constructs: the kind of force that defends a place (a militia, a garrison type). The force itself, as a group that acts, is a Collective; the command that directs it, an Institution.
 
-[Location discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/location)
-
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->
 
 ## Fields

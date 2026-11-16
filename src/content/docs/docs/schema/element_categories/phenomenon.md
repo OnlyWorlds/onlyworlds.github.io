@@ -26,8 +26,6 @@ They are distinct from:
 
 A storm that struck in year 400 is an Event; the storm season that returns every year is a Phenomenon.
 
-[Phenomenon discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/phenomenon)
-
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->
 
 ## Fields

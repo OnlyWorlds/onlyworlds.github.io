@@ -24,8 +24,6 @@ They are distinct from:
 - **Constructs** (which express abstract ideas but not narrative form)
 - **Relations** (which may exist inside a story, but don't organize one)
 
-[Narrative discussions on GitHub](https://github.com/OnlyWorlds/OnlyWorlds/discussions/categories/narrative)
-
 <!-- generated:fields (scripts/gen_elements.py rewrites everything below this line) -->
 
 ## Fields
