@@ -218,7 +218,7 @@ The same input gives the same points in every browser and in the Python package'
 
 To keep a picture still as a world grows, hand an earlier answer's points back as `held` (element id to `[x, y, z]`), with `heldUnit: 1` when you saved them as whole numbers. A held element stays where it was (one with a Pin on the map stands at its Pin, held or not), and what is new is placed round it. To count what is new, count the ids you did not hand back, never `held: false`. A layout that hands every point back costs less than one from nothing (since 4.171.1). Nothing is saved: to keep a picture, save it as a layout Map yourself. A saved layout keeps points only; the groups are read again from the world.
 
-The method's word, `by-links-3d`, is the tool's own until its page in the standard is published. Until then a release may move its points.
+The method's word, `by-links-3d`, is the tool's own until its page in the standard is published. Until then a release may move its points. `BY_LINKS_3D_VERSION` (since 4.174.0) says when one has: it is raised exactly when a release moves an answer of the method, and never otherwise. A tool that keeps a picture to hand back as `held` stores the version beside the points, and lays the world out fresh when the two differ.
 
 ```typescript
 import { worldGraph, layoutByLinks3d } from '@onlyworlds/sdk';
