@@ -7,6 +7,10 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 What changed on onlyworlds.com for everyone is on its own [Changelog](https://www.onlyworlds.com/changelog); this page stays the developer log.
 
+## 2026-11-17
+
+- **[The reading aids say each element's type](/docs/development/api/members#reading-aids) (serial 133): TypeScript SDK 4.177.0 and [Python](/docs/development/python) 0.133.0.** The Charter, the Guide, each Domain and every filled slot of the strand carry `type` beside `id` on `GET /me` and an agent's join reply, and in `charterOf` and `strandOf` (`charter_of` and `strand_of` in Python): the word the element routes use, so a reader handed only the packet knows which route fetches each. A Domain's hub is an element of the kind its field links to. The charter fixture holds 47 cases and the strand fixture 29.
+
 ## 2026-11-16
 
 - **[Where to reach us](/docs/contact) no longer lists GitHub Discussions**, and the 22 element pages no longer link their Discussions category. Nobody was reading that board; a question or a request goes to an issue on the repository it is about, or to [Feedback](https://www.onlyworlds.com/feedback).

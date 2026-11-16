@@ -279,9 +279,10 @@ A tool that cannot run the method draws the Pins where they are and never lays t
 
 `charterOf(world, reader)` returns what a world's front door shows first, `{ charter, guide, domains }`, as that viewer sees them, by the [charter profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/charter.md) (the API's own copy is [`reading_aids`](/docs/development/api/members#reading-aids)).
 
-- `charter` is `{ id, name, rules, skill }` or null: the newest marked Charter, its `x_checks_rules` list (`[]` when none) and the Objects its text names, at most five.
-- `guide` is `{ id, name }` or null.
-- Each Domain is `{ id, name, sentence, hubs }`: its description trimmed, cut at its first line break, and trimmed again, and the elements its links name that the reader sees, as `{ type, id }`.
+- `charter` is `{ id, type, name, rules, skill }` or null: the newest marked Charter, its `x_checks_rules` list (`[]` when none) and the Objects its text names, at most five.
+- `guide` is `{ id, type, name }` or null.
+- Each Domain is `{ id, type, name, sentence, hubs }`: its description trimmed, cut at its first line break, and trimmed again, and the elements its links name that the reader sees, each of the kind its field links to, as `{ type, id }`.
+- `type` (since 4.177.0) is `law` on the Charter and `construct` on the Guide and on each Domain: the word the element routes use.
 
 `domainsOf(world, reader)` returns the Domains alone. `world` holds the elements as the owner is served them, with `open: true` for a world open to anyone (only then does a public viewer see anything), and `reader` is the viewer's `{ rung }`, as in [What every reader takes](#what-every-reader-takes).
 
@@ -303,7 +304,7 @@ The World's `x_strand` (`STRAND_FIELD`) names three ids: the story (a Narrative)
 
 - `narrative`, `event` and `location` are those elements, each only when it is of its kind, visible to the viewer and in its parent's list (the event in the story's `events`, the place in the event's `locations`).
 - `character` is the story's `protagonist` and `now` the hero's `location`.
-- Each is `{ id, name }` or null, and no slot is filled from another.
+- Each is `{ id, type, name }` or null, and no slot is filled from another. `type` (since 4.177.0) is the kind the slot holds, never the spelling stored: `narrative`, `event`, `location` or `character`, and `location` for `now`.
 - `same` is true when `now` and `location` are one place, false when two, and null when either is empty.
 
 `world` holds the elements as the owner is served them, with `x_strand` and `open: true` for a world open to anyone, and `reader` is the viewer's `{ rung }`.
