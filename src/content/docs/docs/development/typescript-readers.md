@@ -200,7 +200,7 @@ const { points } = layoutByKind(graph);   // [{ id, x, y }, ...], each x and y w
 
 ## A world laid out in 3D
 
-`layoutByLinks3d(graph, elements?, { held, heldUnit })` (since 4.171.0) lays a whole graph out in three dimensions by its links. The most linked elements become centres, each with its group round it. The groups are packed apart and settled by 300 seeded steps, what hangs off the body fans out from it, and what is not joined to the main piece stands on a shelf under the picture. Pass the world's elements as the second argument and its maps join in: the Map that holds the most of the graph's elements by a Pin, three or more, becomes a flat plate with each pinned element at its Pin. Maps and Pins are read through `mapSpace` and `layoutOf`. A Pin's `z` is not read, and a layout map is never the plate.
+`layoutByLinks3d(graph, elements?, { held, heldUnit })` (since 4.171.0) lays a whole graph out in three dimensions by its links. The most linked elements become centres, each with its group round it. The groups are packed apart and settled by 300 seeded steps, what hangs off the body fans out from it, and what is not joined to the main piece stands on a shelf under the picture. Pass the world's elements as the second argument and its maps join in: the Map that holds the most of the graph's elements by a Pin, three or more, becomes a flat plate with each pinned element at its Pin. Maps and Pins are read through `mapSpace` and `layoutOf`. A Pin's `z` is not read, and a layout map is never the plate. A Map whose `width` or `height` is not over 0 is no plate either: when it is the Map that holds the most, the world is laid out by its links alone (since 4.171.1; before that a width under 0 made the call throw).
 
 It answers one row per node, in the order you passed them:
 
@@ -212,11 +212,11 @@ It answers one row per node, in the order you passed them:
 | `group` | The id of the centre the element stands with, or null. |
 | `part` | For an element with no centre: `map`, `one-link` or `no-link`. Null where `group` is an id. |
 | `centres` | The centres' ids, in the method's rank order. |
-| `held` | True where the point is one you handed back. |
+| `held` | True where the point is one you handed back. An element with a Pin on the map is never held, so false does not mean new. |
 
 The same input gives the same points in every browser and in the Python package's `layout_by_links_3d`: to the last bit for a centre, a grouped element and a pinned one, and within a billionth of a rest for the rest. The package's tests replay a fixture both packages hold.
 
-To keep a picture still as a world grows, hand an earlier answer's points back as `held` (element id to `[x, y, z]`), with `heldUnit: 1` when you saved them as whole numbers. A held element stays where it was (one with a Pin on the map stands at its Pin, held or not), and what is new is placed round it. Nothing is saved: to keep a picture, save it as a layout Map yourself. A saved layout keeps points only; the groups are read again from the world.
+To keep a picture still as a world grows, hand an earlier answer's points back as `held` (element id to `[x, y, z]`), with `heldUnit: 1` when you saved them as whole numbers. A held element stays where it was (one with a Pin on the map stands at its Pin, held or not), and what is new is placed round it. To count what is new, count the ids you did not hand back, never `held: false`. A layout that hands every point back costs less than one from nothing (since 4.171.1). Nothing is saved: to keep a picture, save it as a layout Map yourself. A saved layout keeps points only; the groups are read again from the world.
 
 The method's word, `by-links-3d`, is the tool's own until its page in the standard is published. Until then a release may move its points.
 
