@@ -229,6 +229,8 @@ layout.points;    // Float64Array: x, y, z of layout.ids[i] at 3 * i
 layout.centres;   // the ids of the most linked elements, each the centre of a group
 ```
 
+`unplacedByLinks3d(graph, placed)` (since 4.173.0) answers what a saved `by-links-3d` layout map does not place: the ids of the graph's nodes that are not in `placed`, by id in code point order. The method places every node it is handed, of any type and with or without a link, so nothing else is left out. `placed` is the ids the Map's Pins stand for, a list or a Set, read as `unplacedByKind` reads it.
+
 ## A layout along a route
 
 `trailByPlace(input)` lays a world out along a route on a ground map and answers a layout in the standard's own fields: a Map frame (`width`, `height`, `depth`) and one Pin per element, whole numbers in the Map's pixels, so `mapSpace` reads it back. It places and does not read: you hand it which elements are in, the order of travel and what hangs where, and it answers the same points for the same input.
