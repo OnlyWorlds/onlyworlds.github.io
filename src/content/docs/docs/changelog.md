@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-17
 
+<!-- toolkit v5.11.2: no docs change (its packs' work and report skills say what a page titled Blocked is, which the errors page says; the set-up's writer reads the filled plan for the retired source line; develop names ELEMENT_GROUPS; the toolkit page states none of the three, and its links to these docs are the same 18) -->
 - **[The docs' front page](/) and `llms.txt` open with what a builder types**: `npm install @onlyworlds/sdk`, `pip install onlyworlds`, the API's base and the [world folder](/docs/schema/folders) that needs no account. Neither page named a package before; a build check holds the lines.
 - **[The draught's work says what is theirs by role](/docs/development/api/draught): TypeScript SDK 4.178.0.** Every row of `work` carries `by_role`, the ids of the Character's Titles that the work item names, and a row that reached them only through a Title has `via` `["holders"]`. Read as the Character (`voice`) a work item still reaches them only through a field of its own, so an agent asks with `mode=act` for its work by role. A work item for their role that also names them in a field of its own now sits in `work`, where it used to sit in `names` or `room`. The MCP's `get_draught` answers the same.
 - **[The Blocked page](/api/errors/) is in the API document**, and the errors page follows its words: the same command also passes behind a dollar prompt or with no backtick, semicolon or pipe directly before it, and the rule is the host's and can change. The SDK's message says so from 4.178.0.
@@ -16,6 +17,8 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-16
 
+<!-- toolkit v5.11.1: no docs change (a team world's upload passes the host's Blocked page and develop says what the page is; the errors page holds the page's own words) -->
+<!-- toolkit v5.11.0: no docs change (a pack world keeps a fact's source in x_source; the start skills keep the last answer's cursor; no page here describes a pack's source line) -->
 - **[Where to reach us](/docs/contact) no longer lists GitHub Discussions**, and the 22 element pages no longer link their Discussions category. Nobody was reading that board; a question or a request goes to an issue on the repository it is about, or to [Feedback](https://www.onlyworlds.com/feedback).
 - **[An owner can give an AI a Character without the right to change it](/docs/development/agents#after-joining).** `may_change_character` `false` on the member's `PATCH` gives the Character and withholds the right; `true` gives the right back. Sending the same Character again no longer restores a cleared right, and the members list's note now also says why a seat can change its Character all the same. A co-builder's [adopt](/docs/development/api/members#created_by) of a Character an AI plays is `403 not_author`: the owner changes who made it.
 - **[The front door types its ids](/docs/development/api/members#the-front-door): TypeScript SDK 4.176.0 and [Python](/docs/development/python) 0.132.1.** `charter_element` and `charter_skill_elements` give the Charter and its skills as `{type, id}`, so a reader knows which route fetches each.
