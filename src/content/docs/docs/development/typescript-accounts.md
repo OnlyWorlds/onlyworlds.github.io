@@ -50,6 +50,8 @@ The password is never in an error.
 
 A tool with a web page, or a native app, can instead send the person to onlyworlds.com to sign in, so the tool never sees a password. The tool registers first ([Registered tools](/docs/development/api/signin#registered-tools)). On a client with no key, `signInWithOnlyWorlds({ clientId, redirectUri })` sends the browser to onlyworlds.com's sign-in page, and on the return page `completeSignIn({ clientId })` gives back the account token. [Sign in with OnlyWorlds](/docs/development/api/signin#in-the-sdk) has the SDK's `signInWithOnlyWorlds` and `completeSignIn` in full.
 
+In Node, `signInWithOnlyWorlds` needs Web Crypto as a global. Node has it from version 19 on; Node 18 has it only when started with `--experimental-global-webcrypto`, and without it the call refuses with a `TypeError` that names Web Crypto. The rest of the package runs on Node 18 as it is.
+
 ## Invite links
 
 A world's owner can invite a person with a link (see [Invite links](/docs/development/api/members#invite-links)). The owner makes, lists and revokes the links with the account token. The code comes back once, in the answer that makes it:
