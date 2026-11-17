@@ -115,7 +115,7 @@ export function draughtWords(data, code = (s) => `\`${s}\``) {
     on: `${count(data.on.length)} by default`,
     note: (s) => SAYS[s],
     keyNote: (k) => `in the packet: ${code(k)}`,
-    lenses: `${code('lenses')}: with ${code('lens')}, one frame with that lens read for your own view; with no ${code('lens')} and no parameter but ${code('compact')}, one frame per lens you chose`,
+    lenses: `${code('lenses')}: with ${code('lens')}, one frame with that lens read for your own view; on your own Character, with no ${code('lens')} and no parameter but ${code('compact')}, one frame per lens you start with`,
     policy: `${count(n)} query parameters, all optional`,
     policyNote: `the packet's ${code('policy')}: every key resolved`,
     setting: (s) => NOTES[s.param](code),

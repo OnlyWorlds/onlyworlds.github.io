@@ -1663,7 +1663,7 @@ if (!/\btime_range_current\b/.test(P.as_of?.description ?? '') || !sets.find((s)
 // caption's first sentence is the document's.
 const PHRASES = [
   'in one read', 'one character', 'as the recorded world holds it', 'only when components names it', 'never cut', 'with since',
-  'one frame with that lens read for your own view', 'one frame per lens you chose', 'query parameters, all optional', 'every key resolved',
+  'one frame with that lens read for your own view', 'one frame per lens you start with', 'query parameters, all optional', 'every key resolved',
 ];
 for (const ph of PHRASES) {
   if (!src.includes(ph)) bad(`"${ph}" is not on the page's source`);
