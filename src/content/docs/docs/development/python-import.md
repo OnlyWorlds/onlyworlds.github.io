@@ -83,6 +83,8 @@ Your own `--map` wins for any tag it names, a template is never typed by the tab
 
 Page blocks become Markdown in the description. A sidebar or infobox key becomes a field when its name is one, else `x_legendkeeper_<key>`.
 
+**The two roads do not bring the same things.** From the export file, an image inside a page comes in as a link to LegendKeeper's host, never copied. Through the API it does not come in: LegendKeeper's API answers some blocks and properties as unsupported, with nothing in them. On the project this was measured on, those were the images inside pages, a list of sub-pages and the sidebar rows that show a page's tags or aliases (the tags and aliases themselves are read from the page). The report counts them and, since 0.133.1, says that the export file holds them and that `--file` reads them. Since 0.133.1 the file road also names in its notes any key of a document's content that it does not read, with the number of documents that hold it.
+
 A titled link list becomes a link field when the element's type has one of that name, else a Relation per target. Inline mentions keep their text and join `x_legendkeeper_mentions`.
 
 ### Maps
