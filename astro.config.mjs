@@ -196,7 +196,16 @@ export default defineConfig({
           description: 'OnlyWorlds is an open schema for world data (22 element types with typed links), a hosted platform with a REST API v2 and an MCP server, and SDKs for TypeScript, Python and Unity.',
           // The page index an agent starts from (the AI-agent reader, round 1: llms.txt listed no pages).
           // Every docs page also has a Markdown copy at its own path plus .md.
+          // The lines a builder types come first: an assistant that reads only this file, or only its top,
+          // can then name the packages and the API's base (scripts/verify-first-lines.mjs holds them).
           details: [
+            'What a builder types first:',
+            '',
+            '- TypeScript or JavaScript: `npm install @onlyworlds/sdk`',
+            '- Python: `pip install onlyworlds`',
+            '- Plain HTTP: the API base is `https://www.onlyworlds.com/api/v2/`; the demo key `0000000001` reads the example world Moppetopia with no PIN and no account',
+            '- No account at all: a world is also a folder of JSON files on your own disk ([world folders](https://onlyworlds.github.io/docs/schema/folders.md))',
+            '',
             'Start with these pages (Markdown copies):',
             '',
             '- [Your first hour](https://onlyworlds.github.io/docs/getting-started/first-hour.md): read a world, write to the practice world, read back and delete, in TypeScript, Python or curl, with no account',
