@@ -59,7 +59,7 @@ To read the linked elements' names alongside the ids, use [`?expand=`](/docs/dev
 
 ## Setting and clearing links
 
-On `POST`, `PUT` and `PATCH`, a link field takes the same shape it reads in. A multi-link value **replaces the whole list**. An element the list names twice is stored once, in its first place (the same id in two letter cases is one id): `[a, b, a]` is stored and served as `[a, b]`, and the answer shows the list as stored. A `null` entry inside the list is refused with a `422` naming the field, and nothing is written (since 2026-11-13). To clear:
+On `POST`, `PUT` and `PATCH`, a link field takes the same shape it reads in. A multi-link value **replaces the whole list**. An element the list names twice is stored once, in its first place (the same id in two letter cases is one id): `[a, b, a]` is stored and served as `[a, b]`, and the answer shows the list as stored. A `null` entry inside the list is refused with a `422` naming the field, and nothing is written (since 2026-11-13). A `null` entry stored before that rule is left out of what a read serves (since 2026-11-17). To clear:
 
 | Field | Clear with |
 |:--|:--|
