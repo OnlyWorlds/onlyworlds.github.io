@@ -26,6 +26,8 @@ Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI e
 npm install @onlyworlds/sdk
 ```
 
+Types are included, and TypeScript is optional: a JavaScript project installs no compiler.
+
 For a web page with the setup done, start from [World Starter](https://github.com/OnlyWorlds/event-starter), a template repository that reads a world through this package.
 
 ## Read a world
@@ -395,7 +397,7 @@ The package also ships `SCHEMA.md` (every field and its meaning, generated) and 
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.178.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.178.1, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
