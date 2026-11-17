@@ -139,7 +139,7 @@ Elements whose name matches come first, then the rest, each by element type and 
 Both work on lists and on single elements.
 
 - **`?expand=location,friends`** replaces those links' ids with stub objects, one level deep: `{id, name, supertype, subtype, image_url}`. A field that is not a link is a `422`.
-- **`?fields=id,name,description`** returns only the named keys.
+- **`?fields=id,name,description`** returns only the named keys. A name the element type does not have is one `422` for the whole list, `param` `fields`. Since 2026-11-17 it names every unknown name where it named the first: the message lists them, and the error carries `unknown_fields` (each unknown name once, in the order sent), `types_with_field` (for each one another element type has, those types) and `allowed_fields` (the names this type takes), so the list can be corrected in one try. A name under an extension namespace (`atlas_*`, `shadow_*`, `x_*`) is never unknown.
 
 ```bash
 curl -s "https://www.onlyworlds.com/api/v2/character/{id}?expand=location,institutions" -H "API-Key: {key}"
