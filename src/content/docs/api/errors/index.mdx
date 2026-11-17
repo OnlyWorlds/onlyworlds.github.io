@@ -35,7 +35,7 @@ The [Classic API](/docs/development/api/classic) at `/api/worldapi/` answers in 
 :::
 
 :::note
-A `403` whose body is an HTML page titled "Blocked", not this envelope, comes from the host in front of onlyworlds.com: it refused the request before the API saw it, and nothing was written. It refuses a write whose text holds a shell command such as `python -m`, `python -c`, `perl -e`, or `curl` or `wget` with an address right after a backtick, a semicolon or a pipe. The same command passes in a fenced code block whose first line names a language, or written without the backtick. The TypeScript SDK says so with `isHostBlocked` (from 4.175.0), the Python package with `is_host_blocked` (from 0.132.0).
+A `403` whose body is an HTML page titled "Blocked", not this envelope, comes from the host in front of onlyworlds.com: it refused the request before the API saw it, and nothing was written. It refuses a write whose text holds a shell command such as `python -m`, `python -c`, `perl -e`, or `curl` or `wget` with an address right after a backtick, a semicolon or a pipe (a Markdown table cell is after a pipe). The same command passes in a fenced code block whose first line names a language, behind a dollar prompt, or with none of the three directly before it. The rule is the host's, not the API's, and can change without notice. The TypeScript SDK says so with `isHostBlocked` (from 4.175.0), the Python package with `is_host_blocked` (from 0.132.0).
 :::
 
 Some errors carry extra top-level keys beside `error`, named in their row: `precondition_failed` carries `current`, the element as it is now, and `gone` carries the deletion's `change_seq` and `deleted_at`. Read the body whole; the envelope is not a closed shape.

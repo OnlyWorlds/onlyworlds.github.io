@@ -1,6 +1,6 @@
 {
   "source": "https://www.onlyworlds.com/api/v2/openapi.json: GET /api/v2/character/{id}/context, its query parameters and its answer (the Draught schema)",
-  "read_at": "2026-11-14",
+  "read_at": "2026-11-17",
   "route": "/api/v2/character/{id}/context",
   "summary": "A Character's context in one read (the draught)",
   "parameters": {
@@ -31,7 +31,7 @@
       "recent_more": "With `recent`: true when the walk stopped before the feed's head (call again from recent_cursor).",
       "character": null,
       "role": "Titles whose holders name her, Collectives whose characters name her, Relations whose actor is her with supertype Tenure or Membership. Never cut.",
-      "work": "Relations whose actor is her with supertype Work item and subtype open or taken. Never cut.",
+      "work": "Relations with supertype Work item and subtype open or taken that are for her: by name (actor is her), or by a role she holds (x_packet_for names a Title whose holders name her; the packet profile, https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/packet.md, rule 6), each as this reader is served the Title and the work item. A work item for her role that no field of its own links to her has `via` [\"holders\"]. Read as her (`voice`), a Title past the horizon (as_of) brings no work, and a work item reaches her only through a field of its own that names her, as her slice is served nothing else, so ask with mode=act for what is yours by role (the public reader reads as the public in both modes, so its `voice` holds work by role too); a reader on the guest rung (a guest, or a player) is served one in `act` only when it names her in a field of its own or the reader made it. What moved for a client: a work item for her role that also names her in a field of its own used to be in `names` (or `room`, when it carries the room mark) and is now here; in `act`, an element a role row links to counts it in her_links, which can move the order and the cut of `names` and `sheet`; and a proposed work item that reaches her through a Title alone is counted in cut.proposed only when `work` is asked. Never cut.",
       "style": "The Construct with supertype Working style whose characters name her (the most recently edited), or null.",
       "events": "Events whose characters name her: dated ones by start_date up to as_of, then the undated block, ranked by the latest date among the dated elements each links to, then her_links, then how many links it has, then its last edit.",
       "knowledge": "Narratives she knows: she is the narrator, or one of her circles holds it. Dated ones up to as_of, then the undated, ranked as events are.",

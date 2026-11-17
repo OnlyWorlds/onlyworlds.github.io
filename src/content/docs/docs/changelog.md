@@ -9,6 +9,8 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-17
 
+- **[The draught's work says what is theirs by role](/docs/development/api/draught): TypeScript SDK 4.178.0.** Every row of `work` carries `by_role`, the ids of the Character's Titles that the work item names, and a row that reached them only through a Title has `via` `["holders"]`. Read as the Character (`voice`) a work item still reaches them only through a field of its own, so an agent asks with `mode=act` for its work by role. A work item for their role that also names them in a field of its own now sits in `work`, where it used to sit in `names` or `room`. The MCP's `get_draught` answers the same.
+- **[The Blocked page](/api/errors/) is in the API document**, and the errors page follows its words: the same command also passes behind a dollar prompt or with no backtick, semicolon or pipe directly before it, and the rule is the host's and can change. The SDK's message says so from 4.178.0.
 - **[The reading aids say each element's type](/docs/development/api/members#reading-aids) (serial 133): TypeScript SDK 4.177.0 and [Python](/docs/development/python) 0.133.0.** The Charter, the Guide, each Domain and every filled slot of the strand carry `type` beside `id` on `GET /me` and an agent's join reply, and in `charterOf` and `strandOf` (`charter_of` and `strand_of` in Python): the word the element routes use, so a reader handed only the packet knows which route fetches each. A Domain's hub is an element of the kind its field links to. The charter fixture holds 47 cases and the strand fixture 29.
 
 ## 2026-11-16
