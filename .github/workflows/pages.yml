@@ -95,6 +95,10 @@ jobs:
       - uses: actions/upload-pages-artifact@v5
         with:
           path: dist
+          # Since its v4 this action leaves dot-named files and folders out of the site unless told
+          # otherwise, and the site serves /.well-known/security.txt. The URL gate above reads dist/
+          # before the upload and cannot see a file the upload drops; verify-workflows holds this line.
+          include-hidden-files: true
 
   deploy:
     needs: build
