@@ -84,6 +84,15 @@ jobs:
       - name: schema-dist's counts against its newest serial (report only)
         run: |
           node scripts/verify-sd-counts.mjs --live || echo "::warning::schema-dist's newest serial has other fixture counts, refusal reasons or canonical version: run node scripts/verify-sd-counts.mjs --refresh and mend the pages"
+      - name: API examples' and tables' schemas against the live API document (report only)
+        run: |
+          node scripts/verify-shapes.mjs --live || echo "::warning::a schema the API pages' examples or tables name moved in the API document: run node scripts/verify-shapes.mjs --refresh and mend the examples and tables it fails"
+      - name: The pages' limits against the live API document (report only)
+        run: |
+          node scripts/verify-limits.mjs --live || echo "::warning::a limit moved in the API document's x-ow-limits: run node scripts/verify-limits.mjs --refresh and mend the pages it fails"
+      - name: The practice world's key and PIN against production (report only)
+        run: |
+          node scripts/verify-practice.mjs --live || echo "::warning::production does not answer the practice world's key and PIN as contract/practice.json says: copy keel's contract/practice.json and mend the pages"
       - name: Build
         run: npm run build
       - name: URL gate

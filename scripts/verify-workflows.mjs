@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// verify-workflows.mjs: every file in .github/workflows parses as YAML and has jobs.
+// verify-workflows.mjs: every file in .github/workflows parses as YAML and has jobs, and the Pages
+// upload keeps the site's dot-named paths (the second check, below).
 // A workflow that does not parse never runs, so GitHub cannot report it as a failed check: the
 // deploy simply never happens. (bbe7952: a `run:` value with ': ' in it broke both workflows for
 // five pushes, and the PR showed "no checks" rather than a red one.) Runs before every push, in
