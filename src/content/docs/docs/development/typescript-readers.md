@@ -300,7 +300,7 @@ const { charter, guide, domains } = charterOf({ elements }, { rung: 'owner' });
 
 `strandOf(world, reader)` returns a world's story in miniature, `{ narrative, event, location, character, now, same }`, as that viewer sees it, by the [strand profile](/docs/schema/profiles#strand).
 
-The World's `x_strand` (`STRAND_FIELD`) names three ids: the story (a Narrative), one of its events and one of that event's places. Only the story is required: `event` and `location` null or absent read as unset, a strand begun. A mark with no story, or with an `event` or `location` that is neither an id nor unset, is no mark, and every slot is null.
+The World's `x_strand` (`STRAND_FIELD`) names three ids: the story (a Narrative), one of its events and one of that event's places. Only the story is required: `event` and `location` null or absent read as unset, a strand begun. A mark with no story, an empty string in any member, or an `event` or `location` that is neither a string nor unset, is no mark, and every slot is null. Nothing is trimmed: a member of white space alone, or an id with a space on it, names no element, so its slot is null (since schema-dist serial 134 the fixture holds both; `strandOf` read them that way before).
 
 - `narrative`, `event` and `location` are those elements, each only when it is of its kind, visible to the viewer and in its parent's list (the event in the story's `events`, the place in the event's `locations`).
 - `character` is the story's `protagonist` and `now` the hero's `location`.
