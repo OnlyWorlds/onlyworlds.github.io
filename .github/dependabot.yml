@@ -1,0 +1,11 @@
+# Keeps the actions the workflows use current: one grouped pull request a week, read and merged by a maintainer.
+# Only the workflow actions: the package's own dependencies are not updated from here.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ['*']
