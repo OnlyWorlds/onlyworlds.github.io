@@ -44,6 +44,8 @@ A world on onlyworlds.com keeps its API key in its `World.md`, in plain text: th
 
 **Save element** sends the active note's changed fields. **Auto-sync** (off by default) does the same a few seconds after you stop typing, but only for edits typed in Obsidian, so run **Upload world** after another tool such as Atlas writes your notes. Upload world creates and updates, never deletes. **Download world** fetches what changed and rewrites each changed note from the server's copy, so unsaved local edits in that note are replaced. Without signing in, Download world takes a world's API key and your PIN; a read key (`ow_r_`) needs no PIN.
 
+A save that the web host in front of onlyworlds.com refuses says so in one line (since 3.19.1): that the host refused it before it reached OnlyWorlds, the HTTP status, and for a page titled Blocked the known cause and what to write in its place. The note stays unsaved and nothing reaches the server. What the host refuses is on the [errors page](/api/errors/).
+
 Only notes inside a world's `Elements` folders are elements. A link to a `[[Name]]` that matches no note in the vault is not sent, so the server keeps its copy of that field.
 
 When Save element changes an element's name, its note is renamed to match, and links to it update as Obsidian's **Files and links** setting says. Auto-sync never renames: the note keeps its old file name and says so, and the next Save element renames it, also after a restart. Turn renaming off with the **Rename note when the element's name changes** setting (on by default).
