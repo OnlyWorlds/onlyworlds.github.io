@@ -7,6 +7,11 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 What changed on onlyworlds.com for everyone is on its own [Changelog](https://www.onlyworlds.com/changelog); this page stays the developer log.
 
+## 2026-11-18
+
+- **[The draught's `via`](/docs/development/api/draught#the-packet) says what a work item reached through a Title names.** In `work`, `via` `holders` alone is an item that came to the Character only through a Title they hold, whose `holders` name them; `by_role` names the Titles. The API document says so; the page now does too.
+<!-- toolkit v5.11.5: no docs change (the draw skill's map page counts no pin on a map of size 0 as placed and lists such a map under Not placed with its reason; the toolkit page says only that draw draws a world's maps with their pins and zones) -->
+
 ## 2026-11-17
 
 - **[A write the host refuses](/api/errors/) never reaches a browser page on another site.** The host's Blocked page comes without CORS headers, so a browser hides it and `fetch` fails as a network error: `isHostBlocked` names it outside a browser only. The errors page says so.

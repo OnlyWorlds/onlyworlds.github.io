@@ -81,7 +81,7 @@ Every row in the element sections carries four fields:
 | Field | Meaning |
 |:--|:--|
 | `element` | The body exactly as the list route serves it to the same reader; its `type` names the element type |
-| `via` | The link fields that brought it, as the served body carries them: on the element (a field naming the Character, or `collectives` holding one of their circles), or, in `sheet`, on the Character's own element. When their own element is hidden from them (`character` is then `null`), no link field of a row's `element` holds their id, though `via` still names the field that names them: a `protagonist` or `antagonist` that `via` names and the body serves `null` is that case, never another id cut |
+| `via` | The link fields that brought it, as the served body carries them: on the element (a field naming the Character, or `collectives` holding one of their circles), or, in `sheet`, on the Character's own element. In `work`, `holders` alone is an item that reached them only through a Title they hold, whose `holders` name them; `by_role` names the Titles. When their own element is hidden from them (`character` is then `null`), no link field of a row's `element` holds their id, though `via` still names the field that names them: a `protagonist` or `antagonist` that `via` names and the body serves `null` is that case, never another id cut |
 | `her_links` | How many of the packet's other elements, the Character's own included and before any cut, link to it, counted from the bodies this reader is served. A count, never a judgment |
 | `grade` | `whole`, or `known_of`: a [stub](/docs/development/api/members#known-of) this reader knows of but does not see whole. Its empty fields are not facts |
 
