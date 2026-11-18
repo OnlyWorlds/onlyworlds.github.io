@@ -91,7 +91,12 @@ function facts(show) {
   if (!signedOut) throw new Error('web/public_views.py: _closed no longer sends a signed-out reader to sign in');
   const wf = views.match(/\ndef _world_for\(addr\):[\s\S]*?(?=\ndef )/)?.[0] ?? '';
   const opens = wf.match(/World\.objects\.filter\(([^)]*)\)/)?.[1];
-  if (!opens || !/ident = uuid\.UUID\(addr\)/.test(wf) || !/if ident is not None:\n\s+return pages\.filter\(id=ident\)\.first\(\)\n\s+return pages\.filter\(public_slug=addr\)\.first\(\)/.test(wf)) throw new Error('web/public_views.py: _world_for no longer reads the address as an id first, then as the page\'s address');
+  // since serial 123 the id is read through _world_id_in, which takes it only in its written form (36 characters,
+  // four hyphens), so 32 hex digits are a slug: the reader holds that rule, which the public page states
+  const idIn = views.match(/\ndef _world_id_in\(addr\):[\s\S]*?(?=\ndef )/)?.[0] ?? '';
+  const readsId = /ident = uuid\.UUID\(addr\)/.test(wf)
+    || (/ident = _world_id_in\(addr\)/.test(wf) && /return uuid\.UUID\(addr\) if is_id_form\(addr\) else None/.test(idIn));
+  if (!opens || !readsId || !/if ident is not None:\n\s+return pages\.filter\(id=ident\)\.first\(\)\n\s+return pages\.filter\(public_slug=addr\)\.first\(\)/.test(wf)) throw new Error('web/public_views.py: _world_for no longer reads the address as an id first, then as the page\'s address');
   const noneStatus = Number(views.match(/\ndef _none\(\):\n {4}return _answer\([^\n]*status=(\d+)\)/)?.[1]);
   const goneStatus = Number(views.match(/\ndef _gone\(world\):[\s\S]*?status=(\d+)\)/)?.[1]);
   const elemMisses = [...(views.match(/\ndef element_page\([\s\S]*$/)?.[0] ?? '').matchAll(/return _gone\(world\)/g)].length;

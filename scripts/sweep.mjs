@@ -388,10 +388,12 @@ if (!flag('--no-links')) {
 // A tag ships without a commit the MOVED list makes stand out (Unity 0.21.0 and 0.23.0 were missed that way,
 // 2026-10-27). Read from each repository's published releases, never a checkout. A release is followed when a
 // changelog line links its page and names its version, or a marker says it moved no claim:
-// <!-- <repo> <tag>: no docs change -->. Schema-dist serials are named by number ("serial 78").
+// <!-- <repo> <tag>: no docs change -->, or the same with its reason in brackets before the close,
+// <!-- <repo> <tag>: no docs change (why) -->. Schema-dist serials are named by number ("serial 78").
 {
   const changelog = readFileSync(join(ROOT, 'src', 'content', 'docs', 'docs', 'changelog.md'), 'utf8');
   const lines = changelog.split(/\r?\n/);
+  const marked = (what) => changelog.includes(`<!-- ${what}: no docs change -->`) || changelog.includes(`<!-- ${what}: no docs change (`);
   const released = [
     ['sdk', '/docs/development/typescript'],
     ['python-sdk', '/docs/development/python'],
@@ -412,7 +414,7 @@ if (!flag('--no-links')) {
       const lined = serial
         ? lines.some((l) => l.includes(`serial ${serial}`))
         : lines.some((l) => l.includes(page) && l.includes(version));
-      if (!lined && !changelog.includes(`<!-- ${repo} ${tagName}: no docs change -->`)) {
+      if (!lined && !marked(`${repo} ${tagName}`)) {
         bad(`releases: ${repo} ${tagName} (${publishedAt.slice(0, 16)}Z) has no changelog line ${serial ? `naming serial ${serial}` : `linking ${page} with ${version}`}, and no marker`);
       }
     }
@@ -443,7 +445,7 @@ if (!flag('--no-links')) {
       read++;
       const lined = lines.some((l) => l.includes('/docs/tools/atlas') && l.includes(version))
         || ranges.some(([a, b]) => a <= num(version) && num(version) <= b);
-      if (!lined && !changelog.includes(`<!-- atlas ${version}: no docs change -->`)) {
+      if (!lined && !marked(`atlas ${version}`)) {
         bad(`releases: atlas ${version} (${date}) has no changelog line linking /docs/tools/atlas with ${version}, and no marker`);
       }
     }

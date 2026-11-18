@@ -104,6 +104,8 @@ Signed out, **Make online** and **New world on OnlyWorlds** start with Sign in w
 
 If onlyworlds.com stops taking a linked world's key, Sync says why (revoked, unknown, a read key, a wrong PIN), and Settings → This world takes a new key in place. Signed in, Atlas makes one itself for a world on your account's list, unless you are a guest there.
 
+The web host in front of onlyworlds.com refuses some writes before they reach it, usually text holding a command between code marks, such as `python -m` ([why](/api/errors/)). Atlas says the host refused that change and why, the change waits, and every other change keeps syncing. Write the command without the code marks, or in a code block that names its language, and it goes up too. A name refused the same way (a world's, a player's, yours on an invite link) is said the same, with the one advice that fits a name: write it without the marks.
+
 The folder and the edits waiting to sync stay.
 
 ### Who changed what

@@ -137,7 +137,9 @@ function keelDiffs(s) {
   const added = built != null && /return _no_store\(JsonResponse\(body\)\)/.test(exch)
     ? [...exch.slice(0, exch.search(/return _no_store\(JsonResponse\(body\)\)/)).matchAll(/body\["([a-z_]+)"\] =/g)].map((m) => m[1]) : [];
   const answerKeys = [...(whole ?? built ?? '').matchAll(/^\s*"([a-z_]+)":/gm)].map((m) => m[1]).concat(whole ? [] : added);
-  want('accounts/signin_api.py: the answer\'s keys', answerKeys, s.token.answer);
+  // a JSON answer's key order is no contract (keel adds `scope` after `account`, the document lists it after
+  // `token_type`): the keys are compared as a set, so a key missing or added still differs
+  want('accounts/signin_api.py: the answer\'s keys', [...answerKeys].sort(), [...s.token.answer].sort());
   want('accounts/models.py AccountToken.PREFIX', models.match(/class AccountToken\b[\s\S]*?PREFIX\s*=\s*"([^"]+)"/)?.[1], s.token.prefix);
   return { commit, diffs };
 }
