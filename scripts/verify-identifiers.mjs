@@ -44,7 +44,8 @@ if (!existsSync(DTS)) blind('@onlyworlds/sdk is not installed (node_modules/@onl
 const dts = readFileSync(DTS, 'utf8');
 const version = JSON.parse(readFileSync(join(ROOT, 'node_modules', '@onlyworlds', 'sdk', 'package.json'), 'utf8')).version;
 const declared = new Set([...dts.matchAll(/\b(?:interface|type|class|function|const|enum|let|var)\s+([A-Za-z_]\w*)/g)].map((m) => m[1]));
-for (const m of dts.matchAll(/export\s*\{([^}]*)\}/g)) {
+// Both export lists: `export { ... }`, and `export type { ... }` where the bundler writes the types apart (tsup 9).
+for (const m of dts.matchAll(/export\s*(?:type\s+)?\{([^}]*)\}/g)) {
   for (const n of m[1].split(',')) { const name = n.trim().split(/\s+as\s+/).at(-1).replace(/^type\s+/, ''); if (name) declared.add(name); }
 }
 for (const m of dts.matchAll(/^\s+(?:(?:readonly|static|get|set|private|protected|public|abstract)\s+)*([A-Za-z_]\w*)\??\s*[:(<]/gm)) declared.add(m[1]);
