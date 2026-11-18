@@ -34,6 +34,7 @@ const OTHERS = {
   sessionStorage: "the browser's storage (the sign-in page keeps the verifier there)",
   readOnlyHint: "the MCP specification's tool annotation", destructiveHint: "the MCP specification's tool annotation",
   idempotentHint: "the MCP specification's tool annotation",
+  toLowerCase: "JavaScript's String method (the TypeScript page says how trimAndFold's fold differs from it)",
 };
 // ALL_CAPS on the TypeScript page that are no SDK constant: environment variable names an example reads.
 const ENV = /^OW_[A-Z_]+$/;

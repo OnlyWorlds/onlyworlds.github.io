@@ -357,6 +357,8 @@ import {
   viewOf,           // how an element is shown by its kind: its row, its one sentence, its banners, its drawing order
   isRoomElement,    // whether an element belongs to a world's chat room
   typeWord,         // the word a world uses for a type, or null
+  trimAndFold,      // a name trimmed and without regard to case, as the profiles compare names
+  byCodePoint,      // two strings compared by code point, as the profiles order them
 } from '@onlyworlds/sdk';
 
 elementColor('character', 'dark');
@@ -372,6 +374,8 @@ Colour marks a type's colour group and the icon marks the type. Always pair a co
 `isRoomElement(el)` is true for an element of a world's chat room. A lore view (a list, a count, a search) leaves room elements out unless the person asks, and the room's own views show them whole.
 
 `typeWord(world, type, { supertype, many })` gives the word a world prints for a type (*Employee* for Character in a work world), or `null` for the standard's name.
+
+`trimAndFold(text)` and `byCodePoint(a, b)` (since 4.180.0) compare and order names the way the profiles and the package's readers do. `trimAndFold` removes Unicode's White_Space at both ends and folds case by Unicode 15.1's simple case folding. A byte order mark stays, and the long s `ſ` folds to `s`. JavaScript's `trim()` strips the byte order mark too, and `toLowerCase()` leaves the long s. `byCodePoint` is a comparator for `sort`. It orders by code point, never by UTF-16 unit or a locale. To order names as the profiles do, compare their folds and break a tie by id: `byCodePoint(trimAndFold(a.name), trimAndFold(b.name)) || byCodePoint(a.id, b.id)`.
 
 <details>
 <summary>How the room and the names are read (the profiles' rules)</summary>
@@ -397,7 +401,7 @@ The package also ships `SCHEMA.md` (every field and its meaning, generated) and 
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.179.1, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.180.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 

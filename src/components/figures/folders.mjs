@@ -45,7 +45,8 @@ export const SHOWN = [
 // example adds that is not named here fails the build until it has words.
 export const ROOT_WORDS = { 'world.json': 'the world' };
 
-const byCodePoint = (a, b) => (a < b ? -1 : a > b ? 1 : 0);
+import { byCodePoint } from '@onlyworlds/sdk';
+
 const NUMBER = ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
 
 export function folderExample(snap) {
