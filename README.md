@@ -9,7 +9,7 @@ The Jekyll site this replaced is kept whole on the `jekyll` branch and the `jeky
 ```bash
 npm ci
 npm run build     # gen_sdk_ref, gen_errors, astro build, then scripts/postbuild.mjs
-npm run verify    # the checks package.json lists (figures, workflows, URLs, words, the snapshots, the LLM guide, the TypeScript examples compiled against the pinned SDK), offline, on dist/ and the sources
+npm run verify    # the checks package.json lists (figures, workflows, URLs, words, the snapshots, the LLM guide, the TypeScript examples compiled against the pinned SDK; the Python examples are type-checked against PyPI's newest onlyworlds at each deploy, report only, by scripts/verify-examples-py.py), offline, on dist/ and the sources
 node scripts/serve.mjs   # dist/ on http://localhost:4321/, resolved the way GitHub Pages resolves it
 ```
 
