@@ -65,7 +65,7 @@ Each code belongs to one family, its `type`, and a family's codes do not share o
 | [`player_role_fixed`](#player_role_fixed) | `invalid_request` | `422` | The owner tried to change a player seat's role: a player (no account) reads as a guest, and that role can't be changed. Remove the player instead. |
 | [`character_hidden`](#character_hidden) | `invalid_request` | `422` | The owner tried to set a hidden Character as the one a seat or a player plays (`param` character): a played Character is on every reader's roster, so a hidden one can never be picked. Unhide it first, or pick another. |
 | [`seat_follows_sponsor`](#seat_follows_sponsor) | `invalid_request` | `422` | The owner tried to set the Character of an AI seat its member made to play their own (`param` character): it plays what that member plays, and may change it only while they may. Hand the seat to yourself first (`sponsor` owner), then pick. |
-| [`seat_above_sponsor`](#seat_above_sponsor) | `invalid_request` | `422` | The owner tried to set an AI seat's role above the role of the person who answers for it (`param` role), or any role above its own while it carries the address it was made for or that person is no member of the world: a seat is never above its sponsor. Hand the seat to yourself first (`sponsor` owner), then raise it. |
+| [`seat_above_sponsor`](#seat_above_sponsor) | `invalid_request` | `422` | The owner tried to set an AI seat's role above the role of the person who answers for it (`param` role), or any role above its own while that person is no member of the world: a seat is never above its sponsor. Hand the seat to yourself first (`sponsor` owner), then raise it. |
 | [`not_a_lens`](#not_a_lens) | `invalid_request` | `422` | A seat chose a Construct that is no lens (`param` lenses): a lens is a Construct with supertype Lens (the lens profile, profiles/lens.md). |
 | [`lens_is_template`](#lens_is_template) | `invalid_request` | `422` | A seat chose a template (`param` lenses): a lens with subtype Template reads nothing until it is copied and pointed. Choose a lens with anchors. |
 | [`lens_hidden`](#lens_hidden) | `invalid_request` | `422` | A seat chose a hidden lens (`param` lenses): a seat's lenses are on the members list every reader of the world reads, so a hidden one can never be chosen. Unhide it first. |
@@ -329,7 +329,7 @@ The owner tried to set the Character of an AI seat its member made to play their
 
 **Type** `invalid_request` · **Status** `422`
 
-The owner tried to set an AI seat's role above the role of the person who answers for it (`param` role), or any role above its own while it carries the address it was made for or that person is no member of the world: a seat is never above its sponsor. Hand the seat to yourself first (`sponsor` owner), then raise it.
+The owner tried to set an AI seat's role above the role of the person who answers for it (`param` role), or any role above its own while that person is no member of the world: a seat is never above its sponsor. Hand the seat to yourself first (`sponsor` owner), then raise it.
 
 - **How to fix:** send `sponsor` `owner` with the `role`, in one request or before it; the sponsor is set first. To keep the seat with its person, raise that person's role instead. See [No AI above its person](/docs/development/agents#the-human-sponsor).
 

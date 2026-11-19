@@ -1,8 +1,8 @@
 {
   "source": "https://www.onlyworlds.com/api/v2/openapi.json: info.x-ow-limits, as served",
-  "read_at": "2026-10-30",
+  "read_at": "2026-11-19",
   "limits": {
-    "requests_per_minute": {"value":300,"unit":"requests","per":"60 seconds per key or account token","applies_to":"Every /api/v2 route but the health checks, reads and writes together; a /bulk call is one request. Over it: 429 too_many_requests.","where":null},
+    "requests_per_minute": {"value":300,"unit":"requests","per":"60 seconds per key or account token","applies_to":"Every route under /api/v2 but the health checks and some of the upload service's own signed reports, reads and writes together; a /bulk call is one request. An OPTIONS request (a browser's preflight) is not counted. The request budget is also spent by a request to the MCP server at /mcp, by a request to the metadata routes (/api/metadata/, /api/worldapi/metadata/) that names a world in ?world= and sends no API-Key, when it carries a Bearer token or keyless reading is switched on, and by requests to some of the site's own pages. Over it: 429 too_many_requests.","where":null},
     "requests_per_minute_keyless": {"value":60,"unit":"requests","per":"60 seconds per address","applies_to":"A request with no key and no account token.","where":null},
     "changes_head_free_per_minute": {"value":120,"unit":"requests","per":"60 seconds per key or account token","applies_to":"GET /changes?head=true answered 304: given back to the request budget, up to this many.","where":null},
     "server_busy_slots": {"value":6,"unit":"requests","per":"server process","applies_to":"Requests in flight at once on every route but the health checks; one past them waits for a slot.","where":null},

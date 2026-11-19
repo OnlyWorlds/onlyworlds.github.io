@@ -40,6 +40,8 @@ An `upsert` carries the whole element at its latest state, in the same body a [r
 
 An element deleted while a page is being read is left out of that page, and its `delete` comes on this page or later in the feed from the cursor the page gives (since 2026-11-19; before, such a page could answer `500`).
 
+An element hidden while a page is being read is not served on that page to a reader the hidden mark keeps it from: a contributor, a guest or the public reader (since 2026-11-19; before, such a page could carry the body of an element hidden a moment earlier). What that reader learns of the hide comes later in the feed, as [Full export](#full-export) and [Guests' cursors](#guests-cursors) describe; a contributor may miss its own creation on that page, and gets it back at the hide's row on its next read.
+
 ## Walking the feed
 
 Pass the returned `cursor` back as `?since=` until `has_more` is `false`. Store the last cursor; next time, start from it.

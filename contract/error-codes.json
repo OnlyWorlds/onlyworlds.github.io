@@ -62,7 +62,7 @@
   "seat_above_sponsor": {
     "type": "invalid_request",
     "status": 422,
-    "summary": "The owner tried to set an AI seat's role above the role of the person who answers for it (`param` role), or any role above its own while it carries the address it was made for or that person is no member of the world: a seat is never above its sponsor. Hand the seat to yourself first (`sponsor` owner), then raise it."
+    "summary": "The owner tried to set an AI seat's role above the role of the person who answers for it (`param` role), or any role above its own while that person is no member of the world: a seat is never above its sponsor. Hand the seat to yourself first (`sponsor` owner), then raise it."
   },
   "not_a_lens": {
     "type": "invalid_request",
