@@ -62,18 +62,18 @@ async function readSource() {
   const names = files.map((f) => f.match(/^profiles\/([a-z0-9-]+)\.fixture\.json$/)?.[1]).filter(Boolean).sort();
   if (!names.length) throw new Error(`${tag}:MANIFEST.json lists no profile fixture`);
   // A profile's count is its `cases` list, or, with none, its one `<name>_cases` list (the report
-  // fixture's `thread_cases`, serial 120). Every other `*_cases` list is held by name in case_lists
-  // (map-space's `layout_cases`), so a move in it reads STALE; anything else is refused by name.
+  // fixture's `thread_cases`, serial 120), or, with none and several, all of their cases together
+  // (the packet fixture's `state_cases` and `asker_cases`, serial 136), each list then also held by
+  // name. Every other `*_cases` list is held by name in case_lists (map-space's `layout_cases`), so a
+  // move in it reads STALE; a fixture with no case list at all is refused by name.
   const profiles = {}, caseLists = {};
   for (const n of names) {
     const fx = JSON.parse(await raw(tag, `profiles/${n}.fixture.json`));
     const extra = Object.keys(fx).filter((k) => k.endsWith('_cases') && Array.isArray(fx[k])).sort();
-    let main = 'cases';
-    if (!Array.isArray(fx.cases)) {
-      if (extra.length !== 1) throw new Error(`${tag}:profiles/${n}.fixture.json has no cases list and ${extra.length} *_cases lists (${extra.join(', ') || 'none'})`);
-      main = extra.shift();
-    }
-    profiles[n] = fx[main].length;
+    if (Array.isArray(fx.cases)) profiles[n] = fx.cases.length;
+    else if (extra.length === 1) profiles[n] = fx[extra.shift()].length;
+    else if (extra.length > 1) profiles[n] = extra.reduce((sum, k) => sum + fx[k].length, 0);
+    else throw new Error(`${tag}:profiles/${n}.fixture.json has no cases list and no *_cases list`);
     for (const k of extra) caseLists[`${n}/${k}`] = fx[k].length;
   }
   const reasons = JSON.parse(await raw(tag, 'fixtures/owworld/verdicts.json')).reasons;

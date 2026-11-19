@@ -327,10 +327,12 @@ The readers that turn a world you have read into what a tool shows have their ow
 - [A world as a graph](/docs/development/typescript-readers#a-world-as-a-graph): `worldGraph` and `degreeOf`
 - [Landing](/docs/development/typescript-readers#landing): `landingOf`
 - [Map space](/docs/development/typescript-readers#map-space): `mapSpace`
-- <a id="reading-aids"></a>[Reading aids](/docs/development/typescript-readers#reading-aids): `charterOf`, `domainsOf`, `isCharterElement` and `readingAidOf`
+- <a id="reading-aids"></a>[Reading aids](/docs/development/typescript-readers#reading-aids): `charterOf`, `domainsOf`, `isCharterElement`, `readingAidOf` and `designPartsOf`
 - <a id="the-strand"></a>[The strand](/docs/development/typescript-readers#the-strand): `strandOf`
 - [Records](/docs/development/typescript-readers#records): `recordsOf` and `recordMarkOf`
 - <a id="messages"></a>[Messages](/docs/development/typescript-readers#messages): `isMessage`, `isAddressedTo`, `senderStatus`, `readMarkOf` and `unreadFor`
+- [Talks](/docs/development/typescript-readers#talks): `talksOf` and `reportTalksOf`
+- [Work items](/docs/development/typescript-readers#work-items): `workStateOf`, `isOpenWork`, `askerOf` and `workOf`
 - [Proposed elements](/docs/development/typescript-readers#proposed-elements): `proposedMarkOf` and `handsOnAsProposed`
 - <a id="world-calendars"></a>[World calendars](/docs/development/typescript-readers#world-calendars): `worldCalendars`, `resolveCalendar`, `formatStep` and `parseDate`
 - <a id="addresses"></a>[Addresses](/docs/development/typescript-readers#addresses): `parseOwLink` and `elementAddress`
@@ -401,7 +403,7 @@ The package also ships `SCHEMA.md` (every field and its meaning, generated) and 
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.180.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.181.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 

@@ -1,7 +1,7 @@
 {
-  "source": "schema-dist v0.34.1-dist.134: VERSION, profiles/*.fixture.json cases, fixtures/owworld/verdicts.json reasons",
-  "read_at": "2026-11-18",
-  "tag": "v0.34.1-dist.134",
+  "source": "schema-dist v0.34.1-dist.136: VERSION, profiles/*.fixture.json cases, fixtures/owworld/verdicts.json reasons",
+  "read_at": "2026-11-19",
+  "tag": "v0.34.1-dist.136",
   "canonical": "00.34.01",
   "profiles": {
     "address": 218,
@@ -15,15 +15,22 @@
     "map-space": 39,
     "message": 120,
     "names": 29,
+    "packet": 23,
     "record": 46,
-    "report": 29,
+    "report": 35,
     "report-lines": 101,
     "room": 48,
     "spine": 46,
     "strand": 42
   },
   "case_lists": {
-    "map-space/layout_cases": 29
+    "charter/design_cases": 13,
+    "map-space/layout_cases": 29,
+    "packet/asker_cases": 13,
+    "packet/state_cases": 10,
+    "report/talk_cases": 6,
+    "report/thread_cases": 29,
+    "room/talk_cases": 13
   },
   "owworld_reasons": 12
 }

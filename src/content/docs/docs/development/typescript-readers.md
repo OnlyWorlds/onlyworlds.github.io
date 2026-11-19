@@ -296,6 +296,8 @@ import { charterOf } from '@onlyworlds/sdk';
 const { charter, guide, domains } = charterOf({ elements }, { rung: 'owner' });
 ```
 
+`designPartsOf(world, reader)` (since 4.181.0, serial 135) answers the design parts that reader reads, each `{ type, id, state }`: an Object or a Construct it is served whole whose `subtype`, trimmed and in any case, is `in design` or `locked`, and that word as its `state` (`In Design ` is `in design`). It answers only where `charterOf` finds a Charter for the same reader, and `[]` everywhere else; a known-of stub has no design state, though it is served its subtype. It takes the same `world` and `reader` as `charterOf`.
+
 ## The strand
 
 `strandOf(world, reader)` returns a world's story in miniature, `{ narrative, event, location, character, now, same }`, as that viewer sees it, by the [strand profile](/docs/schema/profiles#strand).
@@ -425,6 +427,16 @@ for (const l of readReportLines(report.consequences ?? '', { world: worldId })) 
 ```
 
 The text splits at every carriage return and line feed, and each line is trimmed of White_Space; an empty line is no line. A line's address is the last one in it that names an element of this world: an `ow://` or site address, its ids' hex in either case (the prefix, the host and the type word only in lowercase), whose world is `world` or is left out. Pass `world` lowercase, as the world holds its id: an address's world is read lowercase and compared with it exactly. An address of another world, a world alone or a slug is part of the words, and a line with none names nothing, which is no fault: a line may count many changes in words. The address leaves `words` only when nothing the writer wrote is lost: it is written exactly as the address profile writes it, with no moment and no lens, and stands apart (the line's start, White_Space or one colon before it; the end, White_Space or a closing mark `. , ; : ! ) ] } ' " ’ ” »` after it), alone or in a matched pair of brackets or quotes. Then it goes with the White_Space around it and one colon before it, and the halves join with one space. In any other shape, or when nothing stands before the address, the whole line is the words and `address` still names its element. Whether that element exists is yours to read. `reading`, `start` and `end` give the address as parsed and where it stands in the line.
+
+## Talks
+
+A line in a world's room that names an Object in its `objects` or a Construct in its `constructs` is in the talk on that element, whichever sitting it was said in ([room profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/room.md), serial 135). `talksOf(element)` (since 4.181.0) answers the talks a line is in, each `{ type: 'object' | 'construct', id }`; any element that is no line in the room (a Message without the mark, a board entry, a report) answers `[]`. Each id is read as written, its case and any space left on it included; an entry that is not a string, or is empty once trimmed, names nothing. `reportTalksOf(narrative)` answers the talks a report is shown with, its `objects` and `constructs` read the same way ([report profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/report.md)). Neither says which talk, if any, a report closed: the report alone cannot tell.
+
+## Work items
+
+A work item is a Relation with supertype `Work item`, and its subtype is its state ([packet profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/packet.md), serial 136). `workStateOf(item)` (since 4.181.0) answers `'open'`, `'taken'`, `'done'` or `'standing'`, matched trimmed and in any case, or null for no state: blank, missing, or any other word. `isOpenWork(item)` is true only for `open` and `taken`: a standing item is a kept order of work and never open work, and an item with no state is never open work either. `askerOf(item, world?)` answers the Character `x_packet_from` names, or null; it never falls back to the maker or `actor`, and with `world` only one of that world's Characters counts.
+
+`workOf(items, world, source?)` reads the work items one reader is given together, `world` as `{ id, characters, others }` (the ids of its Characters and of every other element the reader holds), and the third argument the same for a world the packets name elements of. It answers `states` and `askers` (each keyed by an item's id), `shown` (every item, none hidden for its state), `openWork` (for each element an item names in `x_packet_elements`, the open work that names it), `elements` (each item's entries in order), `waitingOn` (for each Character of the world, the open work it asked for, so the work that waits on its answer) and `lints` (`{ kind: 'asker', item }` for an `x_packet_from` that is no one id, or names, written exactly so, another element the reader holds; an id that names nothing the reader holds is no lint). The Python package has no reader of work items.
 
 ## Proposed elements
 
