@@ -21,10 +21,11 @@ const elements = [];
 for (const type of ELEMENT_TYPES) for await (const el of client.listAll(type)) elements.push(el);
 ```
 
-Lenses, the graph, the reading aids and the strand also take the viewer, the person the result is for, as `{ rung }` (the argument named `reader` in their signatures). A rung is how much of the world that viewer may see, one of four:
+Lenses, the graph, the reading aids and the strand also take the viewer, the person the result is for, as `{ rung }` (the argument named `reader` in their signatures). A rung is how much of the world that viewer may see, one of five:
 
 - `owner`: the whole world.
-- `contributor`: the world less its hidden elements.
+- `co-builder` (since 4.182.0): the whole world as the owner reads it, hidden elements included; the cut counts `anchor_not_visible` and `not_visible` stay the owner's.
+- `contributor`: the world less its hidden elements, plus the hidden elements it made, listed in `whole` (since 4.182.0; before, none of the hidden).
 - `guest`: only the elements the guest was given, listed in `whole`, and those it knows of only by name, in `known_of`.
 - `public`: the world less its hidden elements and its [room elements](/docs/schema/profiles#room).
 
@@ -161,7 +162,7 @@ view.clusters[0]; // { head, members: [{ id, hops, degree }, ...] }
 
 `mapSpace(elements)` reads a world's Maps, Zones and Pins as frames, outlines and points, by the [map-space profile](/docs/schema/profiles#map-space). It takes the elements as the viewer is served them and returns `{ maps, zones, pins, out }`, all four always present:
 
-- `maps` holds each Map's frame: `width`, `height`, `depth`, `z_max` (the largest z among its own points), `scale` (metres per pixel from `x_metres_per_pixel`, else `null`), `location` and `parent_map`. A missing `width` or `height` is measured from the Map's own placed points and marked `extent: "points"`.
+- `maps` holds each Map's frame: `width`, `height`, `depth`, `z_max` (the largest z among its own points), `scale` (metres per pixel from `x_metres_per_pixel`, else `null`), `location` and `parent_map`. A whole-number `width` or `height` is answered as written, 0 and under 0 included (since 4.182.0); one that is missing or not a whole number is measured from the Map's own placed points and marked `extent: "points"`, and is `null` when the Map has no placed point of its own.
 - `zones` holds one outline per Map a Zone has Markers on, `{ zone, map, shape, points }`, each point `[x, y, z]`, the Markers in `order` and then by id.
 - `pins` holds each Pin's point and its element: `{ pin, map, element_type, element_id, x, y, z }`.
 - `out` counts what was left aside by reason: `no_point`, `no_markers`, `dangling`, `no_map`; a reason with nothing counted is absent.
@@ -183,6 +184,26 @@ A number counts when it is whole by value (`2.0` is 2) and a double holds it exa
 
 </details>
 
+### A child Map on its parent
+
+A Map that shows part of another (a town on its region, a room on its floor) says where it lies on the Map its `parent_map` names with `x_parent_frame`: a box `[x0, y0, x1, y1]` in the parent's pixels, from its bottom left. `carryOf(map, point, maps)` (since 4.183.0, the profile's rules 13 and 14) carries a point on a Map up that chain, one level at a time by each level's own frame, and answers `{ parent_frame, lint, points, stop }`:
+
+- `parent_frame`: the Map's own `x_parent_frame` as written, or `null` when it is no frame.
+- `lint`: what is wrong with the Map's own key, `no_parent` (a frame on a Map with no `parent_map`), `not_four_numbers` or `not_a_box`, else `null`.
+- `points`: the point on the Map as given, then `{ map, x, y }` on each Map it is carried to.
+- `stop`: why the walk ended: `top` (a Map with no `parent_map`), `dangling` (its parent is not served), `cycle`, `no_frame` (a Map with no frame on its parent) or `no_carry` (a written `width` or `height` that is not a whole number above 0).
+
+`maps` is the Maps as the viewer is served them. A point outside the child is carried as written, and `z` is not carried. `mapSpace` and `layoutOf` do not read the key.
+
+```typescript
+import { carryOf } from '@onlyworlds/sdk';
+
+const maps = elements.filter((e) => e.type === 'map');
+const { points, stop } = carryOf(maps[0], [120, 80], maps);
+points; // [{ map, x: 120, y: 80 }, { map: its parent's id, x, y }, ...]
+stop; // 'top' once the walk reached a Map with no parent_map
+```
+
 ## A world's default picture
 
 `layoutByKind(graph)` (since 4.167.0) lays out a world nobody laid out, from its graph as `worldGraph` answers it. Each kind gets a point on a circle, links pull, neighbours push apart, and the points are fitted into a frame of -1 to 1 on the longer axis. It answers `{ method: 'by-kind', version: 1, points }`, one `{ id, x, y }` per node in the order you passed them. `layoutAround(graph, focus, { steps })` draws one element at 0, 0 with its neighbours on rings, one or two steps out, as `{ id, depth, x, y }`.
@@ -200,25 +221,26 @@ const { points } = layoutByKind(graph);   // [{ id, x, y }, ...], each x and y w
 
 ## A world laid out in 3D
 
-`layoutByLinks3d(graph, elements?, { held, heldUnit })` (since 4.171.0) lays a whole graph out in three dimensions by its links. The most linked elements become centres, each with its group round it. The groups are packed apart and settled by 300 seeded steps, what hangs off the body fans out from it, and what is not joined to the main piece stands on a shelf under the picture. Pass the world's elements as the second argument and its maps join in: the Map that holds the most of the graph's elements by a Pin, three or more, becomes a flat plate with each pinned element at its Pin. Maps and Pins are read through `mapSpace` and `layoutOf`. A Pin's `z` is not read, and a layout map is never the plate. A Map whose `width` or `height` is not over 0 is no plate either: when it is the Map that holds the most, the world is laid out by its links alone (since 4.171.1; before that a width under 0 made the call throw).
+`layoutByLinks3d(graph, elements?, { held, heldUnit })` (since 4.171.0) lays a whole graph out in three dimensions by its links. The most linked elements become centres, each with its group round it. The groups are packed apart and settled by 300 seeded steps, and what hangs off the body fans out from it. Since 4.182.0 every other piece of linked elements (elements joined to each other but not to the main piece) is laid out the same way on its own: a piece with a pinned or held element stands where those points put it, and every other one stands on a ring round the main picture, the largest first, a ring holding as many as fit before the next opens further out. An element linked to no other and pinned on no map is not placed: it is left out of the rows and listed in `unplaced` (before 4.182.0, everything off the main piece stood on a shelf under the picture). Pass the world's elements as the second argument and its maps join in: the Map that holds the most of the graph's elements by a Pin, three or more, becomes a flat plate with each pinned element at its Pin. Maps and Pins are read through `mapSpace` and `layoutOf`. A Pin's `z` is not read, and a layout map is never the plate. A Map whose `width` or `height` is not over 0 is no plate either: when it is the Map that holds the most, the world is laid out by its links alone (since 4.171.1; before that a width under 0 made the call throw).
 
-It answers one row per node, in the order you passed them:
+It answers one row per placed node, in the order you passed them:
 
 | Key | What it holds |
 |---|---|
-| `ids` | The nodes' ids. |
+| `ids` | The placed nodes' ids. |
 | `points` | A `Float64Array`: x, y, z of `ids[i]` at `3 * i`, in units where a link at rest is `BY_LINKS_3D_REST` (60) long. |
-| `how` | How each was placed: `centre`, `with` (in a centre's group), `arm` or `link` (hanging off the body), `shelf`, `map` (at its Pin). |
+| `how` | How each was placed: `centre`, `with` (in a centre's group), `arm` or `link` (hanging off the body), `map` (at its Pin). An element of another piece takes the word its own piece's layout gives it. |
 | `group` | The id of the centre the element stands with, or null. |
-| `part` | For an element with no centre: `map`, `one-link` or `no-link`. Null where `group` is an id. |
-| `centres` | The centres' ids, in the method's rank order. |
+| `part` | For an element with no centre: `map` or `one-link`. Null where `group` is an id. |
+| `centres` | The centres' ids: the main picture's in the method's rank order, then each other piece's, the pieces largest first. |
 | `held` | True where the point is one you handed back. An element with a Pin on the map is never held, so false does not mean new. |
+| `unplaced` | The ids of the nodes not placed (linked to no other node and pinned on no map, a held one too), by id in code point order. |
 
-The same input gives the same points in every browser and in the Python package's `layout_by_links_3d`: to the last bit for a centre, a grouped element and a pinned one, and within a billionth of a rest for the rest. The package's tests replay a fixture both packages hold.
+The same input gives the same points in every browser and in the Python package's `layout_by_links_3d`: to the last bit for a centre, a grouped element and a pinned one off the ring, and within a billionth of a rest for the rest and for every piece on the ring, which are placed with the runtime's own cosine, sine and arcsine. Both packages replay the method's published fixture (116 cases).
 
 To keep a picture still as a world grows, hand an earlier answer's points back as `held` (element id to `[x, y, z]`), with `heldUnit: 1` when you saved them as whole numbers. A held element stays where it was (one with a Pin on the map stands at its Pin, held or not), and what is new is placed round it. To count what is new, count the ids you did not hand back, never `held: false`. A layout that hands every point back costs less than one from nothing (since 4.171.1). Nothing is saved: to keep a picture, save it as a layout Map yourself. A saved layout keeps points only; the groups are read again from the world.
 
-The method's word, `by-links-3d`, is the tool's own until its page in the standard is published. Until then a release may move its points. `BY_LINKS_3D_VERSION` (since 4.174.0) says when one has: it is raised exactly when a release moves an answer of the method, and never otherwise. A tool that keeps a picture to hand back as `held` stores the version beside the points, and lays the world out fresh when the two differ.
+The method's word, `by-links-3d`, is one of the [default layouts](/docs/schema/profiles#default-layouts) since the standard published its page (serial 137). `BY_LINKS_3D_VERSION` (since 4.174.0; 2 since 4.182.0, the pieces) says when a release has moved its points: it is raised exactly when a release moves an answer of the method, and never otherwise. A tool that keeps a picture to hand back as `held` stores the version beside the points, and lays the world out fresh when the two differ.
 
 ```typescript
 import { worldGraph, layoutByLinks3d } from '@onlyworlds/sdk';

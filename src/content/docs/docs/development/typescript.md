@@ -403,7 +403,7 @@ The package also ships `SCHEMA.md` (every field and its meaning, generated) and 
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.181.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.183.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -412,7 +412,7 @@ Generated from the types of `@onlyworlds/sdk` 4.181.0, the version these docs pi
 | Option | Type | Notes |
 |---|---|---|
 | `apiKey` | `string` | The key: an ow_w_ (write) or ow_r_ (read) world key, an ow_a_ account token (sent as a Bearer token, for the account routes, and with `world` set for that world's reads), or a 10-digit legacy key. |
-| `apiPin` | `string` | The PIN (or an agent seat's `ow_s_` secret), needed for writes when the world has one, and for legacy-key reads of a world with a PIN. |
+| `apiPin` | `string` | The PIN (or an AI seat's `ow_s_` secret), needed for writes when the world has one, and for legacy-key reads of a world with a PIN. |
 | `baseUrl` | `string` | The API's base URL, default https://www.onlyworlds.com/api/v2. |
 | `pageSize` | `number` | Page size for element lists, default 100 (the server's default; at most 1000). |
 | `changesPageSize` | `number` | Page size for /changes pulls, default 100. |
@@ -466,9 +466,9 @@ Generated from the types of `@onlyworlds/sdk` 4.181.0, the version these docs pi
 | `listWorldLinks(worldId)` | `GET /account/worlds/{worldId}/links` | the world's invite links, without their codes: each with its status (pending, used, revoked or expired) and uses. | `Promise<OwWorldLink[]>` |
 | `revokeWorldLink(worldId, linkId)` | `DELETE /account/worlds/{worldId}/links/{linkId}` | revoke a link: its code no longer works. | `Promise<void>` |
 | `createSeat(worldId, opts)` | `POST /account/worlds/{worldId}/seats` | a seat for your own AI in a world you own or are a member of: its own membership, write key and `ow_s_` secret, no join link. | `Promise<OwSeatCreated>` |
-| `listSeats(worldId)` | `GET /account/worlds/{worldId}/seats` | the live agent seats you can see: your own AI's, or, as the world's owner, every seat. | `Promise<OwSeat[]>` |
+| `listSeats(worldId)` | `GET /account/worlds/{worldId}/seats` | the live AI seats you can see: your own AI's, or, as the world's owner, every seat. | `Promise<OwSeat[]>` |
 | `rekeySeat(worldId, seatId)` | `POST /account/worlds/{worldId}/seats/{seatId}/key` | a new key and secret for a seat whose AI lost its own: its sponsor or the world's owner may. | `Promise<OwSeatCreated>` |
-| `removeSeat(worldId, seatId)` | `DELETE /account/worlds/{worldId}/seats/{seatId}` | remove an agent seat: its sponsor or the world's owner may. | `Promise<void>` |
+| `removeSeat(worldId, seatId)` | `DELETE /account/worlds/{worldId}/seats/{seatId}` | remove an AI seat: its sponsor or the world's owner may. | `Promise<void>` |
 | `setMemberLenses(worldId, memberId, lensIds)` |  | PATCH /account/worlds/{worldId}/members/{memberId} with `lenses` alone -- set the lenses a row starts with: lens ids in order, 0 to 20, repeats dropped by the server; an empty list is a choice too, and keeps a seat off its Titles' lenses, while `null` puts the row back to never chosen (a seat playing a Character then starts with its Titles' lenses; for `'owner'`, `null` is the empty list). | `Promise<OwMemberLenses>` |
 | `hide(type, id)` | `PUT /{type}/{id}/hidden` | hide an element. | `Promise<void>` |
 | `unhide(type, id)` | `DELETE /{type}/{id}/hidden` | clear the mark; an element that is not hidden stays as it is. | `Promise<void>` |
