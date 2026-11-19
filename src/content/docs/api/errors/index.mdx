@@ -38,6 +38,10 @@ The [Classic API](/docs/development/api/classic) at `/api/worldapi/` answers in 
 A `403` whose body is an HTML page titled "Blocked", not this envelope, comes from the host in front of onlyworlds.com: it refused the request before the API saw it, and nothing was written. It refuses a write whose text holds a shell command such as `python -m`, `python -c`, `perl -e`, or `curl` or `wget` with an address right after a backtick, a semicolon or a pipe (a Markdown table cell is after a pipe). The same command passes in a fenced code block whose first line names a language, behind a dollar prompt, or with none of the three directly before it. The rule is the host's, not the API's, and can change without notice. The TypeScript SDK says so with `isHostBlocked` (from 4.175.0), the Python package with `is_host_blocked` (from 0.132.0). In a browser on another site the page does not arrive: the host sends it without the CORS headers the API's own answers carry, so the browser hides it and `fetch` fails as a network error (measured 2026-11-17). There the refusal looks like a lost connection, and `isHostBlocked` never sees it; a server, a script or a desktop app reads the page as described.
 :::
 
+:::note
+A `429` in plain text, not this envelope, comes from onlyworlds.com's own pages, not the API: one address may fetch 250 of the site's pages a minute (a world's [public page](/docs/development/api/public) keeps its own 60), counted on the clock's minute. Wait the `Retry-After` seconds. The API's budget is apart from it: see [`too_many_requests`](#too_many_requests).
+:::
+
 Some errors carry extra top-level keys beside `error`, named in their row: `precondition_failed` carries `current`, the element as it is now, and `gone` carries the deletion's `change_seq` and `deleted_at`. Read the body whole; the envelope is not a closed shape.
 
 ## Error codes
@@ -137,7 +141,7 @@ Unknown fields are a hard error, not a silent drop, so a mistyped field name fai
 
 A link field names a UUID that is not an element of the linked element type in this world.
 
-- **Common cause:** linking to an element that was never created, was deleted, or whose UUID was mistyped. An id of an element of another element type (a Location's id in `friends`, which holds Characters). In `/bulk`, linking to a sibling item that itself failed. For a guest key, linking to an element the guest cannot see; for any key, linking to an element [hidden](/docs/development/api/hidden) from it.
+- **Common cause:** linking to an element that was never created, was deleted, or whose UUID was mistyped. An element deleted in the same moment as your write counts too: the write is refused rather than stored with a link to nothing. An id of an element of another element type (a Location's id in `friends`, which holds Characters). In `/bulk`, linking to a sibling item that itself failed. For a guest key, linking to an element the guest cannot see; for any key, linking to an element [hidden](/docs/development/api/hidden) from it.
 - **How to fix:** check that the referenced element exists and is of the element type the field names (read it first, or include it in the same `/bulk` batch). Links in a batch are checked against the world **plus** the batch's surviving items, in any order, but an item that fails cannot be linked to. `param` names the link field.
 
 A single write that fails with `invalid_link` writes nothing, so after fixing the link you can retry it with the same element id. A dangling link is an explicit, named error. The Classic API's old behaviour of silently dropping it does not apply here.

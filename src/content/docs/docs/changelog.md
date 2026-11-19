@@ -7,6 +7,12 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 What changed on onlyworlds.com for everyone is on its own [Changelog](https://www.onlyworlds.com/changelog); this page stays the developer log.
 
+## 2026-11-19
+
+- **[The site's pages have a limit of their own](/api/errors/): 250 a minute for one address.** Past it a page of onlyworlds.com answers a plain-text `429` with `Retry-After`, not the API's error shape. A world's public page and the API keep their limits.
+- **[Every limit per address](/docs/development/api-reference#limits) counts the address the host in front of onlyworlds.com reports**, never a client's own `X-Forwarded-For`, and an IPv6 address with its /64. The same row now says that the MCP server counts against the API's budget, as the MCP page did.
+- **[`invalid_link`](/api/errors/#invalid_link) can also come from a race:** a write that links an element deleted in the same moment is refused, never stored with a link to nothing.
+
 ## 2026-11-18
 
 - **[TypeScript SDK](/docs/development/typescript#schema-constants) 4.180.0: `trimAndFold` and `byCodePoint` compare and order names the way the profiles do.** `trimAndFold` trims Unicode's White_Space and folds case by Unicode 15.1's simple case folding. A byte order mark stays, which JavaScript's `trim()` strips, and the long s folds to s, which `toLowerCase()` leaves. `byCodePoint` sorts by code point, never by UTF-16 unit or a locale. A tool that compared names with the language's own functions answered differently on some names.
