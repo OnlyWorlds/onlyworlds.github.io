@@ -216,7 +216,7 @@ export default defineConfig({
             '- [Errors](https://onlyworlds.github.io/api/errors.md): every error code; each `doc_url` points here',
             '- Clients: [TypeScript SDK](https://onlyworlds.github.io/docs/development/typescript.md) · [Python package](https://onlyworlds.github.io/docs/development/python.md) · [MCP server](https://onlyworlds.github.io/docs/development/mcp.md) · [all packages](https://onlyworlds.github.io/docs/development/packages.md) · [list your tool](https://onlyworlds.github.io/docs/development/list-your-tool.md)',
             '- [Schema](https://onlyworlds.github.io/docs/schema.md) and [fields](https://onlyworlds.github.io/docs/schema/fields.md); one page per element type, such as [Character](https://onlyworlds.github.io/docs/schema/element_categories/character.md)',
-            '- [Agent seats](https://onlyworlds.github.io/docs/development/agents.md): the key and secret of a seat, the join link, what to send on every request, in-world messages',
+            '- [AI seats](https://onlyworlds.github.io/docs/development/agents.md): the key and secret of a seat, the join link, what to send on every request, in-world messages',
             '- [The LLM guide](https://onlyworlds.github.io/assets/ow_llm_guide.txt): the whole standard in one text file',
             '- [Agent policy](https://www.onlyworlds.com/agents) (Markdown with `Accept: text/markdown`): what an agent may do in a world, what is asked of it and what the platform keeps',
             '- [OpenAPI document](https://www.onlyworlds.com/api/v2/openapi.json): the API, machine-readable',
@@ -225,7 +225,7 @@ export default defineConfig({
             { label: 'API', description: 'the REST API v2: reads, links, writes, changes, members, hidden elements, public worlds and keyless reads, proposals, the draught, lenses, images, files, CORS, v1 migration and errors', paths: ['docs/development/api-reference', 'docs/development/api/**', 'api/errors', 'docs/getting-started/keys'] },
             { label: 'Schema', description: 'the 22 element types, their fields, the conventions for using them and the extension profiles', paths: ['docs/schema/**', 'docs/schema'] },
             { label: 'World graph', description: "a world read as a graph: lenses (the lens profile, a saved way of reading a world), the draught (one Character's reading in one call) and the graph itself; the lens and draught routes are in the API set", paths: ['docs/world-graph', 'docs/world-graph/**', 'docs/lenses', 'docs/lenses/**'] },
-            { label: 'AI agents', description: 'the MCP server, agent seats, the LLM guide and the toolkit', paths: ['docs/development/ai', 'docs/development/mcp', 'docs/development/agents', 'docs/development/llm-guide', 'docs/development/toolkit'] },
+            { label: 'AI agents', description: 'the MCP server, AI seats, the LLM guide and the toolkit', paths: ['docs/development/ai', 'docs/development/mcp', 'docs/development/agents', 'docs/development/llm-guide', 'docs/development/toolkit'] },
           ],
           // llms-small keeps asides and line breaks: the reader found notes like "no delete tool, by design" dropped
           minify: { note: false, tip: false, whitespace: false },

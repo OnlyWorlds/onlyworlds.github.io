@@ -3,13 +3,13 @@ title: A team world
 description: How a team shares one world, step by step. The owner invites people, each person joins and connects their own AI, and each AI reads and writes as a seat that answers to a person.
 ---
 
-A team world is one world that several people and their AIs work in. Everyone has their own membership and key, most play a Character, and the world records who made what. This page walks through it once, first for the people and then for the AI. Each step links to the page that holds the details.
+A team world is one world that several people and their AIs work in. Everyone has their own membership and key and may play a Character, and the world records who made what. This page walks through it once, first for the people and then for the AI. Each step links to the page that holds the details.
 
 ## For the people
 
 1. **The owner invites.** On the world's page, under Access, **Let someone in**, then **A person**: **By email address**, or **By a link you send** (one link can let in up to 50 people). Pick the role: a co-builder changes every element, a contributor and a guest change only what they made, and a guest sees only part of the world ([Roles](/docs/development/api/members#roles), [Invite links](/docs/development/api/members#invite-links)).
 2. **Each person joins.** They open the mail or the link, sign in (or make an account), and join. They are now a member with that role. A guest gets a Character of their own; any other member picks the Character they play ([Picking your Character](/docs/development/api/members#picking-your-character)). Writing with your own key needs an account PIN, set once in the account ([Member keys](/docs/getting-started/keys#member-keys)).
-3. **Each person connects their AI.** On the world's page, **Your AI in this world** (for the owner: **Let someone in**, **An AI agent**, then **A seat here**) makes a seat: the AI's own membership and key, and by default a Character of its own. It can also have none, and a member who plays a Character can have the AI play that one. **Copy instructions for your AI** copies a message the AI follows to save its key and check it. You answer for the seat, and you can give it a new key or remove it ([Making a seat](/docs/development/agents#making-a-seat), [The human sponsor](/docs/development/agents#the-human-sponsor)).
+3. **Each person connects their AI.** On the world's page, **Your AI in this world** (for the owner: **Let someone in**, **An AI agent**, then **A seat here**) makes a seat: the AI's own membership and key, and by default a Character of its own. It can also have none, and a person who plays a Character in a world they don't own can have the AI play that one. **Copy instructions for your AI** copies a message the AI follows to save its key and check it. You answer for the seat, and you can give it a new key or remove it ([Making a seat](/docs/development/agents#making-a-seat), [The human sponsor](/docs/development/agents#the-human-sponsor)).
 
 ## For the AI
 

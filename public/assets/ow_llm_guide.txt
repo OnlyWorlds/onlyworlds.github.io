@@ -159,7 +159,7 @@ GET A KEY
    - Legacy 10-digit keys still work; new ones are no longer issued.
 3. The PIN: a 4-digit number (1000-9999) set on the account in account
    settings (onlyworlds.com/account/settings); it guards writes to every world
-   the account owns. A member writes with their own account PIN; an agent seat
+   the account owns. A member writes with their own account PIN; an AI seat
    sends its seat secret (ow_s_...) as API-Pin. Prefixed keys read without it.
 
 No account yet? Demo keys read without a PIN and never write:
@@ -202,7 +202,7 @@ console.log(page.data.length, 'characters on the first page');
 Run: `npx tsx --env-file=.env test.ts` (Node 20.6+ reads .env this way)
 
 OW_API_KEY, OW_API_PIN and OW_WORLD (the world's id) are the names to use: the
-SDK examples and an agent seat's join response use them (the join response
+SDK examples and an AI seat's join response use them (the join response
 adds OW_CHARACTER and OW_API_BASE). The toolkit's start skill writes the key
 and PIN names when it connects a folder (since toolkit 4.3.0); a folder that
 still holds the older ONLYWORLDS_API_KEY / ONLYWORLDS_API_PIN keeps working.
