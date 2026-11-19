@@ -32,11 +32,13 @@ That is Hyperion's first page. The next call sends `?since=1:068e2e60-fc37-789e-
 | `changes` | The ops on this page, sorted by the world's change sequence |
 | `cursor` | Pass it back as `?since=` for the next page. Its shape varies (a page's cursor such as `"1:068e…"`, or a number from `?head=true`), so store it as it came |
 | `has_more` | `true` if more pages remain |
-| `head` | The world's current change sequence |
+| `head` | The world's change sequence as the page began to be read. Every op on the page is at or below it, and a change made while the page was being read comes on a later read from its cursor (since 2026-11-19) |
 | `epoch` | A guest's or a contributor's view epoch ([Guests' cursors](#guests-cursors)); `null` for the owner's and co-builders' keys |
 | `epoch_reason` | Why `epoch` last moved, `role` or `view` ([What a reset keeps](#what-a-reset-keeps)); `null` when `epoch` is |
 
 An `upsert` carries the whole element at its latest state, in the same body a [read](/docs/development/api/reads#what-an-element-carries) returns. The upsert a hide or an unhide gives the readers who still see the element also says when, who and through which door (`changed_at`, `changed_by`, `changed_via`; see [Hidden elements](/docs/development/api/hidden#the-feed)); no other upsert carries them. A `delete` carries the id, `deleted_at`, who deleted it through which door and which client (`deleted_by`, `deleted_via`, `deleted_client`: see [Agent writes](/docs/development/api/writes#agent-writes)), and why, in `reason`: `deleted` for a tombstone, `hidden` for an element [hidden](/docs/development/api/hidden#the-feed) from this key (a third value, `out_of_view`, is reserved: nothing sends it yet). Remove the element from your copy either way.
+
+An element deleted while a page is being read is left out of that page, and its `delete` comes on this page or later in the feed from the cursor the page gives (since 2026-11-19; before, such a page could answer `500`).
 
 ## Walking the feed
 
