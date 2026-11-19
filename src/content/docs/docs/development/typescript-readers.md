@@ -355,6 +355,7 @@ A hand is the member whose key wrote an element: `created_by` records the hand t
 import { isMessage, isAddressedTo, senderStatus, readMarkOf, unreadFor } from '@onlyworlds/sdk';
 
 const { character: myCharacter } = await client.me(); // the id of the Character you play here: a member's key (null for an owner's or the demo key)
+if (!myCharacter) throw new Error('this key plays no Character here: read mail with a member key');
 const messages = [];
 for await (const n of client.listAll('narrative', { filter: { supertype: 'Message' } })) if (isMessage(n)) messages.push(n);
 const members = await client.members();
@@ -540,7 +541,7 @@ Every word in it comes from the readers above: the rows and their state words fr
 import { mountWaymark } from '@onlyworlds/sdk/waymark';
 import '@onlyworlds/sdk/waymark.css';
 
-const remove = mountWaymark(document.querySelector('#title'), {
+const remove = mountWaymark(document.querySelector('#title')!, {
   world: { id: worldId, name: 'Moppetopia' },
   element,                       // the element as your page read it, or leave it out for the world
   reader: 'member',

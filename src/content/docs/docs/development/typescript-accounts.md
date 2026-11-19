@@ -18,7 +18,7 @@ import { OwV2Client } from '@onlyworlds/sdk';
 
 const { token } = await new OwV2Client().signInWithPassword({
   email: process.env.OW_EMAIL, // or username: '...'
-  password: process.env.OW_PASSWORD,
+  password: process.env.OW_PASSWORD!, // set in the environment
   tokenName: 'My app on iPhone', // the name the token is listed under
 });
 const account = new OwV2Client({ apiKey: token }); // store the token: it is shown once
@@ -95,14 +95,19 @@ The code is spent on redeem, and the answer can't be replayed: if it is lost, th
 One player link can also seat a whole table (see [A table of players](/docs/development/api/members#a-table-of-players)). Each player picks one Character from the owner's list, and a refusal spends nothing:
 
 ```typescript
+import { OwApiError } from '@onlyworlds/sdk';
+
 const table = await account.createWorldLink(worldId, { reader: 'player', maxUses: 4, characters: [aliceId, borinId] });
 // on each player's device:
 const seen = await phone.previewJoin(code);           // seen.uses_left, seen.characters: [{ id, name, image_url, taken }]
+const free = seen.characters?.find((c) => !c.taken);  // the first Character nobody plays yet
+if (!seen.name_required && !free) throw new Error('every Character on the list is taken');
 try {
-  const joined = seen.name_required
+  const joined = seen.name_required || !free
     ? await phone.redeemJoin(code, { name: 'Ana' })   // no list: a fresh Character named for the player
-    : await phone.redeemJoin(code, { character: seen.characters.find((c) => !c.taken).id });
+    : await phone.redeemJoin(code, { character: free.id });
 } catch (err) {
+  if (!(err instanceof OwApiError)) throw err;
   if (err.isCharacterTaken || err.isCharacterInvalid) { /* preview again and pick another */ }
   else if (err.isWorldFull) { /* the world has its 50 players */ }
   else throw err;

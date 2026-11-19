@@ -51,7 +51,7 @@ import { OwV2Client } from '@onlyworlds/sdk';
 const client = new OwV2Client({ apiKey: '0000000001' });
 
 const world = await client.getWorld();
-console.log(world.name, 'holds', world.counts.total, 'elements,', world.counts.types.character, 'of them Characters');
+console.log(world.name, 'holds', world.counts?.total, 'elements,', world.counts?.types.character, 'of them Characters');
 
 const page = await client.list('character', { limit: 5 });
 for (const character of page.data) console.log('-', character.name);
