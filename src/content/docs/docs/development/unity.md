@@ -126,7 +126,7 @@ A friend with no account can join a world from a [player link](/docs/development
 
 ## Write
 
-Writes need a write key (`ow_w_`) and a secret in `OWClientConfig.ApiPin`: best an [agent seat](/docs/development/agents)'s own `ow_s_` secret, which works in one world and can be removed, or else the account PIN. Both can be extracted from a build, so write from the Editor, a server or a tool you control, never from a game you ship to players.
+Writes need a write key (`ow_w_`) and a secret in `OWClientConfig.ApiPin`: best an [AI seat](/docs/development/agents)'s own `ow_s_` secret, which works in one world and can be removed, or else the account PIN. Both can be extracted from a build, so write from the Editor, a server or a tool you control, never from a game you ship to players.
 
 **Send only what changed.** A `PATCH` replaces every field it carries, so sending back an element fetched an hour ago undoes an hour of someone else's edits. `OWEdit` snapshots an element and sends the difference:
 

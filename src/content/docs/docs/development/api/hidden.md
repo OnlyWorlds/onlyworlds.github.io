@@ -14,12 +14,12 @@ The mark is a record beside the element, not a field. Hiding or unhiding leaves 
 | Reader | Sees |
 |:--|:--|
 | The owner: on onlyworlds.com, with every world key the owner minted (`ow_w_`, `ow_r_`), and with a legacy key | Everything, hidden elements included |
-| A co-builder, person or agent seat | Everything, hidden elements included |
-| A contributor, person or agent seat | The whole world except the hidden elements, apart from those it created |
+| A co-builder, person or AI seat | Everything, hidden elements included |
+| A contributor, person or AI seat | The whole world except the hidden elements, apart from those it created |
 | A guest, or a player | Its [guest's view](/docs/development/api/members#guests) except the hidden elements, apart from those it created |
 
 - Hiding wins over every way a guest is given sight: an element that names its Character, a Narrative its Character narrates or one of its circles holds, a Character on the roster. Only having created the element gives it back.
-- An agent seat reads as its role, also when it plays a Character.
+- An AI seat reads as its role, also when it plays a Character.
 - A key you mint is your own tool and shows what you hid. To share a world without what you hid, use a [player link](/docs/development/api/members#player-links) or an [invite](/docs/development/api/members#invite-links) with a role.
 
 ### The hidden flag
@@ -55,7 +55,7 @@ A reader's write on an element that links to a hidden one keeps that link, as a 
 
 A Character someone plays is on every reader's roster, so a hidden Character can never be picked to play, by anyone, the owner included:
 
-- Setting it as the Character an agent seat or a player plays (`character` on [`PATCH /api/v2/account/worlds/{world_id}/members/{member_id}`](/docs/development/api/members#managing-members), or **Change** on its row under Members on the world page) is `422` [`character_hidden`](/api/errors/#character_hidden), `param` `character`. Unhide it first, or pick another.
+- Setting it as the Character an AI seat or a player plays (`character` on [`PATCH /api/v2/account/worlds/{world_id}/members/{member_id}`](/docs/development/api/members#managing-members), or **Change** on its row under Members on the world page) is `422` [`character_hidden`](/api/errors/#character_hidden), `param` `character`. Unhide it first, or pick another.
 - Accepting an invite with it as `roster_character`, making a player link with it as `character`, and an AI seat made with `character` `mine` while you play it, answer exactly as for a Character that does not exist.
 - A player link made before the Character was hidden gives the player a fresh Character when it is redeemed, as it does when the Character was deleted.
 - A Character played before it was hidden stays played; only the roster's `null` covers it.
@@ -73,7 +73,7 @@ curl -s -X PUT "https://www.onlyworlds.com/api/v2/character/{id}/hidden" \
   -H "API-Key: {key}" -H "API-Pin: {pin}"
 ```
 
-- **Who.** The owner's keys, and a co-builder's key, a person's or an agent seat's. Any other member key (a contributor's, a guest's, a player's, a seat below co-builder) gets `403` [`permission_error`](/api/errors/#permission_error) on all three routes. That answer comes before the id is looked at, so it says nothing about the element. A read key on `PUT` or `DELETE` gets `403` [`permission_error`](/api/errors/#permission_error) too.
+- **Who.** The owner's keys, and a co-builder's key, a person's or an AI seat's. Any other member key (a contributor's, a guest's, a player's, a seat below co-builder) gets `403` [`permission_error`](/api/errors/#permission_error) on all three routes. That answer comes before the id is looked at, so it says nothing about the element. A read key on `PUT` or `DELETE` gets `403` [`permission_error`](/api/errors/#permission_error) too.
 - **Which element.** One of this world's, of the element type in the path; any other id is `404` [`not_found`](/api/errors/#not_found).
 - **The body.** None, or `{"fields": []}`. Send no body, or an empty `fields` list: `fields` is reserved for hiding single fields later, and a non-empty list is `422` [`invalid_request`](/api/errors/#invalid_request) with `param` `fields`, and any other key is a `422` naming it.
 - **Repeats.** Hiding a hidden element, or unhiding one that is not hidden, answers `204` and changes nothing. These routes take no `Idempotency-Key`.
@@ -106,7 +106,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/narrative" \
   -d '{ "name": "Why the Time Tombs open", "hidden": true }'
 ```
 
-- **Who.** The same keys as the hidden routes: the owner's, and a co-builder's, a person's or an agent seat's. Any other key gets `403` [`hidden_not_allowed`](/api/errors/#hidden_not_allowed) and nothing is created; in `/bulk` the error is in that item's slot.
+- **Who.** The same keys as the hidden routes: the owner's, and a co-builder's, a person's or an AI seat's. Any other key gets `403` [`hidden_not_allowed`](/api/errors/#hidden_not_allowed) and nothing is created; in `/bulk` the error is in that item's slot.
 - **The value.** `false`, `null` or absent creates a visible element, as ever. A value that is not a boolean or `null` is `422` [`invalid_request`](/api/errors/#invalid_request) with `param` `hidden`. Where the server has the hidden mark switched off, `true` is a `422` with `param` `hidden` too, and nothing is created.
 - **One step.** The mark is written in the create's own transaction, at the element's first `change_seq`. A contributor's [feed](#the-feed) gets one `delete` row with `reason` `hidden` at that place and never the body; a guest gets nothing; the owner and co-builders get the upsert with `hidden: true`.
 - **Only a create.** On a `PUT` that replaces an existing element, and on a `PATCH`, `hidden` is ignored: an existing element is hidden and unhidden only through `PUT` and `DELETE /api/v2/{type}/{id}/hidden`.
@@ -130,7 +130,7 @@ Every `delete` op on [`/changes`](/docs/development/api/changes) says why, in `r
 
 | Reader | When an element is hidden from it | When it is unhidden |
 |:--|:--|:--|
-| A contributor, person or agent seat | One `delete` op with `reason` `hidden`, at the place the hide took | Its next call answers `409` [`resync_required`](/api/errors/#resync_required) |
+| A contributor, person or AI seat | One `delete` op with `reason` `hidden`, at the place the hide took | Its next call answers `409` [`resync_required`](/api/errors/#resync_required) |
 | A guest or a player that could see it | Its next call answers `409` [`resync_required`](/api/errors/#resync_required); a guest never gets a `delete` op | `409` again |
 | A guest or a player that could not see it | Nothing | Nothing |
 | The owner, a co-builder, the member who created it | One `upsert` op at the place the hide took, its body with `hidden: true` | One `upsert` op at the place the unhide took, its body without `hidden` |
@@ -164,7 +164,7 @@ What a client does:
 
 ### The contributor's cursor
 
-A contributor, person or agent seat, carries the cursor a [guest](/docs/development/api/changes#guests-cursors) carries: three parts, an `epoch` on every page and on `?head=true`, and a `?head=true` cursor to pass straight back as `since`. Unlike a guest, it still receives every `delete` op.
+A contributor, person or AI seat, carries the cursor a [guest](/docs/development/api/changes#guests-cursors) carries: three parts, an `epoch` on every page and on `?head=true`, and a `?head=true` cursor to pass straight back as `since`. Unlike a guest, it still receives every `delete` op.
 
 - **Once:** a cursor a contributor stored before hidden elements arrived (two parts, or the bare number `?head=true` used to give) answers `409` [`resync_required`](/api/errors/#resync_required), with `reason` `role` if the member's role ever moved, else `view`. Pull again from `since=0`, follow the `reason`, and store the new cursor.
 - After that, its `epoch` moves when an element it regains is unhidden (`reason` `view`), and when the member moves to or from the contributor role (`reason` `role`).
@@ -189,7 +189,7 @@ curl -s "https://www.onlyworlds.com/api/v2/character/?as=public" \
 
 | Value | Reads as |
 |:--|:--|
-| A membership id of this world (a person, an agent seat or a player seat) | That member's own key, its own creations included. A co-builder's id sees hidden elements, as its key does |
+| A membership id of this world (a person, an AI seat or a player seat) | That member's own key, its own creations included. A co-builder's id sees hidden elements, as its key does |
 | A Character id of this world | A guest of that Character with no membership: what names it or it narrates, its circles, the roster. Nothing counts as its own creation |
 | `public` | Everything that is not hidden, not a room element and not still proposed: no creations, no grants |
 

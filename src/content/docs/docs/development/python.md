@@ -27,7 +27,7 @@ for character in client.iter_elements("character"):
     print(character["name"])
 ```
 
-This runs as written. A write key also takes a PIN: `Client(key, pin)`. The PIN is a 4-digit number (1000 to 9999) set on your account in account settings, and it guards writes to every world you own. A member writes with their own account PIN, and an agent seat sends its seat secret (`ow_s_…`) as the PIN. The client sends it only where the server checks it (since 0.27.0): on writes, on `me()`, and on every call with a 10-digit legacy key; a prefixed key's reads go without it.
+This runs as written. A write key also takes a PIN: `Client(key, pin)`. The PIN is a 4-digit number (1000 to 9999) set on your account in account settings, and it guards writes to every world you own. A member writes with their own account PIN, and an AI seat sends its seat secret (`ow_s_…`) as the PIN. The client sends it only where the server checks it (since 0.27.0): on writes, on `me()`, and on every call with a 10-digit legacy key; a prefixed key's reads go without it.
 
 Elements are plain dicts. Two demo keys read public sample worlds: `0000000000` (Hyperion) and `0000000001` (Moppetopia). `client.search("Fluffington", limit=200)` finds the elements whose name or text holds every word you give ([Search](/docs/development/api/reads#search)).
 
@@ -97,7 +97,7 @@ Each element becomes one markdown file: its fields and links in the frontmatter,
 
 ## Proposed changes
 
-Since 0.26.0 a member can [propose a change](/docs/development/api/proposals) for a keeper to accept instead of writing it, and a world's owner can make every agent seat work that way.
+Since 0.26.0 a member can [propose a change](/docs/development/api/proposals) for a keeper to accept instead of writing it, and a world's owner can make every AI seat work that way.
 
 ```python
 row = client.propose("character", cid, {"reputation": "Feared"}, evidence="Chapter 12", expires=None)
@@ -111,7 +111,7 @@ client.review_new_element("character", eid, "accept")   # a seat's new element: 
 
 Since 0.35.0 the queue holds two kinds of row, told apart by `kind`: proposals (`"proposal"`, `fields` only what differs, `omitted` what a `PUT` left empty) and a seat's marked new elements (`"new_element"`), settled with `review_new_element`; an unmarked element raises an `ApiError` with `is_not_proposed`. The walker sends `next_cursor` back as it came.
 
-`propose` cleans its fields as `patch` does and always sends an `Idempotency-Key`; `accept_proposal` sends none, as the document declares none. With **AI seats propose, a person accepts** on for the world (`agent_writes_proposed` on `get_world()`, read-only; `patch_world` drops it), an agent seat's `patch`, `upsert` or link edit answers `202` and the client raises `ProposedError` (`err.is_proposed`, `err.proposal`) rather than returning a body that is not the element; a `bulk` slot with `status` 202 stays in the result, listed on `BulkResult.proposed`; `push` counts a 202 as `proposed`, never as pushed, and never files the same proposal twice. An accept that finds a proposed field moved raises `StaleProposal` (409, `.conflicts`, `.current`); the other codes are `is_own_proposal`, `is_proposed_only`, `is_too_many_open` and `is_field_not_visible`. The [doctor](#check-a-world)'s flag 12 reports the queue's open and lapsed rows through the API.
+`propose` cleans its fields as `patch` does and always sends an `Idempotency-Key`; `accept_proposal` sends none, as the document declares none. With **AI seats propose, a person accepts** on for the world (`agent_writes_proposed` on `get_world()`, read-only; `patch_world` drops it), an AI seat's `patch`, `upsert` or link edit answers `202` and the client raises `ProposedError` (`err.is_proposed`, `err.proposal`) rather than returning a body that is not the element; a `bulk` slot with `status` 202 stays in the result, listed on `BulkResult.proposed`; `push` counts a 202 as `proposed`, never as pushed, and never files the same proposal twice. An accept that finds a proposed field moved raises `StaleProposal` (409, `.conflicts`, `.current`); the other codes are `is_own_proposal`, `is_proposed_only`, `is_too_many_open` and `is_field_not_visible`. The [doctor](#check-a-world)'s flag 12 reports the queue's open and lapsed rows through the API.
 
 ## The Markdown pack
 

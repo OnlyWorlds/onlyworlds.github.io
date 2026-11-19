@@ -63,7 +63,7 @@ What Lantern does with each kind of link:
 
 - **A person's link** (a contributor, a co-builder, or a player with an account) joins with your own account: **Join** and the world's name. Signed out, the button reads **Sign in to join**, and the link waits through the sign-in. The world then opens on the phone like any of your account's worlds.
 - **A player's link** needs no account and no PIN. Lantern asks for your name, as the game master sees it (optional), then **Open** and the world's name opens the world to read as the Character the game master chose. See [Player links](/docs/development/api/members#player-links).
-- **An agent's link** is for an AI, not a person. Lantern says so and joins nothing; ask for a link for a person. An AI joins with it as an [agent seat](/docs/development/agents).
+- **An agent's link** is for an AI, not a person. Lantern says so and joins nothing; ask for a link for a person. An AI joins with it as an [AI seat](/docs/development/agents).
 
 A link that was used, expired or taken back is refused with one sentence: ask for a new one. A game master who opens their own player link on a phone that holds their own copy of the world keeps that copy. The link is used up then: remove the player it made from the world's members on onlyworlds.com.
 

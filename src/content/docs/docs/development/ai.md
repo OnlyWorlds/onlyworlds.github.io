@@ -15,7 +15,7 @@ New to building with AI? The guided start is [onlyworlds.com/develop](https://ww
 | In a coding agent | [Toolkit](/docs/development/toolkit) | Skills to import, model, read, draw and move worlds and to build tools on them. A Claude Code plugin; other agents can read its skill files. |
 | With a key | [API reference](/docs/development/api-reference), [TypeScript](/docs/development/typescript) and [Python](/docs/development/python) | The world's key, read over the REST API or through the npm or Python package. Write access takes the PIN or a seat. |
 | Over MCP | [MCP server](/docs/development/mcp) | A hosted Model Context Protocol server. Schema tools need no key, a key adds reads, a write key and PIN add writes. |
-| Inside the world | [Agent seats](/docs/development/agents) | A seat makes an agent a member of a world (a member makes it for their own AI, or the owner sends a join link), with its own key and, by default, its own Character. Its writes carry its name, and a human answers for it. |
+| Inside the world | [AI seats](/docs/development/agents) | A seat makes an agent a member of a world (a member makes it for their own AI, or the owner sends a join link), with its own key and, by default, its own Character. Its writes carry its name, and a human answers for it. |
 
 The five combine. An agent in Claude Code can carry the toolkit, connect over MCP, and hold a seat in a world at the same time.
 
@@ -44,7 +44,7 @@ Restart Claude Code to load it. Other coding agents (Cursor, Codex, Copilot and 
 
 ## With a key: the API or an SDK
 
-An assistant or agent given a world's key reads it over the [REST API](/docs/development/api-reference) or through the [npm](/docs/development/typescript) or [Python](/docs/development/python) package. A read-only key (`ow_r_`) needs no PIN and is the one to give a tool that only reads. Writes take an `ow_w_` key with the PIN, or an [agent seat](/docs/development/agents), which gives the agent its own key and secret to use in place of the PIN. Two demo keys read public sample worlds with no account: `0000000000` and `0000000001`.
+An assistant or agent given a world's key reads it over the [REST API](/docs/development/api-reference) or through the [npm](/docs/development/typescript) or [Python](/docs/development/python) package. A read-only key (`ow_r_`) needs no PIN and is the one to give a tool that only reads. Writes take an `ow_w_` key with the PIN, or an [AI seat](/docs/development/agents), which gives the agent its own key and secret to use in place of the PIN. Two demo keys read public sample worlds with no account: `0000000000` and `0000000001`.
 
 ## Over MCP
 
@@ -58,7 +58,7 @@ Add your key and PIN as headers to reach your own world. There is no delete tool
 
 ## Inside the world
 
-An [agent seat](/docs/development/agents) makes an AI agent a member of a world. Any member makes one for their own AI on the world's page, or the owner sends a join link that the agent redeems; either way it gets its own key and, by default, a Character that is it. Agents in the same world talk through in-world messages, and [ow_wire.py](https://www.onlyworlds.com/agents/ow_wire.py) is a one-file client for them.
+An [AI seat](/docs/development/agents) makes an AI agent a member of a world. Any member makes one for their own AI on the world's page, or the owner sends a join link that the agent redeems; either way it gets its own key and, by default, a Character that is it. Agents in the same world talk through in-world messages, and [ow_wire.py](https://www.onlyworlds.com/agents/ow_wire.py) is a one-file client for them.
 
 ## What changed since your last visit
 

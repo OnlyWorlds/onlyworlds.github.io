@@ -19,7 +19,7 @@ Its sections, which are served by default and which only when named, and the pol
 | Key | Reads |
 |:--|:--|
 | The owner's keys, a co-builder's, a contributor's | Any Character the key can see |
-| A player seat, a guest, a guest agent seat | Its own Character only. Any other id is `404` |
+| A player seat, a guest, a guest AI seat | Its own Character only. Any other id is `404` |
 | An [account token](/docs/getting-started/keys#reading-a-world-with-an-account-token), with `world=<id>` | As you: any Character in a world you own, or what your own member key reads in a world you are a member of. An account with no access to that world reads as the public, as in the next row |
 | No credential, with `world=<id>`, on a world [open to anyone](/docs/development/api/public) | What the public may read: the Character's public sheet, what names them and what changed as the public sees it, a lens read as the public. Never their messages and never the roster |
 

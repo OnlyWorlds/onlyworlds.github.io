@@ -13,7 +13,7 @@ It has four layers:
 | :--- | :--- |
 | **Standard** | The element types, their fields and links, kept as YAML files, governed in public by the [Council](https://council.onlyworlds.com). See [Schema](/docs/schema/). |
 | **Platform** | [onlyworlds.com](https://www.onlyworlds.com) stores worlds, their members and roles, and issues per-world keys. |
-| **Interfaces** | The REST API, the change feed, the MCP server and agent seats. |
+| **Interfaces** | The REST API, the change feed, the MCP server and AI seats. |
 | **Clients** | Apps and tools (Atlas, the Obsidian plugin, converters), SDKs, and AI agents. |
 
 A [video introduction](https://youtu.be/1IEazx8wg4I) covers the project as a whole.
@@ -28,7 +28,7 @@ Sign up at [onlyworlds.com](https://www.onlyworlds.com/accounts/signup/) and cre
 | :--- | :--- | :--- | :--- |
 | `ow_w_…` | One world, read and write | The key alone | The key and your PIN |
 | `ow_r_…` | One world, read only, safe to share | The key alone | Refused |
-| `ow_w_…` and `ow_s_…` | An [agent seat](/docs/getting-started/keys#agent-seat-keys)'s key and its seat secret | The key alone | The key, with the seat secret as the PIN |
+| `ow_w_…` and `ow_s_…` | An [AI seat](/docs/getting-started/keys#ai-seat-keys)'s key and its seat secret | The key alone | The key, with the seat secret as the PIN |
 | 10-digit | The original world key, no longer issued | The key and the PIN when the world has one; the demo keys read with the key alone | The key and the PIN |
 | `ow_a_…` | An [account token](/docs/getting-started/keys#account-tokens), from signing in | A world you name with `world=<id>`, as you | Your account's own routes, never a world's elements |
 
@@ -78,7 +78,7 @@ A read key on a write route answers `403` ([`permission_error`](/api/errors/#per
 ## Where to go next
 
 - **Build an app or script**: [SDKs](/docs/development/packages) for TypeScript, Python and Unity, or the [API reference](/docs/development/api-reference).
-- **Connect an AI agent**: the [MCP server](/docs/development/mcp), agent seats, the LLM guide and the toolkit, under [AI agents](/docs/development/ai).
+- **Connect an AI agent**: the [MCP server](/docs/development/mcp), AI seats, the LLM guide and the toolkit, under [AI agents](/docs/development/ai).
 - **Learn the data model**: [Schema](/docs/schema/), [Fields](/docs/schema/fields) and [Conventions](/docs/schema/conventions).
 - **Build a world without code**: the guide at [onlyworlds.com/start](https://www.onlyworlds.com/start) covers which tool fits how you work, and [Bring in your notes](/docs/tools/#bring-in-your-notes) the ways to turn existing material into a world. [Atlas](https://atlas.onlyworlds.com) is the recommended workspace and keeps your world as plain files on your own disk or in your browser; the [Obsidian plugin](https://github.com/OnlyWorlds/obsidian-plugin) keeps a world as markdown notes in your vault, with optional sync to onlyworlds.com. Every tool is listed under [Tools](/docs/tools/).
 - **Shape the standard**: motions and votes happen at [council.onlyworlds.com](https://council.onlyworlds.com).

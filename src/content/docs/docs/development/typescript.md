@@ -114,7 +114,7 @@ These are optional; use them when you need them.
 
   The default is `sdk`. A name outside lower case letters, digits and hyphens, 1 to 32 characters, is a `TypeError` at construction.
 
-Every element read carries `changed_by` and `changed_via`, the last write's member and door (the way it came in: [the doors](/docs/development/api/reads#what-an-element-carries)); `isAgentDoor(el.changed_via)` is true for an [agent seat](/docs/development/api/members#agent-seats) (an AI that is a member of the world), the MCP server or a client that declared itself.
+Every element read carries `changed_by` and `changed_via`, the last write's member and door (the way it came in: [the doors](/docs/development/api/reads#what-an-element-carries)); `isAgentDoor(el.changed_via)` is true for an [AI seat](/docs/development/api/members#ai-seats) (an AI that is a member of the world), the MCP server or a client that declared itself.
 
 ## Bulk writes
 

@@ -46,7 +46,7 @@ url = "https://www.onlyworlds.com/mcp"
 env_http_headers = { "API-Key" = "OW_API_KEY", "API-Pin" = "OW_API_PIN" }
 ```
 
-`OW_API_KEY` and `OW_API_PIN` are the names an [agent seat's](/docs/development/agents) join response uses. Any variable names work, as long as the config and the environment agree.
+`OW_API_KEY` and `OW_API_PIN` are the names an [AI seat's](/docs/development/agents) join response uses. Any variable names work, as long as the config and the environment agree.
 
 ## Credentials
 
@@ -57,7 +57,7 @@ Credentials travel as headers on every request, exactly as on the REST API.
 | `API-Key` | A world key. The key scopes the server to one world. |
 | `API-Pin` | The PIN, required for writes. |
 
-- Keys are minted on your world's page in the [account portal](https://www.onlyworlds.com/account/). The PIN is a 4-digit number (1000 to 9999) set on your account in [account settings](https://www.onlyworlds.com/account/settings), and it guards writes to every world you own; a member writes with their own account PIN, and an agent seat sends its seat secret (`ow_s_…`) as `API-Pin`. See [Keys and PINs](/docs/getting-started/keys).
+- Keys are minted on your world's page in the [account portal](https://www.onlyworlds.com/account/). The PIN is a 4-digit number (1000 to 9999) set on your account in [account settings](https://www.onlyworlds.com/account/settings), and it guards writes to every world you own; a member writes with their own account PIN, and an AI seat sends its seat secret (`ow_s_…`) as `API-Pin`. See [Keys and PINs](/docs/getting-started/keys).
 - A read-only `ow_r_` key needs no PIN. A prefixed write key (`ow_w_`) reads without the PIN too; only a legacy 10-digit key (other than the demo keys) must send it, on every read of a world that has a PIN. A PIN that is sent is checked even where none is needed: a wrong one is refused on a read, so a connection test learns of it at once (a demo key or a member's key aside).
 - The client saves both headers in its configuration as written. For read-only use, connect with an `ow_r_` key and no PIN.
 - Calls here count against the same request budget as the REST API: 300 a minute per key, 60 a minute per address for a call with no key. Every answer carries `RateLimit-Limit`, `RateLimit-Remaining` and `RateLimit-Reset`, and a call over the budget answers `429` with `Retry-After` ([Limits](/docs/development/api-reference#limits)). <!-- limit: requests_per_minute requests_per_minute_keyless -->
@@ -94,7 +94,7 @@ Every read tool takes an optional `world`. With a key, `world` reads and refuses
 | Tool | Arguments | Returns |
 |:--|:--|:--|
 | `create_element` | **`type`**, **`element`**: the field payload, `name` plus any fields of the element type; include an `id` to mint at that UUID, or leave it out and the server mints one; `hidden` (false): true [creates it hidden](/docs/development/api/hidden#creating-an-element-hidden), from the owner's key or a co-builder's only | The created element in the full `/api/v2/` shape. |
-| `update_element` | **`type`**, **`id`**, **`fields`**: only the fields to change, `if_match` (the element's `change_seq` as you read it, a whole number: a stale one is refused `412` `precondition_failed`, `param` `if_match`, with the live element as `current`, and nothing is written; left out, the update is unconditional) | The updated element; on a world that takes an agent seat's writes as [proposals](/docs/development/api/proposals#the-switch), a seat's update answers `{proposed, proposal}` and changes nothing until a keeper accepts it. A server-side read-merge: fields you leave out stay intact, `""` clears a text field, and a multi-link field you pass replaces that field's whole array (`[]` clears it). |
+| `update_element` | **`type`**, **`id`**, **`fields`**: only the fields to change, `if_match` (the element's `change_seq` as you read it, a whole number: a stale one is refused `412` `precondition_failed`, `param` `if_match`, with the live element as `current`, and nothing is written; left out, the update is unconditional) | The updated element; on a world that takes an AI seat's writes as [proposals](/docs/development/api/proposals#the-switch), a seat's update answers `{proposed, proposal}` and changes nothing until a keeper accepts it. A server-side read-merge: fields you leave out stay intact, `""` clears a text field, and a multi-link field you pass replaces that field's whole array (`[]` clears it). |
 | `edit_links` | **`type`**, **`id`**, **`field`**: one multi-link field, `add` (UUIDs to link), `remove` (UUIDs to unlink), `if_match` (as for `update_element`) | `{type, id, field, values}`, `values` being the field's whole array after the edit. The field's other links stay untouched. A seat's edit on a world that takes its writes as proposals answers `{proposed, proposal}`. |
 | `bulk_apply` | **`items`**: up to 1000 entries of `{"type": <slug>, "element": <payload>}`, `atomic` (false) | `{errors, items}`, one outcome per item. An `element` with an `id` updates that element (creating it if absent), one without creates, and may carry `hidden: true` as `create_element` takes it; items can link to each other. With `atomic` true, any failure rolls the whole batch back. A seat's item on an existing element, on a world that takes its writes as proposals, is `{status: 202, id, proposal}`. |
 | `get_image_upload_ticket` | none | A single-use ticket for one image upload: `{ticket, upload_url, max_bytes, exp}`. The image never passes through the tool: the agent uploads the bytes itself to `upload_url` with the ticket, then calls `update_element` with the returned `url` as `image_url`. See [Images](/docs/development/api/images). |
@@ -133,5 +133,5 @@ The two world resources go through the same key check and the same scoping as th
 ## See also
 
 - [World API](/docs/development/api-reference): the same data over REST, with the interactive reference at [onlyworlds.com/api/docs](https://www.onlyworlds.com/api/docs).
-- [Agent seats](/docs/development/agents): give an agent its own key and Character in a world, then connect it here.
+- [AI seats](/docs/development/agents): give an agent its own key in a world, and by default its own Character, then connect it here.
 - [Toolkit](/docs/development/toolkit): Claude Code skills that work on a world folder or an account world.

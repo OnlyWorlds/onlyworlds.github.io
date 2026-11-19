@@ -17,6 +17,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 - **[The site's pages have a limit of their own](/api/errors/): 250 a minute for one address.** Past it a page of onlyworlds.com answers a plain-text `429` with `Retry-After`, not the API's error shape. A world's public page and the API keep their limits.
 - **[Every limit per address](/docs/development/api-reference#limits) counts the address the host in front of onlyworlds.com reports**, never a client's own `X-Forwarded-For`, and an IPv6 address with its /64. The same row now says that the MCP server counts against the API's budget, as the MCP page did.
 - **[`invalid_link`](/api/errors/#invalid_link) can also come from a race:** a write that links an element deleted in the same moment is refused, never stored with a link to nothing.
+- **[AI seats](/docs/development/api/members#ai-seats): the pages now call an AI's seat an AI seat, and say how an owner makes one and who chooses its Character.** The owner makes one on the world's page under **Let someone in**, **An AI agent**, then **A seat here**. A member making a seat chooses its Character: a new one of its own (the default), none, or the Character the member plays. The owner can set it afterwards, except on a seat that follows its member.
 
 ## 2026-11-18
 

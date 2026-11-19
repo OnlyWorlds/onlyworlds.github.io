@@ -76,7 +76,7 @@ const membership = await account.acceptJoin(code);        // account: the invite
 
 A bad code is one 404 (`err.isNotFound`). Accepting can answer `err.isAlreadyMember`; it needs no account PIN, though a write key for the new membership waits for one. A refusal never uses up the code.
 
-`reader: 'agent'` makes a link an AI agent redeems for a seat instead (an [agent seat](/docs/development/api/members#agent-seats): the AI's own membership, key and secret), with `redeemJoin`: the answer has `kind: 'agent'`, the seat's key and secret, and its `.env` lines.
+`reader: 'agent'` makes a link an AI agent redeems for a seat instead (an [AI seat](/docs/development/api/members#ai-seats): the AI's own membership, key and secret), with `redeemJoin`: the answer has `kind: 'agent'`, the seat's key and secret, and its `.env` lines.
 
 `createWorldLink` is the owner's own: any other account gets a 404. A co-builder makes guest and contributor links through the API ([a co-builder's links](/docs/development/api/members#a-co-builders-links)), which has no SDK call yet.
 
@@ -168,7 +168,7 @@ A tool that stores a world key on the device mints it with `mintWorldKey(worldId
 
 ## Proposed changes
 
-A member can [propose a change](/docs/development/api/proposals) for a keeper to accept instead of writing it. A world's owner can make every agent seat work that way, with the switch **AI seats propose, a person accepts** on the world page ([the switch](/docs/development/api/proposals#the-switch)).
+A member can [propose a change](/docs/development/api/proposals) for a keeper to accept instead of writing it. A world's owner can make every AI seat work that way, with the switch **AI seats propose, a person accepts** on the world page ([the switch](/docs/development/api/proposals#the-switch)).
 
 ```typescript
 const row = await client.propose('character', id, { fields: { reputation: 'Feared' }, evidence: 'Chapter 12', expires: new Date(Date.now() + 14 * 86_400_000).toISOString() });
@@ -188,7 +188,7 @@ The queue holds two kinds of row, told apart by `kind`; narrow on it before read
 
 `reviewNewElement` settles a new element a seat made under the switch; an element with no mark throws with `err.isNotProposed`.
 
-With **AI seats propose, a person accepts** on for the world (`agent_writes_proposed` on `getWorld()`, read-only; `patchWorld` strips it), an agent seat's `patch`, `upsert` or `editLinks` on an existing element answers `202`. The client then throws `OwProposedError` (`err.isProposed`, `err.proposal`) rather than returning a body that is not the element; a `bulk` slot with `status: 202` stays in the result, typed.
+With **AI seats propose, a person accepts** on for the world (`agent_writes_proposed` on `getWorld()`, read-only; `patchWorld` strips it), an AI seat's `patch`, `upsert` or `editLinks` on an existing element answers `202`. The client then throws `OwProposedError` (`err.isProposed`, `err.proposal`) rather than returning a body that is not the element; a `bulk` slot with `status: 202` stays in the result, typed.
 
 An accept that finds a proposed field moved throws `OwStaleProposalError` (409, `err.isStaleProposal`, `err.conflicts`, `err.current`); the other codes are `isOwnProposal`, `isProposedOnly`, `isTooManyOpen` and `isFieldNotVisible`.
 

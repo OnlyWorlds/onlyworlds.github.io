@@ -7,7 +7,7 @@ import ProposalLife from '../../../../../components/figures/ProposalLife.astro';
 
 A **proposal** is a change to an element that waits for a keeper's word. Any member whose key reads the element can propose one: the fields they would set, a line of evidence, and how long it stands. The element does not change. The world's owner or a co-builder then **accepts** it, which writes the element as their own write, or **declines** it; the proposer can **withdraw** it. Nothing about a proposal reaches the [change feed](/docs/development/api/changes): only the accept's write does, as one row by the keeper.
 
-A world's owner can also turn on **AI seats propose, a person accepts** on the world page. Under that switch every change an [agent seat](/docs/development/api/members#agent-seats) makes to an existing element becomes a proposal instead of a write, and the seat's new elements carry a mark saying they are proposed. A person's key is never held by the switch.
+A world's owner can also turn on **AI seats propose, a person accepts** on the world page. Under that switch every change an [AI seat](/docs/development/api/members#ai-seats) makes to an existing element becomes a proposal instead of a write, and the seat's new elements carry a mark saying they are proposed. A person's key is never held by the switch.
 
 <ProposalLife />
 
@@ -47,7 +47,7 @@ The queue carries an `ETag` of `"<newest updated_at>:<open count>:<marked count>
 
 `agent_writes_proposed` on [`GET /world`](/docs/development/api/reads#the-world) is `true` when the owner has turned on **AI seats propose, a person accepts** on the world page. It is read-only on the API and off by default; a `PATCH /world` carrying it is refused like `public_read`.
 
-With it on, for an [agent seat](/docs/development/api/members#agent-seats)'s key only:
+With it on, for an [AI seat](/docs/development/api/members#ai-seats)'s key only:
 
 - `PATCH`, `PUT` and a [link edit](/docs/development/api/links) on an existing element answer `202 {"proposal": {...}}` instead of writing. `If-Match` is checked first: a stale one is still `412`. The proposal's evidence is the seat's client name, or else its door.
 - A `/bulk` item answers a slot `{"status": 202, "id": ..., "proposal": {...}}`.

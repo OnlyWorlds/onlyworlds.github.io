@@ -60,7 +60,7 @@ It differs from your own world in four ways, each refused or limited by the real
 
 ## The PIN
 
-The PIN is a 4-digit number (1000 to 9999) set on your account in [account settings](https://www.onlyworlds.com/account/settings), and it guards writes to every world you own; a member writes with their own account PIN, and an agent seat sends its seat secret (`ow_s_…`) as `API-Pin`.
+The PIN is a 4-digit number (1000 to 9999) set on your account in [account settings](https://www.onlyworlds.com/account/settings), and it guards writes to every world you own; a member writes with their own account PIN, and an AI seat sends its seat secret (`ow_s_…`) as `API-Pin`.
 
 - **Send the PIN only where it is checked.** The server verifies a PIN on every request that carries one, and each verification is deliberate work (a memory-hard hash). A client sends it on writes, on `/me` (to test a connection), and on every call only with a 10-digit legacy key; a prefixed key's reads go without it. The SDK (since 4.59.0) and the Python package (since 0.27.0) do this for you.
 - **A world with a PIN requires it on every write.** New worlds always have one. An account without a PIN chooses it when creating its first world, and changing it in account settings changes it on every world the account owns.
@@ -75,9 +75,11 @@ A world can have members besides its owner (see [Members and sharing](/docs/deve
 
 Removing a member, or a member leaving, deletes that member's keys for the world.
 
-## Agent seat keys
+<a id="agent-seat-keys"></a>
 
-An agent seat, whether a member made it or it joined through an agent link, receives once an `ow_w_` key and a seat secret (`ow_s_…`). The agent sends the secret as `API-Pin` on writes. It is never the world's PIN or any account's PIN, and reads take the key alone. A lost key is replaced with a new one, never a new seat. Joining is described on [AI agents](/docs/development/agents).
+## AI seat keys
+
+An AI seat, whether a member made it or it joined through an agent link, receives once an `ow_w_` key and a seat secret (`ow_s_…`). The agent sends the secret as `API-Pin` on writes. It is never the world's PIN or any account's PIN, and reads take the key alone. A lost key is replaced with a new one, never a new seat. Joining is described on [AI agents](/docs/development/agents).
 
 ## Checking a key
 
@@ -96,7 +98,7 @@ curl -s "https://www.onlyworlds.com/api/v2/me" -H "API-Key: {key}"
 
 ### Checking the PIN
 
-Send the PIN with a read and the read checks it. `/me` and every read take the key alone (except a legacy key, which sends its PIN on every read), but a PIN that comes with the request is checked all the same, so `GET /api/v2/me` with the key and the PIN confirms both. A wrong PIN answers the same `401` [`invalid_credentials`](/api/errors/#invalid_credentials) as a bad key, but with `param` `API-Pin`, so a client can tell them apart, through the same throttle as a write. An empty `API-Pin` header counts as none. Two keys are exceptions: a member's key, whose PIN (or an agent seat's secret) is checked on a write and on `GET /api/v2/me` when one is sent (other reads ignore it), and a [demo key](#demo-keys), which reads with any PIN. The `message` tells the failures apart:
+Send the PIN with a read and the read checks it. `/me` and every read take the key alone (except a legacy key, which sends its PIN on every read), but a PIN that comes with the request is checked all the same, so `GET /api/v2/me` with the key and the PIN confirms both. A wrong PIN answers the same `401` [`invalid_credentials`](/api/errors/#invalid_credentials) as a bad key, but with `param` `API-Pin`, so a client can tell them apart, through the same throttle as a write. An empty `API-Pin` header counts as none. Two keys are exceptions: a member's key, whose PIN (or an AI seat's secret) is checked on a write and on `GET /api/v2/me` when one is sent (other reads ignore it), and a [demo key](#demo-keys), which reads with any PIN. The `message` tells the failures apart:
 
 | Answer | `message` | Meaning |
 |:--|:--|:--|
@@ -114,7 +116,7 @@ Message wording may change: branch on `code`, and use the message only to tell a
 - A key and PIN in browser code are visible to anyone who opens the page. Ship only an `ow_r_` read key in a public page, or ask each visitor for their own credentials at runtime. See [CORS](/docs/development/api/cors).
 - Keep keys and PINs in a `.env` file that git ignores, never in a commit or a chat.
 - An MCP client stores the `API-Key` and `API-Pin` headers in its own configuration as written. Use a key you can revoke on its own. See [MCP server](/docs/development/mcp).
-- An agent seat's key and secret are shown once, when the seat is made or joins; a lost one is replaced with a new key, never shown again. See [AI agents](/docs/development/agents).
+- An AI seat's key and secret are shown once, when the seat is made or joins; a lost one is replaced with a new key, never shown again. See [AI agents](/docs/development/agents).
 - A leaked key is revoked in the account portal; mint a new one in its place.
 
 ## Account tokens

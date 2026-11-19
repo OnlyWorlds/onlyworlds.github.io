@@ -7,7 +7,7 @@ An element's or the world's `image_url` takes any URL. To host the image on Only
 
 ## 1. Get a ticket
 
-`POST /api/v2/media/ticket` with a write key and its PIN, and no body. Owner, legacy, member and agent-seat keys all work.
+`POST /api/v2/media/ticket` with a write key and its PIN, and no body. Owner, legacy, member and AI seat keys all work.
 
 ```bash
 curl -s -X POST "https://www.onlyworlds.com/api/v2/media/ticket" \
@@ -55,7 +55,7 @@ For the world's own picture, `PATCH /api/v2/world` with the same body (the owner
 
 ## Removing an image
 
-An image uploaded with a ticket can be removed by its uploader, or by the world's owner key; an agent seat answers as its sponsor. Any other key gets `403` [`permission_error`](/api/errors/#permission_error). Removal takes two calls, like the upload.
+An image uploaded with a ticket can be removed by its uploader, or by the world's owner key; an AI seat answers as its sponsor. Any other key gets `403` [`permission_error`](/api/errors/#permission_error). Removal takes two calls, like the upload.
 
 ```bash
 curl -s -X POST "https://www.onlyworlds.com/api/v2/media/remove-ticket" \
@@ -86,7 +86,7 @@ curl -s -X POST "{remove_url}" \
 ## Limits
 
 - **200 tickets per world in 24 hours.** More is `429` [`quota_exceeded`](/api/errors/#quota_exceeded), with `Retry-After`. <!-- limit: image_tickets_per_day -->
-- **1 GB of images per uploading account** (1,073,741,824 bytes) by default; an account's cap can be raised. Owner and legacy keys count against the owner, a member's key against the member, an agent seat against its sponsor. A full account gets `403` [`storage_full`](/api/errors/#storage_full) and no ticket. <!-- limit: image_account_bytes -->
+- **1 GB of images per uploading account** (1,073,741,824 bytes) by default; an account's cap can be raised. Owner and legacy keys count against the owner, a member's key against the member, an AI seat against its sponsor. A full account gets `403` [`storage_full`](/api/errors/#storage_full) and no ticket. <!-- limit: image_account_bytes -->
 - When image upload is not configured on the server, the ticket route answers `503` [`media_unavailable`](/api/errors/#media_unavailable).
 
 Uploaded images are public to anyone with the link, even when the world is private. They stay until their uploader or the world's owner removes them, or the world is deleted.

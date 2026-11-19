@@ -3,7 +3,7 @@ title: Writes and bulk
 description: Creating, replacing, updating and deleting elements, retrying safely, writing many elements in one call, and updating the world itself.
 ---
 
-Writes take a write key (`ow_w_`, a legacy key, a member's or an agent seat's key) and the PIN in `API-Pin`. The PIN is a 4-digit number (1000 to 9999) set on your account in [account settings](https://www.onlyworlds.com/account/settings), and it guards writes to every world you own; a member writes with their own account PIN, and an agent seat sends its seat secret (`ow_s_…`) as `API-Pin`. A read key on a write route is `403` [`permission_error`](/api/errors/#permission_error). The key names the world, so a body never carries one.
+Writes take a write key (`ow_w_`, a legacy key, a member's or an AI seat's key) and the PIN in `API-Pin`. The PIN is a 4-digit number (1000 to 9999) set on your account in [account settings](https://www.onlyworlds.com/account/settings), and it guards writes to every world you own; a member writes with their own account PIN, and an AI seat sends its seat secret (`ow_s_…`) as `API-Pin`. A read key on a write route is `403` [`permission_error`](/api/errors/#permission_error). The key names the world, so a body never carries one.
 
 To try a write without an account, use the [practice world](/docs/getting-started/keys#the-practice-world): its key and PIN are published, anyone may write to it, and it goes back to the same copy every night.
 
@@ -72,7 +72,7 @@ Every write records the door it came through. An element read carries `changed_b
 
 | `changed_via` | The write came through |
 |:--|:--|
-| `seat` | An [agent seat](/docs/development/agents)'s key |
+| `seat` | An [AI seat](/docs/development/agents)'s key |
 | `mcp` | The [MCP server](/docs/development/mcp) |
 | `declared` | A request that sent the `X-OW-Agent` header |
 | `api` | The v2 API, without that header |
@@ -85,7 +85,7 @@ The first three mean an agent made the change. An AI writing on a person's own k
 
 **A write can also name the tool that sent it** (2026-10-22): the `X-OW-Client` header, the tool's own name in lower case letters, digits and hyphens, 1 to 32 characters (`atlas`, `lantern`, `sdk`, `python`). It is read on the writes that record a door (the element writes, the link route, `/bulk`, adopt) and kept on the element as `changed_client`, `null` when no name was sent or the value broke the rule (a bad value is ignored, never a `422`), and as that tool's key in the element's `doors` (since 2026-10-29; a write with no name keys its door instead, see [Reads](/docs/development/api/reads)); a delete's tombstone carries it as `deleted_client`. It is the client's claim, never proof: it changes no door and no permission, and is ignored when echoed in a write. Recent changes reads a named row "through atlas". <!-- limit: client_name_chars -->
 
-**A seat's writes can be held for a person's word** (2026-10-22). With **AI seats propose, a person accepts** on for the world (`agent_writes_proposed` on `GET /world`), an agent seat's partial update, upsert, link edit or `/bulk` item on an existing element answers `202` with a [proposal](/docs/development/api/proposals) instead of writing, its new elements carry `x_review_proposed`, and it deletes only what it created. A person's key is never held. The whole mechanism, the switch's reach and the queue: [Proposed changes](/docs/development/api/proposals).
+**A seat's writes can be held for a person's word** (2026-10-22). With **AI seats propose, a person accepts** on for the world (`agent_writes_proposed` on `GET /world`), an AI seat's partial update, upsert, link edit or `/bulk` item on an existing element answers `202` with a [proposal](/docs/development/api/proposals) instead of writing, its new elements carry `x_review_proposed`, and it deletes only what it created. A person's key is never held. The whole mechanism, the switch's reach and the queue: [Proposed changes](/docs/development/api/proposals).
 
 The world page on onlyworlds.com shows both in Recent changes: who made each change, with an AI badge for a seat, and the door in words ("through the MCP server", "through the API, sent by an agent"). An edit made on the site (a hide, a picture taken down, an author changed) reads "through the site". Since 2026-10-22 an element made inside the window reads "added" rather than "changed", a hidden one is marked hidden for the readers who see it, a deleted one says its name is not kept, and viewing as the public shows no writer. A new element an AI seat proposed reads "proposed" there until a keeper settles it, and "lapsed" once its `expires` day has passed (since 2026-10-23). A change by someone whose membership has ended (removed, left, or their account deleted) reads "a former member · through" its door: a `changed_by` id whose [roster](/docs/development/api/members#the-roster) row has `status` `removed` is a former member's, never the owner's.
 

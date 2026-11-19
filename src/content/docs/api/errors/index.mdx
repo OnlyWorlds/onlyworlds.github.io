@@ -253,7 +253,7 @@ A review (`POST /api/v2/{type}/{id}/review`, a keeper accepting or declining a n
 
 **Type** `permission_error` · **Status** `403`
 
-Under the world's **AI seats propose, a person accepts** switch, an agent seat tried to delete an element it did not create, or to accept or decline a proposal; and on any world, the member a new element's mark names tried to review it (since 2026-10-23). A seat under the switch proposes; a person decides.
+Under the world's **AI seats propose, a person accepts** switch, an AI seat tried to delete an element it did not create, or to accept or decline a proposal; and on any world, the member a new element's mark names tried to review it (since 2026-10-23). A seat under the switch proposes; a person decides.
 
 - **How to fix:** leave the decision to a person's key, or propose the change and let a keeper accept it.
 
@@ -337,7 +337,7 @@ The owner tried to set an AI seat's role above the role of the person who answer
 
 **Type** `invalid_request` · **Status** `422`
 
-The owner tried to set a hidden Character as the one an agent seat or a player plays (`character` on the member's `PATCH`, or Change on its row under Members on the world page; `param` `character`). A played Character is on every reader's roster, so a hidden one can never be picked, by anyone.
+The owner tried to set a hidden Character as the one an AI seat or a player plays (`character` on the member's `PATCH`, or Change on its row under Members on the world page; `param` `character`). A played Character is on every reader's roster, so a hidden one can never be picked, by anyone.
 
 - **How to fix:** unhide the Character first, or pick another. See [Playing a hidden Character](/docs/development/api/hidden#playing-a-hidden-character).
 
@@ -428,7 +428,7 @@ A player opened a player link, a [table](/docs/development/api/members#a-table-o
 The API key or PIN is missing, unknown or wrong.
 
 - **Common cause:** no `API-Key` header, a mistyped key, or a missing or wrong `API-Pin` on a write. Only a legacy 10-digit key also needs the PIN to read a private world; prefixed keys (`ow_w_`, `ow_r_`) read without it. A deleted world's keys are deleted with it, so they also answer `invalid_credentials`.
-- **How to fix:** check the `API-Key` and `API-Pin` headers (exact names) and that the key belongs to the world you mean. `param` tells the two apart: `API-Pin` on every PIN refusal, `null` for the key. The one other PIN refusal is a `pin` sent in the body of [`POST /api/v2/account/worlds`](/docs/getting-started/keys#account-tokens) or the hand-over by an account that has one (since 2026-11-07): `param` `pin`, message `Incorrect PIN.`, nothing made. The message then says which: `A PIN is required: send it as API-Pin.` when none was sent, `Incorrect PIN.` when it was wrong, `No valid API-Key.` for the key. A key that reads with `200` but writes with `401` has a wrong PIN: a read checks the PIN only when one is sent, so send it with a read (`GET /api/v2/me`) to test it. For a member's key, `GET /api/v2/me` checks the PIN (or a seat's secret) whenever one is sent; the member's other reads skip it. Keys are minted in the [account portal](https://www.onlyworlds.com/account/). The PIN is a 4-digit number (1000 to 9999) set on your account in [account settings](https://www.onlyworlds.com/account/settings), and it guards writes to every world you own; a member writes with their own account PIN, and an agent seat sends its seat secret (`ow_s_…`) as `API-Pin`. See [Keys and PINs](/docs/getting-started/keys#checking-the-pin).
+- **How to fix:** check the `API-Key` and `API-Pin` headers (exact names) and that the key belongs to the world you mean. `param` tells the two apart: `API-Pin` on every PIN refusal, `null` for the key. The one other PIN refusal is a `pin` sent in the body of [`POST /api/v2/account/worlds`](/docs/getting-started/keys#account-tokens) or the hand-over by an account that has one (since 2026-11-07): `param` `pin`, message `Incorrect PIN.`, nothing made. The message then says which: `A PIN is required: send it as API-Pin.` when none was sent, `Incorrect PIN.` when it was wrong, `No valid API-Key.` for the key. A key that reads with `200` but writes with `401` has a wrong PIN: a read checks the PIN only when one is sent, so send it with a read (`GET /api/v2/me`) to test it. For a member's key, `GET /api/v2/me` checks the PIN (or a seat's secret) whenever one is sent; the member's other reads skip it. Keys are minted in the [account portal](https://www.onlyworlds.com/account/). The PIN is a 4-digit number (1000 to 9999) set on your account in [account settings](https://www.onlyworlds.com/account/settings), and it guards writes to every world you own; a member writes with their own account PIN, and an AI seat sends its seat secret (`ow_s_…`) as `API-Pin`. See [Keys and PINs](/docs/getting-started/keys#checking-the-pin).
 
 ### key_revoked
 
@@ -436,8 +436,8 @@ The API key or PIN is missing, unknown or wrong.
 
 The API key was recognized but has been revoked.
 
-- **Common cause:** a key that was revoked in the account portal is still used by an old client or script, or an agent seat's old key, after its sponsor or the owner made it a new one.
-- **How to fix:** mint a new key in the [account portal](https://www.onlyworlds.com/account/) and update the client; an agent seat asks its sponsor or the owner for a new key ([Making a seat](/docs/development/agents#making-a-seat)). Revocation is permanent for that key.
+- **Common cause:** a key that was revoked in the account portal is still used by an old client or script, or an AI seat's old key, after its sponsor or the owner made it a new one.
+- **How to fix:** mint a new key in the [account portal](https://www.onlyworlds.com/account/) and update the client; an AI seat asks its sponsor or the owner for a new key ([Making a seat](/docs/development/agents#making-a-seat)). Revocation is permanent for that key.
 
 ### wrong_audience
 
@@ -512,7 +512,7 @@ A key below co-builder (a contributor's, a guest's, a player's, or a seat's) set
 
 A key that is not a co-builder's called the world's invite links (`/api/v2/links`): a contributor's, a guest's, a player's, or one of the owner's own world keys.
 
-- **How to fix:** a co-builder's key (a person's with its PIN, or an agent seat's with its secret) makes guest and contributor links here. The owner makes links through the account routes, `/api/v2/account/worlds/{world_id}/links` ([Invite links](/docs/development/api/members#a-co-builders-links)).
+- **How to fix:** a co-builder's key (a person's with its PIN, or an AI seat's with its secret) makes guest and contributor links here. The owner makes links through the account routes, `/api/v2/account/worlds/{world_id}/links` ([Invite links](/docs/development/api/members#a-co-builders-links)).
 
 ### view_as_owner_only
 
@@ -535,7 +535,7 @@ A write (`POST`, `PUT`, `PATCH`, `DELETE`) to an `/api/v2/account/` route came s
 
 **Type** `permission_error` · **Status** `403`
 
-A guest key called a route guests cannot use (world sharing, token status), or wrote a note (a Narrative) with no Character of its own in the world, or, where agents narrate as themselves, an agent seat with no Character wrote a Narrative.
+A guest key called a route guests cannot use (world sharing, token status), or wrote a note (a Narrative) with no Character of its own in the world, or, where agents narrate as themselves, an AI seat with no Character wrote a Narrative.
 
 - **How to fix:** use a key with a role other than guest, or skip the route. For a note, nothing in the request can fix it: ask the world's owner. See [Guests](/docs/development/api/members#guests).
 

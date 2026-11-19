@@ -48,7 +48,7 @@ To start a web tool from a page that already runs, use [World Starter](https://g
 | :--- | :--- |
 | [AI agents](/docs/development/ai) | Which way in fits where the agent runs |
 | [MCP server](/docs/development/mcp) | Any MCP client, at `https://www.onlyworlds.com/mcp` |
-| [Agent seats](/docs/development/agents) | An agent joining a world as a member, with its own key and Character |
+| [AI seats](/docs/development/agents) | An agent joining a world as a member, with its own key and, by default, its own Character |
 | [LLM guide](/docs/development/llm-guide) | One text file that teaches the standard to a chat assistant |
 | [Toolkit](/docs/development/toolkit) | A Claude Code plugin with skills to import, model, read, draw and move worlds and build tools |
 
