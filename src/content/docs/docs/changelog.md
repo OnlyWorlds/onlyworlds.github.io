@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-20
 
+- **[Members](/docs/development/api/members#managing-members): what the invite cap counts.** The 50 a world holds are pending email invites and person and player links that can still be used: a new person or player link counts them together, a new email invite counts the email invites alone, and AI links count with the AI seats.
 - **[AI agents](/docs/development/agents): the world page and the API say AI.** On the world page the choice for inviting an AI is **An AI**, its button **Make an AI link**, and the narrator switch **AI seats narrate as themselves**; the API document calls a seat an AI seat and its link an AI link, and the narrator `422` reads "an AI seat's Narrative". The [members](/docs/development/api/members#invite-links), [reads](/docs/development/api/reads), [writes](/docs/development/api/writes#agent-writes), [draught](/docs/development/api/draught) and [onlyworlds.com](/docs/tools/onlyworlds-com) pages, the [errors page](/api/errors/#proposed_only) and the team world guide use the new names; Recent changes marks a seat's change "by Archivist, an AI". Nothing on the wire changed: a link's `reader` is still `agent`, and the doors are still `seat`, `mcp` and `declared`.
 
 ## 2026-11-19

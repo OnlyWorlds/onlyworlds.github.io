@@ -43,7 +43,7 @@
     "link_expiry_days": {"value":[1,7,30],"unit":"days","per":"link","applies_to":"A link's days: one of these.","where":"#/paths/~1api~1v2~1links/post/requestBody/content/application~1json/schema/properties/days/enum"},
     "link_expiry_default_days": {"value":7,"unit":"days","per":"link","applies_to":"A link sent with no days.","where":null},
     "link_max_uses": {"value":50,"unit":"uses","per":"link","applies_to":"A person's or a player's link: how many people it lets in.","where":"#/paths/~1api~1v2~1links/post/requestBody/content/application~1json/schema/properties/max_uses/maximum"},
-    "pending_invites": {"value":50,"unit":"invites","per":"world","applies_to":"Pending invites and unused person and player links, together.","where":null},
+    "pending_invites": {"value":50,"unit":"invites","per":"world","applies_to":"Pending email invites and person and player links that can still be used: a new person or player link counts them together; a new email invite counts the email invites alone. AI links count under agent_seats, not here.","where":null},
     "agent_seats": {"value":50,"unit":"agents","per":"world","applies_to":"AI seats and AI links that can still be used, together.","where":null},
     "signin_state_chars": {"value":1024,"unit":"characters","per":"request","applies_to":"A sign-in request's state.","where":null},
     "signin_verifier_min_chars": {"value":43,"unit":"characters","per":"request","applies_to":"POST /auth/token code_verifier.","where":"#/paths/~1api~1v2~1auth~1token/post/requestBody/content/application~1json/schema/properties/code_verifier/minLength"},
