@@ -229,8 +229,7 @@ Content-Type: application/json on writes.
   POST   /api/v2/bulk                        up to 1000 items
   GET    /api/v2/changes                     change feed and full export
   GET    /api/v2/world                       the world the key names
-  GET    /api/v2/me                          who the key is (checks the key,
-                                             not the PIN)
+  GET    /api/v2/me                          who the key is
 ```bash
 curl -H "API-Key: 0000000000" "https://www.onlyworlds.com/api/v2/character?fields=id,name"
 ```
