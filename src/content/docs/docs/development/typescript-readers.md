@@ -120,12 +120,12 @@ The owner's rows are the bodies as stored. No row carries a stored `x_served_tri
 - `nodes`: `{ id, type, name, family, icon }`, by id; `family` is the type's colour group (`blue`, `green`, `pink` or `amber`, as [`ELEMENT_GROUPS`](/docs/development/typescript#schema-constants) gives it), a key for drawing, never a label
 - `edges`: `{ source, field, target, index }`, one per link: each link field of the schema, and the extension lists a profile reads as links, `DECLARED_LINKS` (`x_lens_leads_to`, `x_spine_depends_on`; since 4.168.0 exported, for a writer that builds one and must name each element once)
 - `edgesCut`: links to elements that are not nodes, counted by reason
-- `cut`: the elements left out, counted by reason: with a lens, the lens's own cut; without one, the kinds left out by default (`room`, `hidden` and `proposed` for the owner only, `map_space`, `reading_aid`)
+- `cut`: the elements left out, counted by reason: with a lens, the lens's own cut; without one, the kinds left out by default (`room`, `hidden` and `proposed` for a keeper only, the owner or a co-builder, `map_space`, `reading_aid`)
 - `unreadable`: the `x_lens` key a lens could not be read by, else null
 
 Room elements, hidden and proposed elements, and map space (Maps, Pins and Markers; a Zone is a node like any other) are left out unless `rooms`, `hidden`, `proposed` or `mapSpace` brings them back. The reading aids (the charter, its guide, its domains) come back with `readingAids`, each marked `reading_aid`, in a graph without a lens.
 
-`hidden` and `proposed` are the owner's alone, and a public viewer takes no flag: a refused flag throws, naming it, before anything is read.
+`hidden` and `proposed` are a keeper's, the owner's or a co-builder's (a co-builder since 4.184.0, and the owner reading `as` one), and a public viewer takes no flag: a refused flag throws, naming it, before anything is read.
 
 With `{ lens }` the nodes are exactly what the lens kept, and `outside_lens` counts the links from them to elements the reader sees but the lens did not reach.
 

@@ -1,18 +1,18 @@
 {
-  "source": "schema-dist v0.34.1-dist.139: VERSION, profiles/*.fixture.json cases, fixtures/owworld/verdicts.json reasons",
-  "read_at": "2026-11-19",
-  "tag": "v0.34.1-dist.139",
+  "source": "schema-dist v0.34.1-dist.141: VERSION, profiles/*.fixture.json cases, fixtures/owworld/verdicts.json reasons",
+  "read_at": "2026-11-20",
+  "tag": "v0.34.1-dist.141",
   "canonical": "00.34.01",
   "profiles": {
     "address": 218,
     "calendar": 78,
-    "charter": 47,
+    "charter": 57,
     "checks": 35,
     "import-map": 27,
     "landing": 33,
     "layout": 17,
     "layout-by-links-3d": 116,
-    "lens": 246,
+    "lens": 256,
     "map-space": 43,
     "message": 120,
     "names": 29,
@@ -25,7 +25,7 @@
     "strand": 42
   },
   "case_lists": {
-    "charter/design_cases": 16,
+    "charter/design_cases": 19,
     "map-space/frame_cases": 66,
     "map-space/layout_cases": 32,
     "packet/asker_cases": 14,
