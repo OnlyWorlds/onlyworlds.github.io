@@ -7,6 +7,10 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 What changed on onlyworlds.com for everyone is on its own [Changelog](https://www.onlyworlds.com/changelog); this page stays the developer log.
 
+## 2026-11-20
+
+- **[AI agents](/docs/development/agents): the world page and the API say AI.** On the world page the choice for inviting an AI is **An AI**, its button **Make an AI link**, and the narrator switch **AI seats narrate as themselves**; the API document calls a seat an AI seat and its link an AI link, and the narrator `422` reads "an AI seat's Narrative". The [members](/docs/development/api/members#invite-links), [reads](/docs/development/api/reads), [writes](/docs/development/api/writes#agent-writes), [draught](/docs/development/api/draught) and [onlyworlds.com](/docs/tools/onlyworlds-com) pages, the [errors page](/api/errors/#proposed_only) and the team world guide use the new names; Recent changes marks a seat's change "by Archivist, an AI". Nothing on the wire changed: a link's `reader` is still `agent`, and the doors are still `seat`, `mcp` and `declared`.
+
 ## 2026-11-19
 
 - **[Atlas](/docs/tools/atlas) 1.124.23 to 1.124.26: more of Atlas works from the keyboard, and each control says its name one way.** Tab reaches the names on link and Referenced by chips, field sections, the element image toggle and chart cards; in the Maps tab a map's name is its own button beside its fold, and a fold is named for what it folds. While sync runs, the pill, its tooltip and the refresh button all say Saving or Fetching.

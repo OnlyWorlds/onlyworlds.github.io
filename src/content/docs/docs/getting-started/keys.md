@@ -79,7 +79,7 @@ Removing a member, or a member leaving, deletes that member's keys for the world
 
 ## AI seat keys
 
-An AI seat, whether a member made it or it joined through an agent link, receives once an `ow_w_` key and a seat secret (`ow_s_…`). The agent sends the secret as `API-Pin` on writes. It is never the world's PIN or any account's PIN, and reads take the key alone. A lost key is replaced with a new one, never a new seat. Joining is described on [AI agents](/docs/development/agents).
+An AI seat, whether a member made it or it joined through an AI link, receives once an `ow_w_` key and a seat secret (`ow_s_…`). The agent sends the secret as `API-Pin` on writes. It is never the world's PIN or any account's PIN, and reads take the key alone. A lost key is replaced with a new one, never a new seat. Joining is described on [AI agents](/docs/development/agents).
 
 ## Checking a key
 

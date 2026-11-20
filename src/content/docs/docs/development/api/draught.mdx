@@ -33,7 +33,7 @@ Nine query parameters, all optional. The SDKs take the same nine. The MCP tool `
 | Parameter | Values | Default |
 |:--|:--|:--|
 | `components` | The sections to serve, comma-separated: `self` (the packet's `character`), `role`, `work`, `style`, `events`, `knowledge`, `names`, `sheet`, `recent`, `messages`, `room`, `proposed`, `roster` | Every one but `messages`, `room` and `proposed` |
-| `mode` | `voice` reads as they would, exactly what the owner's `?as=<character id>` reads: their slice, and a stub stays a stub. For a narrator speaking as the Character. `act` reads through your own key's view, for an agent doing work in their name | `voice` |
+| `mode` | `voice` reads as they would, exactly what the owner's `?as=<character id>` reads: their slice, and a stub stays a stub. For a narrator speaking as the Character. `act` reads through your own key's view, for an AI doing work in their name | `voice` |
 | `as_of` | [The horizon](#the-horizon), an integer in the world's time unit | The world's `time_range_current` |
 | `undated` | `include` serves undated Events, marked `dated: false`, after the dated. `exclude` drops them, for a spoiler-safe narrator | `include` |
 | `since` | For `recent`: a cursor from [`/changes`](/docs/development/api/changes), or an ISO 8601 date and time, as `/changes` takes `after` | None: `recent` is empty |

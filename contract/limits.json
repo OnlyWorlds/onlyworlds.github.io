@@ -1,6 +1,6 @@
 {
   "source": "https://www.onlyworlds.com/api/v2/openapi.json: info.x-ow-limits, as served",
-  "read_at": "2026-11-19",
+  "read_at": "2026-11-20",
   "limits": {
     "requests_per_minute": {"value":300,"unit":"requests","per":"60 seconds per key or account token","applies_to":"Every route under /api/v2 but the health checks and some of the upload service's own signed reports, reads and writes together; a /bulk call is one request. An OPTIONS request (a browser's preflight) is not counted. The request budget is also spent by a request to the MCP server at /mcp, by a request to the metadata routes (/api/metadata/, /api/worldapi/metadata/) that names a world in ?world= and sends no API-Key, when it carries a Bearer token or keyless reading is switched on, and by requests to some of the site's own pages. Over it: 429 too_many_requests.","where":null},
     "requests_per_minute_keyless": {"value":60,"unit":"requests","per":"60 seconds per address","applies_to":"A request with no key and no account token.","where":null},
@@ -44,7 +44,7 @@
     "link_expiry_default_days": {"value":7,"unit":"days","per":"link","applies_to":"A link sent with no days.","where":null},
     "link_max_uses": {"value":50,"unit":"uses","per":"link","applies_to":"A person's or a player's link: how many people it lets in.","where":"#/paths/~1api~1v2~1links/post/requestBody/content/application~1json/schema/properties/max_uses/maximum"},
     "pending_invites": {"value":50,"unit":"invites","per":"world","applies_to":"Pending invites and unused person and player links, together.","where":null},
-    "agent_seats": {"value":50,"unit":"agents","per":"world","applies_to":"Agent seats and unused agent links, together.","where":null},
+    "agent_seats": {"value":50,"unit":"agents","per":"world","applies_to":"AI seats and AI links that can still be used, together.","where":null},
     "signin_state_chars": {"value":1024,"unit":"characters","per":"request","applies_to":"A sign-in request's state.","where":null},
     "signin_verifier_min_chars": {"value":43,"unit":"characters","per":"request","applies_to":"POST /auth/token code_verifier.","where":"#/paths/~1api~1v2~1auth~1token/post/requestBody/content/application~1json/schema/properties/code_verifier/minLength"},
     "signin_verifier_max_chars": {"value":128,"unit":"characters","per":"request","applies_to":"POST /auth/token code_verifier.","where":"#/paths/~1api~1v2~1auth~1token/post/requestBody/content/application~1json/schema/properties/code_verifier/maxLength"},

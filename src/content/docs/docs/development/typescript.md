@@ -109,7 +109,7 @@ These are optional; use them when you need them.
 
   Without a key, an `id` is minted on the client when you leave it out (in `create` and in each item of `bulk`), a fresh one for each call. A plain REST request without an `id` gets one from the server instead.
 - **Only if unchanged: `ifMatch`.** Pass `{ ifMatch: el.change_seq }` to `patch` or `editLinks` when the write must not land if somebody changed the element since you read it. If it moved, nothing is written and the call throws `OwPreconditionFailedError`, whose `current` is the element as it is now. See [Only if unchanged](/docs/development/api/writes#only-if-unchanged).
-- **An AI agent: `agent`.** Set `new OwV2Client({ ..., agent: true })` when your code is an AI agent. It sends `X-OW-Agent` on the client's element writes, and OnlyWorlds records them as agent-made. A tool people use leaves it off, since it would mark every person's edit. See [Agents](/docs/development/agents).
+- **An AI agent: `agent`.** Set `new OwV2Client({ ..., agent: true })` when your code is an AI agent. It sends `X-OW-Agent` on the client's element writes, and OnlyWorlds records them as an AI's. A tool people use leaves it off, since it would mark every person's edit. See [Agents](/docs/development/agents).
 - **Your tool's name: `client`.** Set `new OwV2Client({ ..., client: 'atlas' })` to your tool's name. It is sent as `X-OW-Client` on every element write (and on a proposal, its accept and a review), never on a read or another write, and OnlyWorlds keeps the name on the element as `changed_client` ([a write can name its client](/docs/development/api/writes#agent-writes)).
 
   The default is `sdk`. A name outside lower case letters, digits and hyphens, 1 to 32 characters, is a `TypeError` at construction.
