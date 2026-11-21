@@ -502,9 +502,9 @@ A key that may not change the world's own fields sent `PATCH /api/v2/world`: a c
 
 **Type** `permission_error` · **Status** `403`
 
-A key below co-builder (a contributor's, a guest's, a player's, or a seat's) set, changed or removed `x_charter_of`, the mark that makes a Charter, a Guide or a Domain one of the world's reading aids.
+A key below co-builder (a contributor's, a guest's, a player's, or a seat's) set, changed or removed `x_charter_of`, the mark that makes a Charter, a Guide or a Domain one of the world's reading aids. Since 2026-11-21 the same key also gets it for a change to the world's house rules, whoever made them: changing, relinking or deleting a Law that carries `x_charter_of` (the Charter, a superseded one or a hidden one) or an Object the text of such a Law names, adding a file to one or removing one from it, and creating an Object under an id such a Law names. Nothing is written.
 
-- **How to fix:** leave `x_charter_of` out of the write, or use the owner's key or a co-builder's ([The front door](/docs/development/api/members#the-front-door)).
+- **How to fix:** leave `x_charter_of` out of the write; for the house rules, [propose the change](/docs/development/api/proposals#propose) (`POST /api/v2/{type}/{id}/proposals`) for the owner or a co-builder to accept, and create a new Object without an id or with another one. Or use the owner's key or a co-builder's ([The front door](/docs/development/api/members#the-front-door)).
 
 ### not_co_builder
 
