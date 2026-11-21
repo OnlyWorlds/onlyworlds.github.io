@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-21
 
+- **[Python](/docs/development/python) 0.138.2: `push` never sends `atlas_baseline_unknown`**, the mark [Atlas](/docs/tools/atlas) 1.124.30 keeps on the device for a copy with no record of what OnlyWorlds held; it stays out of every patch, as Atlas's other local-only fields do.
 - **[TypeScript SDK](/docs/development/typescript) 4.184.1 and [Python](/docs/development/python) 0.138.1, and [Profiles](/docs/schema/profiles#map-space): a Zone outlined on a child Map and on its parent keeps two outlines** (serial 142). No reading joins them or adds a point on the edge of the child's rectangle or of its parent frame; what a tool draws there is the tool's. The map-space fixture holds 46 cases; no earlier answer moved.
 
 ## 2026-11-20
