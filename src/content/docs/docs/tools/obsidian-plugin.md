@@ -64,6 +64,8 @@ What you write above its first field, or under a `###` heading of your own, stay
 
 **Save element** on a note that links to notes not yet on onlyworlds.com lists them and asks first, then creates them together with the note. It creates at most 50 this way; past that it creates and saves nothing and points you to Upload world. Auto-sync never creates them.
 
+New elements are sent create-only (since 3.19.3), by Save element's batch and by Upload world: if onlyworlds.com already holds one of those ids (the element was made meanwhile on another device, or the world folder was copied), that item is refused and named, and nothing there is replaced. The refusal says why: made meanwhile, held as another type, held in another world (a copied folder needs a fresh id on the note), or in use. Save element refuses the batch and names the item; Upload world counts it as failed and goes on with the rest.
+
 An element deleted on onlyworlds.com is never brought back without your word, even though Download keeps its note. Save element asks "create it again?", auto-sync refuses, and Upload world asks once for all of them. A link to a deleted element is left out of what is sent and named, and the note keeps it. An element onlyworlds.com answers as deleted is known as deleted at once, without reading the change feed.
 
 ## Your OnlyWorlds account
@@ -86,6 +88,8 @@ Signed in, you can:
 The token is stored in the vault's plugin data (`data.json`), which Obsidian Sync and git carry with the vault: sign out before you share a vault. Signing out revokes the token on onlyworlds.com (when it cannot, it says to revoke it there by hand) and keeps your worlds and their keys in the vault.
 
 Your PIN is asked once per plugin session, unless you saved it in the settings. Reloading the plugin or Obsidian asks again. Closing the PIN prompt with Escape, or by clicking outside it, cancels the save with "Save cancelled: PIN not provided."
+
+A PIN onlyworlds.com refuses is forgotten, not sent again (since 3.19.3): the next save asks you once, with one prompt however many saves are waiting, and Cancel ends that round. A PIN refused in the settings is skipped until you change it there. onlyworlds.com refuses each wrong PIN on its own and locks a key or account for up to fifteen minutes only after ten different wrong PINs ([Keys and PINs](/docs/getting-started/keys#the-pin)). Auto-sync saves three notes at a time.
 
 ## Read-only worlds
 
