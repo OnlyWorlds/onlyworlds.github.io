@@ -7,6 +7,10 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 What changed on onlyworlds.com for everyone is on its own [Changelog](https://www.onlyworlds.com/changelog); this page stays the developer log.
 
+## 2026-11-21
+
+- **[TypeScript SDK](/docs/development/typescript) 4.184.1 and [Python](/docs/development/python) 0.138.1, and [Profiles](/docs/schema/profiles#map-space): a Zone outlined on a child Map and on its parent keeps two outlines** (serial 142). No reading joins them or adds a point on the edge of the child's rectangle or of its parent frame; what a tool draws there is the tool's. The map-space fixture holds 46 cases; no earlier answer moved.
+
 ## 2026-11-20
 
 - **[LLM guide](/docs/development/llm-guide): `GET /api/v2/me` checks a PIN sent beside the key.** Its route list said the route checks the key and not the PIN; a PIN that comes with the request is checked, and a wrong one counts as a wrong PIN on a write does ([Checking the PIN](/docs/getting-started/keys#checking-the-pin)).
