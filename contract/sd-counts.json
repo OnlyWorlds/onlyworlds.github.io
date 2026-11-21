@@ -1,7 +1,7 @@
 {
-  "source": "schema-dist v0.34.1-dist.142: VERSION, profiles/*.fixture.json cases, fixtures/owworld/verdicts.json reasons",
+  "source": "schema-dist v0.34.1-dist.144: VERSION, profiles/*.fixture.json cases, fixtures/owworld/verdicts.json reasons",
   "read_at": "2026-11-21",
-  "tag": "v0.34.1-dist.142",
+  "tag": "v0.34.1-dist.144",
   "canonical": "00.34.01",
   "profiles": {
     "address": 218,
@@ -26,6 +26,7 @@
   },
   "case_lists": {
     "charter/design_cases": 19,
+    "map-space/down_cases": 28,
     "map-space/frame_cases": 66,
     "map-space/layout_cases": 32,
     "packet/asker_cases": 14,
