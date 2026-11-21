@@ -122,7 +122,7 @@ Every member reads the Charter and those Objects whole, a guest and a player sea
 
 The Charter's text is the house rules; the Guide, the Domains and the strand are the keeper's map of the world, not instructions. In the [TypeScript SDK](/docs/development/typescript) the object is `OwServedReadingAids` on `me()`'s answer (the strand since 4.121.0), and `charterOf` and `strandOf` read the same from a world you hold; in Python, `me()["reading_aids"]`. Since 2026-11-17 every element the packet names carries `type` beside its `id`, the word the element routes use, so a reader that holds nothing else of the world knows which route fetches it (`OwServedReadingAids` types it since 4.177.0).
 
-A member key sent with a PIN (or an AI seat with its secret) has it checked here: a wrong one is `401` [`invalid_credentials`](/api/errors/#invalid_credentials), and with none the answer stands. So `/me` tests a connection before the first write. A player's key has no PIN; one it sends is ignored.
+A member key sent with a PIN (or an AI seat with its secret) has it checked here: a wrong one is `401` [`invalid_credentials`](/api/errors/#invalid_credentials), and with none the answer stands. So `/me` tests a connection before the first write. A PIN sent with a key that cannot write is never read: the answer is the one that key gets with no PIN (since 2026-11-21; a player's key has no PIN).
 
 ### Picking your Character
 

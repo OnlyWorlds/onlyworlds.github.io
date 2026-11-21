@@ -149,7 +149,9 @@ A key is held while its request runs, so two sends with it do not both write; th
 }
 ```
 
-- An item whose `element` carries an `id` upserts that id; one without an `id` creates. An `op` field on an item is optional and ignored.
+- An item whose `element` carries an `id` upserts that id; one without an `id` creates.
+- **Create only** (since 2026-11-21): with `"create_only": true` on the body, every item with an `id` is created as `POST` creates it, never replaced. An id this world already holds answers that item's `409` [`id_conflict`](/api/errors/#id_conflict), and the element stays as it was; the rest of the batch goes on as before, and under `atomic` that item fails the batch like any other. `create_only` is `true`, `false` or `null`.
+- The body takes `items`, `atomic` and `create_only`, and an item only `type` and `element`. Any other key, on the body or on an item (an `op` included), a key sent twice, or any query parameter refuses the whole batch with `422` [`invalid_request`](/api/errors/#invalid_request) naming it, before anything is written (since 2026-11-21).
 - An item that creates may carry `hidden: true` in its `element`, as `POST` does; from a key that may not hide, that item fails `403` [`hidden_not_allowed`](/api/errors/#hidden_not_allowed).
 - The answer is HTTP `200` once the batch is read. Results are per item, in request order, and each `status` is what a single write would have returned (`201`, `200`, or an error status).
 - **Partial success is the default**: one bad item does not stop the rest. Send `"atomic": true` for all or nothing. In atomic mode, if `errors` is `true` **nothing was written**, even though the items that would have succeeded show `201` or `200`.
