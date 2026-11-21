@@ -155,6 +155,8 @@
 /docs/schema/profiles/addresses	page	200	source docs/schema/profiles/addresses.md (new 2026-10-28, from the conventions page)
 /docs/schema/profiles/messages	page	200	source docs/schema/profiles/messages.md (new 2026-10-28, from the conventions page)
 /docs/tools/legacy	load-bearing	200	keel:web/whatsnew_history.json (the changelog's History rows link #tool-history and #mobile-companion); source docs/tools/legacy.md
+/docs/tools/legacy#tool-history	load-bearing	200	keel:web/whatsnew_history.json
+/docs/tools/legacy#mobile-companion	load-bearing	200	keel:web/whatsnew_history.json
 /api/errors#id_conflict	load-bearing	floor	keel's error-code list (contract/error-codes.json)
 /api/errors#resync_required	load-bearing	floor	keel's error-code list (contract/error-codes.json)
 /api/errors#already_member	load-bearing	floor	keel's error-code list (contract/error-codes.json)
