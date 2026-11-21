@@ -1,17 +1,17 @@
 ---
 title: Easy Mobile
-description: Easy Mobile is a mobile web editor for OnlyWorlds elements, online or offline.
+description: Easy Mobile was a mobile web editor for OnlyWorlds elements. It is retired, and its address now leads to Lantern.
 ---
 
-Easy Mobile is a quick mobile web editor for OnlyWorlds elements.
+Easy Mobile was a quick mobile web editor for OnlyWorlds elements. It was retired on 2026-11-22. [Lantern](/docs/tools/lantern) is the phone app that replaced it.
 
 | | |
 |---|---|
-| **URL** | [easy-mobile.onlyworlds.com](https://easy-mobile.onlyworlds.com) |
+| **URL** | `easy-mobile.onlyworlds.com`, which now redirects to [Lantern](https://lantern.onlyworlds.com/) |
 | **Type** | Mobile web application |
-| **Status** | Online, no longer developed ([Legacy tools](/docs/tools/legacy)) |
+| **Status** | Retired on 2026-11-22 ([Legacy tools](/docs/tools/legacy)) |
 
-## Features
+## What it did
 
 - **Full CRUD.** Every element type, with inline editing.
 - **Online and Offline.** Work against the API, or offline in local IndexedDB storage and sync later.

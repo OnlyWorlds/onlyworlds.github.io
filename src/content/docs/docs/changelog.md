@@ -7,6 +7,10 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 What changed on onlyworlds.com for everyone is on its own [Changelog](https://www.onlyworlds.com/changelog); this page stays the developer log.
 
+## 2026-11-22
+
+- **[Easy Mobile](/docs/tools/easy-mobile) is retired.** Its address, `easy-mobile.onlyworlds.com`, now redirects to [Lantern](/docs/tools/lantern), the phone app that replaced it. Its page and its entry under [Legacy tools](/docs/tools/legacy) say so.
+
 ## 2026-11-21
 
 - **[onlyworlds.com's Changelog](/docs/tools/onlyworlds-com): its History rows name their old links.** A row from before the site's own record may link to what it names: an old build that still runs, a repository, or the [Legacy tools](/docs/tools/legacy#tool-history) page for the Map tool, the Text tool and the closed alpha. `/changelog.json` carries them as a row's `links`, a `label` and an https `url` each.

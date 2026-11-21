@@ -19,8 +19,8 @@ An all-round element editor with full field support and both online and offline 
 
 A quick mobile web editor for elements, online or offline.
 
-- **Status:** online, no longer developed. [easy-mobile.onlyworlds.com](https://easy-mobile.onlyworlds.com); its page: [Easy Mobile](/docs/tools/easy-mobile).
-- On a phone today, [Atlas](/docs/tools/atlas) holds together on a touch screen.
+- **Status:** retired on 2026-11-22. Its address, `easy-mobile.onlyworlds.com`, now redirects to Lantern; its page: [Easy Mobile](/docs/tools/easy-mobile).
+- On a phone today, [Lantern](/docs/tools/lantern) is the app made for it, and [Atlas](/docs/tools/atlas) holds together on a touch screen.
 
 ## Write Tool
 
