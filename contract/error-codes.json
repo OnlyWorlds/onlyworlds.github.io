@@ -270,7 +270,7 @@
   "rate_limited": {
     "type": "rate_limited",
     "status": 429,
-    "summary": "Too many failed PIN attempts, counted on the key and across every key of the account whose PIN it is (a world's PIN is its owner's; a member's key takes the member's own; an AI seat's secret counts on its key alone; the practice world's PIN, published, counts on nothing), or too many sign-in attempts from one address (the password sign-in and POST /api/v2/auth/token share one count); retry after the Retry-After header's seconds."
+    "summary": "Too many failed PIN attempts: ten different wrong PINs within fifteen minutes, counted on the key and across every key of the account whose PIN it is (a world's PIN is its owner's; a member's key takes the member's own; an AI seat's secret counts on its key alone; the practice world's PIN, published, counts on nothing), refuse every PIN there until the oldest is fifteen minutes old (`param` names where the PIN was sent, as the 401 does: API-Pin, or pin on the account routes); the same wrong PIN sent again counts once; or too many sign-in attempts from one address (the password sign-in and POST /api/v2/auth/token share one count); retry after the Retry-After header's seconds."
   },
   "quota_exceeded": {
     "type": "rate_limited",

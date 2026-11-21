@@ -146,7 +146,7 @@ Only a person's key can pick. A member chooses their AI seat's Character when th
 | `404` | [`not_found`](/api/errors/#not_found) | The Character is not one this key can see |
 | `422` | [`character_hidden`](/api/errors/#character_hidden) | The owner or a co-builder hid it, even when it is your own: a played Character is on every reader's roster |
 | `422` | [`invalid_request`](/api/errors/#invalid_request) | The body is not exactly `{"character"}`; a guest named a Character it did not make; or the Character is the owner's, or one another member plays. `param` names it |
-| `429` | [`rate_limited`](/api/errors/#rate_limited) | Too many wrong PINs on this key |
+| `429` | [`rate_limited`](/api/errors/#rate_limited) | Ten different wrong PINs on this key or account inside fifteen minutes |
 
 In the [TypeScript SDK](/docs/development/typescript), `setMyCharacter(characterId)` (or `null`) returns the `/me` body, from 4.50.0. The Python package has no call for it yet: send `PUT /me/character` with `{"character": "<id>"}` (or `null`) over HTTP, with the world key and its PIN.
 

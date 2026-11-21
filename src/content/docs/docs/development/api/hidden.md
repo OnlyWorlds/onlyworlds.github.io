@@ -121,7 +121,7 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/narrative" \
 | `403` | [`permission_error`](/api/errors/#permission_error) | The key is not the owner's or a co-builder's, or a read key on `PUT` or `DELETE` |
 | `404` | [`not_found`](/api/errors/#not_found) | The element is not in this world as that element type |
 | `422` | [`invalid_request`](/api/errors/#invalid_request) | A malformed id; a body that is not JSON, not an object, or anything but an empty `fields`. `param` names it |
-| `429` | [`rate_limited`](/api/errors/#rate_limited) | Too many wrong PINs on this key |
+| `429` | [`rate_limited`](/api/errors/#rate_limited) | Ten different wrong PINs on this key or account inside fifteen minutes |
 | `429` | [`too_many_requests`](/api/errors/#too_many_requests) | Over the request budget, as on every route ([Limits](/docs/development/api-reference#limits)) |
 
 ## The feed

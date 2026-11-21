@@ -124,7 +124,7 @@ In `voice`, a Working style dated after `as_of` leaves `style` empty even when a
 | `404` | [`not_found`](/api/errors/#not_found) | No such Character, one this key cannot see, or, for a player seat, a guest or a guest seat, any Character but its own |
 | `409` | [`resync_required`](/api/errors/#resync_required) | `since` is a feed cursor `/changes` would refuse: pull the feed again |
 | `422` | [`invalid_request`](/api/errors/#invalid_request) | A malformed id, an unknown parameter, a bad value or an unknown component. `param` names it |
-| `429` | [`rate_limited`](/api/errors/#rate_limited) | Too many wrong PINs on this key |
+| `429` | [`rate_limited`](/api/errors/#rate_limited) | Ten different wrong PINs on this key or account inside fifteen minutes |
 | `429` | [`too_many_requests`](/api/errors/#too_many_requests) | Over the request budget, as on every route ([Limits](/docs/development/api-reference#limits)) |
 
 ## Fetching what it names
