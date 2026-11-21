@@ -149,7 +149,7 @@ A key is held while its request runs, so two sends with it do not both write; th
 }
 ```
 
-- An item whose `element` carries an `id` upserts that id; one without an `id` creates.
+- An item whose `element` carries an `id` upserts that id as `PUT` does: an element the world holds is replaced whole, and every field and extension the item leaves out is cleared. To change some fields of an existing element, `PATCH` it. An item without an `id` creates.
 - **Create only** (since 2026-11-21): with `"create_only": true` on the body, every item with an `id` is created as `POST` creates it, never replaced. An id this world already holds answers that item's `409` [`id_conflict`](/api/errors/#id_conflict), and the element stays as it was; the rest of the batch goes on as before, and under `atomic` that item fails the batch like any other. `create_only` is `true`, `false` or `null`. The packages send it as `bulk(items, { createOnly: true })` in [TypeScript](/docs/development/typescript) (since 4.185.0) and `bulk(items, create_only=True)` in [Python](/docs/development/python) (since 0.139.0).
 - The body takes `items`, `atomic` and `create_only`, and an item only `type` and `element`. Any other key, on the body or on an item (an `op` included), a key sent twice, or any query parameter refuses the whole batch with `422` [`invalid_request`](/api/errors/#invalid_request) naming it, before anything is written (since 2026-11-21). Inside an item's `element` the fields are the type's own, and a field name sent twice there is no `422`: the last value is kept.
 - An item that creates may carry `hidden: true` in its `element`, as `POST` does; from a key that may not hide, that item fails `403` [`hidden_not_allowed`](/api/errors/#hidden_not_allowed).
