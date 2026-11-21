@@ -86,7 +86,7 @@ A delete's `op["reason"]` is `deleted`, or `hidden` for an element [hidden](/doc
 
 ## Export to OKF
 
-Since 0.6.0 a world folder can be exported as a valid [Open Knowledge Format](https://github.com/GoogleCloudPlatform/open-knowledge-format) (OKF) 0.2 bundle, as that spec stands at one pinned commit (`onlyworlds.okf.OKF_COMMIT`). It needs the `okf` extra, which adds PyYAML; the rest of the package stays dependency-free.
+Since 0.6.0 a world folder can be exported as a valid [Open Knowledge Format](https://github.com/open-knowledge-format/open-knowledge-format) (OKF) 0.2 bundle, as that spec stands at one pinned commit (`onlyworlds.okf.OKF_COMMIT`; the format has since moved to this repository and to 0.3). It needs the `okf` extra, which adds PyYAML; the rest of the package stays dependency-free.
 
 ```bash
 pip install "onlyworlds[okf]"
