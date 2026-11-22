@@ -9,7 +9,7 @@ The Jekyll site this replaced is kept whole on the `jekyll` branch and the `jeky
 ```bash
 npm ci
 npm run build     # gen_sdk_ref, gen_errors, astro build, then scripts/postbuild.mjs
-npm run verify    # the checks package.json lists (figures, workflows, URLs, words, the snapshots, the LLM guide, the TypeScript examples compiled against the pinned SDK; the Python examples are type-checked against PyPI's newest onlyworlds at each deploy, report only, by scripts/verify-examples-py.py), offline, on dist/ and the sources
+npm run verify    # the checks package.json lists (figures, workflows, URLs, words, the snapshots, the LLM guide, the TypeScript examples compiled against the pinned SDK; the Python examples are type-checked against PyPI's newest onlyworlds at each deploy, report only, by scripts/verify-examples-py.py), on dist/ and the sources; several also read onlyworlds.com (the API document, the demo world) and say CANNOT SEE when it is unreachable
 node scripts/serve.mjs   # dist/ on http://localhost:4321/, resolved the way GitHub Pages resolves it
 ```
 
@@ -18,6 +18,8 @@ Pages are Markdown in `src/content/docs/`, at the URL they are served from. The 
 **Deploys.** `pages.yml` runs on every push to `main` and whenever schema-dist publishes (its publish step runs `gh workflow run pages.yml -R OnlyWorlds/onlyworlds.github.io`). A 4-hourly schedule is only a fallback: GitHub runs scheduled workflows late or not at all. Nothing uploads unless `npm run verify` passes. Push and manual deploys are tagged `docs-live-<date>-<run>`; to roll back, run the workflow on an earlier tag. An outside check watches the live site and notices if the workflow is disabled (GitHub does that after 60 days without activity) or the site falls behind schema-dist.
 
 Run `npm run verify` before you push: a workflow file that doesn't parse never runs, and GitHub shows no failed check, only none.
+
+**On a pull request** CI runs three workflows: `ci.yml` (`build`: the build, then `npm run verify`), `generated.yml` (`check`: `node scripts/gen_sdk_ref.mjs --check` and `node scripts/gen_errors.mjs --check`, the TypeScript reference against the pinned SDK and the errors page against `contract/error-codes.json`) and `commits.yml` (`commits`: the words of each commit message). `main` takes a commit only when `build` and `check` passed on it.
 
 ## Keeping it true
 

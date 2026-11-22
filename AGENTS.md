@@ -34,7 +34,7 @@ Exit codes across `scripts/`: 0 pass, 1 a finding (FAIL or STALE), 2 BLIND or CA
 
 ## How a change reaches main
 
-Make a branch, open a pull request, and wait for the required checks to go green. `main` refuses a direct push; the rule has no bypass. Never push to `main`. Never create or push a tag: the deploy tags itself, and a tag is how a rollback is run. Never edit a file under `.github/workflows/`. Never change a version number, a dependency pin in `package.json`, the dated headings of `src/content/docs/docs/changelog.md`, or the version and changelog lines at the end of `public/assets/ow_llm_guide.txt`, unless the job says so.
+Make a branch, open a pull request, and wait for the required checks to go green. `main` refuses a direct push; the rule has no bypass. Never push to `main`. A maintainer merges; you never merge your own pull request. Never create or push a tag: the deploy tags itself, and a tag is how a rollback is run. Never edit a file under `.github/workflows/`. Never change a version number, a dependency pin in `package.json`, the dated headings of `src/content/docs/docs/changelog.md`, or the version and changelog lines at the end of `public/assets/ow_llm_guide.txt`, unless the job says so.
 
 ## What must not be hand-edited
 
