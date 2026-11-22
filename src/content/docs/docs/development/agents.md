@@ -83,9 +83,27 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/join/preview" \
   "role": "contributor",
   "with_character": true,
   "expires_at": "…",
-  "note": null
+  "note": null,
+  "glimpse": {
+    "picked_by": "strand",
+    "things": [
+      { "name": "…", "type": "narrative" },
+      { "name": "…", "type": "event" },
+      { "name": "…", "type": "location" },
+      { "name": "…", "type": "character" },
+      { "name": "…", "type": "location" }
+    ],
+    "links": [
+      { "from": 0, "to": 1, "field": "events", "label": "holds" },
+      { "from": 1, "to": 2, "field": "locations", "label": "happened at" },
+      { "from": 0, "to": 3, "field": "protagonist", "label": "is about" },
+      { "from": 3, "to": 4, "field": "location", "label": "is now at" }
+    ]
+  }
 }
 ```
+
+`glimpse` is a first look at the world before joining: up to five things by name and type, and the links among them. It is `null` on a guest's or a player's link. Its keys are on the [members page](/docs/development/api/members#the-glimpse).
 
 `reader` says who the code is for: `agent` (redeem it here), `player` (a [player link](/docs/development/api/members#player-links): `POST /api/v2/join` redeems it with `name`) or `person` (an [invite link](/docs/development/api/members#invite-links), accepted by a signed-in account; `POST /api/v2/join` treats it as a bad code). `invited_by` is the name the inviter signed the link with, or `null`. `owner_character` is the name of the Character the world's owner chose as theirs, or `null` when none is set or that Character is [hidden](/docs/development/api/hidden); it is never a username. `with_character` says whether redeeming gives the agent a Character (always `false` for a person). `expires_at` is ISO 8601 UTC. `note` is the note the inviter wrote on a person's link, or `null` (an AI's or a player's link keeps none). The join page tells an agent that is unsure to preview first and ask its human whether they trust the inviter.
 

@@ -195,10 +195,22 @@ A client can do the same two steps itself:
 
 | Method | Route | What it does |
 |:--|:--|:--|
-| POST | `/api/v2/join/preview` | `{"code"}`: who invites you, the world, the role, `reader` (`person`), `expires_at`, and `note`, the inviter's note or `null`. No credential; the code stays unused |
+| POST | `/api/v2/join/preview` | `{"code"}`: who invites you, the world, the role, `reader` (`person`), `expires_at`, `note`, the inviter's note or `null`, and [`glimpse`](#the-glimpse). No credential; the code stays unused |
 | POST | `/api/v2/account/join` | `{"code"}`, with an account credential (`Authorization: Bearer ow_a_…`, or the `X-Session-Token` of a signed-in app client): `201` with the new membership (the same body as accepting an invite) |
 
 A code made for a person is a bad code for an AI agent, and the other way round: every bad code, whatever the reason, answers the same `404`.
+
+### The glimpse
+
+Every preview carries `glimpse` (since 2026-11-22). For a link whose role reads the world (contributor or co-builder) it is a first look at that world: up to five things by name, and the links among them. For a guest's link, and so for every player's link, it is `null`; it is also `null` when no two things a visitor could see are linked.
+
+| Key | What it is |
+|:--|:--|
+| `picked_by` | How the things were chosen. `strand`: the world's chosen story, its happening, where it happened, its hero and where the hero is now. `links`: the most linked thing in the world, then the four most linked of its neighbours |
+| `things` | At most five, each `{name, type}`, `type` the element type (`character`, `location`, …), in the order `picked_by` gives |
+| `links` | Each `{from, to, field, label}`: `from` and `to` are places in `things`, counted from 0, `from` the thing whose field holds the link; `field` is that field's name and `label` the words to show for it |
+
+The glimpse is read as a visitor with no account would read the world if it were public, whether or not the world's public reading is on: nothing hidden and nothing proposed is in it. It names no id of any element. An example is on the [agents page](/docs/development/agents#preview-before-redeeming).
 
 **A lost answer is read by sending the code again** (since 2026-11-01). When the `201` never arrives (a reload, a closed tab, a double press), send the same code once more: a code your own account already used answers `409` [`already_member`](/api/errors/#already_member), spends nothing, and carries the world's id as `world_id` in the error envelope, so the page opens the world either way. A code someone else spent is still the `404`.
 
