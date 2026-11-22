@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-22
 
+- **[Games](/docs/development/games): a game can take the world the player brings.** The page now opens on the two kinds of world a game can stand on, its makers' or the player's, and a new section says how a player's world reaches a game (sign-in, a pasted key, a world file) and what to ask of a small one.
 - **[Easy Mobile](/docs/tools/easy-mobile) is retired.** Its address, `easy-mobile.onlyworlds.com`, now redirects to [Lantern](/docs/tools/lantern), the phone app that replaced it. Its page and its entry under [Legacy tools](/docs/tools/legacy) say so.
 
 ## 2026-11-21

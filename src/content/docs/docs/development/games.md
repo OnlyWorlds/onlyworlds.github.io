@@ -1,11 +1,25 @@
 ---
 title: "Games"
-description: "Building a game on an OnlyWorlds world: carry it in the build, read it live, or write back into it, from Unity or any other engine."
+description: "Building a game on an OnlyWorlds world, your own or the one a player brings: carry it in the build, read it live, or write back into it, from Unity or any other engine."
 ---
 
-To a game, a world on OnlyWorlds is content: characters, creatures, locations, objects, institutions, events and more, with links between them. The world stays editable outside the game, on [onlyworlds.com](/docs/tools/onlyworlds-com), in [Atlas](/docs/tools/atlas) or in any tool built on the standard. So writers and designers can shape it without opening the engine, and the game picks up their work.
+A game on OnlyWorlds can stand on two kinds of world. It can ship with a world its makers wrote. Or it can take the world the player brings: their own characters, places and ties, as the game's cast and ground. The second is what a shared format is for. The player's world was written in some other tool, and your game reads it without knowing which.
 
-## Three ways to use a world
+To a game, either kind of world is content: characters, creatures, locations, objects, institutions, events and more, with links between them. It stays editable outside the game, on [onlyworlds.com](/docs/tools/onlyworlds-com), in [Atlas](/docs/tools/atlas) or in any tool built on the standard. So writers and designers can shape it without opening the engine, and the game picks up their work.
+
+## The player brings the world
+
+Three ways a player's world reaches your game:
+
+- **Sign in with OnlyWorlds.** A registered tool sends the player to onlyworlds.com and gets an account token back, without ever seeing a password. The player then picks one of their worlds. See [Sign in with OnlyWorlds](/docs/development/api/signin).
+- **A key they paste.** A key for a world of theirs. A read key (`ow_r_`) reads, cannot write, and needs no PIN. See [Keys and PINs](/docs/getting-started/keys).
+- **A world file.** The player picks a world folder or a single `.owworld` file, and the game reads it from disk with no key, no account and no network. The [Unity SDK](/docs/development/unity) reads either today. See [World folders](/docs/schema/folders).
+
+A stranger's world is small and uneven. It may hold thirty elements and no economy. So ask little of it: say what your game needs, check that on load, and name what is missing in words the player can act on. Subs asks for one Character in a world the player owns. A game that needs a whole setting accepts few worlds.
+
+If the game writes into a player's world, the rules under [Write back](#write-back) apply: it is their work you are writing into.
+
+## Three ways to hold a world
 
 ### Bake it in
 
@@ -90,4 +104,4 @@ The line between Character and Creature is agency, not species: an intelligent m
 
 ## On OnlyWorlds today
 
-[Tactical Tangle](https://tangle.onlyworlds.com) is a hoplite battle game in which your OnlyWorlds characters fight in the ranks of a phalanx. [Subs](https://subs.onlyworlds.com) is a convoy-escort game of the Second World War, in which one of your Characters captains the lead escort and the crossing is written back into the world as a record. Everything else built on OnlyWorlds is listed under [Tools](/docs/tools/).
+[Tactical Tangle](https://tangle.onlyworlds.com) is a hoplite battle game in which your OnlyWorlds characters fight in the ranks of a phalanx. [Subs](https://subs.onlyworlds.com) is a convoy-escort game of the Second World War, in which one of your Characters captains the lead escort: you open a world you own from a link, sign in or connect it with its key, and the crossing is written back into that world as a record. Everything else built on OnlyWorlds is listed under [Tools](/docs/tools/).
