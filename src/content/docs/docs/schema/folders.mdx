@@ -68,7 +68,7 @@ An element file must hold a non-empty string `id`. The rest are the element type
 }
 ```
 
-A reader fills in `type` from the folder name unless the file declares one. A file without an `id` is skipped and left as it is. Tools may add their own fields under a prefix (`atlas_*`, `x_*`). An element file carries no `world` key: a writer adds none, and a reader gives one no meaning, since the folder is the world (a reader that keeps a file's bytes still writes an unedited file back as it found it). An element named in prose is `[Label](ow://<type>/<id>)`. Map coordinates run from the bottom left, y upward.
+A reader fills in `type` from the folder name unless the file declares one. A file declares its type with a `type` exactly equal to one of the 22 type slugs as the standard spells them (`location`); anything else there (another case such as `Location`, an unknown word, a number, `null`) declares nothing, and the folder name fills it. A file that declares one type and sits in another type's folder is read as it declares. A file without an `id` is skipped and left as it is. Tools may add their own fields under a prefix (`atlas_*`, `x_*`). An element file carries no `world` key: a writer adds none, and a reader gives one no meaning, since the folder is the world (a reader that keeps a file's bytes still writes an unedited file back as it found it). An element named in prose is `[Label](ow://<type>/<id>)`. Map coordinates run from the bottom left, y upward.
 
 ## Folders and onlyworlds.com
 

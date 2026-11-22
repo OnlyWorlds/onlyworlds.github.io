@@ -325,9 +325,21 @@ const found = await client.search('harbour');
 
 A world file is a source too: `folderFetch(readWorldFile(bytes).files)`. In a browser or a desktop shell, build the same list of `{path, data}` from whatever opened the folder.
 
-It answers `getWorld`, the lists with onlyworlds.com's filters, `limit`, `cursor`, `fields` and `expand`, one element, and `search`, each as onlyworlds.com would answer it for the same world. Lists come in the same order: by `change_seq`, then id, and an element whose file has no `change_seq` (one made offline) comes after every one that has it. The files are read as the folder format reads them: the id in the file, `elements/` and a legacy `spatial/`, and a file that does not parse or has no id is skipped.
+It answers `getWorld` (the world file's fields, with the element counts worked out from the files), the lists with onlyworlds.com's filters, `limit`, `cursor`, `fields` and `expand` (and the same refusal for a filter it does not know), one element, `search`, and the health read, each as onlyworlds.com would answer it for the same world. The reader of a folder is its owner: hidden elements are served with their mark, the counts are the owner's, and `created_by=owner` means a file that names no maker.
 
-What a folder cannot answer is refused by name, before anything is read: the account, members, files, the changes feed, proposals, hidden lists, every write, and `as` or `world` on any read. The refusal is status `501` with the code `not_in_a_folder` in the usual [error envelope](/api/errors/), so a tool can tell "not here" from "not found". The source reads its files once, as a snapshot: when the folder changes, make a new `folderFetch`.
+What a folder cannot answer is refused with one answer: the account, members, files, the changes feed, proposals, hidden lists, lenses, every write, any address it does not know (a misspelled type included), and `as` or `world` on any read, since a folder has one reader and one world. A write is refused before anything is read; a read is refused once the folder has been read. The refusal is status `501` with the code `not_in_a_folder` in the usual [error envelope](/api/errors/), so a tool can tell "not here" from "not found". A folder whose `world.json` does not parse as an object with a non-empty string `id` answers every read it would answer, health included, with a `500` that says so.
+
+The source reads its files once, as a snapshot, at the first request: when the folder changes, make a new `folderFetch`. `folderFetch(entries, { onRead })` hands `onRead` a report of that read: `served`, each file served as an element (`{ path, type, id, name }`, since 4.192.0), and `skipped`, each file passed over with why. A tool that watches a folder can compare two reports to tell new, changed and removed elements.
+
+Where a folder's answer is not onlyworlds.com's:
+
+- **Elements made offline come last.** Lists come in the same order, by `change_seq` and then id; an element whose file has no whole-number `change_seq` comes after every one that has it, by id.
+- **A cursor belongs to the source that gave it.** A folder takes onlyworlds.com's cursors, but onlyworlds.com refuses a folder's cursor that points at an element with no `change_seq`.
+- **A missing id is always `404`.** onlyworlds.com answers `410` for an element that was deleted; a folder keeps no record of deletions. An id that is no UUID is `422`, as online.
+- **An element whose `id` is no UUID** (only a folder holds one) is served in lists and search, but cannot be read by id, matched by `ids` or reached by `expand`.
+- **The world read sends no ETag**, so there is no `304`.
+- **A file that cannot be read is passed over, never fatal**: one that is not UTF-8 JSON, one that is no object or has no non-empty string `id`, and a second file with an id already seen (compared as a UUID), the one kept coming from `elements/` before a legacy `spatial/`, then the first path in code point order. A file outside `elements/<type>/` and `spatial/{map,pin,zone,marker}/` is not read at all, nor are dot-named files and folders.
+- **A file's type** is the one its body declares, when that is exactly one of the 22 type slugs (see [world folders](/docs/schema/folders)); otherwise its folder's.
 
 ## The MCP tools on a world folder
 
@@ -344,7 +356,7 @@ const result = await door.callTool('list_elements', { type: 'character', limit: 
 // result is an MCP CallToolResult, ready to send: content, structuredContent and isError
 ```
 
-Each answer is the MCP result as onlyworlds.com's server sends it: the JSON as text and as `structuredContent`, and a refusal as text with `isError: true`, never a rejected promise. `readResource(uri)` answers the resources, or throws `OwMcpError`, whose `code` is the JSON-RPC error to send (`MCP_RESOURCE_NOT_FOUND` when the address names nothing). A call's `world` is the folder's own id from its `world.json`; with one world given it can be left out. The tool definitions and the schema answers are those onlyworlds.com served when the package was built, each description with one sentence added saying it answers on this computer (`{ asServed: true }` keeps them as served). Nothing writes, and the tools the server answers only for an account (`get_changes`, `get_draught`, files) are not offered. A folder is read once, as a snapshot: when it changes, make the tools again.
+Each answer is the MCP result as onlyworlds.com's server sends it: the JSON as text and as `structuredContent`, and a refusal as text with `isError: true`, never a rejected promise. `readResource(uri)` answers the resources, or throws `OwMcpError`, whose `code` is the JSON-RPC error to send (`MCP_RESOURCE_NOT_FOUND` when the address names nothing). A call's `world` is the folder's own id from its `world.json`; with one world given it can be left out. With several, each call names one, and the two world resources (`onlyworlds://world`, `onlyworlds://element/{type}/{id}`), whose addresses have no place for a world, are refused. With none (`folderMcpTools([])`, since 4.192.0, for a server that starts before a folder is added), the schema tools and `list_worlds` answer, and every read of a world is refused with one sentence. The tool definitions and the schema answers are those onlyworlds.com served when the package was built, each description with one sentence added saying it answers on this computer (`{ asServed: true }` keeps them as served). Nothing writes, and the tools the server answers only for an account (`get_changes`, `get_draught`, files) are not offered. A folder is read once, as a snapshot: when it changes, make the tools again.
 
 ## Accounts, members and sharing
 
@@ -442,7 +454,7 @@ The package also ships `SCHEMA.md` (every field and its meaning, generated) and 
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.191.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.192.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
