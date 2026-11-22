@@ -1,12 +1,12 @@
 {
-  "source": "schema-dist v0.34.1-dist.144: VERSION, profiles/*.fixture.json cases, fixtures/owworld/verdicts.json reasons",
-  "read_at": "2026-11-21",
-  "tag": "v0.34.1-dist.144",
+  "source": "schema-dist v0.34.1-dist.145: VERSION, profiles/*.fixture.json cases, fixtures/owworld/verdicts.json reasons",
+  "read_at": "2026-11-22",
+  "tag": "v0.34.1-dist.145",
   "canonical": "00.34.01",
   "profiles": {
     "address": 218,
     "calendar": 78,
-    "charter": 57,
+    "charter": 61,
     "checks": 35,
     "import-map": 27,
     "landing": 33,
