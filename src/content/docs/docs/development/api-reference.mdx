@@ -42,6 +42,8 @@ A list answers in an envelope:
 
 A single element answers as the bare element object. Every error answers in one envelope, `{"error": {"type", "code", "message", "param", "doc_url"}}`, described on the [error reference](/api/errors/).
 
+An answer under `/api/` that sets no `Cache-Control` of its own carries `Cache-Control: no-store`, errors and the classic routes included, so a browser asks again and never replays a kept answer. A few answers set their own and keep it: the API document's `public, max-age=300`, for one.
+
 ## Resources
 
 `{type}` is one of the [22 element types](/docs/schema/), by its name in lowercase: `character`, `location`, and so on (the OpenAPI document enumerates them). The URL names the element type; the key names the world.

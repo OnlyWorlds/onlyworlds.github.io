@@ -37,7 +37,7 @@ Treat the cursor as opaque: do not parse or build it. Pages come in change order
 
 ## Single elements
 
-`GET /api/v2/{type}/{id}` returns the bare element object, with no `data` wrapper. An id not in this world is `404` [`not_found`](/api/errors/#not_found), and one this world deleted is `410` [`gone`](/api/errors/#gone), with the deletion's `change_seq` and `deleted_at`; a malformed id is a `422`. An element [hidden](/docs/development/api/hidden) from the key is a `404`, the same answer as an id not in this world, never a `410`.
+`GET /api/v2/{type}/{id}` returns the bare element object, with no `data` wrapper. An id not in this world is `404` [`not_found`](/api/errors/#not_found), and one this world deleted is `410` [`gone`](/api/errors/#gone), with the deletion's `change_seq` and `deleted_at`; a malformed id is a `422`. An element [hidden](/docs/development/api/hidden) from the key is a `404`, the same answer as an id not in this world, never a `410`. These answers carry `Cache-Control: no-store`, as every answer does that sets none of its own, so a page in a browser that deletes an element and writes it again under the same id reads the element, not a kept `410`.
 
 ```bash
 curl -s "https://www.onlyworlds.com/api/v2/character/{id}" -H "API-Key: {key}"
