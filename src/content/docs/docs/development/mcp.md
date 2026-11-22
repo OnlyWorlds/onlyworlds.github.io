@@ -138,3 +138,4 @@ The two world resources go through the same key check and the same scoping as th
 - [World API](/docs/development/api-reference): the same data over REST, with the interactive reference at [onlyworlds.com/api/docs](https://www.onlyworlds.com/api/docs).
 - [AI seats](/docs/development/agents): give an agent its own key in a world, and by default its own Character, then connect it here.
 - [Toolkit](/docs/development/toolkit): Claude Code skills that work on a world folder or an account world.
+- [The MCP tools on a world folder](/docs/development/typescript#the-mcp-tools-on-a-world-folder): the same read tools answered from a folder on your own machine, for a server of your own, from the TypeScript SDK.

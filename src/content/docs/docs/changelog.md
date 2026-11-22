@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-22
 
+- **[TypeScript](/docs/development/typescript#the-mcp-tools-on-a-world-folder) [4.191.0](https://www.npmjs.com/package/@onlyworlds/sdk): the MCP tools on a world folder.** `folderMcpTools` from `@onlyworlds/sdk/mcp` answers the MCP server's eight read tools from a world folder, with the same names, arguments and answers. Its invite calls refuse an empty code before sending ([Invite links](/docs/development/typescript-accounts#invite-links)), and a folder source's lists no longer slow with each page.
 - **[Unity](/docs/development/unity) v0.49.0: a join preview carries the glimpse.** `OWJoinPreview.Glimpse` is up to five things of the world and the links among them, null for a guest's link, as the TypeScript SDK's 4.189.0 reads it.
 - **[TypeScript](/docs/development/typescript#a-world-folder-as-the-source) [4.190.0](https://www.npmjs.com/package/@onlyworlds/sdk): a world folder as the source.** `folderFetch` from `@onlyworlds/sdk/folder` lets the client read a world folder or a world file with the same calls as an online world, and no key; what a folder cannot answer is refused as `501` `not_in_a_folder`.
 - **[Members](/docs/development/api/members#invite-links): the invitation page shows its glimpse.** A link whose role reads the world opens on a small picture of up to five things of it and the links between them, before an account is made; a guest's link shows none, and the day a link expires reads as a date. Nothing on the API moved.

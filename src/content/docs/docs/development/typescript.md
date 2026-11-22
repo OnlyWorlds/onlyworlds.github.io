@@ -329,6 +329,23 @@ It answers `getWorld`, the lists with onlyworlds.com's filters, `limit`, `cursor
 
 What a folder cannot answer is refused by name, before anything is read: the account, members, files, the changes feed, proposals, hidden lists, every write, and `as` or `world` on any read. The refusal is status `501` with the code `not_in_a_folder` in the usual [error envelope](/api/errors/), so a tool can tell "not here" from "not found". The source reads its files once, as a snapshot: when the folder changes, make a new `folderFetch`.
 
+## The MCP tools on a world folder
+
+The [MCP server](/docs/development/mcp)'s read tools can answer from a world folder on the same machine (since 4.191.0). `folderMcpTools` from the `@onlyworlds/sdk/mcp` subpath gives its eight read tools (`list_element_types`, `get_element_schema`, `search_schema`, `list_worlds`, `get_me`, `list_elements`, `get_element`, `search_elements`), its two resources and its two templates, with the same names, arguments and answers as onlyworlds.com's server, so a prompt or a skill written for one works on the other. It holds no transport: your own MCP server (stdio, or anything else) passes each request in and the answer out.
+
+```ts
+import { entriesFromDirectory } from '@onlyworlds/sdk/folder';
+import { folderMcpTools } from '@onlyworlds/sdk/mcp';
+
+const door = folderMcpTools([{ entries: await entriesFromDirectory('./my-world') }]);
+
+door.tools;                                  // as tools/list carries them
+const result = await door.callTool('list_elements', { type: 'character', limit: 10 });
+// result is an MCP CallToolResult, ready to send: content, structuredContent and isError
+```
+
+Each answer is the MCP result as onlyworlds.com's server sends it: the JSON as text and as `structuredContent`, and a refusal as text with `isError: true`, never a rejected promise. `readResource(uri)` answers the resources, or throws `OwMcpError`, whose `code` is the JSON-RPC error to send (`MCP_RESOURCE_NOT_FOUND` when the address names nothing). A call's `world` is the folder's own id from its `world.json`; with one world given it can be left out. The tool definitions and the schema answers are those onlyworlds.com served when the package was built, each description with one sentence added saying it answers on this computer (`{ asServed: true }` keeps them as served). Nothing writes, and the tools the server answers only for an account (`get_changes`, `get_draught`, files) are not offered. A folder is read once, as a snapshot: when it changes, make the tools again.
+
 ## Accounts, members and sharing
 
 Signing in, inviting people and AIs, making a world on an account and proposed changes have their own page, [Accounts, members and sharing](/docs/development/typescript-accounts):
@@ -425,7 +442,7 @@ The package also ships `SCHEMA.md` (every field and its meaning, generated) and 
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.190.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.191.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 

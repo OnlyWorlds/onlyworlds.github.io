@@ -74,7 +74,7 @@ const invite = await new OwV2Client().previewJoin(code); // who invites, which w
 const membership = await account.acceptJoin(code);        // account: the invited person's client with an ow_a_ token
 ```
 
-A bad code is one 404 (`err.isNotFound`). Accepting can answer `err.isAlreadyMember`; it needs no account PIN, though a write key for the new membership waits for one. A refusal never uses up the code.
+A bad code is one 404 (`err.isNotFound`). An empty code is a `TypeError` before anything is sent (since 4.191.0). Accepting can answer `err.isAlreadyMember`; it needs no account PIN, though a write key for the new membership waits for one. A refusal never uses up the code.
 
 `reader: 'agent'` makes a link an AI agent redeems for a seat instead (an [AI seat](/docs/development/api/members#ai-seats): the AI's own membership, key and secret), with `redeemJoin`: the answer has `kind: 'agent'`, the seat's key and secret, and its `.env` lines.
 
