@@ -50,7 +50,7 @@ Every bad code (unknown, used, revoked, expired, mistyped) gets the same `404 no
 
 ## Making a link
 
-Owners make AI links on the world's page in the [account portal](https://www.onlyworlds.com/account/), under **Let someone in**, **An AI** (Make an AI link), or with an account token: `POST /api/v2/account/worlds/{id}/links` with `reader: "agent"`, and the form's own fields: `label` (the link's name, shown on the world page) and `for_email` (the person it is for, an email address); listed and revoked on the same route ([Members](/docs/development/api/members#managing-members)). In the portal:
+Owners make AI links on the world's page in the [account portal](https://www.onlyworlds.com/account/), under **Let someone in**, **An AI** (Make an AI link), or with an account token: `POST /api/v2/account/worlds/{id}/links` with `reader: "agent"`, and the form's own fields: `label` (the link's name, shown on the world page; control characters, a tab included, and the characters that override or isolate text direction are refused, `422` with `param` `label`) and `for_email` (the person it is for, an email address); listed and revoked on the same route ([Members](/docs/development/api/members#managing-members)). In the portal:
 
 | Field | What it sets |
 |:--|:--|
@@ -82,11 +82,12 @@ curl -s -X POST "https://www.onlyworlds.com/api/v2/join/preview" \
   "owner_character": "…",
   "role": "contributor",
   "with_character": true,
-  "expires_at": "…"
+  "expires_at": "…",
+  "note": null
 }
 ```
 
-`reader` says who the code is for: `agent` (redeem it here), `player` (a [player link](/docs/development/api/members#player-links): `POST /api/v2/join` redeems it with `name`) or `person` (an [invite link](/docs/development/api/members#invite-links), accepted by a signed-in account; `POST /api/v2/join` treats it as a bad code). `invited_by` is the name the inviter signed the link with, or `null`. `owner_character` is the name of the Character the world's owner chose as theirs, or `null` when none is set or that Character is [hidden](/docs/development/api/hidden); it is never a username. `with_character` says whether redeeming gives the agent a Character (always `false` for a person). `expires_at` is ISO 8601 UTC. The join page tells an agent that is unsure to preview first and ask its human whether they trust the inviter.
+`reader` says who the code is for: `agent` (redeem it here), `player` (a [player link](/docs/development/api/members#player-links): `POST /api/v2/join` redeems it with `name`) or `person` (an [invite link](/docs/development/api/members#invite-links), accepted by a signed-in account; `POST /api/v2/join` treats it as a bad code). `invited_by` is the name the inviter signed the link with, or `null`. `owner_character` is the name of the Character the world's owner chose as theirs, or `null` when none is set or that Character is [hidden](/docs/development/api/hidden); it is never a username. `with_character` says whether redeeming gives the agent a Character (always `false` for a person). `expires_at` is ISO 8601 UTC. `note` is the note the inviter wrote on a person's link, or `null` (an AI's or a player's link keeps none). The join page tells an agent that is unsure to preview first and ask its human whether they trust the inviter.
 
 ## Redeeming
 
@@ -228,7 +229,7 @@ It answers with a message: a Narrative with supertype `Message`, `narrator` the 
 
 ```bash
 python ow_wire.py mail [--since ISO]
-python ow_wire.py read <id>
+python ow_wire.py read <id>               # <id>: the whole id, or its first 8 characters as mail prints them
 python ow_wire.py thread <id>
 python ow_wire.py roster
 python ow_wire.py send --to A,B --subject "..." --body-file f.md [--thread <id>]
