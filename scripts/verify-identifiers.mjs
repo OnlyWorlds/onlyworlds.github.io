@@ -41,8 +41,15 @@ const ENV = /^OW_[A-Z_]+$/;
 const blind = (why) => { console.log(`verify-identifiers: BLIND: ${why}`); process.exit(2); };
 
 if (!existsSync(DTS)) blind('@onlyworlds/sdk is not installed (node_modules/@onlyworlds/sdk/dist/index.d.ts): npm install');
-const dts = readFileSync(DTS, 'utf8');
-const version = JSON.parse(readFileSync(join(ROOT, 'node_modules', '@onlyworlds', 'sdk', 'package.json'), 'utf8')).version;
+const PKG = JSON.parse(readFileSync(join(ROOT, 'node_modules', '@onlyworlds', 'sdk', 'package.json'), 'utf8'));
+const version = PKG.version;
+// Every entry the package exports (the root and each subpath, read from its own exports map): a name a page takes
+// from `@onlyworlds/sdk/folder` is declared in that entry's file, not in index.d.ts.
+const DTS_FILES = [...new Set(Object.values(PKG.exports ?? {}).map((v) => v && typeof v === 'object' ? v.types : null).filter(Boolean))]
+  .map((t) => join(ROOT, 'node_modules', '@onlyworlds', 'sdk', t));
+for (const f of DTS_FILES) if (!existsSync(f)) blind(`@onlyworlds/sdk ${version}'s exports name ${f}, which is not installed`);
+if (!DTS_FILES.includes(DTS)) blind(`@onlyworlds/sdk ${version}'s exports map names no dist/index.d.ts: the reader no longer finds the root entry`);
+const dts = DTS_FILES.map((f) => readFileSync(f, 'utf8')).join('\n');
 const declared = new Set([...dts.matchAll(/\b(?:interface|type|class|function|const|enum|let|var)\s+([A-Za-z_]\w*)/g)].map((m) => m[1]));
 // Both export lists: `export { ... }`, and `export type { ... }` where the bundler writes the types apart (tsup 9).
 for (const m of dts.matchAll(/export\s*(?:type\s+)?\{([^}]*)\}/g)) {
@@ -80,6 +87,6 @@ for (const f of pages) {
 if (!names) blind('the pages give no TypeScript-shaped name in backticks: the pattern or the pages moved');
 for (const n of Object.keys(OTHERS)) if (!others.has(n)) fails.push(`OTHERS names \`${n}\`, which no page gives any more: take it out`);
 for (const f of fails) console.log(`  FAIL   ${f}`);
-const summary = `${names} names on ${pages.length} pages against @onlyworlds/sdk ${version}'s index.d.ts (${declared.size} declared names and members), ${others.size} named as someone else's`;
+const summary = `${names} names on ${pages.length} pages against @onlyworlds/sdk ${version}'s ${DTS_FILES.length} declaration files (${declared.size} declared names and members), ${others.size} named as someone else's`;
 if (fails.length) { console.log(`verify-identifiers: FAIL — ${fails.length} problem(s); ${summary}`); process.exit(1); }
 console.log(`verify-identifiers: PASS — ${summary}. Not checked: which type a member is on; the Python, Unity and C# names.`);

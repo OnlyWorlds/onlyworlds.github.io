@@ -307,6 +307,28 @@ An `includeHidden` that is not a boolean, or a `report` that is not a function, 
 
 </details>
 
+## A world folder as the source
+
+The same client reads a [world folder](/docs/schema/folders) on disk, or a world file, with no account and no key (since 4.190.0). `folderFetch` from the `@onlyworlds/sdk/folder` subpath turns the folder's files into the client's `fetch`, so every read your tool already makes answers from the folder:
+
+```ts
+import { OwV2Client } from '@onlyworlds/sdk';
+import { entriesFromDirectory, folderFetch } from '@onlyworlds/sdk/folder';
+
+const entries = await entriesFromDirectory('./my-world'); // Node; any {path, data} list works
+const client = new OwV2Client({ fetch: folderFetch(entries) });
+
+const world = await client.getWorld();
+const page = await client.list('character', { limit: 50 });
+const found = await client.search('harbour');
+```
+
+A world file is a source too: `folderFetch(readWorldFile(bytes).files)`. In a browser or a desktop shell, build the same list of `{path, data}` from whatever opened the folder.
+
+It answers `getWorld`, the lists with onlyworlds.com's filters, `limit`, `cursor`, `fields` and `expand`, one element, and `search`, each as onlyworlds.com would answer it for the same world. Lists come in the same order: by `change_seq`, then id, and an element whose file has no `change_seq` (one made offline) comes after every one that has it. The files are read as the folder format reads them: the id in the file, `elements/` and a legacy `spatial/`, and a file that does not parse or has no id is skipped.
+
+What a folder cannot answer is refused by name, before anything is read: the account, members, files, the changes feed, proposals, hidden lists, every write, and `as` or `world` on any read. The refusal is status `501` with the code `not_in_a_folder` in the usual [error envelope](/api/errors/), so a tool can tell "not here" from "not found". The source reads its files once, as a snapshot: when the folder changes, make a new `folderFetch`.
+
 ## Accounts, members and sharing
 
 Signing in, inviting people and AIs, making a world on an account and proposed changes have their own page, [Accounts, members and sharing](/docs/development/typescript-accounts):
@@ -403,7 +425,7 @@ The package also ships `SCHEMA.md` (every field and its meaning, generated) and 
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.189.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.190.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
