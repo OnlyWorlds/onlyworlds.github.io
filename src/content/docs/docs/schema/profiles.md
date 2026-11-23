@@ -3,11 +3,55 @@ title: Profiles
 description: "The extension profiles: named fields and reading rules on the standard's types that every tool reads the same way, published in schema-dist."
 ---
 
-A profile is a convention on the standard's types: a named extension field, or a rule for reading the fields the standard already has, that tools agree to read the same way. Each is a page in schema-dist's [`profiles/`](https://github.com/OnlyWorlds/schema-dist/tree/main/profiles) folder, beside the schema. Each entry below names the serial that first carried it: a serial is one numbered release of schema-dist ([its tags](https://github.com/OnlyWorlds/schema-dist/tags)). A new profile's field is named `x_<profile>_<field>`.
+OnlyWorlds has 22 element types. On top of them, OnlyWorlds publishes **profiles**: small agreements that let different tools read the same world the same way.
 
-Three have pages of their own: [Messages](/docs/schema/profiles/messages), [Addresses](/docs/schema/profiles/addresses) and [Lenses](/docs/lenses).
+A profile adds no type. Some give a meaning to an extra field an element or a world can carry; others say how to read fields the standard already has, such as which Narratives are messages. A tool that has never read a profile still sees ordinary elements. Most profiles come with a file of test cases, so two tools that follow one give the same answer.
+
+**Do you have to do anything?** No. None of them is required: a world with no profile at all is a whole world, and every tool reads it. As a worldbuilder you meet a profile through a tool (a calendar in Atlas, a Charter shown first on the site), and the tool reads and writes it for you. As a builder, these are what you read to show a world the way other tools do; each has its section below.
+
+## All 19, by what they are for
+
+### At a world's door
+
+- **[Charter](#charter)**: the house rules (what the world is for, what an AI may and may not do), where to start, and the world's main places, shown first to whoever enters, a person or an AI.
+- **[Strand](#strand)**: one story the world is about, small enough to hold in one look: the story, one happening in it and where it took place, its hero, and where the hero is now.
+- **[Landing](#landing)**: a world's first picture: its most-linked Characters, and for a small world its gaps first (an element linked to nothing, a place nobody is in), each an invitation to add more.
+
+### A world people and their AIs work in
+
+The work done on a world (chat, tasks, reports) can live in it as ordinary elements with a mark, kept apart from the world's lore.
+
+- **[Room](#room)**: the list of what that working layer holds, and the rule that views of the lore leave it out unless the person asks.
+- **[Message](#message)**: a message between members: who sent it, who it is for, whether the sender is proved, who has read it.
+- **[Packet](#packet)**: a piece of work: elements with a reason for each, who it is for, who asked, and whether it is open, taken, done or a standing list.
+- **[Report](#report)**: what a stretch of work leaves behind: what was done and what changed in the world, completed by the world's keeper (its owner or a co-builder).
+- **[Review](#review)**: a mark for an element proposed and not yet accepted, so it never reaches the next AI as fact, and one for an element someone checked is still true.
+- **[Checks](#checks)**: house rules a machine can check ("every Character carries a reputation"), written beside the Charter; a tool reports what falls short.
+
+### Reading and drawing a world
+
+- **[Lens](/docs/lenses)**: a saved way of reading a world (which things, how far out, how far back, how much) that every tool reads alike. It never shows a reader more than they may already see.
+- **[Calendar](#calendar)**: a world's own months, weeks, eras and leap days, so every tool says a date the same way. The dates stay plain numbers.
+- **[Names](#names)**: a world's own words for the types, a Character shown as *Employee*, an Institution as *Team*. The data keeps the standard's names.
+- **[Map space](#map-space)**: how Maps, Zones, Markers and Pins become shapes and points to draw, and where a Map drawn inside another lies on it.
+- **[Layout](#default-layouts)**: three ways to draw a world nobody has laid out, each giving the same points in every tool.
+
+### Across tools and worlds
+
+- **[Address](/docs/schema/profiles/addresses)**: one way to write a link to an element, so a link copied in one tool opens in another.
+- **[Identity](#identity)**: marks two Characters or Creatures in different worlds as the same being, without merging them.
+- **[Import map](#import-map)**: another tool's own words for its kinds of entry matched to the 22 element types (in LegendKeeper, `city` to Location), applied to an import only on the user's yes.
+- **[Record](#record)**: a game's run kept in the world its Characters live in, so a character carries what they did from run to run.
+
+### A world of another kind
+
+- **[Spine](#spine)**: a world that maps a software ecosystem: what is built, where each thing lives, who keeps it, what it depends on.
 
 ## What every reader does
+
+For builders, each profile in detail: what it holds and who reads it. Each is a page in schema-dist's [`profiles/`](https://github.com/OnlyWorlds/schema-dist/tree/main/profiles) folder, beside the schema. Each entry below names the serial that first carried it: a serial is one numbered release of schema-dist ([its tags](https://github.com/OnlyWorlds/schema-dist/tags)). A new profile's field is named `x_<profile>_<field>`.
+
+Three have pages of their own: [Messages](/docs/schema/profiles/messages), [Addresses](/docs/schema/profiles/addresses) and [Lenses](/docs/lenses).
 
 ### Identity
 
