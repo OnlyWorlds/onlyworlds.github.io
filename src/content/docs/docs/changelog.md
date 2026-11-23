@@ -7,6 +7,10 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 What changed on onlyworlds.com for everyone is on its own [Changelog](https://www.onlyworlds.com/changelog); this page stays the developer log.
 
+## 2026-11-23
+
+- **[onlyworlds.com's Changelog](/docs/tools/onlyworlds-com) opens in plain words.** `/changelog` now shows each change by its title and one plain sentence (`?view=plain` still answers the same page), and `/changelog?view=full` shows every change's whole notes; it lists every release of each package, not only the newest hundred. The Atom feed and `/changelog.json` keep their shape.
+
 ## 2026-11-22
 
 - **[TypeScript](/docs/development/typescript#a-world-folder-as-the-source) [4.192.0](https://www.npmjs.com/package/@onlyworlds/sdk): what a world folder answers, and where it is not onlyworlds.com.** The folder section now says each read a folder answers, the one refusal and what it covers, and a list of where a folder's answer differs (offline elements last, a cursor is its source's own, no `410`, no ETag, which files are passed over, the declared type). `onRead`'s report lists each file served as `{ path, type, id, name }`; `folderMcpTools([])` serves no world, so a server started before a folder is added answers the schema tools and an empty `list_worlds`. [World folders](/docs/schema/folders#element-files) says what declares a type: exactly one of the 22 slugs as the standard spells them.
