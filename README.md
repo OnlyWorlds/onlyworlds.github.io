@@ -61,7 +61,7 @@ A figure is an Astro component in `src/components/figures/`, placed in a page's 
 - **It has a text version.** The page carries it (a list under the figure, or the figure is itself HTML text), and `scripts/postbuild.mjs` writes it into the page's Markdown twin in place of the component's tag (`FIGURE_TEXT`; a tag with no text there fails the build).
 - **It takes the docs' theme**, through Starlight's colour variables, so it follows the light and dark switch.
 - **Its height fits its width**, with no inner scroll: it lays out by its own width (a container query), from the phone to the content column.
-- **A check holds it to its source.** `scripts/verify-figures.mjs`, first in `npm run verify`, reads the built pages: the link map against the element pages (generated from schema-dist, a second source), and the address the four nouns show parsed by the SDK's `parseOwLink`. A new figure adds its check there, watched failing on a planted error before it is trusted.
+- **A check holds it to its source.** `scripts/verify-figures.mjs`, in `npm run verify` right after `verify-fresh.mjs`, reads the built pages: the link map against the element pages (generated from schema-dist, a second source), and the address the four nouns show parsed by the SDK's `parseOwLink`. A new figure adds its check there, watched failing on a planted error before it is trusted.
 
 ## Run buttons
 
