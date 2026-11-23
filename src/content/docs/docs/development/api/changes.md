@@ -155,9 +155,9 @@ The world page's **Download JSON** button (Access, **This world as a file**; the
 
 - `format` is always the literal `"onlyworlds-world-export"`; a reader should reject a file without it. The envelope's shape is keyed by `format` alone: a breaking change would change it.
 - `elements` is keyed by lowercase element type slug, each an array ordered by `created_at`. Only element types with at least one element appear.
-- Element bodies are exactly what the API returns, extension fields included.
+- Element bodies are what the API returns to the owner, extension fields included, less two keys. `doors`, the record of which tools wrote an element, is left out: the file is the world, not its trail. `hidden` is left out too: a [hidden element](/docs/development/api/hidden) is in the file like any other, with nothing to mark it.
 - `world.id` is the world's identity: an importer should keep it rather than mint a new one.
-- `world` is the World whole (since 2026-10-23): every key [`GET /api/v2/world`](/docs/development/api/reads#the-world) serves, its description, time settings, units, switches, `slug` and `public_page` included, beside `source` and `exported_as`. A file from before carries the id, the name, the dates and the provenance lines only.
+- `world` is the World whole (since 2026-10-23): every key [`GET /api/v2/world`](/docs/development/api/reads#the-world) serves but `counts` (the file's own arrays are the count), its description, time settings, units, switches, `slug` and `public_page` included, beside `source` and `exported_as`. A file from before carries the id, the name, the dates and the provenance lines only.
 - `schema_version` is the version of the standard the elements follow (the value `X-OW-Schema-Version` carries); it is information, not a gate. Files from before 2026-10-18 carry `0.30.00` there. Readers ignore keys they do not know.
 - `world.source` and `world.exported_as` are the [folder format's provenance lines](/docs/schema/folders#worldjson): where the file came from, and that it is the owner's whole world. A tool that writes the file out as a folder carries both into `world.json` as they are. A file without them predates 2026-10-20.
 
