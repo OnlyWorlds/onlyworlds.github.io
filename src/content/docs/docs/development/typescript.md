@@ -299,9 +299,10 @@ A private `records/<producer>/` is matched by name after the same fold as a `col
 
 `includeHidden` follows the folder format's [hidden mark](/docs/schema/folders#folders-and-onlyworldscom). With `{ includeHidden: false }`:
 
-- every `.json` file directly in a type folder of `elements/` or `spatial/` whose JSON has a top-level `hidden` (anything but absent, `null` or `false`, so `"true"` and `1` count) is left out whole
-- a file there that could not be read as an element is left out too, since its mark cannot be told: not UTF-8 JSON (a write cut short), nested more than 200 deep, holding a number too large for a double, or not an object. The report names these apart, in `unreadLeftOut` and `unreadPaths` (since 4.196.0; before, such a file was kept, and 4.195.0 threw on one too deep)
-- a copy (no `includeHidden: false`) carries such a file byte for byte, and never rewrites it for its author fields
+- every element file whose JSON has a top-level `hidden` (anything but absent, `null` or `false`, so `"true"` and `1` count) is left out whole
+- a file under `elements/` or `spatial/` travels only when it was read as an element, and "read as an element" is the [folder reader](#a-world-folder-as-the-source)'s own verdict: a `.json` file directly in a type folder, one JSON object with a non-empty string `id`. Every other file there is left out too, since its mark cannot be told: not UTF-8 JSON (a write cut short, or text after the one JSON value), nested more than 200 deep, holding a number too large for a double, not an object, without an `id`, with another extension (`notes.txt`, `M.JSON`), deeper than a type folder (a hidden element's file moved into `old/` by hand), directly under `elements/`, or in a folder that is no type. The report names these apart, in `unreadLeftOut` and `unreadPaths` (since 4.197.0; 4.196.0 left out only a file in a type folder that it could not parse, earlier versions kept that one too, and 4.195.0 threw on one too deep)
+- an id that two files hold travels in neither file, in one layout or across `elements/` and `spatial/`: which of the two marks is the element's cannot be said, so both are named in `unreadPaths` (since 4.197.0; before, each file was judged by its own mark, and a hidden element's second, unmarked file travelled)
+- a copy (no `includeHidden: false`) carries every such file byte for byte, and never rewrites it for its author fields
 - nothing else is rewritten: a visible element's link to a hidden one keeps its id
 
 An `includeHidden` that is not a boolean, or a `report` that is not a function, is a `TypeError` before anything is written.
@@ -330,7 +331,7 @@ It answers `getWorld` (the world file's fields, with the element counts worked o
 
 What a folder cannot answer is refused with one answer: the account, members, files, the changes feed, proposals, hidden lists, lenses, every write, any address it does not know (a misspelled type included), and `as` or `world` on any read, since a folder has one reader and one world. A write is refused before anything is read; a read is refused once the folder has been read. The refusal is status `501` with the code `not_in_a_folder` in the usual [error envelope](/api/errors/), so a tool can tell "not here" from "not found". A folder whose `world.json` does not parse as an object with a non-empty string `id` answers every read it would answer, health included, with a `500` that says so.
 
-The source reads its files once, as a snapshot, at the first request: when the folder changes, make a new `folderFetch`. `folderFetch(entries, { onRead })` hands `onRead` a report of that read: `served`, each file served as an element (`{ path, type, id, name }`, since 4.192.0), and `skipped`, each file passed over with why: `not_json`, `no_id`, `duplicate`, and since 4.195.0 `too_deep` (nested more than 200 deep) and `number_out_of_range` (a number too large for a double, which would otherwise be served as `null`). A tool that watches a folder can compare two reports to tell new, changed and removed elements, and ask `countsPath(path)` (since 4.193.0) whether a new file is one the source reads at all, so a change under `.git/` or a swap file needs no read: it is the reader's own test, and a path that ends in `/` asks it of a folder moved in whole.
+The source reads its files once, as a snapshot, at the first request: when the folder changes, make a new `folderFetch`. `folderFetch(entries, { onRead })` hands `onRead` a report of that read: `served`, each file served as an element (`{ path, type, id, name }`, since 4.192.0), and `skipped`, each file passed over with why: `not_json`, `no_id`, `duplicate`, and since 4.195.0 `too_deep` (nested more than 200 deep) and `number_out_of_range` (a number too large for a double, which would otherwise be served as `null`), and since 4.197.0 `extension` (a file in a type folder whose extension is `.json` in another spelling, such as `M.JSON`, which the format does not read). The source reads names as written: a type folder is the type word in lower case, and two ids are the same id when they are written the same, so one UUID in capitals in one file and in lower case in another is two elements (since 4.197.0; before, the second file was skipped as a `duplicate`). A request by id names an element by its UUID, as the API does, and the first file read answers either spelling. A tool that watches a folder can compare two reports to tell new, changed and removed elements, and ask `countsPath(path)` (since 4.193.0) whether a new file is one the source reads at all, so a change under `.git/` or a swap file needs no read: it is the reader's own test, and a path that ends in `/` asks it of a folder moved in whole.
 
 Where a folder's answer is not onlyworlds.com's:
 
@@ -455,7 +456,7 @@ The package also ships `SCHEMA.md` (every field and its meaning, generated) and 
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.196.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.197.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -551,7 +552,7 @@ Generated from the types of `@onlyworlds/sdk` 4.196.0, the version these docs pi
 
 ### Deprecated names
 
-Every name the package's declarations mark `@deprecated`, read from the same files as the tables above: 21 in 4.196.0. Each row is the mark's own comment, to the sentence that names the version the name leaves in. How much notice a change to the API itself gets: [Stability and deprecation](/docs/development/api/stability).
+Every name the package's declarations mark `@deprecated`, read from the same files as the tables above: 21 in 4.197.0. Each row is the mark's own comment, to the sentence that names the version the name leaves in. How much notice a change to the API itself gets: [Stability and deprecation](/docs/development/api/stability).
 
 | Name | Deprecated since | Leaves in | What its comment says |
 |---|---|---|---|
