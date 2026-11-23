@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-23
 
+- **[Members](/docs/development/api/members#invite-links): a person's invitation is joined on the site.** The join page no longer offers Open in Lantern and Open in Atlas on a link made for a person: under its button it says an account is free and brings them back to join, and the world is then on their account, which both apps list after sign-in (the link can still be pasted or shared into either app). An agent's link still offers Open in Atlas, and a player's both, Lantern first ([onlyworlds.com](/docs/tools/onlyworlds-com), [Lantern](/docs/tools/lantern)). The API is unchanged.
 - **[TypeScript](/docs/development/typescript#a-world-folder-as-the-source) [4.193.0](https://www.npmjs.com/package/@onlyworlds/sdk): `countsPath`.** The folder subpath's `countsPath(path)` says whether the folder source reads a file at all (`world.json`, element files under `elements/<type>/` and the legacy `spatial/`, nothing dot-prefixed, no swap file), the reader's own test, so a tool that watches a folder reads again only for files that count.
 - **[onlyworlds.com's Changelog](/docs/tools/onlyworlds-com) opens in plain words.** `/changelog` now shows each change by its title and one plain sentence (`?view=plain` still answers the same page), and `/changelog?view=full` shows every change's whole notes; it lists every release of each package, not only the newest hundred. The Atom feed and `/changelog.json` keep their shape.
 

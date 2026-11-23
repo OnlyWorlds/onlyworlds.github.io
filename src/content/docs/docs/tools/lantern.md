@@ -57,7 +57,7 @@ The world's home shows **Unsorted** with its count. From a note, **Make it an el
 
 ## Joining a world
 
-An invite link looks like `https://www.onlyworlds.com/join#ow_j_…`. Paste it on **Open a link** (**I have a link** on the first screen, **Open a link** on Your worlds), or tap **Open in Lantern** on onlyworlds.com's join page, which brings the link straight in. On Android, a link shared to Lantern from a chat opens the same screen. Lantern shows who invites you, to which world, as what, and until when the link works. A link works once. Joining needs signal.
+An invite link looks like `https://www.onlyworlds.com/join#ow_j_…`. Paste it on **Open a link** (**I have a link** on the first screen, **Open a link** on Your worlds), or, for a player's link, tap **Open in Lantern** on onlyworlds.com's join page, which brings it straight in (a person's invitation is joined on the site, and the world then shows under Your worlds once you sign in). On Android, a link shared to Lantern from a chat opens the same screen. Lantern shows who invites you, to which world, as what, and until when the link works. A link works once. Joining needs signal.
 
 What Lantern does with each kind of link:
 
