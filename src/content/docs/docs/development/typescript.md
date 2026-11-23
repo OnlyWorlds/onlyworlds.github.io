@@ -329,7 +329,7 @@ It answers `getWorld` (the world file's fields, with the element counts worked o
 
 What a folder cannot answer is refused with one answer: the account, members, files, the changes feed, proposals, hidden lists, lenses, every write, any address it does not know (a misspelled type included), and `as` or `world` on any read, since a folder has one reader and one world. A write is refused before anything is read; a read is refused once the folder has been read. The refusal is status `501` with the code `not_in_a_folder` in the usual [error envelope](/api/errors/), so a tool can tell "not here" from "not found". A folder whose `world.json` does not parse as an object with a non-empty string `id` answers every read it would answer, health included, with a `500` that says so.
 
-The source reads its files once, as a snapshot, at the first request: when the folder changes, make a new `folderFetch`. `folderFetch(entries, { onRead })` hands `onRead` a report of that read: `served`, each file served as an element (`{ path, type, id, name }`, since 4.192.0), and `skipped`, each file passed over with why. A tool that watches a folder can compare two reports to tell new, changed and removed elements.
+The source reads its files once, as a snapshot, at the first request: when the folder changes, make a new `folderFetch`. `folderFetch(entries, { onRead })` hands `onRead` a report of that read: `served`, each file served as an element (`{ path, type, id, name }`, since 4.192.0), and `skipped`, each file passed over with why. A tool that watches a folder can compare two reports to tell new, changed and removed elements, and ask `countsPath(path)` (since 4.193.0) whether a new file is one the source reads at all, so a change under `.git/` or a swap file needs no read: it is the reader's own test, and a path that ends in `/` asks it of a folder moved in whole.
 
 Where a folder's answer is not onlyworlds.com's:
 
@@ -454,7 +454,7 @@ The package also ships `SCHEMA.md` (every field and its meaning, generated) and 
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.192.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.193.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 

@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-23
 
+- **[TypeScript](/docs/development/typescript#a-world-folder-as-the-source) [4.193.0](https://www.npmjs.com/package/@onlyworlds/sdk): `countsPath`.** The folder subpath's `countsPath(path)` says whether the folder source reads a file at all (`world.json`, element files under `elements/<type>/` and the legacy `spatial/`, nothing dot-prefixed, no swap file), the reader's own test, so a tool that watches a folder reads again only for files that count.
 - **[onlyworlds.com's Changelog](/docs/tools/onlyworlds-com) opens in plain words.** `/changelog` now shows each change by its title and one plain sentence (`?view=plain` still answers the same page), and `/changelog?view=full` shows every change's whole notes; it lists every release of each package, not only the newest hundred. The Atom feed and `/changelog.json` keep their shape.
 
 ## 2026-11-22
