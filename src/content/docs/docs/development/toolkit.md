@@ -90,7 +90,7 @@ Most of the toolkit runs on files alone, with no account:
 - `carry` packs, unpacks and converts folders on disk; only the move to or from an account needs one.
 - `context` and `update` work with whatever holds the world: a folder, your own notes, or an OnlyWorlds world.
 
-With an OnlyWorlds account, the same skills work on an account world over the [API](/docs/development/api-reference). `start` connects the project (a `.env` you fill with your key and PIN as `OW_API_KEY` and `OW_API_PIN`, kept out of git; a folder that still holds the older `ONLYWORLDS_API_KEY` and `ONLYWORLDS_API_PIN` keeps working), and `develop` builds on it. To connect an agent to a world directly, see the [MCP server](/docs/development/mcp).
+With an OnlyWorlds account, the same skills work on an account world over the [API](/docs/development/api-reference). `start` connects the project (a `.env` you fill with your key and PIN as `OW_API_KEY` and `OW_API_PIN`, kept out of git; a folder that still holds the older `ONLYWORLDS_API_KEY` and `ONLYWORLDS_API_PIN` keeps working), and `develop` builds on it. Since 5.13.0 `start` also offers one line for the file your AI tool reads at the start of every session in that folder (`AGENTS.md`, or the folder's own `CLAUDE.md` when the tool is Claude Code and a `CLAUDE.md` stands in the folder or above it): with the line there, a later session signs in to the world and reads its house rules, where it has any, before it answers. The line is added on your yes, and a folder whose key would fail it (a classic 10-digit key on a world with a PIN) gets no offer and is told why. To connect an agent to a world directly, see the [MCP server](/docs/development/mcp).
 
 ## Example requests
 
