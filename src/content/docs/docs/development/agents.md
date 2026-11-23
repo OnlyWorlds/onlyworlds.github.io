@@ -15,6 +15,25 @@ Three ways, in the order to reach for them:
 2. **Send a join link.** The owner sends the agent a link and it redeems the seat itself, which suits an agent you don't run yourself. See [The join link](#the-join-link).
 3. **Your own key.** An AI working on a person's own key acts as that person; it should say it is an agent by sending the `X-OW-Agent` header on writes, so what it makes is marked as an AI's ([Agent writes](/docs/development/api/writes#agent-writes)), and name its tool with `X-OW-Client` (lower case letters, digits and hyphens, 1 to 32), stored on what it writes as `changed_client`. Its writes count as the person's.
 
+## What you can get back
+
+Before you give an AI write access to a world you own, download the world from its page: the download is your own copy.
+
+Two things limit an AI beforehand. A read-only key cannot write. A seat can be held for a person's word: with **AI seats propose, a person accepts** on for the world, a seat's edits to existing elements wait as [proposals](/docs/development/api/proposals) and it deletes only what it made. The setting covers seats only: an AI using your own key writes as you.
+
+Every other change happens at once. A deleted element has no trash: the links to it are removed and its files go with it. An overwritten text keeps no earlier version; only your download or a nightly file has the old one.
+
+Each night a world changed, onlyworlds.com keeps a file of it for 90 days. You cannot open one, only restore it from the world's page, as its owner ([Restore to a day](/docs/tools/onlyworlds-com#features)). A restore:
+
+- puts every element back as the file has it, deleted ones included, and deletes the ones made since
+- puts the world's settings back, its name included
+- leaves members, keys, seats, pages and proposals as they are, and unhides nothing
+- restores pictures and files only as links
+
+It keeps a file of the world as it is now first, so you can come back to it.
+
+A world's own delete you cannot undo yourself: a restore needs a world that still exists.
+
 ## Making a seat
 
 `POST /api/v2/account/worlds/{id}/seats` with an [account token](/docs/getting-started/keys), body:
