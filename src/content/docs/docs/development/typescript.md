@@ -301,6 +301,7 @@ A private `records/<producer>/` is matched by name after the same fold as a `col
 
 - every `.json` file directly in a type folder of `elements/` or `spatial/` whose JSON has a top-level `hidden` (anything but absent, `null` or `false`, so `"true"` and `1` count) is left out whole
 - a file there that is not UTF-8 JSON, or not an object, is kept
+- a file there that is JSON the writer cannot hold as written (nested more than 200 deep, or holding a number too large for a double) stops the write with a `TypeError` naming it, since 4.195.0: whether it is hidden cannot be told. The same holds when the writer reads a file for its author fields; with `{ includeHidden: true, includeAuthorFields: true }` it reads no element file and every one travels byte for byte
 - nothing else is rewritten: a visible element's link to a hidden one keeps its id
 
 An `includeHidden` that is not a boolean, or a `report` that is not a function, is a `TypeError` before anything is written.
@@ -329,7 +330,7 @@ It answers `getWorld` (the world file's fields, with the element counts worked o
 
 What a folder cannot answer is refused with one answer: the account, members, files, the changes feed, proposals, hidden lists, lenses, every write, any address it does not know (a misspelled type included), and `as` or `world` on any read, since a folder has one reader and one world. A write is refused before anything is read; a read is refused once the folder has been read. The refusal is status `501` with the code `not_in_a_folder` in the usual [error envelope](/api/errors/), so a tool can tell "not here" from "not found". A folder whose `world.json` does not parse as an object with a non-empty string `id` answers every read it would answer, health included, with a `500` that says so.
 
-The source reads its files once, as a snapshot, at the first request: when the folder changes, make a new `folderFetch`. `folderFetch(entries, { onRead })` hands `onRead` a report of that read: `served`, each file served as an element (`{ path, type, id, name }`, since 4.192.0), and `skipped`, each file passed over with why. A tool that watches a folder can compare two reports to tell new, changed and removed elements, and ask `countsPath(path)` (since 4.193.0) whether a new file is one the source reads at all, so a change under `.git/` or a swap file needs no read: it is the reader's own test, and a path that ends in `/` asks it of a folder moved in whole.
+The source reads its files once, as a snapshot, at the first request: when the folder changes, make a new `folderFetch`. `folderFetch(entries, { onRead })` hands `onRead` a report of that read: `served`, each file served as an element (`{ path, type, id, name }`, since 4.192.0), and `skipped`, each file passed over with why: `not_json`, `no_id`, `duplicate`, and since 4.195.0 `too_deep` (nested more than 200 deep) and `number_out_of_range` (a number too large for a double, which would otherwise be served as `null`). A tool that watches a folder can compare two reports to tell new, changed and removed elements, and ask `countsPath(path)` (since 4.193.0) whether a new file is one the source reads at all, so a change under `.git/` or a swap file needs no read: it is the reader's own test, and a path that ends in `/` asks it of a folder moved in whole.
 
 Where a folder's answer is not onlyworlds.com's:
 
@@ -454,7 +455,7 @@ The package also ships `SCHEMA.md` (every field and its meaning, generated) and 
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.194.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.195.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -550,7 +551,7 @@ Generated from the types of `@onlyworlds/sdk` 4.194.0, the version these docs pi
 
 ### Deprecated names
 
-Every name the package's declarations mark `@deprecated`, read from the same files as the tables above: 21 in 4.194.0. Each row is the mark's own comment, to the sentence that names the version the name leaves in. How much notice a change to the API itself gets: [Stability and deprecation](/docs/development/api/stability).
+Every name the package's declarations mark `@deprecated`, read from the same files as the tables above: 21 in 4.195.0. Each row is the mark's own comment, to the sentence that names the version the name leaves in. How much notice a change to the API itself gets: [Stability and deprecation](/docs/development/api/stability).
 
 | Name | Deprecated since | Leaves in | What its comment says |
 |---|---|---|---|
