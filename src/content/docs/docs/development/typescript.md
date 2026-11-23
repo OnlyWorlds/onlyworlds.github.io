@@ -284,7 +284,7 @@ Besides the `api` block, the writer leaves two things out by default and keeps o
 - **Private records.** Every `records/<producer>/` that `records/RECORDS.json` marks `"private": true` is left out, whole. `writeWorldFile(files, top, { includePrivateRecords: true })` carries them ([private records](/docs/schema/folders#folders-and-onlyworldscom)). (Versions before 4.63.0 carried them.)
 - **Hidden elements stay in.** A world file is a copy, so by default an element file carrying the [hidden](/docs/development/api/hidden) mark travels byte for byte. A tool making a file to hand to someone else passes `{ includeHidden: false }`.
 
-`report: r => …` tells you what was left out: it is called once with `{ hiddenLeftOut, authorFieldsLeftOut }`, the hidden elements and the author-field files left out, after the archive is made and never on a refusal; the return stays the bytes.
+`report: r => …` tells you what was left out: it is called once with `{ hiddenLeftOut, authorFieldsLeftOut, unreadLeftOut, unreadPaths }`, the hidden elements and the author-field files left out and, on a share, the files that could not be read as an element, after the archive is made and never on a refusal; the return stays the bytes.
 
 <details>
 <summary>What the writer does, in detail (the folder format's rules)</summary>
@@ -300,8 +300,8 @@ A private `records/<producer>/` is matched by name after the same fold as a `col
 `includeHidden` follows the folder format's [hidden mark](/docs/schema/folders#folders-and-onlyworldscom). With `{ includeHidden: false }`:
 
 - every `.json` file directly in a type folder of `elements/` or `spatial/` whose JSON has a top-level `hidden` (anything but absent, `null` or `false`, so `"true"` and `1` count) is left out whole
-- a file there that is not UTF-8 JSON, or not an object, is kept
-- a file there that is JSON the writer cannot hold as written (nested more than 200 deep, or holding a number too large for a double) stops the write with a `TypeError` naming it, since 4.195.0: whether it is hidden cannot be told. The same holds when the writer reads a file for its author fields; with `{ includeHidden: true, includeAuthorFields: true }` it reads no element file and every one travels byte for byte
+- a file there that could not be read as an element is left out too, since its mark cannot be told: not UTF-8 JSON (a write cut short), nested more than 200 deep, holding a number too large for a double, or not an object. The report names these apart, in `unreadLeftOut` and `unreadPaths` (since 4.196.0; before, such a file was kept, and 4.195.0 threw on one too deep)
+- a copy (no `includeHidden: false`) carries such a file byte for byte, and never rewrites it for its author fields
 - nothing else is rewritten: a visible element's link to a hidden one keeps its id
 
 An `includeHidden` that is not a boolean, or a `report` that is not a function, is a `TypeError` before anything is written.
@@ -455,7 +455,7 @@ The package also ships `SCHEMA.md` (every field and its meaning, generated) and 
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.195.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.196.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -551,7 +551,7 @@ Generated from the types of `@onlyworlds/sdk` 4.195.0, the version these docs pi
 
 ### Deprecated names
 
-Every name the package's declarations mark `@deprecated`, read from the same files as the tables above: 21 in 4.195.0. Each row is the mark's own comment, to the sentence that names the version the name leaves in. How much notice a change to the API itself gets: [Stability and deprecation](/docs/development/api/stability).
+Every name the package's declarations mark `@deprecated`, read from the same files as the tables above: 21 in 4.196.0. Each row is the mark's own comment, to the sentence that names the version the name leaves in. How much notice a change to the API itself gets: [Stability and deprecation](/docs/development/api/stability).
 
 | Name | Deprecated since | Leaves in | What its comment says |
 |---|---|---|---|
