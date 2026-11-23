@@ -1,0 +1,21 @@
+---
+// The default footer, then one line for an AI agent that landed on this page alone. No page named
+// the site's index: an agent reading one page as text had no way to learn that llms.txt exists.
+import Default from '@astrojs/starlight/components/Footer.astro';
+---
+
+<Default><slot /></Default>
+<p class="ow-agent-line">
+  AI agents: start from <a href="/llms.txt">llms.txt</a>, this site's index, which links the whole documentation as plain text.
+</p>
+
+<style>
+  .ow-agent-line {
+    margin-top: 1.5rem;
+    font-size: var(--sl-text-xs);
+    color: var(--sl-color-gray-3);
+  }
+  .ow-agent-line a {
+    color: var(--ow-link);
+  }
+</style>

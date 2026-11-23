@@ -53,6 +53,8 @@ export default defineConfig({
       logo: { src: './src/assets/owmark.svg', alt: 'OnlyWorlds' },
       favicon: '/assets/images/favicon.ico',
       customCss: ['./src/styles/ow.css'],
+      // The footer gains one line that names llms.txt, so a page read alone points at the site's index.
+      components: { Footer: './src/components/Footer.astro' },
       expressiveCode: { plugins: [pluginRun()] },
       head: [
         { tag: 'link', attrs: { rel: 'preconnect', href: 'https://fonts.googleapis.com' } },

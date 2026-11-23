@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-23
 
+- **Every page names [llms.txt](https://onlyworlds.github.io/llms.txt) in its footer.** Until now no page pointed at the site's index for AI agents, so an agent that read one page as text could not learn it exists. Each page's Markdown copy stays where it was, in the page's menu.
 - **[TypeScript](/docs/development/typescript#deprecated-names): every deprecated name in one table.** The reference now lists each name the package's declarations mark as deprecated, 21 in 4.194.0, with the version it leaves in and the mark's own comment (what to use in its place, where there is one). The table is read from the pinned package at every build, so it follows each release, and the build stops on a mark it cannot put a name to.
 - **[Stability and deprecation](/docs/development/api/stability#the-standard-the-packages-and-this-site): how a change to the standard reaches the API.** A motion that drops or renames a field falls under the same rule as any removal: the API keeps answering the old field until its removal has been announced six months ahead. A field a motion adds arrives without notice.
 - **[The export file](/docs/development/api/changes#the-export-file): two sentences corrected against a downloaded file.** Its element bodies are the API's less `doors` and `hidden`, where the page said they were exactly what the API returns; and its `world` carries every key `GET /api/v2/world` serves but `counts`.
