@@ -547,3 +547,31 @@ Generated from the types of `@onlyworlds/sdk` 4.194.0, the version these docs pi
 | `aiUses(opts?)` | `GET /account/ai` | the AI uses onlyworlds.com runs, each a named call a tool makes with ai(): its owner, provider, model and effort, the hash of its system prompt, what its body may hold, its answer cap, its price, its daily ceiling, this account's calls left today, and whether it is on. | `Promise<OwAiUse[]>` |
 | `ai(use, body, opts?)` | `POST /account/ai/{use}` | one call of an AI use (aiUses lists them), metered on the account's daily token rating, then its own saved AI key, as ask and sort are. | `Promise<OwAiAskAnswer>` or `Promise<OwAiSortAnswer>` or `Promise<Record<string, unknown> & OwAiMeter>` |
 | `request(method, path, opts?)` |  | Raw authenticated request against this client's baseUrl. | `Promise<T>` |
+
+### Deprecated names
+
+Every name the package's declarations mark `@deprecated`, read from the same files as the tables above: 21 in 4.194.0. Each row is the mark's own comment, to the sentence that names the version the name leaves in. How much notice a change to the API itself gets: [Stability and deprecation](/docs/development/api/stability).
+
+| Name | Deprecated since | Leaves in | What its comment says |
+|---|---|---|---|
+| `FieldInfo.max` |  | 5.0.0 | Never populated; removed in 5.0.0. See `FieldType.integer_max`. |
+| `OwV2Client.ask()` | 4.139.0 | 5.0 | Use `ai('ask', { world_id, question, context }, { idempotencyKey })`: the same answer, with the use's meter (`use_remaining`) and a retry under the same key is never billed twice. This name keeps working until 5.0. |
+| `OwV2Client.sort()` | 4.139.0 | 5.0 | Use `ai('sort', { world_id, notes, slice }, { idempotencyKey })`: the same answer, with the use's meter (`use_remaining`) and a retry under the same key is never billed twice. This name keeps working until 5.0. |
+| `ElementFamily` | 4.102.0 | 5.0 | Use `ElementGroup`, the colour words; this name leaves in 5.0. |
+| `ELEMENT_FAMILIES` | 4.102.0 | 5.0 | Use `ELEMENT_GROUPS`; this name leaves in 5.0. |
+| `FAMILY_COLORS` | 4.102.0 | 5.0 | Use `GROUP_COLORS`; this name leaves in 5.0. |
+| `FAMILY_ORDER` | 4.102.0 | 5.0 | Use `GROUP_ORDER`; this name leaves in 5.0. |
+| `familyOf()` | 4.102.0 | 5.0 | Use `groupOf`; this name leaves in 5.0. |
+| `OwLayoutByKind.version` |  | 5.0 | The layout profile's mark carries no version key. Leaves in 5.0. |
+| `OwLayoutAround.version` |  | 5.0 | The layout profile's mark carries no version key. Leaves in 5.0. |
+| `resolveCalendarLens()` | 4.85.0 | 5.0 | Use `resolveCalendar`; this name leaves in 5.0. |
+| `TokenConsumeResponse` |  | 5.0 | Serves only a `TokenResource` method keel answers with 404 (production, since 2026-10). Leaves in 5.0 with that method. |
+| `TokenConsumeParams` |  | 5.0 | Serves only a `TokenResource` method keel answers with 404 (production, since 2026-10). Leaves in 5.0 with that method. |
+| `AccessKeyResponse` |  | 5.0 | Serves only a `TokenResource` method keel answers with 404 (production, since 2026-10). Leaves in 5.0 with that method. |
+| `RevokeSessionResponse` |  | 5.0 | Serves only a `TokenResource` method keel answers with 404 (production, since 2026-10). Leaves in 5.0 with that method. |
+| `RevokeAllSessionsResponse` |  | 5.0 | Serves only a `TokenResource` method keel answers with 404 (production, since 2026-10). Leaves in 5.0 with that method. |
+| `TokenResource.consume()` |  | 5.0 | keel serves no consume route (404 on production since 2026-10; no client decides what its act costs, ruled 2026-10-14): spending happens server-side in the route that does the work. Removed in 5.0. |
+| `TokenResource.getAccessKey()` |  | 5.0 | keel serves no access-key route (404 on production since 2026-10). AI answers come from keel's own proxy: `OwV2Client.ai('ask', ...)` and `ai('sort', ...)`. Removed in 5.0. |
+| `TokenResource.revokeSession()` |  | 5.0 | keel serves no revoke-session route (404 on production since 2026-10); sessions came from getAccessKey(), which is gone too. Removed in 5.0. |
+| `TokenResource.revokeAllSessions()` |  | 5.0 | keel serves no revoke-all-sessions route (404 on production since 2026-10). Removed in 5.0. |
+| `'integer_max'` (a value of `FieldType`) |  | 5.0.0 | Emitted by nothing, and scheduled for removal in 5.0.0. |

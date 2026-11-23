@@ -42,6 +42,6 @@ A tool that watches the document reads it like this: ask for gzip (it is about 3
 The policy above is the API's. Around it:
 
 - **The standard**, the element types and their fields, changes in public, by motion and vote, at [council.onlyworlds.com](https://council.onlyworlds.com). A change there that drops or renames a field reaches the API under the same rule: the motion decides what the standard says, and the API keeps answering the old field until its removal has been announced six months ahead. The `X-OW-Schema-Version` header says which version of the standard shapes a reply. A field a motion adds arrives without notice.
-- **The TypeScript SDK** marks a name it will drop as deprecated. The comment says what to use in its place and, where its removal is planned, the version that drops it. The [reference](/docs/development/typescript) marks deprecated methods the same way.
+- **The TypeScript SDK** marks a name it will drop as deprecated. The comment says what to use in its place and, where its removal is planned, the version that drops it. The reference lists [every deprecated name](/docs/development/typescript#deprecated-names) with its comment, read from the package's own declarations each time this site builds.
 - **The Python package** warns with `DeprecationWarning` when a deprecated name is called.
 - **This site** keeps its addresses: a page that moves leaves a redirect to the page that replaced it.
