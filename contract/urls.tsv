@@ -125,6 +125,7 @@
 /docs/development/api/links	page	200	source docs/development/api/links.md
 /docs/development/api/members	page	200	source docs/development/api/members.mdx
 /docs/development/api/reads	page	200	source docs/development/api/reads.md
+/docs/development/api/stability	page	200	source docs/development/api/stability.md (new 2026-11-23)
 /docs/development/api/writes	page	200	source docs/development/api/writes.md
 /docs/development/games	load-bearing	200	OnlyWorlds:README.md; keel:codegen/publish_dist.py; keel:web/develop_route/bundle/frame/footer.html; keel:web/templates/web/_site_index.html; onlyworlds-python:codegen/schema-dist/README.md; schema-dist:README.md; sdk:README.md; sdk:codegen/schema-dist/README.md
 /docs/development/list-your-tool	load-bearing	200	keel:tests/test_tools_list.py; keel:web/tools_list.py; tools:.github/ISSUE_TEMPLATE/config.yml; tools:.github/ISSUE_TEMPLATE/list-a-tool.yml; tools:README.md

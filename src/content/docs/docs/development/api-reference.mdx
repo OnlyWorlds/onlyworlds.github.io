@@ -113,13 +113,10 @@ There are no webhooks. To follow a world's changes, poll [`/changes`](/docs/deve
 
 ## Stability
 
-- `/api/v2/` is the current API. The [Classic API](/docs/development/api/classic) at `/api/worldapi/` keeps answering for the tools built on it; it is frozen, not developed.
-- New fields and routes arrive without notice and never change what existing fields mean. A field, route or behaviour is removed only after it has been announced on the [feedback page](https://www.onlyworlds.com/feedback)'s changelog and in the [API document](https://www.onlyworlds.com/api/v2/openapi.json), at least six months ahead.
+- `/api/v2/` is the current API. What can change under a tool, how far ahead a removal is announced, every change announced today, and how to watch the API document for the next: [Stability and deprecation](/docs/development/api/stability).
 - Every reply's `X-OW-Schema-Version` header names the version of the standard that shapes it.
 - Error codes and field names are a contract: a client may branch on them. Error messages are not.
 - The standard's files, the TypeScript SDK, the Unity SDK, the toolkit and schema-dist are MIT-licensed.
-
-**Watching the API document.** A tool that watches the document reads it like this: ask for gzip (it is about 3 MB plain, about 300 KB compressed), keep the `ETag` the answer carries, and send it back on the next read in `If-None-Match` exactly as received (it may arrive weak, `W/"…"`; keel accepts either). An unchanged document answers `304` with no body; it also serves `Cache-Control: public, max-age=300`, so nothing is gained by reading it more often than every five minutes.
 
 ## API pages
 

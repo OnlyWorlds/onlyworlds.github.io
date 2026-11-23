@@ -176,6 +176,7 @@ export default defineConfig({
             { slug: 'docs/development/api/images' },
             { slug: 'docs/development/api/files' },
             { slug: 'docs/development/api/cors' },
+            { slug: 'docs/development/api/stability' },
             { slug: 'docs/development/api/classic' },
             { slug: 'api/errors' },
             { label: 'Interactive reference', link: 'https://www.onlyworlds.com/api/docs' },

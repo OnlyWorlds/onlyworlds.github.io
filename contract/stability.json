@@ -1,0 +1,25 @@
+{
+  "source": "https://www.onlyworlds.com/api/v2/openapi.json: what it says about change, as served",
+  "read_at": "2026-11-23",
+  "policy": "The path carries the API's version: `/api/v2` is current. The old `/api/worldapi` (v1) keeps answering for the tools built on it; it is frozen, not developed. New fields and routes arrive without notice and never change what existing fields mean. A field, route or behaviour is removed only after it has been announced on the feedback page's changelog and in this document, at least six months ahead. The `X-OW-Schema-Version` header says which version of the standard shapes a reply.",
+  "announced": [
+    {
+      "where": "GET /api/v2/character/{id}/context, parameter compact",
+      "parameter": "compact",
+      "announced": "2026-11-02",
+      "from": "2027-05-02",
+      "sentence": "Announced 2026-11-02: from 2027-05-02 the default becomes `true` (the compact packet); a caller that needs every section present sends `compact=false` from now."
+    }
+  ],
+  "dated": [
+    {
+      "where": "GET /api/v2/character/{id}/context, parameter compact",
+      "sentence": "Announced 2026-11-02: from 2027-05-02 the default becomes `true` (the compact packet); a caller that needs every section present sends `compact=false` from now."
+    },
+    {
+      "where": "GET /api/v2/character/{id}/context",
+      "sentence": "The policy is the same on every door (the MCP tool get_draught takes it as one JSON argument, and `compact` also as an argument of its own that is true unless the caller says false; this route's default is false until 2027-05-02, announced above and on the changelog)."
+    }
+  ],
+  "deprecated": []
+}
