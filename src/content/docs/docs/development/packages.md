@@ -9,13 +9,15 @@ Every client below speaks the same REST API v2. Pick by language, or by where yo
 |---|---|---|---|
 | [TypeScript SDK](/docs/development/typescript) | web apps, Node tools, browser games | `npm install @onlyworlds/sdk` | published on npm |
 | [Python package](/docs/development/python) | scripts, pipelines, world folders | `pip install onlyworlds` | published on PyPI |
-| [Unity SDK](/docs/development/unity) | Unity games and tools | Package Manager, by git URL | public; may change between releases, so pin a version |
+| [Unity SDK](/docs/development/unity) | Unity games and tools | `openupm add com.onlyworlds.sdk`, or the Package Manager by git URL | public; may change between releases, so pin a version |
+| [Godot SDK](https://github.com/OnlyWorlds/godot-sdk#first-run) | Godot 4.7 games and tools, in GDScript (no .NET) | the release zip, unpacked into your project's `addons/` | public on GitHub; before 1.0 a minor version may rename a call; no share yet (a pack carries hidden elements too) |
+| [Unreal SDK](https://github.com/OnlyWorlds/unreal-sdk#first-run) | Unreal Engine 5.8 C++ projects on Windows | a source plugin: the release zip, unpacked into your project's `Plugins/` | public on GitHub; before 1.0 a minor version may rename a call; over the API its Blueprint nodes answer JSON text (C++ turns it into structs); no share yet |
 | [MCP server](/docs/development/mcp) | AI assistants and agents | nothing to install: `https://www.onlyworlds.com/mcp` | live |
 | Plain REST | any other language or engine | none | live |
 
 **A world's origin.** A world's `origin` says which tool made it, and from what. Every client's world patch call (`patchWorld`, `patch_world`, `PatchWorldAsync`) sends `source` and `producer` only when you name them, as given. A folder's `world.json` names the folder's maker, so a patch made from that file leaves its pair out. Only a push fills a world's `origin` from a folder, and only when the world has none and the folder was not exported from that same world.
 
-The TypeScript, Python and Unity clients generate their element types and fields from [schema-dist](https://github.com/OnlyWorlds/schema-dist), the published copy of the schema. For other engines, see [Games](/docs/development/games).
+The TypeScript, Python and Unity clients generate their element types and fields from [schema-dist](https://github.com/OnlyWorlds/schema-dist), the published copy of the schema. The Godot and Unreal SDKs hold a class or struct for each of the 22 types too. For any other engine, see [Games](/docs/development/games).
 
 ## Plain REST
 

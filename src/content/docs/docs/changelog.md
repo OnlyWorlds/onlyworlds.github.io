@@ -7,6 +7,10 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 What changed on onlyworlds.com for everyone is on its own [Changelog](https://www.onlyworlds.com/changelog); this page stays the developer log.
 
+## 2026-11-24
+
+- **[SDKs and clients](/docs/development/packages): the Godot and Unreal SDKs.** Both are public on GitHub at their first releases (Godot 0.1.1, Unreal 0.1.0), each with a first run that reads a sample world with no account. Each has a row on [SDKs and clients](/docs/development/packages) and on [Games](/docs/development/games#engines), with what it lacks: neither has a share yet, and Unreal's Blueprint nodes over the API answer JSON text. The Unity row's install now leads with OpenUPM.
+
 ## 2026-11-23
 
 - **[Toolkit](/docs/development/toolkit#skills) 5.13.1: the start line goes in a file your tool reads.** 5.13.0 chose the file by which files stood in the folder, and for Claude Code that could be an `AGENTS.md` it does not read. The line now always goes in a file in the folder itself: `AGENTS.md` for most tools; for Claude Code, `AGENTS.md` when the session started with one loaded, and the folder's own `CLAUDE.md` otherwise. Where that would mean making a new `CLAUDE.md` beside or under an `AGENTS.md`, the AI says so and asks first. A folder that already holds the line keeps it.
