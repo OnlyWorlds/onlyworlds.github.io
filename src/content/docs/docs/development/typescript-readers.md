@@ -517,6 +517,32 @@ found?.reading.id;   // '01a1d4ef-0000-7000-8000-000000000084'
 
 `findOwLinks(text)` (since 4.165.0) finds every address in a text, in order, as `{ start, end, reading }` each, none overlapping; it reads at each place a prefix starts, so it answers what `readOwLinkAt` answers there, in time linear in the text.
 
+### Names in prose
+
+`nameFinder` (since 4.194.0) finds a world's element names in any text, so a page can show which words are elements: a hover, a suggestion, a link a person chooses to make. It finds and never writes. Make the finder once per world, then call it on each text:
+
+```ts
+import { nameFinder } from '@onlyworlds/sdk';
+
+const elements = [{ id: 'a1', name: 'Iron Gate' }, { id: 'b2', name: 'Kira' }];
+const find = nameFinder(elements, { case: 'exact' });
+const found = find("Kira's watch ends at the Iron Gate.");
+// [{ start: 0, end: 4, element: elements[1] }, { start: 25, end: 34, element: elements[0] }]
+```
+
+`case` must be given, with no default: `'exact'` for a page that marks names unasked, `'folded'` (simple case folding, the fold the world file reader uses) for an editor that only suggests. `names` gives the names an element is found by, by default its `name` alone, so a tool can pass its own aliases. Which elements go in is the caller's choice.
+
+- **A whole name only.** The character on each side is not a letter, a combining mark, a decimal digit or an underscore, in any script. `Kira's` and `Kira-led` hold the name; `Kiran` does not. A name that starts or ends with a letter outside ASCII is found the same way.
+- **Trimmed, three characters at least.** A shorter name is never looked for.
+- **The longest whole name wins** where several start at one place: `Iron Gate` over `Iron`.
+- **A name two elements share is never answered**, and nothing inside it is: the text stays plain there. One element found by two of its own names is one element.
+- **Nothing inside an address or a Markdown link** `[label](target)` is read.
+- **Every mention is answered**, in order, none overlapping. `element` is the object you passed in; `start` and `end` are string indexes into the text.
+
+Three limits. Text is compared as written, with no Unicode normalisation, so a letter typed with a combining mark does not match its one-character form. A space in a name matches that one space. In a script written without spaces between words (Chinese, Japanese, Thai) a name is whole only between punctuation or spaces.
+
+The work for one text is at most its length times the longest name's length, whatever the number of names, with no pattern that backtracks. This is a rule of the two packages, not of the standard: the Python package's `name_finder` runs the same file of cases.
+
 ### Open with
 
 `openersFor(tools, kind, address, surface)` gives the rows of an **Open with** menu for a world or an element: onlyworlds.com first, then each [listed tool](/docs/development/list-your-tool) whose `open` key has a door for it, in the list's order. `TOOLS` is the tools list baked at this release.

@@ -23,6 +23,8 @@ After `/w/` the run is read whole: it is the world's id only when it is exactly 
 
 The TypeScript SDK finds an address with `readOwLinkAt(text, index)`, the Python package with `read_ow_link_at(text, index)`: each reads the address that starts at `index` and answers the reading and the index just past it, counted as the language counts a string. To find every address in a text, in order, the TypeScript SDK has `findOwLinks(text)` (since 4.165.0) and the Python package `find_ow_links(text)` (since 0.125.0).
 
+A plain name in a text is not an address, and this profile says nothing about it. Finding the names of a world's elements in prose is a rule of the two packages: [`nameFinder`](/docs/development/typescript-readers#names-in-prose) in the TypeScript SDK and `name_finder` in the Python package.
+
 ## The same id
 
 Inside a world an id is written one way, lowercase in the form above: an element's own `id`, a link, an id in an `x_` value or as the key of an object. There, two ids are the same id when they are written the same, and an order by id is an order of the ids as written. A reader reads an id in either case, and takes it in lowercase, in two places only: an address, and a text that a profile says is searched for ids, as the [charter profile](/docs/schema/profiles#charter) searches a Charter's. What an id read there is matched against is read as written, so an element whose own `id` is not lowercase is not the element a lowercase id names. Any other spelling (upper case inside a world, no hyphens, braces, `urn:uuid:` before it, a space left on it) is another value. A writer writes lowercase, as onlyworlds.com serves every id and every link.
