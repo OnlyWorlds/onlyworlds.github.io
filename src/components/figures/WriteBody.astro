@@ -96,10 +96,10 @@ const w = writeWords(data, code);
   .ow-wb ul { list-style: none; padding: 0; display: grid; gap: 6px; }
   .ow-wb li { margin: 0; }
   .ow-wb :global(code) { font-family: var(--sl-font-mono); font-size: 0.8125rem; color: var(--sl-color-white); overflow-wrap: anywhere; }
-  .ow-wb b { color: var(--sl-color-white); font-weight: 600; }
+  .ow-wb b { color: var(--sl-color-white); font-weight: 700; }
   /* three columns: stored the widest, it holds the most */
   .ow-wb-cols { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 1fr); gap: 14px; align-items: start; }
-  .ow-wb-h { font-weight: 600; font-size: 0.9375rem; margin-bottom: 0.5rem !important; }
+  .ow-wb-h { font-weight: 700; font-size: 0.9375rem; margin-bottom: 0.5rem !important; }
   .ow-wb-col[data-answer="stored"] .ow-wb-h { color: var(--wb-stored); }
   .ow-wb-col[data-answer="ignored"] .ow-wb-h { color: var(--wb-ignored); }
   .ow-wb-col[data-answer="refused"] .ow-wb-h { color: var(--wb-refused); }
@@ -110,7 +110,7 @@ const w = writeWords(data, code);
   .ow-wb-col li.ow-wb-other { border-style: dashed; background: none; }
   /* the keys and the codes in a card are plain mono, no chip: the card is their frame (set:html
      content carries no scope class, hence :global; .ow-wb first to outrank the inline code rule) */
-  .ow-wb .ow-wb-f, .ow-wb .ow-wb-f :global(code) { font-weight: 600; }
+  .ow-wb .ow-wb-f, .ow-wb .ow-wb-f :global(code) { font-weight: 700; }
   .ow-wb code.ow-wb-f, .ow-wb .ow-wb-f :global(code), .ow-wb .ow-wb-col li p :global(code) { background: none; border: 0; padding: 0; }
   .ow-wb-cap { margin-left: 0.5rem; color: var(--sl-color-gray-3); font-size: 0.75rem; font-variant-numeric: tabular-nums; }
   .ow-wb-when { color: var(--wb-ignored); font-size: 0.8125rem; }
