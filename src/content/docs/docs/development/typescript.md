@@ -7,7 +7,7 @@ New to OnlyWorlds? [Your first hour](/docs/getting-started/first-hour) reads a w
 
 `@onlyworlds/sdk` is the typed client for the OnlyWorlds REST API v2. It also exports the standard's constants (the 22 element types, their icons, colour groups and field schema), generated from [schema-dist](https://github.com/OnlyWorlds/schema-dist) at a pinned, hash-verified tag. The generated files name that tag in their header.
 
-The 4.x line speaks v2 only and is ESM-only (Node 18 or later). Tools on the v1 API dialect (`OnlyWorldsClient`) or on CommonJS `require()` stay on the 3.x line, which is still published.
+The 4.x line speaks v2 only and is ESM-only (Node 18 or later). Tools on the v1 API dialect (`OnlyWorldsClient`) or on CommonJS `require()` stay on the 3.x line, which is still published ([Migrating from 3.x to 4.x](https://github.com/OnlyWorlds/sdk/blob/main/docs/migrating-3-to-4.md)).
 
 This page covers installing, reading, writing, bulk writes, errors, images, files, hidden elements, following changes, context for an AI, world files and the schema constants. Two more pages cover the rest of the package:
 
@@ -18,7 +18,7 @@ Every method of the client, with the route it calls and what it returns, is in t
 
 ## SDK or MCP?
 
-Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI exploring a world from a chat or an agent, use the [MCP server](/docs/development/mcp) at `https://www.onlyworlds.com/mcp`. It takes the same `API-Key` and `API-Pin` headers.
+Use the SDK for known operations in code: reads, writes, sync, bulk. For an AI exploring a world from a chat or an agent, use the [MCP server](/docs/development/mcp) (MCP is the Model Context Protocol) at `https://www.onlyworlds.com/mcp`. It takes the same `API-Key` and `API-Pin` headers.
 
 ## Install
 
@@ -153,7 +153,7 @@ The client never retries. On a 429 `too_many_requests` or a 503 `server_busy`, w
 
 [`signInWithPassword`](/docs/development/typescript-accounts#sign-in-with-a-password) throws `OwSignInError` instead, which is not an `OwApiError`: its `reason` says why, `status` and `code` are the server's answer when one came back, and `retryAfter` comes with a rate limit.
 
-A write that a world's [proposals switch](/docs/development/api/proposals#the-switch) (**AI seats propose, a person accepts**) turned into a [proposal](/docs/development/typescript-accounts#proposed-changes) throws `OwProposedError` (202, `err.isProposed`, `err.proposal`), and an accept on a moved field `OwStaleProposalError` (409, `err.isStaleProposal`, `err.conflicts`, `err.current`).
+A write that a world's [proposals switch](/docs/development/api/proposals#the-switch) (**AI seats propose, a person accepts**) turned into a [proposal](/docs/development/typescript-accounts#proposed-changes) throws `OwProposedError` (202, `err.isProposed`, `err.proposal`), and an accept on a moved field `OwStaleProposalError` (409, `err.isStaleProposal`, `err.conflicts`, `err.current`). The other proposal refusals read as `err.isFieldNotVisible`, `err.isTooManyOpen`, `err.isProposedOnly`, `err.isOwnProposal` and `err.isNotProposed`.
 
 ## Images
 
@@ -162,7 +162,7 @@ const image = await writer.uploadImage(file); // a Blob, File, ArrayBuffer or Ui
 await writer.patch('character', id, { image_url: image.url });
 ```
 
-This makes two requests: a single-use ticket from the API, then the bytes straight to the media edge. The API never sees the bytes, and the edge never sees your key. Accepted formats are webp, png, jpeg and avif, read from the bytes (never SVG or gif). Each ticket counts toward the world's daily limit and the account's image storage.
+This makes two requests: a single-use ticket from the API, then the bytes straight to the media edge. The API never sees the bytes, and the edge never sees your key. Accepted formats are webp, png, jpeg and avif, read from the bytes (never SVG or gif), up to 15 MB ([Images](/docs/development/api/images)). An image larger than the ticket allows throws 413 `too_large` before any byte is sent. Each ticket counts toward the world's daily limit and the account's image storage.
 
 For a progress bar, call `createMediaTicket()` and POST the bytes to its `upload_url` yourself, with `Authorization: Bearer <ticket>`.
 
@@ -175,11 +175,15 @@ const photo = await preparePhoto(file); // longest side 2048, webp (where the br
 const image = await writer.uploadImage(photo.blob);
 ```
 
+`removeImage(keyOrUrl)` takes an uploaded image down, given its `image_url` or its object key: a removal ticket from the API, then the removal at the edge. The image's uploader or the world's owner may remove it, and the space goes back to the uploader's storage. Removal leaves elements as they are, so clear their `image_url` yourself: `(await writer.createRemovalTicket(key)).referenced` says how many still show it. A copy the network or a browser already holds can keep answering for a while ([Removing an image](/docs/development/api/images#removing-an-image)).
+
 ## Files
 
 An element can carry files: PDF, text, Markdown, JSON, CSV, YAML, TOML, an image (PNG, JPEG, WebP, AVIF), or a zip that is a world's own bundle. A file sits beside its element, never in its body or the change feed ([Files](/docs/development/api/files)).
 
 `uploadFile(type, id, file)` attaches one, the same two steps as an image: a ticket from the API, then the bytes straight to the upload host. `listFiles(type, id)` lists an element's files, and `worldFiles()` every file in the world with the world's total. `fileDownloadLink(type, id, fileId)` gives a link to one that works for five minutes, and `removeFile(type, id, fileId)` deletes it.
+
+`uploadFile` takes a File, a Blob, an ArrayBuffer or a Uint8Array. The name is a File's own unless you pass `name` (anything but a File needs one), and the kind is read from the name's extension. To send the bytes yourself, `createFileTicket(type, id, { name, size })` gives the ticket alone. `onProgress(loaded, total)` reports the bytes sent: in a browser through XMLHttpRequest, and elsewhere once, when the upload has succeeded. The limits are 25 MB a file, 250 MB a world and 200 tickets a world a day, and their refusals read as `err.isFileTooLarge` (413), `err.isFilesFull` (403) and `err.isQuotaExceeded` (429, with `err.retryAfter`). The download link is the credential to the file: ask for it when the file is opened, and do not keep it.
 
 ## Hidden elements
 
@@ -208,6 +212,8 @@ The poll is conditional: the client keeps the `ETag` (the server's tag for that 
 A `delete` op's `reason` is `deleted`, or `hidden` for an element [hidden](/docs/development/api/hidden#the-feed) from the key: remove it from your copy either way.
 
 Edits to the world itself (its name, calendar, `public_read`) do not enter the change feed. Poll `client.getWorld()` and compare `updated_at` for those. See [Sync with changes](/docs/development/api/changes).
+
+`client.patchWorld(partial)` writes the world's own settings ([The world](/docs/development/api/writes#the-world)) and takes a `getWorld()` body back: it leaves out the keys the server does not take there (`id`, `slug`, `public_page`, `public_read`, `agent_narrator_rule`, `agent_writes_proposed`, `origin` and `counts`, and an element's read-only keys: `world`, `type`, `created_at`, `updated_at`, `change_seq` and `known_of`). The world's origin is written as `source` and `producer`, each an object or `null`, and extension keys (`x_*`, `atlas_*`, `shadow_*`) go as given, `null` removing one.
 
 ## Context for an AI
 
@@ -256,18 +262,20 @@ The reader checks the archive's directory before it inflates anything, and refus
 
 | `err.reason` | The file has |
 |---|---|
-| `unsafe_path`, `too_many`, `too_big` | a path that could land outside the folder (`unsafe_path`), more than 500,000 files (`too_many`), or more than 2 GiB uncompressed or an entry that inflates past the size it declares (`too_big`) |
+| `unsafe_path`, `too_many`, `too_big` | a path that could land outside the folder or is both a file and a folder (`unsafe_path`), more than 500,000 files (`too_many`), or more than 2 GiB uncompressed or an entry that inflates past the size it declares (`too_big`) |
 | `not_a_world` | no `world.json` with an `id` |
 | `more_than_one` | more than one world (a `world.json` under `records/` is a producer's data, and one under a dot-folder such as `.atlas/` a tool's own, not a second world; since 4.201.1) |
-| `not_openable` | not a zip the reader can read |
+| `not_openable` | not a zip the reader can read: no zip at all, a zip spanned across disks, or a broken entry |
 | `duplicate` | two entries with one name |
 | `collision` | two names that differ only in case or in how their characters are encoded |
 | `link` | a link or device entry |
-| `method` | an encrypted, spanned or otherwise compressed entry |
+| `method` | an encrypted entry, or one compressed by a method other than stored or deflate |
 | `name` | a name with a device name, a trailing dot or space, a forbidden character or no UTF-8 flag on non-ASCII |
-| `marker` | a `mimetype` marker whose bytes are not `application/vnd.onlyworlds.world+zip` (the marker is never required) |
+| `marker` | a `mimetype` marker whose bytes are not `application/vnd.onlyworlds.world+zip`, exported as `WORLD_FILE_MEDIA_TYPE` (the marker is never required) |
 
-Files beside the world's folder are ignored, and `files` come back in code point order.
+The 500,000 files and 2 GiB are the floor every reader accepts; `readWorldFile(bytes, { maxBytes, maxEntries })` sets other limits.
+
+Files beside the world's folder and archive junk (`__MACOSX`, `.DS_Store`, `Thumbs.db`) are ignored, though still checked, and `files` come back in code point order. A tool's own folder (`.atlas/` and the like) comes back like any other file: pass `skip: path => …` to leave a file out of `files`, which still checks it.
 
 <details>
 <summary>How names are compared (the spec's rule)</summary>
@@ -280,7 +288,7 @@ A `collision` is two names that are one after NFC and simple case folding, both 
 
 Besides the `api` block, the writer leaves two things out by default and keeps one in:
 
-- **Who wrote each element.** `created_by`, `changed_by`, `changed_via`, `changed_client` and `doors` record a member's id and a tool's door, which mean nothing to someone the world is handed to, so they are left out. Pass `includeAuthorFields: true` to archive your own world as it is. (Versions before 4.109.0 kept them.)
+- **Who wrote each element.** `created_by`, `changed_by`, `changed_via`, `changed_client` and `doors` record a member's id and a tool's door, which mean nothing to someone the world is handed to, so they are left out; `created_at` and `updated_at` stay. Pass `includeAuthorFields: true` to archive your own world as it is. (Versions before 4.109.0 kept them.)
 - **Private records.** Every `records/<producer>/` that `records/RECORDS.json` marks `"private": true` is left out, whole. `writeWorldFile(files, top, { includePrivateRecords: true })` carries them ([private records](/docs/schema/folders#folders-and-onlyworldscom)). (Versions before 4.63.0 carried them.)
 - **Hidden elements stay in.** A world file is a copy, so by default an element file carrying the [hidden](/docs/development/api/hidden) mark travels byte for byte. A tool making a file to hand to someone else passes `{ includeHidden: false }`.
 
@@ -291,7 +299,7 @@ Besides the `api` block, the writer leaves two things out by default and keeps o
 
 Both functions follow the folder format's [archive rules](/docs/schema/folders#folders-and-onlyworldscom) (the `.owworld` file) and give its verdict on every fixture of its conformance set.
 
-The writer gives one set of bytes for one input: the marker first and stored, entries ordered by the UTF-8 bytes of their names, every entry stamped 1980-01-01, and only `world.json`, `elements/`, `spatial/`, `media/`, `records/` and a tool's dot-folder it is handed.
+The writer gives one set of bytes for one input: the marker first and stored, entries ordered by the UTF-8 bytes of their names, every entry stamped 1980-01-01, and only `world.json`, `elements/`, `spatial/`, `media/`, `records/` and a tool's dot-folder it is handed. A dot-folder makes the file a private copy rather than a portable `.owworld`.
 
 An element file holding an author field is written without it, in the folder's own form (two-space indent, a trailing newline, its other keys in their order); every other file travels byte for byte.
 
@@ -416,19 +424,19 @@ import {
   byCodePoint,      // two strings compared by code point, as the profiles order them
 } from '@onlyworlds/sdk';
 
-elementColor('character', 'dark');
+elementColor('character', 'dark'); // '#3987e5'
 fieldLabel('image_url'); // "Image URL"
 dragField('location', 'character'); // { on: 'character', field: 'location', holds: true }
 viewOf({ type: 'narrative', supertype: 'Message', story: 'See you at the gate.\nBring the map.' }).sentence; // 'See you at the gate.'
 ```
 
-Colour marks a type's colour group and the icon marks the type. Always pair a colour with its icon and label, because colour alone is not accessible. The four groups are a visual aid for drawing the 22 types, not part of the standard. Their names before 4.102.0, `ELEMENT_FAMILIES`, `FAMILY_COLORS` and `FAMILY_ORDER`, stay, deprecated, in their old words until 5.0. A [graph node](/docs/development/typescript-readers#a-world-as-a-graph) still names its type's group in a field called `family`.
+Colour marks a type's colour group and the icon marks the type. Always pair a colour with its icon and label, because colour alone is not accessible. The four groups are a visual aid for drawing the 22 types, not part of the standard, so never show a group's word as a label. They are named by their colour, `blue`, `green`, `pink` and `amber`, in `GROUP_ORDER`, the order the palette was checked in for colour-vision separation; `groupOf(type)` gives a type's group. Their names before 4.102.0, `ELEMENT_FAMILIES`, `FAMILY_COLORS`, `FAMILY_ORDER` and `familyOf`, stay, deprecated, in their old words (`agents`, `world`, `abstract`, `temporal`) until 5.0. A [graph node](/docs/development/typescript-readers#a-world-as-a-graph) still names its type's group in a field called `family`.
 
 `fieldLabel` writes a field's label in sentence case with acronyms kept (`birth_date` is "Birth date", `image_url` is "Image URL"; a word written all in capitals stays as written, so a custom `STR` is "STR"), the house rule for OnlyWorlds tools. A tool that hides an extension prefix drops it before calling it.
 
-`isRoomElement(el)` is true for an element of a world's chat room. A lore view (a list, a count, a search) leaves room elements out unless the person asks, and the room's own views show them whole.
+`isRoomElement(el)` is true for an element of a world's chat room. A lore view (a list, a count, a search, a graph, a link picker, a story's context) leaves room elements out unless the person asks, and the room's own views show them whole. The room keeps its lines, board entries, reports, work items, specs, hearts, takes, votes, sittings and member cards in the world as ordinary elements, one pair each in `ROOM_PAIRS`. A tool that writes the world writes room elements like any other, the mark kept byte for byte. The charter (a Law with supertype `Charter`) is never a room element: with its own mark it is a [reading aid](/docs/development/typescript-readers#reading-aids), and without it lore.
 
-`typeWord(world, type, { supertype, many })` gives the word a world prints for a type (*Employee* for Character in a work world), or `null` for the standard's name.
+`typeWord(world, type, { supertype, many })` gives the word a world prints for a type (*Employee* for Character in a work world), or `null` for the standard's name. `world` is a `getWorld()` body or a folder's `world.json`, either way read for its `x_names`. The word is for display only: the API, a world folder, the schema and every id keep the standard's names.
 
 `trimAndFold(text)` and `byCodePoint(a, b)` (since 4.180.0) compare and order names the way the profiles and the package's readers do. `trimAndFold` removes Unicode's White_Space at both ends and folds case by Unicode 15.1's simple case folding. A byte order mark stays, and the long s `ſ` folds to `s`. JavaScript's `trim()` strips the byte order mark too, and `toLowerCase()` leaves the long s. `byCodePoint` is a comparator for `sort`. It orders by code point, never by UTF-16 unit or a locale. To order names as the profiles do, compare their folds and break a tie by id: `byCodePoint(trimAndFold(a.name), trimAndFold(b.name)) || byCodePoint(a.id, b.id)`.
 
@@ -437,15 +445,21 @@ Colour marks a type's colour group and the icon marks the type. Always pair a co
 
 `isRoomElement(el)` is true when an element's type and supertype, trimmed and compared without regard to case, match one of the `ROOM_PAIRS` and it carries a non-empty `x_room_of`, the id of the world or sitting the room belongs to (since 4.163.0 an empty list or an empty object is no mark). A pair without the mark is lore, so a novel's Message Narratives stay in view. This is the [room profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/room.md), schema-dist serial 45.
 
-`typeWord` reads the world's `x_names` map. A supertype's own word wins over the type's, and the word is printed as written: the [names profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/names.md), schema-dist serial 48.
+`typeWord` reads the world's `x_names` map. A supertype's own word wins over the type's, and the word is printed as written, never re-cased: the [names profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/names.md), schema-dist serial 48, whose fixture is the function's own test.
 
 </details>
 
-`dragField(a, b)` says what a tool writes when a person drags one type onto another: `on`, the type that carries the field; `field`, the link; and `holds`, whether the drop puts the dragged element inside the target or only draws a line. The two types can come in either order, and a pair the table does not offer (two of the same type, a pair with no link between them, or one whose only link names a role) is `null`. It reads schema-dist's `pairs.json`, presentation data like the colours, not part of the standard.
+`dragField(a, b)` says what a tool writes when a person drags one type onto another: `on`, the type that carries the field; `field`, the link; and `holds`, whether the drop puts the dragged element inside the target or only draws a line. The two types can come in either order, and a pair the table does not offer (two of the same type, a pair with no link between them, or one whose only link names a role), and anything that is not one of the 22 type slugs, is `null`, and a pair answered `null` draws no line. It reads schema-dist's `pairs.json`, presentation data like the colours, not part of the standard.
+
+`PUBLIC_FIELDS` gives, per type, the fields onlyworlds.com shows on a known-of element (`known_of: true`) besides the base fields; every other field of such a stub reads unset.
 
 `viewOf(element)` says how an element is shown by its kind (since 4.147.0), from the distribution's `views.json`: `row`, the row that matches (with its `lead` and `fold` fields and its `layout`), or `null` when the element draws as its type; `sentence`, the one line for a card, a list row or a hover (the first field the row names that holds text, up to its first line break), or `null`; and `banners`, the marks to show at the head of its page, in order (`known_of`, `hidden`, the review marks, `x_served_trimmed`, then the row's own, such as `x_room_of`); and, since 4.151.0, `order`, the fields its page draws in the order drawn (the row's lead, then the type's other fields in the schema's own section order, then the row's folds, each once and only where it holds something). A row matches a profile's pair only with that profile's mark, then a type with a supertype, then a type alone. Today's rows are a report, a charter, a message and a line in a room. Which fields a page draws, in what order, open or folded, are the row's; the words on a heading or a fold are your tool's own drawing, and a fold's `label` is the word to use where your tool has none of its own. Pass the element as you were served it: the banners read what was served. `VIEWS` is the table itself. Like the colours, it is presentation, not part of the standard, and it says nothing about who may see what.
 
 The package also ships `SCHEMA.md` (every field and its meaning, generated) and `AGENTS.md` for AI agents working in a codebase that uses it.
+
+## The token resource
+
+`new TokenResource(client)` reads the account's token rating under `/tokens/`, where onlyworlds.com still serves two routes: `getStatus()` (`token_rating`, `tokens_used_today`, `tokens_available_today`) and `getEncryptionInfo()`. Its `consume()`, `getAccessKey()`, `revokeSession()` and `revokeAllSessions()` answer 404, are deprecated since 4.23.0 and leave in 5.0. To read the token rating, use `account.allowance()` ([the token rating](/docs/development/typescript-readers#find-elements-in-a-world)).
 
 ## Links
 

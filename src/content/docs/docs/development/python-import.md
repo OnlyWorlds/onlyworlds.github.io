@@ -51,6 +51,25 @@ From Python: `import_kanka`.
 
 **Pictures** are not imported. An element whose picture is in the export's `gallery/` keeps its reference as `x_kanka_image`, and the report names each one, since an OnlyWorlds picture is a web address and a world folder has no place for image files yet.
 
+### Kanka in TypeScript
+
+The [TypeScript SDK](/docs/development/typescript) reads the same export into the same folder, byte for byte, with the same report, from `@onlyworlds/sdk/convert` (since 4.187.0). It works in memory: the zip's bytes in, the folder's files and a report out, with no file system and no network, in a browser and in Node. Both packages read their tables and the report's wording from one data file, the same bytes in each.
+
+```typescript
+import { convertKanka, kankaReportText } from '@onlyworlds/sdk/convert';
+
+const { files, report } = convertKanka(bytes, { source: 'my-campaign.zip' }); // bytes: the zip, as a Uint8Array
+// files: [{ path, data }], world.json and elements/<type>/<slug>--<tail8>.json
+// report.counts, report.total: the elements written, by type
+// report.unplaced: keys kept as x_kanka_ extensions; report.unresolved: links whose target is not in the folder
+// report.madeNames: the names the import made, by kind
+const text = kankaReportText(report, 'my-world'); // the report as the Python command prints it
+```
+
+Write `files` under a new folder yourself, each `path` relative to it. Each entity becomes an element of its module's type, and a module with no OnlyWorlds type a Narrative with supertype `Article`; its entry and visible posts become the description (a Narrative's `story`), and its parent, places, kin and memberships become links.
+
+`world.json`'s `producer` names this package and its version (`{ tool: '@onlyworlds/sdk', version, input: 'kanka-export' }`); pass `producer: { tool, version }` to name your own tool. Bytes that are not a zip, or a zip with no `campaign.json` that has an id, throw an `OwConvertError` whose `reason` is `not_a_zip` or `not_an_export`, and an unknown option a `TypeError`, before anything is read. From a clone of the [package's repository](https://github.com/OnlyWorlds/sdk), after `npm run build`, `node scripts/convert-kanka.mjs EXPORT.zip OUT-DIR` writes the folder and prints the report.
+
 ## LegendKeeper
 
 Reads a LegendKeeper project through its own API v3 into a world folder, read-only and with no AI. Since 0.23.0.

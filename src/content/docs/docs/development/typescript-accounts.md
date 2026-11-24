@@ -54,7 +54,7 @@ In Node, `signInWithOnlyWorlds` needs Web Crypto as a global. Node has it from v
 
 ## Invite links
 
-A world's owner can invite a person with a link (see [Invite links](/docs/development/api/members#invite-links)). The owner makes, lists and revokes the links with the account token. The code comes back once, in the answer that makes it:
+A world's owner can invite a person with a link (see [Invite links](/docs/development/api/members#invite-links)). The owner makes, lists and revokes the links with the account token (since 4.24.0). The code comes back once, in the answer that makes it:
 
 ```typescript
 const made = await account.createWorldLink(worldId, { reader: 'person', role: 'contributor', days: 7 });
@@ -116,14 +116,16 @@ try {
 
 ## Who is in a world
 
-Once in, a world key can ask who it is and who else is there (see [Who am I](/docs/development/api/members#who-am-i)):
+Once in, a world key can ask who it is and who else is there (since 4.22.0; see [Who am I](/docs/development/api/members#who-am-i)):
 
 ```typescript
-const me = await client.me();          // { world, scope, kind, role, membership, character }
-const roster = await client.members(); // the roster's rows: { id, kind, role, character, status }
+const me = await client.me();          // { world, scope, kind, role, membership, character, lenses, lenses_from, front_door, reading_aids }
+const roster = await client.members(); // the roster's rows: { id, kind, role, character, status }, the owner's id null
 ```
 
-An account token reads the roster too. On a client made with the token and `world` (`new OwV2Client({ apiKey: token, world: worldId })`), `members()` sends `GET /members?world=<id>` and reads it as the token's own access there: the owner as the owner, and a member as their own member key. An account with no access gets a `404`. Without `world` it refuses before sending.
+`me.membership` is what `created_by` holds on the elements this key creates, and `me.role` decides what it may change. `me.reading_aids.charter` is the world's house rules: read it first ([Reading aids](/docs/development/typescript-readers#reading-aids)). `me()` is a world key's call: on an account token it is a `TypeError` before anything is sent.
+
+An account token reads the roster too (since 4.116.0). On a client made with the token and `world` (`new OwV2Client({ apiKey: token, world: worldId })`), `members()` sends `GET /members?world=<id>` and reads it as the token's own access there: the owner as the owner, and a member as their own member key. An account with no access gets a `404`. Without `world` it refuses before sending.
 
 ## A seat for your AI
 
@@ -143,7 +145,7 @@ None of these sends an `Idempotency-Key`, so a key is never stored for a replay:
 
 ## A world on the account
 
-An account token makes a world: `createAccountWorld({ name, pin, keyName, source, producer })` answers the world and its one write key, shown once.
+An account token makes a world: `createAccountWorld({ name, pin, keyName, source, producer })` (since 4.66.0) answers the world and its one write key, shown once. `listAccountWorlds()` lists every world the account owns or is a member of, with its keys by name and last four, and `mintWorldKey(worldId, { scope, name })` mints a key for one: `scope` `'write'` (the default) or `'read'`, `name` as the key list shows it.
 
 `pin` is the account's PIN. A fresh account has no PIN yet, so send four digits as `pin` on the first create, and they become the account's PIN; without it, the first create answers `422` with `err.param === 'pin'`. An account that has one may send it too, and the server checks it before it makes the world: a wrong one is a `401` with `err.param === 'pin'`, and nothing is made. Left out, the world takes the account's PIN, so a tool that holds the person's PIN can always send it.
 
@@ -184,13 +186,13 @@ The queue holds two kinds of row, told apart by `kind`; narrow on it before read
 - `OwProposal` (`kind: 'proposal'`): a proposed change. Its `fields` hold only the fields whose proposed value differs from the element's, and `omitted` names the fields an upsert (a whole replace) left out that were not empty on the element.
 - `OwProposedNewElement` (`kind: 'new_element'`): a new element written as proposed, settled with `reviewNewElement`.
 
-`next_cursor` is opaque.
+`next_cursor` is opaque. `listProposals(type, id)` lists one element's rows, newest first, the open ones unless you pass a `state`: every row for a keeper, a member's own for anyone else.
 
 `reviewNewElement` settles a new element a seat made under the switch; an element with no mark throws with `err.isNotProposed`.
 
-With **AI seats propose, a person accepts** on for the world (`agent_writes_proposed` on `getWorld()`, read-only; `patchWorld` strips it), an AI seat's `patch`, `upsert` or `editLinks` on an existing element answers `202`. The client then throws `OwProposedError` (`err.isProposed`, `err.proposal`) rather than returning a body that is not the element; a `bulk` slot with `status: 202` stays in the result, typed.
+With **AI seats propose, a person accepts** on for the world (`agent_writes_proposed` on `getWorld()`, read-only; `patchWorld` strips it), an AI seat's `patch`, `upsert` or `editLinks` on an existing element answers `202`. The client then throws `OwProposedError` (`err.isProposed`, `err.proposal`) rather than returning a body that is not the element; a `bulk` slot with `status: 202` stays in the result, typed, and carries `proposal`. The switch holds AI seats only: a person's key is never held.
 
-An accept that finds a proposed field moved throws `OwStaleProposalError` (409, `err.isStaleProposal`, `err.conflicts`, `err.current`); the other codes are `isOwnProposal`, `isProposedOnly`, `isTooManyOpen` and `isFieldNotVisible`.
+An accept that finds a proposed field moved writes nothing and throws `OwStaleProposalError` (409, `err.isStaleProposal`, `err.conflicts`, one `{ field, base, current }` per moved field, and `err.current`, the element as it is now); the other codes are `isOwnProposal`, `isProposedOnly`, `isTooManyOpen` and `isFieldNotVisible`.
 
 Nothing about a proposal reaches the change feed: poll the queue to learn of new ones.
 

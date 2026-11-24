@@ -26,10 +26,10 @@ Lenses, the graph, the reading aids and the strand also take the viewer, the per
 - `owner`: the whole world.
 - `co-builder` (since 4.182.0): the whole world as the owner reads it, hidden elements included; the cut counts `anchor_not_visible` and `not_visible` stay the owner's.
 - `contributor`: the world less its hidden elements, plus the hidden elements it made, listed in `whole` (since 4.182.0; before, none of the hidden).
-- `guest`: only the elements the guest was given, listed in `whole`, and those it knows of only by name, in `known_of`.
+- `guest`: only the elements the guest was given, listed in `whole`, and those it knows of only by name, in `known_of`. Hidden beats `known_of`: a hidden element `known_of` names is not in the guest's view at all.
 - `public`: the world less its hidden elements and its [room elements](/docs/schema/profiles#room).
 
-Pass the rung of whoever will see the result, so a tool never shows a person more than they may see.
+Pass the rung of whoever will see the result, so a tool never shows a person more than they may see. An owner can read as another reader with `{ rung: 'owner', as: { rung, … } }`: the view is that reader's, and the owner's two counts stay.
 
 <a id="find-things-in-a-world"></a>
 
@@ -62,9 +62,13 @@ const reply = await account.ai('ask', { world_id: worldId, question, context }, 
 
 `buildAskContext` hands nothing on that a world holds back from an AI: proposed elements (the [review profile](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/review.md)), [hidden](/docs/development/api/hidden) ones and the room's are left out unless you pass `includeProposed`, `includeHidden` or `includeRoom`, and `leftOut` lists them by id so you can say how many. (Versions before 4.72.0 do not leave them out.)
 
-A proposed element you include carries `[proposed, not yet reviewed]` on its first line, and a kept element's link to a left-out one reads as not present, so its name stays out too.
+A proposed element you include carries `[proposed, not yet reviewed]` on its first line (`REVIEW_PROPOSED_LABEL` is the text inside the brackets), and a kept element's link to a left-out one reads as not present, so its name stays out too.
 
-Each account has a token rating: the number of AI tokens it may spend on the proxy each day. Asking spends from it: `reply.tokens_remaining` and `reply.token_rating`, and `reply.remaining` counts the answers of this size still in it. Used up, it throws with `err.isQuotaExceeded`. `account.allowance()` reads the token rating without spending anything: `{ token_rating, tokens_used_today, tokens_remaining, resets_at }`.
+An element counts as proposed when its `x_review_proposed` is present: absent, null and an empty mark (`""`, White_Space only, `[]` or `{}`) are settled. It counts as hidden when `hidden` is anything but absent, null or false. `leftOut` holds three lists, `proposed`, `hidden` and `room`, and an element with several marks is listed once, in the first of hidden, proposed and room whose option is off: a hidden proposed element is listed under `hidden` only, and `includeProposed` alone never sends it.
+
+The proxy's limits are counted after the marks: at most 8 elements, each cut to 2,000 characters (listed in `truncated`), 12,000 in all. `dropped` lists the elements past the 8th, or from the first one the total could not hold, so what is sent is always the top of the list as shown.
+
+Each account has a token rating: the number of AI tokens it may spend on the proxy each day, the same meter the Council spends from. Asking spends from it: `reply.tokens_remaining` and `reply.token_rating`, and `reply.remaining` counts the answers of this size still in it. Used up, it throws with `err.isQuotaExceeded`. `account.allowance()` reads the token rating without spending anything: `{ token_rating, tokens_used_today, tokens_remaining, resets_at }`, where `resets_at` is the next midnight UTC. `account.aiUses()` lists the uses the proxy runs ([the AI door](/docs/development/ai#the-ai-door-a-use-by-name)).
 
 The same proxy can also [sort loose notes](/docs/development/ai#sort-notes-into-a-world) into a world. You send a person's notes with a slice, the elements your lookup found for them, and get back rows for the person to review: each row makes an element, adds to one, links two, or asks which of some candidates is meant. Every id in a row comes from the slice, and nothing is written until your app applies what the person accepts:
 
@@ -78,7 +82,7 @@ const { rows, not_proposed } = await account.ai('sort', { world_id: worldId, not
 
 A lens is a saved way of reading a world: which elements, how far from a starting set, how much of each. It is a Construct with supertype `Lens`, and it only narrows what the viewer may already see ([Lenses](/docs/lenses), the lens profile).
 
-`resolveLens(world, lens, reader, { asOf, clock })` reads a world snapshot through a lens for one viewer and returns the kept elements in order, the cut counted by reason, and the mail part when the lens names one; it never writes.
+`resolveLens(world, lens, reader, { asOf, clock })` reads a world snapshot through a lens for one viewer and returns the kept elements in order, the cut counted by reason, and the mail part when the lens names one; it never writes. The lens's links are its anchors, and its `x_lens` is the recipe: `depth`, `types`, `window` or `from` and `to`, `undated`, `changed_within`, `show`, `budget`, `mail` and `notes`. The Python package's `resolve_lens` gives the same answers on the same input.
 
 ```typescript
 import { isLens, isTemplate, resolveLens } from '@onlyworlds/sdk';
@@ -104,12 +108,12 @@ A lens's rows for a viewer below the owner are the bodies the API serves that vi
 <details>
 <summary>What a row keeps for each viewer (the profile's rules)</summary>
 
-- a link to an element the viewer cannot see is left out
+- a link to an element the viewer cannot see is left out: a single link reads null, and a Pin's `element_type` and `element_id` pair reads `""` and null
 - a lens kept as an element keeps only the notes on elements the viewer sees
 - `x_served_trimmed` names a message's `characters` and `narrator`, or a lens's anchor fields, for a contributor or a guest, never for the public
 - a contributor's or a guest's row keeps a link to a proposed element it sees, and a lens's note keyed to one, as the API serves them; the public rung loses both
 
-The owner's rows are the bodies as stored. No row carries a stored `x_served_trimmed`: the mark names only what this reading trimmed.
+The owner's rows are the bodies as stored, and under `show: full` an owner's row of a hidden element carries `hidden: true`. No row carries a stored `x_served_trimmed`: the mark names only what this reading trimmed.
 
 </details>
 
@@ -328,12 +332,13 @@ A tool that cannot run the method draws the Pins where they are and never lays t
 
 - `charter` is `{ id, type, name, rules, skill }` or null: the newest marked Charter, its `x_checks_rules` list (`[]` when none) and the Objects its text names, at most five.
 - `guide` is `{ id, type, name }` or null.
+- `domains` come in the order the Guide's `constructs` names them, then the rest by name.
 - Each Domain is `{ id, type, name, sentence, hubs }`: its description trimmed, cut at its first line break, and trimmed again, and the elements its links name that the reader sees, each of the kind its field links to, as `{ type, id }`.
 - `type` (since 4.177.0) is `law` on the Charter and `construct` on the Guide and on each Domain: the word the element routes use.
 
 `domainsOf(world, reader)` returns the Domains alone. `world` holds the elements as the owner is served them, with `open: true` for a world open to anyone (only then does a public viewer see anything), and `reader` is the viewer's `{ rung }`, as in [What every reader takes](#what-every-reader-takes).
 
-`isCharterElement(el)` reads the mark `x_charter_of` by its presence: any value but null, a string only when something is left after trimming, and since 4.163.0 an empty list or an empty object is no mark either. `CHARTER_PAIRS` lists the three type-and-supertype pairs.
+`isCharterElement(el)` reads the mark `x_charter_of` by its presence: any value but null, a string only when something is left after trimming, and since 4.163.0 an empty list or an empty object is no mark either. `CHARTER_PAIRS` lists the three type-and-supertype pairs. The pair without the mark is lore and stays in every view: a kingdom's Charter in a novel's world is a Law like any other. A tool's front door shows the aids first, and a lore view leaves them out by default. A reading aid is not a room element: `isRoomElement` answers false for one.
 
 `readingAidOf(element)` answers which aid an element's type and supertype make it, `'charter'`, `'guide'`, `'domain'` or null, with the mark ignored: what a tool offers to mark it as.
 
@@ -398,7 +403,9 @@ A run or a story is proposed exactly when [`proposedMarkOf`](#proposed-elements)
 
 Messages between members follow the [message profile](/docs/schema/profiles/messages): who a message is for, whether its sender is proved, what is unread, and a thread. The readers take the roster from [`client.members()`](/docs/development/typescript-accounts#who-is-in-a-world).
 
-A hand is the member whose key wrote an element: `created_by` records the hand that made it, `changed_by` the hand that last changed it. A sender is proved when the hand that made the message plays the Character it claims to be from (its `narrator`), and a read mark counts only in its own reader's hand.
+A hand is the member whose key wrote an element: `created_by` records the hand that made it, `changed_by` the hand that last changed it. A sender is proved when the hand that made the message plays the Character it claims to be from (its `narrator`), and a read mark counts only in its own reader's hand. The message pair is exported as `MESSAGE_PAIR`. A read mark is a Relation with supertype `Read` whose `actor` is the reader, and it counts only when every write on it was the reader's: its `created_by` plays the reader's Character, and its `changed_by`, where it carries one, equals its `created_by`.
+
+A world folder or an export carries no `created_by`, so there is no hand to check: `unreadFor` trusts a message's `narrator` (`senderStatus` still answers `unverifiable`), a read mark counts, and `members` can be left out. On the wire, pass `members`, or every message that claims to be from the reader stays unread for them.
 
 ```typescript
 import { isMessage, isAddressedTo, senderStatus, readMarkOf, unreadFor } from '@onlyworlds/sdk';
@@ -493,7 +500,7 @@ An element an AI seat wrote as [proposed](/docs/development/api/proposals) follo
 
 A world's time is an integer line: the world's now (`time_range_current`) and an Event's `start_date` are points on it. A calendar names those points with months, days and eras.
 
-A world's calendars sit on elements, each in an `atlas_calendar` field. The field belongs to [Atlas](/docs/tools/atlas), the main OnlyWorlds workspace, which reads it with the same calendar code as the SDK: read it, never write it.
+A world's calendars sit on elements (a Construct by convention), each in an `atlas_calendar` field; a calendar is found by that field, never by its supertype. The field belongs to [Atlas](/docs/tools/atlas), the main OnlyWorlds workspace, which reads it with the same calendar code as the SDK: read it, never write it.
 
 The Python package's LegendKeeper import also writes one, from a source calendar, by Atlas's rules.
 
@@ -514,6 +521,8 @@ The dates in the example come from Harptos, one of the calendars the SDK's own t
 
 No calendar, or a broken one, gives null: show the bare number.
 
+`formatYearLabel(cal.config, 400)` gives the short year label for a wide axis (`"1 DR"`), and `breakdownStep(cal.config, 400)` the parts of a point: its year, era, month, day, weekday and intercalary day (a day that belongs to no month). In `parseDate`, a bare number is always the raw step. Formatting the step `parseDate` read from a label `formatStep` wrote gives that label back, though a format that drops detail may not give back the same step.
+
 A page with no build step takes the same names from `@onlyworlds/sdk/calendar` (since 4.199.0): `dist/calendar.js` in the package is one file of about 26 KB that imports nothing, so a `<script type="module">` loads it as it ships. The main entry cannot be loaded that way, since it is split into several files and one of them imports a dependency by its bare name. A tool that bundles takes the names from the main entry.
 
 The SDK reads the calendar profile's version 2: a leap day's rule can carry `except`, divisors that flip it in order, and `offset`, added to the year index before the rule (1 for a calendar with no year 0). Gregorian is `every_years: 4, except: [100, 400], offset: 1`. A calendar reader that knows only version 1 gives null for a version-2 calendar, so it shows the bare number, never a wrong date.
@@ -524,7 +533,9 @@ Eras count up by default; one that counts down toward its start (years before a 
 
 ## Addresses
 
-The [address profile](/docs/schema/profiles/addresses) reads and writes an element's link: `parseOwLink(text)` reads any of the three spellings (the site's address, `ow://<type>/<id>`, `ow://<world>/<type>/<id>`) with its moment and lens, and `elementAddress(address)` writes one. A string the profile refuses throws an `OwAddressError` whose `reason` is the profile's own name.
+The [address profile](/docs/schema/profiles/addresses) reads and writes an element's link: `parseOwLink(text)` reads any of the three spellings (the site's address, `ow://<type>/<id>`, `ow://<world>/<type>/<id>`) with its moment and lens, and `elementAddress(address)` writes one. A world by itself is `https://www.onlyworlds.com/w/<world id>` or `ow://<world id>`, and any address may end in a moment, `@<step>`, and a lens, `?lens=<id>`. A string the profile refuses throws an `OwAddressError` whose `reason` is the profile's own name. The profile's fixture is these functions' own test.
+
+A field that holds an address is text: never resolve or fetch it on the server. Show one wording, "private or missing", both for a world you cannot read and for an element that is not there, so the answer says nothing about which.
 
 ```typescript
 import { parseOwLink, elementAddress } from '@onlyworlds/sdk';
@@ -576,7 +587,7 @@ The work for one text grows with its length alone, whatever the names and howeve
 
 `openersFor(tools, kind, address, surface)` gives the rows of an **Open with** menu for a world or an element: onlyworlds.com first, then each [listed tool](/docs/development/list-your-tool) whose `open` key has a door for it, in the list's order. `TOOLS` is the tools list baked at this release.
 
-Each row is `{ id, name, href, state }`. `state` is null when the row opens now, or one of `You are here`, `Needs a connection`, `Needs an account`, `Sign in to <tool> first`, `Opens in your browser`, `Needs the world on this phone` or `Opens the world`.
+Each row is `{ id, name, href, state }`; a menu draws the rows as given and decides no word of its own, so every surface says the same, and the Python package's `openers_for` answers every case the same way. `state` is null when the row opens now, or one of `You are here`, `Needs a connection`, `Needs an account`, `Sign in to <tool> first`, `Opens in your browser`, `Needs the world on this phone` or `Opens the world`.
 
 `surface` says what the page knows:
 
@@ -647,16 +658,26 @@ Its stylesheet is `@onlyworlds/sdk/waymark.css`. The options:
 - `tool`, `signedIn`, `browser` and `phone` are `openersFor`'s, as in [Open with](#open-with).
 - `ground` is the page behind the menu: `dark` (the default, the mark in the brand cyan) or `paper` (the mark in a dark ink).
 - `entry` picks the way in: the mark (`'mark'`, the default), an Open with item for your page's own menu (`'menu'`, given back as `entry` on the returned function), or both.
+- `returnFocus`, with `'menu'` or `'both'`: your page's own visible element (its "..." button) that takes focus back when the menu, opened from the entry, closes by Escape; without it the entry takes it. It is refused with `'mark'`.
+- `world` is `{ id, name }` as `getWorld()` or a folder's `world.json` gives them; its `x_names`, when present, words the type.
+- `tools` is the tools list's rows, `TOOLS` by default.
+- `lenses` is `[{ id, name }]`, the lenses your page offers, drawn as a Through row and never shown to the public; a lens chosen rides on the copied link as `?lens=`.
 
-The menu opens toward the room it has, becomes a sheet from the bottom on a narrow screen, greys the rows that need a connection while offline, and works from the keyboard.
+An unknown option is refused by name, and a value of the wrong kind with a `TypeError`, before anything is drawn.
+
+Copy link copies the site's address with the world's id (`elementAddress`), never a slug, and says "Link copied". With no clipboard, or the copy refused, the menu stays open and says "Could not copy the link." over the address, selected in a read-only line to copy by hand, until the menu closes. The public face shows the name line without the last door, then the rows and Copy link.
+
+No node carries a `style` attribute, so the menu runs under `style-src 'self'`; load `waymark.css` with the page. Every colour in it is one of its two grounds, `dark` and `paper`, declared once at the top of the file.
+
+The menu opens toward the room it has, becomes a sheet from the bottom on a narrow screen, greys the rows that need a connection while offline, and works from the keyboard. Not in this version: a moment picker (it needs a time bar), and the tools' own marks (every listed tool wears one generic glyph for now). To try it, run `npm run demo` in a clone of the [package's repository](https://github.com/OnlyWorlds/sdk): it builds the package and serves `demo/waymark.html`, where `?current=atlas` makes the page Atlas, so its row says "You are here".
 
 <details>
 <summary>How the menu behaves, in detail</summary>
 
 - An Escape it handles stops there, so a page's own Escape on `document` does not also run.
-- The fan-out measures the nearest box that clips it when it opens and opens toward the room it has (to the left of a right edge, above a bottom edge), or as the sheet from the bottom when neither side has room. At 480 px wide or less the menu is a sheet from the bottom.
-- It reads the browser's connection at each open. Offline, a row that needs one is grey and leads nowhere, redrawn in place if the connection comes back while the menu is open.
-- Your own tool's row, "You are here", is a plain item that closes the menu, drawn grey as where the reader already is.
+- The fan-out measures the nearest box that clips it when it opens and opens toward the room it has (to the left of a right edge, above a bottom edge, with the classes `ow-waymark__pop--end` and `ow-waymark__pop--up`), or as the sheet from the bottom when neither side has room. At 480 px wide or less the menu is a sheet from the bottom, its rows at least 44 px tall, and the mark's tap area is at least 44 by 44 px at every width.
+- It reads the browser's connection at each open (`navigator.onLine`), and the window's `online` and `offline` events while it is open. Offline, a row that needs one is grey and leads nowhere: a link with no href and `aria-disabled="true"`, still in the Tab order, redrawn in place if the connection comes back while the menu is open.
+- Your own tool's row, "You are here", is a plain item that closes the menu, drawn grey as where the reader already is: a button with `aria-current="page"`, not a link.
 - A row whose link is a web address opens in a new tab, and one that opens an app is handed to the device.
 - The mark sits a little under the name's capitals (0.6em, never under 16 px).
 
