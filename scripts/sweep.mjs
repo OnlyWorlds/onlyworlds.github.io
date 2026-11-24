@@ -98,11 +98,15 @@ console.log('CHECKS');
   else pass(`the TypeScript reference is generated from the latest SDK (${latest})`);
 }
 
-// ---- 2: keel's error list against the vendored snapshot -----------------------------------------------
+// ---- 2: keel's error list against the vendored snapshot (exit 2 from the reader is BLIND: the document
+// unreadable, a 429 included, never a difference) -------------------------------------------------------
 {
-  const out = sh('node', ['scripts/gen_errors.mjs', '--live'], ROOT);
-  if (out === null) bad('the error-code snapshot differs from keel\'s live list (node scripts/gen_errors.mjs --refresh)');
-  else pass('the error-code snapshot matches keel\'s live list');
+  let code = 0;
+  try { execFileSync('node', ['scripts/gen_errors.mjs', '--live'], { cwd: ROOT, timeout: 60000, stdio: 'ignore' }); }
+  catch (e) { code = e.status ?? 2; }
+  if (code === 0) pass('the error-code snapshot matches keel\'s live list');
+  else if (code === 1) bad('the error-code snapshot differs from keel\'s live list (node scripts/gen_errors.mjs --refresh)');
+  else blind('could not read keel\'s live error list (node scripts/gen_errors.mjs --live says why): the error-code snapshot was not checked');
 }
 
 // ---- 2b: keel's palette table against the vendored snapshot (keel is private: read from its local
@@ -428,7 +432,7 @@ if (!flag('--no-links')) {
   let read = 0;
   for (const [repo, page] of released) {
     const out = sh('gh', ['release', 'list', '-R', `OnlyWorlds/${repo}`, '--limit', '40', '--json', 'tagName,publishedAt']);
-    if (out === null) { bad(`releases: could not read OnlyWorlds/${repo}'s releases (gh): not checked`); continue; }
+    if (out === null) { blind(`releases: could not read OnlyWorlds/${repo}'s releases (gh): not checked`); continue; }
     for (const { tagName, publishedAt } of JSON.parse(out)) {
       if (!publishedAt || publishedAt.slice(0, 10) < SINCE) continue;
       read++;
@@ -456,8 +460,8 @@ if (!flag('--no-links')) {
     const data = await get('https://raw.githubusercontent.com/OnlyWorlds/atlas/master/src/changelog/changelog.data.ts');
     const live = await get('https://atlas.onlyworlds.com/changelog');
     const drops = data === null ? [] : [...data.matchAll(/version:\s*'(\d+\.\d+(?:\.\d+)?)',\s*date:\s*'(\d{4}-\d{2}-\d{2})'/g)];
-    if (data === null || !drops.length) bad('releases: could not read Atlas\'s release data (src/changelog/changelog.data.ts at master): not checked');
-    else if (live === null || !drops.some(([, v]) => live.includes(v))) bad('releases: could not read Atlas\'s live changelog (atlas.onlyworlds.com/changelog), or it names none of the drops: not checked');
+    if (data === null || !drops.length) blind('releases: could not read Atlas\'s release data (src/changelog/changelog.data.ts at master): not checked');
+    else if (live === null || !drops.some(([, v]) => live.includes(v))) blind('releases: could not read Atlas\'s live changelog (atlas.onlyworlds.com/changelog), or it names none of the drops: not checked');
     else for (const [, v, date] of drops) if (date >= SINCE && !live.includes(v)) note(`releases: atlas ${v} is on master, not live yet: followed once it is`);
     // A line may follow several drops at once, "Atlas 1.120.0 to 1.120.2": the range covers every drop between.
     const num = (v) => v.split('.').map(Number).reduce((a, n, i) => a + n * 1000 ** (2 - i), 0);
