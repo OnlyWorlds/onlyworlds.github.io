@@ -171,7 +171,7 @@ In a browser, shrink a phone photo before uploading it:
 ```typescript
 import { preparePhoto } from '@onlyworlds/sdk';
 
-const photo = await preparePhoto(file); // longest side 2048, webp (JPEG where the browser can't encode webp)
+const photo = await preparePhoto(file); // longest side 2048, webp (where the browser can't encode webp: PNG for a PNG or a picture with transparency, else JPEG)
 const image = await writer.uploadImage(photo.blob);
 ```
 
@@ -456,7 +456,7 @@ The package also ships `SCHEMA.md` (every field and its meaning, generated) and 
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.200.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.201.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -552,7 +552,7 @@ Generated from the types of `@onlyworlds/sdk` 4.200.0, the version these docs pi
 
 ### Deprecated names
 
-Every name the package's declarations mark `@deprecated`, read from the same files as the tables above: 22 in 4.200.0. Each row is the mark's own comment, to the sentence that names the version the name leaves in. How much notice a change to the API itself gets: [Stability and deprecation](/docs/development/api/stability).
+Every name the package's declarations mark `@deprecated`, read from the same files as the tables above: 22 in 4.201.0. Each row is the mark's own comment, to the sentence that names the version the name leaves in. How much notice a change to the API itself gets: [Stability and deprecation](/docs/development/api/stability).
 
 | Name | Deprecated since | Leaves in | What its comment says |
 |---|---|---|---|
