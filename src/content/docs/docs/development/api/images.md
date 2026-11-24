@@ -67,7 +67,7 @@ The `key` is the part of the `image_url` after `https://media.onlyworlds.com/`. 
 - a single-use ticket
 - where to send it
 - when it expires, in Unix seconds, 10 minutes after it was issued
-- `referenced`: how many of the world's elements still show the image
+- `referenced`: how many of the world's elements you can see still show the image in their `image_url`; an image linked inside a text, set as the world's own image or kept in a published page's stored copy is not counted
 
 ```bash
 curl -s -X POST "{remove_url}" \
