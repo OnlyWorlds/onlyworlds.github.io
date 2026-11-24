@@ -41,7 +41,12 @@
  *       a generator rewrites: the errors table, the SDK reference, the field tables) fails;
  *   (d) the LLM guide (public/assets/ow_llm_guide.txt, plain text, which a marker would show in):
  *       each sentence in GUIDE below is found exactly once, and its number is the entry's value;
- *   (e) an ELSEWHERE line given the SDK's values (the archive floor) states both.
+ *   (e) an ELSEWHERE line given the SDK's values (the archive floor) states both;
+ *   (f) where a request spends a budget: an entry whose `doors` is a list (the path prefixes keel's
+ *       code reads as spending it, `requests_per_minute` and `requests_per_minute_keyless`) is held by
+ *       a doors marker, `<!-- doors: NAME [NAME …] -->` (.md) or `{/* doors: NAME … *\/}` (.mdx), on
+ *       a line that names each door as a literal (`/w/`); every such entry has at least one, so a
+ *       door keel adds fails the build until a page names it. Its `uncounted` list is not held.
  * Not checked, printed by name: on lines with no marker, every byte size (KB, MB, GB) and every
  * "N a minute" rate, so a size or rate nothing holds is seen (outside code blocks, generated text
  * and the changelog, whose lines record what was true then). Other numbers on unmarked lines (counts,
@@ -181,6 +186,7 @@ function states(nums, value, unit) {
 
 // ---- the pages ------------------------------------------------------------------------------------------
 const MARK = { md: /<!--\s*limit:\s*(.*?)\s*-->/g, mdx: /\{\/\*\s*limit:\s*(.*?)\s*\*\/\}/g };
+const DOORS = { md: /<!--\s*doors:\s*(.*?)\s*-->/g, mdx: /\{\/\*\s*doors:\s*(.*?)\s*\*\/\}/g };
 const GEN_OPEN = /^(<!--|\{\/\*)\s*generated:(\S+)/, GEN_CLOSE = /^(<!--|\{\/\*)\s*\/generated:(\S+)/;
 const pagesUnder = (dir) => readdirSync(dir).sort().flatMap((f) => {
   const p = join(dir, f);
@@ -204,8 +210,8 @@ const ELSEWHERE = [
   { ...ARCHIVE_FLOOR, page: 'docs/schema/folders.mdx', near: 'every reader accepts' },
 ];
 const fails = [], unchecked = [], elsewhere = [], usedElsewhere = new Set();
-let markers = 0, held = 0;
-const used = new Set(), pagesMarked = new Set();
+let markers = 0, held = 0, doorsHeld = 0;
+const used = new Set(), pagesMarked = new Set(), doorsUsed = new Set();
 for (const file of pagesUnder(CONTENT)) {
   const rel = relative(CONTENT, file).replaceAll('\\', '/');
   const kind = file.endsWith('.mdx') ? 'mdx' : 'md', other = kind === 'md' ? 'mdx' : 'md';
@@ -222,7 +228,22 @@ for (const file of pagesUnder(CONTENT)) {
     if ([...line.matchAll(MARK[other])].length) fails.push(`${where}: a limit marker in the .${other} form (in a .${kind} page: ${kind === 'md' ? '<!-- limit: … -->' : '{/* limit: … */}'}) (c)`);
     const marks = [...line.matchAll(MARK[kind])];
     if (marks.length && generated) { fails.push(`${where}: a limit marker inside generated text (${generated}), which its generator rewrites (c)`); continue; }
-    const text = line.replace(MARK[kind], '');
+    const doorMarks = [...line.matchAll(DOORS[kind])];
+    if (doorMarks.length && generated) { fails.push(`${where}: a doors marker inside generated text (${generated}) (f)`); continue; }
+    for (const m of doorMarks) {
+      const names = m[1].split(/\s+/).filter(Boolean);
+      if (!names.length) fails.push(`${where}: an empty doors marker (f)`);
+      for (const name of names) {
+        const e = snap.limits[name];
+        if (!e) { fails.push(`${where}: the doors marker names ${name}, which the API document's limits do not have (f)`); continue; }
+        if (!Array.isArray(e.doors)) { fails.push(`${where}: ${name} has no doors in the API document (f)`); continue; }
+        doorsUsed.add(name);
+        const missing = e.doors.filter((d) => !line.includes('`' + d + '`'));
+        if (missing.length) fails.push(`${where}: ${name} is spent at ${missing.map((d) => '`' + d + '`').join(', ')}, which the line does not name (f)`);
+        else doorsHeld++;
+      }
+    }
+    const text = line.replace(MARK[kind], '').replace(DOORS[kind], '');
     if (!marks.length) {
       if (generated || rel === CHANGELOG) continue;
       let sizes = numbersOf(text).filter((x) => x.kind === 'bytes' && x.size > 1).map((x) => x.text);
@@ -275,12 +296,13 @@ for (const [name, re] of GUIDE) {
   if (!states(nums, e.value, e.unit)) fails.push(`ow_llm_guide.txt:${guide.slice(0, hits[0].index).split('\n').length}: ${name} is ${showValue(e.value)} ${e.unit}, and the guide says ${hits[0][1]} (d)`);
 }
 
+for (const [name, e] of Object.entries(snap.limits)) if (Array.isArray(e.doors) && !doorsUsed.has(name)) fails.push(`${name} is spent at ${e.doors.length} door(s) and no doors marker holds them (f)`);
 for (const e of ELSEWHERE) if (!usedElsewhere.has(e)) fails.push(`ELSEWHERE names "${e.size}" beside "${e.near}" on ${e.page}, and no line there says it (c)`);
 for (const u of elsewhere) console.log(`  held elsewhere  ${u}`);
 for (const u of unchecked) console.log(`  not checked  ${u}`);
 const unused = Object.keys(snap.limits).filter((k) => !used.has(k));
 if (unused.length) console.log(`  no page states ${unused.length} limit(s): ${unused.join(', ')}`);
 for (const f of fails) console.log(`  FAIL  ${f}`);
-console.log(`verify-limits: ${markers} marker(s) on ${pagesMarked.size} page(s) and ${GUIDE.length} sentence(s) of the LLM guide, ${held} value(s) held to contract/limits.json (${Object.keys(snap.limits).length} limits, read ${snap.read_at}); ${unchecked.length} unmarked line(s) with a size or rate`);
+console.log(`verify-limits: ${markers} marker(s) on ${pagesMarked.size} page(s) and ${GUIDE.length} sentence(s) of the LLM guide, ${held} value(s) and ${doorsHeld} door list(s) held to contract/limits.json (${Object.keys(snap.limits).length} limits, read ${snap.read_at}); ${unchecked.length} unmarked line(s) with a size or rate`);
 if (fails.length) { console.log(`FAIL: ${fails.length} problem(s) in the pages' limits`); process.exit(1); }
 console.log('PASS');
