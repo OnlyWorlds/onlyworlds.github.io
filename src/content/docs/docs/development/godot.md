@@ -12,9 +12,9 @@ It is at its first releases (0.1.1). Before 1.0 a minor version may change a cal
 Godot 4.7, the standard build. Earlier 4.x versions are untested, and so are exports other than Windows desktop, the web and mobile among them.
 
 - **Godot's Asset Library**: [OnlyWorlds SDK](https://godotengine.org/asset-library/asset/5621), or the editor's **AssetLib** tab, searching for OnlyWorlds. Install with the installer's defaults and it lands at `addons/onlyworlds/`. The Library carries a release, so it can be a step behind the repository.
-- **The release zip**, from the repository's [Releases](https://github.com/OnlyWorlds/godot-sdk/releases) page: unpack it into your project folder, where its `addons/onlyworlds/` joins your project's `addons/`.
+- **The release zip** (`onlyworlds-godot-0.1.1.zip`), from the repository's [Releases](https://github.com/OnlyWorlds/godot-sdk/releases) page: unpack it into your project folder, where its `addons/onlyworlds/` joins your project's `addons/`.
 
-Then open the project in the editor once, so Godot registers the `OW…` classes. Enabling the plugin under **Project Settings → Plugins** is optional: the classes work without it.
+Then open the project in the editor once, or with no editor run `godot --headless --path . --import` once, so Godot registers the `OW…` classes. Enabling the plugin under **Project Settings → Plugins** is optional: the classes work without it.
 
 ## First run
 
@@ -35,7 +35,7 @@ func _ready() -> void:
 	print(found.value.data[0].name)
 ```
 
-Attach it to any node and run the scene. The Output panel shows `Moppetopia`, then `Admiral Fluffington`. `await client.list_all("character")` pages through every Character.
+Attach it to any node and run the scene. The Output panel shows `Moppetopia`, then `Admiral Fluffington`. With no editor, save the node as a scene, end `_ready` with `get_tree().quit()`, and run `godot --headless --path . res://first_run.tscn`: `--script` runs only a script that extends `SceneTree` or `MainLoop`, and this one extends `Node`. `await client.list_all("character")` pages through every Character.
 
 ## Your own world
 

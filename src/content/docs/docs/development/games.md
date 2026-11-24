@@ -74,7 +74,7 @@ curl -H "API-Key: 0000000001" \
   "https://www.onlyworlds.com/api/v2/character/?fields=id,name&name__icontains=fluffington"
 ```
 
-Unity is the first engine with an SDK of its own. Until another engine has one, its path is the folder or the API. In Claude Code, the [toolkit](/docs/development/toolkit)'s `develop` skill carries these paths for a game, the map's coordinates included.
+Unity, Godot and Unreal each have an SDK of their own; any other engine's path is the folder or the API. In Claude Code, the [toolkit](/docs/development/toolkit)'s `develop` skill carries these paths for a game, the map's coordinates included.
 
 ## Game content in the standard
 
