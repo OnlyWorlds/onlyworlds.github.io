@@ -204,6 +204,31 @@ points; // [{ map, x: 120, y: 80 }, { map: its parent's id, x, y }, ...]
 stop; // 'top' once the walk reached a Map with no parent_map
 ```
 
+### The Pins one viewer knows
+
+A map drawn as one Character sees it shows a Pin only when that Character knows what the Pin places. `pinsKnownTo(pins, served)` (since 4.200.0) answers which Pins those are. `served` is the elements as that viewer was served them, and the function reads nothing else, so the map cannot show a viewer more than the world told them. It answers `{ known, unknown, out }`, all three always present:
+
+- `known`: each Pin whose element is among `served`, as `{ pin, map, element_type, element_id, how }`, by Pin id. `how` is `whole`, or `known_of` when the element reached the viewer as a stub it only knows of (`isKnownOf`), so a drawing can tell a place heard of from a place known.
+- `unknown`: how many Pins place an element the viewer was not served. A number, never their ids.
+- `out`: `no_link` counts the Pins that place nothing; absent when there are none.
+
+The two lists are two reads. `pins` comes from whichever read holds the map (a public world's, the owner's), and may be the whole world's elements: only the Pins in it are read. `served` is the viewer's own list, or the owner's read as that Character with `viewAs`. The answer carries ids and no name or body, and it does not ask whether a Pin has a point or its Map is there: `mapSpace` reads that, and a drawing keeps the Pins both name.
+
+```typescript
+import { ELEMENT_TYPES, mapSpace, pinsKnownTo } from '@onlyworlds/sdk';
+
+// What one Character is served: the owner reads each type as that Character.
+const served = [];
+for (const type of ELEMENT_TYPES) for await (const el of owner.listAll(type, { viewAs: id })) served.push(el);
+
+const { known, unknown } = pinsKnownTo(elements, served);
+const how = new Map(known.map((k) => [k.pin, k.how]));
+const drawn = mapSpace(elements).pins.filter((p) => how.has(p.pin)); // each with its point
+how.get(drawn[0]?.pin); // 'whole' or 'known_of'
+```
+
+The type and the id are compared as written, and of two served rows with one type and id the last one decides. This is a rule of the two packages, not of the standard: the Python package's `pins_known_to` runs the same cases.
+
 ## A world's default picture
 
 `layoutByKind(graph)` (since 4.167.0) lays out a world nobody laid out, from its graph as `worldGraph` answers it. Each kind gets a point on a circle, links pull, neighbours push apart, and the points are fitted into a frame of -1 to 1 on the longer axis. It answers `{ method: 'by-kind', version: 1, points }`, one `{ id, x, y }` per node in the order you passed them. `layoutAround(graph, focus, { steps })` draws one element at 0, 0 with its neighbours on rings, one or two steps out, as `{ id, depth, x, y }`.
