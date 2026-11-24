@@ -23,6 +23,8 @@ After `/w/` the run is read whole: it is the world's id only when it is exactly 
 
 The TypeScript SDK finds an address with `readOwLinkAt(text, index)`, the Python package with `read_ow_link_at(text, index)`: each reads the address that starts at `index` and answers the reading and the index just past it, counted as the language counts a string. To find every address in a text, in order, the TypeScript SDK has `findOwLinks(text)` (since 4.165.0) and the Python package `find_ow_links(text)` (since 0.125.0).
 
+onlyworlds.com draws one this way since 2026-11-24. An `ow://` address in an element's text is a plain link on the element's page: the owner's page, the page a member sees and the world's public page. The label is the address exactly as written and the link is its human address. Nothing is looked up, so the link goes where the address says, whoever may read the element. A site address in a text stays plain text.
+
 A plain name in a text is not an address, and this profile says nothing about it. Finding the names of a world's elements in prose is a rule of the two packages: [`nameFinder`](/docs/development/typescript-readers#names-in-prose) in the TypeScript SDK and `name_finder` in the Python package.
 
 ## The same id
