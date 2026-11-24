@@ -20,10 +20,10 @@ At session start, before any tool call, the server hands every client a short in
 
 ## Connect from Claude Code
 
-The schema tools need no account and no key:
+To try it with no account, connect with a demo world's read-only key (Moppetopia's, from [Keys and PINs](/docs/getting-started/keys)):
 
 ```bash
-claude mcp add --transport http onlyworlds https://www.onlyworlds.com/mcp
+claude mcp add --transport http onlyworlds https://www.onlyworlds.com/mcp --header "API-Key: 0000000001"
 ```
 
 For your own world, the same command with your credentials as headers:
@@ -38,7 +38,16 @@ Each command is a single line: paste it whole. A backslash-continued form breaks
 
 Any MCP client that can send your own HTTP headers to a remote server uses the same URL and the same two headers: among them Codex, Cursor, VS Code, Gemini CLI, the Claude Agent SDK and OpenAI's Responses API, each through its own configuration.
 
-Some clients cannot send these two headers (read in their own documentation, 2026-11-21): claude.ai, Claude Desktop and Claude mobile take a remote server with OAuth or no sign-in (a request-headers option there is in limited beta and accepts only approved header names); ChatGPT does not present custom API keys; the Anthropic API's MCP connector sends only a bearer token. Without headers, such a client gets only the three schema tools, which need no key.
+Some clients cannot send these two headers (read in their own documentation, 2026-11-21): claude.ai, Claude Desktop and Claude mobile take a remote server with OAuth or no sign-in (a request-headers option there is in limited beta and accepts only approved header names); ChatGPT does not present custom API keys; the Anthropic API's MCP connector sends only a bearer token. Such a client signs in instead: add `https://www.onlyworlds.com/mcp` as a connector, and it sends you to onlyworlds.com to sign in to your account and allow it ([Sign in from an AI assistant](#sign-in-from-an-ai-assistant)).
+
+## Sign in from an AI assistant
+
+A request with neither a key nor a sign-in answers `401` with `WWW-Authenticate: Bearer` and `scope="world:read"`, naming the server's [protected resource metadata](https://www.onlyworlds.com/.well-known/oauth-protected-resource/mcp). A client that speaks MCP's sign-in (OAuth 2.1 with PKCE) reads it, registers itself, sends you to onlyworlds.com to sign in and allow it, and then calls the server with the token it gets back. What the token can do:
+
+- It **reads only**: every world your account owns or is a member of, as your own read key in each would read it. A write tool answers "This grant reads only: writes need an API-Key and API-Pin."
+- Each read names its world in `world`, by its id or its public page's address; [`list_worlds`](#read-a-key-or-a-sign-in) lists them. An account with one world may leave `world` out; with more, a read that names none is refused and says so.
+- It lasts an hour, and the client renews it with a refresh token that lasts 30 days; your [account page](https://www.onlyworlds.com/account/) lists it, and Revoke or Disconnect there ends it. The server side of the sign-in is on [Sign in with OnlyWorlds](/docs/development/api/signin#ai-assistants).
+- A connector keeps the address it was added with. One added with any other address goes on reading there: remove it and add it again with `https://www.onlyworlds.com/mcp`.
 
 Codex reads the server from `~/.codex/config.toml`, taking the two header values from environment variables:
 
@@ -52,7 +61,7 @@ env_http_headers = { "API-Key" = "OW_API_KEY", "API-Pin" = "OW_API_PIN" }
 
 ## Credentials
 
-Credentials travel as headers on every request, exactly as on the REST API.
+Credentials travel as headers on every request, exactly as on the REST API. A client that [signed in](#sign-in-from-an-ai-assistant) sends its token as `Authorization: Bearer` instead, and no key.
 
 | Header | Value |
 |:--|:--|
@@ -68,7 +77,7 @@ Credentials travel as headers on every request, exactly as on the REST API.
 
 The tools fall into three groups by what they need. Arguments in **bold** are required; the rest are optional, with their default in brackets. Every `type` is an element type slug from `list_element_types`, such as `character`, and every `id` is a UUID. Every tool carries the three MCP hints (`readOnlyHint`, `destructiveHint`, `idempotentHint`), so a host can ask before a write without reading the name: the thirteen reads are read-only and idempotent; `create_element` and `get_image_upload_ticket` write and are not idempotent; `update_element` and `edit_links` are marked destructive and idempotent; `bulk_apply` is marked destructive and not idempotent (read live 2026-11-24).
 
-### Schema: no key
+### Schema: any key or a sign-in
 
 | Tool | Arguments | Returns |
 |:--|:--|:--|
@@ -76,13 +85,13 @@ The tools fall into three groups by what they need. Arguments in **bold** are re
 | `get_element_schema` | **`type`** | The element type's writable fields grouped by kind (`text`, `integer`, `single_link`, `multi_link`, `generic`), with `link_targets` (each link field's target element type) and `output_order`. |
 | `search_schema` | **`query`**: a substring, case-insensitive | A map of element type slug to its field names containing `query`, such as "which element types have a `location` field?". An element type whose own slug matches is listed with an empty field list. |
 
-### Read: a key
+### Read: a key or a sign-in
 
-Every read tool takes an optional `world`. With a key, `world` reads and refuses the same values as the REST door does beside a key: name the key's own world by its id, or leave it out; anything else, its public page's address included, is refused with the API's own error (since 2026-11-13). It is there for hosted clients that sign in to an account, which cannot connect yet: the server has no OAuth sign-in today, so a call with no key answers "API-Key header required."
+Every read tool takes an optional `world`. With a key, `world` reads and refuses the same values as the REST door does beside a key: name the key's own world by its id, or leave it out; anything else, its public page's address included, is refused with the API's own error (since 2026-11-13). Signed in from an AI assistant, `world` names one of your account's worlds by its id or its public page's address ([Sign in from an AI assistant](#sign-in-from-an-ai-assistant)).
 
 | Tool | Arguments | Returns |
 |:--|:--|:--|
-| `list_worlds` | none | `{data}`: the worlds you can read, each `{id, slug, name, role}`, `role` being `owner` or your membership's role and `slug` the world's public page address or null. With a key, the key's one world. |
+| `list_worlds` | none | `{data}`: the worlds you can read, each `{id, slug, name, role}`, `role` being `owner` or your membership's role and `slug` the world's public page address or null. With a key, the key's one world; signed in, every world your account owns or is a member of. |
 | `get_me` | `world` | What `GET /api/v2/me` answers for the same credential, built by the same function: `world`, `role`, `membership`, `character`, `lenses`, `front_door` and `reading_aids`, and `name` for an AI or a player seat. `front_door.charter` is the id of the world's Charter, read with `get_element` type `law`; `front_door.charter_skill` lists the Objects it names. A PIN sent with the key is treated as `GET /me` treats it. |
 | `list_elements` | **`type`**, `name_contains` (case-insensitive substring), `supertype` (the whole word, trimmed and without regard to case, as [the list routes](/docs/development/api/reads#filters) read it; an empty string lists the elements with none), `subtype` (read the same way), `ids` (a list of 1 to 200 element ids: only those), `created_by` (a membership id as `GET /api/v2/members` lists it, or `"owner"`: what that member created), `link` (one object, each key a single-link field of the type, each value an element id or `""` for the elements you are served with none, as [the list routes](/docs/development/api/reads#filters) read it: `link={"map": "<map id>"}` on `pin` lists the pins on one map; a key with no member behind it, the owner's own sign-in, a co-builder's, and a contributor's while no element of the world is hidden match the stored link, whatever it names, and for any other key a link to an element it cannot see matches nothing; a Pin's `element` is not one of these, and only the REST Pin list filters by it), `limit` (100, up to 1000), `offset` (0), `include_room` (false), `include_proposed` (false), `world` | `{data, limit, offset, has_more, total, proposed_left_out}`, newest created first; each element in the full `/api/v2/` shape. `total` is how many elements the whole list holds with these arguments, every page together. A [room element](/docs/schema/profiles#room) (`x_room_of`) is left out unless `include_room` is true (the REST list carries it), and so are the world's reading aids, its Charter, Guide and Domains (marked `x_charter_of`). An element an AI seat proposed and no keeper has settled (`x_review_proposed` with a value that is neither `null` nor empty) is left out unless `include_proposed` is true, and `proposed_left_out` counts the ones left out. |
 | `count_elements` | `type` (one element type; all if omitted), `name_contains`, `supertype`, `subtype`, `ids`, `created_by`, `link` (only with a `type`), `include_room` (false), `include_proposed` (false), `world` | `{counts, total, proposed_left_out, room_left_out}`: how many elements `list_elements` serves you with the same arguments, every page together; its filters read as there. With no `type`, `counts` names each of the 22 types, 0 included; with a `type`, that type alone. `total` is the sum of `counts`. `room_left_out` is how many room elements and reading aids `include_room` would add, and `proposed_left_out` how many proposed elements `include_proposed` would add, each with the other flag as set; a proposed room element or reading aid is in neither, so everything you may read is `total` with both flags true. An edit held for review is not an element and is in no number. A key counts only what it may read, and a stub counts as one. This is where to ask the size of a world: the descriptions of `get_me`, `list_elements` and `get_changes` send it here, never to a count of the change feed. |

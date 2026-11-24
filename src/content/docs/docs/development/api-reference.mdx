@@ -86,6 +86,8 @@ An answer under `/api/` that sets no `Cache-Control` of its own carries `Cache-C
 | POST | `/api/v2/join` | Redeem an agent's or a player's code, no key | [Agents](/docs/development/agents), [Members](/docs/development/api/members#player-links) |
 | GET | `/api/v2/auth/clients` | The tools registered to sign a person in, no key | [Sign in with OnlyWorlds](/docs/development/api/signin#registered-tools) |
 | POST | `/api/v2/auth/token` | Trade a sign-in code for an account token, no key | [Sign in with OnlyWorlds](/docs/development/api/signin#trading-the-code) |
+| POST | `/api/v2/auth/register` | An AI assistant's connector registers itself to sign a person in, no key | [Sign in with OnlyWorlds](/docs/development/api/signin#ai-assistants) |
+| POST | `/api/v2/auth/oauth/token` | The connector's token endpoint: a sign-in code or a refresh token for an MCP token, no key | [Sign in with OnlyWorlds](/docs/development/api/signin#ai-assistants) |
 | GET | `/api/v2/public/counts` | The platform's totals, no key | [Public worlds](/docs/development/api/public#how-big-onlyworlds-is) |
 | GET | `/api/v2/health` | Liveness check, no key needed | |
 | GET, PATCH | `/api/v2/account` | The account itself, on an account token | [Sign in with OnlyWorlds](/docs/development/api/signin#the-account) |

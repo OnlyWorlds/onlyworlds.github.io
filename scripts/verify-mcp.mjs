@@ -208,7 +208,12 @@ const splitTop = (s, seps) => {
 
 // ---- the three tool tables ----
 const tools = section('Tools');
-const GROUPS = { 'no key': 'none', 'a key': 'key', 'a write key and PIN': 'write' };
+// Since the server offers a sign-in (2026-11-24), a request with neither a key nor a sign-in is
+// refused at the door, so the schema heading says "any key or a sign-in". Those tools still check
+// no key (a made-up one is answered: read live that day), which is what their descriptions'
+// "Unauthenticated" says, so that heading holds them to 'none'. The read heading names the sign-in
+// beside the key and holds its tools to 'key'.
+const GROUPS = { 'no key': 'none', 'any key or a sign-in': 'none', 'a key': 'key', 'a key or a sign-in': 'key', 'a write key and PIN': 'write' };
 const rows = new Map();   // tool -> {group, args}
 for (const part of tools.split(/\n(?=### )/).slice(1)) {
   const m = [null, part.slice(4, part.indexOf('\n')), part.slice(part.indexOf('\n') + 1)];

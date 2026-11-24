@@ -1,6 +1,6 @@
 {
   "source": "https://www.onlyworlds.com/api/v2/openapi.json: each operation's security, and the security schemes",
-  "read_at": "2026-11-10",
+  "read_at": "2026-11-24",
   "schemes": {"AccountToken":{"scheme":"bearer","type":"http"},"AiToken":{"scheme":"bearer","type":"http"},"ApiKey":{"in":"header","name":"API-Key","type":"apiKey"},"ApiPin":{"in":"header","name":"API-Pin","type":"apiKey"},"SessionToken":{"in":"header","name":"X-Session-Token","type":"apiKey"}},
   "operations": [
     ["GET","/api/v2/ability",[["ApiKey"],["ApiKey","ApiPin"],["AccountToken"],[]]],
@@ -70,6 +70,8 @@
     ["DELETE","/api/v2/account/worlds/{world_id}/seats/{seat_id}",[["AccountToken"],["SessionToken"]]],
     ["POST","/api/v2/account/worlds/{world_id}/seats/{seat_id}/key",[["AccountToken"],["SessionToken"]]],
     ["GET","/api/v2/auth/clients",[]],
+    ["POST","/api/v2/auth/oauth/token",[["ApiKey","ApiPin"]]],
+    ["POST","/api/v2/auth/register",[]],
     ["POST","/api/v2/auth/token",[]],
     ["POST","/api/v2/bulk",[["ApiKey","ApiPin"]]],
     ["GET","/api/v2/changes",[["ApiKey"],["ApiKey","ApiPin"]]],

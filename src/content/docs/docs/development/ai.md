@@ -14,7 +14,7 @@ New to building with AI? The guided start is [onlyworlds.com/develop](https://ww
 | In a chat | [LLM guide](/docs/development/llm-guide) | One text file that teaches the standard, the API and the SDK. Paste it into any chat assistant. |
 | In a coding agent | [Toolkit](/docs/development/toolkit) | Skills to import, model, read, draw and move worlds and to build tools on them. A Claude Code plugin; other agents can read its skill files. |
 | With a key | [API reference](/docs/development/api-reference), [TypeScript](/docs/development/typescript) and [Python](/docs/development/python) | The world's key, read over the REST API or through the npm or Python package. Write access takes the PIN or a seat. |
-| Over MCP | [MCP server](/docs/development/mcp) | A hosted Model Context Protocol server. Schema tools need no key, a key adds reads, a write key and PIN add writes. |
+| Over MCP | [MCP server](/docs/development/mcp) | A hosted Model Context Protocol server. A key reads one world, a sign-in from an AI assistant reads your account's worlds, a write key and PIN add writes. |
 | Inside the world | [AI seats](/docs/development/agents) | A seat makes an agent a member of a world (a member makes it for their own AI, or the owner sends a join link), with its own key and, by default, its own Character. Its writes carry its name, and a human answers for it. |
 
 The five combine. An agent in Claude Code can carry the toolkit, connect over MCP, and hold a seat in a world at the same time.

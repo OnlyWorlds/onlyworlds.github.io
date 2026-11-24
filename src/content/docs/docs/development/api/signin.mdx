@@ -9,11 +9,11 @@ A tool can sign a person in through onlyworlds.com instead of asking for their e
 
 <SigninSteps />
 
-It is OAuth 2.1's authorization code flow with PKCE (`S256`), for public clients: no client secret, no refresh token, no scopes. The token is an ordinary account token, with the same reach as one the person mints themselves. It adds a door and replaces nothing: email and password, and world keys, keep working.
+It is OAuth 2.1's authorization code flow with PKCE (`S256`), for public clients: no client secret, no refresh token, and one optional scope, [`world:read`](#a-read-only-token). The token is an ordinary account token, with the same reach as one the person mints themselves. It adds a door and replaces nothing: email and password, and world keys, keep working.
 
 ## Registered tools
 
-Only a registered tool can sign a person in. `GET /api/v2/auth/clients` lists them, with no credential:
+A tool on this list signs a person in with the flow on this page. An AI assistant's connector registers itself instead, is not on the list, and has a door of its own ([AI assistants](#ai-assistants)). `GET /api/v2/auth/clients` lists the registered tools, with no credential:
 
 ```bash
 curl -s "https://www.onlyworlds.com/api/v2/auth/clients"
@@ -166,6 +166,22 @@ curl -s -X DELETE "https://www.onlyworlds.com/api/v2/account/clients/atlas" \
 ```
 
 `200` with how many live tokens and world keys it revoked, `0` and `0` on a repeat: it is safe to send twice. `client_id` is the tool's `id` as [the registry](#registered-tools) lists it; one that cannot be an id (lowercase letters, digits and dashes, at most 40) is `422` [`invalid_request`](/api/errors/#invalid_request). The bearer may be one of the tool's own tokens, so a tool can disconnect itself: that token is revoked with the rest.
+
+## AI assistants
+
+An AI assistant's connector, such as claude.ai's or ChatGPT's, signs a person in to the [MCP server](/docs/development/mcp#sign-in-from-an-ai-assistant) through a door of its own, which follows MCP's sign-in: OAuth 2.1 with PKCE (`S256`), dynamic client registration (RFC 7591) and a resource indicator (RFC 8707). Its addresses are in the server's metadata, which the client reads on its own:
+
+- `https://www.onlyworlds.com/.well-known/oauth-protected-resource/mcp`, which a `401` from `/mcp` names
+- `https://www.onlyworlds.com/.well-known/oauth-authorization-server`: the sign-in page `/signin/authorize`, the token endpoint and the registration endpoint
+
+**Registering.** `POST /api/v2/auth/register` with `client_name`, `redirect_uris` and, if it likes, `client_uri`, as JSON and with no credential. The answer's `client_id` is random, never the name. A registered connector is a public client: no secret is issued and none is sent. It is not on [the list above](#registered-tools), and one unused for 90 days is removed. The Continue page shows the connector's own name and the host it returns the person to. Registration is rate-limited per address.
+
+**The token.** `POST /api/v2/auth/oauth/token`, form-encoded, answers in OAuth's own shape, not the API's error envelope. Two grants: `authorization_code` (`code`, `code_verifier`, `client_id`, `redirect_uri`) and `refresh_token` (`refresh_token`, `client_id`). It hands back a pair:
+
+- an access token (`ow_a_…`, scope `world:read`) that lasts an hour and that only `/mcp` accepts: every other route refuses it
+- a refresh token (`ow_f_…`) that lasts 30 days and works once: each refresh hands back a new pair. A refresh token sent a second time is taken as stolen, and the whole chain and its access tokens are revoked
+
+The access token is an account token like any other: the [account page](https://www.onlyworlds.com/account/) lists it, and Revoke and Disconnect there end the chain.
 
 ## In the SDK
 
