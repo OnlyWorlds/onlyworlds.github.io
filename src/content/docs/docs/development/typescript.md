@@ -301,7 +301,7 @@ Both functions follow the folder format's [archive rules](/docs/schema/folders#f
 
 The writer gives one set of bytes for one input: the marker first and stored, entries ordered by the UTF-8 bytes of their names, every entry stamped 1980-01-01, and only `world.json`, `elements/`, `spatial/`, `media/`, `records/` and a tool's dot-folder it is handed. A dot-folder makes the file a private copy rather than a portable `.owworld`.
 
-An element file holding an author field is written without it, in the folder's own form (two-space indent, a trailing newline, its other keys in their order); every other file travels byte for byte.
+Every file under `elements/` or `spatial/` that is one JSON object by the folder reader's own JSON rules (UTF-8, at most 200 deep, every number a double holds) and holds an author field is written without it, in the folder's own form (two-space indent, a trailing newline, its other keys in their order), whether or not the reader serves it as an element; every other file travels byte for byte. A file under those folders that is no such object (text that is not JSON, an array, a number a double cannot hold) is carried by a copy with whatever its text holds, and left out of a share. (4.197.0 to 4.203.0 kept the author fields in a file the reader passed over: a duplicated id, no `id`, a `.JSON` name, a deeper or unknown folder. Upgrade if you hand world files on.)
 
 A private `records/<producer>/` is matched by name after the same fold as a `collision`, and `RECORDS.json` is kept as it is. A manifest the writer cannot read throws a `TypeError` unless you pass `includePrivateRecords: true`.
 
@@ -310,7 +310,7 @@ A private `records/<producer>/` is matched by name after the same fold as a `col
 - every element file whose JSON has a top-level `hidden` (anything but absent, `null` or `false`, so `"true"` and `1` count) is left out whole
 - a file under `elements/` or `spatial/` travels only when it was read as an element, and "read as an element" is the [folder reader](#a-world-folder-as-the-source)'s own verdict: a `.json` file directly in a type folder, one JSON object with a non-empty string `id`. Every other file there is left out too, since its mark cannot be told: not UTF-8 JSON (a write cut short, or text after the one JSON value), nested more than 200 deep, holding a number too large for a double, not an object, without an `id`, with another extension (`notes.txt`, `M.JSON`), deeper than a type folder (a hidden element's file moved into `old/` by hand), directly under `elements/`, or in a folder that is no type. The report names these apart, in `unreadLeftOut` and `unreadPaths` (since 4.197.0; 4.196.0 left out only a file in a type folder that it could not parse, earlier versions kept that one too, and 4.195.0 threw on one too deep)
 - an id that two files hold travels in neither file, in one layout or across `elements/` and `spatial/`: which of the two marks is the element's cannot be said, so both are named in `unreadPaths` (since 4.197.0; before, each file was judged by its own mark, and a hidden element's second, unmarked file travelled)
-- a copy (no `includeHidden: false`) carries every such file byte for byte, and never rewrites it for its author fields
+- a copy (no `includeHidden: false`) carries every such file: byte for byte, except that one which is one JSON object loses its author fields, as above (since 4.203.1)
 - nothing else is rewritten: a visible element's link to a hidden one keeps its id
 
 An `includeHidden` that is not a boolean, or a `report` that is not a function, is a `TypeError` before anything is written.
@@ -471,7 +471,7 @@ The package also ships `SCHEMA.md` (every field and its meaning, generated) and 
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.203.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.203.1, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -567,7 +567,7 @@ Generated from the types of `@onlyworlds/sdk` 4.203.0, the version these docs pi
 
 ### Deprecated names
 
-Every name the package's declarations mark `@deprecated`, read from the same files as the tables above: 22 in 4.203.0. Each row is the mark's own comment, to the sentence that names the version the name leaves in. How much notice a change to the API itself gets: [Stability and deprecation](/docs/development/api/stability).
+Every name the package's declarations mark `@deprecated`, read from the same files as the tables above: 22 in 4.203.1. Each row is the mark's own comment, to the sentence that names the version the name leaves in. How much notice a change to the API itself gets: [Stability and deprecation](/docs/development/api/stability).
 
 | Name | Deprecated since | Leaves in | What its comment says |
 |---|---|---|---|
