@@ -258,7 +258,7 @@ The reader checks the archive's directory before it inflates anything, and refus
 |---|---|
 | `unsafe_path`, `too_many`, `too_big` | a path that could land outside the folder (`unsafe_path`), more than 500,000 files (`too_many`), or more than 2 GiB uncompressed or an entry that inflates past the size it declares (`too_big`) |
 | `not_a_world` | no `world.json` with an `id` |
-| `more_than_one` | more than one world (a `world.json` under `records/` is a producer's data, not a second world) |
+| `more_than_one` | more than one world (a `world.json` under `records/` is a producer's data, and one under a dot-folder such as `.atlas/` a tool's own, not a second world; since 4.201.1) |
 | `not_openable` | not a zip the reader can read |
 | `duplicate` | two entries with one name |
 | `collision` | two names that differ only in case or in how their characters are encoded |
@@ -456,7 +456,7 @@ The package also ships `SCHEMA.md` (every field and its meaning, generated) and 
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.201.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.201.1, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -552,7 +552,7 @@ Generated from the types of `@onlyworlds/sdk` 4.201.0, the version these docs pi
 
 ### Deprecated names
 
-Every name the package's declarations mark `@deprecated`, read from the same files as the tables above: 22 in 4.201.0. Each row is the mark's own comment, to the sentence that names the version the name leaves in. How much notice a change to the API itself gets: [Stability and deprecation](/docs/development/api/stability).
+Every name the package's declarations mark `@deprecated`, read from the same files as the tables above: 22 in 4.201.1. Each row is the mark's own comment, to the sentence that names the version the name leaves in. How much notice a change to the API itself gets: [Stability and deprecation](/docs/development/api/stability).
 
 | Name | Deprecated since | Leaves in | What its comment says |
 |---|---|---|---|
