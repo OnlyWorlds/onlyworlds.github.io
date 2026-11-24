@@ -48,6 +48,9 @@ jobs:
       - name: The stability page against the live API document (report only)
         run: |
           node scripts/verify-stability.mjs --live || echo "::warning::the API document's policy paragraph, an announced change or a deprecated mark moved: run node scripts/verify-stability.mjs --refresh and mend the Stability and deprecation page"
+      - name: The API document's type descriptions against the type pages (report only)
+        run: |
+          node scripts/verify-groups.mjs || echo "::warning::the API document's description of an element type is not its page's opening sentences: node scripts/verify-groups.mjs names each"
       - name: schema-dist's counts against its newest serial (report only)
         run: |
           node scripts/verify-sd-counts.mjs --live || echo "::warning::schema-dist's newest serial has other fixture counts, refusal reasons or canonical version: run node scripts/verify-sd-counts.mjs --refresh and mend the pages"

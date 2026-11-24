@@ -5,7 +5,7 @@
  * Run:  node scripts/sweep.mjs [--no-links] [--no-deck] [--since YYYY-MM-DD]
  *
  * The docs state facts owned elsewhere (the API, the SDKs, the schema, the tools). The gates catch
- * what they can name: URLs (verify-urls), error codes (gen_errors), the element tables (the build), the MCP page's tables (verify-mcp), the CORS page's origins and headers (verify-cors), the toolkit's skills (verify-toolkit), the API pages' JSON examples and field tables (verify-shapes), the pages' limit numbers (verify-limits), the stability page's policy paragraph and announced changes (verify-stability),the LLM guide's codes, SDK names, types, key kinds, routes and list parameters (verify-guide), schema-dist's fixture counts on the pages (verify-sd-counts), the TypeScript names the pages give against the pinned SDK (verify-identifiers).
+ * what they can name: URLs (verify-urls), error codes (gen_errors), the element tables (the build), the MCP page's tables (verify-mcp), the CORS page's origins and headers (verify-cors), the toolkit's skills (verify-toolkit), the API pages' JSON examples and field tables (verify-shapes), the pages' limit numbers (verify-limits), the stability page's policy paragraph and announced changes (verify-stability), the API document's description of each element type (verify-groups), the LLM guide's codes, SDK names, types, key kinds, routes and list parameters (verify-guide), schema-dist's fixture counts on the pages (verify-sd-counts), the TypeScript names the pages give against the pinned SDK (verify-identifiers).
  * This reads the rest. It prints two lists:
  *
  *   CHECKS   things that can be measured, each PASS or STALE: the SDK pin the reference is generated
@@ -262,6 +262,17 @@ console.log('CHECKS');
   if (code === 0) pass('the stability snapshot matches the live API document');
   else if (code === 1) bad('the stability snapshot differs from the live API document: the policy paragraph, an announced change or a deprecated mark moved (node scripts/verify-stability.mjs --live says which; --refresh, then mend the Stability and deprecation page)');
   else blind('could not read the live API document (node scripts/verify-stability.mjs --live says why): the stability snapshot was not checked');
+}
+
+// ---- 2n3: the API document's description of each element type against the type's own page (exit 2 from
+// the reader is BLIND: the document unreadable, never a pass) ---
+{
+  let code = 0;
+  try { execFileSync('node', ['scripts/verify-groups.mjs'], { cwd: ROOT, timeout: 60000, stdio: 'ignore' }); }
+  catch (e) { code = e.status ?? 2; }
+  if (code === 0) pass("the API document describes each of the 22 element types in its page's own opening sentences");
+  else if (code === 1) bad("the API document's description of an element type is not its page's opening (node scripts/verify-groups.mjs names each): a page was reworded here, or a description there; the page is the definition, so the difference goes to the server's side with both texts");
+  else blind('could not read the live API document or the type pages (node scripts/verify-groups.mjs says why): the type descriptions were not checked');
 }
 
 // ---- 2o: schema-dist's counts snapshot against its newest serial (exit 2 from the reader is BLIND:

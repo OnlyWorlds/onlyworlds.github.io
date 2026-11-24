@@ -12,6 +12,7 @@
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { intro, sentences } from './type-pages.mjs';
 
 const at = process.argv.indexOf('--root');
 const ROOT = at > -1 ? process.argv[at + 1] : join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -22,16 +23,6 @@ const TABLE = join(SCHEMA, 'index.mdx');
 const SECOND = new Set(['pin', 'marker']);
 
 if (!existsSync(PAGES) || !existsSync(TABLE)) { console.log(`CANNOT SEE: ${existsSync(TABLE) ? PAGES : TABLE} is missing`); process.exit(2); }
-
-const intro = (text) => {
-  const body = text.startsWith('---') ? text.split('---').slice(2).join('---') : text;
-  for (const block of body.trim().split(/\r?\n\s*\r?\n/)) {
-    const b = block.trim();
-    if (b && !/^(import |<|#|:::)/.test(b)) return b.replace(/\s+/g, ' ');
-  }
-  return '';
-};
-const sentences = (s) => s.split(/(?<=\.)\s+/).filter(Boolean);
 
 const pages = new Map();
 for (const f of readdirSync(PAGES).filter((f) => /\.mdx?$/.test(f) && !f.startsWith('index.')).sort()) {
