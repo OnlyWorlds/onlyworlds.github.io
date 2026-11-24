@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-24
 
+- **[onlyworlds.com](/docs/tools/onlyworlds-com): the Changelog's switch reads Plain and Full.** A History row shows its own sentence in the plain view, and in `/changelog.json` its `url` is its own place on the page, the outside address it names in its `links`.
 - **[Limits](/docs/development/api-reference#limits): where a request spends the budget.** The request rate's row names every place that counts against the 300 and the 60: the routes under `/api/v2`, the MCP server at `/mcp`, the Classic API's two metadata routes, a world's public pages under `/w/` and its Lenses pages on the site. The API document now lists them, and the build checks the row against that list.
 - **[Unity](/docs/development/unity) [0.52.0](https://github.com/OnlyWorlds/unity-sdk/releases/tag/v0.52.0): the most linked elements of each type.** `OWMostLinked.Of` answers a few of each type by degree from a reader's graph, as the TypeScript and Python packages do; a calendar's date label no longer costs seconds on a long label.
 - **[Unity](/docs/development/unity) [0.51.0](https://github.com/OnlyWorlds/unity-sdk/releases/tag/v0.51.0): which Pins one reader knows, and the name finder reads a text once.** `OWMapSpace.PinsKnownTo` answers which of a map's Pins place an element that reader was served; `OWNameFinder` no longer slows on a long name a text repeats, and `Shared` lists the names elements share.
