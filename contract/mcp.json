@@ -1,6 +1,6 @@
 {
   "source": "https://www.onlyworlds.com/mcp: tools/list, resources/list and resources/templates/list, asked with the public demo key 0000000001",
-  "read_at": "2026-11-21",
+  "read_at": "2026-11-24",
   "tools": {
     "list_element_types": {"needs":"none","hints":{"readOnly":true,"destructive":false,"idempotent":true},"params":{}},
     "get_element_schema": {"needs":"none","hints":{"readOnly":true,"destructive":false,"idempotent":true},"params":{"type":{"required":true}}},
@@ -8,6 +8,7 @@
     "list_worlds": {"needs":null,"hints":{"readOnly":true,"destructive":false,"idempotent":true},"params":{}},
     "get_me": {"needs":null,"hints":{"readOnly":true,"destructive":false,"idempotent":true},"params":{"world":{"required":false,"default":null}}},
     "list_elements": {"needs":"key","hints":{"readOnly":true,"destructive":false,"idempotent":true},"params":{"type":{"required":true},"name_contains":{"required":false,"default":null},"supertype":{"required":false,"default":null},"subtype":{"required":false,"default":null},"ids":{"required":false,"default":null},"created_by":{"required":false,"default":null},"link":{"required":false,"default":null},"limit":{"required":false,"default":100},"offset":{"required":false,"default":0},"include_room":{"required":false,"default":false},"include_proposed":{"required":false,"default":false},"world":{"required":false,"default":null}}},
+    "count_elements": {"needs":"key","hints":{"readOnly":true,"destructive":false,"idempotent":true},"params":{"type":{"required":false,"default":null},"name_contains":{"required":false,"default":null},"supertype":{"required":false,"default":null},"subtype":{"required":false,"default":null},"ids":{"required":false,"default":null},"created_by":{"required":false,"default":null},"link":{"required":false,"default":null},"include_room":{"required":false,"default":false},"include_proposed":{"required":false,"default":false},"world":{"required":false,"default":null}}},
     "get_element": {"needs":"key","hints":{"readOnly":true,"destructive":false,"idempotent":true},"params":{"type":{"required":true},"id":{"required":true},"world":{"required":false,"default":null}}},
     "search_elements": {"needs":"key","hints":{"readOnly":true,"destructive":false,"idempotent":true},"params":{"query":{"required":true},"type":{"required":false,"default":null},"limit":{"required":false,"default":50},"include_room":{"required":false,"default":false},"include_proposed":{"required":false,"default":false},"world":{"required":false,"default":null}}},
     "get_changes": {"needs":"key","hints":{"readOnly":true,"destructive":false,"idempotent":true},"params":{"since_cursor":{"required":false,"default":null},"limit":{"required":false,"default":25},"after":{"required":false,"default":null},"world":{"required":false,"default":null}}},

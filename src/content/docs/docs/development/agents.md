@@ -21,7 +21,7 @@ Before you give an AI write access to a world you own, download the world from i
 
 Two things limit an AI beforehand. A read-only key cannot write. A seat can be held for a person's word: with **AI seats propose, a person accepts** on for the world, a seat's edits to existing elements wait as [proposals](/docs/development/api/proposals) and it deletes only what it made. The setting covers seats only: an AI using your own key writes as you.
 
-Every other change happens at once. A deleted element has no trash: the links to it are removed and its files go with it. An overwritten text keeps no earlier version; only your download or a nightly file has the old one.
+Every other change happens at once. A deleted element has no trash: the links to it are removed and its files go with it. An overwritten text keeps no earlier version, unless the change came through a proposal: the accepted proposal keeps the element's earlier values for the fields it named, as its `base` (`GET /api/v2/{type}/{id}/proposals?state=accepted`). Otherwise only your download or a nightly file has the old one. A `PUT`, or a `/bulk` item with an `id`, replaces the whole element: every field it leaves out is emptied, and neither checks `If-Match` ([Writes](/docs/development/api/writes#upsert)).
 
 Each night a world changed, onlyworlds.com keeps a file of it for 90 days. You cannot open one, only restore it from the world's page, as its owner ([Restore to a day](/docs/tools/onlyworlds-com#features)). A restore:
 
