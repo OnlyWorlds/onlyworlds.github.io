@@ -115,7 +115,7 @@
 /.well-known/security.txt	load-bearing	200	RFC 9116, where a reporter looks first (Kael, 2026-10-24)
 # 2026-10-28: pages built since the list was made, classed by the same scan (another repo under Development/OnlyWorlds links it: load-bearing)
 /docs/changelog	page	200	source docs/changelog.md
-/docs/development/agents	load-bearing	200	keel:web/templates/web/home.html; mcp-client:README.md; onlyworlds-python:README.md; sdk:README.md
+/docs/development/agents	load-bearing	200	godot-sdk:README.md; keel:web/templates/web/home.html; mcp-client:README.md; onlyworlds-python:README.md; sdk:README.md
 /docs/development/api/changes	page	200	source docs/development/api/changes.md
 /docs/development/api/classic	page	200	source docs/development/api/classic.md
 /docs/development/api/cors	load-bearing	200	toolkit:skills/onlyworlds-develop/knowledge/deployment.md
@@ -136,6 +136,7 @@
 /docs/development/typescript-readers	page	200	source docs/development/typescript-readers.md (new 2026-11-04, the readers' sections moved from /docs/development/typescript)
 /docs/development/typescript-accounts	page	200	source docs/development/typescript-accounts.md (new 2026-11-04, the account and membership sections moved from /docs/development/typescript)
 /docs/development/unity	page	200	source docs/development/unity.md
+/docs/development/godot	page	200	source docs/development/godot.md (new 2026-11-24, when the addon entered Godot's Asset Library)
 /docs/getting-started/first-hour	load-bearing	200	keel:core/api.py (the API document's externalDocs, since 2026-11-24); source docs/getting-started/first-hour.mdx (new 2026-11-13)
 /docs/getting-started/keys	page	200	source docs/getting-started/keys.md
 /docs/getting-started/keys#the-practice-world	load-bearing	200	toolkit:skills/onlyworlds-develop/SKILL.md; toolkit:skills/onlyworlds-start/SKILL.md

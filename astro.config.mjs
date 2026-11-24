@@ -158,6 +158,7 @@ export default defineConfig({
           items: [
             { slug: 'docs/development/games', label: 'Overview' },
             { slug: 'docs/development/unity', label: 'Unity' },
+            { slug: 'docs/development/godot', label: 'Godot' },
           ],
         },
         {

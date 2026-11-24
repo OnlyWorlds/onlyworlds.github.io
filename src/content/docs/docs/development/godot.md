@@ -1,0 +1,85 @@
+---
+title: "Godot SDK"
+description: "The OnlyWorlds SDK for Godot: a GDScript addon with a class for each of the 22 element types, a client for the v2 API, and world folders and .owworld files on disk."
+---
+
+The OnlyWorlds SDK for Godot is a GDScript addon that brings a world into a Godot game: read at run time over the [onlyworlds.com API](/docs/development/api-reference), or shipped with the game as a folder. It runs on the standard Godot build, with no .NET. For what a world gives a game, see [Games](/docs/development/games).
+
+It is at its first releases (0.1.1). Before 1.0 a minor version may change a call's name, and its [changelog](https://github.com/OnlyWorlds/godot-sdk/blob/main/CHANGELOG.md) says so when it does. The repository is [OnlyWorlds/godot-sdk](https://github.com/OnlyWorlds/godot-sdk); every call, with what it answers and what it refuses, is in its [reference](https://github.com/OnlyWorlds/godot-sdk/blob/main/docs/reference.md).
+
+## Install
+
+Godot 4.7, the standard build. Earlier 4.x versions are untested, and so are exports other than Windows desktop, the web and mobile among them.
+
+- **Godot's Asset Library**: [OnlyWorlds SDK](https://godotengine.org/asset-library/asset/5621), or the editor's **AssetLib** tab, searching for OnlyWorlds. Install with the installer's defaults and it lands at `addons/onlyworlds/`. The Library carries a release, so it can be a step behind the repository.
+- **The release zip**, from the repository's [Releases](https://github.com/OnlyWorlds/godot-sdk/releases) page: unpack it into your project folder, where its `addons/onlyworlds/` joins your project's `addons/`.
+
+Then open the project in the editor once, so Godot registers the `OW…` classes. Enabling the plugin under **Project Settings → Plugins** is optional: the classes work without it.
+
+## First run
+
+This reads Moppetopia, a public sample world, with its demo key. No account is needed.
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var client := OWClient.new({"api_key": "0000000001"})   # demo key: Moppetopia, read-only
+	var world := await client.get_world()
+	if not world.ok:
+		print(world.error)   # no connection, or the server said why
+		return
+	print(world.value["name"])
+
+	var found := await client.list("character", {"name_contains": "fluffington"})
+	print(found.value.data[0].name)
+```
+
+Attach it to any node and run the scene. The Output panel shows `Moppetopia`, then `Admiral Fluffington`. `await client.list_all("character")` pages through every Character.
+
+## Your own world
+
+A world's keys are on its page on [onlyworlds.com](https://www.onlyworlds.com) ([Keys and PINs](/docs/getting-started/keys)).
+
+- A read key (`ow_r_`) reads, with no PIN. This is the key to ship in a game.
+- A write key (`ow_w_`) reads and writes, and a write also sends your PIN, as `api_pin`.
+
+```gdscript
+var client := OWClient.new({"api_key": world_key, "api_pin": pin})   # ow_w_…, your PIN
+var made := await client.create("character", {"name": "The Brine Cartographer"})
+await client.patch("character", made.value.id, {"description": "Maps the tide lines."})
+```
+
+`patch` sends only the fields you pass, and `delete("character", id)` removes one. Every call answers a reply with `value` on success, else `error`, an `OWApiError` that says why.
+
+Keep write keys out of a game you ship. A key written in a script, a scene or an exported variable is packed into the export, where anyone with the build can read it, so read write credentials at run time. An AI agent that writes to your world takes an [agent seat](/docs/development/agents) of its own.
+
+## A world on disk
+
+`OWWorld.read_folder(path)` reads a [world folder](/docs/schema/folders) and `OWWorldArchive.read_file(path)` an `.owworld` file, with no server at all, and both give the same typed elements. A world you never edited is written back byte for byte.
+
+A pack (`OWWorldArchive.pack`, `OWWorld.pack`) is a copy: it carries every element, hidden ones included. The addon has no share yet, so make a file to hand on with a tool that leaves hidden elements out, such as the [TypeScript SDK](/docs/development/typescript#writing-a-world-file) or the [Python package](/docs/development/python).
+
+## A player's link
+
+A player link (`https://www.onlyworlds.com/join#ow_j_…`, made by a world's owner for one Character) needs no account. Redeem it once for that player's read key; the server then shows the key only what that Character may see.
+
+```gdscript
+var code := OWJoin.parse_link(pasted)           # "" when the text holds no code
+var joined := await OWJoin.redeem(code)         # the code is spent: keep joined.value.key
+var client := OWClient.new({"api_key": joined.value.key})
+```
+
+`OWJoin.preview(code)` says who invites, to which world, without spending the code.
+
+## What is in it
+
+| Part | Classes | What it does |
+|---|---|---|
+| **Client** | `OWClient`, `OWJoin` | The API: read a world, list and page through its elements, the change feed, writes (create, upsert, patch, delete, link edits, bulk), joining by invite link. |
+| **Models** | `OWCharacter`, `OWLocation` and the rest, `OWElement` | One class per element type, generated from the schema; `OWTypes.make(type, body)` builds the right one. |
+| **On disk** | `OWWorld`, `OWWorldArchive`, `OWJson` | World folders and `.owworld` files, read and written in the folder format's own bytes. |
+| **Readers** | `OWLens`, `OWGraph`, `OWLanding`, `OWMapSpace`, `OWCharter`, `OWStrand`, `OWRecord`, `OWReport`, `OWMessage`, `OWNames`, `OWViews` | Answers worked out from elements you already hold, with no request of their own: what one reader may see of a world, the world as nodes and edges, its maps as points and outlines, a Character's record of game runs, in-world messages and reports. |
+| **Helpers** | `OWCalendar`, `OWAddress`, `OWOpeners`, `OWTools`, `OWId`, `OWUnicode` | A world's own calendar, `ow://` links, an Open with menu of OnlyWorlds tools, ids, name comparison. |
+
+The 22 classes are generated from one pinned release of [schema-dist](https://github.com/OnlyWorlds/schema-dist), the standard's published form, and `OWSchemaPin` names it at run time. By the repository's own account, each reader gives the same answers as the TypeScript, Python and Unity SDKs on a shared set of test cases, and every request the client makes is checked against the API's own description of itself.

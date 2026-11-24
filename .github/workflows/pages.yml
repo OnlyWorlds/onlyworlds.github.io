@@ -9,9 +9,12 @@ on:
     branches: ["main"]
   schedule:
     - cron: "0 */4 * * *"
-  # schema-dist's publish ends with `gh workflow run pages.yml -R OnlyWorlds/onlyworlds.github.io`
-  # (workflow_dispatch, no extra credential), so the element pages follow a publish within minutes.
-  # The cron stays as the fallback; an outside check on the live site notices when either dies.
+  # A new schema-dist serial needs no start by hand: every run draws the newest serial production serves,
+  # so the element pages follow a publish with the next push to main or the next timer run. GitHub runs
+  # this timer about every 10 hours in practice (12 runs from 19 to 23 Nov 2026), not every 4. For a
+  # serial that must show within minutes on a day with no push: `gh workflow run pages.yml -R
+  # OnlyWorlds/onlyworlds.github.io` (workflow_dispatch, no extra credential; last used 11 Nov 2026).
+  # An outside check on the live site notices when the deploy dies.
   # repository_dispatch is kept as a listener only: no token to send it is held, by choice.
   repository_dispatch:
     types: [schema-dist-published]
