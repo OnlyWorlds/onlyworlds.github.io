@@ -1,6 +1,6 @@
 {
   "source": "keel origin/main: elements/visibility.py (scoped, reads_tombstones), core/world_api.py (_public_world), web/urls.py, web/public_views.py, web/public_page.py, portal/world_graph.py",
-  "read_at": "35e53a4",
+  "read_at": "e69b23ca",
   "removed": [
     {
       "key": "room",
@@ -14,7 +14,7 @@
     },
     {
       "key": "hidden",
-      "by": "elements/visibility.py scoped: qs.exclude(id__in=hidden)",
+      "by": "elements/visibility.py scoped: qs.exclude(marked), the ids of the world's hidden marks",
       "mark": null
     }
   ],

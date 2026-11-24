@@ -60,8 +60,15 @@ function facts(show) {
     if (!mark) throw new Error(`${file}: no MARK = "x_…" beside ${fname}`);
     removed.push({ key: m[1], by: `${file} ${fname}`, mark });
   }
-  if (!/\n {8}return qs\.exclude\(id__in=hidden\) if hidden else qs$/.test(branch)) throw new Error('elements/visibility.py: the PUBLIC branch does not end "return qs.exclude(id__in=hidden) if hidden else qs"');
-  removed.push({ key: 'hidden', by: 'elements/visibility.py scoped: qs.exclude(id__in=hidden)', mark: null });
+  // The hidden mark: the branch ends by excluding `marked`, which scoped() sets before the branch to the ids the
+  // world's hidden marks name for this type, asked inside the element's own statement (a subquery, not a list
+  // read earlier). All three are read: the return, the assignment, and what the subquery selects.
+  if (!/\n {8}return qs\.exclude\(marked\)$/.test(branch)) throw new Error('elements/visibility.py: the PUBLIC branch does not end "return qs.exclude(marked)"');
+  const before = fn.slice(0, fn.indexOf('\n    if viewer.kind == PUBLIC:'));
+  if (!/\n {4}marked = Q\(id__in=_marked_ids\(world, type_slug\)\)$/.test(before)) throw new Error('elements/visibility.py: scoped() does not set "marked = Q(id__in=_marked_ids(world, type_slug))" before the PUBLIC branch');
+  const ids = vis.match(/\ndef _marked_ids\(world, type_slug\):\n[\s\S]*?\n {4}return ([\s\S]*?)\n\n/)?.[1];
+  if (!ids || flat(ids) !== 'HiddenMark.objects.filter(world_id=getattr(world, "id", world), element_type=type_slug).values("element_id")') throw new Error('elements/visibility.py: _marked_ids() no longer returns the world\'s HiddenMark rows of the type as element ids');
+  removed.push({ key: 'hidden', by: 'elements/visibility.py scoped: qs.exclude(marked), the ids of the world\'s hidden marks', mark: null });
   const absent = flat(vis).match(/treated as the hidden mark is for that rung: absent from every ([a-z, ]+?), their own address the plain 404/)?.[1];
   if (!absent) throw new Error('elements/visibility.py: the docstring no longer says the public rung\'s removals are "absent from every …, their own address the plain 404"');
   const tomb = vis.match(/\ndef reads_tombstones\(viewer\):[\s\S]*?\n {4}return ([^\n]+)/)?.[1];

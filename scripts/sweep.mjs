@@ -38,6 +38,7 @@ import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { join, dirname, resolve, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { namesSerial } from './serial-names.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const OW = resolve(ROOT, '..');
@@ -423,7 +424,7 @@ if (!flag('--no-links')) {
       const version = tagName.replace(/^v/, '');
       const serial = repo === 'schema-dist' ? tagName.match(/dist\.(\d+)$/)?.[1] : undefined;
       const lined = serial
-        ? lines.some((l) => l.includes(`serial ${serial}`))
+        ? lines.some((l) => namesSerial(l, Number(serial)))
         : lines.some((l) => l.includes(page) && l.includes(version));
       if (!lined && !marked(`${repo} ${tagName}`)) {
         bad(`releases: ${repo} ${tagName} (${publishedAt.slice(0, 16)}Z) has no changelog line ${serial ? `naming serial ${serial}` : `linking ${page} with ${version}`}, and no marker`);

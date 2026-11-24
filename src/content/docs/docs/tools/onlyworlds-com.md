@@ -31,6 +31,6 @@ onlyworlds.com is the platform hub: accounts, world hosting, keys and the API. E
 
 1. Create an account at [onlyworlds.com](https://www.onlyworlds.com/accounts/signup/), with email or Google, GitHub or Discord.
 2. Create a world. Your first world sets your 4-digit PIN, which is the write wall on all your worlds.
-3. Press **Open in Atlas** on the world page. The first time, [Atlas](https://atlas.onlyworlds.com) asks you to sign in: **Sign in with OnlyWorlds** (onlyworlds.com asks once whether Atlas may sign in as you), or your email (or username) and password, or an account token (Account settings, Account tokens) under **I have an account token**, and for your PIN once when the world opens to be written.
+3. Press **Open in Atlas** on the world page. The first time, [Atlas](https://atlas.onlyworlds.com) asks you to sign in: **Sign in with OnlyWorlds** (onlyworlds.com asks once whether Atlas may sign in as you), or your email (or username) and password, or an account token (Account settings, Account tokens) under **I have an account token**. Your own world opens without your PIN: Atlas asks for it when you first change the world, and keeps your changes until OnlyWorlds has accepted it (since Atlas 1.125.0).
 4. For scripts and other tools, mint a world key on the world page.
 

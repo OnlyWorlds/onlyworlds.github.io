@@ -96,9 +96,9 @@ Atlas keeps a token for this browser, never your password. The token is listed o
 
 Signed out, **Make online** and **New world on OnlyWorlds** start with Sign in with OnlyWorlds, and the world is then made on your account.
 
-**Download a world from OnlyWorlds** takes a world's API key and PIN, downloads a full copy and keeps the two in sync. A mistyped PIN is called a wrong PIN, not a wrong key.
+**Download a world from OnlyWorlds** takes a world's API key and PIN, downloads a full copy and keeps the two in sync. A key that can only read needs no PIN, and Atlas sends none beside it: the world opens to read (since 1.124.31). A mistyped PIN is called a wrong PIN, not a wrong key.
 
-**Open in Atlas** on a world's page on onlyworlds.com opens it here. Signed in, Atlas asks once and opens the world, or the copy you already have; signed out, it asks you to sign in first.
+**Open in Atlas** on a world's page on onlyworlds.com opens it here. Signed in, Atlas asks once and opens the world, or the copy you already have; signed out, it asks you to sign in first. Your own world opens without your PIN (since 1.125.0): Atlas asks for it at your first change, where the pill at the bottom says **Add PIN**, checks it with OnlyWorlds, and until then keeps what you changed and says the world does not save to OnlyWorlds yet.
 
 ### When a key stops working
 
@@ -116,7 +116,7 @@ In a world on OnlyWorlds, the foot of an element's page says where it was last c
 
 ### Working with others
 
-When others can change a world with you (people you invited, or an agent with a seat), Atlas holds an element changed both in your copy and online, marks it ⚠ and lets you choose which version stays, instead of letting your copy replace their newer words. A shared world also pulls the latest changes when it opens. Settings → This world shows the rule and can turn it off. Working alone, nothing changes.
+When others can change a world with you (people you invited, or an agent with a seat), Atlas holds an element changed both in your copy and online, marks it ⚠ and lets you choose which version stays, instead of letting your copy replace their newer words. Several new elements sent at once never replace one already online (since 1.124.34): one that is there and differs waits in Review conflicts for you to choose. A shared world also pulls the latest changes when it opens. Settings → This world shows the rule and can turn it off. Working alone, nothing changes.
 
 In a world someone shared with you, Atlas sends a change to the world's own details, such as its description, whole. onlyworlds.com takes those details from the owner and from a co-builder, all but the owner's Character, which Atlas never sends. When it refuses them, as it does for a contributor or a guest, Atlas sends only the world's current date (its now), keeps the rest of the change in your copy, says so once, and tries again when you change those details again.
 
@@ -147,6 +147,8 @@ Sharing is [forward-only](/docs/development/api/members#sharing-a-world).
 ### Published pages
 
 Publish read-only pages of your world to send to anyone. Publishing needs an account, and each world can have 20 published pages at a time.
+
+Before you publish, the Publish section lists each element the page sends more than a name for, with the fields and picture it sends (since 1.125.13). A page's data can be read by anyone with its address, and a page keeps what it was published with until you press **Republish**. Pages published before 1.125.14 (23 November 2026) could carry more than they drew: a map pin set to Full sent when its element was made and, in a world that syncs, the ids of the members who made and last changed it, and a card of a hidden element left that element's id in the page's data. Republish such a page to take them out.
 
 ### Inviting people
 

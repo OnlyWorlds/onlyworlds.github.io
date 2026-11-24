@@ -276,7 +276,7 @@ layout.points;    // Float64Array: x, y, z of layout.ids[i] at 3 * i
 layout.centres;   // the ids of the most linked elements, each the centre of a group
 ```
 
-`unplacedByLinks3d(graph, placed)` (since 4.173.0) answers what a saved `by-links-3d` layout map does not place: the ids of the graph's nodes that are not in `placed`, by id in code point order. The method places every node it is handed, of any type and with or without a link, so nothing else is left out. `placed` is the ids the Map's Pins stand for, a list or a Set, read as `unplacedByKind` reads it.
+`unplacedByLinks3d(graph, placed)` (since 4.173.0) answers what a saved `by-links-3d` layout map does not place: the ids of the graph's nodes that are not in `placed`, by id in code point order. Every node counts, of any type, also one the method does not place (linked to no other node and pinned on no map), so for the Map an answer makes this is that answer's own `unplaced`. `placed` is the ids the Map's Pins stand for, a list or a Set, read as `unplacedByKind` reads it.
 
 ## A layout along a route
 
