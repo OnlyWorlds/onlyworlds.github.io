@@ -535,13 +535,13 @@ const found = find("Kira's watch ends at the Iron Gate.");
 - **A whole name only.** The character on each side is not a letter, a combining mark, a decimal digit or an underscore, in any script. `Kira's` and `Kira-led` hold the name; `Kiran` does not. A name that starts or ends with a letter outside ASCII is found the same way.
 - **Trimmed, three characters at least.** A shorter name is never looked for.
 - **The longest whole name wins** where several start at one place: `Iron Gate` over `Iron`.
-- **A name two elements share is never answered**, and nothing inside it is: the text stays plain there. One element found by two of its own names is one element.
+- **A name two elements share is never answered**, and nothing inside it is: the text stays plain there. One element found by two of its own names is one element. `find.shared` (since 4.198.0) lists those names, each as `{ name, elements }`: the name as it is compared (trimmed, and folded when `case` is `'folded'`) and the elements that hold it, in the order given. A tool reads it to tell a writer why a name never links.
 - **Nothing inside an address or a Markdown link** `[label](target)` is read.
 - **Every mention is answered**, in order, none overlapping. `element` is the object you passed in; `start` and `end` are string indexes into the text.
 
 Three limits. Text is compared as written, with no Unicode normalisation, so a letter typed with a combining mark does not match its one-character form. A space in a name matches that one space. In a script written without spaces between words (Chinese, Japanese, Thai) a name is whole only between punctuation or spaces.
 
-The work for one text is at most its length times the longest name's length, whatever the number of names, with no pattern that backtracks. This is a rule of the two packages, not of the standard: the Python package's `name_finder` runs the same file of cases.
+The work for one text grows with its length alone, whatever the names and however many (since 4.198.0; before it, at most the text's length times the longest name's length): the text is read once, and no character is read again for another name. This is a rule of the two packages, not of the standard: the Python package's `name_finder` runs the same file of cases.
 
 ### Open with
 
