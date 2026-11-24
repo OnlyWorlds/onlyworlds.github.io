@@ -345,7 +345,7 @@ Where a folder's answer is not onlyworlds.com's:
 
 ## The MCP tools on a world folder
 
-The [MCP server](/docs/development/mcp)'s read tools can answer from a world folder on the same machine (since 4.191.0). `folderMcpTools` from the `@onlyworlds/sdk/mcp` subpath gives its eight read tools (`list_element_types`, `get_element_schema`, `search_schema`, `list_worlds`, `get_me`, `list_elements`, `get_element`, `search_elements`), its two resources and its two templates, with the same names, arguments and answers as onlyworlds.com's server, so a prompt or a skill written for one works on the other. It holds no transport: your own MCP server (stdio, or anything else) passes each request in and the answer out.
+The [MCP server](/docs/development/mcp)'s read tools can answer from a world folder on the same machine (since 4.191.0). `folderMcpTools` from the `@onlyworlds/sdk/mcp` subpath gives its eight read tools (`list_element_types`, `get_element_schema`, `search_schema`, `list_worlds`, `get_me`, `list_elements`, `get_element`, `search_elements`), its two resources and its two templates, with the same names, arguments and answers as onlyworlds.com's server as it stood before 2026-11-24 (no `count_elements`, and no `total` on a `list_elements` page yet), so a prompt or a skill written for one works on the other. It holds no transport: your own MCP server (stdio, or anything else) passes each request in and the answer out.
 
 ```ts
 import { entriesFromDirectory } from '@onlyworlds/sdk/folder';
