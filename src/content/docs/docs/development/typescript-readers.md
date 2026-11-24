@@ -162,6 +162,27 @@ view.mode; // 'graph' or 'gaps'
 view.clusters[0]; // { head, members: [{ id, hops, degree }, ...] }
 ```
 
+## The most linked
+
+`mostLinkedOf(graph, { perType })` (since 4.203.0) lists the most linked elements of each type in what `worldGraph` answered, and returns `{ per_type, by_type }`:
+
+- `by_type` holds, for each type, at most `perType` (3 by default) of its elements as `{ id, name, degree }`, most linked first by the [landing profile](/docs/schema/profiles#landing)'s degree, ties by id in code point order. The types are in code point order, and a type with nothing to pick is left out.
+- An element with no link and a guest's known-of element are never picked. The name is the graph's, or `null` when it has none.
+- `per_type` is the count it was read at. A `perType` that is not a whole number of 1 or more is refused by name.
+
+It counts only what the graph holds, so a reader is never pointed at what it is not served: hidden, proposed and room elements and map space stay out unless the graph brought them in.
+
+Use it as "the most linked", not as "where to start". A world's secret is often its hub: a cover-up links everything it covers, so it comes first in its type. Where a world has a Guide, the Guide is where a reader starts.
+
+It is a draft reading, held to a fixture in the package itself, `test/fixtures/most-linked.fixture.json`, with the same bytes as the Python package's copy, until the landing profile takes it.
+
+```typescript
+import { mostLinkedOf, worldGraph } from '@onlyworlds/sdk';
+
+const most = mostLinkedOf(worldGraph({ elements }, { rung: 'public' }), { perType: 3 });
+most.by_type.character; // [{ id, name, degree }, ...], most linked first
+```
+
 ## Map space
 
 `mapSpace(elements)` reads a world's Maps, Zones and Pins as frames, outlines and points, by the [map-space profile](/docs/schema/profiles#map-space). It takes the elements as the viewer is served them and returns `{ maps, zones, pins, out }`, all four always present:

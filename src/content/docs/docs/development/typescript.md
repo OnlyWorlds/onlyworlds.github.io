@@ -387,6 +387,7 @@ The readers that turn a world you have read into what a tool shows have their ow
 - <a id="lenses"></a>[Lenses](/docs/development/typescript-readers#lenses): `resolveLens`, `isLens`, `lensesInUse`, `DATE_FIELD` and `dateOf`
 - [A world as a graph](/docs/development/typescript-readers#a-world-as-a-graph): `worldGraph` and `degreeOf`
 - [Landing](/docs/development/typescript-readers#landing): `landingOf`
+- [The most linked](/docs/development/typescript-readers#the-most-linked): `mostLinkedOf`
 - [Map space](/docs/development/typescript-readers#map-space): `mapSpace`
 - <a id="reading-aids"></a>[Reading aids](/docs/development/typescript-readers#reading-aids): `charterOf`, `domainsOf`, `isCharterElement`, `readingAidOf` and `designPartsOf`
 - <a id="the-strand"></a>[The strand](/docs/development/typescript-readers#the-strand): `strandOf`
@@ -470,7 +471,7 @@ The package also ships `SCHEMA.md` (every field and its meaning, generated) and 
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.202.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.203.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -566,7 +567,7 @@ Generated from the types of `@onlyworlds/sdk` 4.202.0, the version these docs pi
 
 ### Deprecated names
 
-Every name the package's declarations mark `@deprecated`, read from the same files as the tables above: 22 in 4.202.0. Each row is the mark's own comment, to the sentence that names the version the name leaves in. How much notice a change to the API itself gets: [Stability and deprecation](/docs/development/api/stability).
+Every name the package's declarations mark `@deprecated`, read from the same files as the tables above: 22 in 4.203.0. Each row is the mark's own comment, to the sentence that names the version the name leaves in. How much notice a change to the API itself gets: [Stability and deprecation](/docs/development/api/stability).
 
 | Name | Deprecated since | Leaves in | What its comment says |
 |---|---|---|---|
