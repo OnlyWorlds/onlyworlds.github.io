@@ -456,7 +456,7 @@ The package also ships `SCHEMA.md` (every field and its meaning, generated) and 
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.198.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.199.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -552,7 +552,7 @@ Generated from the types of `@onlyworlds/sdk` 4.198.0, the version these docs pi
 
 ### Deprecated names
 
-Every name the package's declarations mark `@deprecated`, read from the same files as the tables above: 21 in 4.198.0. Each row is the mark's own comment, to the sentence that names the version the name leaves in. How much notice a change to the API itself gets: [Stability and deprecation](/docs/development/api/stability).
+Every name the package's declarations mark `@deprecated`, read from the same files as the tables above: 22 in 4.199.0. Each row is the mark's own comment, to the sentence that names the version the name leaves in. How much notice a change to the API itself gets: [Stability and deprecation](/docs/development/api/stability).
 
 | Name | Deprecated since | Leaves in | What its comment says |
 |---|---|---|---|
@@ -577,3 +577,4 @@ Every name the package's declarations mark `@deprecated`, read from the same fil
 | `TokenResource.revokeSession()` |  | 5.0 | keel serves no revoke-session route (404 on production since 2026-10); sessions came from getAccessKey(), which is gone too. Removed in 5.0. |
 | `TokenResource.revokeAllSessions()` |  | 5.0 | keel serves no revoke-all-sessions route (404 on production since 2026-10). Removed in 5.0. |
 | `'integer_max'` (a value of `FieldType`) |  | 5.0.0 | Emitted by nothing, and scheduled for removal in 5.0.0. |
+| `resolveCalendarLens()` (`@onlyworlds/sdk/calendar`) | 4.85.0 | 5.0 | Use `resolveCalendar`; this name leaves in 5.0. |

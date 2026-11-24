@@ -489,6 +489,8 @@ The dates in the example come from Harptos, one of the calendars the SDK's own t
 
 No calendar, or a broken one, gives null: show the bare number.
 
+A page with no build step takes the same names from `@onlyworlds/sdk/calendar` (since 4.199.0): `dist/calendar.js` in the package is one file of about 26 KB that imports nothing, so a `<script type="module">` loads it as it ships. The main entry cannot be loaded that way, since it is split into several files and one of them imports a dependency by its bare name. A tool that bundles takes the names from the main entry.
+
 The SDK reads the calendar profile's version 2: a leap day's rule can carry `except`, divisors that flip it in order, and `offset`, added to the year index before the rule (1 for a calendar with no year 0). Gregorian is `every_years: 4, except: [100, 400], offset: 1`. A calendar reader that knows only version 1 gives null for a version-2 calendar, so it shows the bare number, never a wrong date.
 
 Eras count up by default; one that counts down toward its start (years before a founding) is a down era. An era that counts up and has no `end` runs to the start of the next era that counts up, whatever order the eras are listed in. An era's `year_base` says whether its first year is numbered 0 or 1 (1 when left out); any other value makes the calendar unreadable, so the reader gives null.
