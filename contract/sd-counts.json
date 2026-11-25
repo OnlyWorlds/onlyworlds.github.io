@@ -1,11 +1,11 @@
 {
-  "source": "schema-dist v0.34.1-dist.145: VERSION, profiles/*.fixture.json cases, fixtures/owworld/verdicts.json reasons",
-  "read_at": "2026-11-22",
-  "tag": "v0.34.1-dist.145",
+  "source": "schema-dist v0.34.1-dist.146: VERSION, profiles/*.fixture.json cases, fixtures/owworld/verdicts.json reasons",
+  "read_at": "2026-11-25",
+  "tag": "v0.34.1-dist.146",
   "canonical": "00.34.01",
   "profiles": {
-    "address": 218,
-    "calendar": 78,
+    "address": 219,
+    "calendar": 79,
     "charter": 61,
     "checks": 35,
     "import-map": 27,
@@ -35,5 +35,5 @@
     "report/thread_cases": 29,
     "room/talk_cases": 13
   },
-  "owworld_reasons": 12
+  "owworld_reasons": 13
 }
