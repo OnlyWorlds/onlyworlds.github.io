@@ -9,6 +9,8 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-25
 
+- **[MCP server](/docs/development/mcp#read-a-key-or-a-sign-in): `list_worlds` gives each world's `change_seq` and a stated order, and a sign-in that names no world is told which it holds.** Its rows are your own worlds first, then your memberships, each by name, and each carries the world's write counter. With several worlds and no `world`, a read is refused in the API's error envelope with the worlds beside it as `worlds`. [`GET /api/v2/account/worlds`](/docs/getting-started/keys) lists in the same order.
+
 - **[Unity SDK](/docs/development/unity) [v0.53.0](https://github.com/OnlyWorlds/unity-sdk/releases/tag/v0.53.0) and the [Unreal SDK](https://github.com/OnlyWorlds/unreal-sdk#first-run) [v0.2.0](https://github.com/OnlyWorlds/unreal-sdk/releases/tag/v0.2.0) on serial 146.** The Unity page says its archive leaves out the five author fields unless asked and refuses a fixed name held only in another case, its thirteenth cause. Unreal 0.2.0 makes the same three changes and adds the name finder, the Pins one reader knows and the most linked of each type; no docs page names its version.
 
 - **[Godot SDK](/docs/development/godot) [0.2.0](https://github.com/OnlyWorlds/godot-sdk/releases/tag/v0.2.0) and [World folders](/docs/schema/folders#rules-for-tools) on serial 146.** The Godot page names 0.2.0, whose pack leaves out who wrote each element unless asked. The folders page says the three fixed names are read as written and a folder holding one only in another case is refused, that under `spatial/` only the four are read, how a file's slug is made (NFKD, the marks U+0300 to U+036F dropped), and the checker's exit 3 for a file it could not read.

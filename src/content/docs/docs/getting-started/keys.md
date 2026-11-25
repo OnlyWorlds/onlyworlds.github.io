@@ -151,7 +151,7 @@ curl -s "https://www.onlyworlds.com/api/v2/character/?world=<world_id>" \
 | Method | Route | Purpose |
 |:--|:--|:--|
 | GET, PATCH | `/api/v2/account` | Your profile |
-| GET | `/api/v2/account/worlds` | The worlds you own and the worlds shared with you |
+| GET | `/api/v2/account/worlds` | The worlds you own, then the worlds shared with you, each by name |
 | POST | `/api/v2/account/worlds` | Create a world: `201` with the world and a new `ow_w_` key, shown once |
 | POST | `/api/v2/account/worlds/handover` | Create a world with its first elements, all or nothing ([below](#a-world-with-its-first-elements)): `201` with the world, each item's result and `door`, the world's page; no key is made |
 | POST | `/api/v2/account/worlds/{world_id}/keys` | Mint a world key, shown once |
