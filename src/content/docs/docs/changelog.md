@@ -9,6 +9,8 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-25
 
+- **[llms.txt](https://onlyworlds.github.io/llms.txt) gives the element pages' address and names the five SDKs, and [Your first hour](/docs/getting-started/first-hour) says what a read of a deleted element carries.** An agent reading `llms.txt` found one element page linked, Character, and guessed the address of the others: the line now gives the path, `docs/schema/element_categories/<type>.md`. Its opening named the TypeScript, Python and Unity SDKs; Godot and Unreal are named now. The first hour's `410` now names the body's `change_seq` and `deleted_at`.
+
 - **[TypeScript](/docs/development/typescript#the-mcp-tools-on-a-world-folder) [4.206.0](https://www.npmjs.com/package/@onlyworlds/sdk): the MCP tools on a folder follow the server's `list_worlds` order and its several-worlds refusal.** A row carries no `change_seq`, since a folder holds no write counter.
 
 - **[MCP server](/docs/development/mcp#read-a-key-or-a-sign-in): `list_worlds` gives each world's `change_seq` and a stated order, and a sign-in that names no world is told which it holds.** Its rows are your own worlds first, then your memberships, each by name, and each carries the world's write counter. With several worlds and no `world`, a read is refused in the API's error envelope with the worlds beside it as `worlds`. [`GET /api/v2/account/worlds`](/docs/getting-started/keys) lists in the same order.

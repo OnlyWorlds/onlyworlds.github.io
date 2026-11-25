@@ -209,7 +209,7 @@ curl -X DELETE "https://www.onlyworlds.com/api/v2/character/<id>/" \
   -H "API-Key: $OW_API_KEY" -H "API-Pin: $OW_API_PIN"
 ```
 
-A create answers `201` with the whole element. A delete answers `204`, and a read of the deleted id afterwards answers `410` with the code `gone`. A read sends the key alone; the PIN goes only on writes. To link two elements, send the other element's id in a link field, such as `"location": "<location-id>"`.
+A create answers `201` with the whole element. A delete answers `204`, and a read of the deleted id afterwards answers `410` with the code `gone` (type `not_found`), the deletion's `change_seq` and `deleted_at` beside the error ([gone](/api/errors/#gone)). A read sends the key alone; the PIN goes only on writes. To link two elements, send the other element's id in a link field, such as `"location": "<location-id>"`.
 
 </TabItem>
 </Tabs>

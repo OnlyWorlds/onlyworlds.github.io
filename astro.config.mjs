@@ -197,7 +197,7 @@ export default defineConfig({
         }),
         starlightLlmsTxt({
           projectName: 'OnlyWorlds',
-          description: 'OnlyWorlds is an open schema for world data (22 element types with typed links), a hosted platform with a REST API v2 and an MCP server, and SDKs for TypeScript, Python and Unity.',
+          description: 'OnlyWorlds is an open schema for world data (22 element types with typed links), a hosted platform with a REST API v2 and an MCP server, and SDKs for TypeScript, Python, Unity, Godot and Unreal.',
           // The page index an agent starts from (the AI-agent reader, round 1: llms.txt listed no pages).
           // Every docs page also has a Markdown copy at its own path plus .md.
           // The lines a builder types come first: an assistant that reads only this file, or only its top,
@@ -219,7 +219,7 @@ export default defineConfig({
             '- [Reading](https://onlyworlds.github.io/docs/development/api/reads.md) · [Link fields](https://onlyworlds.github.io/docs/development/api/links.md) · [Writes and bulk](https://onlyworlds.github.io/docs/development/api/writes.md) · [Changes](https://onlyworlds.github.io/docs/development/api/changes.md)',
             '- [Errors](https://onlyworlds.github.io/api/errors.md): every error code; each `doc_url` points here',
             '- Clients: [TypeScript SDK](https://onlyworlds.github.io/docs/development/typescript.md) · [Python package](https://onlyworlds.github.io/docs/development/python.md) · [MCP server](https://onlyworlds.github.io/docs/development/mcp.md) · [all packages](https://onlyworlds.github.io/docs/development/packages.md) · [list your tool](https://onlyworlds.github.io/docs/development/list-your-tool.md)',
-            '- [Schema](https://onlyworlds.github.io/docs/schema.md) and [fields](https://onlyworlds.github.io/docs/schema/fields.md); one page per element type, such as [Character](https://onlyworlds.github.io/docs/schema/element_categories/character.md)',
+            '- [Schema](https://onlyworlds.github.io/docs/schema.md) and [fields](https://onlyworlds.github.io/docs/schema/fields.md); one page per element type, its path `docs/schema/element_categories/<type>.md` with the type in lower case, such as [Character](https://onlyworlds.github.io/docs/schema/element_categories/character.md)',
             '- [AI seats](https://onlyworlds.github.io/docs/development/agents.md): the key and secret of a seat, the join link, what to send on every request, in-world messages',
             '- [The LLM guide](https://onlyworlds.github.io/assets/ow_llm_guide.txt): the whole standard in one text file',
             '- [Agent policy](https://www.onlyworlds.com/agents) (Markdown with `Accept: text/markdown`): what an agent may do in a world, what is asked of it and what the platform keeps',
