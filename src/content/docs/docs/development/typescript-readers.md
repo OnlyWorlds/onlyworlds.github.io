@@ -526,17 +526,19 @@ A world's calendars sit on elements (a Construct by convention), each in an `atl
 The Python package's LegendKeeper import also writes one, from a source calendar, by Atlas's rules.
 
 ```typescript
-import { worldCalendars, resolveCalendar, formatStep, parseDate } from '@onlyworlds/sdk';
+import { worldCalendars, speakingCalendar, formatStep, parseDate } from '@onlyworlds/sdk';
 
 const calendars = worldCalendars(elements); // every element with a valid atlas_calendar
-const cal = resolveCalendar(elements, chosenId, { fallbackToOnly: true }); // the picked calendar, or the world's only one when none was picked
+const cal = speakingCalendar(world, elements); // the calendar the World names, or the world's only one
 if (cal) {
   formatStep(cal.config, 400);               // "4 Alturiak, 1 DR"
   parseDate(cal.config, '4 Alturiak, 1 DR'); // { step: 400 }
 }
 ```
 
-The second argument is the id of the calendar the person picked. With `fallbackToOnly`, when none was ever picked (`undefined`) and the world holds exactly one calendar, that one is used; `null` means no calendar.
+`world` is the World's own keys (what `GET /world` returns, `world.json` in a folder), any object type since 4.207.1, and `elements` the whole world's elements. Since 4.207.0 the World names its calendar in `x_calendar`, the id of the element that carries it (`WORLD_CALENDAR_KEY`), matched as written. A name that is not a calendar among the elements gives null, never another calendar in its place. With none named, the world's only calendar speaks, and several give null.
+
+A tool with a person in front of it may keep that person's own pick over the World's: `resolveCalendar(elements, chosenId, { fallbackToOnly: true })` takes the id they picked. With `fallbackToOnly`, when none was ever picked (`undefined`) and the world holds exactly one calendar, that one is used; `null` means no calendar.
 
 The dates in the example come from Harptos, one of the calendars the SDK's own tests read: point 400 is day 4 of the month Alturiak, in year 1 of the era written DR.
 

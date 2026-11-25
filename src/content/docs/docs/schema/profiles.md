@@ -59,7 +59,7 @@ Three have pages of their own: [Messages](/docs/schema/profiles/messages), [Addr
 
 ### Calendar
 
-**[`atlas_calendar`](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/calendar.md)**: a world's own calendar, the names it gives its time line. It changes no date. Read by Atlas, the TypeScript SDK, the Python package and the Unity SDK; it keeps its name from before the profile grammar. Version 2 (serial 68) adds a leap rule's exceptions and offset, enough for the Gregorian calendar.
+**[`atlas_calendar`](https://github.com/OnlyWorlds/schema-dist/blob/main/profiles/calendar.md)**: a world's own calendar, the names it gives its time line. It changes no date. Read by Atlas, the TypeScript SDK, the Python package and the Unity SDK; it keeps its name from before the profile grammar. Version 2 (serial 68) adds a leap rule's exceptions and offset, enough for the Gregorian calendar. Since serial 147 the World names the calendar its dates speak in: `x_calendar` on the World holds the id of the element that carries it. A named id that is not a calendar among the world's elements leaves the dates as bare numbers; with none named, a world's only calendar speaks, and several leave none.
 
 ### Charter
 
