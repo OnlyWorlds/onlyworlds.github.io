@@ -288,7 +288,7 @@ A `collision` is two names that are one after NFC and simple case folding, both 
 
 Besides the `api` block, the writer leaves two things out by default and keeps one in:
 
-- **Who wrote each element.** `created_by`, `changed_by`, `changed_via`, `changed_client` and `doors` record a member's id and a tool's door, which mean nothing to someone the world is handed to, so they are left out; `created_at` and `updated_at` stay. Pass `includeAuthorFields: true` to archive your own world as it is. (Versions before 4.109.0 kept them.)
+- **Who wrote each element.** `created_by`, `changed_by`, `changed_via`, `changed_client` and `doors` record a member's id and a tool's door, which mean nothing to someone the world is handed to, so they are left out; `created_at` and `updated_at` stay. Pass `includeAuthorFields: true` to archive your own world as it is. (Versions before 4.109.0 kept them.) A file whose text writes an integer no double holds (`9007199254740993`, which JavaScript reads as `...992`) travels as written, its author fields with it, so a copy never changes a number (since 4.203.2).
 - **Private records.** Every `records/<producer>/` that `records/RECORDS.json` marks `"private": true` is left out, whole. `writeWorldFile(files, top, { includePrivateRecords: true })` carries them ([private records](/docs/schema/folders#folders-and-onlyworldscom)). (Versions before 4.63.0 carried them.)
 - **Hidden elements stay in.** A world file is a copy, so by default an element file carrying the [hidden](/docs/development/api/hidden) mark travels byte for byte. A tool making a file to hand to someone else passes `{ includeHidden: false }`.
 

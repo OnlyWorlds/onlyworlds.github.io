@@ -7,6 +7,10 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 What changed on onlyworlds.com for everyone is on its own [Changelog](https://www.onlyworlds.com/changelog); this page stays the developer log.
 
+## 2026-11-25
+
+- **[TypeScript](/docs/development/typescript#writing-a-world-file) [4.203.2](https://www.npmjs.com/package/@onlyworlds/sdk) and [Python](/docs/development/python) [0.150.2](https://pypi.org/project/onlyworlds/): a world file never changes a number nobody edited.** A file holding an integer no double holds (`9007199254740993`, which JavaScript reads as `...992`) now travels byte for byte, its author fields with it; the SDK had rewritten it rounded and the Python package exact. An integer past 2^53 that a double holds exactly is rewritten as before.
+
 ## 2026-11-24
 
 - **[TypeScript](/docs/development/typescript#writing-a-world-file) [4.203.1](https://www.npmjs.com/package/@onlyworlds/sdk) and [Python](/docs/development/python) [0.150.1](https://pypi.org/project/onlyworlds/): a world file leaves the author fields out of every element-folder file again.** Since 4.197.0 and 0.145.0 a copy kept `created_by` and the four door fields in a file under `elements/` or `spatial/` that the folder reader passes over (a duplicated id, no `id`, a `.JSON` name, a deeper or unknown folder). Now every such file that is one JSON object loses them; anything else travels byte for byte.
