@@ -9,6 +9,8 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-25
 
+- **[Godot SDK](/docs/development/godot) [0.2.0](https://github.com/OnlyWorlds/godot-sdk/releases/tag/v0.2.0) and [World folders](/docs/schema/folders#rules-for-tools) on serial 146.** The Godot page names 0.2.0, whose pack leaves out who wrote each element unless asked. The folders page says the three fixed names are read as written and a folder holding one only in another case is refused, that under `spatial/` only the four are read, how a file's slug is made (NFKD, the marks U+0300 to U+036F dropped), and the checker's exit 3 for a file it could not read.
+
 - **[TypeScript](/docs/development/typescript) [4.205.1](https://www.npmjs.com/package/@onlyworlds/sdk) and [Python](/docs/development/python#check-a-world) [0.152.0](https://pypi.org/project/onlyworlds/) on schema-dist serial 146; the Python lint says when it could not read a file.** Both packages replay the serial's new address and calendar cases and its world-file set of 109 archives, with no reader changed. `python -m onlyworlds.lint` gives a file whose JSON Python cannot hold one line saying it was not read, and exits 3 when that is all it found. The archive's refusal causes are thirteen in the set now: the Python page says thirteen, and the [Unity](/docs/development/unity) page says its 0.52.0 has twelve, without `name_case`.
 
 - **[TypeScript](/docs/development/typescript#a-world-folder-as-the-source) [4.205.0](https://www.npmjs.com/package/@onlyworlds/sdk): `misnamedFixedName` from the package root.** A tool that lists a world folder itself refuses a fixed name held only in another case by the same rule as the folder source and the world-file reader.
