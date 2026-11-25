@@ -9,6 +9,9 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-26
 
+<!-- toolkit v5.14.2: no docs change (the context skill's answer ends by naming the update skill for writing a session back and the import skill for a folder of plain notes; no page states the old ending) -->
+<!-- plugin 3.21.5: no docs change (a Pin pointed at another element sends its type and id together, and a link to a name with square brackets saves; no page states either failure) -->
+
 - **[TypeScript](/docs/development/typescript-readers#world-calendars) [4.208.1](https://www.npmjs.com/package/@onlyworlds/sdk) and [Python](/docs/development/python) [0.154.1](https://pypi.org/project/onlyworlds/): a calendar's eras cost in proportion to their count.** The era walk was quadratic and ran for every label: one label under 15,000 eras took 42.4 ms in TypeScript and 331 ms in Python, now 4.1 ms and 101 ms. Every label is the same as before.
 
 ## 2026-11-25
