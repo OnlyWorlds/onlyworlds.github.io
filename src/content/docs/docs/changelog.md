@@ -9,6 +9,8 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-25
 
+- **[TypeScript](/docs/development/typescript#the-mcp-tools-on-a-world-folder) [4.206.0](https://www.npmjs.com/package/@onlyworlds/sdk): the MCP tools on a folder follow the server's `list_worlds` order and its several-worlds refusal.** A row carries no `change_seq`, since a folder holds no write counter.
+
 - **[MCP server](/docs/development/mcp#read-a-key-or-a-sign-in): `list_worlds` gives each world's `change_seq` and a stated order, and a sign-in that names no world is told which it holds.** Its rows are your own worlds first, then your memberships, each by name, and each carries the world's write counter. With several worlds and no `world`, a read is refused in the API's error envelope with the worlds beside it as `worlds`. [`GET /api/v2/account/worlds`](/docs/getting-started/keys) lists in the same order.
 
 - **[Unity SDK](/docs/development/unity) [v0.53.0](https://github.com/OnlyWorlds/unity-sdk/releases/tag/v0.53.0) and the [Unreal SDK](https://github.com/OnlyWorlds/unreal-sdk#first-run) [v0.2.0](https://github.com/OnlyWorlds/unreal-sdk/releases/tag/v0.2.0) on serial 146.** The Unity page says its archive leaves out the five author fields unless asked and refuses a fixed name held only in another case, its thirteenth cause. Unreal 0.2.0 makes the same three changes and adds the name finder, the Pins one reader knows and the most linked of each type; no docs page names its version.
