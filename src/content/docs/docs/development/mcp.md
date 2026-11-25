@@ -20,16 +20,22 @@ At session start, before any tool call, the server hands every client a short in
 
 ## Connect from Claude Code
 
-To try it with no account, connect with a demo world's read-only key (Moppetopia's, from [Keys and PINs](/docs/getting-started/keys)):
+To try it with no account, connect with the [practice world](/docs/getting-started/keys#the-practice-world)'s published key. Its calls count against your own address's budget, where a demo world's key is one budget shared by everyone who uses it ([Limits](/docs/development/api-reference#limits)):
 
 ```bash
-claude mcp add --transport http onlyworlds https://www.onlyworlds.com/mcp --header "API-Key: 0000000001"
+claude mcp add --transport http onlyworlds https://www.onlyworlds.com/mcp --header "API-Key: ow_w_QRRMlAFPF9vPZSqmiV6QJm2HDJH_sP28x2RccPmYP1A"
 ```
 
 For your own world, the same command with your credentials as headers:
 
 ```bash
 claude mcp add --transport http onlyworlds https://www.onlyworlds.com/mcp --header "API-Key: <your-key>" --header "API-Pin: <your-pin>"
+```
+
+Have an account? Run the command with neither header. The server offers Claude Code the same sign-in as the chat apps ([Sign in from an AI assistant](#sign-in-from-an-ai-assistant)): once you sign in, it reads the worlds your account owns or is a member of, and writes still need a key and PIN.
+
+```bash
+claude mcp add --transport http onlyworlds https://www.onlyworlds.com/mcp
 ```
 
 Each command is a single line: paste it whole. A backslash-continued form breaks in PowerShell.
@@ -122,10 +128,10 @@ Besides tools, the server offers resources, which a client can show a person to 
 
 | Resource | Key | Returns |
 |:--|:--|:--|
-| `onlyworlds://schema` | None | Every element type, each with a one-line shape (the `list_element_types` tool's output). |
-| `onlyworlds://schema/{type}` | None | One type's fields (the `get_element_schema` tool's output). |
-| `onlyworlds://world` | A key | `{world: {id, name}, types, limit_per_type, proposed_left_out}`: the key's world and its elements by type, ids and names only, at most 100 per type by name with `has_more` beyond. Types with nothing are left out, and so are room elements and proposed elements, which `proposed_left_out` counts. A type's full list is `list_elements`, in its own order. |
-| `onlyworlds://element/{type}/{id}` | A key | One element, the same body as `get_element`. |
+| `onlyworlds://schema` | Any key or a sign-in | Every element type, each with a one-line shape (the `list_element_types` tool's output). |
+| `onlyworlds://schema/{type}` | Any key or a sign-in | One type's fields (the `get_element_schema` tool's output). |
+| `onlyworlds://world` | A key, or a sign-in to an account with one world | `{world: {id, name}, types, limit_per_type, proposed_left_out}`: the key's world and its elements by type, ids and names only, at most 100 per type by name with `has_more` beyond. Types with nothing are left out, and so are room elements and proposed elements, which `proposed_left_out` counts. A type's full list is `list_elements`, in its own order. |
+| `onlyworlds://element/{type}/{id}` | A key, or a sign-in to an account with one world | One element, the same body as `get_element`. |
 
 The two world resources go through the same key check and the same scoping as the read tools: a guest key sees only what it may see, and no key sees an element [hidden](/docs/development/api/hidden) from it, in a tool's answer or in the world index. No tool hides or unhides an element. A URI that names nothing answers the JSON-RPC error `-32002`, resource not found.
 
