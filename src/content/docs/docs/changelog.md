@@ -9,6 +9,8 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-25
 
+- **[TypeScript](/docs/development/typescript#reading-a-world-file) [4.204.0](https://www.npmjs.com/package/@onlyworlds/sdk) and [Python](/docs/development/python) [0.151.0](https://pypi.org/project/onlyworlds/): a folder name in the wrong case is refused, with the cause.** A world file or a folder holding `Elements/`, `Spatial/` or `World.JSON` where the name in lower case is absent is no longer read as a world with no elements: a world file is refused with the new reason `name_case`, a folder in the TypeScript source answers every route 500 naming it, and Python's `read_folder` raises `FolderNameCaseError`. Python now reads the three names exactly as written on every disk.
+
 - **[TypeScript](/docs/development/typescript#writing-a-world-file) [4.203.2](https://www.npmjs.com/package/@onlyworlds/sdk) and [Python](/docs/development/python) [0.150.2](https://pypi.org/project/onlyworlds/): a world file never changes a number nobody edited.** A file holding an integer no double holds (`9007199254740993`, which JavaScript reads as `...992`) now travels byte for byte, its author fields with it; the SDK had rewritten it rounded and the Python package exact. An integer past 2^53 that a double holds exactly is rewritten as before.
 
 ## 2026-11-24
