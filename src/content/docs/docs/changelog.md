@@ -9,6 +9,8 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-25
 
+- **[Unity SDK](/docs/development/unity) [v0.54.0](https://github.com/OnlyWorlds/unity-sdk/releases/tag/v0.54.0) on serial 147: which calendar speaks.** The Unity page names `OWCalendarLens.SpeakingCalendar`, which reads the World's `x_calendar` as the two packages do, and its producer line says 0.54.0. A new element's file name is now the one the TypeScript and Python packages give it on every runtime, Mono included.
+
 - **[TypeScript](/docs/development/typescript-readers#world-calendars) [4.207.0 and 4.207.1](https://www.npmjs.com/package/@onlyworlds/sdk) and [Python](/docs/development/python) [0.153.0](https://pypi.org/project/onlyworlds/) on schema-dist serial 147: the calendar the World names.** The World names the calendar its dates speak in, in `x_calendar` ([the calendar profile](/docs/schema/profiles#calendar)), and `speakingCalendar` and `speaking_calendar` read it: the named calendar, or the world's only one when none is named. In TypeScript, 4.207.1 lets `speakingCalendar` take any World type, an interface of your own included. Both packages replay the serial's new address cases and its world-file set too.
 
 - **[Godot SDK](/docs/development/godot) [0.3.0](https://github.com/OnlyWorlds/godot-sdk/releases/tag/v0.3.0) on serial 147: a pack can be a share.** The Godot page says that with `include_hidden` false a pack leaves out the elements marked hidden and the files the folder reader would not serve, and names the 0.3.0 zip. `OWCalendar.speaking_calendar` reads the World's `x_calendar` as the two packages do.
