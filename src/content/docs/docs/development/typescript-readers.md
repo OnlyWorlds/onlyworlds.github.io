@@ -599,7 +599,8 @@ const found = find("Kira's watch ends at the Iron Gate.");
 - **Trimmed, three characters at least.** A shorter name is never looked for.
 - **The longest whole name wins** where several start at one place: `Iron Gate` over `Iron`.
 - **A name two elements share is never answered**, and nothing inside it is: the text stays plain there. One element found by two of its own names is one element. `find.shared` (since 4.198.0) lists those names, each as `{ name, elements }`: the name as it is compared (trimmed, and folded when `case` is `'folded'`) and the elements that hold it, in the order given. A tool reads it to tell a writer why a name never links.
-- **Nothing inside an address or a Markdown link** `[label](target)` is read.
+- **Nothing inside an address, a Markdown link** `[label](target)`, **a bare web address or an autolink** is read. A bare web address is `http://` or `https://` (in any ASCII case) to the next white space or `<`; an autolink is `<scheme:…>` (since 4.208.0).
+- **Markdown on request.** `find(text, { markdown: true })` (since 4.208.0) is for a text you know is Markdown: nothing inside an inline code span, a fenced code block, an HTML tag or comment, or a reference definition's line is read either, so a link written over a found name never lands in code or a URL. It is off by default, so a rich-text node's literal backticks stay prose. An indented code block, a fence inside a quote or a list, and a definition's title on the next line are read as prose.
 - **Every mention is answered**, in order, none overlapping. `element` is the object you passed in; `start` and `end` are string indexes into the text.
 
 Three limits. Text is compared as written, with no Unicode normalisation, so a letter typed with a combining mark does not match its one-character form. A space in a name matches that one space. In a script written without spaces between words (Chinese, Japanese, Thai) a name is whole only between punctuation or spaces.

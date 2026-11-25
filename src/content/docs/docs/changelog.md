@@ -9,6 +9,8 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-25
 
+- **[TypeScript](/docs/development/typescript-readers) [4.208.0](https://www.npmjs.com/package/@onlyworlds/sdk) and [Python](/docs/development/python) [0.154.0](https://pypi.org/project/onlyworlds/): the name finder passes over what is no mention.** In any text it now skips a bare web address and an autolink, beside the addresses and Markdown links it skipped before. A call for a text known to be Markdown (`{ markdown: true }`, `markdown=True`) skips inline code, fenced code blocks, HTML tags and comments and reference definitions too, so a link written over a found name never lands inside them.
+
 - **[Unreal SDK](https://github.com/OnlyWorlds/unreal-sdk#first-run) [v0.3.0](https://github.com/OnlyWorlds/unreal-sdk/releases/tag/v0.3.0) on serial 147: a pack can be a share.** The two Blueprint pack nodes take `bAsShare`, which leaves out the elements marked hidden and the files the folder reader would not serve. The C++ core's `OWCalendar::SpeakingCalendar` reads the World's `x_calendar` as the other SDKs do (no Blueprint node yet), and a new element's file name is the one the other SDKs give it. The [SDKs and clients](/docs/development/packages) page names no version, so nothing else moved.
 
 - **[Unity SDK](/docs/development/unity) [v0.54.0](https://github.com/OnlyWorlds/unity-sdk/releases/tag/v0.54.0) on serial 147: which calendar speaks.** The Unity page names `OWCalendarLens.SpeakingCalendar`, which reads the World's `x_calendar` as the two packages do, and its producer line says 0.54.0. A new element's file name is now the one the TypeScript and Python packages give it on every runtime, Mono included.
