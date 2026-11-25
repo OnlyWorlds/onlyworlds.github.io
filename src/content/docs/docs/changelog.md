@@ -9,6 +9,8 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-25
 
+- **[TypeScript](/docs/development/typescript#a-world-folder-as-the-source) [4.205.0](https://www.npmjs.com/package/@onlyworlds/sdk): `misnamedFixedName` from the package root.** A tool that lists a world folder itself refuses a fixed name held only in another case by the same rule as the folder source and the world-file reader.
+
 - **[MCP server](/docs/development/mcp#connect-from-claude-code): Claude Code signs in with no key, and the try-it command uses the practice world's key.** Run with neither header, the command offers the same sign-in as the chat apps. The try-it command now carries the [practice world](/docs/getting-started/keys#the-practice-world)'s published key, counted by your own address, in place of a demo key's shared budget. The [Resources](/docs/development/mcp#resources) table said the two schema resources need no key: they take any key or a sign-in, and the two world resources take a sign-in to an account with one world as well as a key.
 
 - **[TypeScript](/docs/development/typescript#reading-a-world-file) [4.204.0](https://www.npmjs.com/package/@onlyworlds/sdk) and [Python](/docs/development/python) [0.151.0](https://pypi.org/project/onlyworlds/): a folder name in the wrong case is refused, with the cause.** A world file or a folder holding `Elements/`, `Spatial/` or `World.JSON` where the name in lower case is absent is no longer read as a world with no elements: a world file is refused with the new reason `name_case`, a folder in the TypeScript source answers every route 500 naming it, and Python's `read_folder` raises `FolderNameCaseError`. Python now reads the three names exactly as written on every disk.
