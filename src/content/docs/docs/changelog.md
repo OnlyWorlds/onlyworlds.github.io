@@ -7,6 +7,10 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 What changed on onlyworlds.com for everyone is on its own [Changelog](https://www.onlyworlds.com/changelog); this page stays the developer log.
 
+## 2026-11-26
+
+- **[TypeScript](/docs/development/typescript-readers#world-calendars) [4.208.1](https://www.npmjs.com/package/@onlyworlds/sdk) and [Python](/docs/development/python) [0.154.1](https://pypi.org/project/onlyworlds/): a calendar's eras cost in proportion to their count.** The era walk was quadratic and ran for every label: one label under 15,000 eras took 42.4 ms in TypeScript and 331 ms in Python, now 4.1 ms and 101 ms. Every label is the same as before.
+
 ## 2026-11-25
 
 - **[TypeScript](/docs/development/typescript-readers) [4.208.0](https://www.npmjs.com/package/@onlyworlds/sdk) and [Python](/docs/development/python) [0.154.0](https://pypi.org/project/onlyworlds/): the name finder passes over what is no mention.** In any text it now skips a bare web address and an autolink, beside the addresses and Markdown links it skipped before. A call for a text known to be Markdown (`{ markdown: true }`, `markdown=True`) skips inline code, fenced code blocks, HTML tags and comments and reference definitions too, so a link written over a found name never lands inside them.
