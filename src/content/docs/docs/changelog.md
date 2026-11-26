@@ -9,6 +9,8 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-26
 
+- **[Unity](/docs/development/unity) [v0.55.0](https://github.com/OnlyWorlds/unity-sdk/releases/tag/v0.55.0) on serial 148: a file nested past 200 levels is left out by name.** A folder or a `.owworld` skips such an element file as `too_deep` and serves the rest, counted in the text as the other readers count it, and every reader reads to 200 deep where it stopped at 64. An export declares folder format 0.3.25. The name finder passes over web addresses, and over Markdown's code and HTML when told the text is Markdown.
+
 - **[Members](/docs/development/api/members): an AI seat's own Read mark under the propose switch.** With **AI seats propose, a person accepts** on, an AI seat writes its own Read mark at once only to make it or to change its `narratives`; any other change answers `403` [`narratives_only`](/api/errors/#narratives_only), a new code on the errors page.
 
 - **[Folders](/docs/schema/folders#rules-for-tools) (serial 148): an element file nested past 200 levels is left out by name.** A reader leaves out an element file in which an object or array sits more than 200 levels deep, names it `too_deep` and reads the rest of the world; the depth is counted in the file's text, and `world.json` the same way. schema-dist's [checker](/docs/schema/folders#rules-for-tools) counts it itself, the same on every Python. The folder format is 0.3.25.
