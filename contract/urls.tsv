@@ -193,6 +193,7 @@
 /api/errors#permission_error	load-bearing	floor	keel's error-code list (contract/error-codes.json)
 /api/errors#csrf_required	load-bearing	floor	keel's error-code list (contract/error-codes.json)
 /api/errors#use_not_granted	load-bearing	floor	keel's error-code list (contract/error-codes.json)
+/api/errors#write_not_granted	load-bearing	floor	keel's error-code list (contract/error-codes.json)
 /api/errors#not_author	load-bearing	floor	keel's error-code list (contract/error-codes.json)
 /api/errors#not_reader	load-bearing	floor	keel's error-code list (contract/error-codes.json)
 /api/errors#narratives_only	load-bearing	floor	keel's error-code list (contract/error-codes.json)

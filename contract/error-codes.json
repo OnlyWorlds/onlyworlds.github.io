@@ -187,6 +187,11 @@
     "status": 403,
     "summary": "An AI door token called a use it was not minted for (`param` use): it opens only the uses it names. Mint one that names this use, or call with an account credential. Nothing was counted."
   },
+  "write_not_granted": {
+    "type": "permission_error",
+    "status": 403,
+    "summary": "A sign-in at the MCP server (an app connected with Sign in with OnlyWorlds) tried to write, and that sign-in was not granted Read and write, or its writing was stopped. Nothing was written. To let the app write, disconnect it on your account page, connect it again and choose Read and write. Served only as the text of an MCP tool's error, never as an HTTP status."
+  },
   "not_author": {
     "type": "permission_error",
     "status": 403,

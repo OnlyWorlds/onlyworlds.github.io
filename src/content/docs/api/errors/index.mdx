@@ -90,6 +90,7 @@ Each code belongs to one family, its `type`, and a family's codes do not share o
 | [`permission_error`](#permission_error) | `permission_error` | `403` | The credential is valid but lacks the scope for this route (e.g. a read key on a write route). |
 | [`csrf_required`](#csrf_required) | `permission_error` | `403` | A write (POST, PUT, PATCH, DELETE) to an /account route signed in only by the site's own session cookie came without Django's CSRF token: the page sends the `csrftoken` cookie's value in the `X-CSRFToken` header (or the `csrfmiddlewaretoken` form field). Nothing was written. An `ow_a_` token or an `X-Session-Token` needs no CSRF token. |
 | [`use_not_granted`](#use_not_granted) | `permission_error` | `403` | An AI door token called a use it was not minted for (`param` use): it opens only the uses it names. Mint one that names this use, or call with an account credential. Nothing was counted. |
+| [`write_not_granted`](#write_not_granted) | `permission_error` | `403` | A sign-in at the MCP server (an app connected with Sign in with OnlyWorlds) tried to write, and that sign-in was not granted Read and write, or its writing was stopped. Nothing was written. To let the app write, disconnect it on your account page, connect it again and choose Read and write. Served only as the text of an MCP tool's error, never as an HTTP status. |
 | [`not_author`](#not_author) | `permission_error` | `403` | A contributor or guest key changed, replaced, relinked or deleted an element someone else created. |
 | [`not_reader`](#not_reader) | `permission_error` | `403` | A key wrote a Read mark (a Relation whose supertype is Read, the message profile's record of what one reader has read) that is not its own, or a write would make someone else's Relation one: a Read mark is written only by the reader whose mark it is, the world's owner and its co-builders included. The reader adds to its own mark with POST /api/v2/account/worlds/\{world_id\}/read. |
 | [`narratives_only`](#narratives_only) | `permission_error` | `403` | In a world where AI seats propose and a person accepts, an AI seat sent its own Read mark more than its list of read messages, and nothing was written: a PATCH or a link edit takes only `narratives`, a PUT of an existing mark only a change to `narratives`, and a new mark only `narratives` with the name and the Character the message gives. |
@@ -490,6 +491,14 @@ A key wrote a Read mark that is not its own, or a write would turn someone else'
 In a world where AI seats propose and a person accepts (`agent_writes_proposed` on [the world body](/docs/development/api/reads#the-world)), an AI seat sent its own Read mark more than its list of read messages, and nothing was written. Its mark takes only `narratives`: a `PATCH` or a link edit of `narratives` alone, a `PUT` of the existing mark that changes nothing else, or a new mark in its one form, named `Read: ` and the seat's Character's name, with that Character as actor.
 
 - **How to fix:** send only `narratives`, or mark messages read through [`POST /api/v2/account/worlds/{world_id}/read`](/docs/development/agents#in-world-messages), which finds or makes the caller's own mark.
+
+### write_not_granted
+
+**Type** `permission_error` · **Status** `403` in the registry, never sent as an HTTP status
+
+An app connected to [the MCP server](/docs/development/mcp#sign-in-from-an-ai-assistant) with Sign in with OnlyWorlds tried to write, and its sign-in was not granted Read and write, or its writing was stopped. Nothing was written. It comes back only as the text of the MCP tool's error.
+
+- **How to fix:** on your [account page](https://www.onlyworlds.com/account/), disconnect the app, connect it again and choose Read and write.
 
 ### hidden_not_allowed
 
