@@ -178,7 +178,7 @@ An AI assistant's connector, such as claude.ai's or ChatGPT's, signs a person in
 
 **The token.** `POST /api/v2/auth/oauth/token`, form-encoded, answers in OAuth's own shape, not the API's error envelope. Two grants: `authorization_code` (`code`, `code_verifier`, `client_id`, `redirect_uri`) and `refresh_token` (`refresh_token`, `client_id`). It hands back a pair:
 
-- an access token (`ow_a_…`, scope `world:read`) that lasts an hour and that only `/mcp` accepts: every other route refuses it
+- an access token (`ow_a_…`, scope `world:read`, or `world:read world:write` when the person chose Read and write) that lasts an hour and that only `/mcp` accepts: every other route refuses it
 - a refresh token (`ow_f_…`) that lasts 30 days and works once: each refresh hands back a new pair. A refresh token sent a second time is taken as stolen, and the whole chain and its access tokens are revoked
 
 The access token is an account token like any other: the [account page](https://www.onlyworlds.com/account/) lists it, and Revoke and Disconnect there end the chain.

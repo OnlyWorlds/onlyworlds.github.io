@@ -77,9 +77,13 @@ async function list(method, key) {
 
 // What a description says a tool needs. Null when it says none of these: that tool's grouping by
 // credential is then not checked (its read-only hint still is).
-const needsOf = (raw) => { const d = raw.replace(/\s+/g, ' '); return /\bUnauthenticated\b/.test(d) ? 'none'
-  : /Requires a WRITE API-Key and its PIN/.test(d) ? 'write key and PIN'
-  : /Requires a WRITE API-Key/.test(d) ? 'write key'
+// A write tool's description may add ", or a sign-in granted Read and write" (writes through the
+// sign-in): its needs then end in " or sign-in", which only the sign-in write heading accepts.
+const SIGNIN_WRITE = /Requires a WRITE API-Key(?: and its PIN)?, or a sign-in granted Read and write/;
+const needsOf = (raw) => { const d = raw.replace(/\s+/g, ' '); const or = SIGNIN_WRITE.test(d) ? ' or sign-in' : '';
+  return /\bUnauthenticated\b/.test(d) ? 'none'
+  : /Requires a WRITE API-Key and its PIN/.test(d) ? `write key and PIN${or}`
+  : /Requires a WRITE API-Key/.test(d) ? `write key${or}`
   : /Requires a READ or WRITE API-Key/.test(d) ? 'key' : null; };
 
 function snapshotOf(tools, resources, templates) {
@@ -213,7 +217,8 @@ const tools = section('Tools');
 // no key (a made-up one is answered: read live that day), which is what their descriptions'
 // "Unauthenticated" says, so that heading holds them to 'none'. The read heading names the sign-in
 // beside the key and holds its tools to 'key'.
-const GROUPS = { 'no key': 'none', 'any key or a sign-in': 'none', 'a key': 'key', 'a key or a sign-in': 'key', 'a write key and PIN': 'write' };
+const GROUPS = { 'no key': 'none', 'any key or a sign-in': 'none', 'a key': 'key', 'a key or a sign-in': 'key', 'a write key and PIN': 'write',
+  'a write key and PIN, or a sign-in granted Read and write': 'write or sign-in' };
 const rows = new Map();   // tool -> {group, args}
 for (const part of tools.split(/\n(?=### )/).slice(1)) {
   const m = [null, part.slice(4, part.indexOf('\n')), part.slice(part.indexOf('\n') + 1)];
@@ -238,12 +243,15 @@ for (const [t, r] of rows) {
   const s = snap.tools[t];
   if (!s) continue;
   if (s.hints.readOnly === null) unchecked.push(`${t}: no readOnlyHint, so its read/write table was not held to one`);
-  else if ((r.group === 'write') === s.hints.readOnly) fail(`${t}: in "${r.heading}", but its readOnlyHint is ${s.hints.readOnly}`);
+  const writes = r.group.startsWith('write');
+  if (s.hints.readOnly !== null && writes === s.hints.readOnly) fail(`${t}: in "${r.heading}", but its readOnlyHint is ${s.hints.readOnly}`);
   const needs = s.needs;
   if (needs === null) unchecked.push(`${t}: its description states no credential, so "${r.heading}" was not held to one`);
-  else if (r.group === 'write') {
+  else if (writes) {
+    const bySignin = needs.endsWith(' or sign-in');
     if (!needs.startsWith('write key')) fail(`${t}: in "${r.heading}", but its description says it needs ${needs === 'none' ? 'no key' : 'a read or write key'}`);
-    else if (needs === 'write key') pinUnsaid.push(t);
+    else if (bySignin !== (r.group === 'write or sign-in')) fail(`${t}: in "${r.heading}", but its description ${bySignin ? 'says a sign-in granted Read and write may call it' : 'names no sign-in that writes'}`);
+    else if (needs.replace(' or sign-in', '') === 'write key') pinUnsaid.push(t);
   } else if (needs !== r.group) fail(`${t}: in "${r.heading}", but its description says it needs ${needs === 'none' ? 'no key' : needs === 'key' ? 'a read or write key' : `a ${needs}`}`);
 }
 if (pinUnsaid.length) unchecked.push(`the PIN half of the write heading for ${pinUnsaid.join(', ')}: each description says "Requires a WRITE API-Key" and names no PIN`);
@@ -323,7 +331,7 @@ else {
     let names = [...c.matchAll(/`([a-z_]+)`/g)].map((m) => m[1]);
     const reads = c.match(/\bthe (\w+) reads\b/);
     if (reads) {
-      const readRows = [...rows].filter(([, r]) => r.group !== 'write').map(([t]) => t);
+      const readRows = [...rows].filter(([, r]) => !r.group.startsWith('write')).map(([t]) => t);
       const n = NUMBERS.indexOf(reads[1]);
       if (n !== readRows.length) fail(`the hints sentence says "the ${reads[1]} reads"; the first two tables hold ${readRows.length}`);
       names = [...names, ...readRows];
