@@ -9,6 +9,8 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-26
 
+- **[Godot](/docs/development/godot) [v0.4.0](https://github.com/OnlyWorlds/godot-sdk/releases/tag/v0.4.0) and the [Unreal SDK](https://github.com/OnlyWorlds/unreal-sdk#first-run) [v0.4.0](https://github.com/OnlyWorlds/unreal-sdk/releases/tag/v0.4.0) on serial 148.** Both leave out an element file nested more than 200 levels deep by name, `too_deep`, counted in the text, and read the rest; both name finders pass over web addresses, and over Markdown's code and HTML when told the text is Markdown. The Unreal plugin also turns an element read over the API into its Blueprint struct (`<Type>FromJson`), and names its engine (5.8), platform (Win64) and icon.
+
 - **[Unity](/docs/development/unity) [v0.55.0](https://github.com/OnlyWorlds/unity-sdk/releases/tag/v0.55.0) on serial 148: a file nested past 200 levels is left out by name.** A folder or a `.owworld` skips such an element file as `too_deep` and serves the rest, counted in the text as the other readers count it, and every reader reads to 200 deep where it stopped at 64. An export declares folder format 0.3.25. The name finder passes over web addresses, and over Markdown's code and HTML when told the text is Markdown.
 
 - **[Members](/docs/development/api/members): an AI seat's own Read mark under the propose switch.** With **AI seats propose, a person accepts** on, an AI seat writes its own Read mark at once only to make it or to change its `narratives`; any other change answers `403` [`narratives_only`](/api/errors/#narratives_only), a new code on the errors page.
