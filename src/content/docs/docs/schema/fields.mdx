@@ -83,7 +83,7 @@ Fields whose names start with a reserved prefix are accepted on write, stored as
 | `atlas_*` | Atlas |
 | `shadow_*` | The world folder format |
 
-An extension field can hold any JSON value. The server does not validate, index or filter extensions. Each element can carry at most 64 KB of them, counted as compact UTF-8 JSON. A `PATCH` merges extension fields by key. {/* limit: extensions_bytes */}
+An extension field can hold any JSON value up to 200 levels deep, the element itself as the first. The server does not index or filter extensions, and checks only a key's prefix, a value's depth and the extensions' size. Each element can carry at most 64 KB of them, counted as compact UTF-8 JSON. A `PATCH` merges extension fields by key. {/* limit: extensions_bytes */}
 
 One `x_` key is the server's own: `x_served_trimmed`. The server adds it to a message or a lens it serves with parts hidden from the reader, and a write that carries it is rejected with `422` ([`served_trimmed_not_writable`](/api/errors/#served_trimmed_not_writable)).
 

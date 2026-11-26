@@ -93,7 +93,8 @@ The world page on onlyworlds.com shows both in Recent changes: who made each cha
 
 - **`name`** is required on `POST` and `PUT`: the key must be present, and an empty string is accepted.
 - **Unknown fields** are a `422` naming the field. A misspelled field fails loudly instead of vanishing.
-- **Extension fields** under the namespaces `atlas_*`, `shadow_*` and `x_*` are accepted, stored as written and returned verbatim, up to 65,536 bytes of extensions per element (counted as compact UTF-8 JSON). More is a `422` with `param` `extensions`. <!-- limit: extensions_bytes -->
+- **Extension fields** under the namespaces `atlas_*`, `shadow_*` and `x_*` are accepted, stored as written and returned verbatim, up to 65,536 bytes of extensions per element (counted as compact UTF-8 JSON). More is a `422` with `param` `extensions`. <!-- limit: extensions_bytes --> An object or array in one may sit at most 200 levels deep, the element itself as the first (since 2026-11-26); deeper is a `422` [`invalid_request`](/api/errors/#invalid_request) with `param` the key, and nothing is changed.
+- **A body nested more than 256 levels deep** is not read (since 2026-11-26): a `422` [`invalid_request`](/api/errors/#invalid_request), "The body is nested too deep to be read."
 - **Server fields** `type`, `created_at`, `updated_at` and `change_seq` appear on reads and are a `422` on writes. Strip them before sending a read body back.
 - **Never write back a body read with `?expand=`.** Its links hold stub objects instead of ids, and a link field takes only ids. Read without `expand` when you mean to send the body back.
 - **`created_by`** and **`world`** in a body are ignored, whatever their value.
@@ -173,8 +174,8 @@ A key is held while its request runs, so two sends with it do not both write; th
 | `time_format_equivalents` | List of whole numbers, as the standard types it. Strings are still accepted and kept as sent, so an older world may read back strings. |
 | `time_range_min`, `time_range_max`, `time_range_current` | Integer or `null` |
 | `owner_character` | A Character id in this world (the Character that is the owner), or `null` |
-| `x_…`, `atlas_…`, `shadow_…` | Any JSON value: the world's extension keys (since 2026-10-23). A key sent is set, `null` removes it, and keys not sent are kept. All of them together hold at most 64 KB as compact JSON, else a `422` with `param` `extensions`. <!-- limit: extensions_bytes --> |
-| `source`, `producer` | An object or `null` each: the [folder's provenance lines](/docs/schema/folders#worldjson), for a tool that makes the world from a folder (`source.world` and `producer.tool` strings when present). Read back under `origin`; `origin` itself is a `422` here. `POST /api/v2/account/worlds` takes the same two, and since 2026-10-31 the extension keys too ([keys](/docs/getting-started/keys#account-tokens)). |
+| `x_…`, `atlas_…`, `shadow_…` | Any JSON value: the world's extension keys (since 2026-10-23). A key sent is set, `null` removes it, and keys not sent are kept. All of them together hold at most 64 KB as compact JSON, else a `422` with `param` `extensions`. <!-- limit: extensions_bytes --> An object or array in one may sit at most 200 levels deep, the World record as the first, else a `422` naming the key. |
+| `source`, `producer` | An object or `null` each: the [folder's provenance lines](/docs/schema/folders#worldjson), for a tool that makes the world from a folder (`source.world` and `producer.tool` strings when present; an object or array in either at most 200 levels deep, the World record as the first). Read back under `origin`; `origin` itself is a `422` here. `POST /api/v2/account/worlds` takes the same two, and since 2026-10-31 the extension keys too ([keys](/docs/getting-started/keys#account-tokens)). |
 
 ```bash
 curl -s -X PATCH "https://www.onlyworlds.com/api/v2/world" \
