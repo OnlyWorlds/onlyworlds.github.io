@@ -195,6 +195,7 @@
 /api/errors#use_not_granted	load-bearing	floor	keel's error-code list (contract/error-codes.json)
 /api/errors#not_author	load-bearing	floor	keel's error-code list (contract/error-codes.json)
 /api/errors#not_reader	load-bearing	floor	keel's error-code list (contract/error-codes.json)
+/api/errors#narratives_only	load-bearing	floor	keel's error-code list (contract/error-codes.json)
 /api/errors#hidden_not_allowed	load-bearing	floor	keel's error-code list (contract/error-codes.json)
 /api/errors#keeper_only	load-bearing	floor	keel's error-code list (contract/error-codes.json)
 /api/errors#review_by_another	load-bearing	floor	keel's error-code list (contract/error-codes.json)

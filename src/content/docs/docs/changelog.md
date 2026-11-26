@@ -9,6 +9,8 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-26
 
+- **[Members](/docs/development/api/members): an AI seat's own Read mark under the propose switch.** With **AI seats propose, a person accepts** on, an AI seat writes its own Read mark at once only to make it or to change its `narratives`; any other change answers `403` [`narratives_only`](/api/errors/#narratives_only), a new code on the errors page.
+
 - **[Folders](/docs/schema/folders#rules-for-tools) (serial 148): an element file nested past 200 levels is left out by name.** A reader leaves out an element file in which an object or array sits more than 200 levels deep, names it `too_deep` and reads the rest of the world; the depth is counted in the file's text, and `world.json` the same way. schema-dist's [checker](/docs/schema/folders#rules-for-tools) counts it itself, the same on every Python. The folder format is 0.3.25.
 
 - **[TypeScript](/docs/development/typescript#a-world-folder-as-the-source) [4.210.0](https://www.npmjs.com/package/@onlyworlds/sdk) and [Python](/docs/development/python#a-world-as-a-folder) [0.155.0](https://pypi.org/project/onlyworlds/) on serial 148.** Both packages count depth in a file's text before they parse it and write folder format 0.3.25; a world file whose `world.json` is past 200 levels is refused. The TypeScript folder source's 500 names why a `world.json` cannot be read (`worldFault` in the read report). In Python, `push` never sends `date_labels`.
