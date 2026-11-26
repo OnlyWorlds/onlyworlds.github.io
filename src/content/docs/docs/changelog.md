@@ -9,6 +9,8 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-26
 
+<!-- toolkit v5.14.4: no docs change (its own scripts leave out an element file nested past 200 levels and name it too_deep, as the folder format says since serial 148, which the Folders page already states; the same 11 skills and agents) -->
+
 - **[Errors](/api/errors/#write_not_granted): `write_not_granted`.** An app connected to the MCP server with Sign in with OnlyWorlds tried to write without a grant to write. It comes back only as the text of the MCP tool's error, never as an HTTP status.
 - **[Agents](/docs/development/agents#giving-your-ai-access): the instructions a seat's card copies for your AI now ask about the world's skills.** After the Charter, the AI reads each Object in `front_door.charter_skill`; when everything else is done, it names each one that is a skill it holds no copy of and asks you where the copy goes before writing one. A person who plays no Character in the world is told so on the card.
 - **[Writes](/docs/development/api/writes#field-rules): a value under an extension key, or under a World's `source` or `producer`, sits at most 200 levels deep.** The element (or the World record) counts as the first level, as the folder readers count since serial 148. Deeper is a `422` [`invalid_request`](/api/errors/#invalid_request) with `param` the key, and nothing is changed. A request body nested more than 256 levels deep is not read at all: a `422`, "The body is nested too deep to be read." [Fields](/docs/schema/fields) and [Reads](/docs/development/api/reads) say the same bound.
