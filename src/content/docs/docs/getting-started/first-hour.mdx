@@ -238,10 +238,12 @@ When you want a world of your own, sign up at [onlyworlds.com](https://www.onlyw
 
 The rest of these docs cover things a tool needs only when it does them. None of it is needed for the steps above.
 
+- **Every element of a type**: a list comes in pages. [Reads](/docs/development/api/reads) says how to ask for the next one, how large a page may be, and which filters a list takes.
+- **A page in a browser**: the API answers a page on any origin, one opened from your disk included, so a single HTML file can read a world with `fetch`. The headers are on [CORS](/docs/development/api/cors).
 - **Many writes at once, retries, conflicts**: [Writes and bulk](/docs/development/api/writes).
 - **Following a world as it changes**: [Changes](/docs/development/api/changes).
 - **Sharing a world**: members, roles and invite links in [Members](/docs/development/api/members), and the [Hidden elements](/docs/development/api/hidden) only some members see.
 - **AI agents**: seats, the MCP server and the context for one Character, under [AI agents](/docs/development/ai).
 - **Signing people in to your tool**: [Accounts, members and sharing](/docs/development/typescript-accounts).
-- **A world as files on disk**: [World folders](/docs/schema/folders).
+- **A world as files on disk**: [World folders](/docs/schema/folders); in Python, [save one, change a file and push it back](/docs/development/python#a-world-as-a-folder).
 - **Everything a package does**: the [TypeScript](/docs/development/typescript) and [Python](/docs/development/python) pages, and Unity and the other engines under [SDKs](/docs/development/packages).

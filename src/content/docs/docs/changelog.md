@@ -12,6 +12,8 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 <!-- toolkit v5.14.2: no docs change (the context skill's answer ends by naming the update skill for writing a session back and the import skill for a folder of plain notes; no page states the old ending) -->
 <!-- plugin 3.21.5: no docs change (a Pin pointed at another element sends its type and id together, and a link to a name with square brackets saves; no page states either failure) -->
 
+- **[Python](/docs/development/python#a-world-as-a-folder): a world as a folder, with an example that runs.** The page said `push` compares a folder with a baseline and showed no call. It now saves the practice world with `export_world`, changes one file and pushes the one field back. [Your first hour](/docs/getting-started/first-hour#what-you-can-leave-for-later) points at it, and at two things a reader had to guess: how to read every element of a type ([Reads](/docs/development/api/reads)) and that a page in a browser may call the API from any origin ([CORS](/docs/development/api/cors)). Found by two fresh agents handed that one page.
+
 - **[TypeScript](/docs/development/typescript-readers#world-calendars) [4.208.1](https://www.npmjs.com/package/@onlyworlds/sdk) and [Python](/docs/development/python) [0.154.1](https://pypi.org/project/onlyworlds/): a calendar's eras cost in proportion to their count.** The era walk was quadratic and ran for every label: one label under 15,000 eras took 42.4 ms in TypeScript and 331 ms in Python, now 4.1 ms and 101 ms. Every label is the same as before.
 
 ## 2026-11-25

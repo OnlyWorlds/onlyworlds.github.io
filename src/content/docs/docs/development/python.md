@@ -71,6 +71,39 @@ If your script is an AI agent, say so: `Client("ow_w_...", "1234", agent=True)` 
 
 Name your tool: `Client("ow_w_...", "1234", client="atlas")` (since 0.21.0) sends `X-OW-Client` on every element write (and on a proposal, its accept and a review), never on a read or another write, and OnlyWorlds keeps the name on the element as `changed_client` ([a write can name its client](/docs/development/api/writes#agent-writes)). The default is `python`; a name outside lower case letters, digits and hyphens, 1 to 32 characters, is a `ValueError` at construction. `changed_client` and a tombstone's `deleted_client` are read-only and never pushed.
 
+## A world as a folder
+
+`export_world` saves the world a key reads as a [world folder](/docs/schema/folders), one JSON file per element. `push` sends back what you changed: it compares the folder with a baseline, an untouched copy of the same export, and patches only the fields that differ. With the practice world's key and PIN in the environment, as above:
+
+```python
+import json
+import os
+import shutil
+from pathlib import Path
+
+from onlyworlds import Client, export_world, push
+
+key, pin = os.environ["OW_API_KEY"], os.environ["OW_API_PIN"]
+
+# save the world as a folder, and keep an untouched copy beside it: the baseline
+export_world("world", api_key=key, pin=pin)
+shutil.copytree("world", "baseline")
+
+# change one field in one element's file
+path = sorted(Path("world/elements/character").glob("*.json"))[0]
+element = json.loads(path.read_text(encoding="utf-8"))
+element["description"] = "Edited on disk."
+path.write_text(json.dumps(element, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
+
+# send what differs from the baseline: one PATCH carrying one field
+result = push("baseline", "world", api_key=key, pin=pin, log_path="push.log")
+print(result.planned, "planned,", result.ok, "sent")
+
+print(Client(key, pin).get("character", element["id"])["description"])
+```
+
+It prints `1 planned, 1 sent` and then `Edited on disk.` `export_world` writes only to a folder that does not exist yet, and a read-only key such as the demo key `0000000001` exports without a PIN. `log_path` is required: the log is what lets a rerun skip what already landed. A push creates and deletes nothing; what it does with a new file, an empty field or a hidden element is under [Push](#what-it-covers) below.
+
 ## Follow changes
 
 ```python
