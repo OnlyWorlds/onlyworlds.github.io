@@ -147,7 +147,7 @@ To retry a bulk write safely:
 
 Every non-2xx answer throws `OwApiError` with the platform's error envelope: `.status`, `.type`, `.code`, `.param` (the field that failed, or `API-Pin` when a PIN was refused) and `.docUrl`, which links to the code on [the errors page](/api/errors). Show `docUrl` to your users.
 
-Transport failures throw `OwNetworkError`. `err.isValidationError` covers the common case. A read of an element this world deleted throws with `status` 410 and `code` `'gone'`; `err.isNotFound` is the 404 alone. A write sent with `ifMatch` that found the element moved throws `OwPreconditionFailedError` (412, `err.isPreconditionFailed`), an `OwApiError` that also carries `current`.
+Transport failures throw `OwNetworkError`. `err.isValidationError` covers the common case. Since 4.219.0 `err.limit` reads which size limit a write passed, a key of the API document's `info.x-ow-limits`, with `err.isElementTooLarge`, `err.isElementTooManyLinks` and `err.isExtensionsTooLarge`: the API is adding that key to the code `invalid_request` of its [size refusals](/docs/development/api/writes#field-rules), and until it sends it, `limit` is undefined and the refusal's sentence is what says which limit. A read of an element this world deleted throws with `status` 410 and `code` `'gone'`; `err.isNotFound` is the 404 alone. A write sent with `ifMatch` that found the element moved throws `OwPreconditionFailedError` (412, `err.isPreconditionFailed`), an `OwApiError` that also carries `current`.
 
 The client never retries. On a 429 `too_many_requests` or a 503 `server_busy`, wait `err.retryAfter` seconds (read from `Retry-After`) and send the request again; the [Python package](/docs/development/python) retries those itself.
 
@@ -476,7 +476,7 @@ The package also ships `SCHEMA.md` (every field and its meaning, generated) and 
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.218.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.219.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -572,7 +572,7 @@ Generated from the types of `@onlyworlds/sdk` 4.218.0, the version these docs pi
 
 ### Deprecated names
 
-Every name the package's declarations mark `@deprecated`, read from the same files as the tables above: 22 in 4.218.0. Each row is the mark's own comment, to the sentence that names the version the name leaves in. How much notice a change to the API itself gets: [Stability and deprecation](/docs/development/api/stability).
+Every name the package's declarations mark `@deprecated`, read from the same files as the tables above: 22 in 4.219.0. Each row is the mark's own comment, to the sentence that names the version the name leaves in. How much notice a change to the API itself gets: [Stability and deprecation](/docs/development/api/stability).
 
 | Name | Deprecated since | Leaves in | What its comment says |
 |---|---|---|---|
