@@ -56,7 +56,7 @@ The skill files themselves sit in the repository's `skills/` folder, one folder 
 | Structure it | `import` | Turns notes, a manuscript, PDFs, a wiki or old session notes into a world folder Atlas opens, or reconciles them into an existing world. Invents no fields. |
 | | `model` | How to represent a system (magic, a political order, an economy, a tech tree) in the 22 types, and every type's fields across [every element type](/docs/schema/). |
 | Grow it | `read` | Checks a whole world and writes one of three reports: the survey report (a creative brief of what it holds), the links report (the connections it is missing) or the consistency report (where it contradicts itself). |
-| | `draw` | Draws a world as a graph, its maps with their pins and zones, or its events on a timeline, in a file you open in a browser. It never changes the world. |
+| | `draw` | Draws a world as a graph, its maps with their pins and zones, or its events on a timeline in the calendar the World names in `x_calendar` (or its only calendar), in a file you open in a browser. The drawing never changes the world; to name a calendar for the world, the session asks first. |
 | Play in it and keep it true | `context` | Designs how the right part of a world gets loaded into each AI session: fresh, scoped, sourced. |
 | | `update` | Writes a finished session (notes, recap, transcript) back into the world through a change list you approve, so canon holds. |
 | Move it | `carry` | Moves a world between files, tools and homes: one [`.owworld` file](/docs/schema/folders) and back, an export from World Anvil, LegendKeeper, Kanka, Campfire or Notion, Markdown or OKF, a folder to an account and back. |

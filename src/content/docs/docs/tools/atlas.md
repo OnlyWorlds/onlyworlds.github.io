@@ -51,7 +51,7 @@ A world folder or file whose `world.json` says `writable: false`, as a [snapshot
 
 Atlas imports and exports the same world file onlyworlds.com exports.
 
-A world folder written by another tool opens in place. An element file in it that is damaged or has no id is left on disk as it is, and the element list says how many cannot be read and names them, so fixing one brings its element back. A world file with a damaged entry is refused, never half read.
+A world folder written by another tool opens in place. An element file in it that is damaged, has no id or nests more than 200 levels deep is left on disk as it is, and the element list says how many cannot be read and names them, so fixing one brings its element back. A world folder or world file whose `world.json` nests that deep is refused, and so is a folder that holds `world.json`, `elements/` or `spatial/` only in other capitals, such as `Elements/`: Atlas says which name to change. A world file with a damaged entry is refused, never half read.
 
 Before you have a world, Other ways in → **Bring in a file, notes or JSON** opens the Data room. A world file opens as it is. OnlyWorlds JSON, such as the JSON an AI assistant makes from your notes, is reviewed first, then **Create world** makes a world from it.
 
@@ -146,7 +146,7 @@ Sharing is [forward-only](/docs/development/api/members#sharing-a-world).
 
 ### Published pages
 
-Publish read-only pages of your world to send to anyone. Publishing needs an account, and each world can have 20 published pages at a time.
+Publish read-only pages of your world to send to anyone. Publishing needs an account and a world on onlyworlds.com: a world kept only in the browser or in a folder is made online first (Publish offers Make online). Each world can have 20 published pages at a time.
 
 Before you publish, the Publish section lists each element the page sends more than a name for, with the fields and picture it sends (since 1.125.13). A page's data can be read by anyone with its address, and a page keeps what it was published with until you press **Republish**. Pages published before 1.125.14 (23 November 2026) could carry more than they drew: a map pin set to Full sent when its element was made and, in a world that syncs, the ids of the members who made and last changed it, and a card of a hidden element left that element's id in the page's data. Republish such a page to take them out.
 
