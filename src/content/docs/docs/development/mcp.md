@@ -55,6 +55,8 @@ A request with neither a key nor a sign-in answers `401` with `WWW-Authenticate:
 - It lasts an hour, and the client renews it with a refresh token that lasts 30 days; your [account page](https://www.onlyworlds.com/account/) lists it, and Revoke or Disconnect there ends it. The server side of the sign-in is on [Sign in with OnlyWorlds](/docs/development/api/signin#ai-assistants).
 - A connector keeps the address it was added with. One added with any other address goes on reading there: remove it and add it again with `https://www.onlyworlds.com/mcp`.
 
+A page made on claude.ai, an artifact, can read a world through this connector too (tried on 2026-11-27, reading with `list_worlds` and `count_elements`). The page calls the tools as the person viewing it, with their sign-in and no key in the page, and the Claude desktop app can install it as an app with its own window; a current desktop app offered the install, and an older one did not. The page names the connector by the name its viewer gave it in claude.ai, so a page shared with others works only where their connector has that same name.
+
 Codex reads the server from `~/.codex/config.toml`, taking the two header values from environment variables:
 
 ```toml
