@@ -474,7 +474,7 @@ The package also ships `SCHEMA.md` (every field and its meaning, generated) and 
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.210.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.211.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -533,7 +533,7 @@ Generated from the types of `@onlyworlds/sdk` 4.210.0, the version these docs pi
 | `redeemJoin(code, opts?)` | `POST /join` | redeem a join code that needs no account: a player's (a friend reading as a guest) or an AI agent's. | `Promise<OwJoined>` |
 | `signInWithPassword(opts)` |  | Sign in with an email address (or a username) and password, and get a new account token (`ow_a_`) for this device, named `tokenName` (say, "Lantern on iPhone"): the name the account's tokens page lists it under, where it can be revoked. | `Promise<OwSignedIn>` |
 | `acceptJoin(code)` | `POST /account/join` | accept an invite link's code as the account this client's `ow_a_` token belongs to: 201 with the new membership. | `Promise<OwJoinedMembership>` |
-| `createWorldLink(worldId, opts)` | `POST /account/worlds/{worldId}/links` | a new invite link for a world this client's `ow_a_` token owns: `reader` is required (`person`, accepted with acceptJoin; `agent`, redeemed at POST /join; `player`, a friend with no account, redeemed with redeemJoin for a read key); `role`, when left out, is the server's default: guest for a person link, contributor for an AI link (a player link is guest, and refuses any other), `days` (1, 7 or 30) to 7; `withCharacter` (AI links only) to true; `character` (player links only) a Character's id or `new` (the default): whoever opens the link first reads as it, until removed. | `Promise<OwCreatedWorldLink>` |
+| `createWorldLink(worldId, opts)` | `POST /account/worlds/{worldId}/links` | a new invite link for a world this client's `ow_a_` token owns: `reader` is required (`person`, accepted with acceptJoin; `agent`, redeemed at POST /join; `player`, a friend with no account, redeemed with redeemJoin for a read key); `role`, when left out, is the server's default: guest for a person link, contributor for an AI link (a player link is guest, and refuses any other), `days` (1, 7 or 30) to 7; `withCharacter` (AI links only) to true; `character` on a player link a Character's id or `new` (the default): whoever opens the link first reads as it, until removed; on a person link for one contributor or co-builder, the id of the Character they will play once they join (not hidden, not the owner's, played by no one), left out for none, and previewJoin answers its name as `character_name`. | `Promise<OwCreatedWorldLink>` |
 | `listWorldLinks(worldId)` | `GET /account/worlds/{worldId}/links` | the world's invite links, without their codes: each with its status (pending, used, revoked or expired) and uses. | `Promise<OwWorldLink[]>` |
 | `revokeWorldLink(worldId, linkId)` | `DELETE /account/worlds/{worldId}/links/{linkId}` | revoke a link: its code no longer works. | `Promise<void>` |
 | `createSeat(worldId, opts)` | `POST /account/worlds/{worldId}/seats` | a seat for your own AI in a world you own or are a member of: its own membership, write key and `ow_s_` secret, no join link. | `Promise<OwSeatCreated>` |
@@ -570,7 +570,7 @@ Generated from the types of `@onlyworlds/sdk` 4.210.0, the version these docs pi
 
 ### Deprecated names
 
-Every name the package's declarations mark `@deprecated`, read from the same files as the tables above: 22 in 4.210.0. Each row is the mark's own comment, to the sentence that names the version the name leaves in. How much notice a change to the API itself gets: [Stability and deprecation](/docs/development/api/stability).
+Every name the package's declarations mark `@deprecated`, read from the same files as the tables above: 22 in 4.211.0. Each row is the mark's own comment, to the sentence that names the version the name leaves in. How much notice a change to the API itself gets: [Stability and deprecation](/docs/development/api/stability).
 
 | Name | Deprecated since | Leaves in | What its comment says |
 |---|---|---|---|
