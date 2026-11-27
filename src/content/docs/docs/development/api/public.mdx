@@ -108,7 +108,7 @@ That is Moppetopia. The answer is what the owner's own key gets with [`?as=publi
 
 ### What it does not serve
 
-- `/changes`, `/members`, `/me`, files, the hidden routes and every write answer a keyless request as before: `401` [`invalid_credentials`](/api/errors/#invalid_credentials). The [MCP server](/docs/development/mcp)'s read and write tools answer a keyless call with a tool error, "API-Key header required." (HTTP `200`, `isError: true`); its schema tools need no key. The [proposals](/docs/development/api/proposals) lists answer it `404`. A follower who wants the live feed needs a read key.
+- `/changes`, `/members`, `/me`, files, the hidden routes and every write answer a keyless request as before: `401` [`invalid_credentials`](/api/errors/#invalid_credentials). The [MCP server](/docs/development/mcp) answers a call with neither a key nor a sign-in `401` before any tool runs, the schema tools included, with `WWW-Authenticate: Bearer` naming the server's protected resource metadata, where a client's [sign-in](/docs/development/mcp#sign-in-from-an-ai-assistant) starts. The [proposals](/docs/development/api/proposals) lists answer it `404`. A follower who wants the live feed needs a read key.
 - An element read keyless carries no `created_by`, `changed_by`, `changed_via`, `changed_client` or `doors` (since 2026-10-29): who wrote an element, and with which tool, is for the world's members. A keyless `created_by=` filter is a `422` naming it.
 - A keyless request without `?world=` is the `401` it always was.
 - `as` on a keyless read is `422` [`invalid_request`](/api/errors/#invalid_request), `param` `as`: view as is the owner's.
