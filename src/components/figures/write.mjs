@@ -60,7 +60,7 @@ export function writeView(snap, labels) {
     }
   }
   // refused: the server-managed fields the description names, each field forbidden with its code, any other key
-  const named = (says) => says.match(/including the server-managed ([a-z_, ]+?)\.$/)?.[1];
+  const named = (says) => says.match(/including the server-managed ([a-z_, ]+?)\.(?:\s|$)/)?.[1];
   if (named(w.says) !== named(p.says)) throw new Error('write: the full and partial writes name different server-managed fields');
   const managed = named(w.says)?.split(/, | and /);
   if (!managed?.length || managed.some((f) => w.fields[f] || p.fields[f])) throw new Error(`write: the description names no server-managed fields, or the schema takes one: "${w.says}"`);

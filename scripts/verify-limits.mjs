@@ -83,6 +83,8 @@ const GUIDE = [
   ['requests_per_minute_keyless', /\((\S+) per\s+address without one\)/],
   ['image_tickets_per_day', /upload tickets for the last\s+24 hours \((\S+) of each\)/],
   ['file_tickets_per_day', /upload tickets for the last\s+24 hours \((\S+) of each\)/],
+  ['element_bytes', /element over (\S+) bytes of text and links/],
+  ['element_link_ids', /or (\S+) link ids \(no param\)/],
 ];
 
 // ---- the snapshot ---------------------------------------------------------------------------------------

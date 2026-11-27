@@ -93,7 +93,7 @@ The base schema is what makes a world portable between tools. Data held in exten
 
 ## What a write body may carry
 
-The same in all 22 element types: each key a body carries on `POST`, `PUT` or `PATCH` is stored, tolerated and ignored, or rejected with `422`. Text longer than its cap is a `422`, and so are extensions over 64 KB ([Writes](/docs/development/api/writes#field-rules)). {/* limit: extensions_bytes */}
+The same in all 22 element types: each key a body carries on `POST`, `PUT` or `PATCH` is stored, tolerated and ignored, or rejected with `422`. Text longer than its cap is a `422`, and so are extensions over 64 KB, and an element past 1 MB of text and links or 5,000 link ids ([Writes](/docs/development/api/writes#field-rules)). {/* limit: extensions_bytes element_bytes element_link_ids */}
 
 <WriteBody />
 

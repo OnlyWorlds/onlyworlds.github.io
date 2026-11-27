@@ -45,7 +45,9 @@ function variantOf(schemas, suffix) {
     return [t, s];
   });
   const [t0, s0] = of[0];
-  const says = (t, s) => (s.description ?? '').split(t).join('{type}');
+  // The type's name only where it names the body ("A full ability write"): the prose may use the word
+  // elsewhere ("a character can take up to four" bytes), and that is the same sentence in all 22.
+  const says = (t, s) => (s.description ?? '').split(`${t} write`).join('{type} write');
   const alike = { says: says(t0, s0), required: s0.required ?? [], additional: s0.additionalProperties ?? null, extensions: s0.patternProperties ?? null };
   for (const [t, s] of of) {
     const its = { says: says(t, s), required: s.required ?? [], additional: s.additionalProperties ?? null, extensions: s.patternProperties ?? null };

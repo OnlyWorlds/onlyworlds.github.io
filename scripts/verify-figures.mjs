@@ -1410,7 +1410,7 @@ for (const f of Object.keys(W.fields)) {
   const putPatch = W.fields[f].description?.match(/PUT\/PATCH: ignored, ([^.]+)\./);
   if (w === 'stored' && putPatch) ignoredWant.push({ f, when: 'PUT PATCH', why: putPatch[1] });
 }
-const managedOf = (says) => says.match(/including the server-managed ([a-z_, ]+?)\.$/)?.[1]?.split(/, | and /) ?? [];
+const managedOf = (says) => says.match(/including the server-managed ([a-z_, ]+?)\.(?:\s|$)/)?.[1]?.split(/, | and /) ?? [];
 const managed = managedOf(W.says);
 if (!managed.length || !same(managed, managedOf(P.says))) bad(`the write schemas name ${managed.join(', ') || 'no'} server-managed fields, the partial ones ${managedOf(P.says).join(', ') || 'none'}`);
 for (const f of managed) if (W.fields[f] || P.fields[f]) bad(`${f} is server-managed and a property of the write schema`);
@@ -1538,7 +1538,7 @@ if (doc) {
     const fs = Object.keys(s.properties);
     for (const f of Object.keys(bSnap[v].fields)) if (norm(s.properties[f]) !== norm(bSnap[v].fields[f])) drift.push(`${cap(t)}${suffix} ${f} is ${norm(s.properties[f] ?? null)} live`);
     if (!same(fs.filter((f) => !bSnap[v].fields[f]), bSnap.own[t])) drift.push(`${cap(t)}${suffix}'s own fields differ live`);
-    if ((s.description ?? '').split(t).join('{type}') !== bSnap[v].says) drift.push(`${cap(t)}${suffix}'s description differs live`);
+    if ((s.description ?? '').split(`${t} write`).join('{type} write') !== bSnap[v].says) drift.push(`${cap(t)}${suffix}'s description differs live`);
     if (!same(s.required ?? [], bSnap[v].required) || (s.additionalProperties ?? null) !== bSnap[v].additional || norm(s.patternProperties ?? null) !== norm(bSnap[v].extensions)) drift.push(`${cap(t)}${suffix}'s required, additionalProperties or extension pattern differs live`);
   }
   for (const d of drift.slice(0, 5)) console.log(`  STALE  write body snapshot (node scripts/gen_write.mjs --refresh): ${d}`);

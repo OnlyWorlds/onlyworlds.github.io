@@ -326,7 +326,8 @@ Errors come back as {"error": {type, code, message, param, doc_url}} and the
 SDK throws OwApiError. The common ones:
 - 401 invalid_credentials: wrong key or PIN
 - 403 permission_error: a read key on a write
-- 422 invalid_request: unknown field or parameter (the message names it)
+- 422 invalid_request: unknown field or parameter (the message names it), or an
+  element over 1,048,576 bytes of text and links or 5,000 link ids (no param)
 - 400 invalid_link: a link to a UUID that does not exist
 - 409 id_conflict: POST with an id that exists (use upsert)
 - 429 rate_limited: too many wrong PINs; wait the Retry-After time
