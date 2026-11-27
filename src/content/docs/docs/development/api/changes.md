@@ -58,7 +58,7 @@ Pass the returned `cursor` back as `?since=` until `has_more` is `false`. Store 
 - **The continuation parameter is `since`.** Any other parameter, such as `cursor=`, is a `422`, never silently ignored.
 - **Apply ops in the order given.** Upserts and deletes are interleaved by sequence; applying them in that order makes the local copy converge.
 - **The cursor never expires.** Tombstones are kept indefinitely, so an old cursor still replays every delete after it.
-- An empty `changes` list means nothing changed since that cursor; the cursor comes back unchanged.
+- An empty `changes` list with `has_more` false means nothing you may see changed since that cursor, and the cursor comes back unchanged. One case differs (since 2026-11-27): a read from the start (no `since`, or `since=0`) that finds nothing answers the feed's position as its cursor, the value `?head=true` gives, so a cursor kept from it never sends you back to replay the world.
 - `?head=true` is the cheap way to start following a world from now, or to check whether you are behind; with the tag it gave you in `If-None-Match`, an unmoved head is a `304` that is given back to the budget, up to 120 a minute. Compare `head` with the head you last applied, not the previous poll's, so a missed tick never drops a change. <!-- limit: changes_head_free_per_minute -->
 
 ```python
