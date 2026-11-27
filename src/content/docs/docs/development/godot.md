@@ -5,14 +5,14 @@ description: "The OnlyWorlds SDK for Godot: a GDScript addon with a class for ea
 
 The OnlyWorlds SDK for Godot is a GDScript addon that brings a world into a Godot game: read at run time over the [onlyworlds.com API](/docs/development/api-reference), or shipped with the game as a folder. It runs on the standard Godot build, with no .NET. For what a world gives a game, see [Games](/docs/development/games).
 
-It is at its first releases (0.7.0). Before 1.0 a minor version may change a call's name, and its [changelog](https://github.com/OnlyWorlds/godot-sdk/blob/main/CHANGELOG.md) says so when it does. The repository is [OnlyWorlds/godot-sdk](https://github.com/OnlyWorlds/godot-sdk); every call, with what it answers and what it refuses, is in its [reference](https://github.com/OnlyWorlds/godot-sdk/blob/main/docs/reference.md).
+It is at its first releases (0.8.0). Before 1.0 a minor version may change a call's name, and its [changelog](https://github.com/OnlyWorlds/godot-sdk/blob/main/CHANGELOG.md) says so when it does. The repository is [OnlyWorlds/godot-sdk](https://github.com/OnlyWorlds/godot-sdk); every call, with what it answers and what it refuses, is in its [reference](https://github.com/OnlyWorlds/godot-sdk/blob/main/docs/reference.md).
 
 ## Install
 
 Godot 4.7, the standard build. Earlier 4.x versions are untested, and so are exports other than Windows desktop, the web and mobile among them.
 
 - **Godot's Asset Library**: [OnlyWorlds SDK](https://godotengine.org/asset-library/asset/5621), or the editor's **AssetLib** tab, searching for OnlyWorlds. Install with the installer's defaults and it lands at `addons/onlyworlds/`. The Library carries a release, so it can be a step behind the repository.
-- **The release zip** (`onlyworlds-godot-0.7.0.zip`), from the repository's [Releases](https://github.com/OnlyWorlds/godot-sdk/releases) page: unpack it into your project folder, where its `addons/onlyworlds/` joins your project's `addons/`.
+- **The release zip** (`onlyworlds-godot-0.8.0.zip`), from the repository's [Releases](https://github.com/OnlyWorlds/godot-sdk/releases) page: unpack it into your project folder, where its `addons/onlyworlds/` joins your project's `addons/`.
 
 Then open the project in the editor once, or with no editor run `godot --headless --path . --import` once, so Godot registers the `OW…` classes. Enabling the plugin under **Project Settings → Plugins** is optional: the classes work without it.
 
@@ -54,6 +54,20 @@ await client.patch("character", made.value.id, {"description": "Maps the tide li
 
 Keep write keys out of a game you ship. A key written in a script, a scene or an exported variable is packed into the export, where anyone with the build can read it, so read write credentials at run time. An AI agent that writes to your world takes an [agent seat](/docs/development/agents) of its own.
 
+## A world kept current
+
+Since 0.8.0 `OWWorldCache` holds a world in the game and `OWSync` keeps it current from the world's [change feed](/docs/development/api/changes): the first call reads every element, each later one only what changed, with the server's resets, rewinds and deletes applied. The cache keeps itself between launches in one file.
+
+```gdscript
+var client := OWClient.new({"api_key": "ow_r_..."})
+var world := OWWorldCache.read_file("user://world.owcache")   # empty the first time
+var r := await OWSync.incremental(client, world)             # the first call walks the whole world, later ones the changes
+if r.ok: world.write_file("user://world.owcache")
+for c: OWCharacter in world.of_type("character"): print(c.name)
+```
+
+`read_file` answers `null` for a file of another format or a newer version. `await OWSync.has_changes(client, world)` asks with one cheap request whether a sync would do anything, so a game can poll it on a timer. The same sync runs in the [Unity SDK](/docs/development/unity), which this one ports with its tests.
+
 ## A world on disk
 
 `OWWorld.read_folder(path)` reads a [world folder](/docs/schema/folders) and `OWWorldArchive.read_file(path)` an `.owworld` file, with no server at all, and both give the same typed elements. A world you never edited is written back byte for byte.
@@ -77,6 +91,7 @@ var client := OWClient.new({"api_key": joined.value.key})
 | Part | Classes | What it does |
 |---|---|---|
 | **Client** | `OWClient`, `OWJoin` | The API: read a world, list and page through its elements, the change feed, writes (create, upsert, patch, delete, link edits, bulk), joining by invite link. |
+| **Held world** | `OWWorldCache`, `OWSync` | A world held in the game and kept current from the change feed, kept between launches in one file (since 0.8.0). |
 | **Models** | `OWCharacter`, `OWLocation` and the rest, `OWElement` | One class per element type, generated from the schema; `OWTypes.make(type, body)` builds the right one. |
 | **On disk** | `OWWorld`, `OWWorldArchive`, `OWJson` | World folders and `.owworld` files, read and written in the folder format's own bytes. |
 | **Readers** | `OWLens`, `OWGraph`, `OWLanding`, `OWMapSpace`, `OWCharter`, `OWStrand`, `OWRecord`, `OWReport`, `OWMessage`, `OWNames`, `OWViews` | Answers worked out from elements you already hold, with no request of their own: what one reader may see of a world, the world as nodes and edges, its maps as points and outlines, a Character's record of game runs, in-world messages and reports. |
