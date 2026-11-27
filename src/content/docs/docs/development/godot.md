@@ -90,7 +90,7 @@ var client := OWClient.new({"api_key": joined.value.key})
 
 | Part | Classes | What it does |
 |---|---|---|
-| **Client** | `OWClient`, `OWJoin` | The API: read a world, list and page through its elements, the change feed, writes (create, upsert, patch, delete, link edits, bulk), joining by invite link. |
+| **Client** | `OWClient`, `OWJoin`, `OWProposal` | The API: read a world, list and page through its elements, the change feed, writes (create, upsert, patch, delete, link edits, bulk), [proposed changes](/docs/development/api/proposals) (propose, the world's queue, accept, decline, withdraw, review a new element written as proposed; since 0.9.0), joining by invite link. |
 | **Held world** | `OWWorldCache`, `OWSync` | A world held in the game and kept current from the change feed, kept between launches in one file (since 0.8.0). |
 | **Models** | `OWCharacter`, `OWLocation` and the rest, `OWElement` | One class per element type, generated from the schema; `OWTypes.make(type, body)` builds the right one. |
 | **On disk** | `OWWorld`, `OWWorldArchive`, `OWJson` | World folders and `.owworld` files, read and written in the folder format's own bytes. |
