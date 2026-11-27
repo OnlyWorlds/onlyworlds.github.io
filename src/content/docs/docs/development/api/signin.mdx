@@ -55,7 +55,7 @@ The tool sends the browser to `https://www.onlyworlds.com/signin/authorize` with
 | `code_challenge` | The PKCE challenge: the base64url SHA-256 of a verifier the tool keeps |
 | `code_challenge_method` | `S256`. `plain` is refused |
 
-A tool that only reads may add a sixth, `scope=world:read`, for a [read-only token](#a-read-only-token) (since 2026-11-14). It is the one value there is: any other answers the `400` page below.
+A tool that only reads may add a sixth, `scope=world:read`, for a [read-only token](#a-read-only-token) (since 2026-11-14). It is the one value there is for a tool: any other answers the `400` page below. (An [AI assistant's connector](#ai-assistants) to the MCP server may ask for two.)
 
 What the person sees:
 
@@ -173,6 +173,8 @@ An AI assistant's connector, such as claude.ai's or ChatGPT's, signs a person in
 
 - `https://www.onlyworlds.com/.well-known/oauth-protected-resource/mcp`, which a `401` from `/mcp` names
 - `https://www.onlyworlds.com/.well-known/oauth-authorization-server`: the sign-in page `/signin/authorize`, the token endpoint and the registration endpoint
+
+**The scope.** A connector that names the MCP server as its `resource` asks for `scope=world:read world:write` (in either order), and the sign-in page then offers the person Read and write (with their account PIN) or Read only; `world:read` alone asks to read, and `world:write` alone is refused as an unknown scope is.
 
 **Registering.** `POST /api/v2/auth/register` with `client_name`, `redirect_uris` and, if it likes, `client_uri`, as JSON and with no credential. The answer's `client_id` is random, never the name. A registered connector is a public client: no secret is issued and none is sent. It is not on [the list above](#registered-tools), and one unused for 90 days is removed. The Continue page shows the connector's own name and the host it returns the person to. Registration is rate-limited per address.
 

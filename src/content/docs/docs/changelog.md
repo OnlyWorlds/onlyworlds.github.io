@@ -7,6 +7,10 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 What changed on onlyworlds.com for everyone is on its own [Changelog](https://www.onlyworlds.com/changelog); this page stays the developer log.
 
+## 2026-11-27
+
+- **[MCP](/docs/development/mcp#sign-in-from-an-ai-assistant): Claude, ChatGPT and other apps that sign in can write to your worlds when you choose Read and write.** The sign-in page offers Read and write (with your account PIN, each time), Read only and Cancel; an account with no PIN is offered Read only, and an app connected before today keeps reading until you connect it again and choose Read and write. Signed in, the [write tools](/docs/development/mcp#write-a-write-key-and-pin-or-a-sign-in-granted-read-and-write) take `world`, and [`get_me`](/docs/development/mcp#read-a-key-or-a-sign-in)'s `scope` is `write` while that sign-in may write there. A connector asks for [`scope=world:read world:write`](/docs/development/api/signin#ai-assistants); `world:write` alone is refused. Stop writing on your account page ends writing for that app and leaves it reading.
+
 ## 2026-11-26
 
 <!-- toolkit v5.14.4: no docs change (its own scripts leave out an element file nested past 200 levels and name it too_deep, as the folder format says since serial 148, which the Folders page already states; the same 11 skills and agents) -->
