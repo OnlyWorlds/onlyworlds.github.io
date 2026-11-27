@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-27
 
+- **[Unreal](/docs/development/games) [0.10.1](https://github.com/OnlyWorlds/unreal-sdk/releases/tag/v0.10.1): every string keeps its characters through the plugin.** The engine's own conversion wrote `?` for U+FFFE and U+FFFF, so an element id holding one named no element from a Blueprint node; the plugin now converts with its own loop.
 - **[TypeScript](/docs/development/typescript#errors) [4.219.0](https://www.npmjs.com/package/@onlyworlds/sdk) and [Python](/docs/development/python) [0.158.0](https://pypi.org/project/onlyworlds/): a size refusal can be read by its limit.** `err.limit` and `ApiError.limit` read a key the API is adding to its three [size refusals](/docs/development/api/writes#field-rules) (`element_bytes`, `element_link_ids`, `extensions_bytes`, each a key of `info.x-ow-limits`), with a predicate for each; the code stays `invalid_request`. Until the API sends the key, read the sentence as before.
 - **[Python](/docs/development/python#export-to-okf) 0.158.0: the OKF export writes Open Knowledge Format 0.3.** The pin moves to the spec's version 0.3 in its new repository; the bundle's root index carries the world's name and a description; a text YAML 1.2 would read as a number is quoted.
 - **[Obsidian plugin](/docs/tools/obsidian-plugin#sync) 3.22.1: Download world copies fewer notes after an Upload world.** Upload world now keeps the record of a note you have not typed in, so the next Download copies only the notes you did type in.
