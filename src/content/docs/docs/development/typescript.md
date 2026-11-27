@@ -356,7 +356,7 @@ Where a folder's answer is not onlyworlds.com's:
 
 ## The MCP tools on a world folder
 
-The [MCP server](/docs/development/mcp)'s read tools can answer from a world folder on the same machine (since 4.191.0). `folderMcpTools` from the `@onlyworlds/sdk/mcp` subpath gives its nine read tools (`list_element_types`, `get_element_schema`, `search_schema`, `list_worlds`, `get_me`, `list_elements`, `count_elements`, `get_element`, `search_elements`), its two resources and its two templates, with the same names, arguments and answers as onlyworlds.com's server (`count_elements` and `total` on a `list_elements` page since 4.202.0), so a prompt or a skill written for one works on the other. It holds no transport: your own MCP server (stdio, or anything else) passes each request in and the answer out.
+The [MCP server](/docs/development/mcp)'s read tools can answer from a world folder on the same machine (since 4.191.0). `folderMcpTools` from the `@onlyworlds/sdk/mcp` subpath gives its nine read tools (`list_element_types`, `get_element_schema`, `search_schema`, `list_worlds`, `get_me`, `list_elements`, `count_elements`, `get_element`, `search_elements`), its two resources and its two templates, with the same names, arguments and answers as onlyworlds.com's server (`count_elements` and `total` on a `list_elements` page since 4.202.0, `list_elements`' `fields` since 4.218.0), so a prompt or a skill written for one works on the other. It holds no transport: your own MCP server (stdio, or anything else) passes each request in and the answer out.
 
 ```ts
 import { entriesFromDirectory } from '@onlyworlds/sdk/folder';
@@ -476,7 +476,7 @@ The package also ships `SCHEMA.md` (every field and its meaning, generated) and 
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.217.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.218.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -572,7 +572,7 @@ Generated from the types of `@onlyworlds/sdk` 4.217.0, the version these docs pi
 
 ### Deprecated names
 
-Every name the package's declarations mark `@deprecated`, read from the same files as the tables above: 22 in 4.217.0. Each row is the mark's own comment, to the sentence that names the version the name leaves in. How much notice a change to the API itself gets: [Stability and deprecation](/docs/development/api/stability).
+Every name the package's declarations mark `@deprecated`, read from the same files as the tables above: 22 in 4.218.0. Each row is the mark's own comment, to the sentence that names the version the name leaves in. How much notice a change to the API itself gets: [Stability and deprecation](/docs/development/api/stability).
 
 | Name | Deprecated since | Leaves in | What its comment says |
 |---|---|---|---|
