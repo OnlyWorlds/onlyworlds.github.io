@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-27
 
+- **[Unreal](/docs/development/games) [0.10.0](https://github.com/OnlyWorlds/unreal-sdk/releases/tag/v0.10.0): a game holds a world and keeps it current.** `OWWorldCache` and `OWSync` in C++, `UOWWorldCache` with the `SyncWorld`, `BaselineWorld` and `HasWorldChanges` nodes on Blueprints, by the Unity and Godot SDKs' sync rules; a poll of an unchanged world is answered `304`.
 - **[TypeScript](/docs/development/typescript#the-mcp-tools-on-a-world-folder) [4.218.0](https://www.npmjs.com/package/@onlyworlds/sdk): the MCP tools on a world folder take `list_elements`' `fields`**, as the MCP server does: each row holds only the fields named, with its id, type, supertype, subtype and marks kept, and a name the type lacks refused as the list route refuses it.
 - **[A first changes read that finds nothing answers the feed's position](/docs/development/api/changes)**, the value `?head=true` gives, not the start, so a reader that keeps it no longer replays the world. **The MCP server's [`list_elements`](/docs/development/mcp) takes `fields`**: each row then holds only the fields you name, with its id, type, supertype, subtype and marks kept.
 - **[Unreal](/docs/development/games) [0.9.0](https://github.com/OnlyWorlds/unreal-sdk/releases/tag/v0.9.0): how an element is shown.** `OWViews` in C++ and `UOWViews` on Blueprints read the schema's views, with the same answers as the Unity and Godot SDKs.
