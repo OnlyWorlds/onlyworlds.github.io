@@ -369,7 +369,7 @@ const result = await door.callTool('list_elements', { type: 'character', limit: 
 
 Each answer is the MCP result as onlyworlds.com's server sends it: the JSON as text and as `structuredContent`, and a refusal as text with `isError: true`, never a rejected promise. `readResource(uri)` answers the resources, or throws `OwMcpError`, whose `code` is the JSON-RPC error to send (`MCP_RESOURCE_NOT_FOUND` when the address names nothing). A call's `world` is the folder's own id from its `world.json`; with one world given it can be left out. With several, each call names one, and the two world resources (`onlyworlds://world`, `onlyworlds://element/{type}/{id}`), whose addresses have no place for a world, are refused. A read that names none is refused as onlyworlds.com's server refuses it, in the error envelope with the worlds beside it as `worlds`, and `list_worlds` lists them by name, case aside, then by id (since 4.206.0). Its rows carry no `change_seq`, which the server's do: a folder holds no write counter. With none (`folderMcpTools([])`, since 4.192.0, for a server that starts before a folder is added), the schema tools and `list_worlds` answer, and every read of a world is refused with one sentence. The tool definitions and the schema answers are those onlyworlds.com served when the package was built, each description with one sentence added saying it answers on this computer (`{ asServed: true }` keeps them as served). Nothing writes, and the tools the server answers only for an account (`get_changes`, `get_draught`, files) are not offered. A folder is read once, as a snapshot: when it changes, make the tools again.
 
-Since 4.209.0 `get_element`, `list_elements` and the element resource give a date its words as the server does, in [`date_labels`](/docs/development/mcp#dates-in-the-worlds-words), where the World names its calendar in `x_calendar`. One difference: the server holds back a calendar past its own bounds (a template's length, the number of eras and months), and these tools word it.
+Since 4.209.0 `get_element`, `list_elements` and the element resource give a date its words as the server does, in [`date_labels`](/docs/development/mcp#dates-in-the-worlds-words), where the World names its calendar in `x_calendar`. One difference: the server holds back a calendar past its own bounds (a template's length, the number of eras and months), which are tighter than the calendar profile's, and these tools word one that is inside the profile's bounds. Past the profile's bounds neither gives labels.
 
 ## Accounts, members and sharing
 
@@ -474,7 +474,7 @@ The package also ships `SCHEMA.md` (every field and its meaning, generated) and 
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.212.1, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.212.2, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -570,7 +570,7 @@ Generated from the types of `@onlyworlds/sdk` 4.212.1, the version these docs pi
 
 ### Deprecated names
 
-Every name the package's declarations mark `@deprecated`, read from the same files as the tables above: 22 in 4.212.1. Each row is the mark's own comment, to the sentence that names the version the name leaves in. How much notice a change to the API itself gets: [Stability and deprecation](/docs/development/api/stability).
+Every name the package's declarations mark `@deprecated`, read from the same files as the tables above: 22 in 4.212.2. Each row is the mark's own comment, to the sentence that names the version the name leaves in. How much notice a change to the API itself gets: [Stability and deprecation](/docs/development/api/stability).
 
 | Name | Deprecated since | Leaves in | What its comment says |
 |---|---|---|---|

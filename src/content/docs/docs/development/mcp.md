@@ -147,7 +147,7 @@ A date in OnlyWorlds is a whole number, a step of the world's own count. Since 2
 
 - **Which fields**: the whole-number fields named `date` or ending in `_date`. In `list_elements` the key sits inside each row that has one.
 - **Which calendar**: the one the World names in [`x_calendar`](/docs/schema/profiles#calendar), the id of the element that carries the calendar, set by a `PATCH` of `/world`. The server never picks a calendar for a world: a world that names none gets no labels, even when it holds only one calendar.
-- **When there are none**: the element named is not in the world, carries no calendar that reads, is a proposal awaiting review, or is hidden from the reader. A page with more than 200 different dates carries none: ask for a smaller page.
+- **When there are none**: the element named is not in the world, carries no calendar that reads (since 2026-11-27 a calendar past the [calendar profile's](/docs/schema/profiles#calendar) size bounds does not read), is a proposal awaiting review, or is hidden from the reader. A date past the calendar's exact range (2^53 - 1) is worded as its plain number, so it gets no label. A page with more than 200 different dates carries none: ask for a smaller page.
 - **The number stays the value**: change a date by writing its number. A write that carries `date_labels` is refused.
 - **Where it is not**: `search_elements`, `get_draught` and the REST API's element reads are unchanged. The words are the world's own text, data like any other field.
 
