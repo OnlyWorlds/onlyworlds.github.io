@@ -35,7 +35,7 @@ python -m onlyworlds.kanka EXPORT.zip OUT-DIR [--plan]
 
 From Python: `import_kanka`.
 
-**What is read.** Characters, Locations (a child's parent as `parent_location`), organisations as Institutions and notes as Narratives (their text in `story`) are read on a real export. The other Kanka modules map by the same table and are believed until a real file shows them.
+**What is read.** Characters, Locations (a child's parent as `parent_location`), organisations as Institutions, notes as Narratives (their text in `story`), races as Species and families as Families are read on a real export (Kanka 3.15 or 4.0). The other Kanka modules map by the same table and are believed until a real file shows them. A Character with Kanka's own Dead status gets `[Deceased] ` at the start of its `physicality` (since 0.157.0; a campaign's own statuses are not in the export, so they stay as `x_kanka_status_id`).
 
 **Relations.** Kanka's own relations become Relation elements, a two-way pair one Relation.
 
