@@ -9,6 +9,8 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-27
 
+- **[Obsidian plugin](/docs/tools/obsidian-plugin#sync) 3.22.1: Download world copies fewer notes after an Upload world.** Upload world now keeps the record of a note you have not typed in, so the next Download copies only the notes you did type in.
+- **[Toolkit](/docs/development/toolkit) 5.15.0: the develop skill reads a world from a short page.** A session that only reads a world no longer downloads the API document first; writing, building, agents and lenses have pages of their own inside the skill.
 - **[Unreal](/docs/development/games) [0.10.0](https://github.com/OnlyWorlds/unreal-sdk/releases/tag/v0.10.0): a game holds a world and keeps it current.** `OWWorldCache` and `OWSync` in C++, `UOWWorldCache` with the `SyncWorld`, `BaselineWorld` and `HasWorldChanges` nodes on Blueprints, by the Unity and Godot SDKs' sync rules; a poll of an unchanged world is answered `304`.
 - **[TypeScript](/docs/development/typescript#the-mcp-tools-on-a-world-folder) [4.218.0](https://www.npmjs.com/package/@onlyworlds/sdk): the MCP tools on a world folder take `list_elements`' `fields`**, as the MCP server does: each row holds only the fields named, with its id, type, supertype, subtype and marks kept, and a name the type lacks refused as the list route refuses it.
 - **[A first changes read that finds nothing answers the feed's position](/docs/development/api/changes)**, the value `?head=true` gives, not the start, so a reader that keeps it no longer replays the world. **The MCP server's [`list_elements`](/docs/development/mcp) takes `fields`**: each row then holds only the fields you name, with its id, type, supertype, subtype and marks kept.
