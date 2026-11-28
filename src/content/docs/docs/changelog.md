@@ -7,6 +7,10 @@ What changed for developers, newest first: the API on onlyworlds.com, the client
 
 What changed on onlyworlds.com for everyone is on its own [Changelog](https://www.onlyworlds.com/changelog); this page stays the developer log.
 
+## 2026-11-28
+
+- **[TypeScript](/docs/development/typescript#errors) [4.219.2 and 4.219.3](https://www.npmjs.com/package/@onlyworlds/sdk) and [Python](/docs/development/python#write) [0.158.2 and 0.158.3](https://pypi.org/project/onlyworlds/): a body holding a number that is not finite, or nested past 256 levels, is refused before sending.** NaN or an infinity anywhere in a write's body is refused by name, with where it sits; before, the TypeScript SDK sent `null` in its place, which clears the field, and the Python package sent tokens that are not JSON. A body deeper than the 256 levels [the server reads](/docs/development/api/writes#field-rules) is refused the same way. 4.219.2 and 0.158.2 drew that line at 200, which refused a `bulk` item holding a value 199 or 200 levels deep that the server stores; 4.219.3 and 0.158.3 draw it at 256.
+
 ## 2026-11-27
 
 - **[Obsidian plugin](/docs/tools/obsidian-plugin#sync) 3.23.1: a Save no longer marks a note the world did not take whole.** After a Save the next Download overwrote a note with no copy when the Save had sent less than the note held: a text property edited beside its `###` section, a decimal in a whole-number field, a second link in a field that holds one, a link to a note not in the world. Now a note is marked only when the world's answer, written the way a Download writes it, is the note; otherwise the next Download copies it into `Kept edits` first. Ordinary edits stay marked.

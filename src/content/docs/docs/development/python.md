@@ -63,6 +63,8 @@ writer.delete("character", ranger["id"])
 
 `delete` removes the element and takes its id out of every link to it. A read of it afterwards raises `ApiError` with `status` 410 and `code` `"gone"`, not a 404.
 
+A body the client will not send raises before anything is sent, and is never retried: `TypeError` for a value JSON cannot hold (since 0.158.1), and `ValueError` for a number that is not finite, named with its place (since 0.158.2), or a body nested more than 256 levels deep, which the server does not read (since 0.158.3).
+
 `create` gives an element without an `id` one, and always sends an `Idempotency-Key`. So retrying a create after a lost answer is safe: it replays the stored result instead of making a second element. `patch` replaces every field it sends, and a list replaces the whole list. Use `edit_links` to add or remove links. `bulk` takes up to about 1,000 `{"type", "element"}` items: it succeeds partly by default (check each slot's `status`), or all or nothing with `atomic=True`.
 
 Since 0.43.0 `create`, `upsert` and `bulk` send `hidden` as the element carries it, so an element hidden in a folder is [created hidden](/docs/development/api/hidden#creating-an-element-hidden) from its first moment. Before, they stripped it and such an element was created visible: a behaviour change. Only the owner's keys and a co-builder's may send `true`; any other key gets a 403 `hidden_not_allowed` (`ApiError.is_hidden_not_allowed`; in `bulk`, that slot's 403) and nothing is created. An update never sends it: `patch`, `propose` and `push` strip it as before.
