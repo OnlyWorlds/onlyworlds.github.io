@@ -188,6 +188,8 @@ The queue holds two kinds of row, told apart by `kind`; narrow on it before read
 
 `next_cursor` is opaque. `listProposals(type, id)` lists one element's rows, newest first, the open ones unless you pass a `state`: every row for a keeper, a member's own for anyone else.
 
+To poll either list cheaply (since 4.221.0), keep the `etag` a read hands back and pass it as `ifNoneMatch` on the next one. While nothing in the list moved, keel answers `304`, refunded against the request budget, and the call returns `{ unchanged: true, etag }` with no rows; narrow on `unchanged` before reading `data`. The tag covers the whole list the key sees, whatever `state`, `element` or `cursor` asks, and a new proposal or mark, a settled one or a lapse moves it. You hold the tag; the client keeps none.
+
 `reviewNewElement` settles a new element a seat made under the switch; an element with no mark throws with `err.isNotProposed`.
 
 With **AI seats propose, a person accepts** on for the world (`agent_writes_proposed` on `getWorld()`, read-only; `patchWorld` strips it), an AI seat's `patch`, `upsert` or `editLinks` on an existing element answers `202`. The client then throws `OwProposedError` (`err.isProposed`, `err.proposal`) rather than returning a body that is not the element; a `bulk` slot with `status: 202` stays in the result, typed, and carries `proposal`. The switch holds AI seats only: a person's key is never held.

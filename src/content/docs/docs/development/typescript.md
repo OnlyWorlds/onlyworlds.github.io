@@ -476,7 +476,7 @@ The package also ships `SCHEMA.md` (every field and its meaning, generated) and 
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.220.2, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.221.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -547,8 +547,8 @@ Generated from the types of `@onlyworlds/sdk` 4.220.2, the version these docs pi
 | `unhide(type, id)` | `DELETE /{type}/{id}/hidden` | clear the mark; an element that is not hidden stays as it is. | `Promise<void>` |
 | `listHidden()` | `GET /world/hidden` | every hidden element of the world, newest first: `{type, id, set_at, set_by}` each (`set_by` null when the owner hid it). | `Promise<OwHiddenRow[]>` |
 | `propose(type, id, input, opts?)` | `POST /{type}/{id}/proposals` | propose a change to an element without making it. | `Promise<OwProposal>` |
-| `listProposals(type, id, opts?)` | `GET /{type}/{id}/proposals` | one element's proposals, newest first: every row for the owner's and a co-builder's keys, a member's own for any other. | `Promise<OwProposalList>` |
-| `worldProposals(opts?)` | `GET /world/proposals` | the world's queue, newest first by created_at, two kinds of row told apart by `kind`: `proposal`, a proposed change to an element (OwProposal), and `new_element`, an element written as proposed, carrying `x_review_proposed` (OwProposedNewElement: settle it with reviewNewElement). | `Promise<OwWorldProposalList>` |
+| `listProposals(type, id, opts)` | `GET /{type}/{id}/proposals` | one element's proposals, newest first: every row for the owner's and a co-builder's keys, a member's own for any other. | `Promise<(OwProposalList & OwListTagged) | OwListUnchanged>` or `Promise<OwProposalList & OwListTagged>` |
+| `worldProposals(opts)` | `GET /world/proposals` | the world's queue, newest first by created_at, two kinds of row told apart by `kind`: `proposal`, a proposed change to an element (OwProposal), and `new_element`, an element written as proposed, carrying `x_review_proposed` (OwProposedNewElement: settle it with reviewNewElement). | `Promise<(OwWorldProposalList & OwListTagged) | OwListUnchanged>` or `Promise<OwWorldProposalList & OwListTagged>` |
 | `acceptProposal(type, id, pid)` | `POST /{type}/{id}/proposals/{pid}/accept` | write the proposal's fields to the element as one ordinary write by this key (`changed_by` is the keeper, a new change_seq, a /changes row), and the row turns accepted. | `Promise<OwProposalAccepted>` |
 | `declineProposal(type, id, pid, opts?)` | `POST /{type}/{id}/proposals/{pid}/decline` | the row turns declined, with an optional `reason` (at most 2,000 characters); the element does not change. | `Promise<OwProposal>` |
 | `withdrawProposal(type, id, pid)` | `DELETE /{type}/{id}/proposals/{pid}` | the proposer takes back its own undecided proposal, with any of its keys: the row goes. | `Promise<void>` |
@@ -572,7 +572,7 @@ Generated from the types of `@onlyworlds/sdk` 4.220.2, the version these docs pi
 
 ### Deprecated names
 
-Every name the package's declarations mark `@deprecated`, read from the same files as the tables above: 22 in 4.220.2. Each row is the mark's own comment, to the sentence that names the version the name leaves in. How much notice a change to the API itself gets: [Stability and deprecation](/docs/development/api/stability).
+Every name the package's declarations mark `@deprecated`, read from the same files as the tables above: 22 in 4.221.0. Each row is the mark's own comment, to the sentence that names the version the name leaves in. How much notice a change to the API itself gets: [Stability and deprecation](/docs/development/api/stability).
 
 | Name | Deprecated since | Leaves in | What its comment says |
 |---|---|---|---|
