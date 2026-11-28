@@ -2,7 +2,7 @@
   "invalid_request": {
     "type": "invalid_request",
     "status": 422,
-    "summary": "The body or query is malformed: an unknown field or query parameter, a bad value, or a wrong-shaped payload; `param` names the culprit."
+    "summary": "The body or query is malformed: an unknown field or query parameter, a bad value, or a wrong-shaped payload; `param` names the culprit, or is null."
   },
   "invalid_link": {
     "type": "invalid_request",

@@ -53,7 +53,7 @@ Each code belongs to one family, its `type`, and a family's codes do not share o
 {/* generated:error-codes (scripts/gen_errors.mjs, from contract/error-codes.json) */}
 | Code | Type | Status | What happened |
 |:--|:--|:--|:--|
-| [`invalid_request`](#invalid_request) | `invalid_request` | `422` | The body or query is malformed: an unknown field or query parameter, a bad value, or a wrong-shaped payload; `param` names the culprit. |
+| [`invalid_request`](#invalid_request) | `invalid_request` | `422` | The body or query is malformed: an unknown field or query parameter, a bad value, or a wrong-shaped payload; `param` names the culprit, or is null. |
 | [`invalid_link`](#invalid_link) | `invalid_request` | `400` | A link field names an element that does not exist in this world (or among a /bulk batch's surviving items). |
 | [`id_conflict`](#id_conflict) | `invalid_request` | `409` | A create supplied an id that already exists, in this world or another (element ids are unique across all worlds), or an id a membership already holds (a member's or a seat's, in any world, a removed member's too). |
 | [`resync_required`](#resync_required) | `invalid_request` | `409` | A guest's, or (with the hidden mark on) a contributor's, /changes cursor predates a change to what it can see, or is not this caller's cursor shape: pull again from since=0. With the hidden mark on, the envelope's `reason` says why: `role` (your own role or membership moved: keep what the new walk does not name) or `view` (what you may see moved: drop it). |
