@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-28
 
+- **[Unity](/docs/development/unity) [0.59.0](https://github.com/OnlyWorlds/unity-sdk/releases/tag/v0.59.0): an error names the size limit a write passed.** `OWApiError.Limit` and its three predicates read which limit a write passed, on an error and on a bulk item's failed slot. A NaN or an infinity in a request body is now sent as `null`, no longer as a quoted string.
 - **[TypeScript](/docs/development/typescript#errors) [4.219.2 and 4.219.3](https://www.npmjs.com/package/@onlyworlds/sdk) and [Python](/docs/development/python#write) [0.158.2 and 0.158.3](https://pypi.org/project/onlyworlds/): a body holding a number that is not finite, or nested past 256 levels, is refused before sending.** NaN or an infinity anywhere in a write's body is refused by name, with where it sits; before, the TypeScript SDK sent `null` in its place, which clears the field, and the Python package sent tokens that are not JSON. A body deeper than the 256 levels [the server reads](/docs/development/api/writes#field-rules) is refused the same way. 4.219.2 and 0.158.2 drew that line at 200, which refused a `bulk` item holding a value 199 or 200 levels deep that the server stores; 4.219.3 and 0.158.3 draw it at 256.
 
 ## 2026-11-27
