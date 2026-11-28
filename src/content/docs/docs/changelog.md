@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-28
 
+- **[Godot](/docs/development/godot#your-own-world) [0.10.2](https://github.com/OnlyWorlds/godot-sdk/releases/tag/v0.10.2): a value the server would store as another is refused before sending.** `create`, `upsert`, `patch`, `bulk` and `propose` answer kind `refused`, naming the field, for `2.5`, `"7"` or `true` in an integer field and a number or a list in a text field: the check the TypeScript SDK 4.220.0 makes. The page names 0.10.2 and its zip.
 - **[Unreal](/docs/development/games) [0.12.0](https://github.com/OnlyWorlds/unreal-sdk/releases/tag/v0.12.0): a body that cannot go whole is refused before sending.** A NaN or an infinity in a request body answers kind `Refused`, named with its place, where it went as `null`; a body nested past 256 levels from its top is refused too.
 - **[Unreal](/docs/development/games) [0.11.0](https://github.com/OnlyWorlds/unreal-sdk/releases/tag/v0.11.0): an error names the size limit a write passed.** `OWApiError::Limit()` and its three predicates in C++, and `Limit` on Blueprints' `FOWApiError`, on a refused write and a bulk item's slot.
 - **[Unity](/docs/development/unity) [0.59.1](https://github.com/OnlyWorlds/unity-sdk/releases/tag/v0.59.1): a body that cannot go whole is refused before sending.** A NaN or an infinity in a request body throws an `ArgumentException` naming its place, where 0.59.0 sent it as `null`, which cleared the field; a body nested past 256 levels is refused too. The producer line names 0.59.1.
