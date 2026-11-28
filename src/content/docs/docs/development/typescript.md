@@ -256,7 +256,7 @@ const mine = writeWorldFile(world.files, 'hollow-reach-0192a000', {
 
 Both functions remove `world.json`'s `api` block, so the world's link and key never travel in a file. The reader refuses a file that is unsafe or not a world, and the writer leaves out what should not travel.
 
-A world you hold as plain objects becomes a folder's files with `worldFolderFiles(world, elements)` from `@onlyworlds/sdk/convert` (since 4.224.0): `world` with its `id` and `name`, `elements` an object from an element type to a list of bodies. It answers the files in memory (`{ path, data }[]`), named and written byte for byte as the Python package's `write_folder` writes them, and `writeWorldFile` packs them as they are. An element id that cannot be a file name (empty, holding `/`, `\`, `:` or a control character, or `.` or `..`) is refused before any file is made. A whole number past 2^53 is written rounded, where Python writes every digit.
+A world you hold as plain objects becomes a folder's files with `worldFolderFiles(world, elements)` from `@onlyworlds/sdk/convert` (since 4.224.0): `world` with its `id` and `name`, `elements` an object from an element type to a list of bodies. It answers the files in memory (`{ path, data }[]`), named and written byte for byte as the Python package's `write_folder` writes them, and `writeWorldFile` packs them as they are. An element id that cannot be a file name (empty, holding `/`, `\`, `:` or a control character, or `.` or `..`) is refused before any file is made, and since 4.224.1 so are two elements of one type whose file names are one name once folded (ids such as `Ab1` and `ab1`, which a case-insensitive disk would keep as one file). A whole number past 2^53 is written rounded, where Python writes every digit.
 
 ### Reading a world file
 
@@ -478,7 +478,7 @@ The package also ships `SCHEMA.md` (every field and its meaning, generated) and 
 
 ## Reference
 
-Generated from the types of `@onlyworlds/sdk` 4.224.0, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
+Generated from the types of `@onlyworlds/sdk` 4.224.1, the version these docs pin. The full declarations ship in the package (`dist/index.d.ts`), with `SCHEMA.md` and `AGENTS.md` beside them.
 
 ### Client options
 
@@ -574,7 +574,7 @@ Generated from the types of `@onlyworlds/sdk` 4.224.0, the version these docs pi
 
 ### Deprecated names
 
-Every name the package's declarations mark `@deprecated`, read from the same files as the tables above: 22 in 4.224.0. Each row is the mark's own comment, to the sentence that names the version the name leaves in. How much notice a change to the API itself gets: [Stability and deprecation](/docs/development/api/stability).
+Every name the package's declarations mark `@deprecated`, read from the same files as the tables above: 22 in 4.224.1. Each row is the mark's own comment, to the sentence that names the version the name leaves in. How much notice a change to the API itself gets: [Stability and deprecation](/docs/development/api/stability).
 
 | Name | Deprecated since | Leaves in | What its comment says |
 |---|---|---|---|
