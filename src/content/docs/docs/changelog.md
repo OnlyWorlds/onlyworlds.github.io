@@ -9,6 +9,7 @@ What changed on onlyworlds.com for everyone is on its own [Changelog](https://ww
 
 ## 2026-11-28
 
+- **[TypeScript](/docs/development/typescript#errors) [4.220.2](https://www.npmjs.com/package/@onlyworlds/sdk): a wrong-kind refusal names NaN and Infinity by their own names.** A NaN or an infinity in an integer or a text field read as `null` in the refusal of 4.220.0 and 4.220.1, as if the caller had sent null; it now says `NaN`, `Infinity` or `-Infinity`.
 - **[A value the database cannot hold is a 422](/docs/development/api/writes#field-rules)**: a NUL character in text, in a write or a list filter, or a number that is not finite in an extension field, answers `422` `invalid_request` with no `param`, where it answered `500`.
 - **[Unity](/docs/development/unity) [0.60.0](https://github.com/OnlyWorlds/unity-sdk/releases/tag/v0.60.0): a value the server would store as another is refused before sending.** `CreateAsync`, `UpsertAsync`, `PatchAsync`, `BulkAsync` and `ProposeAsync` throw an `ArgumentException` naming the field, the check the TypeScript SDK 4.220.0 makes; `OWElementTypes.IntegerFieldNames`, `IsIntegerField` and `IsTextField` are new.
 - **[Unreal](/docs/development/games) [0.12.1](https://github.com/OnlyWorlds/unreal-sdk/releases/tag/v0.12.1): a value the server would store as another is refused before sending.** `Create`, `Upsert`, `Patch` and `Bulk` answer kind `Refused` naming the field, and the Blueprint write nodes meet the same check.
