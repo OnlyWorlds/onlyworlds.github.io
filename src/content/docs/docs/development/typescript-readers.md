@@ -691,7 +691,7 @@ An unknown option is refused by name, and a value of the wrong kind with a `Type
 
 Copy link copies the site's address with the world's id (`elementAddress`), never a slug, and says "Link copied". With no clipboard, or the copy refused, the menu stays open and says "Could not copy the link." over the address, selected in a read-only line to copy by hand, until the menu closes. The public face shows the name line without the last door, then the rows and Copy link.
 
-No node carries a `style` attribute, so the menu runs under `style-src 'self'`; load `waymark.css` with the page. Every colour in it is one of its two grounds, `dark` and `paper`, declared once at the top of the file.
+No node carries a `style` attribute, so the menu runs under `style-src 'self'`; load `waymark.css` with the page. Every colour in it is one of its two grounds, `dark` and `paper`, declared once at the top of the file. The fan-out and the toast are set in the system's face; since 4.220.0 a page sets its own with `--ow-waymark-font` on `.ow-waymark` or any element around it (`.ow-waymark { --ow-waymark-font: Lato, sans-serif; }`), and the size stays the menu's.
 
 The menu opens toward the room it has, becomes a sheet from the bottom on a narrow screen, greys the rows that need a connection while offline, and works from the keyboard. Not in this version: a moment picker (it needs a time bar), and the tools' own marks (every listed tool wears one generic glyph for now). To try it, run `npm run demo` in a clone of the [package's repository](https://github.com/OnlyWorlds/sdk): it builds the package and serves `demo/waymark.html`, where `?current=atlas` makes the page Atlas, so its row says "You are here".
 
