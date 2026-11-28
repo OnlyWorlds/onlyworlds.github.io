@@ -5,7 +5,7 @@
 //   node scripts/verify-commit-words.mjs A..B   the commits B adds to A
 //   node scripts/verify-commit-words.mjs SHA    one commit
 //
-// Exit 0 clean, 1 a finding, 2 when git cannot read the commits (a shallow clone, a commit gone): not a pass.
+// Exit 0 clean, 1 a finding, 2 when git cannot read the commits (a ref this clone lacks, a commit gone): not a pass.
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { WORDS, ITEM_POINTER, teamWords } from './public-words.mjs';
@@ -23,7 +23,7 @@ try {
   const args = spec.includes('..') ? [spec] : ['-1', spec];
   log = execFileSync('git', ['log', '--format=%h%x00%B%x01', ...args], { stdio: ['ignore', 'pipe', 'ignore'] }).toString('utf8');
 } catch {
-  console.log(`commit words: git could not read the commits ${spec} (a shallow clone, or a commit gone); not a pass`);
+  console.log(`commit words: git could not read the commits ${spec} (a ref this clone lacks, or a commit gone); not a pass`);
   process.exit(2);
 }
 const commits = log.split('\x01').map((c) => c.trim()).filter(Boolean);

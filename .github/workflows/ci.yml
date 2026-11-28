@@ -23,7 +23,7 @@ jobs:
           pip install pyyaml
       - name: Element pages against schema-dist (report only)
         run: |
-          git clone --depth 1 https://github.com/OnlyWorlds/schema-dist "$RUNNER_TEMP/schema-dist"
+          git clone --depth 1 https://github.com/OnlyWorlds/schema-dist "$RUNNER_TEMP/schema-dist" || { echo "::warning::schema-dist could not be cloned: the element pages were not checked"; exit 0; }
           python scripts/gen_elements.py --dist "$RUNNER_TEMP/schema-dist" --check || echo "::warning::element pages in git are behind schema-dist; the deploy regenerates them"
       - name: Error codes against the live API (report only)
         run: |
