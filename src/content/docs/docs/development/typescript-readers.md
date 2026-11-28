@@ -533,6 +533,8 @@ const cal = speakingCalendar(world, elements); // the calendar the World names, 
 if (cal) {
   formatStep(cal.config, 400);               // "4 Alturiak, 1 DR"
   parseDate(cal.config, '4 Alturiak, 1 DR'); // { step: 400 }
+  parseDate(cal.config, '4th, 4 Alturiak, 1 DR'); // { step: 400 }: a weekday beside the date is read
+  parseDate(cal.config, '3rd, 4 Alturiak, 1 DR'); // { error: 'that date falls on 4th, not 3rd' }
 }
 ```
 
@@ -540,7 +542,7 @@ if (cal) {
 
 A tool with a person in front of it may keep that person's own pick over the World's: `resolveCalendar(elements, chosenId, { fallbackToOnly: true })` takes the id they picked. With `fallbackToOnly`, when none was ever picked (`undefined`) and the world holds exactly one calendar, that one is used; `null` means no calendar.
 
-The dates in the example come from Harptos, one of the calendars the SDK's own tests read: point 400 is day 4 of the month Alturiak, in year 1 of the era written DR.
+The dates in the example come from Harptos, one of the calendars the SDK's own tests read: point 400 is day 4 of the month Alturiak, in year 1 of the era written DR. Since 4.220.1 `parseDate` reads a weekday written beside a whole date, so a calendar whose `format` prints `{weekday}` reads its own dates back, and it refuses a weekday that is not that date's own, naming both; a day outside the week answers `that date has no weekday, not 1st`. A weekday alone names no date, and the separators are whitespace, the comma, the period and the word `year`: a template that prints brackets, a slash, a dash or a colon between its parts does not parse back.
 
 No calendar, or a broken one, gives null: show the bare number.
 
